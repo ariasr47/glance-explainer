@@ -2,7 +2,7 @@
 
 This is a guide, not a layout. Every explainer shows something different: a decision, a status, an architecture, a spec, a release. The system gives you a calm page frame, a small vocabulary of components with a fixed meaning, and rules for colour and type. You choose which components the content needs and in what order.
 
-Files named without a folder (`template.html`, `gallery.html`, `atlas.css`, `merge.html`) sit beside this file in `assets/`. Diagram rules are in `diagrams.md` and prose rules are in `writing.md`.
+Paths are relative to this file. `template.html` and `gallery.html` are in `../assets/`, `merge.html` is in the gather skill (`../../explainer-gather/assets/`), and `atlas.css` and `atlas.js` are in the atlas skill (`../../explainer-atlas/assets/`). Diagram rules are in `diagrams.md` and prose rules are in `writing.md`, beside this file.
 
 ## Who it is for and why it looks like this
 
@@ -20,7 +20,7 @@ The reader has severe ADHD and a short working memory. Concretely:
 Every page opens with `<html lang="en" data-type="explainer">`.
 
 - `lang` is `en` or `ja`. Other codes are allowed and fall back to the English rules. The language sets the fonts, the line measure, and whether the checker counts words or characters (see Japanese typography).
-- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. A playbook may run to ten chapters. The sixteen content types are in `../skills/html-explainer/types.md`. `gather` and `atlas` have their own skills.
+- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. A playbook may run to ten chapters. The sixteen content types are in `types.md`. `gather` and `atlas` have their own skills.
 
 ## Tokens
 
@@ -169,7 +169,7 @@ Readers skip clicks. An interactive figure must make its point in its default st
 
 ### Ask and collect
 
-A `data-type="gather"` page lets its chapters ask questions. The mechanic lives in the template script. The modes and the process are in `../skills/explainer-gather/SKILL.md`, and the markup of every kind is in the gallery chapter "Ask and collect".
+A `data-type="gather"` page lets its chapters ask questions. The mechanic lives in the template script. The modes and the process are in `../../explainer-gather/SKILL.md`, and the markup of every kind is in the gallery chapter "Ask and collect".
 
 - `data-kind` on an `.answer-field` picks the control: `text` (the default), `choice` (radio), `multi` (checkbox), `scale` (radios 1 to 5), `rank` (a list with up and down buttons), or `confirm` (understood, agree or concern, plus a comment).
 - Answers save in the browser as the reader types. The `.collect` bar appears with the first answer and shows "3 of 5 answered", and the rail dot of an answered chapter turns green.
@@ -178,7 +178,7 @@ A `data-type="gather"` page lets its chapters ask questions. The mechanic lives 
 
 ## Composition patterns by page type
 
-These are starting points, not templates. Drop what the content does not need. `../skills/html-explainer/types.md` lists the required components and checker rules for each type.
+These are starting points, not templates. Drop what the content does not need. `types.md` lists the required components and checker rules for each type.
 
 - **Decision page**: answer → keep → map → one chapter per option or per ruling (each with a split or a small diagram) → a `.decision` per ruling → recap → ask.
 - **Status / where are we**: answer → keep → map → timeline chapter with `li.here` → status board chapter → "what is next" chapter with steps → recap → ask only if something is blocked on the reader.
@@ -201,7 +201,7 @@ These are starting points, not templates. Drop what the content does not need. `
 
 ## Atlas add-on
 
-An architecture atlas is a folder, not a single file: `index.html` beside `atlas.css` and `atlas.js`, copied from `assets/` and loaded after the template block with `<link rel="stylesheet" href="atlas.css">` and `<script src="atlas.js" defer></script>`. Only atlas pages load them. Composition and anchor rules are in `../skills/explainer-atlas/SKILL.md`.
+An architecture atlas is a folder, not a single file: `index.html` beside `atlas.css` and `atlas.js`, copied from the atlas skill's `assets/` folder and loaded after the template block with `<link rel="stylesheet" href="atlas.css">` and `<script src="atlas.js" defer></script>`. Only atlas pages load them. Composition and anchor rules are in `../../explainer-atlas/SKILL.md`.
 
 The add-on keeps three states apart everywhere, with one `.legend` before the first diagram. It is the single exception to the no-legend rule: it explains three line styles, and every node is still labelled on the node.
 

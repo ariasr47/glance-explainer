@@ -1,0 +1,36 @@
+name: I tried a page
+description: Tell us how a page worked for you or for the person who read it.
+labels: [feedback]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you. Short answers are fine, and every field except the first is optional.
+  - type: dropdown
+    id: type
+    attributes:
+      label: What kind of page was it?
+      options:
+        - A decision or comparison
+        - A status, release, incident or pull request summary
+        - A spec, plan, roadmap or playbook
+        - A handover, tour or teaching page
+        - A runbook
+        - A page that asked questions (gather or ballot)
+        - An architecture atlas
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: worked
+    attributes:
+      label: What worked?
+  - type: textarea
+    id: failed
+    attributes:
+      label: What got in the way?
+      description: Something confusing, too long, broken on a phone, or missing.
+  - type: input
+    id: agent
+    attributes:
+      label: Which agent made it?
+      placeholder: Claude Code, Codex, Cursor, Gemini CLI, Copilot...

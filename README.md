@@ -1,126 +1,154 @@
+<div align="center">
+
 # html-explainer
 
-A Claude Code plugin, also usable as a standalone skill, that turns a spec, a decision, a status update, an architecture, or a release into a single-file HTML page designed for a reader with severe ADHD and a short working memory. The page opens with the answer, names the three facts to keep, gives every chapter a visual, restates context where the reader lands, and ends with a recap and one question.
+**Pages you can decide from.**
 
-It is a visual system and a vocabulary of components, not a fixed layout. Each explainer chooses the components its content needs, and every page gives the reader tools of their own: skim mode, one chapter at a time, read aloud, a reading ruler, text size, keyboard shortcuts, and a link that resumes where they left off.
+A Claude Code plugin that turns what your agent did into one page you can read in minutes:<br>
+the answer first, a picture in every chapter, one question when you must decide, and checked before it reaches you.
+
+[![CI](https://github.com/ariasr47/html-explainer-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/ariasr47/html-explainer-skill/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/github/v/tag/ariasr47/html-explainer-skill?label=version&color=2457d6)](CHANGELOG.md)
+[![License: MIT](https://img.shields.io/badge/license-MIT-2457d6)](LICENSE)
+[![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-2457d6)](https://agentskills.io)
+
+**[See live examples](https://ariasr47.github.io/html-explainer-skill/)** · [Install](#install) · [What it makes](#what-it-makes) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png">
+  <img alt="A plan page on a desktop and a decision ballot on a phone, both made by the plugin" src="docs/images/hero-light.png" width="820">
+</picture>
+
+</div>
+
+## Why
+
+Agents write more than anyone can read: long summaries, plans, diffs and status reports. When you have to approve something or choose between options, a wall of text costs attention you may not have, especially with ADHD or a short working memory.
+
+Every page this plugin makes has the same shape:
+
+1. **The answer**, in one sentence, right under the title.
+2. **At most three facts** to keep in your head.
+3. **One idea per chapter**, each with a picture, each closing with one line to remember.
+4. **A recap**, and **one question** only when a decision is needed, with the recommended choice marked and what happens if you do nothing.
+
+## What makes it different
+
+- **Checked before you see it.** A checker script runs on every page and the agent fixes each failure first: answer length, at most three keep facts, a picture per chapter, text contrast of 4.5 to 1 in light and dark, status colours that always carry a glyph, diagram labels readable on a phone, and the rules of each page type.
+- **The reader is in control.** Every page has skim mode, one chapter at a time, read aloud, a reading ruler, text size, dark or light, keyboard shortcuts, and a link that resumes where you left off. Nothing moves unless you ask.
+- **Pages that ask, not just tell.** A gather page asks questions inside the page; each reader copies their answers back, and a merge tool combines everyone's copies. A ballot lets the owner rule on several open decisions at once, one pictured card each.
+- **One file, offline, private.** Each page is a single HTML file. No server, no account, no tracking. It works on a phone and prints cleanly.
+
+## See it
+
+| Page | What it shows |
+|---|---|
+| [A plan for one risky change](https://ariasr47.github.io/html-explainer-skill/examples/playbook.html) | A playbook: moving a team wiki, with phases, who notices what, the undo plan and the risks |
+| [Four decisions on one phone screen](https://ariasr47.github.io/html-explainer-skill/examples/ballot.html) | A ballot: tap a pictured option per card, then copy the picks back to the agent |
+| [Every component](https://ariasr47.github.io/html-explainer-skill/gallery.html) | The gallery: each building block with real content, in both themes |
+| [The roadmap](https://ariasr47.github.io/html-explainer-skill/roadmap.html) | This project's roadmap as a roadmap page |
+| [The site's home page](https://ariasr47.github.io/html-explainer-skill/) | A public page: what the plugin promises, with the evidence behind each promise |
+
+All five were made with the plugin and pass its checker.
 
 ## Install
 
-### As a plugin
+In Claude Code:
 
 ```text
 /plugin marketplace add ariasr47/html-explainer-skill
 /plugin install html-explainer@html-explainer-skill
 ```
 
-The plugin adds three skills: `html-explainer`, `explainer-gather` and `explainer-atlas`. Claude Code picks them up when a request matches their descriptions. To update later, refresh the marketplace from the `/plugin` menu.
+Restart Claude Code, then ask: *"Make an html explainer for this spec."*
 
-### As a standalone skill
-
-Clone into your personal skills directory (all projects) or a project's skills directory (that project only):
-
-```bash
-# personal, all projects
-git clone https://github.com/ariasr47/html-explainer-skill ~/.claude/skills/html-explainer
-
-# or one project
-git clone https://github.com/ariasr47/html-explainer-skill .claude/skills/html-explainer
-```
-
-The root `SKILL.md` is a small shim. It points to `skills/html-explainer/SKILL.md`, and from there to the gather and atlas skills, so a clone works as it always did. To update later, run `git pull` inside that folder.
-
-> **Use one route, not both.** A junction, symlink or clone under a skills folder and a plugin install of this same repository each register the skill, so it triggers twice. Pick the plugin or the standalone folder, and remove the other.
-
-There is no build step. The scripts need Node 18 or newer and use only Node's built-in modules. Google Fonts are optional; pages fall back to system fonts.
-
-### Local plugin packaging
-
-This checkout is the plugin. `.claude-plugin/plugin.json` names it `html-explainer`, sets the version (`1.3.0`) and lists the three skill folders. `.claude-plugin/marketplace.json` makes the repository a one-plugin marketplace named `html-explainer-skill`, with the plugin source at `./`. Change the two files together. A release is a git tag plus the `version` field; nothing else.
-
-Skills reach the template, guides and scripts by paths relative to their own `SKILL.md` (for example `../../assets/template.html`), never through `~/.claude/...` or environment variables. The repository root is both the plugin root and, through the root shim, a standalone skill folder, so one set of files serves both routes.
-
-To try this checkout as a plugin on a separate installation, add its local marketplace and install its plugin:
-
-```text
-/plugin marketplace add /absolute/path/to/html-explainer-skill
-/plugin install html-explainer@html-explainer-skill
-```
-
-On Rodrigo's machine the personal skill folder is a junction to this checkout, served by the root shim. Leave the junction in place and do not also install the plugin there. Existing standalone clones stay valid: `git pull` brings them to this version through the shim.
-
-The portfolio's portable packages are generated separately, with each skill under `skills/<skill-name>/SKILL.md` for cross-provider packaging. Maintain this source and regenerate those packages when publishing changes. Packaging does not require a particular source checkout location, and catalog packaging and any registry submission stay the maintainer's call.
+Node 18 or newer runs the checker; nothing else installs. **[The install guide](docs/install.md)** covers installing from a shell, setting it up for a whole team, updating, other agents such as Codex, Cursor, Gemini CLI and Copilot, and what to do when a skill does not start.
 
 ## Use
 
-Ask in plain words, for example:
+Ask in plain words. The agent picks the page type, writes the page from the template, runs the checker, saves it under `docs/explainers/` and gives you the link.
 
-- "Create an html explainer for the spec."
-- "Explain where we are with the project as an html explainer, simple plain english, lots of diagrams."
-- "Make an html explainer for the three decisions you need from me."
-- "Make a page that asks my team these questions and collects their answers."
-- "Write a backend architecture atlas for this repository."
+| When you need to | Ask it like this | Page types |
+|---|---|---|
+| Decide | "Make an html explainer for the three decisions you need from me." | decision, compare |
+| Know where things stand | "Explain where we are with the project as an html explainer." | status, release, incident, pr, portfolio |
+| Approve a plan | "Turn this spec into an html explainer I can approve." | spec, roadmap, research, playbook |
+| Hand over or teach | "Write a handover page for whoever picks this up." | handover, teach, tour |
+| Follow a procedure | "Make a runbook page for the release steps." | runbook |
+| Tell customers | "Explain to customers what happens to the file they upload." | public |
+| Ask a group | "Make a page that asks my team these questions and collects their answers." | gather (11 modes, including ballot) |
+| Map a codebase | "Write a backend architecture atlas for this repository." | atlas |
 
-The agent writes the page from `assets/template.html`, runs `scripts/check.mjs`, opens it once in a browser, saves it under `docs/explainers/` when working in a repository, and gives you the link. You can also call a skill by name: `/html-explainer <topic>` on a standalone install, or type `/` and pick it from the list when installed as a plugin.
+To call a skill directly, type `/html-explainer:html-explainer <topic>`, `/html-explainer:explainer-gather <topic>` or `/html-explainer:explainer-atlas <layer>`.
 
-## The three skills
+## What it makes
 
-**`html-explainer`** is the core. It writes a single-file page from the template: an answer bar, a keep box of at most three facts, a chapter map, chapters that each carry a visual and a remember line, a recap, and one question when a decision is needed. `skills/html-explainer/types.md` adds sixteen page types, each with its chapters, required components and checker rules: decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour and playbook.
+<details>
+<summary><b>Sixteen page types</b>, each with its own chapters, required components and checker rules</summary>
 
-**`explainer-gather`** builds pages that ask as well as explain. Each question is an answer field with a stable id. Answers autosave in the browser, and the reader copies them as Markdown or JSON, or downloads a file. Eleven modes cover collecting, confirming, choosing, prioritising, annotating, checking, interview protocols, survey pilots, readouts, recurring questions and ballots: one card per decision, a picture on every option, and a pinned Copy picks bar that hands the rulings back to the agent.
-
-**`explainer-atlas`** writes an architecture atlas for a repository, one layer at a time: backend, frontend, data, infrastructure or the whole system. It is a folder with `index.html`, `atlas.css` and `atlas.js`. Every claim that names code carries a file and line anchor, the three states (current, dormant, target) stay visually apart, and `scripts/anchors.mjs` confirms each anchor exists at the recorded revision.
-
-**The merge tool.** `assets/merge.html` merges gathered answers. Open it in a browser, paste or drop any number of copied answers (Markdown or JSON), and it groups them by question with one row per respondent. It exports Markdown, JSON or CSV, works offline and needs no install.
-
-**Japanese.** With `<html lang="ja">` the template switches to BIZ UDPGothic, a looser line height, strict line breaking and no italics, and the checker counts characters instead of words. `assets/i18n/ui.ja.json` holds the interface strings, and `scripts/translate.mjs` (`extract`, `apply`, `check`) turns a finished English page into a Japanese one with identical layout and question ids, so English and Japanese answers merge by question.
-
-## What is in the folder
-
-| Path | Purpose |
+| Type | When |
 |---|---|
-| `.claude-plugin/` | Plugin and one-plugin marketplace metadata |
-| `SKILL.md` | Shim for standalone installs; points to `skills/html-explainer/SKILL.md` |
-| `skills/html-explainer/` | Core skill: `SKILL.md` and `types.md` |
-| `skills/explainer-gather/` | Ask and collect: `SKILL.md` and `modes.md` |
-| `skills/explainer-atlas/` | Architecture atlas: `SKILL.md` |
-| `assets/template.html` | The starting page: tokens, base CSS, every component, optional script |
-| `assets/gallery.html` | Every component rendered with real content; also the visual style guide |
-| `assets/design-system.md`, `diagrams.md`, `writing.md` | Colour meaning, type, layout and components; how to choose and draw diagrams; plain-English rules and the page contract |
-| `assets/atlas.css`, `atlas.js` | Add-on for atlas pages only |
-| `assets/merge.html` | Single-file merge tool for gathered answers |
-| `assets/i18n/` | `ui.ja.json` (Japanese interface strings) and `glossary.example.json` (term glossary for translation) |
-| `scripts/check.mjs` | Structural linter, zero dependencies |
-| `scripts/translate.mjs` | Extracts a page's text to JSON and applies a translation back |
-| `scripts/anchors.mjs` | Confirms atlas file and line anchors exist |
-| `AGENTS.md` | Maintenance notes for this source checkout |
-| `docs/` | Proposals, the build spec and research |
-| `LICENSE` | MIT licence |
+| decision | You must rule on options a session poses. |
+| status | You need to know where things stand and what comes next. |
+| spec | You must approve a feature before it is built. |
+| release | You need to know what shipped and what to do differently now. |
+| research | You need findings and how far to trust each one. |
+| handover | A session or a person takes over work in progress. |
+| portfolio | You own several projects and need all of them at once. |
+| public | The reader is a customer who needs to know what the product does for them. |
+| teach | A newcomer must learn one system well enough to work with it. |
+| incident | Something broke: what happened, why, what is fixed, and what stops a repeat. |
+| pr | A reviewer must understand a pull request before reading its diff. |
+| runbook | Someone follows a procedure and must know after each step whether it worked. |
+| compare | You choose between options measured on the same few criteria. |
+| roadmap | What is under way now, next and later, and what depends on what. |
+| tour | How a product works, step by step, on its real screens. |
+| playbook | You rule on a plan for one risky, multi-step change. |
 
-## Check a page by hand
+Full definitions: [`skills/html-explainer/references/types.md`](skills/html-explainer/references/types.md).
+</details>
 
-```bash
-node /path/to/html-explainer-skill/scripts/check.mjs docs/explainers/2026-09-16-rate-limits.html
-```
+<details>
+<summary><b>Eleven ways to ask and collect</b> with explainer-gather</summary>
 
-Replace the path with the folder where the repository lives (for a standalone install, the clone folder). Exit code 0 means every hard rule passed. Warnings are advice, and `--json` prints the result as JSON.
+collect, confirm, choose, ballot, prioritise, annotate, check, protocol, pilot, readout and recurring. Answers save in the reader's browser until they copy them as Markdown or JSON or download a file. [`merge.html`](skills/explainer-gather/assets/merge.html) combines any number of copies, grouped by question, and exports Markdown, JSON or CSV. Details: [`references/modes.md`](skills/explainer-gather/references/modes.md).
+</details>
 
-From this checkout, you can also check the bundled examples:
+<details>
+<summary><b>Architecture atlases</b> with explainer-atlas</summary>
 
-```bash
-node scripts/check.mjs assets/template.html
-node scripts/check.mjs assets/gallery.html
-```
+A folder with `index.html`, `atlas.css` and `atlas.js` that maps one layer of a codebase: backend, frontend, data, infrastructure or the whole system. Every claim that names code carries a file and line anchor, current, dormant and target states stay visually apart, and [`anchors.mjs`](skills/explainer-atlas/scripts/anchors.mjs) confirms each anchor exists at the recorded revision.
+</details>
 
-The checker verifies document structure, contrast, language and content limits. It does not replace opening the page once in a browser.
+<details>
+<summary><b>Japanese pages</b></summary>
+
+With `<html lang="ja">` the template switches to BIZ UDPGothic, a looser line height, strict line breaking and no italics, and the checker counts characters instead of words. [`translate.mjs`](skills/html-explainer/scripts/translate.mjs) turns a finished English page into a Japanese one with the same layout and question ids, so answers in both languages merge.
+</details>
 
 ## Design in one paragraph
 
-Cool fog paper, deep navy ink, one cobalt for "you are here", four meaning colours (green done, amber caution, red blocked, purple your choice), and yellow for anything the reader is asked to remember. Colour is never the only signal: status dots carry a glyph, and text on a colour fill reaches 4.5 to 1 in both themes. Lexend for headings, Atkinson Hyperlegible Next for body, 18 px base, 62-character lines, left aligned. Dark mode automatic. No motion except what the reader triggers. Works offline, on a phone, and printed.
+Cool fog paper, deep navy ink, one cobalt for "you are here", four meaning colours (green done, amber caution, red blocked, purple your choice), and yellow for anything you are asked to remember. Colour is never the only signal. Lexend for headings, Atkinson Hyperlegible Next for body text, 18 px base, 62-character lines, left aligned. Dark mode follows your system. The full system is in [`references/design-system.md`](skills/html-explainer/references/design-system.md).
 
-## Editing the system
+## What is in the repository
 
-All tokens and component CSS live in the `<style>` block of `assets/template.html`, and the optional reader script sits at its end. `assets/gallery.html` carries a copy of that style block so it stays a single file; after changing the template, paste the new block into the gallery too, then run the checker on both. Atlas-only CSS and script live in `assets/atlas.css` and `assets/atlas.js`, never in the template. Keep the six meaning colours to one meaning each, and add a component only when a new kind of information needs one. If you move a file, update the relative paths in the `SKILL.md` files.
+| Path | What it holds |
+|---|---|
+| [`skills/html-explainer/`](skills/html-explainer/) | The core skill: template, gallery, checker, page types and writing rules |
+| [`skills/explainer-gather/`](skills/explainer-gather/) | Pages that ask and collect, the merge tool and the ballot example |
+| [`skills/explainer-atlas/`](skills/explainer-atlas/) | Architecture atlases and the anchor checker |
+| [`docs/`](docs/) | The public site, the install guide, screenshots and planning history |
+| [`.claude-plugin/`](.claude-plugin/) | Plugin and marketplace manifests |
+| [`tools/check-repo.mjs`](tools/check-repo.mjs) | The checks CI runs on every change |
+
+Each skill folder is self-contained in the [Agent Skills](https://agentskills.io) layout. [CONTRIBUTING.md](CONTRIBUTING.md) explains how to change the design, run the checks and release.
+
+## Roadmap and feedback
+
+Next: the checker runs automatically on every page, older pages can be upgraded to the current design, and pages get tested with outside readers. See [ROADMAP.md](ROADMAP.md).
+
+If you try a page, [say how it went](https://github.com/ariasr47/html-explainer-skill/issues/new?template=feedback.yml), especially if you or your reader has ADHD. That feedback decides what gets built.
 
 ## Licence
 
-MIT. Fonts are loaded from Google Fonts under the SIL Open Font License and are optional; the page falls back to the system stack.
+MIT. Fonts load from Google Fonts under the SIL Open Font License and are optional; pages fall back to system fonts.

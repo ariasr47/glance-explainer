@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" data-type="gather" data-mode="ballot">
+<html lang="en" data-type="public">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<title>Notes app settings</title>
-<meta name="description" content="Four settings for a notes app, each shown as pictures. Pick one option per card, then copy all picks in one tap.">
+<title>html-explainer: pages you can decide from</title>
+<meta name="description" content="html-explainer is a free, open source Claude Code plugin. It turns what your agent did into one checked page you can read in minutes and decide from.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -329,6 +329,215 @@ main { min-width: 0; }
 .tile .l { font-size: var(--size-s); color: var(--ink-soft); }
 .tile.go .n { color: var(--go); } .tile.wait .n { color: var(--wait); } .tile.stop .n { color: var(--stop); }
 
+/* ---------- 9b. Grid: options against criteria (compare, portfolio) ---------- */
+.grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+.grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
+.grid caption { padding: .8rem 1rem; text-align: left; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); border-bottom: 1px solid var(--line); }
+.grid :is(th, td) { padding: .65rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: break-word; }
+.grid :is(th, td) + :is(th, td) { border-left: 1px solid var(--line); }
+.grid tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.grid thead th { background: var(--well); font-family: var(--font-head); font-weight: 600; }
+.grid tbody th { min-width: 9rem; background: var(--card); font-family: var(--font-head); font-weight: 600; }
+/* a cell state is a tint and a glyph, never the tint alone (WCAG 1.4.1) */
+.grid :is(td.go, td.wait, td.stop, td.decide) { position: relative; padding-left: 2.5rem; }
+.grid :is(td.go, td.wait, td.stop, td.decide)::before { position: absolute; left: .85rem; top: .75rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.grid td.go { background: var(--go-tint); }         .grid td.go::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.grid td.wait { background: var(--wait-tint); }     .grid td.wait::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.grid td.stop { background: var(--stop-tint); }     .grid td.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.grid td.decide { background: var(--decide-tint); } .grid td.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
+/* the recommended option: a star before its name, and a green foot on the header */
+.grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
+.grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+/* a group row is a quiet band that names the rows under it ("Goes to both"); it is not a criterion */
+.grid tbody tr.group th { min-width: 0; padding: .4rem 1rem; border-left: 0; background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
+@media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
+  .grid { min-width: 34rem; }
+  .grid caption { position: sticky; left: 0; width: 100cqw; }  /* the title stays in view while the columns scroll */
+  .grid :is(thead th:first-child, tbody th) { position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; border-right: 1px solid var(--line-strong); }
+  .grid tbody tr.group th { position: static; width: auto; min-width: 0; max-width: none; border-right: 0; }  /* a band spans every column, so it scrolls with them */
+}
+@media print { .grid-wrap { overflow: visible; } }
+
+/* ---------- 9c. Lanes: now, next, later (roadmap) ---------- */
+.lanes { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.5rem; }
+.lane { padding: .9rem .9rem 1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.lane[data-lane="now"] { border-color: var(--here); border-width: 2px; }
+.lane[data-lane="later"] { border-style: dashed; border-color: var(--line-strong); }
+.lane > h3 { margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane > ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.lane li:last-child { margin-bottom: 0; }
+.lane li:target { outline: 3px solid var(--here); outline-offset: 2px; }
+.lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+.lane li.go { border-color: var(--go); }         .lane li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
+.lane li.wait { border-color: var(--wait); }     .lane li.wait::before { content: "!"; background: var(--wait); border-color: var(--wait); color: var(--on-wait); }
+.lane li.stop { border-color: var(--stop); }     .lane li.stop::before { content: "✕"; background: var(--stop); border-color: var(--stop); color: var(--on-stop); }
+.lane li.decide { border-color: var(--decide); } .lane li.decide::before { content: "?"; background: var(--decide); border-color: var(--decide); color: var(--on-decide); }
+.lane li.here { border-color: var(--here); }     .lane li.here::before { content: "●"; background: var(--here); border-color: var(--here); color: var(--on-here); }
+.lane li b { display: block; font-family: var(--font-head); font-weight: 600; }
+.lane li span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
+.lane li small.after { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); }
+@media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
+
+/* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
+.runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.runbook > li { position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
+.runbook > li::before { content: counter(list-item); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.runbook > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
+.runbook > li > b { font-family: var(--font-head); font-weight: 600; }
+.runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: .55rem .8rem .55rem 2.6rem; border: 1.5px solid; border-radius: var(--r-comp); font-size: var(--size-s); max-width: none; }
+.runbook p.check { border-color: var(--go); background: var(--go-tint); }
+.runbook p.fail { border-color: var(--stop); background: var(--stop-tint); }
+.runbook :is(p.check, p.fail)::before { position: absolute; left: .75rem; top: .62rem; width: 1.15rem; height: 1.15rem; display: grid; place-items: center; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.runbook p.check::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook p.fail::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.runbook :is(p.check, p.fail) > b:first-child { font-family: var(--font-head); font-weight: 600; }
+/* a command the reader types. The template script adds the Copy button; without it the command still reads. */
+pre.cmd { display: flex; align-items: flex-start; gap: .75rem; margin: .5rem 0 .25rem; padding: .6rem .6rem .6rem 1rem; border: 1.5px solid var(--line-strong); }
+pre.cmd > code { flex: 1; min-width: 0; padding: .15rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+pre.cmd > button { flex: none; padding: .2rem .7rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+pre.cmd > button.go { border-color: var(--go); background: var(--go-tint); }
+pre.cmd > button.go::before { content: "✓ "; color: var(--go); }
+pre.cmd > button.stop { border-color: var(--stop); background: var(--stop-tint); }
+pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
+@media (max-width: 560px) {  /* a phone wraps the command instead of hiding its end, and the Copy button drops below it */
+  pre.cmd { flex-direction: column; align-items: stretch; gap: .5rem; }
+  pre.cmd > code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.cmd > button { align-self: flex-end; }
+}
+@media print { pre.cmd > button { display: none; } }
+
+/* ---------- 9e. Tour: real screenshots with numbered pins ---------- */
+.tour { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: 1.75rem; counter-reset: tour; max-width: none; }
+.tour > li { counter-increment: tour; margin: 0; }
+.shot { position: relative; margin: 0 0 .75rem; }
+.shot img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.pin { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border: 3px solid var(--card); border-radius: 50%; outline: 2px solid var(--here); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); line-height: 1; }
+@media (max-width: 560px) { .pin { width: 1.4rem; height: 1.4rem; border-width: 2px; font-size: var(--size-xs); } }  /* a phone shrinks the screenshot, so the pin shrinks with it */
+.tour > li > h3 { display: flex; gap: .6rem; align-items: center; margin: 0 0 .25rem; font-size: var(--size-1); }
+.tour > li > h3::before { content: counter(tour); flex: none; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); }
+.tour > li > p { margin: 0; }
+
+/* ---------- 9f. Promises: what the product does for a person, each with its evidence (public) ---------- */
+.promises { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: none; }
+.promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); }
+.promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
+.promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9g. Playbook: a plan for one risky change, written for one decision-maker ---------- */
+/* Every part keeps min-width: 0 and wraps long words and code, so nothing pushes a phone sideways. Meaning colours stay
+   meaning: who owns a thing is a letter (.who), never a colour. */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 2rem; }
+.hero > * { min-width: 0; }
+.hero > .thesis { width: 100%; max-width: 22rem; margin: .25rem 0 1.25rem; padding: .6rem; background: var(--well); border: 1px solid var(--line); border-radius: var(--r-comp); }
+.hero > .thesis svg { display: block; width: 100%; height: auto; }
+@media (min-width: 1100px) {  /* beside the title; on a narrower screen it sits under the meta line */
+  .hero:has(> .thesis) { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .hero > .thesis { grid-column: 2; grid-row: 1 / span 3; align-self: center; margin: 0; }
+}
+@media (max-width: 560px) { .hero > .thesis { margin: 0 0 .9rem; padding: .35rem; } }  /* tight, so the answer still opens the first screen */
+
+.chip { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.5 var(--font-head); }
+/* who owns it: a letter badge. You is solid, me is outlined, both is quiet, so the three differ without colour.
+   data-owner goes on the phase-strip or steps li that owns it; data-who goes on a role. */
+.who { flex: none; display: inline-grid; place-items: center; min-width: 1.5rem; height: 1.5rem; padding: 0 .4rem; border: 1.5px solid var(--ink-soft); border-radius: var(--r-chip); background: var(--ink-soft); color: var(--on-soft); font: 700 var(--size-xs)/1 var(--font-head); white-space: nowrap; }
+[data-owner="me"] .who, .role[data-who="me"] .who { background: var(--card); color: var(--ink); }
+[data-owner="both"] .who { background: var(--well); color: var(--ink); }
+
+/* the whole plan in one row; each segment links to its phase. A segment is a wrapping flex box: the owner badge sits beside
+   "Phase 1" when there is room and drops to its own line when there is not. */
+.phase-strip { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .5rem; max-width: none; }
+.phase-strip > li { min-width: 0; margin: 0; }
+.phase-strip a { display: flex; flex-wrap: wrap; align-content: flex-start; align-items: center; gap: .3rem .4rem; height: 100%; min-width: 0; padding: .65rem .7rem .7rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.phase-strip a:hover { border-color: var(--here); }
+.phase-strip a:hover b { text-decoration: underline; text-underline-offset: .18em; }
+.phase-strip a > * { min-width: 0; }
+.phase-strip .seg-num { order: 1; flex: 1 1 auto; color: var(--ink-soft); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.phase-strip .who { order: 2; margin-left: auto; }
+.phase-strip b { order: 3; flex: 1 1 100%; font: 600 var(--size-s)/1.25 var(--font-head); }
+.phase-strip .effort { order: 4; flex: 1 1 100%; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.3; }
+.phase-strip .bar { order: 5; flex: 1 1 100%; height: .4rem; border-radius: var(--r-chip); background: linear-gradient(var(--ink-soft), var(--ink-soft)) 0 0 / calc(var(--effort, 1) * 20%) 100% no-repeat, var(--line-strong); }
+/* the phases the audience will notice: a here border and a tinted face, and the label is written in the markup */
+.phase-strip li.notice a { border-color: var(--here); border-width: 2px; background: var(--here-tint); }
+.notice-tag { order: 6; flex: 1 1 100%; display: flex; gap: .35rem; align-items: baseline; margin-top: .1rem; font: 700 var(--size-xs)/1.25 var(--font-head); }
+.notice-tag::before { content: "●"; flex: none; color: var(--here); }
+@media (max-width: 759px) {  /* six or more segments wrap to two rows */
+  .phase-strip:has(> :nth-child(6)) { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .phase-strip:has(> :nth-child(7)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {  /* a phone shows about three segments across and wraps the rest */
+  .phase-strip, .phase-strip:has(> :nth-child(6)), .phase-strip:has(> :nth-child(7)) { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(5.75rem, 1fr)); }
+  .phase-strip a { padding: .55rem .55rem .6rem; gap: .25rem .3rem; }
+  .phase-strip .seg-num { font-size: .72rem; }
+  .phase-strip .who { min-width: 1.3rem; height: 1.3rem; padding: 0 .25rem; font-size: .7rem; }
+}
+
+/* ordered phases, numbered because the order is real */
+.phases { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: phase; max-width: none; }
+.phases > li { counter-increment: phase; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; min-width: 0; margin: 0; padding: .25rem 0 1.3rem 3.1rem; scroll-margin-top: 4.5rem; }
+.phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
+.phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
+@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
+.phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
+.phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.phases p.impact::before { content: "○"; position: absolute; left: .85rem; top: .45rem; color: var(--ink-faint); font-weight: 700; }
+.phases p.impact b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.phases li.notice p.impact { border-style: solid; border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.phases li.notice p.impact::before { content: "●"; color: var(--here); }
+
+/* a small browser or phone mockup of what the audience sees */
+.frame { display: flex; flex-direction: column; min-width: 0; margin: 1rem 0 1.5rem; overflow: hidden; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.frame-bar { display: flex; align-items: center; gap: .6rem; padding: .45rem .65rem; background: var(--well); border-bottom: 1px solid var(--line); }
+.frame .dots { flex: none; width: .5rem; height: .5rem; margin-right: 1.6rem; border-radius: 50%; background: var(--line-strong); box-shadow: .8rem 0 0 var(--line-strong), 1.6rem 0 0 var(--line-strong); }
+.frame .url { flex: 1; min-width: 0; padding: .05rem .65rem; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--card); color: var(--ink-soft); font: var(--size-xs)/1.5 var(--font-code); text-overflow: ellipsis; white-space: nowrap; }
+.frame-screen { flex: 1; min-width: 0; display: grid; gap: .45rem; align-content: start; min-height: 8rem; padding: .8rem; background: var(--well); font-size: var(--size-xs); line-height: 1.35; }
+.frame > .take { margin: 0; border-top: 1px solid var(--line); border-left: 0; border-radius: 0; }
+.frame.phone { max-width: 13rem; margin-inline: auto; border-width: 2px; border-radius: 1.5rem; }
+.frame.phone .frame-bar { justify-content: center; padding: .6rem .7rem .4rem; background: var(--card); border-bottom: 0; }
+.frame.phone .dots { display: none; }
+.frame.phone .url { flex: 0 1 auto; max-width: 100%; }
+.frame-row { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin: 1rem 0 1.5rem; }
+.frame-row:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.frame-row > .frame { margin: 0; }
+.frame-row > .frame.phone { align-self: start; margin-inline: auto; }
+@media (max-width: 640px) { .frame-row, .frame-row:has(> :nth-child(4)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* who does what, and the rules that never bend */
+.roles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); margin: 1rem 0 1.25rem; }
+.role { min-width: 0; padding: .9rem 1.1rem 1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.role > h3 { display: flex; align-items: center; gap: .6rem; margin: 0 0 .5rem; font-size: var(--size-1); }
+.role ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.rules { list-style: none; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 0 0 1.5rem; padding: 0; max-width: none; }
+.rules li { position: relative; min-width: 0; margin: 0; padding: .7rem .9rem .75rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-left: 5px solid var(--go); border-radius: var(--r-comp); font-size: var(--size-s); }
+.rules li::before { content: "✓"; position: absolute; left: .8rem; top: .75rem; width: 1.3rem; height: 1.3rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+.rules li b { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); }
+
+/* the way back from the risky moment */
+.undo, details.fold > .undo { position: relative; margin: 1rem 0 1.5rem; padding: .85rem 1.1rem .85rem 3.7rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); max-width: none; }  /* the second selector outranks the fold's own padding */
+.undo::before { content: "↺"; position: absolute; left: 1rem; top: .8rem; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 1.15rem/1 var(--font-head); }
+.undo > b { font-family: var(--font-head); font-weight: 600; }
+
+/* risks: a level (word and glyph, never colour alone) and what keeps each one small */
+.risks { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin: 1rem 0 1.5rem; }
+.risk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: start; align-items: start; gap: .35rem .75rem; min-width: 0; padding: .85rem 1rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-top: 5px solid var(--line-strong); border-radius: var(--r-comp); }
+.risk > h3 { margin: 0; font-size: var(--size-1); }
+.risk > p { grid-column: 1 / -1; margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+.risk .level { display: inline-flex; align-items: center; gap: .4rem; padding: .05rem .7rem .05rem .35rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.6 var(--font-head); white-space: nowrap; }
+.risk .level::before { display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.risk[data-level="high"] { border-top-color: var(--stop); }
+.risk[data-level="high"] .level { border-color: var(--stop); background: var(--stop-tint); }
+.risk[data-level="high"] .level::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.risk[data-level="medium"] { border-top-color: var(--wait); }
+.risk[data-level="medium"] .level { border-color: var(--wait); background: var(--wait-tint); }
+.risk[data-level="medium"] .level::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.risk[data-level="low"] { border-top-color: var(--go); }
+.risk[data-level="low"] .level { border-color: var(--go); background: var(--go-tint); }
+.risk[data-level="low"] .level::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.risk p.kept { margin-top: .25rem; padding: .5rem .7rem; background: var(--well); border-radius: 8px; color: var(--ink); }
+.risk p.kept b { font-family: var(--font-head); font-weight: 600; }
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -375,8 +584,8 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p),
-body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
 body[data-skim="on"] .chapter .from { display: none; }
@@ -417,6 +626,8 @@ body[data-focus="on"] .focus-nav { display: flex; }
 .answer-field ol > li::before { content: counter(rank); flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font: 600 var(--size-xs) var(--font-head); }
 .answer-field ol > li > :first-child { flex: 1; }
 .answer-field ol button { flex: none; width: 2.25rem; height: 2.25rem; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+/* the recommended option wears a ★ chip with the attribute's own words ("Recommended", "My pick"); the star is the only glyph CSS writes */
+.answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
 .collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
 .collect .respondent { flex: 1 1 8rem; min-width: 0; padding: .45rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 .collect .count { color: var(--ink-soft); font-size: var(--size-s); white-space: nowrap; }
@@ -632,7 +843,7 @@ html:not(.js) .ballot-tray { display: none; }
   details.fold { break-inside: avoid; }
   details.fold[open] > summary::before, details.fold > summary::before { display: none; }
   a { color: inherit; text-decoration: none; }
-  .figure, .answer-field { break-inside: avoid; }
+  .figure, .answer-field, .frame, .risk, .role, .undo { break-inside: avoid; }
 }
 </style>
 </head>
@@ -641,138 +852,265 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="progress" aria-hidden="true"></div>
 
 <div class="page">
-  <main id="main">
-    <p class="kicker">Four settings for the first release</p>
-    <h1>Notes app settings</h1>
-    <p class="answer">4 decisions. Anything you skip goes with ★.</p>
+  <nav class="rail" aria-label="Chapters">
+    <ol>
+      <li><a href="#shape"><span class="dot"></span>What a page looks like</a></li>
+      <li><a href="#types"><span class="dot"></span>What it can make</a></li>
+      <li><a href="#reader"><span class="dot"></span>What you control</a></li>
+      <li><a href="#promises"><span class="dot"></span>What it promises</a></li>
+      <li><a href="#install"><span class="dot"></span>How to install it</a></li>
+      <li><a href="#next"><span class="dot"></span>What comes next</a></li>
+      <li><a href="#recap"><span class="dot"></span>Recap</a></li>
+    </ol>
+    <div class="tools">
+      <button type="button" data-skim aria-pressed="false">Skim mode</button>
+      <button type="button" data-focus aria-pressed="false">One chapter at a time</button>
+      <button type="button" data-ruler aria-pressed="false">Reading ruler</button>
+      <button type="button" data-size>Text size</button>
+      <button type="button" data-theme-toggle>Dark / light</button>
+      <button type="button" data-keys>Keys</button>
+    </div>
+  </nav>
 
-    <ol class="ballot-steps" aria-label="How this page works">
-      <li><span><b>Compare</b> the pictures on each card.</span></li>
-      <li><span><b>Tap</b> the option you want. Tap it again to clear it.</span></li>
-      <li><span>Press <span class="ballot-keycap">Copy picks</span> in the bar at the bottom, then paste into the chat.</span></li>
+  <main id="main">
+    <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
+
+    <p class="kicker">A Claude Code plugin, free and open source</p>
+    <h1>Pages you can decide from</h1>
+    <div class="meta"><span>Reading time about 6 minutes</span><span>Written 2026-10-13</span><span>For: people who use a coding agent</span></div>
+
+    <p class="answer">html-explainer turns what your agent did into one page you can read in minutes and decide from, checked before it reaches you.</p>
+
+    <div class="keep">
+      <strong>Keep in your head (only these)</strong>
+      <ol>
+        <li>One page per topic: answer first, a picture per chapter, one question to decide.</li>
+        <li>A script checks every page for structure, contrast and length before you see it.</li>
+        <li>Free and open source. Two commands install it in Claude Code.</li>
+      </ol>
+    </div>
+
+    <figure class="figure">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="images/hero-dark.png">
+        <img src="images/hero-light.png" alt="A plan page on a desktop and a decision ballot on a phone, both made by the plugin" width="1600" height="900" loading="eager">
+      </picture>
+      <figcaption class="take"><b>Take from this:</b> one plugin made a plan page for a desktop and a ballot for a phone.</figcaption>
+    </figure>
+
+    <ol class="map">
+      <li><a href="#shape"><b>What a page looks like</b><span>The same six parts, in the same order.</span></a></li>
+      <li><a href="#types"><b>What it can make</b><span>Sixteen page types, by the job they do.</span></a></li>
+      <li><a href="#reader"><b>What you control</b><span>Eight reader tools. Nothing moves unless you ask.</span></a></li>
+      <li><a href="#promises"><b>What it promises</b><span>Five promises, each with proof.</span></a></li>
+      <li><a href="#install"><b>How to install it</b><span>Two commands, then ask for a page.</span></a></li>
+      <li><a href="#next"><b>What comes next</b><span>The focus, and how to tell us what to fix.</span></a></li>
     </ol>
 
-    <section class="ballot-group" aria-labelledby="g-build">
-      <h2 id="g-build">Shapes the build</h2>
-      <p>These change what gets built.</p>
+    <section class="chapter" id="shape" data-keep="Every page has the same shape: answer, three facts, chapters with pictures, recap.">
+      <header>
+        <div><p class="kicker">Chapter 1 of 6, about 1 minute</p><h2>What does a page look like?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
 
-      <article class="ballot-card" id="card-q1" data-q="q1" data-short="When a note saves">
-        <header><span class="num" aria-hidden="true">1</span><h3 id="q-q1">When should a note save?</h3>
-          <p class="why">Saving decides whether writers ever see a Save button, and what a crash costs them.</p><span class="state">Not picked</span></header>
-        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q1">
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span><span class="mock-line" style="width:78%"></span></span><span class="mock-pill go">Saved</span></span>
-            <span class="name"><b>A</b> As you type</span>
-            <span class="effect">Every pause saves the note. There is no Save button.</span>
-          </button>
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span><span class="mock-line" style="width:78%"></span></span><span class="mock-pill wait">Unsaved</span> <span class="mock-btn quiet">Close</span></span>
-            <span class="name"><b>B</b> When you close the note</span>
-            <span class="effect">Closing saves it. A crash can lose the last few edits.</span>
-          </button>
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="C">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span><span class="mock-line" style="width:78%"></span></span><span class="mock-btn">Save</span></span>
-            <span class="name"><b>C</b> Only when you press Save</span>
-            <span class="effect">Nothing saves by itself. A Save button stays on screen.</span>
-          </button>
-        </div>
-        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
-      </article>
+      <p class="from"><b>Before this:</b> the plugin turns what your agent did into one page you can decide from.</p>
 
-      <article class="ballot-card" id="card-q2" data-q="q2" data-short="Deleting a note">
-        <header><span class="num" aria-hidden="true">2</span><h3 id="q-q2">What happens when someone deletes a note?</h3>
-          <p class="why">A deleted note is either gone at once or waits in a trash. Waiting needs a new screen.</p><span class="state">Not picked</span></header>
-        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q2">
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trash</span><span class="mock-row"><span>Trip ideas</span><span class="mock-btn quiet">Restore</span></span></span><span class="mock-note">Kept for 30 days</span></span>
-            <span class="name"><b>A</b> Trash for 30 days</span>
-            <span class="effect">The note moves to Trash. It can be restored for 30 days.</span>
-          </button>
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Notes</span><span class="mock-line" style="width:85%"></span><span class="mock-line" style="width:60%"></span></span><span class="mock-toast">Deleted <b>Undo</b></span></span>
-            <span class="name"><b>B</b> Delete at once, with Undo</span>
-            <span class="effect">The note is gone for good. Undo stays up for 10 seconds.</span>
-          </button>
-        </div>
-        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
-      </article>
+      <p>Every page has the same shape, so you learn it once. These are its parts, in the order you meet them.</p>
+
+      <ol class="flow">
+        <li><b>Answer bar</b><span>The whole page in one sentence.</span></li>
+        <li><b>Keep box</b><span>Three facts to carry, no more.</span></li>
+        <li><b>Chapter map</b><span>One line for each chapter.</span></li>
+        <li><b>Chapters</b><span>A picture in each, and a remember line to close.</span></li>
+        <li><b>Recap</b><span>The remember lines, collected.</span></li>
+        <li><b>The ask</b><span>One question, only when you must decide.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> the answer comes first, so you can stop after one sentence.</p>
+
+      <p>Three pages made with the plugin show the shape:</p>
+      <ul>
+        <li><a href="examples/playbook.html">A plan for one risky change: moving a team wiki</a></li>
+        <li><a href="examples/ballot.html">A ballot: four decisions on one phone screen</a></li>
+        <li><a href="gallery.html">Every component, with real content</a></li>
+      </ul>
+
+      <p class="remember"><b>Remember:</b> Every page opens with the answer, so you can stop reading early.</p>
     </section>
 
-    <section class="ballot-group" aria-labelledby="g-small">
-      <h2 id="g-small">Small calls</h2>
-      <p>Quick ones. Skipping any of them means the ★ option.</p>
+    <section class="chapter" id="types" data-keep="Sixteen page types, each for one job, asked for in plain words.">
+      <header>
+        <div><p class="kicker">Chapter 2 of 6, about 2 minutes</p><h2>What can it make?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
 
-      <article class="ballot-card" id="card-q3" data-q="q3" data-short="New note start">
-        <header><span class="num" aria-hidden="true">3</span><h3 id="q-q3">What should a new note start with?</h3>
-          <p class="why">Most people type a title first. Some never do.</p><span class="state">Not picked</span></header>
-        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q3">
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Untitled</span><span class="mock-note"><span class="mock-caret"></span></span></span></span>
-            <span class="name"><b>A</b> A blank page</span>
-            <span class="effect">An empty note. The title comes from the first line.</span>
-          </button>
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-rec="Recommended">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Oct 12</span><span class="mock-note"><span class="mock-caret"></span></span></span></span>
-            <span class="name"><b>B</b> Today's date as the title</span>
-            <span class="effect">The title reads Oct 12. You can rename it.</span>
-          </button>
-        </div>
-        <p class="skip"><b>If you skip this:</b> B, the ★ option.</p>
-      </article>
+      <p class="from"><b>Before this:</b> every page opens with the answer and ends with a recap.</p>
 
-      <article class="ballot-card" id="card-q4" data-q="q4" data-kind="multi" data-short="First-release extras">
-        <header><span class="num" aria-hidden="true">4</span><h3 id="q-q4">Which extras ship in the first release?</h3>
-          <p class="why">Each one is small. Together they add about a week.</p><span class="state">Not picked</span></header>
-        <div class="ballot-opts" role="group" aria-labelledby="q-q4">
-          <div class="ballot-opt" data-k="A" data-rec="Recommended">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:70%"></span><span class="mock-line" style="width:80%"></span></span><span class="mock-note">128 words</span></span>
-            <span class="name"><b>A</b> Word count</span>
-            <span class="effect">Shows how many words the note has.</span>
-            <button type="button" class="ballot-ship" aria-pressed="false">Ship this</button>
-          </div>
-          <div class="ballot-opt" data-k="B" data-rec="Recommended">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-row"><span>Shopping</span><span class="mock-chip">Pinned</span></span><span class="mock-row"><span>Trip ideas</span></span></span></span>
-            <span class="name"><b>B</b> Pinned notes</span>
-            <span class="effect">Pin a note to keep it at the top of the list.</span>
-            <button type="button" class="ballot-ship" aria-pressed="false">Ship this</button>
-          </div>
-          <div class="ballot-opt" data-k="C">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-chip">#travel</span><span class="mock-chip">#2027</span></span></span>
-            <span class="name"><b>C</b> Tags</span>
-            <span class="effect">Label notes with words like work or home.</span>
-            <button type="button" class="ballot-ship" aria-pressed="false">Ship this</button>
-          </div>
-        </div>
-        <div class="ballot-none"><button type="button" data-none aria-pressed="false">Ship none</button><span class="hint">Anything you do not mark stays parked.</span></div>
-        <p class="skip"><b>If you skip this:</b> A and B ship (★). C stays parked.</p>
-      </article>
+      <p>Sixteen page types cover the common jobs. Two more ask a group and map a system. You name the job in plain words.</p>
+
+      <div class="grid-wrap"><table class="grid">
+        <caption>Page types by the job they do, and how to ask for each</caption>
+        <thead><tr><th scope="col">Job</th><th scope="col">Page types</th><th scope="col">Ask it like this</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Decide</th><td><code>decision</code>, <code>compare</code></td><td>“Make an html explainer for the three decisions you need from me.”</td></tr>
+          <tr><th scope="row">Report</th><td><code>status</code>, <code>release</code>, <code>incident</code>, <code>pr</code></td><td>“Explain where we are with the project as an html explainer.”</td></tr>
+          <tr><th scope="row">Plan</th><td><code>spec</code>, <code>roadmap</code>, <code>research</code>, <code>portfolio</code>, <code>playbook</code></td><td>“Turn this spec into an html explainer I can approve.”</td></tr>
+          <tr><th scope="row">Hand over and teach</th><td><code>handover</code>, <code>teach</code>, <code>tour</code></td><td>“Write a handover page for whoever picks this up.”</td></tr>
+          <tr><th scope="row">Run a procedure</th><td><code>runbook</code></td><td>“Make a runbook page for the release steps.”</td></tr>
+          <tr><th scope="row">Tell customers</th><td><code>public</code></td><td>“Explain to customers what happens to the file they upload.”</td></tr>
+          <tr><th scope="row">Ask a group</th><td><code>gather</code>, with 11 modes, one of them <code>ballot</code></td><td>“Make a page that asks my team these questions and collects their answers.”</td></tr>
+          <tr><th scope="row">Map a system</th><td><code>atlas</code></td><td>“Write an architecture atlas for this codebase.”</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take from this:</b> name the job in plain words and the agent picks the page type.</p>
+
+      <p class="remember"><b>Remember:</b> Sixteen page types cover the common jobs, and you ask for them in plain words.</p>
     </section>
 
-    <section class="ballot-group" aria-labelledby="g-done">
-      <h2 id="g-done">Already decided</h2>
-      <p>Settled earlier, for reference. Nothing to pick.</p>
-      <div class="ballot-dones">
-        <article class="ballot-done"><h3>Sync uses the person's own folder</h3><p>Notes sync through a folder the person already has, so the app needs no account.</p></article>
+    <section class="chapter" id="reader" data-keep="Eight reader tools. Nothing moves unless you ask.">
+      <header>
+        <div><p class="kicker">Chapter 3 of 6, about 1 minute</p><h2>What does the reader control?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> sixteen page types cover the common jobs, and you ask for them in plain words.</p>
+
+      <p>Every page comes with the same reader tools. They sit in the side rail, or in a strip above the page on a phone.</p>
+
+      <div class="tiles">
+        <div class="tile"><span class="n">Skim</span><span class="l">The answer, one picture per chapter, and the remember lines.</span></div>
+        <div class="tile"><span class="n">Focus</span><span class="l">One chapter on screen at a time.</span></div>
+        <div class="tile"><span class="n">Aloud</span><span class="l">The browser reads a chapter to you, block by block.</span></div>
+        <div class="tile"><span class="n">Ruler</span><span class="l">One block at full strength, the rest dimmed.</span></div>
+        <div class="tile"><span class="n">Size</span><span class="l">Normal, 20 px or 22 px text.</span></div>
+        <div class="tile"><span class="n">Theme</span><span class="l">Dark or light. It follows your system until you choose.</span></div>
+        <div class="tile"><span class="n">Keys</span><span class="l">J and K change chapter. Press ? for the list.</span></div>
+        <div class="tile"><span class="n">Resume</span><span class="l">A link takes you back to where you left off.</span></div>
       </div>
+      <p class="take"><b>Take from this:</b> you set how the page reads, and the page never decides for you.</p>
+
+      <p>Each page is one file. It works offline, on a phone and on paper. Nothing moves unless you ask.</p>
+
+      <p class="remember"><b>Remember:</b> You control how the page reads, and nothing moves unless you ask.</p>
     </section>
 
-    <div class="ballot-tray" role="region" aria-label="Your picks">
-      <div class="ballot-bar">
-        <p class="ballot-tally">0 of 4 picked</p>
-        <ol class="ballot-pips" aria-label="Jump to a decision"></ol>
-        <div class="ballot-actions"><button type="button" data-copy>Copy picks</button></div>
-      </div>
-      <div class="ballot-meta">
-        <p class="ballot-status" aria-live="polite">Tap an option on any card. Your picks collect here.</p>
-        <span class="ballot-save">Saved in this browser</span>
-        <button type="button" data-json>Copy JSON</button>
-      </div>
-      <div class="ballot-fallback" hidden>
-        <label for="ballot-fallback-text">The text is selected. Press Ctrl+C (⌘C on a Mac), then paste it into the chat.</label>
-        <textarea id="ballot-fallback-text" readonly></textarea>
-        <button type="button" data-close>Close</button>
-      </div>
-    </div>
+    <section class="chapter" id="promises" data-keep="Five promises, each with a file or link behind it.">
+      <header>
+        <div><p class="kicker">Chapter 4 of 6, about 1 minute</p><h2>What does it promise?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> you control how the page reads, and nothing moves unless you ask.</p>
+
+      <p>Five promises, each backed by a file you can read. The proof sits in the fold below.</p>
+
+      <ul class="promises">
+        <li data-evidence="skills/html-explainer/scripts/check.mjs:1"><b>Checked before you see it.</b> The agent runs a checker on every page and fixes each failure first.</li>
+        <li data-evidence="skills/html-explainer/scripts/check.mjs:205"><b>Readable in both themes.</b> Text keeps a contrast of at least 4.5 to 1 in light and dark, and colour is never the only signal.</li>
+        <li data-evidence="skills/html-explainer/assets/template.html:1"><b>One file, no install for the reader.</b> Each page is a single HTML file that opens offline in any browser.</li>
+        <li data-evidence="skills/explainer-gather/SKILL.md:1"><b>Answers stay with the reader.</b> Pages that ask questions save answers in the reader's own browser until they copy them out.</li>
+        <li data-evidence="https://github.com/ariasr47/html-explainer-skill/blob/main/LICENSE"><b>Open and free.</b> MIT licence, no account, no tracking.</li>
+      </ul>
+      <p class="take"><b>Take from this:</b> each promise names the file or link that proves it.</p>
+
+      <details class="fold"><summary>How we know</summary>
+        <div><ul>
+          <li><b>Checked before you see it.</b> <code>skills/html-explainer/scripts/check.mjs</code> is the checker. It fails a page for a missing answer bar, a chapter with no picture, or a paragraph over forty words.</li>
+          <li><b>Readable in both themes.</b> The same file holds the contrast rule. It works out the ratio for each text and background pair in light and in dark, and fails any pair under 4.5 to 1. It also fails a stylesheet whose done marks lose their tick, so colour is never the only signal.</li>
+          <li><b>One file, no install for the reader.</b> <code>skills/html-explainer/assets/template.html</code> is the file every page starts from. Its styles and scripts sit inside it, so a page opens offline. Typefaces load from Google Fonts when you are online, and the page reads fine without them.</li>
+          <li><b>Answers stay with the reader.</b> <code>skills/explainer-gather/SKILL.md</code> describes the pages that ask questions. They keep answers in the reader's browser until the reader copies or downloads them.</li>
+          <li><b>Open and free.</b> <a href="https://github.com/ariasr47/html-explainer-skill/blob/main/LICENSE">The LICENSE file</a> grants the MIT licence. There is no account to make and nothing is tracked.</li>
+        </ul></div>
+      </details>
+
+      <p class="remember"><b>Remember:</b> Every promise points to the file or link that backs it.</p>
+    </section>
+
+    <section class="chapter" id="install" data-keep="Two commands install it. Node 18 runs the checker.">
+      <header>
+        <div><p class="kicker">Chapter 5 of 6, about 1 minute</p><h2>How do you install it?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> the plugin is free and open source, and it needs no account.</p>
+
+      <p>You need Claude Code. Three steps get you your first page.</p>
+
+      <ol class="runbook">
+        <li id="step-marketplace"><b>Add the marketplace.</b>
+          <pre class="cmd"><code>/plugin marketplace add ariasr47/html-explainer-skill</code></pre>
+          <p class="check"><b>Check:</b> Claude Code lists html-explainer-skill under Marketplaces.</p>
+          <p class="fail"><b>If it fails:</b> check that you typed the name exactly, then run the command again.</p></li>
+        <li id="step-install"><b>Install the plugin.</b>
+          <pre class="cmd"><code>/plugin install html-explainer@html-explainer-skill</code></pre>
+          <p class="check"><b>Check:</b> <code>/plugin</code> shows html-explainer as installed.</p>
+          <p class="fail"><b>If it fails:</b> run step 1 again, then repeat this step.</p></li>
+        <li id="step-ask"><b>Restart Claude Code, then ask for a page.</b>
+          <pre class="cmd"><code>Make an html explainer for this spec.</code></pre>
+          <p class="check"><b>Check:</b> the agent saves the page under <code>docs/explainers/</code> and gives you the link.</p>
+          <p class="fail"><b>If it fails:</b> open <code>/plugin</code>, check that html-explainer is enabled, and restart again.</p></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> every step ends with a check you can see, so you know it worked.</p>
+
+      <p>Node 18 or newer runs the checker. Nothing else to install.</p>
+
+      <details class="fold"><summary>Other ways to install</summary>
+        <p><b>From a shell.</b> Run both commands in any terminal where <code>claude</code> works.</p>
+        <div><pre class="cmd"><code>claude plugin marketplace add ariasr47/html-explainer-skill
+claude plugin install html-explainer@html-explainer-skill</code></pre></div>
+        <p><b>For a whole team.</b> Add the marketplace and the plugin to the repository's <code>.claude/settings.json</code>, so your team gets it too. The <a href="https://github.com/ariasr47/html-explainer-skill/blob/main/docs/install.md">install guide</a> shows the exact lines.</p>
+        <p><b>Other agents, such as Codex, Cursor, Gemini CLI or Copilot.</b> Not yet tested in every agent.</p>
+        <div><pre class="cmd"><code>npx skills add ariasr47/html-explainer-skill</code></pre></div>
+      </details>
+
+      <p>The full guide is on GitHub: <a href="https://github.com/ariasr47/html-explainer-skill/blob/main/docs/install.md">docs/install.md</a>.</p>
+
+      <p class="remember"><b>Remember:</b> Two commands add the plugin. Restart Claude Code, then ask for a page.</p>
+    </section>
+
+    <section class="chapter" id="next" data-keep="Checked decision pages first. New page types wait for outside readers.">
+      <header>
+        <div><p class="kicker">Chapter 6 of 6, about 1 minute</p><h2>What comes next?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> two commands add the plugin, and you restart Claude Code and ask for a page.</p>
+
+      <p>We are keeping the plugin small. Outside readers decide what grows.</p>
+
+      <ul class="status">
+        <li class="go"><b>Decision pages, checked</b><span>The focus. Each page passes the checker before you see it.</span></li>
+        <li class="wait"><b>Tests with outside readers</b><span>Under way now.</span></li>
+        <li class="stop"><b>New page types</b><span>Frozen until outside readers ask for one.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the next work makes decision pages better, and new page types wait for outside readers.</p>
+
+      <ul>
+        <li><a href="roadmap.html">The roadmap, as a page made with the plugin</a></li>
+        <li><a href="https://github.com/ariasr47/html-explainer-skill/issues/new/choose">Tell us what worked and what did not</a></li>
+      </ul>
+
+      <p class="remember"><b>Remember:</b> Checked decision pages come first, and what outside readers tell us shapes what comes next.</p>
+    </section>
+
+    <section class="recap" id="recap">
+      <h2>Recap</h2>
+      <ol>
+        <li>Every page opens with the answer, so you can stop reading early.</li>
+        <li>Sixteen page types cover the common jobs, and you ask for them in plain words.</li>
+        <li>You control how the page reads, and nothing moves unless you ask.</li>
+        <li>Every promise points to the file or link that backs it.</li>
+        <li>Two commands add the plugin. Restart Claude Code, then ask for a page.</li>
+        <li>Checked decision pages come first, and what outside readers tell us shapes what comes next.</li>
+      </ol>
+    </section>
+
+    <footer class="meta"><span>Made with html-explainer</span><span>MIT licence</span><a href="https://github.com/ariasr47/html-explainer-skill">github.com/ariasr47/html-explainer-skill</a></footer>
   </main>
 </div>
 
@@ -843,12 +1181,20 @@ flip(sk, 'data-skim'); flip(ru, 'data-ruler', 'explainer:ruler');
 if (parts.length) {
   flip(fb, 'data-focus', 0, s => { if (s) showPart(Math.max(0, parts.findIndex(p => p.getBoundingClientRect().bottom > 120))); });
   on(pv, 'click', () => showPart(idx - 1)); on(nx, 'click', () => showPart(idx + 1));
-  on(d, 'click', e => {
-    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"]');
-    const n = a ? parts.indexOf(byId(a.getAttribute('href').slice(1))) : -1;
-    if (n >= 0) { e.preventDefault(); showPart(n); }
+  on(d, 'click', e => {  /* a link to something inside a chapter (a playbook phase) opens that chapter, then scrolls to the thing */
+    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"], .phase-strip a[href^="#"]');
+    const t = a ? byId(a.getAttribute('href').slice(1)) : null, n = parts.indexOf(t?.closest('.chapter, .recap, .ask'));
+    if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
+/* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
+on(d, 'click', e => {
+  const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
+  let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
+  if (!t) return;
+  e.preventDefault(); t.scrollIntoView();
+  try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
+});
 
 /* progress bar */
 const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };
@@ -921,6 +1267,16 @@ qa('.views').forEach(v => {
 
 /* mini-map: light this chapter's node, dim the rest */
 qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.dataset.node === m.dataset.lit ? 'is-lit' : 'is-dim')));
+
+/* commands: every pre.cmd gets a Copy button. The command reads fine without it. copy() and flash() are the gather bar's own, defined below and used only on click. */
+Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
+qa('pre.cmd').forEach(p => {
+  const code = $('code', p) || p, b = d.createElement('button');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  on(b, 'click', () => copy(code.textContent.trim(), b));
+  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  p.append(b);
+});
 
 /* read aloud: one block at a time, in the page language; one chapter at a time */
 const rd = qa('[data-read]'); let sid = 0;
@@ -1174,6 +1530,17 @@ on(bar, 'click', e => {
     body.append(a); a.click(); a.remove(); flash(b, true);
   }
 });
+})();
+</script>
+<script>
+/* The hero picture follows the Dark / light button as well as the system setting. */
+(() => {
+  const src = document.querySelector('picture source[media]'), root = document.documentElement;
+  if (!src) return;
+  const system = src.media;
+  const sync = () => { src.media = root.dataset.theme === 'dark' ? 'all' : root.dataset.theme === 'light' ? 'not all' : system; };
+  new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  sync();
 })();
 </script>
 </body>

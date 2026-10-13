@@ -278,4 +278,4 @@ The decisions are one `fieldset.answer-field[data-kind="choice"]` per question. 
 At least one `.phase-strip`, `.phases`, `.undo` and `.risks`. It fails for each phase without a `p.impact` that has text, for each `article.risk` without a `data-level` of high, medium or low or without a `p.kept` that has text, and for each phase-strip link whose target `id` does not exist. It warns when there is no `.answer-field` ("a playbook usually ends with the decisions it needs"), when answer fields have no `.collect` bar or no `data-q`, and when a `.phase-strip` has fewer than three segments. The compare rule does not count a `tr.group` as a criterion row. The chapter limit is ten.
 
 ### Example topic
-Moving a small team's wiki to a new host (`docs/examples/playbook.html`): six phases, two the team notices, three frames, roles and four rules, switch day with its undo, four risks, cost tiles and three decisions.
+Moving a small team's wiki to a new host (`../examples/playbook.html`): six phases, two the team notices, three frames, roles and four rules, switch day with its undo, four risks, cost tiles and three decisions.

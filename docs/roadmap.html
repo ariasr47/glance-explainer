@@ -1,13 +1,11 @@
 <!doctype html>
-<html lang="en" data-type="explainer">
+<html lang="en" data-type="roadmap">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, playbook, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
-<!-- TITLE: 2 to 6 words, the subject, not "explainer" -->
-<title>Topic name here</title>
-<meta name="description" content="One sentence: what this page lets the reader decide or understand.">
+<title>Plugin roadmap, October 2026</title>
+<meta name="description" content="What comes next for the html-explainer plugin: what is under way, next and later, what waits on what, and what is parked on purpose.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -854,12 +852,12 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="progress" aria-hidden="true"></div>
 
 <div class="page">
-  <!-- RAIL: chapter map that follows the reader. Keep to 3 to 7 chapters. -->
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#c1"><span class="dot"></span>Chapter title</a></li>
-      <li><a href="#c2"><span class="dot"></span>Chapter title</a></li>
-      <li><a href="#c3"><span class="dot"></span>Chapter title</a></li>
+      <li><a href="#c1"><span class="dot"></span>Now, next and later</a></li>
+      <li><a href="#c2"><span class="dot"></span>What unblocks the most</a></li>
+      <li><a href="#c3"><span class="dot"></span>What is left off</a></li>
+      <li><a href="#c4"><span class="dot"></span>The December review</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -873,122 +871,189 @@ html:not(.js) .ballot-tray { display: none; }
   </nav>
 
   <main id="main">
-    <!-- FOCUS NAV: only visible in one-chapter-at-a-time mode. Leave as is. -->
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <!-- OPENING: the answer before anything else. -->
-    <p class="kicker">What this page is for, in a few words</p>
-    <h1>Topic name here</h1>
-    <div class="meta"><span>Reading time about N minutes</span><span>Written YYYY-MM-DD</span><span>For: who</span></div>
+    <p class="kicker">Roadmap as of 13 October 2026</p>
+    <h1>What comes next for html-explainer</h1>
+    <div class="meta"><span>Reading time about 5 minutes</span><span><a href="index.html">Back to the site home</a></span></div>
 
-    <p class="answer">The one-sentence answer or decision. If the reader reads nothing else, this is it.</p>
+    <p class="answer">In October and November we check every page automatically and test with outside readers, and new page types wait until an outside user needs one.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Fact one, under fifteen words.</li>
-        <li>Fact two.</li>
-        <li>Fact three. Never a fourth.</li>
+        <li>Focus: checked decision pages for readers who cannot hold a long document.</li>
+        <li>The outside-reader test decides what comes next.</li>
+        <li>Free and MIT licensed, and it stays that way. Ask by <a href="https://github.com/ariasr47/html-explainer-skill/issues/new/choose">opening an issue</a>.</li>
       </ol>
     </div>
 
     <ol class="map">
-      <li><a href="#c1"><b>Chapter title</b><span>What you will get from it, one line.</span></a></li>
-      <li><a href="#c2"><b>Chapter title</b><span>What you will get from it, one line.</span></a></li>
+      <li><a href="#c1"><b>Now, next and later</b><span>Fourteen items in three lanes, and what waits on what.</span></a></li>
+      <li><a href="#c2"><b>What unblocks the most</b><span>The outside-reader test and the automatic check.</span></a></li>
+      <li><a href="#c3"><b>What is left off</b><span>Three things parked, each with the way back.</span></a></li>
+      <li><a href="#c4"><b>The December review</b><span>What happens on 12 December 2026, either way.</span></a></li>
     </ol>
 
-    <!-- CHAPTER: one idea. Restate what the reader needs from before. End with one thing to remember.
-         KICKER: "Chapter N of M, about T minute(s)". T is the reading-path words divided by 200, rounded up (Japanese: 第N章 / 全M章、約T分, characters divided by 500). Work it out by hand; no script does it.
-         READ ALOUD: the button stays in every chapter header; the script shows it only where the browser can speak. -->
-    <section class="chapter" id="c1" data-keep="One line the sticky bar shows while this chapter is on screen">
+    <section class="chapter" id="c1" data-keep="Fourteen items in three lanes, five wait on another">
       <header>
-        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>Chapter title as a plain sentence</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 2 minutes</p><h2>What is under way, next and later?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the one fact from earlier this chapter builds on.</p>
+      <p class="from"><b>Before this:</b> the focus is checked decision pages.</p>
 
-      <p>One idea per paragraph. Under forty words. Say it the way you would say it out loud.</p>
+      <p>Now is October and November 2026. Next is December 2026. Later is 2027, if outside readers confirm the gain.</p>
 
-      <figure class="figure">
-        <!-- SVG diagram goes here. Use the d-* classes so it renders in both themes. See diagrams.md.
-             On a phone this svg keeps 640 px and scrolls sideways. To show a phone its own drawing, add a second
-             <svg class="narrow" viewBox="0 0 360 ..."> laid out top to bottom; it replaces this one under 560 px. -->
-        <svg viewBox="0 0 800 160" role="img" aria-labelledby="f1-title"><title id="f1-title">Describe the diagram in one sentence</title>
-          <rect class="d-box" x="20" y="50" width="200" height="60" rx="10"/><text class="d-text-b" x="120" y="86" text-anchor="middle">Step one</text>
-          <path class="d-line" d="M220 80 H300"/><path class="d-arrow" d="M300 74 L312 80 L300 86 Z"/>
-          <rect class="d-box-here" x="312" y="50" width="200" height="60" rx="10"/><text class="d-text-b" x="412" y="86" text-anchor="middle">You are here</text>
-          <path class="d-line" d="M512 80 H592"/><path class="d-arrow" d="M592 74 L604 80 L592 86 Z"/>
-          <rect class="d-box-go" x="604" y="50" width="176" height="60" rx="10"/><text class="d-text-b" x="692" y="86" text-anchor="middle">Outcome</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the single conclusion the diagram exists to show.</figcaption>
-      </figure>
+      <div class="lanes">
+        <section class="lane" data-lane="now"><h3>Now</h3><ul>
+          <li class="here"><b>Check every page automatically</b><span>A hook hands back any failure.</span></li>
+          <li class="here"><b>Upgrade old pages</b><span>A script swaps in the current styles.</span></li>
+          <li id="r-trigger" class="here"><b>Trigger reliably</b><span>Sharper skill descriptions and trigger tests.</span></li>
+          <li id="r-test" class="here"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span></li>
+          <li id="r-name" class="wait"><b>Settle the name, then list</b><span>Pick the final name, then submit to registries.</span><small class="after">After: <a href="#r-trigger">Trigger reliably</a></small></li>
+        </ul></section>
+        <section class="lane" data-lane="next"><h3>Next</h3><ul>
+          <li><b>Optional browser check</b><span>Reports sideways scroll, split words and clipped commands.</span></li>
+          <li><b>Tested installs in other agents</b><span>Codex, Gemini CLI, Cursor and Copilot.</span></li>
+          <li class="wait"><b>claude.ai upload</b><span>A zip per skill on each GitHub release.</span><small class="after">After: <a href="#r-name">Settle the name, then list</a></small></li>
+          <li><b>Publish where Claude publishes</b><span>When it can, the agent offers an artifact link.</span></li>
+          <li><b>A one-minute demo</b><span>Recorded from the gallery.</span></li>
+        </ul></section>
+        <section class="lane" data-lane="later"><h3>Later</h3><ul>
+          <li class="wait"><b>Pull request pages in CI</b><span>A GitHub Action writes one per pull request.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
+          <li class="wait"><b>Brand themes</b><span>Your own colour and type, rules still checked.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
+          <li><b>More languages</b><span>After Japanese, on request.</span></li>
+          <li class="wait"><b>Commercial support</b><span>For teams that adopt it, if a team asks.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
+        </ul></section>
+      </div>
+      <p class="take"><b>Take from this:</b> five items wait on another, and three wait on the outside-reader test.</p>
 
-      <details class="fold"><summary>Show the machinery</summary>
-        <p>Everything technical, exact names, numbers, and commands live here, out of the reading path.</p>
+      <details class="fold"><summary>Show the detail and the reasons behind the items</summary>
+        <p><b>Upgrade old pages.</b> A script swaps an older page's styles and reader script for the current template's. Each page carries its own copy of the design, so a page made under 1.2 keeps 1.2's phone bugs.</p>
+        <p><b>Trigger reliably.</b> The tests are built with <code>claude plugin eval</code> and cover the phrases people actually type. In the author's own sessions about two requests in three did not visibly load the skill.</p>
+        <p><b>Settle the name, then list.</b> The listing goes to Anthropic's plugin directory and the agent-skills registries. Renaming a listed plugin orphans every install, so the name comes first.</p>
+        <p><b>Optional browser check.</b> <code>check.mjs --render</code> opens the page in a local Chrome at phone and desktop widths. It runs only when Playwright is installed. The 1.3.0 layout defects were invisible to the static checker.</p>
+        <p><b>Tested installs in other agents.</b> Each agent gets a recorded install and one finished page. A Codex plugin manifest and a Gemini extension are added if those routes keep the folders intact.</p>
+        <p><b>Pull request pages in CI.</b> The GitHub Action writes a <code>pr</code> page for each pull request and links it in a comment.</p>
+        <p><b>Brand themes.</b> You swap the colour and type tokens for your own, and the contrast and meaning rules are still checked.</p>
+        <p><b>More languages.</b> They come after Japanese, on request, using the same translate and merge workflow.</p>
+        <p><b>A one-minute demo.</b> It is recorded from the gallery and shows skim mode, one chapter at a time, read aloud and the ballot round trip.</p>
+        <p><b>claude.ai upload.</b> Skill descriptions are short enough for the upload form.</p>
+        <p><b>Publish where Claude publishes.</b> When the agent can publish a page as a Claude artifact, it offers that link next to the file.</p>
+        <p>The reasons for the first and fourth items in Now are in <a href="#c2">chapter 2</a>.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> one sentence. This is the only thing carried to the next chapter.</p>
+      <details class="fold"><summary>Show what shipped most recently</summary>
+        <p>The latest release moved each skill into a self-contained folder so the skills install in other agents. It also added this roadmap, a public site and an automatic check on every change. The <a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">changelog</a> has the rest.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> fourteen items sit in three lanes, and five of them wait on another.</p>
     </section>
 
-    <section class="chapter" id="c2" data-keep="Second chapter's one line">
+    <section class="chapter" id="c2" data-keep="The reader test and the automatic check come first">
       <header>
-        <div><p class="kicker">Chapter 2 of 3, about 1 minute</p><h2>Second chapter title</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 2 minutes</p><h2>What unblocks the most?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-      <p class="from"><b>Before this:</b> the remember-line from chapter 1, restated.</p>
-      <p>Body. A linear sequence needs no SVG; use the CSS flow.</p>
-      <ol class="flow">
-        <li class="go"><b>Done step</b><span>One line.</span></li>
-        <li class="here"><b>Current step</b><span>One line.</span></li>
-        <li><b>Next step</b><span>One line.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> what the picture above proves, in one line. Every chapter's picture gets one.</p>
-      <p class="remember"><b>Remember:</b> one sentence.</p>
-    </section>
 
-    <section class="chapter" id="c3" data-keep="Third chapter's one line">
-      <header>
-        <div><p class="kicker">Chapter 3 of 3, about 1 minute</p><h2>Third chapter title</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-      <p class="from"><b>Before this:</b> the remember-line from chapter 2, restated.</p>
-      <p>Body. When the reader must choose, the decision card lays the options side by side.</p>
-      <div class="decision">
-        <h3>The question, as a question?</h3>
-        <p>One line on why it matters.</p>
-        <div class="options">
-          <div class="option" data-rec="Recommended"><h4>Option A</h4><ul><li class="plus">Gain</li><li class="minus">Cost</li></ul></div>
-          <div class="option"><h4>Option B</h4><ul><li class="plus">Gain</li><li class="minus">Cost</li></ul></div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> what happens.</p>
+      <p class="from"><b>Before this:</b> fourteen items sit in three lanes, and five of them wait on another.</p>
+
+      <p>The outside-reader test unblocks the most. Every page so far was judged by its author, and this test decides what comes next.</p>
+      <p>Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later.</p>
+
+      <figure class="figure">
+        <svg viewBox="0 0 800 280" role="img" aria-labelledby="f2-title"><title id="f2-title">Three Later items wait on the outside-reader test</title>
+          <text class="d-text-s" x="500" y="22">Later, if outside readers confirm the gain</text>
+          <rect class="d-box-here" x="20" y="116" width="250" height="60" rx="10"/><text class="d-text-b" x="145" y="143" text-anchor="middle">Test with outside readers</text><text class="d-text-s" x="145" y="163" text-anchor="middle">Now: October and November</text>
+          <path class="d-line" d="M270 146 H290 M290 66 V226 M290 66 H488 M290 146 H488 M290 226 H488"/>
+          <path class="d-arrow" d="M488 60 L500 66 L488 72 Z"/><path class="d-arrow" d="M488 140 L500 146 L488 152 Z"/><path class="d-arrow" d="M488 220 L500 226 L488 232 Z"/>
+          <rect class="d-box-wait" x="500" y="36" width="280" height="60" rx="10"/><text class="d-text-b" x="640" y="63" text-anchor="middle">Pull request pages</text><text class="d-text-s" x="640" y="83" text-anchor="middle">A GitHub Action in CI</text>
+          <rect class="d-box-wait" x="500" y="116" width="280" height="60" rx="10"/><text class="d-text-b" x="640" y="143" text-anchor="middle">Brand themes</text><text class="d-text-s" x="640" y="163" text-anchor="middle">Your colour and type tokens</text>
+          <rect class="d-box-wait" x="500" y="196" width="280" height="60" rx="10"/><text class="d-text-b" x="640" y="223" text-anchor="middle">Commercial support</text><text class="d-text-s" x="640" y="243" text-anchor="middle">If a team asks</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 360 350" role="img" aria-labelledby="f2n-title"><title id="f2n-title">Three Later items wait on the outside-reader test</title>
+          <rect class="d-box-here" x="20" y="14" width="320" height="60" rx="10"/><text class="d-text-b" x="180" y="41" text-anchor="middle">Test with outside readers</text><text class="d-text-s" x="180" y="61" text-anchor="middle">Now: October and November</text>
+          <text class="d-text-s" x="50" y="103">Later, if outside readers confirm the gain</text>
+          <path class="d-line" d="M34 74 V308 M34 148 H48 M34 228 H48 M34 308 H48"/>
+          <path class="d-arrow" d="M48 142 L60 148 L48 154 Z"/><path class="d-arrow" d="M48 222 L60 228 L48 234 Z"/><path class="d-arrow" d="M48 302 L60 308 L48 314 Z"/>
+          <rect class="d-box-wait" x="60" y="118" width="280" height="60" rx="10"/><text class="d-text-b" x="200" y="145" text-anchor="middle">Pull request pages</text><text class="d-text-s" x="200" y="165" text-anchor="middle">A GitHub Action in CI</text>
+          <rect class="d-box-wait" x="60" y="198" width="280" height="60" rx="10"/><text class="d-text-b" x="200" y="225" text-anchor="middle">Brand themes</text><text class="d-text-s" x="200" y="245" text-anchor="middle">Your colour and type tokens</text>
+          <rect class="d-box-wait" x="60" y="278" width="280" height="60" rx="10"/><text class="d-text-b" x="200" y="305" text-anchor="middle">Commercial support</text><text class="d-text-s" x="200" y="325" text-anchor="middle">If a team asks</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> three Later items wait on one test, and they stay only if outside readers confirm the gain.</figcaption>
+      </figure>
+
+      <p>The automatic check comes first on the list. Today the skill tells the agent to run the checker, and an instruction can be skipped.</p>
+
+      <div class="split">
+        <div class="before"><b>Today</b><ul><li>The skill tells the agent to run the checker.</li><li>An instruction can be skipped.</li></ul></div>
+        <div class="after"><b>With the hook</b><ul><li>A plugin hook runs the checker whenever the agent writes a page.</li><li>Any failure goes back to the agent before you see the page.</li></ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> the option you recommend, and the one reason that decides it.</p>
-      <p class="remember"><b>Remember:</b> one sentence.</p>
+      <p class="take"><b>Take from this:</b> a hook cannot be skipped, so every page is checked before you see it.</p>
+
+      <p class="remember"><b>Remember:</b> the outside-reader test decides what comes next, and a hook makes the check impossible to skip.</p>
     </section>
 
-    <!-- CLOSING: recap and, when a decision is needed, the ask. -->
+    <section class="chapter" id="c3" data-keep="Three things are parked on purpose">
+      <header>
+        <div><p class="kicker">Chapter 3 of 4, about 2 minutes</p><h2>What is left off on purpose?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> the outside-reader test decides what comes next, and a hook makes the check impossible to skip.</p>
+
+      <p>Work that makes pages more trustworthy, easier to install or easier to read comes before new page types. Three things are parked on purpose.</p>
+
+      <div class="grid-wrap"><table class="grid">
+        <caption>Not planned: why each is parked and what would restore it</caption>
+        <thead><tr><th scope="col">Item</th><th scope="col">Why it is parked</th><th scope="col">What would restore it</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">New page types</th><td class="stop">Sixteen types plus gather and atlas cover every request seen so far. More types would spread the checker thin before outsiders have tried the current ones.</td><td>An outside user brings content that no current type can hold.</td></tr>
+          <tr><th scope="row">Motion companion</th><td class="stop">Animated walkthroughs. Parked on 9 October 2026. It needs a Claude Code hook or API to drive it.</td><td>A supported hook or API that can render motion from a page.</td></tr>
+          <tr><th scope="row">A hosted service or paid tier</th><td class="stop">Pages work offline as single files, and everything that makes them useful is in public files.</td><td>Teams asking for something that cannot be a file.</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take from this:</b> each parked item has a reason and a stated way back.</p>
+
+      <p class="remember"><b>Remember:</b> three things are parked, and each names what would bring it back.</p>
+    </section>
+
+    <section class="chapter" id="c4" data-keep="Reviewed on 12 December 2026">
+      <header>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>When is this reviewed?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> three things are parked, and each names what would bring it back.</p>
+
+      <p>On 12 December 2026 this roadmap is reviewed against outside feedback and the reader test. The question is whether plugin pages help outside readers more than a default page does.</p>
+
+      <div class="split">
+        <div class="after"><b>If they help more</b><ul><li>The Later lane stays on the roadmap for 2027.</li></ul></div>
+        <div class="before"><b>If they do not</b><ul><li>The roadmap shrinks to maintenance.</li><li>The plugin stays maintained for the people who use it.</li></ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> the review ends one of two ways. Later stays, or the roadmap shrinks to maintenance.</p>
+
+      <div class="callout"><b>How to move an item up</b><p><a href="https://github.com/ariasr47/html-explainer-skill/issues/new/choose">Open an issue</a> to ask for something. A request from someone who has used a page moves an item up faster than anything else.</p></div>
+
+      <p class="remember"><b>Remember:</b> on 12 December 2026 the review either keeps Later or shrinks the roadmap to maintenance.</p>
+    </section>
+
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Remember-line from chapter 1.</li>
-        <li>Remember-line from chapter 2.</li>
-        <li>Remember-line from chapter 3.</li>
+        <li>Fourteen items sit in three lanes, and five of them wait on another.</li>
+        <li>The outside-reader test decides what comes next, and a hook makes the check impossible to skip.</li>
+        <li>Three things are parked, and each names what would bring it back.</li>
+        <li>On 12 December 2026 the review either keeps Later or shrinks the roadmap to maintenance.</li>
       </ol>
     </section>
 
-    <section class="ask">
-      <h2>What I need from you</h2>
-      <p>One question. Plain words.</p>
-      <div class="choices"><a href="#" data-rec>Option A</a><a href="#">Option B</a><a href="#">Ask me something first</a></div>
-      <p class="nothing"><b>If you do nothing:</b> what happens.</p>
-    </section>
-    <!-- OPTIONAL COMPONENTS: copy the markup from gallery.html.
-         .stepper (change over time, one picture), .views (several views of one thing), .minimap (where this chapter sits in the whole),
-         .answer-field and one .collect bar (gather pages and playbooks: put the bar here, outside the chapters, so one-chapter mode never hides it),
-         .phase-strip, .phases, .frame-row, .roles with .rules, .undo and .risks (playbook pages; the strip goes right after the keep box). -->
+    <div class="meta"><span><a href="index.html">Back to the site home</a></span><span><a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">Changelog</a></span><span><a href="https://github.com/ariasr47/html-explainer-skill/issues/new/choose">Open an issue</a></span></div>
   </main>
 </div>
 
@@ -1065,6 +1130,14 @@ if (parts.length) {
     if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
+/* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
+on(d, 'click', e => {
+  const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
+  let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
+  if (!t) return;
+  e.preventDefault(); t.scrollIntoView();
+  try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
+});
 
 /* progress bar */
 const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };
