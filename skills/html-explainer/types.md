@@ -103,3 +103,156 @@ At least one `.status` and one `.steps`.
 
 ### Example topic
 Handing the invoice migration to the next session.
+
+## portfolio
+
+### When
+The reader owns several projects and needs to see all of them at once: what moves, what is blocked, and what waits on them.
+
+### Chapter composition
+A status board with one row per project. What moved since last time. What is blocked and why, one callout each. What waits on the reader, most valuable first. Add an ask only when one decision unblocks several projects.
+
+### Required components
+`ul.status` with one row per project: the dot is the health, the first words say what changed. `ol.steps` for what waits on the reader. A `table.grid` helps when the projects share the same few measures.
+
+### Checker rules
+At least one `.status` and one `.steps`. A warning if the status boards hold fewer than three rows in all.
+
+### Example topic
+Where six side projects stand this week, and which two need me.
+
+## public
+
+### When
+The reader is a customer, not a teammate, and needs to know what the product does for them.
+
+### Chapter composition
+One chapter per kind of promise, in the customer's words: what you can do, what we do with what you give us, what happens when something goes wrong. Nothing is asked of the reader, so there is no ask. The proof sits in a fold.
+
+### Required components
+`ul.promises`: each item is one bold lead and one plain sentence, and each carries `data-evidence` holding the file and line or the URL that backs it. The attribute is not displayed. A `details.fold` titled "How we know" lists the evidence in words.
+
+### Checker rules
+At least one `ul.promises`. It fails when the page has a `section.ask`, and for each promise whose `data-evidence` is missing or empty. It warns for each jargon word outside the folds, in the answer bar, the keep box and the chapters: API, backend, endpoint, database, server, JSON, OCR, LLM, token, deploy, repo, commit, branch, CI, schema, pipeline. Whole words only, plurals included.
+
+### Example topic
+What happens to the invoice you upload.
+
+## teach
+
+### When
+A newcomer must learn one system well enough to work with it.
+
+### Chapter composition
+One chapter per layer or step of the system, the easiest first. Each defines its new words in a term box and shows its idea in a figure. Finish with a short chapter of steps the newcomer can try.
+
+### Required components
+`dl.term` in every chapter, under the first use of a new word. `figure.figure` in every chapter. `p.from` restating what the last chapter gave.
+
+### Checker rules
+At least one `dl.term`. A warning for each chapter without a `dl.term`, and for each chapter without a `figure.figure`.
+
+### Example topic
+How an order travels through the shop, for someone on their first day.
+
+## incident
+
+### When
+Something broke and the reader needs what happened, why, what is fixed, and what stops a repeat.
+
+### Chapter composition
+What broke and who felt it. The timeline, in order. The cause chain, one step causing the next. What is fixed and what is still open. What prevents a repeat. Name the cause in the system, never in a person.
+
+### Required components
+`ol.timeline` of three or more points. `ol.flow` for the cause chain, with the failing step in `stop`. `ul.status` for the follow-ups: done is `go`, in progress is `wait`, needs a ruling is `decide`.
+
+### Checker rules
+At least one `.timeline`, one `.flow` and one `.status`. A warning if the longest timeline has fewer than three items.
+
+### Example topic
+Why exports failed for two hours on Tuesday.
+
+## pr
+
+### When
+A reviewer must understand a pull request before reading its diff.
+
+### Chapter composition
+What changed and why, as a before and after. How big the diff is. What was checked. Where to look first and what to skip.
+
+### Required components
+`div.split` for the behaviour before and after. `ul.status` with one row per check, each naming its command and its exit code. `div.tiles` for the diff stat: files changed, lines added, lines removed.
+
+### Checker rules
+At least one `.split`, one `.status` and one `.tiles`. No extra rules.
+
+### Example topic
+Add retries with backoff to the nightly export (pull request 214).
+
+## runbook
+
+### When
+A person or an agent follows a procedure step by step and must know after each step whether it worked.
+
+### Chapter composition
+What you need before you start. The procedure, in chapters of five steps or fewer. What to do when it goes wrong, including how to undo it.
+
+### Required components
+`ol.runbook`. Every step has a bold sentence that starts with a verb, its command in `pre.cmd`, a `p.check` that says how to know it worked (the command that proves it), and a `p.fail` that says what to do if it did not. The template script gives every `pre.cmd` a Copy button, and the page reads fine without it.
+
+### Checker rules
+At least one `ol.runbook`. It fails for each step that lacks a `p.check` with text or a `p.fail` with text.
+
+### Example topic
+Cut a release of the plugin.
+
+## compare
+
+### When
+The reader must choose between options, and the choice rests on a few criteria that every option is measured against.
+
+### Chapter composition
+The grid first: options across, criteria down. Then one chapter for each criterion that decides the matter. End with the recommendation, and a `.decision` and an ask if the reader must rule.
+
+### Required components
+`table.grid` inside a `div.grid-wrap`, with a `caption`, a `th[scope="col"]` for each option, `data-rec` on the recommended option's header, a `th[scope="row"]` for each criterion, and a state class (`go`, `wait`, `stop` or `decide`) on each cell, with a few words beside the glyph. A `p.take` straight after the grid says what it shows. On a phone the grid scrolls sideways and the criterion column stays in view.
+
+### Checker rules
+At least one `table.grid`. It fails for a grid with fewer than two option columns or fewer than three body rows.
+
+### Example topic
+Three ways to store uploaded files.
+
+## roadmap
+
+### When
+The reader needs to know what is under way now, what is next, what is later, and what depends on what.
+
+### Chapter composition
+The lanes. What unblocks the most. What is left off the roadmap on purpose, parked with the reason and what would restore it.
+
+### Required components
+`.lanes` holding exactly three `.lane`, with `data-lane` set to `now`, `next` and `later`. Each lane has an `h3` and a `ul` of items. An item takes a state class, and an item that waits on another carries `small.after` with a link to that item's `id`. Every item that others depend on needs an `id`. On a Japanese page the interface file keeps 次へ for the Next button, so the strings file sets 次 for the Next lane.
+
+### Checker rules
+At least one `.lanes`, each with exactly three `.lane`. It fails for each `small.after a[href^="#"]` whose target `id` does not exist.
+
+### Example topic
+The plugin's next three releases.
+
+## tour
+
+### When
+The reader must see how a product works, step by step, on its real screens.
+
+### Chapter composition
+One chapter per task, three to six steps. Each step is one screenshot with a numbered pin and one line. End with where to go next.
+
+### Required components
+`ol.tour`. Every step has a `figure.shot` holding an `img` (an inline data URI) with an `alt` that says what is on the screen, a `span.pin` for each spot to look at with `--x` and `--y` as percentages, then an `h3` and one plain line. Use real screenshots, about 1000 px wide, saved as WebP.
+
+### Checker rules
+At least one `ol.tour`. It fails for each step without an `img` that has a non-empty `alt`. The size limit is 2048 KB, not 400 KB.
+
+### Example topic
+Your first transfer in the vault app, in four screens.

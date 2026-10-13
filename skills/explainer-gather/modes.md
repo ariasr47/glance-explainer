@@ -7,6 +7,7 @@ Pick one mode per page. A mode that needs two controls uses two fields.
 | collect | Answers open questions after each chapter | `text` | Answers grouped by question, respondent named |
 | confirm | Marks each chapter understood, agree or concern, with a comment | `confirm` | Who has a concern where, most concerns first |
 | choose | Picks one option per decision and says why | `choice`, with the reason box | Tally per option, reasons listed under each |
+| ballot | One person, the owner, rules on several open decisions: taps one pictured option per card, or skips and takes the ★ default | `choice` (a `.ballot-card`, set by `data-mode="ballot"`), `multi` for a ship-or-not list | One copy, one question per card; the agent can also read the picks straight from the artifact database |
 | prioritise | Orders items, or scores each one | `rank`, or `scale` per item | Combined ranking, items people disagree on flagged |
 | annotate | Reviews a draft and comments per section | `text`, one per section | Comments by section, then by respondent |
 | check | Answers a check question, then writes the idea back in a sentence | `choice`, then `text` for the teach-back | Author scores each question, teach-backs side by side |
@@ -19,6 +20,6 @@ The merge tool groups by question and exports CSV. Build tallies, scores and ran
 
 ## Rules
 
-1. One question per field. A second idea gets its own field.
+1. One question per field (one `.ballot-card` in a ballot). A second idea gets its own field.
 2. Stable `data-q` ids never change between versions or languages, so answers merge.
 3. The page passes `../../scripts/check.mjs` with every field empty.

@@ -20,7 +20,7 @@ The reader has severe ADHD and a short working memory. Concretely:
 Every page opens with `<html lang="en" data-type="explainer">`.
 
 - `lang` is `en` or `ja`. Other codes are allowed and fall back to the English rules. The language sets the fonts, the line measure, and whether the checker counts words or characters (see Japanese typography).
-- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. The six content types are in `../skills/html-explainer/types.md`. `gather` and `atlas` have their own skills.
+- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. The fifteen content types are in `../skills/html-explainer/types.md`. `gather` and `atlas` have their own skills.
 
 ## Tokens
 
@@ -131,6 +131,11 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Timeline | `ol.timeline` | Position in time | Exactly one `li.here` |
 | Steps | `ol.steps` | Ordered actions | Bold verb first, one line, detail in a fold |
 | Tiles | `div.tiles` | Numbers that change the decision | Label says what the number means. The number never wraps and shrinks to fit its tile, so keep it short: `$24k`, not `$24,000+` |
+| Grid | `table.grid` in `div.grid-wrap` | Options measured against the same criteria | `caption`, a column per option, a row per criterion. A cell state (`td.go .wait .stop .decide`) is a tint and a glyph. `th[data-rec]` carries a ★. On a phone it scrolls sideways and the criterion column stays. A `p.take` follows |
+| Lanes | `div.lanes` with three `section.lane` | What is now, next and later, and what waits on what | Exactly three lanes (`data-lane`), stacked under 760 px. An item takes a state class and its glyph; `small.after` links to the item it waits on |
+| Runbook | `ol.runbook` | A procedure a person follows, step by step | Numbered like `.steps`. Each step has its command in `pre.cmd`, a `p.check` (go tint, ✓) and a `p.fail` (stop tint, ✕). The script adds a Copy button to every `pre.cmd` |
+| Tour | `ol.tour` with `figure.shot` and `span.pin` | A product walkthrough on real screenshots | One screenshot per step, a numbered pin placed with `--x` and `--y`, an `h3` and one line. Every image has an `alt` |
+| Promises | `ul.promises` | What the product does for a customer | Each item has a ✓, one bold lead and one plain sentence. `data-evidence` holds the file and line or the URL; it is not shown. A "How we know" fold lists it |
 | Metaphor | `div.metaphor` | An analogy with an exact mapping | One per chapter at most; say where it stops |
 | Callout | `div.callout` `.tip .warn .stop` | Something that changes what the reader does | Not for asides |
 | Term box | `dl.term` | Plain-English definitions | Directly under the first use |
@@ -146,6 +151,8 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | The ask | `section.ask` | One question with 2 to 4 choices | Recommendation marked, "if you do nothing" stated |
 | Answer field | `.answer-field` | A question the reader answers | A full-sentence question, a stable `data-q`, a `.hint` saying what a good answer holds |
 | Collect bar | `.collect` | The reader's answers, ready to send | Exactly one per page, hidden until a field has a value |
+| Ballot card | `article.ballot-card` with `.ballot-opts` of `button.ballot-opt` | One decision the reader rules on (gather `data-mode="ballot"`) | A picture (`.vis`) on every option, exactly one `data-rec`, a `p.skip`, a stable `data-q` and a `data-short` |
+| Picks tray | `.ballot-tray` | The rulings so far, and the one action that hands them back | Pinned and visible from the first screen; tally, 44 px jump dots, Copy picks as the only primary button, a live status line |
 
 The stepper, the tabs and the reader tools are reader-triggered. Nothing autoplays, `prefers-reduced-motion` is respected, and with JavaScript off the page reads without them.
 
@@ -173,6 +180,15 @@ These are starting points, not templates. Drop what the content does not need. `
 - **What shipped**: answer → keep → map → tiles for the counts that matter → one chapter per theme with split before/after → "what to do differently now" steps → recap.
 - **Research findings**: answer → keep → map → one chapter per finding, each carrying its evidence as tiles, a timeline, or a status board and the source quotes in a fold → "what this changes" chapter with a split → recap → ask only if the findings force a choice.
 - **Ask and collect**: answer → keep → map → one chapter per topic, each teaching only what its question needs and ending with its answer fields → recap → the collect bar.
+- **Portfolio**: answer → keep → map → a status board with a row per project → what moved → what is blocked → what waits on you (steps) → recap.
+- **Public / customer**: answer → keep → map → one chapter per kind of promise, each a `ul.promises` → a "How we know" fold in each → recap. No ask.
+- **Teach**: answer → keep → map → one chapter per layer, each with a term box and a figure → a short "try it" chapter of steps → recap.
+- **Incident**: answer → keep → map → what broke → the timeline → the cause chain (flow) → the follow-ups (status board) → what prevents a repeat → recap.
+- **Pull request**: answer → keep → map → a split of before and after → tiles for the diff stat → a status board of checks, each with its exit code → where to look first → recap.
+- **Runbook**: answer → keep → map → before you start → the procedure in `ol.runbook` chapters of five steps or fewer → when it goes wrong → recap.
+- **Compare**: answer → keep → map → the grid → one chapter per criterion that decides → recap → the decision and ask if the reader must rule.
+- **Roadmap**: answer → keep → map → the lanes → what unblocks the most → what is parked on purpose → recap.
+- **Tour**: answer → keep → map → one chapter per task, each a tour of three to six steps → recap.
 - **Mixed page**: most real pages mix two of the above. Take the chapter shapes from one and the closing from the other. The opening and closing contract never changes.
 
 ## Atlas add-on

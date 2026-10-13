@@ -55,13 +55,14 @@ const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map((m) => ({ sel: m[1]
 const rulesFor = (re) => rules.filter((r) => re.test(r.sel));
 
 // ---- page identity: lang and data-type pick the limits and the extra rules
-const TYPES = ['explainer', 'decision', 'status', 'spec', 'release', 'research', 'handover', 'gather', 'atlas'];
+const TYPES = ['explainer', 'decision', 'status', 'spec', 'release', 'research', 'handover', 'portfolio', 'public', 'teach', 'incident', 'pr', 'runbook', 'compare', 'roadmap', 'tour', 'gather', 'atlas'];
 const htmlAttrs = (html.match(/<html\b([^>]*)>/i) || [])[1] || '';
 const lang = (attr(htmlAttrs, 'lang') || '').trim(), type = (attr(htmlAttrs, 'data-type') || 'explainer').trim();
 const ja = /^ja(-|$)/i.test(lang); // any other lang falls back to the English rules
 const unit = ja ? 'chars' : 'words', size = ja ? chars : words;
 const RATE = ja ? 500 : 200; // reading speed per minute, in `unit`
 const LIM = { para: ja ? 90 : 40, sent: ja ? 60 : 30, keep: ja ? 25 : 15, answer: ja ? 70 : 40, chapter: 1.25 * RATE, path: 7 * RATE };
+const ballot = type === 'gather' && /data-mode="ballot"/.test(htmlAttrs); // a ballot is a column of cards and a tray: no keep box, recap, chapters or rail
 if (!lang) fail('missing lang on <html>; set lang="en" or lang="ja"');
 if (!TYPES.includes(type)) fail(`unknown data-type "${type}"; use one of ${TYPES.join(', ')}`);
 
@@ -81,7 +82,7 @@ if ([...html.matchAll(/<script\b[^>]*\ssrc=["']?([^"'\s>]*)/gi)].some((m) => !at
 const links = [...html.matchAll(/<link[^>]+href="([^"]+)"/gi)].map(m => m[1]);
 for (const l of links) if (!/^(https:\/\/fonts\.(googleapis|gstatic)\.com|data:)/.test(l) && !atlasFile(l)) fail(`external <link> not allowed: ${l}`);
 if (/<img[^>]+src="https?:/i.test(html)) fail('remote <img>; inline it as SVG or a data URI');
-const kb = statSync(file).size / 1024, maxKb = type === 'atlas' ? 3072 : 400; info.kb = Math.round(kb); // an atlas embeds source: 3 MB budget
+const kb = statSync(file).size / 1024, maxKb = type === 'atlas' ? 3072 : type === 'tour' ? 2048 : 400; info.kb = Math.round(kb); // an atlas embeds source: 3 MB budget; a tour embeds screenshots: 2 MB
 if (kb > maxKb) fail(`file is ${info.kb} KB; keep under ${maxKb} KB`);
 
 // ---- structure
@@ -97,20 +98,23 @@ if (!ja && title && title.split(/\s+/).length > 2 && title.split(/\s+/).every(w 
 const bodyOnly = html.replace(/<(style|script)[\s\S]*?<\/\1>/g, '').replace(/<head>[\s\S]*?<\/head>/, '');
 const dashes = (bodyOnly.match(/—|&mdash;/g) || []).length; if (dashes > 0) warn(`${dashes} em dash(es); use a full stop, a colon, or a comma instead`);
 const middots = (bodyOnly.match(/ · |&middot;/g) || []).length; if (!ja && middots > 0) warn(`${middots} middle dot(s) in text; use words or punctuation`);
-const keep = html.match(/<div class="keep">([\s\S]*?)<\/div>/);
-if (!keep) fail('missing div.keep'); else {
-  const items = (keep[1].match(/<li\b/g) || []).length; info.keepItems = items;
-  if (items < 1 || items > 3) fail(`keep box has ${items} items; 1 to 3 allowed`);
-  for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) if (size(li[1]) > LIM.keep) warn(`keep item over ${LIM.keep} ${unit}: "${strip(li[1]).slice(0, 60)}"`);
+if (!ballot) { // the explainer spine; a ballot page has none of it
+  const keep = html.match(/<div class="keep">([\s\S]*?)<\/div>/);
+  if (!keep) fail('missing div.keep'); else {
+    const items = (keep[1].match(/<li\b/g) || []).length; info.keepItems = items;
+    if (items < 1 || items > 3) fail(`keep box has ${items} items; 1 to 3 allowed`);
+    for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) if (size(li[1]) > LIM.keep) warn(`keep item over ${LIM.keep} ${unit}: "${strip(li[1]).slice(0, 60)}"`);
+  }
+  if (!count(hasClass('section', 'recap'))) fail('missing section.recap');
 }
-if (!count(hasClass('section', 'recap'))) fail('missing section.recap');
 
 // ---- chapters
-const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>]*>([\s\S]*?)<\/section>/g)];
+// a chapter ends at its own </section>, not the first one: a roadmap's lanes are sections inside the chapter
+const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>]*>/g)].map((m) => [m[0], m[1], inner(html, m.index + m[0].length, 'section')]);
 info.chapters = chapters.length;
 const maxChapters = type === 'atlas' ? 12 : 7; // the atlas menu offers twelve chapters
-if (chapters.length < 3 || chapters.length > maxChapters) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
-const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap)\b/;
+if (!ballot && (chapters.length < 3 || chapters.length > maxChapters)) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
+const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises)\b/;
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
 let totalWords = 0;
 chapters.forEach(([, id, body], i) => {
@@ -181,7 +185,7 @@ for (const s of html.matchAll(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/g)) {
   if (hard) warn(`svg uses hard-coded colours (${hard.length}); prefer d-* classes so dark mode works`);
   const nodes = (s[2].match(/<rect\b/g) || []).length; if (nodes > 9) warn(`svg has ${nodes} boxes; split it or fold it`);
 }
-const rails = count(/<nav class="rail"/); if (rails !== 1) fail('missing nav.rail');
+if (!ballot) { const rails = count(/<nav class="rail"/); if (rails !== 1) fail('missing nav.rail'); }
 
 // ---- language: the text must match lang; Japanese also needs its own CSS, no italics and BIZ UDPGothic
 const pageText = strip(bodyOnly);
@@ -227,11 +231,12 @@ for (const sel of ['.status li.go::before', '.timeline li.go::before'])
 
 // ---- type rules, keyed by data-type on <html>
 const bad = (m) => fail(`data-type="${type}": ${m}`), need = (ok, m) => { if (!ok) bad(m); };
-const REQUIRED = { decision: ['decision', 'ask'], status: ['status'], spec: ['split', 'status'], release: ['tiles', 'split'], handover: ['status', 'steps'] };
+const REQUIRED = { decision: ['decision', 'ask'], status: ['status'], spec: ['split', 'status'], release: ['tiles', 'split'], handover: ['status', 'steps'],
+  portfolio: ['status', 'steps'], incident: ['timeline', 'flow', 'status'], pr: ['split', 'status', 'tiles'], roadmap: ['lanes'] };
 for (const c of REQUIRED[type] || []) need(num(c), `needs at least one .${c}`);
 if (type === 'status') need(find('timeline').some((t) => num('here', 'li', t.inner) === 1), 'needs a .timeline with exactly one li.here');
 if (type === 'research') { need(num('status') + num('tiles'), 'needs at least one .status or .tiles'); need(num('fold', 'details'), 'needs at least one details.fold'); }
-if (type === 'gather') {
+if (type === 'gather' && !ballot) {
   const fields = find('answer-field'), seen = new Set();
   need(fields.length, 'needs at least one .answer-field');
   fields.forEach((f, i) => {
@@ -243,12 +248,113 @@ if (type === 'gather') {
   });
   need(num('collect') === 1, `needs exactly one .collect, found ${num('collect')}`);
 }
+// ---- ballot mode: pictured cards and a pinned tray (data-type="gather" data-mode="ballot"); the tray replaces .collect
+if (ballot) {
+  const cards = find('ballot-card'), seen = new Set(); info.cards = cards.length;
+  need(cards.length, 'needs at least one .ballot-card');
+  cards.forEach((c, i) => {
+    const q = attr(c.attrs, 'data-q'), at = q ? `"${q}"` : `#${i + 1}`;
+    if (!q) bad(`.ballot-card ${at} has no data-q`); else if (seen.has(q)) bad(`duplicate data-q "${q}"`);
+    seen.add(q);
+    need(strip(attr(c.attrs, 'data-short') || ''), `.ballot-card ${at} has no data-short`);
+    need(hasClass('p', 'skip').test(c.inner), `.ballot-card ${at} has no p.skip ("If you skip this")`);
+    const opts = find('ballot-opt', null, c.inner), multi = attr(c.attrs, 'data-kind') === 'multi', rec = withAttr('data-rec', c.inner).length;
+    need(opts.length >= 2, `.ballot-card ${at} has ${opts.length} option(s); at least 2 needed`);
+    if (!multi) need(rec === 1, `.ballot-card ${at} has ${rec} [data-rec] options; exactly 1 needed (a multi card may have any number)`);
+    opts.forEach((o) => {
+      const k = attr(o.attrs, 'data-k') || '?', vis = find('vis', null, o.inner)[0];
+      if (!vis || !(strip(vis.inner) || /<(?:img|svg|canvas|picture)\b/i.test(vis.inner))) bad(`.ballot-card ${at}: option ${k} has no non-empty .vis`);
+      else if (!/<[a-z]/i.test(vis.inner)) warn(`.ballot-card ${at}: the .vis of option ${k} is text alone; draw a small mockup or use an <img>`);
+    });
+  });
+  const trays = find('ballot-tray');
+  need(trays.length === 1, `needs exactly one .ballot-tray, found ${trays.length}`);
+  if (trays.length === 1) {
+    need(withAttr('data-copy', trays[0].inner).some((m) => m[1].toLowerCase() === 'button'), '.ballot-tray has no button[data-copy]');
+    if (!/\saria-live=/.test(trays[0].inner)) warn('.ballot-tray has no aria-live status line');
+  }
+}
 if (type === 'atlas') {
   const states = ['state-current', 'state-dormant', 'state-target'];
   need(find('legend').some((l) => states.every((s) => num(s, null, l.inner))), 'needs a .legend containing .state-current, .state-dormant and .state-target');
   need(num('sysmap'), 'needs at least one .sysmap');
   for (const a of find('anchor')) if (!attr(a.attrs, 'data-src') || !attr(a.attrs, 'data-line')) bad(`.anchor without data-src and data-line: "${strip(a.inner).slice(0, 40)}"`);
   need(withAttr('data-revision').length, 'needs an element with data-revision (commit hash and date)');
+}
+
+// ---- new page types (1.2.0): portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour
+// direct children `t` of the element whose inner html is `src`: [{ attrs, inner }]. A list nested in a list item never counts.
+const kids = (src, t) => {
+  const out = []; let end = 0;
+  for (const m of starts(src)) {
+    if (m.index < end) continue; // inside the previous child
+    const body = VOID.test(m[1]) || m[0].endsWith('/>') ? '' : inner(src, m.index + m[0].length, m[1]);
+    end = m.index + m[0].length + body.length;
+    if (m[1].toLowerCase() === t) out.push({ attrs: m[2], inner: body });
+  }
+  return out;
+};
+const lead = (s) => strip(s).slice(0, 40);
+const typeChapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>]*>/g)].map((m) => [m[1], inner(html, m.index + m[0].length, 'section')]); // [id, body]
+const reading = (s) => s.replace(/<details[\s\S]*?<\/details>/g, '').replace(/<svg[\s\S]*?<\/svg>/g, ''); // what the reader sees with every fold closed
+if (type === 'portfolio') {
+  const rows = find('status').reduce((n, s) => n + kids(s.inner, 'li').length, 0);
+  if (rows < 3) warn(`data-type="portfolio": the .status boards hold ${rows} row(s); a portfolio shows every project, one row each, so 3 or more`);
+}
+if (type === 'public') {
+  need(num('promises', 'ul'), 'needs at least one ul.promises');
+  need(!num('ask', 'section'), 'a customer page has no section.ask; it asks the reader for nothing');
+  find('promises', 'ul').forEach((u) => kids(u.inner, 'li').forEach((li) => {
+    if (!strip(attr(li.attrs, 'data-evidence') || '')) bad(`ul.promises > li has no non-empty data-evidence: "${lead(li.inner)}"`);
+  }));
+  const JARGON = ['API', 'backend', 'endpoint', 'database', 'server', 'JSON', 'OCR', 'LLM', 'token', 'deploy', 'repo', 'commit', 'branch', 'CI', 'schema', 'pipeline'];
+  const opening = [/<p class="answer">([\s\S]*?)<\/p>/, /<div class="keep">([\s\S]*?)<\/div>/].map((re) => (re.exec(html) || [, ''])[1]); // the answer bar and the keep box are read first
+  const readable = [...opening, ...typeChapters.map(([, body]) => reading(body))].map(strip).join(' ');
+  for (const w of JARGON) {
+    const n = (readable.match(new RegExp(`\\b${w}(?:e?s)?\\b`, 'gi')) || []).length; // whole word, plural too
+    if (n) warn(`data-type="public": the jargon word "${w}" appears ${n} time(s) outside the folds; say it in plain words`);
+  }
+}
+if (type === 'teach') need(num('term', 'dl'), 'needs at least one dl.term');
+if (type === 'teach') for (const [id, body] of typeChapters) {
+  if (!find('term', 'dl', body).length) warn(`data-type="teach": chapter #${id} has no dl.term; define the new words where they first appear`);
+  if (!find('figure', 'figure', body).length) warn(`data-type="teach": chapter #${id} has no figure.figure; teach with a picture`);
+}
+if (type === 'incident') {
+  const longest = Math.max(0, ...find('timeline').map((t) => kids(t.inner, 'li').length));
+  if (find('timeline').length && longest < 3) warn(`data-type="incident": the timeline has ${longest} item(s); tell what happened in order, 3 or more`);
+}
+if (type === 'runbook') {
+  need(num('runbook', 'ol'), 'needs at least one ol.runbook');
+  find('runbook', 'ol').forEach((o) => kids(o.inner, 'li').forEach((li, i) => {
+    const has = (c) => find(c, 'p', li.inner).some((p) => strip(p.inner));
+    if (!has('check') || !has('fail')) bad(`ol.runbook step ${i + 1} needs both a p.check and a p.fail with text: "${lead(li.inner)}"`);
+  }));
+}
+if (type === 'compare') {
+  need(num('grid', 'table'), 'needs at least one table.grid');
+  find('grid', 'table').forEach((t, i) => {
+    const head = (/<thead\b[^>]*>([\s\S]*?)<\/thead>/i.exec(t.inner) || [, ''])[1];
+    const bodies = [...t.inner.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/gi)].map((m) => m[1]);
+    const options = starts(head).filter((m) => /^t[hd]$/i.test(m[1])).length - 1; // the first header cell names the criterion column
+    const rows = starts(bodies.length ? bodies.join('') : t.inner.replace(/<thead\b[\s\S]*?<\/thead>/i, '')).filter((m) => m[1].toLowerCase() === 'tr').length;
+    if (options < 2) bad(`table.grid #${i + 1} has ${Math.max(options, 0)} option column(s); compare at least 2`);
+    if (rows < 3) bad(`table.grid #${i + 1} has ${rows} body row(s); compare against at least 3 criteria`);
+  });
+}
+if (type === 'roadmap') {
+  find('lanes').forEach((l, i) => { const n = num('lane', null, l.inner); if (n !== 3) bad(`.lanes #${i + 1} has ${n} .lane; exactly three (now, next, later)`); });
+  const ids = new Set([...html.matchAll(/\sid="([^"]*)"/g)].map((m) => m[1]));
+  find('after', 'small').forEach((s) => starts(s.inner).filter((m) => m[1].toLowerCase() === 'a').forEach((a) => {
+    const href = attr(a[2], 'href');
+    if (href?.startsWith('#') && !ids.has(href.slice(1))) bad(`small.after links to "${href}" and no element has that id`);
+  }));
+}
+if (type === 'tour') {
+  need(num('tour', 'ol'), 'needs at least one ol.tour');
+  find('tour', 'ol').forEach((o) => kids(o.inner, 'li').forEach((li, i) => {
+    if (!starts(li.inner).some((m) => m[1].toLowerCase() === 'img' && strip(attr(m[2], 'alt') || ''))) bad(`ol.tour step ${i + 1} has no img with a non-empty alt: "${lead(li.inner)}"`);
+  }));
 }
 
 // ---- reader-feature components, on any page type
@@ -269,7 +375,7 @@ const out = { file, ok: fails.length === 0, fails, warns, info };
 if (asJson) console.log(JSON.stringify(out, null, 2));
 else {
   console.log(`${out.ok ? 'PASS' : 'FAIL'}  ${file}`);
-  console.log(`  title: "${info.title}"  chapters: ${info.chapters}  reading-path ${unit}: ${info.readingPathWords}  size: ${info.kb} KB`);
+  console.log(`  title: "${info.title}"  ${ballot ? 'cards: ' + info.cards : `chapters: ${info.chapters}  reading-path ${unit}: ${info.readingPathWords}`}  size: ${info.kb} KB`);
   for (const f of fails) console.log(`  FAIL  ${f}`);
   for (const w of warns) console.log(`  warn  ${w}`);
 }
