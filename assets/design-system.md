@@ -151,6 +151,8 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | The ask | `section.ask` | One question with 2 to 4 choices | Recommendation marked, "if you do nothing" stated |
 | Answer field | `.answer-field` | A question the reader answers | A full-sentence question, a stable `data-q`, a `.hint` saying what a good answer holds |
 | Collect bar | `.collect` | The reader's answers, ready to send | Exactly one per page, hidden until a field has a value |
+| Ballot card | `article.ballot-card` with `.ballot-opts` of `button.ballot-opt` | One decision the reader rules on (gather `data-mode="ballot"`) | A picture (`.vis`) on every option, exactly one `data-rec`, a `p.skip`, a stable `data-q` and a `data-short` |
+| Picks tray | `.ballot-tray` | The rulings so far, and the one action that hands them back | Pinned and visible from the first screen; tally, 44 px jump dots, Copy picks as the only primary button, a live status line |
 
 The stepper, the tabs and the reader tools are reader-triggered. Nothing autoplays, `prefers-reduced-motion` is respected, and with JavaScript off the page reads without them.
 

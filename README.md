@@ -35,7 +35,7 @@ There is no build step. The scripts need Node 18 or newer and use only Node's bu
 
 ### Local plugin packaging
 
-This checkout is the plugin. `.claude-plugin/plugin.json` names it `html-explainer`, sets the version (`1.1.0`) and lists the three skill folders. `.claude-plugin/marketplace.json` makes the repository a one-plugin marketplace named `html-explainer-skill`, with the plugin source at `./`. Change the two files together. A release is a git tag plus the `version` field; nothing else.
+This checkout is the plugin. `.claude-plugin/plugin.json` names it `html-explainer`, sets the version (`1.2.0`) and lists the three skill folders. `.claude-plugin/marketplace.json` makes the repository a one-plugin marketplace named `html-explainer-skill`, with the plugin source at `./`. Change the two files together. A release is a git tag plus the `version` field; nothing else.
 
 Skills reach the template, guides and scripts by paths relative to their own `SKILL.md` (for example `../../assets/template.html`), never through `~/.claude/...` or environment variables. The repository root is both the plugin root and, through the root shim, a standalone skill folder, so one set of files serves both routes.
 
@@ -64,9 +64,9 @@ The agent writes the page from `assets/template.html`, runs `scripts/check.mjs`,
 
 ## The three skills
 
-**`html-explainer`** is the core. It writes a single-file page from the template: an answer bar, a keep box of at most three facts, a chapter map, chapters that each carry a visual and a remember line, a recap, and one question when a decision is needed. `skills/html-explainer/types.md` adds six page types (decision, status, spec, release, research, handover), each with its chapters, required components and checker rules.
+**`html-explainer`** is the core. It writes a single-file page from the template: an answer bar, a keep box of at most three facts, a chapter map, chapters that each carry a visual and a remember line, a recap, and one question when a decision is needed. `skills/html-explainer/types.md` adds fifteen page types, each with its chapters, required components and checker rules: decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap and tour.
 
-**`explainer-gather`** builds pages that ask as well as explain. Each question is an answer field with a stable id. Answers autosave in the browser, and the reader copies them as Markdown or JSON, or downloads a file. Ten modes cover collecting, confirming, choosing, prioritising, annotating, checking, interview protocols, survey pilots, readouts and recurring questions.
+**`explainer-gather`** builds pages that ask as well as explain. Each question is an answer field with a stable id. Answers autosave in the browser, and the reader copies them as Markdown or JSON, or downloads a file. Eleven modes cover collecting, confirming, choosing, prioritising, annotating, checking, interview protocols, survey pilots, readouts, recurring questions and ballots: one card per decision, a picture on every option, and a pinned Copy picks bar that hands the rulings back to the agent.
 
 **`explainer-atlas`** writes an architecture atlas for a repository, one layer at a time: backend, frontend, data, infrastructure or the whole system. It is a folder with `index.html`, `atlas.css` and `atlas.js`. Every claim that names code carries a file and line anchor, the three states (current, dormant, target) stay visually apart, and `scripts/anchors.mjs` confirms each anchor exists at the recorded revision.
 
