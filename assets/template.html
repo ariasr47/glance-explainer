@@ -477,6 +477,154 @@ html[data-size="xl"] { font-size: 22px; }
 html[data-size="lg"] button[data-size]::after { content: " +"; }
 html[data-size="xl"] button[data-size]::after { content: " ++"; }
 
+/* ---------- 12e. Ballot: pictured decision cards, the picks tray, the copy fallback ---------- */
+/* A gather mode for one reader who hands decisions back (<html data-type="gather" data-mode="ballot">). No rail and no
+   chapters: a column of cards, and a tray pinned to the bottom of the screen from the first paint. Every option carries a
+   picture in .vis, built from plain HTML and CSS or an <img>; text alone never counts. .vis sits inside a <button>, so
+   it holds spans, svg and img only. The .mock-* parts below are a small kit for drawing those pictures. */
+html[data-mode="ballot"] .page { display: block; width: min(100% - 2rem, 62rem); padding-bottom: 14rem; }
+html:not(.js) .ballot-tray { display: none; }
+
+.ballot-steps { list-style: none; counter-reset: bstep; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 2rem; padding: 0; max-width: none; }
+.ballot-steps > li { counter-increment: bstep; display: flex; gap: .7rem; align-items: flex-start; min-width: 0; margin: 0; padding: .8rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); }
+.ballot-steps > li::before { content: counter(bstep); flex: none; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 600 var(--size-xs) var(--font-head); }
+.ballot-steps > li:last-child { border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.ballot-steps b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.ballot-keycap { display: inline-block; padding: .1rem .8rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font: 600 var(--size-s) var(--font-head); white-space: nowrap; }  /* looks like the tray's Copy picks button */
+
+.ballot-group { margin: 0 0 2.5rem; }
+.ballot-group > h2 { margin: 0 0 .25rem; }
+.ballot-group > h2 + p { margin: 0 0 1.25rem; padding-bottom: .75rem; border-bottom: 1.5px solid var(--line-strong); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+
+.ballot-card { margin: 0 0 1.5rem; padding: 1.25rem clamp(.9rem, 2.5vw, 1.5rem) 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-chapter); scroll-margin-top: 1rem; }
+.ballot-card.picked { border-color: var(--line-strong); }
+.ballot-card.flash, .ballot-card:target { border-color: var(--here); box-shadow: 0 0 0 3px var(--here-tint), 0 0 0 5px var(--here); }
+.ballot-card > header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "num title state" ". why why"; gap: .2rem .8rem; align-items: start; margin: 0 0 1.25rem; }
+.ballot-card .num { grid-area: num; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 var(--size-s)/1 var(--font-head); font-variant-numeric: tabular-nums; }
+.ballot-card.picked .num { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.ballot-card > header h3 { grid-area: title; align-self: center; margin: 0; font-size: var(--size-1); line-height: 1.25; }
+.ballot-card .why { grid-area: why; margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+.ballot-card .state { grid-area: state; align-self: center; justify-self: end; display: inline-flex; align-items: center; gap: .35rem; min-height: 1.75rem; padding: 0 .75rem; border: 1.5px dashed var(--decide); border-radius: var(--r-chip); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+.ballot-card .state::before { content: "?"; color: var(--decide); }
+.ballot-card.picked .state { border-style: solid; border-color: var(--here); background: var(--here); color: var(--on-here); }
+.ballot-card.picked .state::before { content: "✓"; color: inherit; }
+.ballot-card p.skip { position: static; left: auto; top: auto; z-index: auto; margin: 1.1rem 0 0; padding: .7rem 0 0; border-top: 1px solid var(--line); border-radius: 0; background: none; color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.ballot-card p.skip b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+
+/* the options: a grid whose rows (picture, name, effect) line up across the options of one card */
+.ballot-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem .85rem; }
+.ballot-opt { position: relative; display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: .6rem; width: 100%; min-width: 0; margin: 0; padding: .7rem .7rem .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.ballot-card[data-kind="multi"] .ballot-opt { grid-row: span 4; }
+@supports not (grid-template-rows: subgrid) { .ballot-opt { display: flex; flex-direction: column; gap: .6rem; } }
+.ballot-opt:hover { border-color: var(--here); }
+.ballot-opt:focus-visible { border-radius: var(--r-comp); }
+.ballot-opt[aria-checked="true"], .ballot-opt.on { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
+.ballot-opt[aria-checked="true"]::after, .ballot-opt.on::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
+.ballot-opt[data-rec]::before { content: "★ " attr(data-rec); position: absolute; top: -.8rem; left: .8rem; z-index: 1; padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs) var(--font-head); }
+.ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] { border-color: var(--line); }
+.ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] .vis { opacity: .6; }  /* a faded picture; the words stay at full contrast */
+.ballot-opt .vis { display: block; min-height: 6.5rem; padding: .7rem; background: var(--well); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); font-size: var(--size-xs); line-height: 1.35; overflow: hidden; overflow-wrap: break-word; }
+.ballot-opt .vis img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.ballot-opt .name { display: flex; align-items: flex-start; gap: .5rem; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.ballot-opt .name b { flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 1.5px solid var(--line-strong); border-radius: 50%; font-size: var(--size-xs); }
+.ballot-opt[aria-checked="true"] .name b, .ballot-opt.on .name b { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.ballot-opt .effect { color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+
+/* multi-select: each option has its own toggle, plus one "none" button for the card */
+.ballot-ship { display: flex; align-items: center; justify-content: center; gap: .5rem; align-self: end; width: 100%; min-height: 44px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.ballot-ship::before { content: ""; display: grid; place-items: center; width: 1.15rem; height: 1.15rem; border: 2px solid currentColor; border-radius: 5px; font-size: .8rem; line-height: 1; }
+.ballot-ship[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.ballot-ship[aria-pressed="true"]::before { content: "✓"; }
+.ballot-none { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin-top: 1.1rem; }
+.ballot-none .hint { margin: 0; }
+.ballot-none button { min-height: 44px; padding: 0 1.2rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-chip); background: none; color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.ballot-none button[aria-pressed="true"] { border-style: solid; border-color: var(--here); background: var(--here-tint); }
+.ballot-none button[aria-pressed="true"]::before { content: "✓ "; color: var(--here); }
+
+/* already decided: reference only, nothing to pick */
+.ballot-dones { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .75rem; }
+.ballot-done { padding: .9rem 1.1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.ballot-done h3 { display: flex; gap: .5rem; align-items: baseline; margin: 0 0 .25rem; font-size: var(--size-0); }
+.ballot-done h3::before { content: "✓"; flex: none; color: var(--go); }
+.ballot-done p { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+
+/* the tray: tally, jump dots, the one primary button, a live status line, the save label, the copy fallback */
+.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
+.ballot-tray[data-complete] { border-color: var(--go); }
+.ballot-bar { display: flex; align-items: center; gap: .25rem 1rem; }
+.ballot-tally { flex: none; margin: 0; font: 600 var(--size-1)/1.1 var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; max-width: none; }
+.ballot-tray[data-complete] .ballot-tally::before { content: "✓ "; color: var(--go); }
+.ballot-pips { flex: 1 1 auto; display: flex; gap: .1rem; min-width: 0; margin: 0; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; max-width: none; }
+.ballot-pips li { flex: none; margin: 0; }
+.ballot-pip { position: relative; display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink-soft); font: 600 var(--size-s) var(--font-head); font-variant-numeric: tabular-nums; text-decoration: none; }
+.ballot-pip > span { position: relative; }
+.ballot-pip::before { content: ""; position: absolute; inset: 5px; border: 1.5px dashed var(--line-strong); border-radius: 50%; }
+.ballot-pip.on { color: var(--on-here); }
+.ballot-pip.on::before { border-style: solid; border-color: var(--here); background: var(--here); }
+.ballot-pip:hover::before { border-color: var(--here); }
+.ballot-pip:focus-visible { border-radius: 50%; }
+.ballot-actions { flex: none; margin-left: auto; }
+.ballot-tray button[data-copy] { min-height: 44px; padding: 0 1.3rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font: 600 var(--size-0) var(--font-head); }
+.ballot-tray button[data-copy].copied::before { content: "✓"; margin-right: .4em; }
+.ballot-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-status { flex: 1 1 16rem; min-width: 0; min-height: 1.4em; margin: 0; max-width: none; }
+.ballot-save { display: inline-flex; align-items: center; gap: .4rem; }
+.ballot-save::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--wait); }
+.ballot-save[data-state="db"]::before, .ballot-save[data-state="local"]::before { background: var(--go); }
+.ballot-tray button[data-json] { padding: .3rem .5rem; border: 0; background: none; color: var(--here); font: 600 var(--size-xs) var(--font-head); text-decoration: underline; text-underline-offset: .18em; }
+.ballot-fallback { display: grid; gap: .4rem; padding-top: .5rem; border-top: 1px solid var(--line); }
+.ballot-fallback label { color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-fallback textarea { width: 100%; min-height: 6rem; max-height: 28vh; padding: .6rem .75rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: var(--size-xs)/1.5 var(--font-code); resize: vertical; }
+.ballot-fallback button { justify-self: start; min-height: 36px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+@media (prefers-reduced-motion: no-preference) {
+  .ballot-opt, .ballot-card, .ballot-pip::before { transition: border-color .15s, box-shadow .15s, background-color .15s; }
+  .ballot-tray.nudge { animation: ballot-nudge .4s; }
+}
+@keyframes ballot-nudge { 40% { transform: translateY(-5px); } }
+@media (max-width: 760px) {
+  .ballot-steps { grid-template-columns: minmax(0, 1fr); gap: .4rem; margin-bottom: 1.5rem; }
+  .ballot-steps > li { padding: .5rem .8rem; }
+  .ballot-card > header { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "num title" ". state" ". why"; }
+  .ballot-card .state { justify-self: start; }
+}
+@media (max-width: 560px) {  /* two options stay side by side, three or more stack; the tray keeps tally and button on one line, the dots on the next */
+  html[data-mode="ballot"] .page { padding-bottom: 15rem; }
+  .ballot-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .6rem; }
+  .ballot-opts:has(> :nth-child(3)) { grid-template-columns: minmax(0, 1fr); }
+  .ballot-opts:not(:has(> :nth-child(3))) .ballot-opt[data-rec]::before { content: "★"; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; }  /* side by side there is no room for the word; the answer line explains the star */
+  .ballot-opt { padding: .5rem .5rem .7rem; }
+  .ballot-opt .vis { min-height: 5.5rem; padding: .5rem; }
+  .ballot-tray { padding: .45rem .6rem .35rem; }
+  .ballot-bar { flex-wrap: wrap; }
+  .ballot-pips { order: 3; flex-basis: 100%; }
+  .ballot-tally { font-size: var(--size-0); }
+}
+@media print { .ballot-tray { display: none !important; } .ballot-card { break-inside: avoid; } }
+
+/* the picture kit: small parts for drawing a mockup inside .vis (spans only; .vis lives in a button) */
+.mock-win { display: block; padding: .5rem .6rem; background: var(--card); border: 1px solid var(--line); border-radius: 6px; }
+.mock-title { display: block; color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+.mock-line { display: block; height: .4rem; margin: .35rem 0; border-radius: var(--r-chip); background: var(--line-strong); }
+.mock-row { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .4rem; min-height: 1.7rem; border-bottom: 1px solid var(--line); }
+.mock-row:last-child { border-bottom: 0; }
+.mock-row > :first-child { flex: 1 1 auto; min-width: 0; }
+.mock-btn, .mock-chip, .mock-pill, .mock-toast { white-space: nowrap; }
+.mock-btn { display: inline-block; margin-top: .45rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.mock-btn.quiet { margin: 0; background: none; border: 1px solid var(--line-strong); color: var(--ink); }
+.mock-chip { display: inline-block; margin: .3rem .25rem 0 0; padding: 0 .55rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); }
+.mock-pill { display: inline-block; max-width: 100%; margin-top: .45rem; overflow: hidden; text-overflow: ellipsis; padding: 0 .6rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font: 600 var(--size-xs) var(--font-head); }
+.mock-pill.go { border-color: var(--go); background: var(--go-tint); }
+.mock-pill.go::before { content: "✓ "; color: var(--go); }
+.mock-pill.wait { border-color: var(--wait); background: var(--wait-tint); }
+.mock-pill.wait::before { content: "! "; color: var(--wait); }
+.mock-toast { display: inline-flex; gap: .6rem; margin-top: .45rem; padding: .1rem .65rem; border-radius: 6px; background: var(--ink); color: var(--paper); }
+.mock-toast b { text-decoration: underline; }
+.mock-caret { display: inline-block; width: 2px; height: 1em; margin-left: 1px; vertical-align: text-bottom; background: var(--here); }
+.mock-note { display: block; margin-top: .35rem; color: var(--ink-soft); }
+.ballot-still { pointer-events: none; }
+.ballot-still .ballot-card { margin-bottom: .75rem; }
+.ballot-still .ballot-tray { position: static; width: auto; margin: 0; box-shadow: none; }
+
 /* ---------- 13. Print ---------- */
 @media print {
   :root { --paper: #fff; --card: #fff; }
@@ -652,9 +800,19 @@ root.classList.add('js');
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
 const T = {
   en: { of: '{n} of {m}', step: '{n} of {m}', ans: '{n} of {m} answered', head: 'answers from {name} on {date}', anon: 'anonymous', none: 'Not answered',
-        read: 'Read aloud', stop: 'Stop', cont: 'Continue from', go: 'Go', no: 'Dismiss', keys: 'Keys', next: 'Next chapter', prev: 'Previous chapter', close: 'Close', fin: 'All chapters done' },
+        read: 'Read aloud', stop: 'Stop', cont: 'Continue from', go: 'Go', no: 'Dismiss', keys: 'Keys', next: 'Next chapter', prev: 'Previous chapter', close: 'Close', fin: 'All chapters done',
+        pickN: '{n} of {m} picked', pickCopied: 'Copied', pickNot: 'Not picked', pickYour: 'Your pick: {k}', shipSome: 'Ship {k}', shipNone: 'Ship none',
+        pickHead: '{title}: my picks ({n} of {m})', pickShip: 'ship {k}', pickNone: 'ship none', pickUse: 'Not picked (use ★)',
+        savedDb: 'Saved for Claude', savedLocal: 'Saved in this browser', savedNone: 'Not saved; Copy picks still works',
+        pickIdle: 'Tap an option on any card. Your picks collect here.', pickLeft: '{n} left. Anything you skip goes with the ★ option.', pickAll: 'All {m} picked. Copy them and paste into the chat.',
+        pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.' },
   ja: { of: '{m}章中 第{n}章', step: '{n} / {m}', ans: '{m}問中 {n}問 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
-        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了' }
+        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了',
+        pickN: '{m}問中{n}問 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '含める：{k}', shipNone: 'どれも含めない',
+        pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '含める {k}', pickNone: '含めない', pickUse: '未選択（★を採用）',
+        savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
+        pickIdle: '各カードの選択肢をタップしてください。選択はここに集まります。', pickLeft: '残り{n}問。飛ばした項目は★の選択肢になります。', pickAll: '{m}問すべて選択済み。コピーしてチャットに貼り付けてください。',
+        pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。' }
 };
 const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
 const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
@@ -803,6 +961,154 @@ on(d, 'keydown', e => {
   else { const b = { f: fb, s: sk, d: tt, r: ru }[k]; if (!b?.click) return; b.click(); }
   e.preventDefault();
 });
+
+/* ballot: one pick per card, a tray that copies every pick. Runs only on <html data-mode="ballot">. Picks are kept in this
+   browser, and in the artifact database when claude.ai grants one, so the agent can read them without a paste. */
+if (root.dataset.mode === 'ballot') {
+  const cards = qa('.ballot-card'), tray = $('.ballot-tray'), total = cards.length, pk = key + ':picks';
+  const [tally, status, saveEl, pipList, hole, holeText] = ['.ballot-tally', '.ballot-status', '.ballot-save', '.ballot-pips', '.ballot-fallback', '.ballot-fallback textarea'].map(s => $(s, tray));
+  const multi = c => c.dataset.kind === 'multi', optsOf = c => qa('[data-k]', c), letters = c => optsOf(c).map(o => o.dataset.k);
+  const numOf = (c, i) => { const n = $('.num', c); return n ? txt(n) : String(i + 1); };
+  const nameOf = (c, k) => { const o = optsOf(c).find(x => x.dataset.k === k), n = $('.name', o).cloneNode(true); $('b', n)?.remove(); return txt(n); };
+  const valid = (c, v) => multi(c) ? Array.isArray(v) && v.every(k => letters(c).includes(k)) : typeof v === 'string' && letters(c).includes(v);
+  const tidy = o => Object.fromEntries(cards.filter(c => o && valid(c, o[c.dataset.q])).map(c => [c.dataset.q, o[c.dataset.q]]));  /* picks: q -> 'B', or ['A','B'] ([] = none) on a multi card */
+  const sig = o => JSON.stringify(cards.map(c => o[c.dataset.q]));
+  let picks = {}; try { picks = tidy(JSON.parse(store.get(pk))); } catch (e) {}
+  let db = null, dbOk = false, localOk = true;
+
+  const stateOf = (c, v) => v === undefined ? L.pickNot : multi(c) ? (v.length ? fmt(L.shipSome, { k: v.join(', ') }) : L.shipNone) : fmt(L.pickYour, { k: v });
+  const pips = cards.map((c, i) => {
+    const a = d.createElement('a'), li = d.createElement('li');
+    c.id = c.id || 'card-' + c.dataset.q; a.className = 'ballot-pip'; a.href = '#' + c.id; a.title = c.dataset.short || '';
+    a.innerHTML = '<span>' + esc(numOf(c, i)) + '</span>'; li.append(a); pipList?.append(li); return a;
+  });
+  const paint = () => {
+    let n = 0;
+    cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], got = v !== undefined;
+      if (got) n++;
+      c.classList.toggle('picked', got);
+      optsOf(c).forEach((o, j) => {
+        const on = got && (multi(c) ? v.includes(o.dataset.k) : v === o.dataset.k);
+        if (multi(c)) { o.classList.toggle('on', on); $('.ballot-ship', o)?.setAttribute('aria-pressed', on); }
+        else { o.setAttribute('aria-checked', on); o.tabIndex = (got ? on : j === 0) ? 0 : -1; }  /* one tab stop per radio group */
+      });
+      $('[data-none]', c)?.setAttribute('aria-pressed', got && multi(c) && !v.length);
+      $('.state', c).textContent = stateOf(c, v);
+      pips[i].classList.toggle('on', got); pips[i].setAttribute('aria-label', numOf(c, i) + '. ' + (c.dataset.short || '') + ': ' + stateOf(c, v));
+    });
+    if (tally) tally.textContent = fmt(L.pickN, { n, m: total });
+    tray?.toggleAttribute('data-complete', n === total);
+    return n;
+  };
+
+  /* the status line is the tray's aria-live region */
+  let sayTimer;
+  const say = (msg, hold) => { if (status) status.textContent = msg; clearTimeout(sayTimer); if (!hold) sayTimer = setTimeout(() => { if (status) status.textContent = idle(); }, 4200); };
+  const idle = () => { const n = paint(); return n === 0 ? L.pickIdle : n === total ? fmt(L.pickAll, { m: total }) : fmt(L.pickLeft, { n: total - n }); };
+
+  /* saving: this browser always, the artifact database when it answers */
+  const label = () => { const s = db && dbOk ? 'db' : localOk ? 'local' : 'none'; if (saveEl) { saveEl.dataset.state = s; saveEl.textContent = L[{ db: 'savedDb', local: 'savedLocal', none: 'savedNone' }[s]]; } };
+  const saveLocal = () => { try { localStorage.setItem(pk, JSON.stringify(picks)); localOk = true; } catch (e) { localOk = false; } label(); };
+  const lanes = {};  /* one write at a time per document */
+  const saveDb = q => {
+    if (!db) return;
+    lanes[q] = (lanes[q] || Promise.resolve()).then(async () => {
+      try { const ref = db.doc('picks/' + q), v = picks[q]; if (v === undefined) await ref.delete(); else await ref.set({ choice: v, at: new Date().toISOString() }); dbOk = true; }
+      catch (e) { dbOk = false; }
+      label();
+    });
+  };
+  const setPick = (c, v) => {
+    const q = c.dataset.q, i = cards.indexOf(c);
+    if (v === undefined) delete picks[q]; else picks[q] = v;
+    const n = paint(); saveLocal(); saveDb(q);
+    const p = v === undefined ? numOf(c, i) : multi(c) ? numOf(c, i) + ' ' + stateOf(c, v) : numOf(c, i) + v;
+    say(n === total ? fmt(L.pickAll, { m: total }) : fmt(v === undefined ? L.pickClear : L.pickDone, { p, n, m: total }), 1);
+    tray?.classList.remove('nudge'); void tray?.offsetWidth; tray?.classList.add('nudge');
+  };
+
+  /* what the agent gets: one line per pick, made for pasting into chat */
+  const picksText = () => {
+    const n = paint(), left = [], lines = [fmt(L.pickHead, { title: d.title, n, m: total })];
+    cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], num = numOf(c, i), short = c.dataset.short || txt($('h3', c));
+      if (v === undefined) left.push(num);
+      else if (multi(c)) lines.push(num + ' ' + short + ': ' + (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone));
+      else lines.push(num + v + ' ' + nameOf(c, v) + ' · ' + short);
+    });
+    if (left.length) lines.push(L.pickUse + ': ' + left.join(', '));
+    return lines.join('\n');
+  };
+  /* the same shape as the gather copy, so assets/merge.html reads it: kind "choice", the option name as the answer */
+  const picksJson = () => {
+    const o = pack();
+    cards.forEach(c => {
+      const q = c.dataset.q, v = picks[q], question = txt($('h3', c));
+      if (v === undefined) o.unanswered.push({ q, question });
+      else o.answers.push({ q, kind: multi(c) ? 'multi' : 'choice', question, answer: multi(c) ? (v.length ? v.map(k => nameOf(c, k)).join(', ') : L.shipNone) : nameOf(c, v) });
+    });
+    return JSON.stringify(o, null, 2);
+  };
+
+  /* copy; when the clipboard refuses, show the text in a box with everything selected */
+  let reset;
+  const restore = () => { clearTimeout(reset); qa('[data-label]', tray).forEach(x => { x.textContent = x.dataset.label; x.classList.remove('copied'); }); };
+  const copied = b => { b.dataset.label = b.dataset.label || b.textContent; b.textContent = L.pickCopied; b.classList.add('copied'); clearTimeout(reset); reset = setTimeout(restore, 2400); };
+  const send = (text, b) => {
+    const ok = () => { if (hole) hole.hidden = true; copied(b); say(L.pickMsg); };
+    const no = () => { restore(); if (!hole) return; holeText.value = text; hole.hidden = false; holeText.focus(); holeText.select(); say(L.pickBlocked, 1); };
+    try { navigator.clipboard?.writeText ? navigator.clipboard.writeText(text).then(ok, no) : no(); } catch (e) { no(); }
+  };
+
+  /* clicks: options, multi toggles, "none", jump dots, copy, close */
+  const choose = (c, k) => setPick(c, picks[c.dataset.q] === k ? undefined : k);
+  const ship = (c, k) => { const v = picks[c.dataset.q] || []; const next = letters(c).filter(x => v.includes(x) !== (x === k)); setPick(c, next.length ? next : undefined); };
+  on(d, 'click', e => {
+    const t = e.target.closest ? e.target : e.target.parentElement; if (!t) return;
+    const c = t.closest('.ballot-card'), btn = t.closest('button');
+    if (btn?.classList.contains('ballot-opt')) return choose(c, btn.dataset.k);
+    if (btn?.classList.contains('ballot-ship')) return ship(c, btn.closest('[data-k]').dataset.k);
+    if (btn && 'none' in btn.dataset) return setPick(c, picks[c.dataset.q]?.length === 0 ? undefined : []);
+    if (c && multi(c) && t.closest('.ballot-opt') && !btn) return $('.ballot-ship', t.closest('.ballot-opt'))?.click();  /* the picture and words toggle too */
+    const pip = t.closest('.ballot-pip');
+    if (pip) {
+      e.preventDefault();
+      const target = byId(pip.getAttribute('href').slice(1)); if (!target) return;
+      target.scrollIntoView(); target.classList.add('flash'); setTimeout(() => target.classList.remove('flash'), 1400);
+      $('.ballot-opt[tabindex="0"], .ballot-ship', target)?.focus({ preventScroll: true });
+    } else if (btn && tray?.contains(btn)) {
+      if ('copy' in btn.dataset) send(picksText(), btn);
+      else if ('json' in btn.dataset) send(picksJson(), btn);
+      else if ('close' in btn.dataset) { hole.hidden = true; $('[data-copy]', tray)?.focus(); }
+    }
+  });
+  /* arrow keys move through a card's options like a radio group: focus follows, and so does the pick */
+  on(d, 'keydown', e => {
+    if (e.key === 'Escape' && hole && !hole.hidden && tray.contains(e.target)) { hole.hidden = true; $('[data-copy]', tray)?.focus(); return; }
+    const o = e.target.closest?.('button.ballot-opt'); if (!o || e.ctrlKey || e.metaKey || e.altKey) return;
+    const all = qa('button.ballot-opt', o.parentElement), i = all.indexOf(o), step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    const j = step ? (i + step + all.length) % all.length : e.key === 'Home' ? 0 : e.key === 'End' ? all.length - 1 : -1;
+    if (j < 0) return;
+    e.preventDefault(); all[j].focus(); setPick(o.closest('.ballot-card'), all[j].dataset.k);
+  });
+
+  paint(); saveLocal(); say(idle(), 1);
+  (async () => {  /* inside a claude.ai artifact, window.claude.use('db') resolves; anywhere else it is absent or null */
+    try { db = (await window.claude?.use?.('db')) || null; } catch (e) { db = null; }
+    if (!db) return;
+    try {
+      db.collection('picks').onSnapshot(snap => {
+        if (snap.empty && snap.metadata.fromCache) return;  /* not the server's answer yet */
+        dbOk = true; label();
+        const next = tidy(Object.fromEntries(snap.docs.map(x => [x.id, x.data()?.choice])));
+        if (sig(next) === sig(picks)) return;
+        picks = next; saveLocal(); say(idle(), 1);
+      }, () => { dbOk = false; label(); });
+    } catch (e) { db = null; }
+    label();
+  })();
+}
 
 /* gather: answers are saved on this device; the collect bar copies or downloads them */
 const fields = qa('.answer-field'), bar = $('.collect'), cnt = $('.count', bar), who = $('.respondent', bar), ak = key + ':answers';
