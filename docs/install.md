@@ -6,7 +6,7 @@ The plugin is three skills: `html-explainer` writes the pages, `explainer-gather
 |---|---|---|
 | Claude Code | [The plugin marketplace](#claude-code) | Yes |
 | Claude Code, for a whole team | [Project settings](#a-whole-team) | Not yet |
-| Codex, Cursor, Gemini CLI, Copilot and other agents | [Copy the skill folders](#other-agents) | Not yet |
+| Codex, Cursor, Gemini CLI, Copilot and other agents | [An installer, or copy the folders](#other-agents) | Install yes, use not yet |
 | claude.ai | Not supported yet; see the [roadmap](../ROADMAP.md) | No |
 
 **Requirements.** Node 18 or newer, which the agent uses to run the page checker. Nothing else installs: the scripts use only Node's built-in modules. Pages open in any browser, offline too; fonts load from Google Fonts when online and fall back to system fonts.
@@ -86,16 +86,16 @@ claude plugin install html-explainer@html-explainer-skill --scope project
 
 ## Other agents
 
-Each skill folder follows the [Agent Skills](https://agentskills.io) format, so agents that read `SKILL.md` files can load it. These routes follow each tool's documentation and have not been tested here yet. If you try one, please [say how it went](https://github.com/ariasr47/html-explainer-skill/issues/new?template=feedback.yml).
+Each skill folder follows the [Agent Skills](https://agentskills.io) format, so agents that read `SKILL.md` files can load it. The `gh skill` install below was tested for 1.4.0: it places the three folders side by side and every file a skill names is found. Nobody has yet made a page with them inside Codex, Cursor, Gemini CLI or Copilot. If you try one, please [say how it went](https://github.com/ariasr47/html-explainer-skill/issues/new?template=feedback.yml).
 
 **With an installer.** Either of these installs the three skills:
 
 ```bash
-gh skill install ariasr47/html-explainer-skill --agent codex --scope user
+gh skill install ariasr47/html-explainer-skill --all --agent codex --scope user
 npx skills add ariasr47/html-explainer-skill -g
 ```
 
-`gh skill` is part of the GitHub CLI (preview) and takes `--agent` values such as `codex`, `cursor`, `gemini-cli`, `github-copilot` and `opencode`. `npx skills` is the [skills CLI](https://github.com/vercel-labs/skills); add `-a <agent>` to pick one agent.
+`gh skill` is part of the GitHub CLI (2.95 or newer, in preview). `--all` installs the three skills, and `--agent` takes values such as `codex`, `cursor`, `gemini-cli`, `github-copilot` and `opencode`. `npx skills` is the [skills CLI](https://github.com/vercel-labs/skills), not yet tested here; add `-a <agent>` to pick one agent.
 
 **By hand.** Copy the three folders from `skills/` into your agent's skills folder, side by side:
 
