@@ -55,7 +55,7 @@ const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map((m) => ({ sel: m[1]
 const rulesFor = (re) => rules.filter((r) => re.test(r.sel));
 
 // ---- page identity: lang and data-type pick the limits and the extra rules
-const TYPES = ['explainer', 'decision', 'status', 'spec', 'release', 'research', 'handover', 'portfolio', 'public', 'teach', 'incident', 'pr', 'runbook', 'compare', 'roadmap', 'tour', 'gather', 'atlas'];
+const TYPES = ['explainer', 'decision', 'status', 'spec', 'release', 'research', 'handover', 'portfolio', 'public', 'teach', 'incident', 'pr', 'runbook', 'compare', 'roadmap', 'tour', 'playbook', 'gather', 'atlas'];
 const htmlAttrs = (html.match(/<html\b([^>]*)>/i) || [])[1] || '';
 const lang = (attr(htmlAttrs, 'lang') || '').trim(), type = (attr(htmlAttrs, 'data-type') || 'explainer').trim();
 const ja = /^ja(-|$)/i.test(lang); // any other lang falls back to the English rules
@@ -112,9 +112,9 @@ if (!ballot) { // the explainer spine; a ballot page has none of it
 // a chapter ends at its own </section>, not the first one: a roadmap's lanes are sections inside the chapter
 const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>]*>/g)].map((m) => [m[0], m[1], inner(html, m.index + m[0].length, 'section')]);
 info.chapters = chapters.length;
-const maxChapters = type === 'atlas' ? 12 : 7; // the atlas menu offers twelve chapters
+const maxChapters = type === 'atlas' ? 12 : type === 'playbook' ? 10 : 7; // the atlas menu offers twelve chapters; a playbook has more parts than an explainer
 if (!ballot && (chapters.length < 3 || chapters.length > maxChapters)) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
-const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises)\b/;
+const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo)\b/;
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
 let totalWords = 0;
 chapters.forEach(([, id, body], i) => {
@@ -232,7 +232,8 @@ for (const sel of ['.status li.go::before', '.timeline li.go::before'])
 // ---- type rules, keyed by data-type on <html>
 const bad = (m) => fail(`data-type="${type}": ${m}`), need = (ok, m) => { if (!ok) bad(m); };
 const REQUIRED = { decision: ['decision', 'ask'], status: ['status'], spec: ['split', 'status'], release: ['tiles', 'split'], handover: ['status', 'steps'],
-  portfolio: ['status', 'steps'], incident: ['timeline', 'flow', 'status'], pr: ['split', 'status', 'tiles'], roadmap: ['lanes'] };
+  portfolio: ['status', 'steps'], incident: ['timeline', 'flow', 'status'], pr: ['split', 'status', 'tiles'], roadmap: ['lanes'],
+  playbook: ['phase-strip', 'phases', 'undo', 'risks'] };
 for (const c of REQUIRED[type] || []) need(num(c), `needs at least one .${c}`);
 if (type === 'status') need(find('timeline').some((t) => num('here', 'li', t.inner) === 1), 'needs a .timeline with exactly one li.here');
 if (type === 'research') { need(num('status') + num('tiles'), 'needs at least one .status or .tiles'); need(num('fold', 'details'), 'needs at least one details.fold'); }
@@ -295,6 +296,7 @@ const kids = (src, t) => {
   return out;
 };
 const lead = (s) => strip(s).slice(0, 40);
+const isGroup = (attrs) => /(?:^|\s)class="(?:[^"]*\s)?group(?:\s[^"]*)?"/.test(attrs); // tr.group
 const typeChapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>]*>/g)].map((m) => [m[1], inner(html, m.index + m[0].length, 'section')]); // [id, body]
 const reading = (s) => s.replace(/<details[\s\S]*?<\/details>/g, '').replace(/<svg[\s\S]*?<\/svg>/g, ''); // what the reader sees with every fold closed
 if (type === 'portfolio') {
@@ -337,7 +339,7 @@ if (type === 'compare') {
     const head = (/<thead\b[^>]*>([\s\S]*?)<\/thead>/i.exec(t.inner) || [, ''])[1];
     const bodies = [...t.inner.matchAll(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/gi)].map((m) => m[1]);
     const options = starts(head).filter((m) => /^t[hd]$/i.test(m[1])).length - 1; // the first header cell names the criterion column
-    const rows = starts(bodies.length ? bodies.join('') : t.inner.replace(/<thead\b[\s\S]*?<\/thead>/i, '')).filter((m) => m[1].toLowerCase() === 'tr').length;
+    const rows = starts(bodies.length ? bodies.join('') : t.inner.replace(/<thead\b[\s\S]*?<\/thead>/i, '')).filter((m) => m[1].toLowerCase() === 'tr' && !isGroup(m[2])).length; // a tr.group band names rows; it is not a criterion
     if (options < 2) bad(`table.grid #${i + 1} has ${Math.max(options, 0)} option column(s); compare at least 2`);
     if (rows < 3) bad(`table.grid #${i + 1} has ${rows} body row(s); compare against at least 3 criteria`);
   });
@@ -355,6 +357,33 @@ if (type === 'tour') {
   find('tour', 'ol').forEach((o) => kids(o.inner, 'li').forEach((li, i) => {
     if (!starts(li.inner).some((m) => m[1].toLowerCase() === 'img' && strip(attr(m[2], 'alt') || ''))) bad(`ol.tour step ${i + 1} has no img with a non-empty alt: "${lead(li.inner)}"`);
   }));
+}
+
+// ---- playbook (1.3.0): a plan for one risky change, ending with the decisions it needs
+if (type === 'playbook') {
+  const ids = new Set([...html.matchAll(/\sid="([^"]*)"/g)].map((m) => m[1]));
+  find('phases', 'ol').forEach((o) => kids(o.inner, 'li').forEach((li, i) => {
+    if (!find('impact', 'p', li.inner).some((p) => strip(p.inner))) bad(`ol.phases phase ${i + 1} has no non-empty p.impact (what the audience notices): "${lead(li.inner)}"`);
+  }));
+  find('risk', 'article').forEach((r, i) => {
+    const level = attr(r.attrs, 'data-level');
+    if (!['high', 'medium', 'low'].includes(level)) bad(`article.risk ${i + 1} needs data-level of high, medium or low, found ${level ? `"${level}"` : 'none'}: "${lead(r.inner)}"`);
+    if (!find('kept', 'p', r.inner).some((p) => strip(p.inner))) bad(`article.risk ${i + 1} has no non-empty p.kept (what keeps it small): "${lead(r.inner)}"`);
+  });
+  find('phase-strip', 'ol').forEach((o, i) => {
+    const segs = kids(o.inner, 'li').length;
+    if (segs < 3) warn(`data-type="playbook": the .phase-strip #${i + 1} has ${segs} segment(s); a plan shows its phases in one row, 3 or more`);
+    starts(o.inner).filter((m) => m[1].toLowerCase() === 'a').forEach((a) => {
+      const href = attr(a[2], 'href');
+      if (href?.startsWith('#') && !ids.has(href.slice(1))) bad(`ol.phase-strip links to "${href}" and no element has that id`);
+    });
+  });
+  const fields = find('answer-field');
+  if (!fields.length) warn('data-type="playbook": no .answer-field; a playbook usually ends with the decisions it needs');
+  else { // the decisions copy through the gather bar: one .collect, and every field a data-q
+    if (num('collect') !== 1) warn(`data-type="playbook": ${fields.length} .answer-field and ${num('collect')} .collect; one collect bar carries the decisions back`);
+    fields.forEach((f, i) => { if (!attr(f.attrs, 'data-q')) warn(`data-type="playbook": .answer-field #${i + 1} has no data-q`); });
+  }
 }
 
 // ---- reader-feature components, on any page type

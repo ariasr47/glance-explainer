@@ -200,10 +200,10 @@ main { min-width: 0; }
 .chapter > header .read-aloud { flex: none; margin-top: .3rem; }
 .speaking { border-radius: 3px; box-shadow: -.35rem 0 0 var(--here), 0 0 0 .3rem var(--here-tint); }
 .chapter > header input[type="checkbox"] { width: 1.25rem; height: 1.25rem; accent-color: var(--go); margin: 0; }
-.from { display: flex; gap: .6rem; align-items: baseline; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); max-width: none; }
-.from b { color: var(--ink); font-family: var(--font-head); font-weight: 600; flex: none; }
-.remember { margin: 1.5rem 0 0; padding: .9rem 1.1rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; display: flex; gap: .75rem; align-items: baseline; }
-.remember b { font-family: var(--font-head); font-weight: 600; flex: none; }
+.from { display: block; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); max-width: none; }
+.from b { margin-right: .35rem; color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.remember { margin: 1.5rem 0 0; padding: .9rem 1.1rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; display: block; }
+.remember b { margin-right: .35rem; font-family: var(--font-head); font-weight: 600; }
 @media (max-width: 560px) {
   .remember, .from { display: block; }
   .remember b, .from b { display: inline; margin-right: .3rem; }
@@ -246,7 +246,7 @@ main { min-width: 0; }
 
 /* CSS flow: steps with connectors, no SVG needed */
 .flow { display: flex; flex-wrap: wrap; gap: .75rem; list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; counter-reset: flow; }
-.flow li { counter-increment: flow; flex: 1 1 150px; position: relative; padding: .8rem .9rem .8rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); min-height: 3.4rem; }
+.flow li { counter-increment: flow; flex: 1 1 150px; overflow-wrap: break-word; position: relative; padding: .8rem .9rem .8rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); min-height: 3.4rem; }
 .flow li::before { content: counter(flow); position: absolute; left: .8rem; top: .75rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
 .flow li b { display: block; font-family: var(--font-head); font-weight: 600; }
 .flow li span { font-size: var(--size-s); color: var(--ink-soft); }
@@ -305,10 +305,10 @@ main { min-width: 0; }
 .status li span { color: var(--ink-soft); font-size: var(--size-s); }
 @media (max-width: 560px) { .status li { grid-template-columns: 1.1rem 1fr; } .status li span { grid-column: 2; } }
 
-.timeline { list-style: none; margin: 1.25rem 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; max-width: none; position: relative; }
-.timeline::before { content: ""; position: absolute; left: 0; right: 0; top: .55rem; height: 3px; background: var(--line-strong); }
-.timeline li { position: relative; padding: 1.5rem .75rem 0 0; margin: 0; }
-.timeline li::before { content: ""; position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--card); border: 3px solid var(--line-strong); font: 700 .6rem/1 var(--font-head); }
+.timeline { list-style: none; margin: 1.25rem 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.5rem 0; max-width: none; position: relative; }
+.timeline li::after { content: ""; position: absolute; left: 0; right: 0; top: .55rem; height: 3px; background: var(--line-strong); }  /* one stretch per item: a wrapped row keeps its line */
+.timeline li { position: relative; padding: 1.5rem .75rem 0 0; margin: 0; overflow-wrap: break-word; }
+.timeline li::before { content: ""; position: absolute; z-index: 1; left: 0; top: 0; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--card); border: 3px solid var(--line-strong); font: 700 .6rem/1 var(--font-head); }
 .timeline li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
 .timeline li.here::before { background: var(--here); border-color: var(--here); box-shadow: 0 0 0 5px var(--here-tint); }
 .timeline li.here .when { color: var(--here); }
@@ -333,7 +333,7 @@ main { min-width: 0; }
 .grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
 .grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
 .grid caption { padding: .8rem 1rem; text-align: left; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); border-bottom: 1px solid var(--line); }
-.grid :is(th, td) { padding: .65rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.grid :is(th, td) { padding: .65rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: break-word; }
 .grid :is(th, td) + :is(th, td) { border-left: 1px solid var(--line); }
 .grid tbody tr:last-child :is(th, td) { border-bottom: 0; }
 .grid thead th { background: var(--well); font-family: var(--font-head); font-weight: 600; }
@@ -348,10 +348,13 @@ main { min-width: 0; }
 /* the recommended option: a star before its name, and a green foot on the header */
 .grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
 .grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+/* a group row is a quiet band that names the rows under it ("Goes to both"); it is not a criterion */
+.grid tbody tr.group th { min-width: 0; padding: .4rem 1rem; border-left: 0; background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
 @media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
   .grid { min-width: 34rem; }
   .grid caption { position: sticky; left: 0; width: 100cqw; }  /* the title stays in view while the columns scroll */
   .grid :is(thead th:first-child, tbody th) { position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; border-right: 1px solid var(--line-strong); }
+  .grid tbody tr.group th { position: static; width: auto; min-width: 0; max-width: none; border-right: 0; }  /* a band spans every column, so it scrolls with them */
 }
 @media print { .grid-wrap { overflow: visible; } }
 
@@ -377,9 +380,9 @@ main { min-width: 0; }
 @media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
 
 /* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
-.runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: rb; max-width: none; }
-.runbook > li { counter-increment: rb; position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
-.runbook > li::before { content: counter(rb); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.runbook > li { position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
+.runbook > li::before { content: counter(list-item); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
 .runbook > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
 .runbook > li > b { font-family: var(--font-head); font-weight: 600; }
 .runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: .55rem .8rem .55rem 2.6rem; border: 1.5px solid; border-radius: var(--r-comp); font-size: var(--size-s); max-width: none; }
@@ -391,7 +394,7 @@ main { min-width: 0; }
 .runbook :is(p.check, p.fail) > b:first-child { font-family: var(--font-head); font-weight: 600; }
 /* a command the reader types. The template script adds the Copy button; without it the command still reads. */
 pre.cmd { display: flex; align-items: flex-start; gap: .75rem; margin: .5rem 0 .25rem; padding: .6rem .6rem .6rem 1rem; border: 1.5px solid var(--line-strong); }
-pre.cmd > code { flex: 1; min-width: 0; padding: .15rem 0; overflow-x: auto; }
+pre.cmd > code { flex: 1; min-width: 0; padding: .15rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 pre.cmd > button { flex: none; padding: .2rem .7rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
 pre.cmd > button.go { border-color: var(--go); background: var(--go-tint); }
 pre.cmd > button.go::before { content: "✓ "; color: var(--go); }
@@ -420,6 +423,120 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); }
 .promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
 .promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9g. Playbook: a plan for one risky change, written for one decision-maker ---------- */
+/* Every part keeps min-width: 0 and wraps long words and code, so nothing pushes a phone sideways. Meaning colours stay
+   meaning: who owns a thing is a letter (.who), never a colour. */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 2rem; }
+.hero > * { min-width: 0; }
+.hero > .thesis { width: 100%; max-width: 22rem; margin: .25rem 0 1.25rem; padding: .6rem; background: var(--well); border: 1px solid var(--line); border-radius: var(--r-comp); }
+.hero > .thesis svg { display: block; width: 100%; height: auto; }
+@media (min-width: 1100px) {  /* beside the title; on a narrower screen it sits under the meta line */
+  .hero:has(> .thesis) { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .hero > .thesis { grid-column: 2; grid-row: 1 / span 3; align-self: center; margin: 0; }
+}
+@media (max-width: 560px) { .hero > .thesis { margin: 0 0 .9rem; padding: .35rem; } }  /* tight, so the answer still opens the first screen */
+
+.chip { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.5 var(--font-head); }
+/* who owns it: a letter badge. You is solid, me is outlined, both is quiet, so the three differ without colour.
+   data-owner goes on the phase-strip or steps li that owns it; data-who goes on a role. */
+.who { flex: none; display: inline-grid; place-items: center; min-width: 1.5rem; height: 1.5rem; padding: 0 .4rem; border: 1.5px solid var(--ink-soft); border-radius: var(--r-chip); background: var(--ink-soft); color: var(--on-soft); font: 700 var(--size-xs)/1 var(--font-head); white-space: nowrap; }
+[data-owner="me"] .who, .role[data-who="me"] .who { background: var(--card); color: var(--ink); }
+[data-owner="both"] .who { background: var(--well); color: var(--ink); }
+
+/* the whole plan in one row; each segment links to its phase. A segment is a wrapping flex box: the owner badge sits beside
+   "Phase 1" when there is room and drops to its own line when there is not. */
+.phase-strip { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .5rem; max-width: none; }
+.phase-strip > li { min-width: 0; margin: 0; }
+.phase-strip a { display: flex; flex-wrap: wrap; align-content: flex-start; align-items: center; gap: .3rem .4rem; height: 100%; min-width: 0; padding: .65rem .7rem .7rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.phase-strip a:hover { border-color: var(--here); }
+.phase-strip a:hover b { text-decoration: underline; text-underline-offset: .18em; }
+.phase-strip a > * { min-width: 0; }
+.phase-strip .seg-num { order: 1; flex: 1 1 auto; color: var(--ink-soft); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.phase-strip .who { order: 2; margin-left: auto; }
+.phase-strip b { order: 3; flex: 1 1 100%; font: 600 var(--size-s)/1.25 var(--font-head); }
+.phase-strip .effort { order: 4; flex: 1 1 100%; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.3; }
+.phase-strip .bar { order: 5; flex: 1 1 100%; height: .4rem; border-radius: var(--r-chip); background: linear-gradient(var(--ink-soft), var(--ink-soft)) 0 0 / calc(var(--effort, 1) * 20%) 100% no-repeat, var(--line-strong); }
+/* the phases the audience will notice: a here border and a tinted face, and the label is written in the markup */
+.phase-strip li.notice a { border-color: var(--here); border-width: 2px; background: var(--here-tint); }
+.notice-tag { order: 6; flex: 1 1 100%; display: flex; gap: .35rem; align-items: baseline; margin-top: .1rem; font: 700 var(--size-xs)/1.25 var(--font-head); }
+.notice-tag::before { content: "●"; flex: none; color: var(--here); }
+@media (max-width: 759px) {  /* six or more segments wrap to two rows */
+  .phase-strip:has(> :nth-child(6)) { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .phase-strip:has(> :nth-child(7)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {  /* a phone shows about three segments across and wraps the rest */
+  .phase-strip, .phase-strip:has(> :nth-child(6)), .phase-strip:has(> :nth-child(7)) { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(5.75rem, 1fr)); }
+  .phase-strip a { padding: .55rem .55rem .6rem; gap: .25rem .3rem; }
+  .phase-strip .seg-num { font-size: .72rem; }
+  .phase-strip .who { min-width: 1.3rem; height: 1.3rem; padding: 0 .25rem; font-size: .7rem; }
+}
+
+/* ordered phases, numbered because the order is real */
+.phases { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: phase; max-width: none; }
+.phases > li { counter-increment: phase; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; min-width: 0; margin: 0; padding: .25rem 0 1.3rem 3.1rem; scroll-margin-top: 4.5rem; }
+.phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
+.phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
+@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
+.phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
+.phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.phases p.impact::before { content: "○"; position: absolute; left: .85rem; top: .45rem; color: var(--ink-faint); font-weight: 700; }
+.phases p.impact b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.phases li.notice p.impact { border-style: solid; border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.phases li.notice p.impact::before { content: "●"; color: var(--here); }
+
+/* a small browser or phone mockup of what the audience sees */
+.frame { display: flex; flex-direction: column; min-width: 0; margin: 1rem 0 1.5rem; overflow: hidden; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.frame-bar { display: flex; align-items: center; gap: .6rem; padding: .45rem .65rem; background: var(--well); border-bottom: 1px solid var(--line); }
+.frame .dots { flex: none; width: .5rem; height: .5rem; margin-right: 1.6rem; border-radius: 50%; background: var(--line-strong); box-shadow: .8rem 0 0 var(--line-strong), 1.6rem 0 0 var(--line-strong); }
+.frame .url { flex: 1; min-width: 0; padding: .05rem .65rem; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--card); color: var(--ink-soft); font: var(--size-xs)/1.5 var(--font-code); text-overflow: ellipsis; white-space: nowrap; }
+.frame-screen { flex: 1; min-width: 0; display: grid; gap: .45rem; align-content: start; min-height: 8rem; padding: .8rem; background: var(--well); font-size: var(--size-xs); line-height: 1.35; }
+.frame > .take { margin: 0; border-top: 1px solid var(--line); border-left: 0; border-radius: 0; }
+.frame.phone { max-width: 13rem; margin-inline: auto; border-width: 2px; border-radius: 1.5rem; }
+.frame.phone .frame-bar { justify-content: center; padding: .6rem .7rem .4rem; background: var(--card); border-bottom: 0; }
+.frame.phone .dots { display: none; }
+.frame.phone .url { flex: 0 1 auto; max-width: 100%; }
+.frame-row { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin: 1rem 0 1.5rem; }
+.frame-row:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.frame-row > .frame { margin: 0; }
+.frame-row > .frame.phone { align-self: start; margin-inline: auto; }
+@media (max-width: 640px) { .frame-row, .frame-row:has(> :nth-child(4)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* who does what, and the rules that never bend */
+.roles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); margin: 1rem 0 1.25rem; }
+.role { min-width: 0; padding: .9rem 1.1rem 1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.role > h3 { display: flex; align-items: center; gap: .6rem; margin: 0 0 .5rem; font-size: var(--size-1); }
+.role ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.rules { list-style: none; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 0 0 1.5rem; padding: 0; max-width: none; }
+.rules li { position: relative; min-width: 0; margin: 0; padding: .7rem .9rem .75rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-left: 5px solid var(--go); border-radius: var(--r-comp); font-size: var(--size-s); }
+.rules li::before { content: "✓"; position: absolute; left: .8rem; top: .75rem; width: 1.3rem; height: 1.3rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+.rules li b { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); }
+
+/* the way back from the risky moment */
+.undo, details.fold > .undo { position: relative; margin: 1rem 0 1.5rem; padding: .85rem 1.1rem .85rem 3.7rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); max-width: none; }  /* the second selector outranks the fold's own padding */
+.undo::before { content: "↺"; position: absolute; left: 1rem; top: .8rem; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 1.15rem/1 var(--font-head); }
+.undo > b { font-family: var(--font-head); font-weight: 600; }
+
+/* risks: a level (word and glyph, never colour alone) and what keeps each one small */
+.risks { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin: 1rem 0 1.5rem; }
+.risk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: start; align-items: start; gap: .35rem .75rem; min-width: 0; padding: .85rem 1rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-top: 5px solid var(--line-strong); border-radius: var(--r-comp); }
+.risk > h3 { margin: 0; font-size: var(--size-1); }
+.risk > p { grid-column: 1 / -1; margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+.risk .level { display: inline-flex; align-items: center; gap: .4rem; padding: .05rem .7rem .05rem .35rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.6 var(--font-head); white-space: nowrap; }
+.risk .level::before { display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.risk[data-level="high"] { border-top-color: var(--stop); }
+.risk[data-level="high"] .level { border-color: var(--stop); background: var(--stop-tint); }
+.risk[data-level="high"] .level::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.risk[data-level="medium"] { border-top-color: var(--wait); }
+.risk[data-level="medium"] .level { border-color: var(--wait); background: var(--wait-tint); }
+.risk[data-level="medium"] .level::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.risk[data-level="low"] { border-top-color: var(--go); }
+.risk[data-level="low"] .level { border-color: var(--go); background: var(--go-tint); }
+.risk[data-level="low"] .level::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.risk p.kept { margin-top: .25rem; padding: .5rem .7rem; background: var(--well); border-radius: 8px; color: var(--ink); }
+.risk p.kept b { font-family: var(--font-head); font-weight: 600; }
 
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
@@ -467,8 +584,8 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p),
-body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
 body[data-skim="on"] .chapter .from { display: none; }
@@ -477,8 +594,7 @@ body[data-skim="on"] .chapter .from { display: none; }
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
 body[data-skim="on"] .chapter .callout:not(.warn, .stop),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li) { display: none; }
-body[data-skim="on"] .chapter .figure,
-body[data-skim="on"] .chapter .remember { display: flex; }
+body[data-skim="on"] .chapter .remember { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -510,6 +626,8 @@ body[data-focus="on"] .focus-nav { display: flex; }
 .answer-field ol > li::before { content: counter(rank); flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font: 600 var(--size-xs) var(--font-head); }
 .answer-field ol > li > :first-child { flex: 1; }
 .answer-field ol button { flex: none; width: 2.25rem; height: 2.25rem; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+/* the recommended option wears a ★ chip with the attribute's own words ("Recommended", "My pick"); the star is the only glyph CSS writes */
+.answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
 .collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
 .collect .respondent { flex: 1 1 8rem; min-width: 0; padding: .45rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 .collect .count { color: var(--ink-soft); font-size: var(--size-s); white-space: nowrap; }
@@ -639,7 +757,7 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-done p { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
 
 /* the tray: tally, jump dots, the one primary button, a live status line, the save label, the copy fallback */
-.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
+.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
 .ballot-tray[data-complete] { border-color: var(--go); }
 .ballot-bar { display: flex; align-items: center; gap: .25rem 1rem; }
 .ballot-tally { flex: none; margin: 0; font: 600 var(--size-1)/1.1 var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; max-width: none; }
@@ -725,7 +843,7 @@ html:not(.js) .ballot-tray { display: none; }
   details.fold { break-inside: avoid; }
   details.fold[open] > summary::before, details.fold > summary::before { display: none; }
   a { color: inherit; text-decoration: none; }
-  .figure, .answer-field { break-inside: avoid; }
+  .figure, .answer-field, .frame, .risk, .role, .undo { break-inside: avoid; }
 }
 </style>
 </head>
@@ -953,6 +1071,42 @@ html:not(.js) .ballot-tray { display: none; }
       </ol>
       <p class="take"><b>Take from this:</b> a tour shows the real screen first, then says in one line where to look.</p>
 
+      <details class="fold" open><summary>Mock screens: what the people affected will see</summary>
+        <p>A plan for a risky change shows each audience what it will notice. A frame is a small browser window, or a phone, holding a plain mockup and one take-away line. A row lays out two to four of them, and stacks them on a phone.</p>
+        <div class="frame-row">
+          <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">example.com/sign-in</span></div>
+            <div class="frame-screen">
+              <span class="mock-title">Sign in</span>
+              <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="width:55%"></span><span class="mock-btn">Sign in</span></span>
+            </div>
+            <figcaption class="take"><b>Take from this:</b> from switch day, people sign in once more.</figcaption></figure>
+          <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">team chat</span></div>
+            <div class="frame-screen">
+              <span class="mock-win"><span class="mock-title">From you, Friday</span>The site moves on Saturday evening. You will sign in once more.</span>
+            </div>
+            <figcaption class="take"><b>Take from this:</b> a day before, one message tells people.</figcaption></figure>
+        </div>
+      </details>
+
+      <details class="fold" open><summary>A hero with a thesis drawing</summary>
+        <p>A playbook may open with a small drawing of the outcome beside its title, and under it on a phone.</p>
+        <header class="hero">
+          <p class="kicker">A plan for one risky change</p>
+          <h4>Moving the team wiki to a new host</h4>
+          <div class="meta"><span>Written 2026-10-13</span><span>For: the wiki owner</span></div>
+          <figure class="thesis">
+            <svg viewBox="0 0 400 170" role="img" aria-labelledby="f-thesis-demo"><title id="f-thesis-demo">The wiki is copied from the old host to the new host, and a dashed line shows the way back for a month.</title>
+              <rect class="d-box" x="10" y="10" width="130" height="64" rx="10"/><text class="d-text-b" x="75" y="38" text-anchor="middle">Old host</text><text class="d-text" x="75" y="59" text-anchor="middle">the wiki today</text>
+              <text class="d-text" x="200" y="32" text-anchor="middle">copy first</text>
+              <path class="d-line" d="M140 42 H250"/><path class="d-arrow" d="M250 36 L262 42 L250 48 Z"/>
+              <rect class="d-box-go" x="262" y="10" width="128" height="64" rx="10"/><text class="d-text-b" x="326" y="38" text-anchor="middle">New host</text><text class="d-text" x="326" y="59" text-anchor="middle">the wiki after</text>
+              <path class="d-line-soft" d="M326 82 C326 136 75 136 75 96"/><path class="d-arrow" d="M69 96 L75 84 L81 96 Z"/>
+              <text class="d-text" x="200" y="160" text-anchor="middle">the way back, for a month</text>
+            </svg>
+          </figure>
+        </header>
+      </details>
+
       <details class="fold"><summary>The rules for a drawn diagram</summary>
         <ul>
           <li>Seven boxes at most. Left to right, then top to bottom.</li>
@@ -1092,8 +1246,10 @@ html:not(.js) .ballot-tray { display: none; }
         <caption>Three ways to install the explainer on a new machine</caption>
         <thead><tr><th scope="col">Criterion</th><th scope="col" data-rec>Plugin from GitHub</th><th scope="col">Folder link</th><th scope="col">Copy by hand</th></tr></thead>
         <tbody>
+          <tr class="group"><th colspan="4" scope="colgroup">Keeping it current</th></tr>
           <tr><th scope="row">Picks up updates</th><td class="go">One command</td><td class="wait">After a git pull</td><td class="stop">Never</td></tr>
           <tr><th scope="row">Works on a second machine</th><td class="go">Same command</td><td class="stop">Breaks if the path differs</td><td class="wait">Copy again</td></tr>
+          <tr class="group"><th colspan="4" scope="colgroup">Setting it up</th></tr>
           <tr><th scope="row">Needs admin rights</th><td class="go">No</td><td class="wait">Sometimes, on Windows</td><td class="go">No</td></tr>
           <tr><th scope="row">Which version you run</th><td class="decide">You pick: latest or pinned</td><td class="go">Whatever is checked out</td><td class="wait">Whatever you copied</td></tr>
         </tbody>
@@ -1115,6 +1271,61 @@ html:not(.js) .ballot-tray { display: none; }
         </ul></section>
       </div>
       <p class="take"><b>Take from this:</b> two things are in progress, one waits on both, and one is parked on purpose.</p>
+
+      <details class="fold" open><summary>A playbook: the whole plan in one row, then each phase</summary>
+        <p>A playbook gathers these shapes into one plan for one decision-maker. Its strip shows every phase in a row. Each segment links to its phase, names the owner in a letter badge, shows how much work it is as a bar, and marks the phases the audience will notice. The grid above groups its rows with a quiet band in the same way.</p>
+
+        <ol class="phase-strip" aria-label="Three phases">
+          <li data-owner="you"><a href="#phase-1"><span class="seg-num">Phase 1</span><b>Decide what moves</b>
+            <span class="who" title="You">Y</span><small class="effort">a few days</small><span class="bar" style="--effort:2"></span></a></li>
+          <li class="notice" data-owner="both"><a href="#phase-2"><span class="seg-num">Phase 2</span><b>Switch day</b>
+            <span class="who" title="Both">Y+M</span><small class="effort">one evening</small><span class="bar" style="--effort:1"></span>
+            <span class="notice-tag">Team notices</span></a></li>
+          <li data-owner="me"><a href="#phase-3"><span class="seg-num">Phase 3</span><b>Watch and fix</b>
+            <span class="who" title="Me">M</span><small class="effort">a week</small><span class="bar" style="--effort:3"></span></a></li>
+        </ol>
+
+        <ol class="phases">
+          <li id="phase-1"><h3>Decide what moves</h3><span class="chip">You decide</span><span class="chip">A few days</span>
+            <ul><li>Pick what comes across.</li></ul>
+            <p class="impact"><b>Team notices:</b> nothing.</p></li>
+          <li class="notice" id="phase-2"><h3>Switch day</h3><span class="chip">Both of us</span><span class="chip">One evening</span>
+            <ul><li>The new address goes live.</li></ul>
+            <p class="impact"><b>Team notices:</b> the new address, and one extra sign-in.</p></li>
+          <li id="phase-3"><h3>Watch and fix</h3><span class="chip">I do the work</span><span class="chip">A week</span>
+            <ul><li>Watch for errors and fix them the same day.</li></ul>
+            <p class="impact"><b>Team notices:</b> nothing new.</p></li>
+        </ol>
+        <p class="take"><b>Take from this:</b> every phase says what the audience notices, and the two they notice are outlined.</p>
+      </details>
+
+      <details class="fold" open><summary>A playbook: who does what, the risky moment, and the risks</summary>
+        <p>Roles say who does what, and rules say what never bends. The undo box is the way back from the one risky moment. Each risk has a level, in words and a glyph, and what keeps it small.</p>
+
+        <div class="roles">
+          <section class="role" data-who="you"><h3><span class="who" title="You">Y</span> You</h3><ul><li>Say yes before each live step.</li><li>Tell the people affected.</li></ul></section>
+          <section class="role" data-who="me"><h3><span class="who" title="Me">M</span> Me</h3><ul><li>Do the work and rehearse it.</li><li>Check before and after.</li></ul></section>
+        </div>
+        <ul class="rules">
+          <li><b>Nothing live without your yes.</b> Every live step waits for you.</li>
+          <li><b>Copy, never move.</b> The old version stays until you say it can go.</li>
+        </ul>
+
+        <div class="undo"><b>If something goes wrong:</b> point the address back at the old version. It is back within minutes.</div>
+
+        <div class="risks">
+          <article class="risk" data-level="high"><h3>The old version gets forgotten</h3><span class="level">High</span>
+            <p>It still holds everything. Left alone, it turns into the weak spot.</p>
+            <p class="kept"><b>Kept small by:</b> a reminder to switch it off after a month.</p></article>
+          <article class="risk" data-level="medium"><h3>Someone misses the message</h3><span class="level">Medium</span>
+            <p>They open the old address and wonder where it went.</p>
+            <p class="kept"><b>Kept small by:</b> the old address forwards to the new one.</p></article>
+          <article class="risk" data-level="low"><h3>A page looks different</h3><span class="level">Low</span>
+            <p>A few pages use a feature that works in its own way.</p>
+            <p class="kept"><b>Kept small by:</b> checking the most-read pages before and after.</p></article>
+        </div>
+        <p class="take"><b>Take from this:</b> a playbook shows the risky moment with its way back, and each risk with what keeps it small.</p>
+      </details>
 
       <p class="remember"><b>Remember:</b> the cobalt dot on a timeline is today; the colour of a status dot is the whole status.</p>
     </section>
@@ -1224,9 +1435,19 @@ html:not(.js) .ballot-tray { display: none; }
 
       <fieldset class="answer-field" data-q="demo-choice" data-kind="choice">
         <legend>Should every new page start from this system?</legend>
-        <label><input type="radio" name="demo-choice" value="Yes"> Yes</label>
+        <label data-rec="Recommended"><input type="radio" name="demo-choice" value="Yes"> Yes</label>
         <label><input type="radio" name="demo-choice" value="Not yet"> Not yet</label>
         <textarea id="demo-choice-why" rows="2" aria-label="Why"></textarea>
+      </fieldset>
+
+      <p>When the writer has a favourite, its option wears a star chip with the writer's own words: "Recommended", or "My pick" when one person is speaking to another. A playbook ends with its decisions this way.</p>
+
+      <fieldset class="answer-field" data-q="demo-pick" data-kind="choice">
+        <legend>Which evening should the switch happen?</legend>
+        <p class="hint">A quiet evening costs your team the least.</p>
+        <label data-rec="My pick"><input type="radio" name="demo-pick" value="Saturday evening"> Saturday evening</label>
+        <label><input type="radio" name="demo-pick" value="Sunday evening"> Sunday evening</label>
+        <label><input type="radio" name="demo-pick" value="A weekday evening"> A weekday evening</label>
       </fieldset>
 
       <ol class="flow">
@@ -1452,10 +1673,10 @@ flip(sk, 'data-skim'); flip(ru, 'data-ruler', 'explainer:ruler');
 if (parts.length) {
   flip(fb, 'data-focus', 0, s => { if (s) showPart(Math.max(0, parts.findIndex(p => p.getBoundingClientRect().bottom > 120))); });
   on(pv, 'click', () => showPart(idx - 1)); on(nx, 'click', () => showPart(idx + 1));
-  on(d, 'click', e => {
-    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"]');
-    const n = a ? parts.indexOf(byId(a.getAttribute('href').slice(1))) : -1;
-    if (n >= 0) { e.preventDefault(); showPart(n); }
+  on(d, 'click', e => {  /* a link to something inside a chapter (a playbook phase) opens that chapter, then scrolls to the thing */
+    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"], .phase-strip a[href^="#"]');
+    const t = a ? byId(a.getAttribute('href').slice(1)) : null, n = parts.indexOf(t?.closest('.chapter, .recap, .ask'));
+    if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
 

@@ -200,10 +200,10 @@ main { min-width: 0; }
 .chapter > header .read-aloud { flex: none; margin-top: .3rem; }
 .speaking { border-radius: 3px; box-shadow: -.35rem 0 0 var(--here), 0 0 0 .3rem var(--here-tint); }
 .chapter > header input[type="checkbox"] { width: 1.25rem; height: 1.25rem; accent-color: var(--go); margin: 0; }
-.from { display: flex; gap: .6rem; align-items: baseline; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); max-width: none; }
-.from b { color: var(--ink); font-family: var(--font-head); font-weight: 600; flex: none; }
-.remember { margin: 1.5rem 0 0; padding: .9rem 1.1rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; display: flex; gap: .75rem; align-items: baseline; }
-.remember b { font-family: var(--font-head); font-weight: 600; flex: none; }
+.from { display: block; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); max-width: none; }
+.from b { margin-right: .35rem; color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.remember { margin: 1.5rem 0 0; padding: .9rem 1.1rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; display: block; }
+.remember b { margin-right: .35rem; font-family: var(--font-head); font-weight: 600; }
 @media (max-width: 560px) {
   .remember, .from { display: block; }
   .remember b, .from b { display: inline; margin-right: .3rem; }
@@ -246,7 +246,7 @@ main { min-width: 0; }
 
 /* CSS flow: steps with connectors, no SVG needed */
 .flow { display: flex; flex-wrap: wrap; gap: .75rem; list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; counter-reset: flow; }
-.flow li { counter-increment: flow; flex: 1 1 150px; position: relative; padding: .8rem .9rem .8rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); min-height: 3.4rem; }
+.flow li { counter-increment: flow; flex: 1 1 150px; overflow-wrap: break-word; position: relative; padding: .8rem .9rem .8rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); min-height: 3.4rem; }
 .flow li::before { content: counter(flow); position: absolute; left: .8rem; top: .75rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
 .flow li b { display: block; font-family: var(--font-head); font-weight: 600; }
 .flow li span { font-size: var(--size-s); color: var(--ink-soft); }
@@ -305,10 +305,10 @@ main { min-width: 0; }
 .status li span { color: var(--ink-soft); font-size: var(--size-s); }
 @media (max-width: 560px) { .status li { grid-template-columns: 1.1rem 1fr; } .status li span { grid-column: 2; } }
 
-.timeline { list-style: none; margin: 1.25rem 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; max-width: none; position: relative; }
-.timeline::before { content: ""; position: absolute; left: 0; right: 0; top: .55rem; height: 3px; background: var(--line-strong); }
-.timeline li { position: relative; padding: 1.5rem .75rem 0 0; margin: 0; }
-.timeline li::before { content: ""; position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--card); border: 3px solid var(--line-strong); font: 700 .6rem/1 var(--font-head); }
+.timeline { list-style: none; margin: 1.25rem 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.5rem 0; max-width: none; position: relative; }
+.timeline li::after { content: ""; position: absolute; left: 0; right: 0; top: .55rem; height: 3px; background: var(--line-strong); }  /* one stretch per item: a wrapped row keeps its line */
+.timeline li { position: relative; padding: 1.5rem .75rem 0 0; margin: 0; overflow-wrap: break-word; }
+.timeline li::before { content: ""; position: absolute; z-index: 1; left: 0; top: 0; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--card); border: 3px solid var(--line-strong); font: 700 .6rem/1 var(--font-head); }
 .timeline li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
 .timeline li.here::before { background: var(--here); border-color: var(--here); box-shadow: 0 0 0 5px var(--here-tint); }
 .timeline li.here .when { color: var(--here); }
@@ -385,8 +385,7 @@ body[data-skim="on"] .chapter .from { display: none; }
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
 body[data-skim="on"] .chapter .callout:not(.warn, .stop),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li) { display: none; }
-body[data-skim="on"] .chapter .figure,
-body[data-skim="on"] .chapter .remember { display: flex; }
+body[data-skim="on"] .chapter .remember { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -547,7 +546,7 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-done p { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
 
 /* the tray: tally, jump dots, the one primary button, a live status line, the save label, the copy fallback */
-.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
+.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
 .ballot-tray[data-complete] { border-color: var(--go); }
 .ballot-bar { display: flex; align-items: center; gap: .25rem 1rem; }
 .ballot-tally { flex: none; margin: 0; font: 600 var(--size-1)/1.1 var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; max-width: none; }

@@ -20,7 +20,7 @@ The reader has severe ADHD and a short working memory. Concretely:
 Every page opens with `<html lang="en" data-type="explainer">`.
 
 - `lang` is `en` or `ja`. Other codes are allowed and fall back to the English rules. The language sets the fonts, the line measure, and whether the checker counts words or characters (see Japanese typography).
-- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. The fifteen content types are in `../skills/html-explainer/types.md`. `gather` and `atlas` have their own skills.
+- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. A playbook may run to ten chapters. The sixteen content types are in `../skills/html-explainer/types.md`. `gather` and `atlas` have their own skills.
 
 ## Tokens
 
@@ -47,7 +47,7 @@ Dark mode is automatic through `prefers-color-scheme` and can be forced with `da
 
 Text drawn on a meaning fill uses the matching `--on-*` token and never plain white: `--on-here`, `--on-go`, `--on-wait`, `--on-stop`, `--on-decide`, and `--on-soft` for the neutral `--ink-soft` fill. They are white in the light theme and near-black navy in both dark blocks, where the meaning colours are lighter. Map numbers, step numbers, flow numbers, the recommended stamp, the skip link and the pressed rail buttons all use them. The checker computes contrast from the tokens and fails any text pair under 4.5 to 1 in either theme: the inks on paper and card, `--here` on card, and each `--on-*` on its fill.
 
-Colour is never the only signal (WCAG 1.4.1). Each status dot carries a glyph: ✓ go, ! wait, ✕ stop, ? decide, ● here, ★ memory, drawn in the matching `--on-*` colour. Done points on a timeline show ✓, and a flow card in go, wait or stop shows the same glyph in its corner, in the state colour. A new component that uses a meaning colour must pair it with a glyph, a word, or a position. The checker fails a stylesheet whose done dots lose their glyph.
+Colour is never the only signal (WCAG 1.4.1). Each status dot carries a glyph: ✓ go, ! wait, ✕ stop, ? decide, ● here, ★ memory, drawn in the matching `--on-*` colour. Done points on a timeline show ✓, and a flow card in go, wait or stop shows the same glyph in its corner, in the state colour. A new component that uses a meaning colour must pair it with a glyph, a word, or a position. The checker fails a stylesheet whose done dots lose their glyph. The playbook pairs a risk level with ✕, ! or ✓ and its word, the way back with ↺, and a phase the audience notices with a filled ● against ○ for one it does not. Who owns a phase is a letter badge, so it never rests on colour.
 
 ### Type
 
@@ -115,7 +115,7 @@ Each component encodes one kind of information. Use it only for that. Full marku
 |---|---|---|---|
 | Answer bar | `p.answer` | The whole page in one sentence | Exactly one per page, before anything else |
 | Keep box | `div.keep` | The three facts to carry | Max three lines, under fifteen words each |
-| Chapter map | `ol.map` | What the chapters are and what each gives | 3 to 7 entries, one line each |
+| Chapter map | `ol.map` | What the chapters are and what each gives | 3 to 7 entries, one line each. Optional in a playbook, where the phase strip navigates |
 | Chapter | `section.chapter` | One idea | Has a kicker with position and time, `.from`, a body, optional folds, one `.remember` |
 | Carry-forward | `p.from` | The one prior fact this chapter needs | Restated in full, never "as above" |
 | Remember line | `p.remember` | The one sentence to keep from the chapter | Copied verbatim into the recap |
@@ -131,11 +131,18 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Timeline | `ol.timeline` | Position in time | Exactly one `li.here` |
 | Steps | `ol.steps` | Ordered actions | Bold verb first, one line, detail in a fold |
 | Tiles | `div.tiles` | Numbers that change the decision | Label says what the number means. The number never wraps and shrinks to fit its tile, so keep it short: `$24k`, not `$24,000+` |
-| Grid | `table.grid` in `div.grid-wrap` | Options measured against the same criteria | `caption`, a column per option, a row per criterion. A cell state (`td.go .wait .stop .decide`) is a tint and a glyph. `th[data-rec]` carries a ★. On a phone it scrolls sideways and the criterion column stays. A `p.take` follows |
+| Grid | `table.grid` in `div.grid-wrap` | Options measured against the same criteria | `caption`, a column per option, a row per criterion. A cell state (`td.go .wait .stop .decide`) is a tint and a glyph. `th[data-rec]` carries a ★. `tr.group` with a `th[colspan][scope="colgroup"]` is a quiet band that names the rows under it; it is not a criterion. On a phone it scrolls sideways and the criterion column stays. A `p.take` follows |
 | Lanes | `div.lanes` with three `section.lane` | What is now, next and later, and what waits on what | Exactly three lanes (`data-lane`), stacked under 760 px. An item takes a state class and its glyph; `small.after` links to the item it waits on |
-| Runbook | `ol.runbook` | A procedure a person follows, step by step | Numbered like `.steps`. Each step has its command in `pre.cmd`, a `p.check` (go tint, ✓) and a `p.fail` (stop tint, ✕). The script adds a Copy button to every `pre.cmd` |
+| Runbook | `ol.runbook` | A procedure a person follows, step by step | Numbered like `.steps`. Each step has its command in `pre.cmd`, a `p.check` (go tint, ✓) and a `p.fail` (stop tint, ✕). The script adds a Copy button to every `pre.cmd`; long commands wrap. To continue the numbering in a later chapter, start that list where the last one stopped: `<ol class="runbook" start="4">` |
 | Tour | `ol.tour` with `figure.shot` and `span.pin` | A product walkthrough on real screenshots | One screenshot per step, a numbered pin placed with `--x` and `--y`, an `h3` and one line. Every image has an `alt` |
 | Promises | `ul.promises` | What the product does for a customer | Each item has a ✓, one bold lead and one plain sentence. `data-evidence` holds the file and line or the URL; it is not shown. A "How we know" fold lists it |
+| Phase strip | `ol.phase-strip` | The whole plan in one row | A segment links to its phase: `span.seg-num`, a bold title, a `span.who` letter badge (the owner, never colour alone), `small.effort` in words and `span.bar` with `--effort` 1 to 5. `li.notice` adds a `span.notice-tag` for the phases the audience will notice. Six or more segments wrap to two rows under 760 px |
+| Phases | `ol.phases` | Ordered phases, numbered because the order is real | Each `li` has an `id`, an `h3`, `span.chip` labels, a short `ul` and a `p.impact` naming the real audience. `li.notice` marks the phases the audience notices |
+| Frame | `figure.frame`, `.frame.phone`, `.frame-row` | What the audience sees | A browser bar (`.frame-bar` with `.dots` and `.url`), a plain mockup in `.frame-screen`, a `figcaption.take`. Two to four per row, stacked on a phone |
+| Roles and rules | `div.roles` of `section.role[data-who]`, `ul.rules` | Who does what, and what never bends | Two roles, each headed by its `.who` badge. Each rule is a bold lead and one line, with a ✓ |
+| Undo | `div.undo` | The way back from the risky moment | A ↺ glyph, a go tint, and the label `If something goes wrong:` in the markup |
+| Risks | `div.risks` of `article.risk[data-level]` | What could go wrong and what keeps it small | `data-level` is `high`, `medium` or `low`: stop, wait and go tint, each with a glyph and its word in `span.level`. `p.kept` names the mitigation |
+| Thesis | `header.hero` with `figure.thesis` | The outcome of the plan, drawn small | Optional. A small SVG with a `title`, beside the `h1` from 1100 px and under it on a phone |
 | Metaphor | `div.metaphor` | An analogy with an exact mapping | One per chapter at most; say where it stops |
 | Callout | `div.callout` `.tip .warn .stop` | Something that changes what the reader does | Not for asides |
 | Term box | `dl.term` | Plain-English definitions | Directly under the first use |
@@ -149,7 +156,7 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Text size | rail button `[data-size]` | The reader's own type size | Cycles normal, 20 px, 22 px; remembered |
 | Recap | `section.recap` | The remember lines, collected | Nothing new |
 | The ask | `section.ask` | One question with 2 to 4 choices | Recommendation marked, "if you do nothing" stated |
-| Answer field | `.answer-field` | A question the reader answers | A full-sentence question, a stable `data-q`, a `.hint` saying what a good answer holds |
+| Answer field | `.answer-field` | A question the reader answers | A full-sentence question, a stable `data-q`, a `.hint` saying what a good answer holds. On a choice, `label[data-rec]` marks the recommended option with a ★ chip that shows the attribute's words ("Recommended", "My pick") |
 | Collect bar | `.collect` | The reader's answers, ready to send | Exactly one per page, hidden until a field has a value |
 | Ballot card | `article.ballot-card` with `.ballot-opts` of `button.ballot-opt` | One decision the reader rules on (gather `data-mode="ballot"`) | A picture (`.vis`) on every option, exactly one `data-rec`, a `p.skip`, a stable `data-q` and a `data-short` |
 | Picks tray | `.ballot-tray` | The rulings so far, and the one action that hands them back | Pinned and visible from the first screen; tally, 44 px jump dots, Copy picks as the only primary button, a live status line |
@@ -189,6 +196,7 @@ These are starting points, not templates. Drop what the content does not need. `
 - **Compare**: answer → keep → map → the grid → one chapter per criterion that decides → recap → the decision and ask if the reader must rule.
 - **Roadmap**: answer → keep → map → the lanes → what unblocks the most → what is parked on purpose → recap.
 - **Tour**: answer → keep → map → one chapter per task, each a tour of three to six steps → recap.
+- **Playbook**: answer → keep → phase strip (the map is optional) → before and after → what the audience sees (frames) → the phases → what goes where (a grid with group rows) → roles and rules → the risky moment with its undo → the risks → costs and the decisions as answer fields → recap, with the collect bar after it. Up to ten chapters.
 - **Mixed page**: most real pages mix two of the above. Take the chapter shapes from one and the closing from the other. The opening and closing contract never changes.
 
 ## Atlas add-on
