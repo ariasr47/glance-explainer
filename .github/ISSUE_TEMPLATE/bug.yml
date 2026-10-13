@@ -1,0 +1,27 @@
+name: Something is broken
+description: A page renders wrong, the checker misses something, or a skill does not load.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: textarea
+    id: where
+    attributes:
+      label: Where did you see it?
+      description: Browser and screen width, or the agent and its version. A screenshot helps.
+  - type: input
+    id: version
+    attributes:
+      label: Plugin version
+      description: Shown in `/plugin` under Installed, or in `.claude-plugin/plugin.json`.
+  - type: textarea
+    id: check
+    attributes:
+      label: Checker output
+      description: The output of `node <plugin folder>/skills/html-explainer/scripts/check.mjs page.html`, if you ran it.
+      render: text

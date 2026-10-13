@@ -1,0 +1,49 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18  # the oldest Node the scripts support
+      - name: Pages pass the checker, the gallery matches the template, skill paths resolve
+        run: node tools/check-repo.mjs
+
+  site:
+    needs: check
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble the site from the shipped files
+        run: |
+          mkdir -p _site/examples
+          cp docs/index.html docs/roadmap.html _site/
+          cp -r docs/images _site/images
+          cp skills/html-explainer/assets/gallery.html skills/html-explainer/assets/template.html _site/
+          cp skills/explainer-gather/assets/merge.html _site/
+          cp skills/html-explainer/examples/playbook.html skills/explainer-gather/examples/ballot.html _site/examples/
+          touch _site/.nojekyll
+      - uses: actions/upload-pages-artifact@v3
+      - id: deploy
+        uses: actions/deploy-pages@v4
