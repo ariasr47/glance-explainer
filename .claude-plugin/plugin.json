@@ -1,11 +1,14 @@
 {
   "name": "html-explainer",
   "description": "Create single-file HTML explanations with plain language, meaningful visuals, and support for readers with ADHD or short working memory",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "author": {
-    "name": "Rodrigo Arias"
+    "name": "Rodrigo Arias",
+    "url": "https://github.com/ariasr47"
   },
-  "license": "MIT",
+  "homepage": "https://ariasr47.github.io/html-explainer-skill/",
   "repository": "https://github.com/ariasr47/html-explainer-skill",
+  "license": "MIT",
+  "keywords": ["html", "explainer", "adhd", "accessibility", "decisions", "documentation", "visual", "plain-language"],
   "skills": ["./skills/html-explainer", "./skills/explainer-gather", "./skills/explainer-atlas"]
 }
