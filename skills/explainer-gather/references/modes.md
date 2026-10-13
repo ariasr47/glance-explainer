@@ -22,4 +22,4 @@ The merge tool groups by question and exports CSV. Build tallies, scores and ran
 
 1. One question per field (one `.ballot-card` in a ballot). A second idea gets its own field.
 2. Stable `data-q` ids never change between versions or languages, so answers merge.
-3. The page passes `../../scripts/check.mjs` with every field empty.
+3. The page passes `../../html-explainer/scripts/check.mjs` with every field empty.

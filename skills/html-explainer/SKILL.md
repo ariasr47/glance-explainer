@@ -1,6 +1,7 @@
 ---
 name: html-explainer
 description: Use when asked for an "html explainer", a visual explainer, a page that explains something "in simple plain english", "with lots of visuals and diagrams", or "for someone with ADHD / short working memory"; also when a spec, decision, status update, architecture, or release needs to be understood and approved by a reader who cannot hold a long document in their head.
+license: MIT
 argument-hint: "[topic or file to explain]"
 ---
 
@@ -12,7 +13,7 @@ Paths are relative to this file.
 
 ## What you produce
 
-One `.html` file from `../../assets/template.html`, in this order:
+One `.html` file from `assets/template.html`, in this order:
 
 1. **Answer bar**: the whole page in one sentence.
 2. **Keep box**: at most three facts to carry.
@@ -23,7 +24,7 @@ One `.html` file from `../../assets/template.html`, in this order:
 
 ## Page identity and conventions
 
-- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour` or `playbook`, each defined in `types.md`. A playbook may run to 10 chapters.
+- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour` or `playbook`, each defined in `references/types.md`. A playbook may run to 10 chapters.
 - Pages that collect answers (`gather`) or map a system (`atlas`) add rules. Also read `../explainer-gather/SKILL.md` or `../explainer-atlas/SKILL.md`.
 - Chapter kicker: "Chapter 2 of 6, about 1 minute" (200 words a minute, rounded up). Japanese: "第2章 / 全6章、約1分" (500 characters a minute).
 - Headings ask the question the chapter answers: "What changes for you?", not "Impact".
@@ -32,10 +33,10 @@ One `.html` file from `../../assets/template.html`, in this order:
 ## Process
 
 1. **Write the answer line first**, then the three keep facts, then the chapter headings. If any will not come, reread the source.
-2. **Pick each chapter's visual from the relationship it holds** (sequence, branch, before and after, time, choice, health, parts) using `../../assets/diagrams.md`. Prefer CSS components; draw an SVG only for branches or nesting.
-3. **Copy the template, fill it, delete what you do not need.** Keep the tokens, base CSS and script. `../../assets/design-system.md` explains the components; `../../assets/gallery.html` shows them.
-4. **Write the prose last** under `../../assets/writing.md`: paragraphs under forty words, one idea per sentence.
-5. **Check:** `node ../../scripts/check.mjs <page.html>`. Fix every FAIL.
+2. **Pick each chapter's visual from the relationship it holds** (sequence, branch, before and after, time, choice, health, parts) using `references/diagrams.md`. Prefer CSS components; draw an SVG only for branches or nesting.
+3. **Copy the template, fill it, delete what you do not need.** Keep the tokens, base CSS and script. `references/design-system.md` explains the components; `assets/gallery.html` shows them.
+4. **Write the prose last** under `references/writing.md`: paragraphs under forty words, one idea per sentence.
+5. **Check:** `node scripts/check.mjs <page.html>`. Fix every FAIL.
 6. **Deliver:** save as `docs/explainers/YYYY-MM-DD-<topic>.html` in a repo, open it once in a browser, reply with the answer line and the link.
 
 ## Quick reference

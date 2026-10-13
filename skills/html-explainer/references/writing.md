@@ -69,7 +69,7 @@ Write native Japanese, not a word-for-word copy. The checker counts characters, 
 - **Emphasis.** Bold, or 「」 around a term at first use. Never italics: Japanese has none, and the checker fails them.
 - **Digits and dates.** Half-width digits (3, 1,250). Dates as 2026年10月7日, not 2026-10-07.
 - **Reading time.** 500 characters a minute, rounded up: 第2章 / 全6章、約1分.
-- **Fixed strings.** Interface text comes from `assets/i18n/ui.ja.json`. A glossary term marked `keep` stays in English.
+- **Fixed strings.** Interface text comes from `../assets/i18n/ui.ja.json`. A glossary term marked `keep` stays in English.
 - **Ids and layout never change.** `data-q` ids, element ids, classes and chapter order match in both files, so answers merge across languages by question id. Translate text only.
 - **Split sentences.** Inline tags cut one sentence into several items. Translate the pieces so they join into one sentence.
 
@@ -80,4 +80,4 @@ Write native Japanese, not a word-for-word copy. The checker counts characters, 
 | Engineers | Established terms may stay in English. |
 | Public, customers | Easy Japanese (やさしい日本語): short sentences, common words, furigana only here. |
 
-Afterwards run `node scripts/translate.mjs check`. It lists what is still in English.
+Afterwards run `node ../scripts/translate.mjs check`. It lists what is still in English.

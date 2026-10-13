@@ -1376,7 +1376,7 @@ html:not(.js) .ballot-tray { display: none; }
       </div>
 
       <details class="fold"><summary>Show the checker command</summary>
-        <pre><code>node &lt;plugin folder&gt;/scripts/check.mjs docs/explainers/2026-10-07-topic.html</code></pre>
+        <pre><code>node &lt;plugin folder&gt;/skills/html-explainer/scripts/check.mjs docs/explainers/2026-10-07-topic.html</code></pre>
         <p>Exit code 0 means every hard rule passed. It fails a page for a missing answer bar, a chapter without a visual, a paragraph over forty words, an external script, or an SVG without a title.</p>
       </details>
 
@@ -1491,7 +1491,7 @@ html:not(.js) .ballot-tray { display: none; }
       </details>
 
       <details class="fold"><summary>Show the markup for a ballot page</summary>
-        <p>Set <code>data-mode="ballot"</code> beside <code>data-type="gather"</code> on the html element. There is no rail, keep box or recap: a column of cards and one tray. Every option needs a picture in <code>.vis</code>, and each single-choice card needs exactly one <code>data-rec</code>. The finished example is <code>docs/examples/ballot.html</code>.</p>
+        <p>Set <code>data-mode="ballot"</code> beside <code>data-type="gather"</code> on the html element. There is no rail, keep box or recap: a column of cards and one tray. Every option needs a picture in <code>.vis</code>, and each single-choice card needs exactly one <code>data-rec</code>. The finished example is <code>skills/explainer-gather/examples/ballot.html</code>.</p>
         <pre><code>&lt;p class="answer"&gt;4 decisions. Anything you skip goes with ★.&lt;/p&gt;
 &lt;ol class="ballot-steps"&gt;&lt;li&gt;&lt;span&gt;&lt;b&gt;Compare&lt;/b&gt; the pictures.&lt;/span&gt;&lt;/li&gt; … the third step shows &lt;span class="ballot-keycap"&gt;Copy picks&lt;/span&gt;&lt;/ol&gt;
 

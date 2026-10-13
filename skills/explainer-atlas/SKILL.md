@@ -1,11 +1,14 @@
 ---
 name: explainer-atlas
 description: Use when asked for an architecture atlas, a system map, a backend or frontend reference, how a system fits together, or onboarding to a codebase.
+license: MIT
 ---
 
 # Explainer atlas
 
 An atlas is an explainer page that maps one layer of a codebase. Every claim about code carries a file and line anchor, and three states are never mixed: current, dormant, target. It is a dated snapshot, so say so in the opening, and check current source before describing today's behaviour.
+
+Paths are relative to this file. The template and checker live in the sibling `html-explainer` skill, so install the three skills together.
 
 ## Inputs
 
@@ -22,12 +25,12 @@ An atlas is an explainer page that maps one layer of a codebase. Every claim abo
 4. Follow the core contract in `../html-explainer/SKILL.md`: answer bar, keep box and chapter map first, engineering detail in folds, a remember line closing every chapter.
 5. Before the first diagram, add a legend: a `div.legend` holding `span.state-current`, `span.state-dormant` and `span.state-target`, each saying what its state means. Draw dormant nodes with `d-dormant` and target nodes with `d-target`, and name the state in the node label.
 6. Put the revision stamp in the meta line: `<span data-revision="a1b2c3d">Revision a1b2c3d, 2026-10-07</span>`.
-7. Mark up the map, source inspector, traces, matrix and rail search as documented at the top of `../../assets/atlas.js`. Draw every map edge on its own track with a label, and give each trace an `id`.
-8. Run `node ../../scripts/check.mjs index.html`, then `node ../../scripts/anchors.mjs index.html --repo <path> --rev <hash>`. Fix every FAIL, missing file and out of range line.
+7. Mark up the map, source inspector, traces, matrix and rail search as documented at the top of `assets/atlas.js`. Draw every map edge on its own track with a label, and give each trace an `id`.
+8. Run `node ../html-explainer/scripts/check.mjs index.html`, then `node scripts/anchors.mjs index.html --repo <path> --rev <hash>`. Fix every FAIL, missing file and out of range line.
 
 ## Output
 
-A folder `docs/architecture/<layer>-atlas/` with `index.html` and copies of `../../assets/atlas.css` and `../../assets/atlas.js`. Start `index.html` from `../../assets/template.html`, set `data-type="atlas"` on `<html>`, link `atlas.css` after the template style block, and load `atlas.js` with `defer` after the template script. Keep the folder under 3 MB: embedded sources count.
+A folder `docs/architecture/<layer>-atlas/` with `index.html` and copies of `assets/atlas.css` and `assets/atlas.js`. Start `index.html` from `../html-explainer/assets/template.html`, set `data-type="atlas"` on `<html>`, link `atlas.css` after the template style block, and load `atlas.js` with `defer` after the template script. Keep the folder under 3 MB: embedded sources count.
 
 ## Reference
 
