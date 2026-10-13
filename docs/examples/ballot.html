@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="en" data-type="gather" data-mode="ballot">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Notes app settings</title>
+<meta name="description" content="Four settings for a notes app, each shown as pictures. Pick one option per card, then copy all picks in one tap.">
+<link rel="icon" href="data:,">
+<!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
+<style>
+/* =====================================================================
+   html-explainer design system  ·  v1.0
+   Single-file, no build step, no external scripts. Fonts degrade to the
+   system stack. Works from file://, in an artifact, printed, and on a phone.
+   Colour has meaning. Nothing moves unless the reader moved it.
+   ===================================================================== */
+
+/* ---------- 1. Tokens ---------- */
+:root {
+  /* surfaces */
+  --paper: #f2f5f8;          /* page background, cool fog, never cream */
+  --card: #ffffff;           /* chapter and component surface */
+  --well: #e8edf2;           /* inset surface for diagrams and code */
+  --line: #d3dce4;           /* hairline borders */
+  --line-strong: #aebbc8;
+  /* text */
+  --ink: #16222e;            /* body text, deep navy, never pure black */
+  --ink-soft: #4a5a6a;       /* secondary text */
+  --ink-faint: #5f6f7f;      /* tertiary, kickers */
+  /* structure accent: "you are here", links, current, the answer */
+  --here: #2457d6;
+  --here-tint: #e3ebfb;
+  /* meaning colours, used for exactly one meaning each, everywhere */
+  --go: #14784f;   --go-tint: #dff3ea;      /* done, safe, yes */
+  --wait: #9c5d00; --wait-tint: #fdf0d8;    /* in progress, caution, needs a check */
+  --stop: #c43a4b; --stop-tint: #fbe3e6;    /* blocked, risk, no */
+  --decide: #6d4ed8; --decide-tint: #ece6fb;/* the reader must choose */
+  --memory: #fff4c2; --memory-line: #e3c45a;/* "remember this", offloaded working memory */
+  /* text that sits on a meaning fill: white on the light fills, page-dark on the dark fills, 4.5:1 or better */
+  --on-here: #ffffff; --on-go: #ffffff; --on-wait: #ffffff; --on-stop: #ffffff; --on-decide: #ffffff; --on-soft: #ffffff;
+  /* type */
+  --font-head: "Lexend", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-code: "Atkinson Hyperlegible Mono", "Cascadia Code", Consolas, "SF Mono", monospace;
+  --size-0: 1rem;      /* 18px base */
+  --size-1: 1.25rem;   /* 22.5 */
+  --size-2: 1.5625rem; /* 28 */
+  --size-3: 1.95rem;   /* 35 */
+  --size-4: 2.44rem;   /* 44 */
+  --size-s: .889rem;   /* 16 */
+  --size-xs: .778rem;  /* 14 */
+  /* layout */
+  --measure: 62ch;     /* prose width */
+  --wide: 1120px;      /* page width, diagrams may use all of it */
+  --rail: 232px;
+  --gap: 1.5rem;
+  --r-chapter: 18px;   /* radius by hierarchy: chapter > component > chip */
+  --r-comp: 10px;
+  --r-chip: 999px;
+  --shadow-float: 0 10px 30px rgba(22, 34, 46, .14);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a;
+    --ink: #e8eef4; --ink-soft: #a9b6c3; --ink-faint: #7d8b99;
+    --here: #7ea2ff; --here-tint: #1c2a4a;
+    --go: #4ccf93; --go-tint: #123326; --wait: #f0b455; --wait-tint: #3a2a0f;
+    --stop: #ff7a8a; --stop-tint: #3f1b22; --decide: #b39cff; --decide-tint: #2a2148;
+    --memory: #3a3315; --memory-line: #c9ad4a;
+    --on-here: #0e151c; --on-go: #0e151c; --on-wait: #0e151c; --on-stop: #0e151c; --on-decide: #0e151c; --on-soft: #0e151c;
+    --shadow-float: 0 10px 30px rgba(0, 0, 0, .5);
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a;
+  --ink: #e8eef4; --ink-soft: #a9b6c3; --ink-faint: #7d8b99;
+  --here: #7ea2ff; --here-tint: #1c2a4a;
+  --go: #4ccf93; --go-tint: #123326; --wait: #f0b455; --wait-tint: #3a2a0f;
+  --stop: #ff7a8a; --stop-tint: #3f1b22; --decide: #b39cff; --decide-tint: #2a2148;
+  --memory: #3a3315; --memory-line: #c9ad4a;
+  --on-here: #0e151c; --on-go: #0e151c; --on-wait: #0e151c; --on-stop: #0e151c; --on-decide: #0e151c; --on-soft: #0e151c;
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, .5);
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 18px; -webkit-text-size-adjust: 100%; }
+/* No smooth scrolling: the animation stalls inside embedded browser panes, so rail clicks looked dead. Jumps are instant on purpose. */
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: var(--size-0); line-height: 1.6;
+  text-rendering: optimizeLegibility; overflow-wrap: anywhere;
+}
+h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; line-height: 1.15; margin: 0 0 .5em; letter-spacing: -.01em; text-wrap: balance; }
+h1 { font-size: clamp(1.75rem, 1.1rem + 2.6vw, var(--size-4)); font-weight: 700; }
+h2 { font-size: clamp(1.45rem, 1rem + 1.8vw, var(--size-3)); }
+h3 { font-size: var(--size-2); }
+h4 { font-size: var(--size-1); }
+p, ul, ol { margin: 0 0 1em; max-width: var(--measure); text-wrap: pretty; hyphens: manual; }
+li { margin-bottom: .35em; }
+li::marker { color: var(--ink-faint); }
+a { color: var(--here); text-decoration-thickness: 1.5px; text-underline-offset: .18em; }
+a:hover { text-decoration-thickness: 2.5px; }
+strong { font-weight: 700; }
+code, kbd, pre { font-family: var(--font-code); font-size: .92em; }
+code { background: var(--well); padding: .1em .35em; border-radius: 5px; }
+pre { background: var(--well); padding: 1rem; border-radius: var(--r-comp); overflow: auto; margin: 0 0 1em; line-height: 1.5; }
+pre code { background: none; padding: 0; }
+:focus-visible { outline: 3px solid var(--here); outline-offset: 3px; border-radius: 4px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+img, svg { max-width: 100%; height: auto; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+.skip { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: .5rem 1rem; background: var(--here); color: var(--on-here); border-radius: var(--r-comp); }
+.skip:focus { top: 1rem; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* ---------- 2b. Japanese: lang="ja" swaps the faces, spacing and breaking, and the few words CSS writes ---------- */
+:lang(ja) {
+  --font-head: "BIZ UDPGothic", "Yu Gothic UI", "Yu Gothic", "Hiragino Sans", "Meiryo", "Noto Sans JP", sans-serif;
+  --font-body: "BIZ UDPGothic", "Yu Gothic", "Hiragino Sans", "Meiryo", "Noto Sans JP", sans-serif;
+  --font-code: "BIZ UDGothic", "Cascadia Code", Consolas, monospace;
+  --measure: 36em;
+  line-height: 1.75; letter-spacing: .03em; line-break: strict; hyphens: none;
+  word-break: auto-phrase;  /* break between phrases, so a narrow button never splits ダウン / ロード */
+}
+:lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(ja) h4 { letter-spacing: 0; line-height: 1.35; }
+:lang(ja) em, :lang(ja) i { font-style: normal; font-weight: 700; }
+:lang(ja) .answer { line-height: 1.5; }
+:lang(ja) .ask .choices > *[data-rec]::after { content: " · おすすめ"; }
+:lang(ja) .timeline li.here .when::before { content: "現在地 · "; }
+
+/* ---------- 3. Page frame ---------- */
+.progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
+.page { width: min(100% - 2rem, var(--wide)); margin: 0 auto; padding: 1.5rem 0 6rem; }
+@media (min-width: 1100px) {
+  .page { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); column-gap: 2.5rem; }
+  .rail { position: sticky; top: 1.5rem; align-self: start; max-height: calc(100vh - 3rem); overflow: auto; }
+}
+.rail { font-size: var(--size-s); }
+.rail ol { list-style: none; margin: 0 0 1rem; padding: 0; max-width: none; }
+.rail li { margin: 0; }
+.rail a { display: flex; gap: .6rem; align-items: baseline; padding: .4rem .6rem; border-radius: var(--r-comp); color: var(--ink-soft); text-decoration: none; }
+.rail a .dot { flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--line-strong); transform: translateY(-.1rem); }
+.rail a[aria-current="true"] { background: var(--here-tint); color: var(--ink); font-weight: 700; }
+.rail a[aria-current="true"] .dot { background: var(--here); }
+.rail a.done .dot, .rail a.answered .dot, body[data-finished="on"] .rail a[href="#recap"] .dot { background: var(--go); }
+.rail a.done::after, .rail a.answered::after, body[data-finished="on"] .rail a[href="#recap"]::after { content: "✓"; margin-left: auto; color: var(--go); font-weight: 700; }
+.rail .tools { display: flex; flex-wrap: wrap; gap: .5rem; padding: .25rem .6rem; }
+.rail .tools button, .read-aloud { padding: .35rem .75rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+.rail .tools button[aria-pressed="true"], .read-aloud[data-reading] { background: var(--here); border-color: var(--here); color: var(--on-here); }
+@media (max-width: 1099px) {
+  .rail { position: sticky; top: 0; z-index: 50; margin: 0 -1rem 1.25rem; padding: .5rem 1rem; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .rail ol { display: flex; gap: .35rem; overflow-x: auto; margin: 0; padding-bottom: .25rem; scrollbar-width: none; }
+  .rail a { white-space: nowrap; padding: .35rem .7rem; border: 1px solid var(--line); background: var(--card); }
+  .rail .tools { padding: .4rem 0 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .rail .tools button { flex: none; white-space: nowrap; }
+}
+main { min-width: 0; }
+
+/* ---------- 4. Opening: the answer first ---------- */
+.kicker { font-family: var(--font-head); font-weight: 500; font-size: var(--size-s); color: var(--ink-faint); margin: 0 0 .5rem; }
+.meta { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; color: var(--ink-soft); font-size: var(--size-s); margin: .5rem 0 1.5rem; max-width: none; }
+.answer {
+  max-width: none; margin: 0 0 1.25rem; padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+  border-left: 6px solid var(--here); background: var(--here-tint); border-radius: 0 var(--r-comp) var(--r-comp) 0;
+  font-family: var(--font-head); font-weight: 500; font-size: var(--size-1); line-height: 1.35; text-wrap: balance;
+}
+.keep { margin: 0 0 2rem; padding: 1rem 1.25rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; }
+.keep > strong { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .4rem; }
+.keep ol { margin: 0; padding-left: 1.4rem; max-width: none; }
+.keep li { margin: 0 0 .15rem; }
+@media (max-width: 560px) {  /* the answer and all three keep items fit a 390 x 844 phone's first screen */
+  .page { padding-top: 1rem; }
+  .kicker { margin-bottom: .25rem; }
+  .meta { gap: 0 .9rem; font-size: var(--size-xs); margin: .25rem 0 .9rem; }
+  .answer { padding: .75rem 1rem .75rem 1.1rem; font-size: 1.05rem; line-height: 1.3; margin-bottom: .9rem; }
+  .keep { padding: .75rem 1rem; }
+}
+
+/* ---------- 5. Chapter map: the visual table of contents ---------- */
+.map { list-style: none; margin: 0 0 2.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width: none; counter-reset: map; }
+.map li { margin: 0; counter-increment: map; }
+.map a { display: block; height: 100%; padding: .9rem 1rem .9rem 3.2rem; position: relative; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.map a::before { content: counter(map); position: absolute; left: 1rem; top: .85rem; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.map a:hover { border-color: var(--here); }
+.map b { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .15rem; }
+.map span { color: var(--ink-soft); font-size: var(--size-s); }
+
+/* ---------- 6. Chapter: one idea, self-contained ---------- */
+.chapter { background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-chapter); padding: 1.5rem clamp(1rem, 3vw, 2rem) 1.25rem; margin: 0 0 2rem; scroll-margin-top: 4.5rem; }
+.chapter > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.chapter > header .kicker { margin: 0 0 .25rem; }
+.chapter > header h2 { margin: 0; }
+.chapter > header label { flex: none; display: inline-flex; align-items: center; gap: .4rem; font-size: var(--size-s); color: var(--ink-soft); padding-top: .35rem; }
+.chapter > header > div { flex: 1; min-width: 0; }
+.chapter > header .read-aloud { flex: none; margin-top: .3rem; }
+.speaking { border-radius: 3px; box-shadow: -.35rem 0 0 var(--here), 0 0 0 .3rem var(--here-tint); }
+.chapter > header input[type="checkbox"] { width: 1.25rem; height: 1.25rem; accent-color: var(--go); margin: 0; }
+.from { display: flex; gap: .6rem; align-items: baseline; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); max-width: none; }
+.from b { color: var(--ink); font-family: var(--font-head); font-weight: 600; flex: none; }
+.remember { margin: 1.5rem 0 0; padding: .9rem 1.1rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; display: flex; gap: .75rem; align-items: baseline; }
+.remember b { font-family: var(--font-head); font-weight: 600; flex: none; }
+@media (max-width: 560px) {
+  .remember, .from { display: block; }
+  .remember b, .from b { display: inline; margin-right: .3rem; }
+  .chapter > header { flex-wrap: wrap; }
+  .chapter > header > div { flex-basis: 100%; }
+}
+
+/* ---------- 7. Figures and diagrams ---------- */
+.figure { margin: 1.25rem 0 1.5rem; padding: 1rem; background: var(--well); border-radius: var(--r-comp); border: 1px solid var(--line); }
+.figure > svg { display: block; width: 100%; height: auto; }
+.figure > svg.narrow { display: none; }
+@media (max-width: 560px) {
+  /* An 800-wide diagram scaled to a phone shrinks 13 px labels to 5 px. It keeps 640 px and scrolls
+     sideways instead, with its caption pinned in view; a figure that carries an svg.narrow twin shows that. */
+  .figure { overflow-x: auto; }
+  .figure > svg { min-width: 640px; }
+  .figure > :not(svg) { position: sticky; left: 0; }
+  .figure:has(> svg.narrow) > svg:not(.narrow) { display: none; }
+  .figure > svg.narrow { display: block; min-width: 0; }
+}
+/* the caption that states the conclusion: inside a figure, or straight under any other component */
+.take { margin: .9rem 0 0; padding: .5rem .75rem; background: var(--card); border-left: 4px solid var(--here); border-radius: 0 6px 6px 0; font-size: var(--size-s); max-width: none; }
+.chapter > .take { margin: -.75rem 0 1.5rem; background: var(--well); }
+.take b { font-family: var(--font-head); font-weight: 600; }
+/* svg diagram vocabulary: use these classes on shapes so both themes work */
+.d-box { fill: var(--card); stroke: var(--line-strong); stroke-width: 1.5; }
+.d-box-here { fill: var(--here-tint); stroke: var(--here); stroke-width: 2; }
+.d-box-go { fill: var(--go-tint); stroke: var(--go); stroke-width: 1.5; }
+.d-box-wait { fill: var(--wait-tint); stroke: var(--wait); stroke-width: 1.5; }
+.d-box-stop { fill: var(--stop-tint); stroke: var(--stop); stroke-width: 1.5; }
+.d-box-decide { fill: var(--decide-tint); stroke: var(--decide); stroke-width: 1.5; }
+.d-line { fill: none; stroke: var(--ink-soft); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.d-line-soft { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-dasharray: 6 6; }
+.d-arrow { fill: var(--ink-soft); }
+.d-text { fill: var(--ink); font-family: var(--font-body); font-size: 15px; }
+.d-text-b { fill: var(--ink); font-family: var(--font-head); font-weight: 600; font-size: 15px; }
+.d-text-s { fill: var(--ink-soft); font-family: var(--font-body); font-size: 13px; }
+.d-num { fill: var(--on-here); font-family: var(--font-head); font-weight: 600; font-size: 13px; }
+.d-pin { fill: var(--here); }
+
+/* CSS flow: steps with connectors, no SVG needed */
+.flow { display: flex; flex-wrap: wrap; gap: .75rem; list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; counter-reset: flow; }
+.flow li { counter-increment: flow; flex: 1 1 150px; position: relative; padding: .8rem .9rem .8rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); min-height: 3.4rem; }
+.flow li::before { content: counter(flow); position: absolute; left: .8rem; top: .75rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.flow li b { display: block; font-family: var(--font-head); font-weight: 600; }
+.flow li span { font-size: var(--size-s); color: var(--ink-soft); }
+.flow li.here { border-color: var(--here); background: var(--here-tint); }
+.flow li.here::before { background: var(--here); color: var(--on-here); }
+.flow li.go { border-color: var(--go); } .flow li.go::before { background: var(--go); color: var(--on-go); }
+.flow li.wait { border-color: var(--wait); } .flow li.wait::before { background: var(--wait); color: var(--on-wait); }
+.flow li.stop { border-color: var(--stop); } .flow li.stop::before { background: var(--stop); color: var(--on-stop); }
+/* a glyph in the top-right corner, inside the padding, so state is never colour alone (the connector keeps li::after) */
+.flow li.go b::after, .flow li.wait b::after, .flow li.stop b::after { position: absolute; top: .5rem; right: .3rem; font-size: .75rem; font-weight: 700; line-height: 1; }
+.flow li.go b::after { content: "✓"; color: var(--go); }
+.flow li.wait b::after { content: "!"; color: var(--wait); }
+.flow li.stop b::after { content: "✕"; color: var(--stop); }
+@media (min-width: 700px) {
+  .flow li:not(:last-child)::after { content: ""; position: absolute; right: -.75rem; top: 50%; width: .75rem; height: 2px; background: var(--line-strong); }
+}
+
+/* ---------- 8. Comparison and decisions ---------- */
+.split { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 1rem 0 1.5rem; }
+.split > div { padding: 1rem 1.1rem; border-radius: var(--r-comp); border: 1.5px solid var(--line); background: var(--card); }
+.split > div > b { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .4rem; }
+.split .before { border-color: var(--stop); background: var(--stop-tint); }
+.split .after { border-color: var(--go); background: var(--go-tint); }
+.split ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
+
+.decision { margin: 1rem 0 1.5rem; padding: 1.25rem; border: 2px solid var(--decide); border-radius: var(--r-comp); background: var(--decide-tint); }
+.decision > h3 { margin: 0 0 .25rem; display: flex; gap: .6rem; align-items: center; }
+.decision > h3::before { content: "?"; flex: none; width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 50%; background: var(--decide); color: var(--on-decide); font-family: var(--font-head); font-size: var(--size-0); }
+.decision > p { color: var(--ink-soft); }
+.options { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 1rem 0; }
+.option { position: relative; padding: 1rem 1.1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.option[data-rec] { border-color: var(--go); border-width: 2.5px; }
+.option[data-rec]::after { content: attr(data-rec); position: absolute; top: -.8rem; right: .9rem; padding: .15rem .65rem; background: var(--go); color: var(--on-go); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.option h4 { margin: 0 0 .5rem; }
+.option ul { list-style: none; padding: 0; margin: 0; font-size: var(--size-s); }
+.option li { padding-left: 1.4rem; position: relative; }
+.option li.plus::before { content: "✓"; position: absolute; left: 0; color: var(--go); font-weight: 700; }
+.option li.minus::before { content: "✗"; position: absolute; left: 0; color: var(--stop); font-weight: 700; }
+.option .cost { margin-top: .6rem; font-size: var(--size-s); color: var(--ink-soft); }
+.decision .nothing { margin: .5rem 0 0; padding: .6rem .9rem; background: var(--card); border-radius: 6px; font-size: var(--size-s); max-width: none; }
+.decision .nothing b { font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9. Status, timeline, steps, tiles ---------- */
+.status { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; border: 1.5px solid var(--line); border-radius: var(--r-comp); overflow: hidden; }
+.status li { display: grid; grid-template-columns: 1.1rem minmax(120px, 1fr) 2fr; gap: .9rem; align-items: baseline; padding: .7rem 1rem; background: var(--card); margin: 0; }
+.status li + li { border-top: 1px solid var(--line); }
+/* each state carries a glyph as well as a colour (WCAG 1.4.1) */
+.status li::before { content: ""; display: grid; place-items: center; align-self: start; margin-top: .35rem; width: .85rem; height: .85rem; border-radius: 50%; background: var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+.status li.go::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.status li.wait::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.status li.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.status li.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
+.status li.here::before { content: "●"; background: var(--here); color: var(--on-here); }
+.status li.memory::before { content: "★"; background: var(--memory-line); color: color-mix(in srgb, var(--memory-line) 15%, #000); }
+.status li b { font-family: var(--font-head); font-weight: 600; }
+.status li span { color: var(--ink-soft); font-size: var(--size-s); }
+@media (max-width: 560px) { .status li { grid-template-columns: 1.1rem 1fr; } .status li span { grid-column: 2; } }
+
+.timeline { list-style: none; margin: 1.25rem 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; max-width: none; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 0; right: 0; top: .55rem; height: 3px; background: var(--line-strong); }
+.timeline li { position: relative; padding: 1.5rem .75rem 0 0; margin: 0; }
+.timeline li::before { content: ""; position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--card); border: 3px solid var(--line-strong); font: 700 .6rem/1 var(--font-head); }
+.timeline li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
+.timeline li.here::before { background: var(--here); border-color: var(--here); box-shadow: 0 0 0 5px var(--here-tint); }
+.timeline li.here .when { color: var(--here); }
+.timeline li.here .when::before { content: "You are here · "; font-weight: 700; }
+.timeline .when { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); margin-bottom: .2rem; }
+.timeline .what { font-size: var(--size-s); color: var(--ink-soft); }
+
+.steps { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: step; max-width: none; }
+.steps > li { counter-increment: step; position: relative; padding: .25rem 0 .9rem 3rem; margin: 0; }
+.steps > li::before { content: counter(step); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.steps > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
+.steps > li > b { font-family: var(--font-head); font-weight: 600; }
+
+.tiles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1rem 0 1.5rem; }
+.tile { container-type: inline-size; padding: .9rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+/* a number never breaks inside itself ("$24,00" / "0+"); it shrinks to fit its tile instead */
+.tile .n { display: block; font-family: var(--font-head); font-weight: 700; font-size: var(--size-3); font-size: min(var(--size-3), 20cqi); line-height: 1; color: var(--here); white-space: nowrap; overflow-wrap: normal; }
+.tile .l { font-size: var(--size-s); color: var(--ink-soft); }
+.tile.go .n { color: var(--go); } .tile.wait .n { color: var(--wait); } .tile.stop .n { color: var(--stop); }
+
+/* ---------- 10. Metaphor, callouts, terms, folds ---------- */
+.metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
+.metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
+.metaphor p { margin: 0; }
+.metaphor b { font-family: var(--font-head); font-weight: 600; }
+@media (max-width: 480px) { .metaphor { grid-template-columns: 1fr; } .metaphor .icon { text-align: left; } }
+
+.callout { margin: 1rem 0 1.5rem; padding: .9rem 1.1rem .9rem 1.25rem; border-left: 5px solid var(--line-strong); border-radius: 0 var(--r-comp) var(--r-comp) 0; background: var(--well); max-width: none; }
+.callout > b { font-family: var(--font-head); font-weight: 600; display: block; margin-bottom: .2rem; }
+.callout p:last-child { margin-bottom: 0; }
+.callout.tip { border-color: var(--go); background: var(--go-tint); }
+.callout.warn { border-color: var(--wait); background: var(--wait-tint); }
+.callout.stop { border-color: var(--stop); background: var(--stop-tint); }
+
+.term { display: grid; grid-template-columns: auto 1fr; gap: .25rem 1rem; align-items: baseline; margin: 1rem 0 1.5rem; padding: .8rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); max-width: none; font-size: var(--size-s); }
+.term dt { font-family: var(--font-head); font-weight: 600; }
+.term dd { margin: 0; color: var(--ink-soft); }
+@media (max-width: 480px) { .term { grid-template-columns: 1fr; } .term dd { margin-bottom: .5rem; } }
+dfn { font-style: normal; text-decoration: underline dotted var(--ink-faint); text-underline-offset: .2em; cursor: help; }
+
+details.fold { margin: 1rem 0 1.25rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+details.fold > summary { list-style: none; cursor: pointer; padding: .75rem 1rem; font-family: var(--font-head); font-weight: 600; display: flex; gap: .6rem; align-items: center; color: var(--ink-soft); }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::before { content: "+"; flex: none; width: 1.4rem; height: 1.4rem; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--line-strong); font-size: var(--size-s); }
+details.fold[open] > summary::before { content: "−"; }
+details.fold[open] > summary { border-bottom: 1px solid var(--line); color: var(--ink); }
+details.fold > :not(summary) { padding: 0 1rem; }
+details.fold > :nth-child(2) { padding-top: 1rem; }
+details.fold > :last-child { padding-bottom: 1rem; }
+
+/* ---------- 11. Closing: recap and the ask ---------- */
+.recap { margin: 0 0 1.5rem; padding: 1.25rem 1.5rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-chapter); max-width: none; }
+.recap h2 { margin-bottom: .6rem; }
+.recap ol { margin: 0; padding-left: 1.4rem; }
+.ask { margin: 0 0 2rem; padding: 1.25rem 1.5rem; border: 2.5px solid var(--decide); border-radius: var(--r-chapter); background: var(--card); }
+.ask h2 { margin-bottom: .5rem; }
+.ask .choices { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0 .5rem; }
+.ask .choices > * { padding: .7rem 1.1rem; border-radius: var(--r-comp); border: 2px solid var(--decide); background: var(--decide-tint); color: var(--ink); font-family: var(--font-head); font-weight: 600; text-decoration: none; }
+.ask .choices > *[data-rec] { background: var(--decide); color: var(--on-decide); }
+.ask .choices > *[data-rec]::after { content: " · recommended"; font-weight: 500; opacity: .85; }
+
+/* ---------- 12. Skim mode ---------- */
+/* Components whose list or copy lives inside a div wrapper must be exempted by
+   their INNER selector, not the wrapper class: `.options` and `.split` name the
+   WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
+   mode emptied every decision card and every before/after panel. */
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul),
+body[data-skim="on"] .chapter details.fold,
+body[data-skim="on"] .chapter .term,
+body[data-skim="on"] .chapter .from { display: none; }
+/* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
+   and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
+body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li) { display: none; }
+body[data-skim="on"] .chapter .figure,
+body[data-skim="on"] .chapter .remember { display: flex; }
+body[data-skim="on"] .chapter .figure { display: block; }
+
+/* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
+body[data-focus="on"] .map,
+body[data-focus="on"] .chapter:not([data-active]),
+body[data-focus="on"] .recap:not([data-active]),
+body[data-focus="on"] .ask:not([data-active]) { display: none; }
+.focus-nav { display: none; justify-content: space-between; align-items: center; gap: 1rem; margin: 0 0 2rem; }
+body[data-focus="on"] .focus-nav { display: flex; }
+.focus-nav button, .stepper-nav button { padding: .7rem 1.2rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.focus-nav button[data-next], .stepper-nav button[data-next] { background: var(--here); color: var(--on-here); }
+.focus-nav button:disabled, .stepper-nav button[aria-disabled="true"] { opacity: .4; cursor: default; }
+.focus-nav .where, .stepper-nav .where { color: var(--ink-soft); font-size: var(--size-s); }
+
+/* ---------- 12c. Gather: answer fields and the collect bar ---------- */
+.hint { margin: 0 0 .5rem; color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.answer-field { display: block; min-width: 0; margin: 1.25rem 0; padding: 1rem 1.1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); }
+.answer-field:focus-within { border-color: var(--here); }
+.answer-field > label:first-child, .answer-field > legend { display: block; width: 100%; padding: 0; margin: 0 0 .35rem; font-family: var(--font-head); font-weight: 600; }
+.answer-field > legend { float: left; }
+.answer-field > legend + * { clear: both; }
+.answer-field > label:not(:first-child) { display: flex; align-items: center; gap: .6rem; margin: .4rem 0; padding: .55rem .8rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); cursor: pointer; }
+.answer-field > label:not(:first-child):has(:checked) { border-color: var(--here); background: var(--here-tint); }
+.answer-field[data-kind="scale"] > label:not(:first-child), .answer-field[data-kind="confirm"] > label:not(:first-child) { display: inline-flex; margin-right: .5rem; }
+.answer-field input[type="radio"], .answer-field input[type="checkbox"] { flex: none; width: 1.25rem; height: 1.25rem; margin: 0; accent-color: var(--here); }
+.answer-field textarea { display: block; width: 100%; min-height: 4.5rem; margin: .5rem 0 0; padding: .65rem .8rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; line-height: 1.5; resize: vertical; }
+.answer-field ol { list-style: none; margin: .5rem 0 0; padding: 0; max-width: none; counter-reset: rank; }
+.answer-field ol > li { counter-increment: rank; display: flex; align-items: center; gap: .6rem; margin: .4rem 0; padding: .45rem .5rem .45rem .8rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.answer-field ol > li::before { content: counter(rank); flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font: 600 var(--size-xs) var(--font-head); }
+.answer-field ol > li > :first-child { flex: 1; }
+.answer-field ol button { flex: none; width: 2.25rem; height: 2.25rem; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+.collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
+.collect .respondent { flex: 1 1 8rem; min-width: 0; padding: .45rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
+.collect .count { color: var(--ink-soft); font-size: var(--size-s); white-space: nowrap; }
+.collect button { padding: .5rem .9rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); }
+.collect button[data-copy] { background: var(--here); color: var(--on-here); }
+.collect button.go::after { content: " ✓"; }
+.collect button.stop::after { content: " ✕"; }
+@media (max-width: 560px) { .collect { gap: .4rem; padding: .5rem; } .collect .count, .collect button { font-size: var(--size-xs); } .collect button { flex: 1 1 5.5rem; align-self: stretch; min-width: 0; padding: .4rem .35rem; } }
+
+/* ---------- 12d. Reader features: stepper, views, mini-map, resume, keys, finish, ruler, text size ---------- */
+html:not(.js) :is(.rail .tools, .stepper-nav, .views-tabs, .minimap, .read-aloud) { display: none; }
+html:not(.js) .view[hidden] { display: block !important; }
+html:not(.js) .stepper [data-step-text] { display: block; }
+html:not(.js) .stepper [data-step-text]::before { content: attr(data-step-text) ". "; font-weight: 700; }
+.stepper .is-dim, .minimap .is-dim { opacity: .35; }
+@media (prefers-reduced-motion: no-preference) { .stepper svg [data-steps] { transition: opacity .25s; } }
+.stepper-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: .75rem 0 0; }
+.stepper-nav button { padding: .5rem 1rem; font-size: var(--size-s); }
+
+.views { margin: 1rem 0 1.5rem; max-width: none; }
+.views-tabs { display: flex; flex-wrap: wrap; gap: .25rem; border-bottom: 2px solid var(--line); }
+.views-tabs [role="tab"] { margin-bottom: -2px; padding: .55rem 1rem; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--ink-soft); font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); }
+.views-tabs [aria-selected="true"] { border-bottom-color: var(--here); color: var(--ink); }
+.view { padding: 1rem 0 0; }
+.view > :last-child { margin-bottom: 0; }
+
+.minimap { margin: 0 0 1.25rem; max-width: none; }
+.minimap svg { display: block; width: 100%; max-height: 140px; }
+.minimap .is-lit .d-box { fill: var(--here-tint); stroke: var(--here); stroke-width: 2.5; }
+
+.resume { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); font-size: var(--size-s); }
+.resume b { font-family: var(--font-head); font-weight: 600; }
+.resume button { padding: .3rem .85rem; border: 2px solid var(--here); border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font-weight: 700; font-size: var(--size-xs); }
+.resume button[data-resume-dismiss] { margin-left: auto; padding: .1rem .55rem; border-color: transparent; background: none; color: var(--ink-soft); font-size: var(--size-0); }
+
+kbd { padding: .05em .5em; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 5px; background: var(--well); }
+dialog.keys { width: min(92vw, 26rem); padding: 1.25rem 1.5rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); background: var(--card); color: var(--ink); }
+dialog.keys::backdrop { background: rgba(14, 21, 28, .55); }
+dialog.keys h2 { margin: 0 0 .75rem; font-size: var(--size-1); }
+dialog.keys dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; align-items: baseline; margin: 0 0 1rem; }
+dialog.keys dt, dialog.keys dd { margin: 0; }
+dialog.keys dd { color: var(--ink-soft); }
+dialog.keys form button { padding: .5rem 1.1rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+
+.finished { display: none; align-items: center; gap: .4rem; margin: 0 0 .75rem; padding: .2rem .8rem; border: 1.5px solid var(--go); border-radius: var(--r-chip); background: var(--go-tint); font: 600 var(--size-xs) var(--font-head); }
+.finished::before { content: "✓"; color: var(--go); }
+body[data-finished="on"] .finished { display: inline-flex; }
+
+/* reading ruler: inside the chapter under the pointer or focus, only that block keeps full strength */
+body[data-ruler="on"] .chapter:is(:hover, :has(:is(p, li, figure, .flow, .status, .split, .decision):focus-within)) :is(p, li, figure, .flow, .status, .split, .decision):not(:is(.flow, .status, .split, .decision, header) *, :hover, :focus-within) { opacity: .45; }
+@media (prefers-reduced-motion: no-preference) { body[data-ruler="on"] .chapter :is(p, li, figure, .flow, .status, .split, .decision) { transition: opacity .15s; } }
+
+html[data-size="lg"] { font-size: 20px; }
+html[data-size="xl"] { font-size: 22px; }
+html[data-size="lg"] button[data-size]::after { content: " +"; }
+html[data-size="xl"] button[data-size]::after { content: " ++"; }
+
+/* ---------- 12e. Ballot: pictured decision cards, the picks tray, the copy fallback ---------- */
+/* A gather mode for one reader who hands decisions back (<html data-type="gather" data-mode="ballot">). No rail and no
+   chapters: a column of cards, and a tray pinned to the bottom of the screen from the first paint. Every option carries a
+   picture in .vis, built from plain HTML and CSS or an <img>; text alone never counts. .vis sits inside a <button>, so
+   it holds spans, svg and img only. The .mock-* parts below are a small kit for drawing those pictures. */
+html[data-mode="ballot"] .page { display: block; width: min(100% - 2rem, 62rem); padding-bottom: 14rem; }
+html:not(.js) .ballot-tray { display: none; }
+
+.ballot-steps { list-style: none; counter-reset: bstep; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 2rem; padding: 0; max-width: none; }
+.ballot-steps > li { counter-increment: bstep; display: flex; gap: .7rem; align-items: flex-start; min-width: 0; margin: 0; padding: .8rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); }
+.ballot-steps > li::before { content: counter(bstep); flex: none; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 600 var(--size-xs) var(--font-head); }
+.ballot-steps > li:last-child { border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.ballot-steps b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.ballot-keycap { display: inline-block; padding: .1rem .8rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font: 600 var(--size-s) var(--font-head); white-space: nowrap; }  /* looks like the tray's Copy picks button */
+
+.ballot-group { margin: 0 0 2.5rem; }
+.ballot-group > h2 { margin: 0 0 .25rem; }
+.ballot-group > h2 + p { margin: 0 0 1.25rem; padding-bottom: .75rem; border-bottom: 1.5px solid var(--line-strong); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+
+.ballot-card { margin: 0 0 1.5rem; padding: 1.25rem clamp(.9rem, 2.5vw, 1.5rem) 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-chapter); scroll-margin-top: 1rem; }
+.ballot-card.picked { border-color: var(--line-strong); }
+.ballot-card.flash, .ballot-card:target { border-color: var(--here); box-shadow: 0 0 0 3px var(--here-tint), 0 0 0 5px var(--here); }
+.ballot-card > header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "num title state" ". why why"; gap: .2rem .8rem; align-items: start; margin: 0 0 1.25rem; }
+.ballot-card .num { grid-area: num; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 var(--size-s)/1 var(--font-head); font-variant-numeric: tabular-nums; }
+.ballot-card.picked .num { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.ballot-card > header h3 { grid-area: title; align-self: center; margin: 0; font-size: var(--size-1); line-height: 1.25; }
+.ballot-card .why { grid-area: why; margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+.ballot-card .state { grid-area: state; align-self: center; justify-self: end; display: inline-flex; align-items: center; gap: .35rem; min-height: 1.75rem; padding: 0 .75rem; border: 1.5px dashed var(--decide); border-radius: var(--r-chip); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+.ballot-card .state::before { content: "?"; color: var(--decide); }
+.ballot-card.picked .state { border-style: solid; border-color: var(--here); background: var(--here); color: var(--on-here); }
+.ballot-card.picked .state::before { content: "✓"; color: inherit; }
+.ballot-card p.skip { position: static; left: auto; top: auto; z-index: auto; margin: 1.1rem 0 0; padding: .7rem 0 0; border-top: 1px solid var(--line); border-radius: 0; background: none; color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.ballot-card p.skip b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+
+/* the options: a grid whose rows (picture, name, effect) line up across the options of one card */
+.ballot-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem .85rem; }
+.ballot-opt { position: relative; display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: .6rem; width: 100%; min-width: 0; margin: 0; padding: .7rem .7rem .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.ballot-card[data-kind="multi"] .ballot-opt { grid-row: span 4; }
+@supports not (grid-template-rows: subgrid) { .ballot-opt { display: flex; flex-direction: column; gap: .6rem; } }
+.ballot-opt:hover { border-color: var(--here); }
+.ballot-opt:focus-visible { border-radius: var(--r-comp); }
+.ballot-opt[aria-checked="true"], .ballot-opt.on { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
+.ballot-opt[aria-checked="true"]::after, .ballot-opt.on::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
+.ballot-opt[data-rec]::before { content: "★ " attr(data-rec); position: absolute; top: -.8rem; left: .8rem; z-index: 1; padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs) var(--font-head); }
+.ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] { border-color: var(--line); }
+.ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] .vis { opacity: .6; }  /* a faded picture; the words stay at full contrast */
+.ballot-opt .vis { display: block; min-height: 6.5rem; padding: .7rem; background: var(--well); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); font-size: var(--size-xs); line-height: 1.35; overflow: hidden; overflow-wrap: break-word; }
+.ballot-opt .vis img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.ballot-opt .name { display: flex; align-items: flex-start; gap: .5rem; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.ballot-opt .name b { flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 1.5px solid var(--line-strong); border-radius: 50%; font-size: var(--size-xs); }
+.ballot-opt[aria-checked="true"] .name b, .ballot-opt.on .name b { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.ballot-opt .effect { color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+
+/* multi-select: each option has its own toggle, plus one "none" button for the card */
+.ballot-ship { display: flex; align-items: center; justify-content: center; gap: .5rem; align-self: end; width: 100%; min-height: 44px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.ballot-ship::before { content: ""; display: grid; place-items: center; width: 1.15rem; height: 1.15rem; border: 2px solid currentColor; border-radius: 5px; font-size: .8rem; line-height: 1; }
+.ballot-ship[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.ballot-ship[aria-pressed="true"]::before { content: "✓"; }
+.ballot-none { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin-top: 1.1rem; }
+.ballot-none .hint { margin: 0; }
+.ballot-none button { min-height: 44px; padding: 0 1.2rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-chip); background: none; color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.ballot-none button[aria-pressed="true"] { border-style: solid; border-color: var(--here); background: var(--here-tint); }
+.ballot-none button[aria-pressed="true"]::before { content: "✓ "; color: var(--here); }
+
+/* already decided: reference only, nothing to pick */
+.ballot-dones { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .75rem; }
+.ballot-done { padding: .9rem 1.1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.ballot-done h3 { display: flex; gap: .5rem; align-items: baseline; margin: 0 0 .25rem; font-size: var(--size-0); }
+.ballot-done h3::before { content: "✓"; flex: none; color: var(--go); }
+.ballot-done p { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+
+/* the tray: tally, jump dots, the one primary button, a live status line, the save label, the copy fallback */
+.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
+.ballot-tray[data-complete] { border-color: var(--go); }
+.ballot-bar { display: flex; align-items: center; gap: .25rem 1rem; }
+.ballot-tally { flex: none; margin: 0; font: 600 var(--size-1)/1.1 var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; max-width: none; }
+.ballot-tray[data-complete] .ballot-tally::before { content: "✓ "; color: var(--go); }
+.ballot-pips { flex: 1 1 auto; display: flex; gap: .1rem; min-width: 0; margin: 0; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; max-width: none; }
+.ballot-pips li { flex: none; margin: 0; }
+.ballot-pip { position: relative; display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink-soft); font: 600 var(--size-s) var(--font-head); font-variant-numeric: tabular-nums; text-decoration: none; }
+.ballot-pip > span { position: relative; }
+.ballot-pip::before { content: ""; position: absolute; inset: 5px; border: 1.5px dashed var(--line-strong); border-radius: 50%; }
+.ballot-pip.on { color: var(--on-here); }
+.ballot-pip.on::before { border-style: solid; border-color: var(--here); background: var(--here); }
+.ballot-pip:hover::before { border-color: var(--here); }
+.ballot-pip:focus-visible { border-radius: 50%; }
+.ballot-actions { flex: none; margin-left: auto; }
+.ballot-tray button[data-copy] { min-height: 44px; padding: 0 1.3rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font: 600 var(--size-0) var(--font-head); }
+.ballot-tray button[data-copy].copied::before { content: "✓"; margin-right: .4em; }
+.ballot-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-status { flex: 1 1 16rem; min-width: 0; min-height: 1.4em; margin: 0; max-width: none; }
+.ballot-save { display: inline-flex; align-items: center; gap: .4rem; }
+.ballot-save::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--wait); }
+.ballot-save[data-state="db"]::before, .ballot-save[data-state="local"]::before { background: var(--go); }
+.ballot-tray button[data-json] { padding: .3rem .5rem; border: 0; background: none; color: var(--here); font: 600 var(--size-xs) var(--font-head); text-decoration: underline; text-underline-offset: .18em; }
+.ballot-fallback { display: grid; gap: .4rem; padding-top: .5rem; border-top: 1px solid var(--line); }
+.ballot-fallback label { color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-fallback textarea { width: 100%; min-height: 6rem; max-height: 28vh; padding: .6rem .75rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: var(--size-xs)/1.5 var(--font-code); resize: vertical; }
+.ballot-fallback button { justify-self: start; min-height: 36px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+@media (prefers-reduced-motion: no-preference) {
+  .ballot-opt, .ballot-card, .ballot-pip::before { transition: border-color .15s, box-shadow .15s, background-color .15s; }
+  .ballot-tray.nudge { animation: ballot-nudge .4s; }
+}
+@keyframes ballot-nudge { 40% { transform: translateY(-5px); } }
+@media (max-width: 760px) {
+  .ballot-steps { grid-template-columns: minmax(0, 1fr); gap: .4rem; margin-bottom: 1.5rem; }
+  .ballot-steps > li { padding: .5rem .8rem; }
+  .ballot-card > header { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "num title" ". state" ". why"; }
+  .ballot-card .state { justify-self: start; }
+}
+@media (max-width: 560px) {  /* two options stay side by side, three or more stack; the tray keeps tally and button on one line, the dots on the next */
+  html[data-mode="ballot"] .page { padding-bottom: 15rem; }
+  .ballot-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .6rem; }
+  .ballot-opts:has(> :nth-child(3)) { grid-template-columns: minmax(0, 1fr); }
+  .ballot-opts:not(:has(> :nth-child(3))) .ballot-opt[data-rec]::before { content: "★"; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; }  /* side by side there is no room for the word; the answer line explains the star */
+  .ballot-opt { padding: .5rem .5rem .7rem; }
+  .ballot-opt .vis { min-height: 5.5rem; padding: .5rem; }
+  .ballot-tray { padding: .45rem .6rem .35rem; }
+  .ballot-bar { flex-wrap: wrap; }
+  .ballot-pips { order: 3; flex-basis: 100%; }
+  .ballot-tally { font-size: var(--size-0); }
+}
+@media print { .ballot-tray { display: none !important; } .ballot-card { break-inside: avoid; } }
+
+/* the picture kit: small parts for drawing a mockup inside .vis (spans only; .vis lives in a button) */
+.mock-win { display: block; padding: .5rem .6rem; background: var(--card); border: 1px solid var(--line); border-radius: 6px; }
+.mock-title { display: block; color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+.mock-line { display: block; height: .4rem; margin: .35rem 0; border-radius: var(--r-chip); background: var(--line-strong); }
+.mock-row { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .4rem; min-height: 1.7rem; border-bottom: 1px solid var(--line); }
+.mock-row:last-child { border-bottom: 0; }
+.mock-row > :first-child { flex: 1 1 auto; min-width: 0; }
+.mock-btn, .mock-chip, .mock-pill, .mock-toast { white-space: nowrap; }
+.mock-btn { display: inline-block; margin-top: .45rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.mock-btn.quiet { margin: 0; background: none; border: 1px solid var(--line-strong); color: var(--ink); }
+.mock-chip { display: inline-block; margin: .3rem .25rem 0 0; padding: 0 .55rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); }
+.mock-pill { display: inline-block; max-width: 100%; margin-top: .45rem; overflow: hidden; text-overflow: ellipsis; padding: 0 .6rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font: 600 var(--size-xs) var(--font-head); }
+.mock-pill.go { border-color: var(--go); background: var(--go-tint); }
+.mock-pill.go::before { content: "✓ "; color: var(--go); }
+.mock-pill.wait { border-color: var(--wait); background: var(--wait-tint); }
+.mock-pill.wait::before { content: "! "; color: var(--wait); }
+.mock-toast { display: inline-flex; gap: .6rem; margin-top: .45rem; padding: .1rem .65rem; border-radius: 6px; background: var(--ink); color: var(--paper); }
+.mock-toast b { text-decoration: underline; }
+.mock-caret { display: inline-block; width: 2px; height: 1em; margin-left: 1px; vertical-align: text-bottom; background: var(--here); }
+.mock-note { display: block; margin-top: .35rem; color: var(--ink-soft); }
+.ballot-still { pointer-events: none; }
+.ballot-still .ballot-card { margin-bottom: .75rem; }
+.ballot-still .ballot-tray { position: static; width: auto; margin: 0; box-shadow: none; }
+
+/* ---------- 13. Print ---------- */
+@media print {
+  :root { --paper: #fff; --card: #fff; }
+  html, html[data-size] { font-size: 11pt; }
+  .page { display: block; width: auto; padding: 0; }
+  .rail, .progress, .skip, .chapter > header label, .read-aloud, .collect, .resume, .stepper-nav, .views-tabs { display: none !important; }
+  .chapter { break-inside: avoid; border-color: #bbb; box-shadow: none; }
+  details.fold { break-inside: avoid; }
+  details.fold[open] > summary::before, details.fold > summary::before { display: none; }
+  a { color: inherit; text-decoration: none; }
+  .figure, .answer-field { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+
+<div class="page">
+  <main id="main">
+    <p class="kicker">Four settings for the first release</p>
+    <h1>Notes app settings</h1>
+    <p class="answer">4 decisions. Anything you skip goes with ★.</p>
+
+    <ol class="ballot-steps" aria-label="How this page works">
+      <li><span><b>Compare</b> the pictures on each card.</span></li>
+      <li><span><b>Tap</b> the option you want. Tap it again to clear it.</span></li>
+      <li><span>Press <span class="ballot-keycap">Copy picks</span> in the bar at the bottom, then paste into the chat.</span></li>
+    </ol>
+
+    <section class="ballot-group" aria-labelledby="g-build">
+      <h2 id="g-build">Shapes the build</h2>
+      <p>These change what gets built.</p>
+
+      <article class="ballot-card" id="card-q1" data-q="q1" data-short="When a note saves">
+        <header><span class="num" aria-hidden="true">1</span><h3 id="q-q1">When should a note save?</h3>
+          <p class="why">Saving decides whether writers ever see a Save button, and what a crash costs them.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q1">
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span><span class="mock-line" style="width:78%"></span></span><span class="mock-pill go">Saved</span></span>
+            <span class="name"><b>A</b> As you type</span>
+            <span class="effect">Every pause saves the note. There is no Save button.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span><span class="mock-line" style="width:78%"></span></span><span class="mock-pill wait">Unsaved</span> <span class="mock-btn quiet">Close</span></span>
+            <span class="name"><b>B</b> When you close the note</span>
+            <span class="effect">Closing saves it. A crash can lose the last few edits.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="C">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span><span class="mock-line" style="width:78%"></span></span><span class="mock-btn">Save</span></span>
+            <span class="name"><b>C</b> Only when you press Save</span>
+            <span class="effect">Nothing saves by itself. A Save button stays on screen.</span>
+          </button>
+        </div>
+        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
+      </article>
+
+      <article class="ballot-card" id="card-q2" data-q="q2" data-short="Deleting a note">
+        <header><span class="num" aria-hidden="true">2</span><h3 id="q-q2">What happens when someone deletes a note?</h3>
+          <p class="why">A deleted note is either gone at once or waits in a trash. Waiting needs a new screen.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q2">
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trash</span><span class="mock-row"><span>Trip ideas</span><span class="mock-btn quiet">Restore</span></span></span><span class="mock-note">Kept for 30 days</span></span>
+            <span class="name"><b>A</b> Trash for 30 days</span>
+            <span class="effect">The note moves to Trash. It can be restored for 30 days.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Notes</span><span class="mock-line" style="width:85%"></span><span class="mock-line" style="width:60%"></span></span><span class="mock-toast">Deleted <b>Undo</b></span></span>
+            <span class="name"><b>B</b> Delete at once, with Undo</span>
+            <span class="effect">The note is gone for good. Undo stays up for 10 seconds.</span>
+          </button>
+        </div>
+        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
+      </article>
+    </section>
+
+    <section class="ballot-group" aria-labelledby="g-small">
+      <h2 id="g-small">Small calls</h2>
+      <p>Quick ones. Skipping any of them means the ★ option.</p>
+
+      <article class="ballot-card" id="card-q3" data-q="q3" data-short="New note start">
+        <header><span class="num" aria-hidden="true">3</span><h3 id="q-q3">What should a new note start with?</h3>
+          <p class="why">Most people type a title first. Some never do.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q3">
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Untitled</span><span class="mock-note"><span class="mock-caret"></span></span></span></span>
+            <span class="name"><b>A</b> A blank page</span>
+            <span class="effect">An empty note. The title comes from the first line.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-rec="Recommended">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Oct 12</span><span class="mock-note"><span class="mock-caret"></span></span></span></span>
+            <span class="name"><b>B</b> Today's date as the title</span>
+            <span class="effect">The title reads Oct 12. You can rename it.</span>
+          </button>
+        </div>
+        <p class="skip"><b>If you skip this:</b> B, the ★ option.</p>
+      </article>
+
+      <article class="ballot-card" id="card-q4" data-q="q4" data-kind="multi" data-short="First-release extras">
+        <header><span class="num" aria-hidden="true">4</span><h3 id="q-q4">Which extras ship in the first release?</h3>
+          <p class="why">Each one is small. Together they add about a week.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="group" aria-labelledby="q-q4">
+          <div class="ballot-opt" data-k="A" data-rec="Recommended">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:70%"></span><span class="mock-line" style="width:80%"></span></span><span class="mock-note">128 words</span></span>
+            <span class="name"><b>A</b> Word count</span>
+            <span class="effect">Shows how many words the note has.</span>
+            <button type="button" class="ballot-ship" aria-pressed="false">Ship this</button>
+          </div>
+          <div class="ballot-opt" data-k="B" data-rec="Recommended">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-row"><span>Shopping</span><span class="mock-chip">Pinned</span></span><span class="mock-row"><span>Trip ideas</span></span></span></span>
+            <span class="name"><b>B</b> Pinned notes</span>
+            <span class="effect">Pin a note to keep it at the top of the list.</span>
+            <button type="button" class="ballot-ship" aria-pressed="false">Ship this</button>
+          </div>
+          <div class="ballot-opt" data-k="C">
+            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trip ideas</span><span class="mock-chip">#travel</span><span class="mock-chip">#2027</span></span></span>
+            <span class="name"><b>C</b> Tags</span>
+            <span class="effect">Label notes with words like work or home.</span>
+            <button type="button" class="ballot-ship" aria-pressed="false">Ship this</button>
+          </div>
+        </div>
+        <div class="ballot-none"><button type="button" data-none aria-pressed="false">Ship none</button><span class="hint">Anything you do not mark stays parked.</span></div>
+        <p class="skip"><b>If you skip this:</b> A and B ship (★). C stays parked.</p>
+      </article>
+    </section>
+
+    <section class="ballot-group" aria-labelledby="g-done">
+      <h2 id="g-done">Already decided</h2>
+      <p>Settled earlier, for reference. Nothing to pick.</p>
+      <div class="ballot-dones">
+        <article class="ballot-done"><h3>Sync uses the person's own folder</h3><p>Notes sync through a folder the person already has, so the app needs no account.</p></article>
+      </div>
+    </section>
+
+    <div class="ballot-tray" role="region" aria-label="Your picks">
+      <div class="ballot-bar">
+        <p class="ballot-tally">0 of 4 picked</p>
+        <ol class="ballot-pips" aria-label="Jump to a decision"></ol>
+        <div class="ballot-actions"><button type="button" data-copy>Copy picks</button></div>
+      </div>
+      <div class="ballot-meta">
+        <p class="ballot-status" aria-live="polite">Tap an option on any card. Your picks collect here.</p>
+        <span class="ballot-save">Saved in this browser</span>
+        <button type="button" data-json>Copy JSON</button>
+      </div>
+      <div class="ballot-fallback" hidden>
+        <label for="ballot-fallback-text">The text is selected. Press Ctrl+C (⌘C on a Mac), then paste it into the chat.</label>
+        <textarea id="ballot-fallback-text" readonly></textarea>
+        <button type="button" data-close>Close</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* Optional behaviour. The page reads fine with JavaScript off. */
+(() => {
+'use strict';
+const d = document, root = d.documentElement, body = d.body;
+const $ = (s, r = d) => r?.querySelector(s), qa = (s, r = d) => [...r.querySelectorAll(s)];
+const on = (e, ev, f) => e?.addEventListener(ev, f);
+const byId = id => id ? d.getElementById(id) : null;
+const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
+const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
+const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
+const key = 'explainer:' + (location.pathname || 'page');
+root.classList.add('js');
+
+/* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
+const T = {
+  en: { of: '{n} of {m}', step: '{n} of {m}', ans: '{n} of {m} answered', head: 'answers from {name} on {date}', anon: 'anonymous', none: 'Not answered',
+        read: 'Read aloud', stop: 'Stop', cont: 'Continue from', go: 'Go', no: 'Dismiss', keys: 'Keys', next: 'Next chapter', prev: 'Previous chapter', close: 'Close', fin: 'All chapters done',
+        pickN: '{n} of {m} picked', pickCopied: 'Copied', pickNot: 'Not picked', pickYour: 'Your pick: {k}', shipSome: 'Ship {k}', shipNone: 'Ship none',
+        pickHead: '{title}: my picks ({n} of {m})', pickShip: 'ship {k}', pickNone: 'ship none', pickUse: 'Not picked (use ★)',
+        savedDb: 'Saved for Claude', savedLocal: 'Saved in this browser', savedNone: 'Not saved; Copy picks still works',
+        pickIdle: 'Tap an option on any card. Your picks collect here.', pickLeft: '{n} left. Anything you skip goes with the ★ option.', pickAll: 'All {m} picked. Copy them and paste into the chat.',
+        pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.' },
+  ja: { of: '{m}章中 第{n}章', step: '{n} / {m}', ans: '{m}問中 {n}問 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
+        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了',
+        pickN: '{m}問中{n}問 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '含める：{k}', shipNone: 'どれも含めない',
+        pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '含める {k}', pickNone: '含めない', pickUse: '未選択（★を採用）',
+        savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
+        pickIdle: '各カードの選択肢をタップしてください。選択はここに集まります。', pickLeft: '残り{n}問。飛ばした項目は★の選択肢になります。', pickAll: '{m}問すべて選択済み。コピーしてチャットに貼り付けてください。',
+        pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。' }
+};
+const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
+const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
+
+/* theme and text size */
+const tt = $('[data-theme-toggle]'), sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]'), sizes = ['', 'lg', 'xl'];
+if (store.get('explainer:theme')) root.dataset.theme = store.get('explainer:theme');
+on(tt, 'click', () => store.set('explainer:theme', root.dataset.theme = (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark' ? 'light' : 'dark'));
+root.dataset.size = store.get('explainer:size') || '';
+on($('button[data-size]'), 'click', () => store.set('explainer:size', root.dataset.size = sizes[(sizes.indexOf(root.dataset.size) + 1) % 3]));
+
+/* skim, ruler and one-chapter modes: on or off on <body>; the ruler is remembered */
+const flip = (btn, attr, k, then) => {
+  if (!btn) return;
+  const set = s => { body.setAttribute(attr, s ? 'on' : 'off'); btn.setAttribute('aria-pressed', s); then?.(s); };
+  if (k && store.get(k) === 'on') set(true);
+  on(btn, 'click', () => { const s = body.getAttribute(attr) !== 'on'; set(s); k && store.set(k, s ? 'on' : 'off'); });
+};
+const parts = qa('.chapter, .recap, .ask'), nav = $('.focus-nav'), [pv, nx] = ['prev', 'next'].map(k => $('[data-' + k + ']', nav));
+let idx = 0, current;
+const focused = () => body.dataset.focus === 'on';
+const showPart = i => {
+  idx = Math.max(0, Math.min(parts.length - 1, i));
+  parts.forEach((p, n) => p.toggleAttribute('data-active', n === idx));
+  if (nav) {
+    pv.disabled = idx === 0; nx.disabled = idx === parts.length - 1;
+    const h = $('h2', parts[idx]); $('.where', nav).textContent = fmt(L.of, { n: idx + 1, m: parts.length }) + (h ? ': ' + h.textContent : '');
+  }
+  if (focused()) scrollTo(0, nav ? nav.getBoundingClientRect().top + scrollY - 8 : 0);
+};
+const jump = e => { const n = parts.indexOf(e); if (n >= 0) focused() ? showPart(n) : e.scrollIntoView(); };
+flip(sk, 'data-skim'); flip(ru, 'data-ruler', 'explainer:ruler');
+if (parts.length) {
+  flip(fb, 'data-focus', 0, s => { if (s) showPart(Math.max(0, parts.findIndex(p => p.getBoundingClientRect().bottom > 120))); });
+  on(pv, 'click', () => showPart(idx - 1)); on(nx, 'click', () => showPart(idx + 1));
+  on(d, 'click', e => {
+    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"]');
+    const n = a ? parts.indexOf(byId(a.getAttribute('href').slice(1))) : -1;
+    if (n >= 0) { e.preventDefault(); showPart(n); }
+  });
+}
+
+/* progress bar */
+const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };
+addEventListener('scroll', progress, { passive: true }); addEventListener('resize', progress); progress();
+
+/* resume: offer the chapter the reader was last in */
+const last = byId(store.get(key + ':last')), head = $('.answer');
+if (last && head && last !== $('.chapter')) {
+  const rc = make('div', 'resume', esc(L.cont) + ' <b>' + esc(txt($('h2', last) || last)) + '</b> <button type="button">' + L.go + '</button><button type="button" aria-label="' + L.no + '">×</button>');
+  const [go, x] = qa('button', rc); go.dataset.resume = x.dataset.resumeDismiss = '';
+  on(go, 'click', () => { rc.remove(); jump(last); }); on(x, 'click', () => rc.remove());
+  head.after(rc);
+}
+
+/* current chapter in the rail, remembered for resume */
+const links = qa('.rail a[href^="#"]'), targets = links.map(a => byId(a.getAttribute('href').slice(1))).filter(Boolean);
+if (window.IntersectionObserver && targets.length) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) current = e.target; });
+    links.forEach(a => a.setAttribute('aria-current', !!current && a.getAttribute('href') === '#' + current.id));
+    if (current) store.set(key + ':last', current.id);
+  }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+  targets.forEach(t => io.observe(t));
+}
+
+/* done boxes, remembered per page; all checked sets the finish state */
+let done = {}; try { done = JSON.parse(store.get(key + ':done')) || {}; } catch (e) {}
+const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.finished = boxes.length && boxes.every(b => b.checked) ? 'on' : 'off'; };
+$('.recap h2')?.after(make('span', 'finished', L.fin));
+boxes.forEach(box => {
+  const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
+  box.checked = !!done[c.id]; paint();
+  on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
+});
+finish();
+
+/* stepper: dim what is not lit on this step, show this step's text */
+qa('.stepper').forEach(f => {
+  const tx = qa('[data-step-text]', f), sn = $('.stepper-nav', f), w = $('.where', sn), [a, b] = ['prev', 'next'].map(k => $('[data-' + k + ']', sn));
+  const show = i => {
+    const s = Math.max(1, Math.min(tx.length, i)); f.dataset.step = s;
+    qa('[data-steps]', f).forEach(e => e.classList.toggle('is-dim', !e.dataset.steps.split(/\s*,\s*/).includes('' + s)));
+    tx.forEach(t => { t.hidden = +t.dataset.stepText !== s; });
+    if (w) w.textContent = fmt(L.step, { n: s, m: tx.length });
+    a?.setAttribute('aria-disabled', s < 2); b?.setAttribute('aria-disabled', s >= tx.length);
+  };
+  on(a, 'click', () => show(f.dataset.step - 1)); on(b, 'click', () => show(+f.dataset.step + 1));
+  f.tabIndex = 0;
+  on(f, 'keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); show(+f.dataset.step + (e.key === 'ArrowRight' ? 1 : -1)); } });
+  sn?.setAttribute('aria-live', 'polite'); show(+f.dataset.step || 1);
+});
+
+/* perspectives tabs: the first panel is visible without script */
+qa('.views').forEach(v => {
+  const tabs = qa('[data-view-tab]', v), panels = qa('[data-view-panel]', v);
+  const pick = (t, focus) => {
+    tabs.forEach(x => { x.setAttribute('aria-selected', x === t); x.tabIndex = x === t ? 0 : -1; });
+    panels.forEach(p => { p.hidden = p.dataset.viewPanel !== t.dataset.viewTab; });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    on(t, 'click', () => pick(t));
+    on(t, 'keydown', e => {
+      const j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (j !== undefined) { e.preventDefault(); pick(tabs[(j + tabs.length) % tabs.length], 1); }
+    });
+  });
+  if (tabs.length) pick(tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0]);
+});
+
+/* mini-map: light this chapter's node, dim the rest */
+qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.dataset.node === m.dataset.lit ? 'is-lit' : 'is-dim')));
+
+/* read aloud: one block at a time, in the page language; one chapter at a time */
+const rd = qa('[data-read]'); let sid = 0;
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = L.read; }); };
+rd.forEach(b => {
+  if (!window.speechSynthesis) { b.hidden = true; return; }
+  b.textContent = L.read;
+  on(b, 'click', () => {
+    const was = b.hasAttribute('data-reading'); hush(); if (was) return;
+    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = L.stop;
+    const next = () => {
+      const e = list[i++]; if (me !== sid) return; if (!e) return hush();
+      e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
+      const u = new SpeechSynthesisUtterance(e.innerText); u.lang = root.lang;
+      u.onend = u.onerror = () => { e.classList.remove('speaking'); next(); };
+      speechSynthesis.speak(u);
+    };
+    next();
+  });
+});
+
+/* keys: J K change chapter, F S D R switch modes, ? lists them */
+const kb = $('[data-keys]');
+const dlg = kb && make('dialog', 'keys', '<h2>' + L.keys + '</h2><dl>' + [['J', L.next], ['K', L.prev], ['F', fb], ['S', sk], ['D', tt], ['R', ru], ['?', kb]]
+  .map(([k, b]) => b ? '<dt><kbd>' + k + '</kbd></dt><dd>' + esc(b.textContent ? txt(b) : b) + '</dd>' : '').join('') + '</dl><form method="dialog"><button>' + L.close + '</button></form>');
+if (dlg) { body.append(dlg); on(dlg, 'click', e => { if (e.target === dlg) dlg.close(); }); on(kb, 'click', () => dlg.showModal()); }
+on(d, 'keydown', e => {
+  const k = (e.key || '').toLowerCase(), t = e.target;
+  if (e.ctrlKey || e.metaKey || e.altKey || t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName || '') || t.closest?.('dialog[open]') || dlg?.open) return;
+  if (k === 'j' || k === 'k') { const p = parts[Math.max(0, Math.min(parts.length - 1, (focused() ? idx : parts.indexOf(current)) + (k === 'j' ? 1 : -1)))]; if (p) jump(p); }
+  else if (k === '?' && dlg) dlg.showModal();
+  else { const b = { f: fb, s: sk, d: tt, r: ru }[k]; if (!b?.click) return; b.click(); }
+  e.preventDefault();
+});
+
+/* ballot: one pick per card, a tray that copies every pick. Runs only on <html data-mode="ballot">. Picks are kept in this
+   browser, and in the artifact database when claude.ai grants one, so the agent can read them without a paste. */
+if (root.dataset.mode === 'ballot') {
+  const cards = qa('.ballot-card'), tray = $('.ballot-tray'), total = cards.length, pk = key + ':picks';
+  const [tally, status, saveEl, pipList, hole, holeText] = ['.ballot-tally', '.ballot-status', '.ballot-save', '.ballot-pips', '.ballot-fallback', '.ballot-fallback textarea'].map(s => $(s, tray));
+  const multi = c => c.dataset.kind === 'multi', optsOf = c => qa('[data-k]', c), letters = c => optsOf(c).map(o => o.dataset.k);
+  const numOf = (c, i) => { const n = $('.num', c); return n ? txt(n) : String(i + 1); };
+  const nameOf = (c, k) => { const o = optsOf(c).find(x => x.dataset.k === k), n = $('.name', o).cloneNode(true); $('b', n)?.remove(); return txt(n); };
+  const valid = (c, v) => multi(c) ? Array.isArray(v) && v.every(k => letters(c).includes(k)) : typeof v === 'string' && letters(c).includes(v);
+  const tidy = o => Object.fromEntries(cards.filter(c => o && valid(c, o[c.dataset.q])).map(c => [c.dataset.q, o[c.dataset.q]]));  /* picks: q -> 'B', or ['A','B'] ([] = none) on a multi card */
+  const sig = o => JSON.stringify(cards.map(c => o[c.dataset.q]));
+  let picks = {}; try { picks = tidy(JSON.parse(store.get(pk))); } catch (e) {}
+  let db = null, dbOk = false, localOk = true;
+
+  const stateOf = (c, v) => v === undefined ? L.pickNot : multi(c) ? (v.length ? fmt(L.shipSome, { k: v.join(', ') }) : L.shipNone) : fmt(L.pickYour, { k: v });
+  const pips = cards.map((c, i) => {
+    const a = d.createElement('a'), li = d.createElement('li');
+    c.id = c.id || 'card-' + c.dataset.q; a.className = 'ballot-pip'; a.href = '#' + c.id; a.title = c.dataset.short || '';
+    a.innerHTML = '<span>' + esc(numOf(c, i)) + '</span>'; li.append(a); pipList?.append(li); return a;
+  });
+  const paint = () => {
+    let n = 0;
+    cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], got = v !== undefined;
+      if (got) n++;
+      c.classList.toggle('picked', got);
+      optsOf(c).forEach((o, j) => {
+        const on = got && (multi(c) ? v.includes(o.dataset.k) : v === o.dataset.k);
+        if (multi(c)) { o.classList.toggle('on', on); $('.ballot-ship', o)?.setAttribute('aria-pressed', on); }
+        else { o.setAttribute('aria-checked', on); o.tabIndex = (got ? on : j === 0) ? 0 : -1; }  /* one tab stop per radio group */
+      });
+      $('[data-none]', c)?.setAttribute('aria-pressed', got && multi(c) && !v.length);
+      $('.state', c).textContent = stateOf(c, v);
+      pips[i].classList.toggle('on', got); pips[i].setAttribute('aria-label', numOf(c, i) + '. ' + (c.dataset.short || '') + ': ' + stateOf(c, v));
+    });
+    if (tally) tally.textContent = fmt(L.pickN, { n, m: total });
+    tray?.toggleAttribute('data-complete', n === total);
+    return n;
+  };
+
+  /* the status line is the tray's aria-live region */
+  let sayTimer;
+  const say = (msg, hold) => { if (status) status.textContent = msg; clearTimeout(sayTimer); if (!hold) sayTimer = setTimeout(() => { if (status) status.textContent = idle(); }, 4200); };
+  const idle = () => { const n = paint(); return n === 0 ? L.pickIdle : n === total ? fmt(L.pickAll, { m: total }) : fmt(L.pickLeft, { n: total - n }); };
+
+  /* saving: this browser always, the artifact database when it answers */
+  const label = () => { const s = db && dbOk ? 'db' : localOk ? 'local' : 'none'; if (saveEl) { saveEl.dataset.state = s; saveEl.textContent = L[{ db: 'savedDb', local: 'savedLocal', none: 'savedNone' }[s]]; } };
+  const saveLocal = () => { try { localStorage.setItem(pk, JSON.stringify(picks)); localOk = true; } catch (e) { localOk = false; } label(); };
+  const lanes = {};  /* one write at a time per document */
+  const saveDb = q => {
+    if (!db) return;
+    lanes[q] = (lanes[q] || Promise.resolve()).then(async () => {
+      try { const ref = db.doc('picks/' + q), v = picks[q]; if (v === undefined) await ref.delete(); else await ref.set({ choice: v, at: new Date().toISOString() }); dbOk = true; }
+      catch (e) { dbOk = false; }
+      label();
+    });
+  };
+  const setPick = (c, v) => {
+    const q = c.dataset.q, i = cards.indexOf(c);
+    if (v === undefined) delete picks[q]; else picks[q] = v;
+    const n = paint(); saveLocal(); saveDb(q);
+    const p = v === undefined ? numOf(c, i) : multi(c) ? numOf(c, i) + ' ' + stateOf(c, v) : numOf(c, i) + v;
+    say(n === total ? fmt(L.pickAll, { m: total }) : fmt(v === undefined ? L.pickClear : L.pickDone, { p, n, m: total }), 1);
+    tray?.classList.remove('nudge'); void tray?.offsetWidth; tray?.classList.add('nudge');
+  };
+
+  /* what the agent gets: one line per pick, made for pasting into chat */
+  const picksText = () => {
+    const n = paint(), left = [], lines = [fmt(L.pickHead, { title: d.title, n, m: total })];
+    cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], num = numOf(c, i), short = c.dataset.short || txt($('h3', c));
+      if (v === undefined) left.push(num);
+      else if (multi(c)) lines.push(num + ' ' + short + ': ' + (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone));
+      else lines.push(num + v + ' ' + nameOf(c, v) + ' · ' + short);
+    });
+    if (left.length) lines.push(L.pickUse + ': ' + left.join(', '));
+    return lines.join('\n');
+  };
+  /* the same shape as the gather copy, so assets/merge.html reads it: kind "choice", the option name as the answer */
+  const picksJson = () => {
+    const o = pack();
+    cards.forEach(c => {
+      const q = c.dataset.q, v = picks[q], question = txt($('h3', c));
+      if (v === undefined) o.unanswered.push({ q, question });
+      else o.answers.push({ q, kind: multi(c) ? 'multi' : 'choice', question, answer: multi(c) ? (v.length ? v.map(k => nameOf(c, k)).join(', ') : L.shipNone) : nameOf(c, v) });
+    });
+    return JSON.stringify(o, null, 2);
+  };
+
+  /* copy; when the clipboard refuses, show the text in a box with everything selected */
+  let reset;
+  const restore = () => { clearTimeout(reset); qa('[data-label]', tray).forEach(x => { x.textContent = x.dataset.label; x.classList.remove('copied'); }); };
+  const copied = b => { b.dataset.label = b.dataset.label || b.textContent; b.textContent = L.pickCopied; b.classList.add('copied'); clearTimeout(reset); reset = setTimeout(restore, 2400); };
+  const send = (text, b) => {
+    const ok = () => { if (hole) hole.hidden = true; copied(b); say(L.pickMsg); };
+    const no = () => { restore(); if (!hole) return; holeText.value = text; hole.hidden = false; holeText.focus(); holeText.select(); say(L.pickBlocked, 1); };
+    try { navigator.clipboard?.writeText ? navigator.clipboard.writeText(text).then(ok, no) : no(); } catch (e) { no(); }
+  };
+
+  /* clicks: options, multi toggles, "none", jump dots, copy, close */
+  const choose = (c, k) => setPick(c, picks[c.dataset.q] === k ? undefined : k);
+  const ship = (c, k) => { const v = picks[c.dataset.q] || []; const next = letters(c).filter(x => v.includes(x) !== (x === k)); setPick(c, next.length ? next : undefined); };
+  on(d, 'click', e => {
+    const t = e.target.closest ? e.target : e.target.parentElement; if (!t) return;
+    const c = t.closest('.ballot-card'), btn = t.closest('button');
+    if (btn?.classList.contains('ballot-opt')) return choose(c, btn.dataset.k);
+    if (btn?.classList.contains('ballot-ship')) return ship(c, btn.closest('[data-k]').dataset.k);
+    if (btn && 'none' in btn.dataset) return setPick(c, picks[c.dataset.q]?.length === 0 ? undefined : []);
+    if (c && multi(c) && t.closest('.ballot-opt') && !btn) return $('.ballot-ship', t.closest('.ballot-opt'))?.click();  /* the picture and words toggle too */
+    const pip = t.closest('.ballot-pip');
+    if (pip) {
+      e.preventDefault();
+      const target = byId(pip.getAttribute('href').slice(1)); if (!target) return;
+      target.scrollIntoView(); target.classList.add('flash'); setTimeout(() => target.classList.remove('flash'), 1400);
+      $('.ballot-opt[tabindex="0"], .ballot-ship', target)?.focus({ preventScroll: true });
+    } else if (btn && tray?.contains(btn)) {
+      if ('copy' in btn.dataset) send(picksText(), btn);
+      else if ('json' in btn.dataset) send(picksJson(), btn);
+      else if ('close' in btn.dataset) { hole.hidden = true; $('[data-copy]', tray)?.focus(); }
+    }
+  });
+  /* arrow keys move through a card's options like a radio group: focus follows, and so does the pick */
+  on(d, 'keydown', e => {
+    if (e.key === 'Escape' && hole && !hole.hidden && tray.contains(e.target)) { hole.hidden = true; $('[data-copy]', tray)?.focus(); return; }
+    const o = e.target.closest?.('button.ballot-opt'); if (!o || e.ctrlKey || e.metaKey || e.altKey) return;
+    const all = qa('button.ballot-opt', o.parentElement), i = all.indexOf(o), step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    const j = step ? (i + step + all.length) % all.length : e.key === 'Home' ? 0 : e.key === 'End' ? all.length - 1 : -1;
+    if (j < 0) return;
+    e.preventDefault(); all[j].focus(); setPick(o.closest('.ballot-card'), all[j].dataset.k);
+  });
+
+  paint(); saveLocal(); say(idle(), 1);
+  (async () => {  /* inside a claude.ai artifact, window.claude.use('db') resolves; anywhere else it is absent or null */
+    try { db = (await window.claude?.use?.('db')) || null; } catch (e) { db = null; }
+    if (!db) return;
+    try {
+      db.collection('picks').onSnapshot(snap => {
+        if (snap.empty && snap.metadata.fromCache) return;  /* not the server's answer yet */
+        dbOk = true; label();
+        const next = tidy(Object.fromEntries(snap.docs.map(x => [x.id, x.data()?.choice])));
+        if (sig(next) === sig(picks)) return;
+        picks = next; saveLocal(); say(idle(), 1);
+      }, () => { dbOk = false; label(); });
+    } catch (e) { db = null; }
+    label();
+  })();
+}
+
+/* gather: answers are saved on this device; the collect bar copies or downloads them */
+const fields = qa('.answer-field'), bar = $('.collect'), cnt = $('.count', bar), who = $('.respondent', bar), ak = key + ':answers';
+let kept = {}; try { kept = JSON.parse(store.get(ak)) || {}; } catch (e) {}
+const lab = i => { const l = i.closest('label'); return l ? txt(l) : i.value; };
+const item = li => { const c = li.cloneNode(true); qa('button', c).forEach(b => b.remove()); return txt(c); };
+const grab = f => ({ v: f.dataset.kind === 'rank' ? qa('li', f).map(item) : qa('input:checked', f).map(lab), t: $('textarea', f)?.value || '' });
+const put = (f, o) => {
+  const t = $('textarea', f), ol = $('ol', f);
+  if (t) t.value = o.t;
+  if (ol) o.v.forEach(k => qa('li', ol).forEach(li => { if (item(li) === k) ol.append(li); }));
+  else qa('input', f).forEach(i => { i.checked = o.v.includes(lab(i)); });
+};
+const answer = f => {
+  const o = kept[f.dataset.q], why = o.t.trim(), tag = $('textarea', f)?.getAttribute('aria-label');
+  return f.dataset.kind === 'rank' ? o.v.join('\n') : o.v.length ? o.v.join(', ') + (why ? '\n' + (tag ? tag + ': ' : '') + why : '') : why;
+};
+const sync = () => {
+  let n = 0; qa('.rail a.answered').forEach(a => a.classList.remove('answered'));
+  fields.forEach(f => { if (kept[f.dataset.q]) { n++; $('.rail a[href="#' + f.closest('section[id]')?.id + '"]')?.classList.add('answered'); } });
+  if (bar) bar.hidden = !n;
+  if (cnt) cnt.textContent = fmt(L.ans, { n, m: fields.length });
+};
+const save = f => {
+  const o = grab(f); if (o.v.length || o.t.trim()) kept[f.dataset.q] = o; else delete kept[f.dataset.q];
+  store.set(ak, JSON.stringify(kept)); sync();
+};
+fields.forEach(f => { if (kept[f.dataset.q]) put(f, kept[f.dataset.q]); });
+if (who) who.value = store.get('explainer:name') || '';
+on(d, 'input', e => { const f = e.target.closest?.('.answer-field'); if (f) save(f); else if (e.target === who) store.set('explainer:name', who.value); });
+on(d, 'click', e => {  /* rank: move an item up or down */
+  const b = e.target.closest?.('[data-up], [data-down]'), li = b?.closest('li'), f = li?.closest('.answer-field');
+  if (!f) return;
+  const up = 'up' in b.dataset, sib = up ? li.previousElementSibling : li.nextElementSibling;
+  if (sib) li.parentNode.insertBefore(up ? li : sib, up ? sib : li);
+  b.focus(); save(f);
+});
+sync();
+const pack = () => {
+  const t = new Date(), p = n => String(n).padStart(2, '0'), o = { title: d.title, lang: root.lang || 'en', name: who?.value.trim() || L.anon,
+    date: t.getFullYear() + '-' + p(t.getMonth() + 1) + '-' + p(t.getDate()), answers: [], unanswered: [] };
+  fields.forEach(f => {
+    const h = $('legend, label', f), q = f.dataset.q, question = h ? txt(h) : '';
+    if (kept[q]) o.answers.push({ q, kind: f.dataset.kind || 'text', question, answer: answer(f) }); else o.unanswered.push({ q, question });
+  });
+  return o;
+};
+const markdown = o => '# ' + o.title + ': ' + fmt(L.head, o) + ' (' + o.lang + ')\n'
+  + o.answers.map(x => '\n## [' + x.q + '] ' + x.question + '\n' + x.answer + '\n').join('')
+  + (o.unanswered.length ? '\n## ' + L.none + '\n' + o.unanswered.map(x => '[' + x.q + '] ' + x.question + '\n').join('') : '');
+const flash = (b, ok) => { b.classList.add(ok ? 'go' : 'stop'); setTimeout(() => b.classList.remove('go', 'stop'), 1600); };
+const copy = (s, b) => {
+  const legacy = () => {
+    const t = d.createElement('textarea'); let ok = false; t.value = s; t.style.cssText = 'position:fixed;opacity:0'; body.append(t); t.select();
+    try { ok = d.execCommand('copy'); } catch (e) {} t.remove(); flash(b, ok);
+  };
+  navigator.clipboard?.writeText ? navigator.clipboard.writeText(s).then(() => flash(b, true), legacy) : legacy();
+};
+on(bar, 'click', e => {
+  const b = e.target.closest?.('button'); if (!b) return;
+  const o = pack();
+  if ('copy' in b.dataset) copy(markdown(o), b);
+  else if ('json' in b.dataset) copy(JSON.stringify(o, null, 2), b);
+  else if ('download' in b.dataset) {
+    const a = d.createElement('a'), slug = s => s.replace(/[\\/:*?"<>|]+/g, ' ').trim().replace(/\s+/g, '-');
+    a.href = URL.createObjectURL(new Blob([markdown(o)], { type: 'text/markdown;charset=utf-8' }));
+    a.download = slug(o.title) + '-answers-' + (who?.value.trim() ? slug(who.value) + '-' : '') + o.date + '.md';
+    body.append(a); a.click(); a.remove(); flash(b, true);
+  }
+});
+})();
+</script>
+</body>
+</html>

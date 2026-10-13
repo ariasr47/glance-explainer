@@ -62,6 +62,7 @@ const ja = /^ja(-|$)/i.test(lang); // any other lang falls back to the English r
 const unit = ja ? 'chars' : 'words', size = ja ? chars : words;
 const RATE = ja ? 500 : 200; // reading speed per minute, in `unit`
 const LIM = { para: ja ? 90 : 40, sent: ja ? 60 : 30, keep: ja ? 25 : 15, answer: ja ? 70 : 40, chapter: 1.25 * RATE, path: 7 * RATE };
+const ballot = type === 'gather' && /data-mode="ballot"/.test(htmlAttrs); // a ballot is a column of cards and a tray: no keep box, recap, chapters or rail
 if (!lang) fail('missing lang on <html>; set lang="en" or lang="ja"');
 if (!TYPES.includes(type)) fail(`unknown data-type "${type}"; use one of ${TYPES.join(', ')}`);
 
@@ -97,20 +98,22 @@ if (!ja && title && title.split(/\s+/).length > 2 && title.split(/\s+/).every(w 
 const bodyOnly = html.replace(/<(style|script)[\s\S]*?<\/\1>/g, '').replace(/<head>[\s\S]*?<\/head>/, '');
 const dashes = (bodyOnly.match(/—|&mdash;/g) || []).length; if (dashes > 0) warn(`${dashes} em dash(es); use a full stop, a colon, or a comma instead`);
 const middots = (bodyOnly.match(/ · |&middot;/g) || []).length; if (!ja && middots > 0) warn(`${middots} middle dot(s) in text; use words or punctuation`);
-const keep = html.match(/<div class="keep">([\s\S]*?)<\/div>/);
-if (!keep) fail('missing div.keep'); else {
-  const items = (keep[1].match(/<li\b/g) || []).length; info.keepItems = items;
-  if (items < 1 || items > 3) fail(`keep box has ${items} items; 1 to 3 allowed`);
-  for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) if (size(li[1]) > LIM.keep) warn(`keep item over ${LIM.keep} ${unit}: "${strip(li[1]).slice(0, 60)}"`);
+if (!ballot) { // the explainer spine; a ballot page has none of it
+  const keep = html.match(/<div class="keep">([\s\S]*?)<\/div>/);
+  if (!keep) fail('missing div.keep'); else {
+    const items = (keep[1].match(/<li\b/g) || []).length; info.keepItems = items;
+    if (items < 1 || items > 3) fail(`keep box has ${items} items; 1 to 3 allowed`);
+    for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) if (size(li[1]) > LIM.keep) warn(`keep item over ${LIM.keep} ${unit}: "${strip(li[1]).slice(0, 60)}"`);
+  }
+  if (!count(hasClass('section', 'recap'))) fail('missing section.recap');
 }
-if (!count(hasClass('section', 'recap'))) fail('missing section.recap');
 
 // ---- chapters
 // a chapter ends at its own </section>, not the first one: a roadmap's lanes are sections inside the chapter
 const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>]*>/g)].map((m) => [m[0], m[1], inner(html, m.index + m[0].length, 'section')]);
 info.chapters = chapters.length;
 const maxChapters = type === 'atlas' ? 12 : 7; // the atlas menu offers twelve chapters
-if (chapters.length < 3 || chapters.length > maxChapters) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
+if (!ballot && (chapters.length < 3 || chapters.length > maxChapters)) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
 const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises)\b/;
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
 let totalWords = 0;
@@ -182,7 +185,7 @@ for (const s of html.matchAll(/<svg\b([^>]*)>([\s\S]*?)<\/svg>/g)) {
   if (hard) warn(`svg uses hard-coded colours (${hard.length}); prefer d-* classes so dark mode works`);
   const nodes = (s[2].match(/<rect\b/g) || []).length; if (nodes > 9) warn(`svg has ${nodes} boxes; split it or fold it`);
 }
-const rails = count(/<nav class="rail"/); if (rails !== 1) fail('missing nav.rail');
+if (!ballot) { const rails = count(/<nav class="rail"/); if (rails !== 1) fail('missing nav.rail'); }
 
 // ---- language: the text must match lang; Japanese also needs its own CSS, no italics and BIZ UDPGothic
 const pageText = strip(bodyOnly);
@@ -233,7 +236,7 @@ const REQUIRED = { decision: ['decision', 'ask'], status: ['status'], spec: ['sp
 for (const c of REQUIRED[type] || []) need(num(c), `needs at least one .${c}`);
 if (type === 'status') need(find('timeline').some((t) => num('here', 'li', t.inner) === 1), 'needs a .timeline with exactly one li.here');
 if (type === 'research') { need(num('status') + num('tiles'), 'needs at least one .status or .tiles'); need(num('fold', 'details'), 'needs at least one details.fold'); }
-if (type === 'gather') {
+if (type === 'gather' && !ballot) {
   const fields = find('answer-field'), seen = new Set();
   need(fields.length, 'needs at least one .answer-field');
   fields.forEach((f, i) => {
@@ -244,6 +247,32 @@ if (type === 'gather') {
     need(m && strip(m[1]), `.answer-field ${at} has no non-empty ${el}`);
   });
   need(num('collect') === 1, `needs exactly one .collect, found ${num('collect')}`);
+}
+// ---- ballot mode: pictured cards and a pinned tray (data-type="gather" data-mode="ballot"); the tray replaces .collect
+if (ballot) {
+  const cards = find('ballot-card'), seen = new Set(); info.cards = cards.length;
+  need(cards.length, 'needs at least one .ballot-card');
+  cards.forEach((c, i) => {
+    const q = attr(c.attrs, 'data-q'), at = q ? `"${q}"` : `#${i + 1}`;
+    if (!q) bad(`.ballot-card ${at} has no data-q`); else if (seen.has(q)) bad(`duplicate data-q "${q}"`);
+    seen.add(q);
+    need(strip(attr(c.attrs, 'data-short') || ''), `.ballot-card ${at} has no data-short`);
+    need(hasClass('p', 'skip').test(c.inner), `.ballot-card ${at} has no p.skip ("If you skip this")`);
+    const opts = find('ballot-opt', null, c.inner), multi = attr(c.attrs, 'data-kind') === 'multi', rec = withAttr('data-rec', c.inner).length;
+    need(opts.length >= 2, `.ballot-card ${at} has ${opts.length} option(s); at least 2 needed`);
+    if (!multi) need(rec === 1, `.ballot-card ${at} has ${rec} [data-rec] options; exactly 1 needed (a multi card may have any number)`);
+    opts.forEach((o) => {
+      const k = attr(o.attrs, 'data-k') || '?', vis = find('vis', null, o.inner)[0];
+      if (!vis || !(strip(vis.inner) || /<(?:img|svg|canvas|picture)\b/i.test(vis.inner))) bad(`.ballot-card ${at}: option ${k} has no non-empty .vis`);
+      else if (!/<[a-z]/i.test(vis.inner)) warn(`.ballot-card ${at}: the .vis of option ${k} is text alone; draw a small mockup or use an <img>`);
+    });
+  });
+  const trays = find('ballot-tray');
+  need(trays.length === 1, `needs exactly one .ballot-tray, found ${trays.length}`);
+  if (trays.length === 1) {
+    need(withAttr('data-copy', trays[0].inner).some((m) => m[1].toLowerCase() === 'button'), '.ballot-tray has no button[data-copy]');
+    if (!/\saria-live=/.test(trays[0].inner)) warn('.ballot-tray has no aria-live status line');
+  }
 }
 if (type === 'atlas') {
   const states = ['state-current', 'state-dormant', 'state-target'];
@@ -346,7 +375,7 @@ const out = { file, ok: fails.length === 0, fails, warns, info };
 if (asJson) console.log(JSON.stringify(out, null, 2));
 else {
   console.log(`${out.ok ? 'PASS' : 'FAIL'}  ${file}`);
-  console.log(`  title: "${info.title}"  chapters: ${info.chapters}  reading-path ${unit}: ${info.readingPathWords}  size: ${info.kb} KB`);
+  console.log(`  title: "${info.title}"  ${ballot ? 'cards: ' + info.cards : `chapters: ${info.chapters}  reading-path ${unit}: ${info.readingPathWords}`}  size: ${info.kb} KB`);
   for (const f of fails) console.log(`  FAIL  ${f}`);
   for (const w of warns) console.log(`  warn  ${w}`);
 }
