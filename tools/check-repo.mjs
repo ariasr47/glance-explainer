@@ -40,6 +40,14 @@ for (const tag of ['style', 'script']) {
   if (block(tpl, tag) && block(tpl, tag) === block(gal, tag)) ok(`gallery <${tag}> matches the template`);
   else bad(`gallery <${tag}> differs from the template; paste the template's block into the gallery`);
 }
+// the public site shows the current design, so its pages carry the template's blocks too (a page may add its own after them)
+for (const page of ['docs/index.html', 'docs/roadmap.html'].filter((p) => existsSync(at(p)))) {
+  const s = readFileSync(at(page), 'utf8');
+  for (const tag of ['style', 'script']) {
+    if (block(tpl, tag) === block(s, tag)) ok(`${page} <${tag}> matches the template`);
+    else bad(`${page} <${tag}> differs from the template; paste the template's first <${tag}> block into it`);
+  }
+}
 
 // 3. relative paths named in skill files
 const walk = (d) => readdirSync(d).flatMap((n) => { const p = join(d, n); return statSync(p).isDirectory() ? walk(p) : [p]; });
