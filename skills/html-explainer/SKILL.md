@@ -23,7 +23,7 @@ One `.html` file from `../../assets/template.html`, in this order:
 
 ## Page identity and conventions
 
-- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research` or `handover`, each defined in `types.md`.
+- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap` or `tour`, each defined in `types.md`.
 - Pages that collect answers (`gather`) or map a system (`atlas`) add rules. Also read `../explainer-gather/SKILL.md` or `../explainer-atlas/SKILL.md`.
 - Chapter kicker: "Chapter 2 of 6, about 1 minute" (200 words a minute, rounded up). Japanese: "第2章 / 全6章、約1分" (500 characters a minute).
 - Headings ask the question the chapter answers: "What changes for you?", not "Impact".
@@ -51,6 +51,11 @@ One `.html` file from `../../assets/template.html`, in this order:
 - See change over time in one picture: `figure.stepper`
 - See several views of one thing: `div.views`
 - See where this chapter sits in the whole: `figure.minimap`
+- Compare options on the same criteria: `table.grid` in `div.grid-wrap`
+- Plan now, next and later, with dependencies: `.lanes` with three `.lane`
+- Follow a procedure with a check and a way out at each step: `ol.runbook` with `pre.cmd`
+- Walk through a product on its real screens: `ol.tour` with `figure.shot` and `span.pin`
+- Promise a customer something, with proof kept out of sight: `ul.promises` with `data-evidence`
 
 ## Common mistakes
 

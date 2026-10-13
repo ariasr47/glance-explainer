@@ -329,6 +329,98 @@ main { min-width: 0; }
 .tile .l { font-size: var(--size-s); color: var(--ink-soft); }
 .tile.go .n { color: var(--go); } .tile.wait .n { color: var(--wait); } .tile.stop .n { color: var(--stop); }
 
+/* ---------- 9b. Grid: options against criteria (compare, portfolio) ---------- */
+.grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+.grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
+.grid caption { padding: .8rem 1rem; text-align: left; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); border-bottom: 1px solid var(--line); }
+.grid :is(th, td) { padding: .65rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.grid :is(th, td) + :is(th, td) { border-left: 1px solid var(--line); }
+.grid tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.grid thead th { background: var(--well); font-family: var(--font-head); font-weight: 600; }
+.grid tbody th { min-width: 9rem; background: var(--card); font-family: var(--font-head); font-weight: 600; }
+/* a cell state is a tint and a glyph, never the tint alone (WCAG 1.4.1) */
+.grid :is(td.go, td.wait, td.stop, td.decide) { position: relative; padding-left: 2.5rem; }
+.grid :is(td.go, td.wait, td.stop, td.decide)::before { position: absolute; left: .85rem; top: .75rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.grid td.go { background: var(--go-tint); }         .grid td.go::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.grid td.wait { background: var(--wait-tint); }     .grid td.wait::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.grid td.stop { background: var(--stop-tint); }     .grid td.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.grid td.decide { background: var(--decide-tint); } .grid td.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
+/* the recommended option: a star before its name, and a green foot on the header */
+.grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
+.grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+@media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
+  .grid { min-width: 34rem; }
+  .grid caption { position: sticky; left: 0; width: 100cqw; }  /* the title stays in view while the columns scroll */
+  .grid :is(thead th:first-child, tbody th) { position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; border-right: 1px solid var(--line-strong); }
+}
+@media print { .grid-wrap { overflow: visible; } }
+
+/* ---------- 9c. Lanes: now, next, later (roadmap) ---------- */
+.lanes { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.5rem; }
+.lane { padding: .9rem .9rem 1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.lane[data-lane="now"] { border-color: var(--here); border-width: 2px; }
+.lane[data-lane="later"] { border-style: dashed; border-color: var(--line-strong); }
+.lane > h3 { margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane > ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.lane li:last-child { margin-bottom: 0; }
+.lane li:target { outline: 3px solid var(--here); outline-offset: 2px; }
+.lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+.lane li.go { border-color: var(--go); }         .lane li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
+.lane li.wait { border-color: var(--wait); }     .lane li.wait::before { content: "!"; background: var(--wait); border-color: var(--wait); color: var(--on-wait); }
+.lane li.stop { border-color: var(--stop); }     .lane li.stop::before { content: "✕"; background: var(--stop); border-color: var(--stop); color: var(--on-stop); }
+.lane li.decide { border-color: var(--decide); } .lane li.decide::before { content: "?"; background: var(--decide); border-color: var(--decide); color: var(--on-decide); }
+.lane li.here { border-color: var(--here); }     .lane li.here::before { content: "●"; background: var(--here); border-color: var(--here); color: var(--on-here); }
+.lane li b { display: block; font-family: var(--font-head); font-weight: 600; }
+.lane li span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
+.lane li small.after { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); }
+@media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
+
+/* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
+.runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: rb; max-width: none; }
+.runbook > li { counter-increment: rb; position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
+.runbook > li::before { content: counter(rb); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.runbook > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
+.runbook > li > b { font-family: var(--font-head); font-weight: 600; }
+.runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: .55rem .8rem .55rem 2.6rem; border: 1.5px solid; border-radius: var(--r-comp); font-size: var(--size-s); max-width: none; }
+.runbook p.check { border-color: var(--go); background: var(--go-tint); }
+.runbook p.fail { border-color: var(--stop); background: var(--stop-tint); }
+.runbook :is(p.check, p.fail)::before { position: absolute; left: .75rem; top: .62rem; width: 1.15rem; height: 1.15rem; display: grid; place-items: center; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.runbook p.check::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook p.fail::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.runbook :is(p.check, p.fail) > b:first-child { font-family: var(--font-head); font-weight: 600; }
+/* a command the reader types. The template script adds the Copy button; without it the command still reads. */
+pre.cmd { display: flex; align-items: flex-start; gap: .75rem; margin: .5rem 0 .25rem; padding: .6rem .6rem .6rem 1rem; border: 1.5px solid var(--line-strong); }
+pre.cmd > code { flex: 1; min-width: 0; padding: .15rem 0; overflow-x: auto; }
+pre.cmd > button { flex: none; padding: .2rem .7rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+pre.cmd > button.go { border-color: var(--go); background: var(--go-tint); }
+pre.cmd > button.go::before { content: "✓ "; color: var(--go); }
+pre.cmd > button.stop { border-color: var(--stop); background: var(--stop-tint); }
+pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
+@media (max-width: 560px) {  /* a phone wraps the command instead of hiding its end, and the Copy button drops below it */
+  pre.cmd { flex-direction: column; align-items: stretch; gap: .5rem; }
+  pre.cmd > code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.cmd > button { align-self: flex-end; }
+}
+@media print { pre.cmd > button { display: none; } }
+
+/* ---------- 9e. Tour: real screenshots with numbered pins ---------- */
+.tour { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: 1.75rem; counter-reset: tour; max-width: none; }
+.tour > li { counter-increment: tour; margin: 0; }
+.shot { position: relative; margin: 0 0 .75rem; }
+.shot img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.pin { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border: 3px solid var(--card); border-radius: 50%; outline: 2px solid var(--here); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); line-height: 1; }
+@media (max-width: 560px) { .pin { width: 1.4rem; height: 1.4rem; border-width: 2px; font-size: var(--size-xs); } }  /* a phone shrinks the screenshot, so the pin shrinks with it */
+.tour > li > h3 { display: flex; gap: .6rem; align-items: center; margin: 0 0 .25rem; font-size: var(--size-1); }
+.tour > li > h3::before { content: counter(tour); flex: none; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); }
+.tour > li > p { margin: 0; }
+
+/* ---------- 9f. Promises: what the product does for a person, each with its evidence (public) ---------- */
+.promises { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: none; }
+.promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); }
+.promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
+.promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -375,8 +467,8 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p),
-body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
 body[data-skim="on"] .chapter .from { display: none; }
@@ -519,7 +611,7 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
     <p class="kicker">The visual system behind every explainer, shown with itself</p>
     <h1>How an explainer is built</h1>
-    <div class="meta"><span>Reading time about 7 minutes</span><span>Version 1.0, 2026-10-07</span><span>For: anyone writing or reading one</span></div>
+    <div class="meta"><span>Reading time about 10 minutes</span><span>Version 1.0, 2026-10-07</span><span>For: anyone writing or reading one</span></div>
 
     <p class="answer">An explainer is a page you can skim in a minute and still get the point: the answer comes first, colour has one meaning, every chapter has a picture, and the page remembers so you do not have to.</p>
 
@@ -537,7 +629,7 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
       <li><a href="#colour"><b>Colour means one thing</b><span>Six colours, six meanings, no decoration.</span></a></li>
       <li><a href="#diagrams"><b>Show the relationship</b><span>When a picture replaces a paragraph, and which picture.</span></a></li>
       <li><a href="#decide"><b>When you must decide</b><span>How a decision is laid out so choosing takes a minute.</span></a></li>
-      <li><a href="#standing"><b>Where things stand</b><span>Timelines, status boards and the few numbers that matter.</span></a></li>
+      <li><a href="#standing"><b>Where things stand</b><span>Timelines, status boards, grids, lanes and the few numbers that matter.</span></a></li>
       <li><a href="#words"><b>Words and machinery</b><span>Plain words in the reading path, exact details in folds.</span></a></li>
       <li><a href="#gather"><b>Ask and collect</b><span>Questions you answer on the page, saved on your device.</span></a></li>
     </ol>
@@ -651,7 +743,7 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
     <!-- ============ 3 ============ -->
     <section class="chapter" id="diagrams" data-keep="A picture replaces a paragraph. It never repeats one.">
       <header>
-        <div><p class="kicker">Chapter 3 of 7, about 1 minute</p><h2>Show the relationship instead of describing it</h2></div>
+        <div><p class="kicker">Chapter 3 of 7, about 2 minutes</p><h2>Show the relationship instead of describing it</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
@@ -702,6 +794,16 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
         <div class="before"><b>Before: a paragraph</b><ul><li>"After validation the request is either rejected with a message or forwarded, unless…"</li><li>Reader holds two paths.</li><li>Reader rereads.</li></ul></div>
         <div class="after"><b>After: the diagram above</b><ul><li>Both paths visible.</li><li>One caption states the point.</li><li>Paragraph deleted.</li></ul></div>
       </div>
+
+      <p>A product walkthrough is the same idea with real screens. Each step is one screenshot, one numbered pin, and one line.</p>
+
+      <ol class="tour">
+        <li><figure class="shot"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDAwIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY2ZjgiLz4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0NCIgZmlsbD0iIzFmMmEzNyIvPjx0ZXh0IHg9IjIwIiB5PSIyOCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WYXVsdDwvdGV4dD4KPGNpcmNsZSBjeD0iNjA0IiBjeT0iMjIiIHI9IjExIiBmaWxsPSIjNWI2YjdiIi8+CjxyZWN0IHk9IjQ0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjM1NiIgZmlsbD0iI2ZmZiIvPjxsaW5lIHgxPSIxNTAiIHkxPSI0NCIgeDI9IjE1MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZDZkZGU0Ii8+CjxyZWN0IHg9IjEwIiB5PSI1OCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNlM2ViZmIiLz48dGV4dCB4PSIyNCIgeT0iODAiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzI0NTdkNiI+QWNjb3VudHM8L3RleHQ+Cjx0ZXh0IHg9IjI0IiB5PSIxMTYiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+VHJhbnNmZXJzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNDgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+UmVwb3J0czwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSI4NiIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTYyMjJlIj5BY2NvdW50czwvdGV4dD4KPHJlY3QgeD0iMTcyIiB5PSIxMDQiIHdpZHRoPSI0NDgiIGhlaWdodD0iNDgiIHJ4PSI4IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNkNmRkZTQiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxjaXJjbGUgY3g9IjE5OCIgY3k9IjEyOCIgcj0iOSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjI0IiB5PSIxMzMiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE2MjIyZSI+SG91c2Vob2xkPC90ZXh0Pgo8dGV4dCB4PSI2MDQiIHk9IjEzMyIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMTYyMjJlIiB0ZXh0LWFuY2hvcj0iZW5kIj4kNCwyMTAuNTU8L3RleHQ+PHJlY3QgeD0iMTcyIiB5PSIxNjQiIHdpZHRoPSI0NDgiIGhlaWdodD0iNDgiIHJ4PSI4IiBmaWxsPSIjZjNmN2ZmIiBzdHJva2U9IiMyNDU3ZDYiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIxOTgiIGN5PSIxODgiIHI9IjkiIGZpbGw9IiMyNDU3ZDYiIHN0cm9rZT0iIzI0NTdkNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjIyNCIgeT0iMTkzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNjIyMmUiPlNhdmluZ3M8L3RleHQ+Cjx0ZXh0IHg9IjYwNCIgeT0iMTkzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiIHRleHQtYW5jaG9yPSJlbmQiPiQxMiw4MDAuMDA8L3RleHQ+PHJlY3QgeD0iMTcyIiB5PSIyMjQiIHdpZHRoPSI0NDgiIGhlaWdodD0iNDgiIHJ4PSI4IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNkNmRkZTQiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxjaXJjbGUgY3g9IjE5OCIgY3k9IjI0OCIgcj0iOSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjI0IiB5PSIyNTMiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE2MjIyZSI+VHJhdmVsIGZ1bmQ8L3RleHQ+Cjx0ZXh0IHg9IjYwNCIgeT0iMjUzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiIHRleHQtYW5jaG9yPSJlbmQiPiQ5NjAuMjA8L3RleHQ+CjxyZWN0IHg9IjE3MiIgeT0iMzAwIiB3aWR0aD0iMTMyIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzI0NTdkNiIvPjx0ZXh0IHg9IjIzOCIgeT0iMzI1IiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk9wZW4gYWNjb3VudDwvdGV4dD48L3N2Zz4=" alt="The Vault accounts list with the Savings account picked"><span class="pin" style="--x:25%;--y:47%">1</span></figure>
+          <h3>Pick an account</h3><p>The list shows every account you can open. The picked row is the one the next screen works on.</p></li>
+        <li><figure class="shot"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDAwIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY2ZjgiLz4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0NCIgZmlsbD0iIzFmMmEzNyIvPjx0ZXh0IHg9IjIwIiB5PSIyOCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WYXVsdDwvdGV4dD4KPGNpcmNsZSBjeD0iNjA0IiBjeT0iMjIiIHI9IjExIiBmaWxsPSIjNWI2YjdiIi8+CjxyZWN0IHk9IjQ0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjM1NiIgZmlsbD0iI2ZmZiIvPjxsaW5lIHgxPSIxNTAiIHkxPSI0NCIgeDI9IjE1MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZDZkZGU0Ii8+CjxyZWN0IHg9IjEwIiB5PSI1OCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNlM2ViZmIiLz48dGV4dCB4PSIyNCIgeT0iODAiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzI0NTdkNiI+QWNjb3VudHM8L3RleHQ+Cjx0ZXh0IHg9IjI0IiB5PSIxMTYiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+VHJhbnNmZXJzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNDgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+UmVwb3J0czwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSI4NiIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTYyMjJlIj5Nb3ZlIG1vbmV5IGZyb20gU2F2aW5nczwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+VG88L3RleHQ+CjxyZWN0IHg9IjE3MiIgeT0iMTM2IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQyIiByeD0iOCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjE4OCIgeT0iMTYzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiPkhvdXNlaG9sZDwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIyMTIiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+QW1vdW50PC90ZXh0Pgo8cmVjdCB4PSIxNzIiIHk9IjIyMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0MiIgcng9IjgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzI0NTdkNiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMTg4IiB5PSIyNDciIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzE2MjIyZSI+JDI1MC4wMDwvdGV4dD4KPHJlY3QgeD0iMTcyIiB5PSIyOTYiIHdpZHRoPSIxMTAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMjQ1N2Q2Ii8+PHRleHQgeD0iMjI3IiB5PSIzMjEiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UmV2aWV3PC90ZXh0Pgo8dGV4dCB4PSIyOTYiIHk9IjMyMSIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNGE1YTZhIj5DYW5jZWw8L3RleHQ+PC9zdmc+" alt="The transfer form with 250 dollars typed into the amount field"><span class="pin" style="--x:74%;--y:60%">2</span></figure>
+          <h3>Type the amount</h3><p>Only the amount is yours to fill in. The destination is already chosen.</p></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> a tour shows the real screen first, then says in one line where to look.</p>
 
       <details class="fold"><summary>The rules for a drawn diagram</summary>
         <ul>
@@ -771,13 +873,31 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
         <li><b>Pick.</b> Use the buttons in the ask at the end of the page.</li>
       </ol>
 
+      <p>When each rung is a command, a runbook adds what a person needs at the keyboard: how to know it worked, and what to do if it did not.</p>
+
+      <ol class="runbook">
+        <li id="rb-1"><b>Check the page.</b>
+          <pre class="cmd"><code>node scripts/check.mjs docs/explainers/2026-10-13-checkout.html</code></pre>
+          <p class="check"><b>Check:</b> the first line says <code>PASS</code> and the exit code is 0.</p>
+          <p class="fail"><b>If it fails:</b> fix every line that starts with FAIL, then run the checker again.</p></li>
+        <li id="rb-2"><b>Tag the release.</b>
+          <pre class="cmd"><code>git tag -a v1.2.0 -m "html-explainer 1.2.0"</code></pre>
+          <p class="check"><b>Check:</b> <code>git ls-remote --tags origin</code> lists v1.2.0.</p>
+          <p class="fail"><b>If it fails:</b> the tag exists already; delete it locally and tag again.</p></li>
+        <li id="rb-3"><b>Update the installed copy.</b>
+          <pre class="cmd"><code>claude plugin update html-explainer@html-explainer-skill</code></pre>
+          <p class="check"><b>Check:</b> the plugin list shows version 1.2.0.</p>
+          <p class="fail"><b>If it fails:</b> restart Claude Code and run the command again.</p></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> every step ends in a check the reader can run, and a way out if the check fails.</p>
+
       <p class="remember"><b>Remember:</b> a purple card always tells you the recommended option and what happens if you ignore it.</p>
     </section>
 
     <!-- ============ 5 ============ -->
-    <section class="chapter" id="standing" data-keep="Timeline for where you are in time, status board for how things are, tiles for the few numbers that matter.">
+    <section class="chapter" id="standing" data-keep="Timeline for when, status board for how things are, tiles for the few numbers, a grid to compare, lanes to plan.">
       <header>
-        <div><p class="kicker">Chapter 5 of 7, about 1 minute</p><h2>Where things stand, shown in three shapes</h2></div>
+        <div><p class="kicker">Chapter 5 of 7, about 2 minutes</p><h2>Where things stand and what comes next, in five shapes</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
@@ -817,6 +937,36 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
         <div class="tile stop"><span class="n">1 of 13</span><span class="l">opened with the answer</span></div>
         <div class="tile go"><span class="n">3</span><span class="l">facts a page may ask you to keep</span></div>
       </div>
+
+      <p>Two more shapes answer "which one?" and "in what order?". A grid sets options against the same criteria. Lanes sort work into now, next and later.</p>
+
+      <div class="grid-wrap"><table class="grid">
+        <caption>Three ways to install the explainer on a new machine</caption>
+        <thead><tr><th scope="col">Criterion</th><th scope="col" data-rec>Plugin from GitHub</th><th scope="col">Folder link</th><th scope="col">Copy by hand</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Picks up updates</th><td class="go">One command</td><td class="wait">After a git pull</td><td class="stop">Never</td></tr>
+          <tr><th scope="row">Works on a second machine</th><td class="go">Same command</td><td class="stop">Breaks if the path differs</td><td class="wait">Copy again</td></tr>
+          <tr><th scope="row">Needs admin rights</th><td class="go">No</td><td class="wait">Sometimes, on Windows</td><td class="go">No</td></tr>
+          <tr><th scope="row">Which version you run</th><td class="decide">You pick: latest or pinned</td><td class="go">Whatever is checked out</td><td class="wait">Whatever you copied</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take from this:</b> the plugin wins on three of four criteria, and the fourth is your call.</p>
+
+      <div class="lanes">
+        <section class="lane" data-lane="now"><h3>Now</h3><ul>
+          <li id="r-types" class="wait"><b>Nine page types</b><span>Portfolio, public, teach, incident, PR, runbook, compare, roadmap and tour.</span></li>
+          <li id="r-ballot" class="wait"><b>Ballot mode</b><span>Readers pick one card per question.</span></li>
+          <li id="r-rail" class="go"><b>Rail clicks work</b><span>Smooth scrolling removed in 1.1.1.</span></li>
+        </ul></section>
+        <section class="lane" data-lane="next"><h3>Next</h3><ul>
+          <li id="r-release" class="wait"><b>Ship version 1.2.0</b><span>Tag it, then update the installed copy.</span><small class="after">After: <a href="#r-types">Nine page types</a>, <a href="#r-ballot">Ballot mode</a></small></li>
+        </ul></section>
+        <section class="lane" data-lane="later"><h3>Later</h3><ul>
+          <li id="r-ja" class="decide"><b>Japanese for each type</b><span>Needs a ruling on who reviews the wording.</span><small class="after">After: <a href="#r-release">Ship version 1.2.0</a></small></li>
+          <li id="r-motion" class="stop"><b>Motion companion</b><span>Parked until Claude Code has a hook or an API for it.</span></li>
+        </ul></section>
+      </div>
+      <p class="take"><b>Take from this:</b> two things are in progress, one waits on both, and one is parked on purpose.</p>
 
       <p class="remember"><b>Remember:</b> the cobalt dot on a timeline is today; the colour of a status dot is the whole status.</p>
     </section>
@@ -875,6 +1025,21 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
         <div class="before"><b>Before</b><ul><li>"Session tokens expire after 3600 s and are subsequently invalidated server-side."</li></ul></div>
         <div class="after"><b>After</b><ul><li>"The server forgets who you are after an hour."</li><li>Exact number in a fold.</li></ul></div>
       </div>
+
+      <p>When the reader is a customer, the same rule becomes a promise: what it does for you, in your words. The proof sits in a fold, one piece for each promise.</p>
+
+      <ul class="promises">
+        <li data-evidence="server/app/retention.py:14"><b>Deleted automatically.</b> Your file is removed within 24 hours.</li>
+        <li data-evidence="docs/privacy.md:22"><b>Never sold.</b> Nobody outside the company sees what you upload.</li>
+        <li data-evidence="https://status.example.com/uptime"><b>Open every day.</b> The service was up 99.9 percent of the last 90 days.</li>
+      </ul>
+      <details class="fold"><summary>How we know</summary>
+        <ul>
+          <li><code>server/app/retention.py:14</code> deletes every upload after 24 hours.</li>
+          <li><code>docs/privacy.md:22</code> states that uploads are never shared or sold.</li>
+          <li><code>https://status.example.com/uptime</code> publishes the daily uptime record.</li>
+        </ul>
+      </details>
 
       <p class="remember"><b>Remember:</b> if you hit a hard word or a wall of detail in the reading path, the page is wrong, not you.</p>
     </section>
@@ -1133,6 +1298,16 @@ qa('.views').forEach(v => {
 
 /* mini-map: light this chapter's node, dim the rest */
 qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.dataset.node === m.dataset.lit ? 'is-lit' : 'is-dim')));
+
+/* commands: every pre.cmd gets a Copy button. The command reads fine without it. copy() and flash() are the gather bar's own, defined below and used only on click. */
+Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
+qa('pre.cmd').forEach(p => {
+  const code = $('code', p) || p, b = d.createElement('button');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  on(b, 'click', () => copy(code.textContent.trim(), b));
+  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  p.append(b);
+});
 
 /* read aloud: one block at a time, in the page language; one chapter at a time */
 const rd = qa('[data-read]'); let sid = 0;

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
+<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
 <!-- TITLE: 2 to 6 words, the subject, not "explainer" -->
 <title>Topic name here</title>
 <meta name="description" content="One sentence: what this page lets the reader decide or understand.">
@@ -331,6 +331,98 @@ main { min-width: 0; }
 .tile .l { font-size: var(--size-s); color: var(--ink-soft); }
 .tile.go .n { color: var(--go); } .tile.wait .n { color: var(--wait); } .tile.stop .n { color: var(--stop); }
 
+/* ---------- 9b. Grid: options against criteria (compare, portfolio) ---------- */
+.grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+.grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
+.grid caption { padding: .8rem 1rem; text-align: left; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); border-bottom: 1px solid var(--line); }
+.grid :is(th, td) { padding: .65rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.grid :is(th, td) + :is(th, td) { border-left: 1px solid var(--line); }
+.grid tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.grid thead th { background: var(--well); font-family: var(--font-head); font-weight: 600; }
+.grid tbody th { min-width: 9rem; background: var(--card); font-family: var(--font-head); font-weight: 600; }
+/* a cell state is a tint and a glyph, never the tint alone (WCAG 1.4.1) */
+.grid :is(td.go, td.wait, td.stop, td.decide) { position: relative; padding-left: 2.5rem; }
+.grid :is(td.go, td.wait, td.stop, td.decide)::before { position: absolute; left: .85rem; top: .75rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.grid td.go { background: var(--go-tint); }         .grid td.go::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.grid td.wait { background: var(--wait-tint); }     .grid td.wait::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.grid td.stop { background: var(--stop-tint); }     .grid td.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.grid td.decide { background: var(--decide-tint); } .grid td.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
+/* the recommended option: a star before its name, and a green foot on the header */
+.grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
+.grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+@media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
+  .grid { min-width: 34rem; }
+  .grid caption { position: sticky; left: 0; width: 100cqw; }  /* the title stays in view while the columns scroll */
+  .grid :is(thead th:first-child, tbody th) { position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; border-right: 1px solid var(--line-strong); }
+}
+@media print { .grid-wrap { overflow: visible; } }
+
+/* ---------- 9c. Lanes: now, next, later (roadmap) ---------- */
+.lanes { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.5rem; }
+.lane { padding: .9rem .9rem 1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.lane[data-lane="now"] { border-color: var(--here); border-width: 2px; }
+.lane[data-lane="later"] { border-style: dashed; border-color: var(--line-strong); }
+.lane > h3 { margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane > ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.lane li:last-child { margin-bottom: 0; }
+.lane li:target { outline: 3px solid var(--here); outline-offset: 2px; }
+.lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+.lane li.go { border-color: var(--go); }         .lane li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
+.lane li.wait { border-color: var(--wait); }     .lane li.wait::before { content: "!"; background: var(--wait); border-color: var(--wait); color: var(--on-wait); }
+.lane li.stop { border-color: var(--stop); }     .lane li.stop::before { content: "✕"; background: var(--stop); border-color: var(--stop); color: var(--on-stop); }
+.lane li.decide { border-color: var(--decide); } .lane li.decide::before { content: "?"; background: var(--decide); border-color: var(--decide); color: var(--on-decide); }
+.lane li.here { border-color: var(--here); }     .lane li.here::before { content: "●"; background: var(--here); border-color: var(--here); color: var(--on-here); }
+.lane li b { display: block; font-family: var(--font-head); font-weight: 600; }
+.lane li span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
+.lane li small.after { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); }
+@media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
+
+/* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
+.runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: rb; max-width: none; }
+.runbook > li { counter-increment: rb; position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
+.runbook > li::before { content: counter(rb); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.runbook > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
+.runbook > li > b { font-family: var(--font-head); font-weight: 600; }
+.runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: .55rem .8rem .55rem 2.6rem; border: 1.5px solid; border-radius: var(--r-comp); font-size: var(--size-s); max-width: none; }
+.runbook p.check { border-color: var(--go); background: var(--go-tint); }
+.runbook p.fail { border-color: var(--stop); background: var(--stop-tint); }
+.runbook :is(p.check, p.fail)::before { position: absolute; left: .75rem; top: .62rem; width: 1.15rem; height: 1.15rem; display: grid; place-items: center; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.runbook p.check::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook p.fail::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.runbook :is(p.check, p.fail) > b:first-child { font-family: var(--font-head); font-weight: 600; }
+/* a command the reader types. The template script adds the Copy button; without it the command still reads. */
+pre.cmd { display: flex; align-items: flex-start; gap: .75rem; margin: .5rem 0 .25rem; padding: .6rem .6rem .6rem 1rem; border: 1.5px solid var(--line-strong); }
+pre.cmd > code { flex: 1; min-width: 0; padding: .15rem 0; overflow-x: auto; }
+pre.cmd > button { flex: none; padding: .2rem .7rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+pre.cmd > button.go { border-color: var(--go); background: var(--go-tint); }
+pre.cmd > button.go::before { content: "✓ "; color: var(--go); }
+pre.cmd > button.stop { border-color: var(--stop); background: var(--stop-tint); }
+pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
+@media (max-width: 560px) {  /* a phone wraps the command instead of hiding its end, and the Copy button drops below it */
+  pre.cmd { flex-direction: column; align-items: stretch; gap: .5rem; }
+  pre.cmd > code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.cmd > button { align-self: flex-end; }
+}
+@media print { pre.cmd > button { display: none; } }
+
+/* ---------- 9e. Tour: real screenshots with numbered pins ---------- */
+.tour { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: 1.75rem; counter-reset: tour; max-width: none; }
+.tour > li { counter-increment: tour; margin: 0; }
+.shot { position: relative; margin: 0 0 .75rem; }
+.shot img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.pin { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border: 3px solid var(--card); border-radius: 50%; outline: 2px solid var(--here); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); line-height: 1; }
+@media (max-width: 560px) { .pin { width: 1.4rem; height: 1.4rem; border-width: 2px; font-size: var(--size-xs); } }  /* a phone shrinks the screenshot, so the pin shrinks with it */
+.tour > li > h3 { display: flex; gap: .6rem; align-items: center; margin: 0 0 .25rem; font-size: var(--size-1); }
+.tour > li > h3::before { content: counter(tour); flex: none; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); }
+.tour > li > p { margin: 0; }
+
+/* ---------- 9f. Promises: what the product does for a person, each with its evidence (public) ---------- */
+.promises { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: none; }
+.promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); }
+.promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
+.promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -377,8 +469,8 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p),
-body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
 body[data-skim="on"] .chapter .from { display: none; }
@@ -768,6 +860,16 @@ qa('.views').forEach(v => {
 
 /* mini-map: light this chapter's node, dim the rest */
 qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.dataset.node === m.dataset.lit ? 'is-lit' : 'is-dim')));
+
+/* commands: every pre.cmd gets a Copy button. The command reads fine without it. copy() and flash() are the gather bar's own, defined below and used only on click. */
+Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
+qa('pre.cmd').forEach(p => {
+  const code = $('code', p) || p, b = d.createElement('button');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  on(b, 'click', () => copy(code.textContent.trim(), b));
+  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  p.append(b);
+});
 
 /* read aloud: one block at a time, in the page language; one chapter at a time */
 const rd = qa('[data-read]'); let sid = 0;
