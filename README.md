@@ -64,7 +64,7 @@ The agent writes the page from `assets/template.html`, runs `scripts/check.mjs`,
 
 ## The three skills
 
-**`html-explainer`** is the core. It writes a single-file page from the template: an answer bar, a keep box of at most three facts, a chapter map, chapters that each carry a visual and a remember line, a recap, and one question when a decision is needed. `skills/html-explainer/types.md` adds fifteen page types, each with its chapters, required components and checker rules: decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap and tour.
+**`html-explainer`** is the core. It writes a single-file page from the template: an answer bar, a keep box of at most three facts, a chapter map, chapters that each carry a visual and a remember line, a recap, and one question when a decision is needed. `skills/html-explainer/types.md` adds sixteen page types, each with its chapters, required components and checker rules: decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour and playbook.
 
 **`explainer-gather`** builds pages that ask as well as explain. Each question is an answer field with a stable id. Answers autosave in the browser, and the reader copies them as Markdown or JSON, or downloads a file. Eleven modes cover collecting, confirming, choosing, prioritising, annotating, checking, interview protocols, survey pilots, readouts, recurring questions and ballots: one card per decision, a picture on every option, and a pinned Copy picks bar that hands the rulings back to the agent.
 

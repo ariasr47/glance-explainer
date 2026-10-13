@@ -256,3 +256,26 @@ At least one `ol.tour`. It fails for each step without an `img` that has a non-e
 
 ### Example topic
 Your first transfer in the vault app, in four screens.
+
+## playbook
+
+### When
+The reader must rule on a plan for a risky, multi-step change, and needs the whole plan at a glance: what changes, what the people it affects will notice at each phase, who does what, the one risky moment with its way back, and the decisions the plan needs.
+
+### Chapter composition
+Up to ten chapters, not seven. In this order: before and after; what the audience sees; the phases; what goes where; who does what, and the rules that never bend; the risky moment, step by step, with its undo; the risks; costs and decisions. The page opens as every page does (answer bar, keep box), then the `ol.phase-strip` gives the whole plan in one row. The chapter map is optional, because the strip already navigates. The decisions come last, answerable on the page, and the recap closes it.
+
+### Required components
+`ol.phase-strip`: one `li` per phase, each linking to its phase. Each segment carries `span.seg-num` ("Phase 1"), a bold title, a `span.who` letter badge for the owner, `small.effort` in words, and `span.bar` with `--effort` from 1 to 5. `li.notice` marks a phase the audience will notice and adds a `span.notice-tag` whose label is written in the markup. Six or more segments wrap to two rows under 760 px. Owner is the badge, never colour alone.
+
+`ol.phases`: the same phases in order, numbered because the order is real. Each `li` has an `id` the strip links to, an `h3`, `span.chip` labels for who and how long, a short `ul` of work, and a `p.impact` that names the real audience ("Members notice:", "Customers notice:"). A phase the audience notices carries `class="notice"` too.
+
+`figure.frame` shows what the audience sees: a browser bar, a plain mockup in `.frame-screen`, and a `figcaption.take`. `.phone` makes it a portrait phone, and `.frame-row` lays out two to four side by side. A `div.roles` of two `section.role` (each with `data-who`) says who does what, and a `ul.rules` holds the rules that never bend. `div.undo` is the way back from the risky moment. `div.risks` holds `article.risk` cards, each with `data-level` of `high`, `medium` or `low`, the level word in `span.level`, one line of risk, and a `p.kept` naming what keeps it small. `table.grid` may group its rows with `tr.group`. A cost chapter uses `div.tiles`.
+
+The decisions are one `fieldset.answer-field[data-kind="choice"]` per question. The recommended option's label carries `data-rec="Recommended"` (or "My pick"), which shows a ★ chip. One `.collect` bar sits outside the chapters. The header may hold a `figure.thesis`, a small SVG drawing of the outcome, which sits beside the title from 1100 px and under it on a phone.
+
+### Checker rules
+At least one `.phase-strip`, `.phases`, `.undo` and `.risks`. It fails for each phase without a `p.impact` that has text, for each `article.risk` without a `data-level` of high, medium or low or without a `p.kept` that has text, and for each phase-strip link whose target `id` does not exist. It warns when there is no `.answer-field` ("a playbook usually ends with the decisions it needs"), when answer fields have no `.collect` bar or no `data-q`, and when a `.phase-strip` has fewer than three segments. The compare rule does not count a `tr.group` as a criterion row. The chapter limit is ten.
+
+### Example topic
+Moving a small team's wiki to a new host (`docs/examples/playbook.html`): six phases, two the team notices, three frames, roles and four rules, switch day with its undo, four risks, cost tiles and three decisions.
