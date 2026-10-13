@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
+<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, playbook, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
 <!-- TITLE: 2 to 6 words, the subject, not "explainer" -->
 <title>Topic name here</title>
 <meta name="description" content="One sentence: what this page lets the reader decide or understand.">
@@ -350,10 +350,13 @@ main { min-width: 0; }
 /* the recommended option: a star before its name, and a green foot on the header */
 .grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
 .grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+/* a group row is a quiet band that names the rows under it ("Goes to both"); it is not a criterion */
+.grid tbody tr.group th { min-width: 0; padding: .4rem 1rem; border-left: 0; background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
 @media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
   .grid { min-width: 34rem; }
   .grid caption { position: sticky; left: 0; width: 100cqw; }  /* the title stays in view while the columns scroll */
   .grid :is(thead th:first-child, tbody th) { position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; border-right: 1px solid var(--line-strong); }
+  .grid tbody tr.group th { position: static; width: auto; min-width: 0; max-width: none; border-right: 0; }  /* a band spans every column, so it scrolls with them */
 }
 @media print { .grid-wrap { overflow: visible; } }
 
@@ -423,6 +426,120 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
 .promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
 
+/* ---------- 9g. Playbook: a plan for one risky change, written for one decision-maker ---------- */
+/* Every part keeps min-width: 0 and wraps long words and code, so nothing pushes a phone sideways. Meaning colours stay
+   meaning: who owns a thing is a letter (.who), never a colour. */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 2rem; }
+.hero > * { min-width: 0; }
+.hero > .thesis { width: 100%; max-width: 22rem; margin: .25rem 0 1.25rem; padding: .6rem; background: var(--well); border: 1px solid var(--line); border-radius: var(--r-comp); }
+.hero > .thesis svg { display: block; width: 100%; height: auto; }
+@media (min-width: 1100px) {  /* beside the title; on a narrower screen it sits under the meta line */
+  .hero:has(> .thesis) { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .hero > .thesis { grid-column: 2; grid-row: 1 / span 3; align-self: center; margin: 0; }
+}
+@media (max-width: 560px) { .hero > .thesis { margin: 0 0 .9rem; padding: .35rem; } }  /* tight, so the answer still opens the first screen */
+
+.chip { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.5 var(--font-head); }
+/* who owns it: a letter badge. You is solid, me is outlined, both is quiet, so the three differ without colour.
+   data-owner goes on the phase-strip or steps li that owns it; data-who goes on a role. */
+.who { flex: none; display: inline-grid; place-items: center; min-width: 1.5rem; height: 1.5rem; padding: 0 .4rem; border: 1.5px solid var(--ink-soft); border-radius: var(--r-chip); background: var(--ink-soft); color: var(--on-soft); font: 700 var(--size-xs)/1 var(--font-head); white-space: nowrap; }
+[data-owner="me"] .who, .role[data-who="me"] .who { background: var(--card); color: var(--ink); }
+[data-owner="both"] .who { background: var(--well); color: var(--ink); }
+
+/* the whole plan in one row; each segment links to its phase. A segment is a wrapping flex box: the owner badge sits beside
+   "Phase 1" when there is room and drops to its own line when there is not. */
+.phase-strip { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .5rem; max-width: none; }
+.phase-strip > li { min-width: 0; margin: 0; }
+.phase-strip a { display: flex; flex-wrap: wrap; align-content: flex-start; align-items: center; gap: .3rem .4rem; height: 100%; min-width: 0; padding: .65rem .7rem .7rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.phase-strip a:hover { border-color: var(--here); }
+.phase-strip a:hover b { text-decoration: underline; text-underline-offset: .18em; }
+.phase-strip a > * { min-width: 0; }
+.phase-strip .seg-num { order: 1; flex: 1 1 auto; color: var(--ink-soft); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.phase-strip .who { order: 2; margin-left: auto; }
+.phase-strip b { order: 3; flex: 1 1 100%; font: 600 var(--size-s)/1.25 var(--font-head); }
+.phase-strip .effort { order: 4; flex: 1 1 100%; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.3; }
+.phase-strip .bar { order: 5; flex: 1 1 100%; height: .4rem; border-radius: var(--r-chip); background: linear-gradient(var(--ink-soft), var(--ink-soft)) 0 0 / calc(var(--effort, 1) * 20%) 100% no-repeat, var(--line-strong); }
+/* the phases the audience will notice: a here border and a tinted face, and the label is written in the markup */
+.phase-strip li.notice a { border-color: var(--here); border-width: 2px; background: var(--here-tint); }
+.notice-tag { order: 6; flex: 1 1 100%; display: flex; gap: .35rem; align-items: baseline; margin-top: .1rem; font: 700 var(--size-xs)/1.25 var(--font-head); }
+.notice-tag::before { content: "●"; flex: none; color: var(--here); }
+@media (max-width: 759px) {  /* six or more segments wrap to two rows */
+  .phase-strip:has(> :nth-child(6)) { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .phase-strip:has(> :nth-child(7)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {  /* a phone shows about three segments across and wraps the rest */
+  .phase-strip, .phase-strip:has(> :nth-child(6)), .phase-strip:has(> :nth-child(7)) { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(5.75rem, 1fr)); }
+  .phase-strip a { padding: .55rem .55rem .6rem; gap: .25rem .3rem; }
+  .phase-strip .seg-num { font-size: .72rem; }
+  .phase-strip .who { min-width: 1.3rem; height: 1.3rem; padding: 0 .25rem; font-size: .7rem; }
+}
+
+/* ordered phases, numbered because the order is real */
+.phases { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: phase; max-width: none; }
+.phases > li { counter-increment: phase; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; min-width: 0; margin: 0; padding: .25rem 0 1.3rem 3.1rem; scroll-margin-top: 4.5rem; }
+.phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
+.phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
+@media (max-width: 1099px) { .phases > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
+.phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
+.phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.phases p.impact::before { content: "○"; position: absolute; left: .85rem; top: .45rem; color: var(--ink-faint); font-weight: 700; }
+.phases p.impact b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.phases li.notice p.impact { border-style: solid; border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.phases li.notice p.impact::before { content: "●"; color: var(--here); }
+
+/* a small browser or phone mockup of what the audience sees */
+.frame { display: flex; flex-direction: column; min-width: 0; margin: 1rem 0 1.5rem; overflow: hidden; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.frame-bar { display: flex; align-items: center; gap: .6rem; padding: .45rem .65rem; background: var(--well); border-bottom: 1px solid var(--line); }
+.frame .dots { flex: none; width: .5rem; height: .5rem; margin-right: 1.6rem; border-radius: 50%; background: var(--line-strong); box-shadow: .8rem 0 0 var(--line-strong), 1.6rem 0 0 var(--line-strong); }
+.frame .url { flex: 1; min-width: 0; padding: .05rem .65rem; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--card); color: var(--ink-soft); font: var(--size-xs)/1.5 var(--font-code); text-overflow: ellipsis; white-space: nowrap; }
+.frame-screen { flex: 1; min-width: 0; display: grid; gap: .45rem; align-content: start; min-height: 8rem; padding: .8rem; background: var(--well); font-size: var(--size-xs); line-height: 1.35; }
+.frame > .take { margin: 0; border-top: 1px solid var(--line); border-left: 0; border-radius: 0; }
+.frame.phone { max-width: 13rem; margin-inline: auto; border-width: 2px; border-radius: 1.5rem; }
+.frame.phone .frame-bar { justify-content: center; padding: .6rem .7rem .4rem; background: var(--card); border-bottom: 0; }
+.frame.phone .dots { display: none; }
+.frame.phone .url { flex: 0 1 auto; max-width: 100%; }
+.frame-row { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin: 1rem 0 1.5rem; }
+.frame-row:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.frame-row > .frame { margin: 0; }
+.frame-row > .frame.phone { align-self: start; margin-inline: auto; }
+@media (max-width: 640px) { .frame-row, .frame-row:has(> :nth-child(4)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* who does what, and the rules that never bend */
+.roles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); margin: 1rem 0 1.25rem; }
+.role { min-width: 0; padding: .9rem 1.1rem 1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.role > h3 { display: flex; align-items: center; gap: .6rem; margin: 0 0 .5rem; font-size: var(--size-1); }
+.role ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.rules { list-style: none; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 0 0 1.5rem; padding: 0; max-width: none; }
+.rules li { position: relative; min-width: 0; margin: 0; padding: .7rem .9rem .75rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-left: 5px solid var(--go); border-radius: var(--r-comp); font-size: var(--size-s); }
+.rules li::before { content: "✓"; position: absolute; left: .8rem; top: .75rem; width: 1.3rem; height: 1.3rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+.rules li b { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); }
+
+/* the way back from the risky moment */
+.undo, details.fold > .undo { position: relative; margin: 1rem 0 1.5rem; padding: .85rem 1.1rem .85rem 3.7rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); max-width: none; }  /* the second selector outranks the fold's own padding */
+.undo::before { content: "↺"; position: absolute; left: 1rem; top: .8rem; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 1.15rem/1 var(--font-head); }
+.undo > b { font-family: var(--font-head); font-weight: 600; }
+
+/* risks: a level (word and glyph, never colour alone) and what keeps each one small */
+.risks { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin: 1rem 0 1.5rem; }
+.risk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: start; align-items: start; gap: .35rem .75rem; min-width: 0; padding: .85rem 1rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-top: 5px solid var(--line-strong); border-radius: var(--r-comp); }
+.risk > h3 { margin: 0; font-size: var(--size-1); }
+.risk > p { grid-column: 1 / -1; margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+.risk .level { display: inline-flex; align-items: center; gap: .4rem; padding: .05rem .7rem .05rem .35rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.6 var(--font-head); white-space: nowrap; }
+.risk .level::before { display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.risk[data-level="high"] { border-top-color: var(--stop); }
+.risk[data-level="high"] .level { border-color: var(--stop); background: var(--stop-tint); }
+.risk[data-level="high"] .level::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.risk[data-level="medium"] { border-top-color: var(--wait); }
+.risk[data-level="medium"] .level { border-color: var(--wait); background: var(--wait-tint); }
+.risk[data-level="medium"] .level::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.risk[data-level="low"] { border-top-color: var(--go); }
+.risk[data-level="low"] .level { border-color: var(--go); background: var(--go-tint); }
+.risk[data-level="low"] .level::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.risk p.kept { margin-top: .25rem; padding: .5rem .7rem; background: var(--well); border-radius: 8px; color: var(--ink); }
+.risk p.kept b { font-family: var(--font-head); font-weight: 600; }
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -469,8 +586,8 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p),
-body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
 body[data-skim="on"] .chapter .from { display: none; }
@@ -512,6 +629,8 @@ body[data-focus="on"] .focus-nav { display: flex; }
 .answer-field ol > li::before { content: counter(rank); flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font: 600 var(--size-xs) var(--font-head); }
 .answer-field ol > li > :first-child { flex: 1; }
 .answer-field ol button { flex: none; width: 2.25rem; height: 2.25rem; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+/* the recommended option wears a ★ chip with the attribute's own words ("Recommended", "My pick"); the star is the only glyph CSS writes */
+.answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
 .collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
 .collect .respondent { flex: 1 1 8rem; min-width: 0; padding: .45rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 .collect .count { color: var(--ink-soft); font-size: var(--size-s); white-space: nowrap; }
@@ -727,7 +846,7 @@ html:not(.js) .ballot-tray { display: none; }
   details.fold { break-inside: avoid; }
   details.fold[open] > summary::before, details.fold > summary::before { display: none; }
   a { color: inherit; text-decoration: none; }
-  .figure, .answer-field { break-inside: avoid; }
+  .figure, .answer-field, .frame, .risk, .role, .undo { break-inside: avoid; }
 }
 </style>
 </head>
@@ -869,7 +988,8 @@ html:not(.js) .ballot-tray { display: none; }
     </section>
     <!-- OPTIONAL COMPONENTS: copy the markup from gallery.html.
          .stepper (change over time, one picture), .views (several views of one thing), .minimap (where this chapter sits in the whole),
-         .answer-field and one .collect bar (gather pages: put the bar here, outside the chapters, so one-chapter mode never hides it). -->
+         .answer-field and one .collect bar (gather pages and playbooks: put the bar here, outside the chapters, so one-chapter mode never hides it),
+         .phase-strip, .phases, .frame-row, .roles with .rules, .undo and .risks (playbook pages; the strip goes right after the keep box). -->
   </main>
 </div>
 
@@ -940,10 +1060,10 @@ flip(sk, 'data-skim'); flip(ru, 'data-ruler', 'explainer:ruler');
 if (parts.length) {
   flip(fb, 'data-focus', 0, s => { if (s) showPart(Math.max(0, parts.findIndex(p => p.getBoundingClientRect().bottom > 120))); });
   on(pv, 'click', () => showPart(idx - 1)); on(nx, 'click', () => showPart(idx + 1));
-  on(d, 'click', e => {
-    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"]');
-    const n = a ? parts.indexOf(byId(a.getAttribute('href').slice(1))) : -1;
-    if (n >= 0) { e.preventDefault(); showPart(n); }
+  on(d, 'click', e => {  /* a link to something inside a chapter (a playbook phase) opens that chapter, then scrolls to the thing */
+    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"], .phase-strip a[href^="#"]');
+    const t = a ? byId(a.getAttribute('href').slice(1)) : null, n = parts.indexOf(t?.closest('.chapter, .recap, .ask'));
+    if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
 
