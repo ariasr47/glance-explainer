@@ -1065,6 +1065,14 @@ if (parts.length) {
     if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
+/* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
+on(d, 'click', e => {
+  const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
+  let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
+  if (!t) return;
+  e.preventDefault(); t.scrollIntoView();
+  try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
+});
 
 /* progress bar */
 const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };
