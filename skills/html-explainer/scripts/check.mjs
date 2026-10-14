@@ -36,6 +36,15 @@ const inner = (src, from, tag) => {
   }
   return src.slice(from);
 };
+// the html without its folds. A fold may hold another details (a backlog theme), so each </details> is matched to its own open tag.
+const unfold = (s) => {
+  let out = '', i = 0, m; const re = /<details\b[^>]*>/gi;
+  while ((m = re.exec(s))) {
+    out += s.slice(i, m.index); i = m.index + m[0].length;
+    i += inner(s, i, 'details').length; i += (/^<\/details\s*>/i.exec(s.slice(i)) || [''])[0].length; re.lastIndex = i;
+  }
+  return out + s.slice(i);
+};
 const starts = (src) => [...src.matchAll(/<([a-z][a-z0-9]*)\b([^>]*)>/gi)]; // every start tag: [whole, name, attributes]
 // elements whose class list has the token `c` (and tag `t` when given): { tag, attrs, inner }
 const find = (c, t, src = html) => {
@@ -118,7 +127,7 @@ const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
 let totalWords = 0;
 chapters.forEach(([, id, body], i) => {
-  const readingPath = body.replace(/<details[\s\S]*?<\/details>/g, '');
+  const readingPath = unfold(body);
   const w = size(readingPath.replace(/<svg[\s\S]*?<\/svg>/g, '')); totalWords += w;
   if (!/<h2\b/.test(body)) fail(`chapter #${id} has no h2`);
   if (!hasClass('p', 'remember').test(body)) fail(`chapter #${id} has no p.remember`);
@@ -317,7 +326,7 @@ const kids = (src, t) => {
 const lead = (s) => strip(s).slice(0, 40);
 const isGroup = (attrs) => /(?:^|\s)class="(?:[^"]*\s)?group(?:\s[^"]*)?"/.test(attrs); // tr.group
 const typeChapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>]*>/g)].map((m) => [m[1], inner(html, m.index + m[0].length, 'section')]); // [id, body]
-const reading = (s) => s.replace(/<details[\s\S]*?<\/details>/g, '').replace(/<svg[\s\S]*?<\/svg>/g, ''); // what the reader sees with every fold closed
+const reading = (s) => unfold(s).replace(/<svg[\s\S]*?<\/svg>/g, ''); // what the reader sees with every fold closed
 if (type === 'portfolio') {
   const rows = find('status').reduce((n, s) => n + kids(s.inner, 'li').length, 0);
   if (rows < 3) warn(`data-type="portfolio": the .status boards hold ${rows} row(s); a portfolio shows every project, one row each, so 3 or more`);
@@ -376,6 +385,40 @@ if (type === 'tour') {
   find('tour', 'ol').forEach((o) => kids(o.inner, 'li').forEach((li, i) => {
     if (!starts(li.inner).some((m) => m[1].toLowerCase() === 'img' && strip(attr(m[2], 'alt') || ''))) bad(`ol.tour step ${i + 1} has no img with a non-empty alt: "${lead(li.inner)}"`);
   }));
+}
+
+// ---- lanes and backlog (1.6.0): advice only. A new FAIL would make upgrade.mjs refuse the pages it is meant to bring up to date.
+{
+  const cls = (attrs, c) => new RegExp(`(?:^|\\s)class="(?:[^"]*\\s)?${c}(?:\\s[^"]*)?"`).test(attrs);
+  const filled = (c, t, src) => find(c, t, src).some((e) => strip(e.inner)); // an element of that class with text in it
+  const lanes = find('lane'), tops = find('backlog-top', 'ol'), MAX_LIVE = 5;
+  const cards = []; // every card in a lane or in the ranked backlog: { attrs, inner, where }
+  lanes.forEach((l, i) => {
+    const where = `.lane "${attr(l.attrs, 'data-lane') || `#${i + 1}`}"`;
+    const lis = kids(l.inner, 'ul').flatMap((u) => kids(u.inner, 'li'));
+    lis.forEach((li) => cards.push({ ...li, where }));
+    if (!filled('lane-note', 'p', l.inner)) warn(`${where} has no non-empty p.lane-note; say its horizon, how sure it is, and whether order matters ("1 to 3 months. Likely. Not in order.")`);
+    const live = lis.filter((li) => !cls(li.attrs, 'go')).length;
+    if (live > MAX_LIVE) warn(`${where} has ${live} live cards; keep it to ${MAX_LIVE} or fewer and fold the rest away`);
+    const done = lis.length - live;
+    if (done && attr(l.attrs, 'data-lane') === 'now') warn(`${where} holds ${done} li.go; move shipped work to the shipped fold (details.fold.shipped)`);
+  });
+  tops.forEach((o) => kids(o.inner, 'li').forEach((li) => cards.push({ ...li, where: 'ol.backlog-top' })));
+  tops.forEach((o, i) => { const n = kids(o.inner, 'li').length; if (n > MAX_LIVE) warn(`ol.backlog-top #${i + 1} has ${n} items; rank at most ${MAX_LIVE} and put the rest in a details.theme below the cut line`); });
+  for (const c of cards) {
+    if (cls(c.attrs, 'wait') && !filled('after', 'small', c.inner) && !filled('outside', 'small', c.inner))
+      warn(`${c.where}: li.wait "${lead(c.inner)}" has neither a small.after nor a small.outside; say what it waits on`);
+    if (c.where !== 'ol.backlog-top' && hasAttr(c.attrs, 'data-conf') && !filled('conf', 'small', c.inner))
+      warn(`${c.where}: li[data-conf] "${lead(c.inner)}" has no non-empty small.conf; say why it is less certain than its lane`);
+  }
+  const theme = /<details\b[^>]*\sclass="(?:[^"]*\s)?theme(?:\s[^"]*)?"/.exec(html), cut = /\sclass="(?:[^"]*\s)?cutline(?:\s[^"]*)?"/.exec(html);
+  if (theme && (!cut || cut.index > theme.index)) warn('details.theme comes before any .cutline; draw the cut line above the themes so ranked and unranked stay apart');
+  if (type === 'roadmap' && !filled('asof', 'p')) warn('data-type="roadmap": no p.asof under the answer bar ("A plan, not a promise. Items move as we learn.")');
+  if (cards.length) for (const [name, t] of Object.entries(themes)) for (const x of ['here', 'go', 'wait', 'stop', 'decide']) { // a card prints its state word as text in the state colour, on the card
+    const a = rgb(t[`--${x}`]), b = rgb(t['--card']); if (!a || !b) continue;
+    const [hi, lo] = [lum(a), lum(b)].sort((p, q) => q - p), r = floor2((hi + 0.05) / (lo + 0.05));
+    if (r < 4.5) warn(`contrast (${name}): --${x} on --card is ${r.toFixed(2)}:1; roadmap state words are text in that colour and need 4.5:1`);
+  }
 }
 
 // ---- playbook (1.3.0): a plan for one risky change, ending with the decisions it needs
