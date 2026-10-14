@@ -985,11 +985,12 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">Roadmap as of 13 October 2026</p>
+    <p class="kicker">Roadmap as of 14 October 2026</p>
     <h1>What comes next for html-explainer</h1>
     <div class="meta"><span>Reading time about 5 minutes</span><span><a href="index.html">Back to the site home</a></span></div>
 
     <p class="answer">Every page is now checked automatically, so next we test pages with outside readers, and new page types wait until an outside user needs one.</p>
+    <p class="asof">A plan, not a promise. Items move as we learn.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
@@ -1001,13 +1002,13 @@ html:not(.js) .ballot-tray { display: none; }
     </div>
 
     <ol class="map">
-      <li><a href="#c1"><b>Now, next and later</b><span>Fifteen items in three lanes, and what waits on what.</span></a></li>
+      <li><a href="#c1"><b>Now, next and later</b><span>Twelve live items in three lanes, and what waits on what.</span></a></li>
       <li><a href="#c2"><b>What unblocks the most</b><span>The outside-reader test and the automatic check.</span></a></li>
       <li><a href="#c3"><b>What is left off</b><span>Three things parked, each with the way back.</span></a></li>
       <li><a href="#c4"><b>The December review</b><span>What happens on 12 December 2026, either way.</span></a></li>
     </ol>
 
-    <section class="chapter" id="c1" data-keep="Fifteen items in three lanes, five wait on another">
+    <section class="chapter" id="c1" data-keep="Twelve live items in three lanes, five wait on another">
       <header>
         <div><p class="kicker">Chapter 1 of 4, about 2 minutes</p><h2>What is under way, next and later?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
@@ -1016,25 +1017,23 @@ html:not(.js) .ballot-tray { display: none; }
 
       <p class="from"><b>Before this:</b> the focus is checked decision pages.</p>
 
-      <p>Now is October and November 2026. Next is December 2026. Later is 2027, if outside readers confirm the gain.</p>
-
       <div class="lanes">
-        <section class="lane" data-lane="now"><h3>Now</h3><ul>
-          <li class="go"><b>Check every page automatically</b><span>Shipped in 1.5.0.</span></li>
-          <li class="go"><b>Upgrade old pages</b><span>Shipped in 1.5.0.</span></li>
-          <li class="go"><b>Answer by tapping</b><span>Shipped in 1.5.0.</span></li>
+        <section class="lane" data-lane="now"><h3>Now</h3>
+          <p class="lane-note">Next 4 weeks. Committed. Top item first.</p><ul>
           <li id="r-trigger" class="here"><b>Trigger reliably</b><span>Sharper skill descriptions and trigger tests.</span></li>
-          <li id="r-test" class="here"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span></li>
+          <li id="r-test" class="here"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, the review needs it.</small></li>
           <li id="r-name" class="wait"><b>Settle the name, then list</b><span>Pick the final name, then submit to registries.</span><small class="after">After: <a href="#r-trigger">Trigger reliably</a></small></li>
         </ul></section>
-        <section class="lane" data-lane="next"><h3>Next</h3><ul>
+        <section class="lane" data-lane="next"><h3>Next</h3>
+          <p class="lane-note">1 to 3 months. Likely. Not in order.</p><ul>
           <li><b>Optional browser check</b><span>Reports sideways scroll, split words and clipped commands.</span></li>
           <li><b>Tested installs in other agents</b><span>Codex, Gemini CLI, Cursor and Copilot.</span></li>
           <li class="wait"><b>claude.ai upload</b><span>A zip per skill on each GitHub release.</span><small class="after">After: <a href="#r-name">Settle the name, then list</a></small></li>
-          <li><b>Publish where Claude publishes</b><span>When it can, the agent offers an artifact link.</span></li>
+          <li data-conf="exploring"><b>Publish where Claude publishes</b><span>When it can, the agent offers an artifact link.</span><small class="conf">Exploring: depends on the platform</small></li>
           <li><b>A one-minute demo</b><span>Recorded from the gallery.</span></li>
         </ul></section>
-        <section class="lane" data-lane="later"><h3>Later</h3><ul>
+        <section class="lane" data-lane="later"><h3>Later</h3>
+          <p class="lane-note">3 months or more. Exploring. Not in order.</p><ul>
           <li class="wait"><b>Pull request pages in CI</b><span>A GitHub Action writes one per pull request.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
           <li class="wait"><b>Brand themes</b><span>Your own colour and type, rules still checked.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
           <li><b>More languages</b><span>After Japanese, on request.</span></li>
@@ -1042,6 +1041,19 @@ html:not(.js) .ballot-tray { display: none; }
         </ul></section>
       </div>
       <p class="take"><b>Take from this:</b> five items wait on another, and three wait on the outside-reader test.</p>
+
+      <details class="fold shipped"><summary><span>Shipped in 1.5.0: 3 items</span><a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">Changelog</a></summary>
+        <ul><li>Check every page automatically</li><li>Upgrade old pages</li><li>Answer by tapping</li></ul>
+        <p>Before that, 1.4.0 moved each skill into a self-contained folder so the skills install in other agents. It also added this roadmap, a public site and an automatic check on every change.</p>
+      </details>
+
+      <details class="fold parked"><summary><span>Parked on purpose: 3 items, each with what would bring it back</span></summary>
+        <div class="parked-shelf">
+          <div><b>New page types</b><span><b>Why:</b> Sixteen cover every request so far.</span><span><b>Back when:</b> An outside user's content fits none.</span></div>
+          <div><b>Motion companion</b><span><b>Why:</b> Nothing can drive it yet.</span><span><b>Back when:</b> Claude Code gains a hook or API for it.</span></div>
+          <div><b>A hosted service or paid tier</b><span><b>Why:</b> Everything useful is a public file.</span><span><b>Back when:</b> Teams ask for more than a file.</span></div>
+        </div>
+      </details>
 
       <details class="fold"><summary>Show the detail and the reasons behind the items</summary>
         <p><b>Upgrade old pages.</b> A script swaps an older page's styles and reader script for the current template's. Each page carries its own copy of the design, so a page made under 1.2 keeps 1.2's phone bugs.</p>
@@ -1055,14 +1067,10 @@ html:not(.js) .ballot-tray { display: none; }
         <p><b>A one-minute demo.</b> It is recorded from the gallery and shows skim mode, one chapter at a time, read aloud and the ballot round trip.</p>
         <p><b>claude.ai upload.</b> Skill descriptions are short enough for the upload form.</p>
         <p><b>Publish where Claude publishes.</b> When the agent can publish a page as a Claude artifact, it offers that link next to the file.</p>
-        <p>The reasons for the first and fifth items in Now are in <a href="#c2">chapter 2</a>.</p>
+        <p>The reasons for the outside-reader test and the automatic check are in <a href="#c2">chapter 2</a>.</p>
       </details>
 
-      <details class="fold"><summary>Show what shipped most recently</summary>
-        <p>The latest release moved each skill into a self-contained folder so the skills install in other agents. It also added this roadmap, a public site and an automatic check on every change. The <a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">changelog</a> has the rest.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> fifteen items sit in three lanes, and five of them wait on another.</p>
+      <p class="remember"><b>Remember:</b> twelve live items sit in three lanes, and five of them wait on another.</p>
     </section>
 
     <section class="chapter" id="c2" data-keep="The reader test and the automatic check come first">
@@ -1072,7 +1080,7 @@ html:not(.js) .ballot-tray { display: none; }
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> fifteen items sit in three lanes, and five of them wait on another.</p>
+      <p class="from"><b>Before this:</b> twelve live items sit in three lanes, and five of them wait on another.</p>
 
       <p>The outside-reader test unblocks the most. Every page so far was judged by its author, and this test decides what comes next.</p>
       <p>Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later.</p>
@@ -1160,7 +1168,7 @@ html:not(.js) .ballot-tray { display: none; }
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Fifteen items sit in three lanes, and five of them wait on another.</li>
+        <li>Twelve live items sit in three lanes, and five of them wait on another.</li>
         <li>The outside-reader test decides what comes next, and a hook makes the check impossible to skip.</li>
         <li>Three things are parked, and each names what would bring it back.</li>
         <li>On 12 December 2026 the review either keeps Later or shrinks the roadmap to maintenance.</li>
