@@ -231,10 +231,22 @@ for (const sel of ['.status li.go::before', '.timeline li.go::before'])
 
 // ---- type rules, keyed by data-type on <html>
 const bad = (m) => fail(`data-type="${type}": ${m}`), need = (ok, m) => { if (!ok) bad(m); };
-const REQUIRED = { decision: ['decision', 'ask'], status: ['status'], spec: ['split', 'status'], release: ['tiles', 'split'], handover: ['status', 'steps'],
+const REQUIRED = { decision: ['decision'], status: ['status'], spec: ['split', 'status'], release: ['tiles', 'split'], handover: ['status', 'steps'],
   portfolio: ['status', 'steps'], incident: ['timeline', 'flow', 'status'], pr: ['split', 'status', 'tiles'], roadmap: ['lanes'],
   playbook: ['phase-strip', 'phases', 'undo', 'risks'] };
 for (const c of REQUIRED[type] || []) need(num(c), `needs at least one .${c}`);
+// Answer fields ride on one .collect bar and every field carries a data-q. A playbook gets advice; a decision page without an .ask gets hard rules.
+const answerFieldRules = (fields, noun, report) => {
+  if (num('collect') !== 1) report(`${fields.length} .answer-field and ${num('collect')} .collect; one collect bar carries the ${noun} back`);
+  fields.forEach((f, i) => { if (!attr(f.attrs, 'data-q')) report(`.answer-field #${i + 1} has no data-q`); });
+};
+if (type === 'decision') { // the page ends in a typed-reply .ask, or in tap-to-answer fields (fieldset.answer-field, one per ruling) and one .collect bar
+  if (!num('ask')) {
+    const fields = find('answer-field');
+    if (fields.length) answerFieldRules(fields, 'answers', bad);
+    else bad('needs a .ask, or at least one .answer-field and one .collect bar');
+  }
+}
 if (type === 'status') need(find('timeline').some((t) => num('here', 'li', t.inner) === 1), 'needs a .timeline with exactly one li.here');
 if (type === 'research') { need(num('status') + num('tiles'), 'needs at least one .status or .tiles'); need(num('fold', 'details'), 'needs at least one details.fold'); }
 if (type === 'gather' && !ballot) {
@@ -262,10 +274,12 @@ if (ballot) {
     const opts = find('ballot-opt', null, c.inner), multi = attr(c.attrs, 'data-kind') === 'multi', rec = withAttr('data-rec', c.inner).length;
     need(opts.length >= 2, `.ballot-card ${at} has ${opts.length} option(s); at least 2 needed`);
     if (!multi) need(rec === 1, `.ballot-card ${at} has ${rec} [data-rec] options; exactly 1 needed (a multi card may have any number)`);
-    opts.forEach((o) => {
+    opts.forEach((o) => { // an option is a picture (.vis) or a text option: a non-empty .detail line (span or p) and no picture
       const k = attr(o.attrs, 'data-k') || '?', vis = find('vis', null, o.inner)[0];
-      if (!vis || !(strip(vis.inner) || /<(?:img|svg|canvas|picture)\b/i.test(vis.inner))) bad(`.ballot-card ${at}: option ${k} has no non-empty .vis`);
-      else if (!/<[a-z]/i.test(vis.inner)) warn(`.ballot-card ${at}: the .vis of option ${k} is text alone; draw a small mockup or use an <img>`);
+      const pictured = vis && (strip(vis.inner) || /<(?:img|svg|canvas|picture)\b/i.test(vis.inner));
+      const detailed = find('detail', null, o.inner).some((d) => /^(?:span|p)$/.test(d.tag) && strip(d.inner));
+      if (!pictured && !detailed) bad(`.ballot-card ${at}: option ${k} has neither a non-empty .vis nor a non-empty .detail line`);
+      else if (pictured && !/<[a-z]/i.test(vis.inner)) warn(`.ballot-card ${at}: the .vis of option ${k} is text alone; draw a small mockup, use an <img>, or drop the .vis and give the option a .detail line`);
     });
   });
   const trays = find('ballot-tray');
@@ -274,6 +288,11 @@ if (ballot) {
     need(withAttr('data-copy', trays[0].inner).some((m) => m[1].toLowerCase() === 'button'), '.ballot-tray has no button[data-copy]');
     if (!/\saria-live=/.test(trays[0].inner)) warn('.ballot-tray has no aria-live status line');
   }
+}
+for (const m of withAttr('data-warn')) { // a consequence chip on a .ballot-opt or a decision .option is a few words ("Can't undo")
+  const w = strip(attr(m[2], 'data-warn') || ''), n = w ? w.split(/\s+/).length : 0;
+  if (!n) warn('data-warn is empty; name the consequence in a few words, such as "Can\'t undo"');
+  else if (n > 4) warn(`data-warn "${w}" is ${n} words; the chip holds 4 or fewer`);
 }
 if (type === 'atlas') {
   const states = ['state-current', 'state-dormant', 'state-target'];
@@ -380,10 +399,7 @@ if (type === 'playbook') {
   });
   const fields = find('answer-field');
   if (!fields.length) warn('data-type="playbook": no .answer-field; a playbook usually ends with the decisions it needs');
-  else { // the decisions copy through the gather bar: one .collect, and every field a data-q
-    if (num('collect') !== 1) warn(`data-type="playbook": ${fields.length} .answer-field and ${num('collect')} .collect; one collect bar carries the decisions back`);
-    fields.forEach((f, i) => { if (!attr(f.attrs, 'data-q')) warn(`data-type="playbook": .answer-field #${i + 1} has no data-q`); });
-  }
+  else answerFieldRules(fields, 'decisions', (m) => warn(`data-type="playbook": ${m}`)); // the decisions copy through the gather bar: one .collect, and every field a data-q
 }
 
 // ---- reader-feature components, on any page type
