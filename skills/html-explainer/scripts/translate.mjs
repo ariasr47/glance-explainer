@@ -21,8 +21,8 @@ const USAGE = `usage:
 const VOID = new Set('area base br col embed hr img input link meta param source track wbr'.split(' '));
 const RAW = new Set(['script', 'style']);               // contents are code, never listed
 const CODE = new Set(['code', 'pre', 'kbd', 'samp']);   // listed with kind "code" so the translator can leave them
-// Attributes that hold text a reader sees. data-rec is drawn by CSS (attr()), data-keep feeds the sticky bar.
-const ATTRS = new Set(['title', 'aria-label', 'placeholder', 'alt', 'data-rec', 'data-keep']);
+// Attributes that hold text a reader sees. data-rec and data-warn are drawn by CSS (attr()), data-keep feeds the sticky bar.
+const ATTRS = new Set(['title', 'aria-label', 'placeholder', 'alt', 'data-rec', 'data-warn', 'data-keep']);
 const ATTR = /([^\s"'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/dg;
 
 const die = (m) => { console.error('translate: ' + m); process.exit(1); };
