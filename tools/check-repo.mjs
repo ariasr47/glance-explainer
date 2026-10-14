@@ -25,6 +25,7 @@ const pages = [
   'skills/html-explainer/assets/template.html',
   'skills/html-explainer/assets/gallery.html',
   'skills/html-explainer/examples/playbook.html',
+  'skills/html-explainer/examples/field-guide.html',
   'skills/explainer-gather/examples/ballot.html',
   'docs/index.html',
   'docs/roadmap.html',
