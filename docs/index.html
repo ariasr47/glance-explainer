@@ -676,7 +676,7 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .index { margin: 1rem 0 1.5rem; max-width: none; }
 .guide-tools { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .6rem 1rem; margin: 0 0 .75rem; }
 @media (min-width: 1100px) { .guide-tools { position: sticky; top: 0; z-index: 5; padding: .6rem 0; background: var(--card); border-bottom: 1px solid var(--line); } }  /* the rail is a sidebar here; below this it is already a sticky strip */
-.guide-search { flex: 1 1 16rem; display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.guide-search { flex: 1 1 12rem; display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
 .guide-search > span { color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
 .guide-search input { width: 100%; min-height: 48px; padding: 0 .9rem; border: 2px solid var(--line-strong); border-radius: var(--r-comp); background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 .guide-search input::placeholder { color: var(--ink-soft); opacity: 1; }
@@ -685,7 +685,7 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .guide-filters button:hover { border-color: var(--here); }
 .guide-filters button[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
 .guide-status { flex: 1 1 100%; margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
-details.family-index { container: famrow / inline-size; margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+details.family-index { container: famrow / inline-size; margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 9rem; }  /* a jump lands below the sticky strip or the sticky toolbar */
 details.family-index > summary { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: .05rem .75rem; min-height: 44px; padding: .65rem 2.6rem .65rem 1rem; list-style: none; cursor: pointer; }
 details.family-index > summary::-webkit-details-marker { display: none; }
 details.family-index > summary::after { content: "▾"; position: absolute; right: .9rem; top: .65rem; color: var(--ink-soft); }
@@ -695,7 +695,7 @@ details.family-index > summary h3 { margin: 0; font-size: clamp(1.05rem, 1rem + 
 .fam-hidden { margin-left: auto; color: var(--ink-soft); font-size: var(--size-xs); }
 details.family-index:not([open]) .fam-hidden { display: none; }  /* a closed family shows its name and counts. What the filter hides is said once it is open, and in the status line. */
 .index h4.group { margin: 0; padding: .45rem 1rem .3rem; border-top: 1px solid var(--line); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); letter-spacing: 0; }
-.entry { position: relative; border-top: 1px solid var(--line); scroll-margin-top: 4.5rem; }
+.entry { position: relative; border-top: 1px solid var(--line); scroll-margin-top: 9rem; }
 .entry > .name { display: block; padding: .7rem 1rem 0; font: 600 var(--size-0)/1.3 var(--font-head); }  /* before the script runs the entry reads as plain lines */
 .entry > .def { margin: 0; padding: .1rem 1rem .4rem; max-width: none; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
 html:not(.js) .entry[data-rel]::before { content: attr(data-rel); position: absolute; right: 1rem; top: .75rem; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); }
@@ -1556,6 +1556,7 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
     fgReveal = t => {
       const f = t.closest?.('details.family-index'), e = t.closest?.('.entry'); if (!f || !fgx.contains(t)) return false;
       if (e && !shown(e)) { filter = 'all'; box.value = ''; }
+      else if (!e && words.length && !qa('.entry', f).some(hits)) box.value = '';  /* a family the search emptied: drop the search, keep the filter */
       apply(); f.open = true; if (e) setOpen(e, true);
       const part = t.closest('.chapter, .recap, .ask'); if (focused() && parts.includes(part)) showPart(parts.indexOf(part));
       return true;
