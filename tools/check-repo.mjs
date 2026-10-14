@@ -79,7 +79,7 @@ try {
 // 5. hooks: the file parses and every script it runs exists, so a moved script cannot turn the hooks into silent no-ops
 try {
   const hooks = JSON.parse(readFileSync(at('hooks/hooks.json'), 'utf8')).hooks || {};
-  const commands = Object.values(hooks).flat().flatMap((g) => g.hooks || []).map((h) => h.command || '');
+  const commands = Object.values(hooks).flat().flatMap((g) => g.hooks || []).map((h) => [h.command, ...(h.args || [])].join(' '));
   const missing = [...new Set(commands.flatMap((c) => [...c.matchAll(/\$\{CLAUDE_PLUGIN_ROOT\}\/([\w./-]+)/g)].map((m) => m[1])))].filter((p) => !existsSync(at(p)));
   if (!commands.length) bad('hooks/hooks.json defines no hook commands');
   else if (missing.length) bad(`hooks/hooks.json runs ${missing.join(', ')}, which does not exist`);
