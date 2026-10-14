@@ -1485,7 +1485,7 @@ const paintBuckets = f => {
   itemsOf($(':scope > ol', f)).forEach(li => qa('[data-bucket]', li).forEach(x => x.setAttribute('aria-pressed', st.of[idOf(li)] === x.dataset.bucket)));
   ol.replaceChildren(...st.order.map(id => { const li = make('li', '', '<span></span>'); li.dataset.id = id; li.firstChild.textContent = name[id]; moves(li, name[id]); return li; }));
   ends(ol); ol.hidden = !st.order.length; empty.hidden = !!st.order.length;
-  $('.rank-title', box).textContent = fmt(L.bkTitle, { b: first }); $('.hint', box).textContent = fmt(L.bkHint, { b: first }); empty.textContent = fmt(L.bkEmpty, { b: first });
+  $('.rank-title', box).textContent = fmt(L.bkTitle, { b: first }); ol.setAttribute('aria-label', fmt(L.bkTitle, { b: first })); $('.hint', box).textContent = fmt(L.bkHint, { b: first }); empty.textContent = fmt(L.bkEmpty, { b: first });
   paintSum(f); okState(f);
 };
 fields.filter(f => f.dataset.kind === 'rank').forEach(f => {
