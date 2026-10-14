@@ -4,7 +4,8 @@
 // 1. Every shipped page passes the page checker.
 // 2. The gallery's <style> and <script> blocks are byte-identical to the template's.
 // 3. Every relative path a skill file names in backticks exists, so a moved file cannot break a skill silently.
-// 4. The plugin and marketplace manifests parse and agree on the plugin name.
+// 4. The plugin and marketplace manifests parse and agree on the plugin name, and the template's generator mark matches the plugin version.
+// 5. hooks/hooks.json parses and the scripts it runs exist.
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -69,7 +70,21 @@ try {
   if (!market.plugins?.some((p) => p.name === plugin.name)) bad(`marketplace.json lists no plugin named "${plugin.name}"`);
   for (const s of plugin.skills || []) if (!existsSync(at(s, 'SKILL.md'))) bad(`plugin.json skill ${s} has no SKILL.md`);
   ok(`manifests: ${plugin.name} ${plugin.version}`);
+  // the template's generator mark is the version stamp that upgrade.mjs reads, so it moves with the plugin version
+  const mark = /<meta name="generator" content="html-explainer ([^"]*)">/.exec(tpl)?.[1];
+  if (mark === plugin.version) ok(`template generator mark: html-explainer ${mark}`);
+  else bad(`template generator mark is ${mark ? `"html-explainer ${mark}"` : 'missing'} but plugin.json version is ${plugin.version}; bump both together`);
 } catch (e) { bad(`manifests do not parse: ${e.message}`); }
+
+// 5. hooks: the file parses and every script it runs exists, so a moved script cannot turn the hooks into silent no-ops
+try {
+  const hooks = JSON.parse(readFileSync(at('hooks/hooks.json'), 'utf8')).hooks || {};
+  const commands = Object.values(hooks).flat().flatMap((g) => g.hooks || []).map((h) => [h.command, ...(h.args || [])].join(' '));
+  const missing = [...new Set(commands.flatMap((c) => [...c.matchAll(/\$\{CLAUDE_PLUGIN_ROOT\}\/([\w./-]+)/g)].map((m) => m[1])))].filter((p) => !existsSync(at(p)));
+  if (!commands.length) bad('hooks/hooks.json defines no hook commands');
+  else if (missing.length) bad(`hooks/hooks.json runs ${missing.join(', ')}, which does not exist`);
+  else ok(`hooks: ${commands.length} commands in ${Object.keys(hooks).join(', ')}`);
+} catch (e) { bad(`hooks/hooks.json does not parse: ${e.message}`); }
 
 console.log(problems.length ? `\n${problems.length} problem(s)` : '\nall checks passed');
 process.exit(problems.length ? 1 : 0);

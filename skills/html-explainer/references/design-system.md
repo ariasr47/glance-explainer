@@ -126,7 +126,8 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Minimap | `figure.minimap` | Where this chapter sits in the whole | The page's master SVG, small; `data-lit` names the lit node and the rest dim |
 | Flow | `ol.flow` | A linear sequence | 3 to 7 steps, states via `.here .go .wait .stop` |
 | Split | `div.split` | Two states of the same thing | `.before` red, `.after` green |
-| Decision | `div.decision` + `div.options` | A choice the reader owns | One recommended option, a "do nothing" line |
+| Decision | `div.decision` + `div.options` | A choice the reader owns | One recommended option, a "do nothing" line. The page may follow each card with its `fieldset.answer-field[data-kind="choice"]` and end with one `.collect` bar, instead of the ask |
+| Warning chip | `[data-warn]` on a decision `.option` or a `.ballot-opt` | A cost the reader must see on the option itself | Amber (`--wait`) with a ⚠ glyph and the attribute's own words, such as "Can't undo". Four words at most. Never colour alone. It hangs from the top left edge of a decision option and is the last line of a ballot option |
 | Status board | `ul.status` | Health of several items | One dot colour per row, one line each |
 | Timeline | `ol.timeline` | Position in time | Exactly one `li.here` |
 | Steps | `ol.steps` | Ordered actions | Bold verb first, one line, detail in a fold |
@@ -158,8 +159,10 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | The ask | `section.ask` | One question with 2 to 4 choices | Recommendation marked, "if you do nothing" stated |
 | Answer field | `.answer-field` | A question the reader answers | A full-sentence question, a stable `data-q`, a `.hint` saying what a good answer holds. On a choice, `label[data-rec]` marks the recommended option with a ★ chip that shows the attribute's words ("Recommended", "My pick") |
 | Collect bar | `.collect` | The reader's answers, ready to send | Exactly one per page, hidden until a field has a value |
-| Ballot card | `article.ballot-card` with `.ballot-opts` of `button.ballot-opt` | One decision the reader rules on (gather `data-mode="ballot"`) | A picture (`.vis`) on every option, exactly one `data-rec`, a `p.skip`, a stable `data-q` and a `data-short` |
-| Picks tray | `.ballot-tray` | The rulings so far, and the one action that hands them back | Pinned and visible from the first screen; tally, 44 px jump dots, Copy picks as the only primary button, a live status line |
+| Ballot card | `article.ballot-card` with `.ballot-opts` of `button.ballot-opt` | One decision the reader rules on (gather `data-mode="ballot"`) | A picture (`.vis`) or a `.detail` line on every option, exactly one `data-rec` (put it first), a `p.skip`, a stable `data-q` and a `data-short` |
+| Text option | `button.ballot-opt` with `span.name` and `span.detail`, no `.vis` | A ruling with nothing to draw | A bold label and one plain line in `--ink-soft`, the same tap target as a pictured option. Text options always stack on a phone |
+| Source line | `p.ballot-source` | What the ballot rules on | Optional, right under the title: "Rules on: the plan, its date, its commit". Small and muted |
+| Picks tray | `.ballot-tray` | The rulings so far, and the one action that hands them back | Pinned and visible from the first screen. A tally, 44 px jump dots, Copy picks as the only primary button and a live status line. `button[data-pick-rec]` ("Pick all ★") fills every unpicked single-choice card with its ★. A collapsed `details.ballot-review` lists one row per card, and a skipped card reads "★ (skipped)". Under the rows, `.ballot-note` holds one optional line, copied as `Note: ...`. When every pick is the ★ option, Copy picks is one line: "title: all ★ (recommended)" |
 
 The stepper, the tabs and the reader tools are reader-triggered. Nothing autoplays, `prefers-reduced-motion` is respected, and with JavaScript off the page reads without them.
 
@@ -175,12 +178,13 @@ A `data-type="gather"` page lets its chapters ask questions. The mechanic lives 
 - Answers save in the browser as the reader types. The `.collect` bar appears with the first answer and shows "3 of 5 answered", and the rail dot of an answered chapter turns green.
 - Copy all answers, Download .md and Copy JSON are the only ways answers leave the page. The Markdown copy has one `## [q] question` block per answer and a `## Not answered` list at the end. The JSON copy carries the same data. `merge.html` reads either shape and merges any number of respondents by question id.
 - The page must pass the checker with every field empty.
+- A decision page may use the same fields: a `fieldset.answer-field[data-kind="choice"]` straight after each `.decision` card, and one `.collect` bar after the recap instead of the ask.
 
 ## Composition patterns by page type
 
 These are starting points, not templates. Drop what the content does not need. `types.md` lists the required components and checker rules for each type.
 
-- **Decision page**: answer → keep → map → one chapter per option or per ruling (each with a split or a small diagram) → a `.decision` per ruling → recap → ask.
+- **Decision page**: answer → keep → map → one chapter per option or per ruling (each with a split or a small diagram) → a `.decision` per ruling, each followed by its answer field when the page answers by tapping → recap → the ask, or the one collect bar.
 - **Status / where are we**: answer → keep → map → timeline chapter with `li.here` → status board chapter → "what is next" chapter with steps → recap → ask only if something is blocked on the reader.
 - **Spec / feature**: answer → keep → map → "what it does" chapter with a flow → "what changes for you" chapter with a split and a wireframe if UI is touched → "how we know it works" chapter with a status board of checks → "risks" chapter with callouts → recap → ask (approve / hold).
 - **Architecture / how it works**: answer → keep → map → one chapter per layer, each with one SVG box map and a metaphor → "how a request travels" chapter with a flow → recap. A reference anchored to code is an atlas page; see the atlas add-on below.

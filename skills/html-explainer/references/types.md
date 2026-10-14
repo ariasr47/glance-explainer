@@ -8,13 +8,18 @@ Set the type on `<html data-type="...">`. Every type keeps the core contract (an
 The reader must rule on options that a session poses.
 
 ### Chapter composition
-One chapter per option or ruling, each with a split or a small diagram. Then the recap and the ask.
+One chapter per option or ruling, each with a split or a small diagram. Then the recap and the ending.
 
 ### Required components
-A `.decision` card for each ruling, one option marked recommended, and a line saying what happens if the reader does nothing. A closing `.ask`.
+A `.decision` card for each ruling, one option marked recommended, and a line saying what happens if the reader does nothing. The page ends in one of two ways.
+
+- **A typed reply.** A closing `section.ask`.
+- **Taps.** Each chapter's `.decision` card is followed by its own `fieldset.answer-field[data-kind="choice"]`. The recommended option's label carries `data-rec="Recommended"`, which shows a ★ chip. One `.collect` bar sits after the recap, outside the chapters, so one-chapter mode never hides it. The reader taps an option per ruling, then copies every answer back.
+
+An option may carry `data-warn="Can't undo"`, a chip that names its cost in words.
 
 ### Checker rules
-At least one `.decision` and one `.ask`.
+At least one `.decision`, and either a `.ask` or at least one `.answer-field` with exactly one `.collect` bar where every field has a `data-q`.
 
 ### Example topic
 Three rulings on how the nightly export should behave.
