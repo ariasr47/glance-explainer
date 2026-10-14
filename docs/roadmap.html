@@ -1273,11 +1273,12 @@ on(d, 'click', e => {
   if (!t) return;
   e.preventDefault(); t.scrollIntoView();
   /* the landing is a static class on the target, one at a time. A jump to a list item from inside another titled item also gets one link back. */
-  const from = a.closest('.lane li, [id]:not(main)'), name = from && from !== t && $('b, h3, h2', from);  /* read before the old back link goes, in case that is the link just clicked */
+  const cards = '.lane li, .backlog-top > li, details.theme li';  /* the roadmap's items: each is titled by its first b */
+  const from = a.closest(cards + ', [id]:not(main)'), name = from && from !== t && $('b, h3, h2', from);  /* read before the old back link goes, in case that is the link just clicked */
   qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
   t.classList.add('is-target');
   if (name && t.matches('li') && !t.contains(from)) {
-    from.id = from.id || 'lane-card-' + qa('.lane li').indexOf(from);
+    from.id = from.id || 'jump-' + qa(cards).indexOf(from);
     const back = d.createElement('a'); back.className = 'jump-back'; back.href = '#' + from.id; back.textContent = fmt(L.back, { t: txt(name) }); t.append(back);
   }
   try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
