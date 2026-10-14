@@ -13,7 +13,7 @@ skills/
     references/          types.md, design-system.md, diagrams.md, writing.md
     assets/              template.html, gallery.html, i18n/
     scripts/             check.mjs (the page checker), translate.mjs, upgrade.mjs (brings an old page to the current template)
-    examples/            playbook.html
+    examples/            playbook.html, field-guide.html
   explainer-gather/      pages that ask and collect
     SKILL.md
     references/          modes.md

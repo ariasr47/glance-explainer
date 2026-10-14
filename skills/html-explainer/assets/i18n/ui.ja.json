@@ -22,6 +22,8 @@
   "If it fails:": "失敗したら：",
   "Now": "今",
   "Later": "その後",
+  "Before launch": "公開前",
+  "Now|Before launch|Later": "今|公開前|その後",
   "After:": "前提：",
   "How we know": "根拠",
   "Criterion": "項目",

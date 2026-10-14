@@ -24,7 +24,7 @@ One `.html` file from `assets/template.html`, in this order:
 
 ## Page identity and conventions
 
-- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour` or `playbook`, each defined in `references/types.md`. A playbook may run to 10 chapters.
+- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook` or `field-guide`, each defined in `references/types.md`. A playbook may run to 10 chapters.
 - Pages that collect answers (`gather`) or map a system (`atlas`) add rules. Also read `../explainer-gather/SKILL.md` or `../explainer-atlas/SKILL.md`.
 - Chapter kicker: "Chapter 2 of 6, about 1 minute" (200 words a minute, rounded up). Japanese: "第2章 / 全6章、約1分" (500 characters a minute).
 - Headings ask the question the chapter answers: "What changes for you?", not "Impact".
@@ -57,6 +57,7 @@ One `.html` file from `assets/template.html`, in this order:
 - Follow a procedure with a check and a way out at each step: `ol.runbook` with `pre.cmd`
 - Walk through a product on its real screens: `ol.tour` with `figure.shot` and `span.pin`
 - Promise a customer something, with proof kept out of sight: `ul.promises` with `data-evidence`
+- Look things up in a reference, after one orientation read: `.territory` of `.stage` with `a.family` tiles (the script derives counts and bars), `ol.start-here`, and `.index` of `details.family-index` with `.entry` rows. A field guide has three chapters and no ask
 - Plan a risky change for one decision-maker: `ol.phase-strip` and `ol.phases` (each phase with a `p.impact`), `figure.frame` for what the audience sees, `div.roles` with `ul.rules`, `div.undo`, `div.risks` of `article.risk`
 
 ## Common mistakes
