@@ -37,6 +37,17 @@ To stay on one release, add the tag to the marketplace: `ariasr47/html-explainer
 2. Type `/html-explainer:` and the three skills appear: `/html-explainer:html-explainer`, `/html-explainer:explainer-gather` and `/html-explainer:explainer-atlas`.
 3. Ask in plain words: *"Make an html explainer for this spec."* The agent writes the page, checks it, saves it under `docs/explainers/` and gives you the link.
 
+### Automatic checks
+
+Claude Code only. The plugin adds three small hooks, so the page checker runs without anyone asking for it.
+
+- **When.** Just before the agent finishes a turn. If that turn wrote or edited an explainer page, the checker runs on the page.
+- **What it covers.** An `.html` file whose `<html>` tag has a `data-type` and which holds an answer bar or ballot cards. Any other file is left alone. A page saved with Write, Edit or MultiEdit is always covered. A page that a script wrote through Bash is covered only when the folder is inside a git repository and the file is not committed yet.
+- **On a FAIL.** The agent is shown the FAIL lines and asked to fix the page before it hands over. After three tries in one turn the hook lets go, so one stubborn page cannot trap a session.
+- **What it never does.** It never uses the network and never changes a file. If something breaks inside a hook, the session carries on as if the hook were not there.
+
+It needs `node` on the path, the same as the checker. To switch it off, set `"disableAllHooks": true` in your Claude Code settings. That also turns off every other hook you have, because Claude Code cannot disable one hook alone. Agents other than Claude Code do not get these hooks. Run the checker by hand instead.
+
 ### Update
 
 Third-party marketplaces do not update on their own unless you turn that on.
@@ -52,7 +63,28 @@ Third-party marketplaces do not update on their own unless you turn that on.
 
   Restart Claude Code afterwards.
 
-Pages you made earlier keep the design they were made with. A fix in a new release reaches a page only when the page is made again.
+Pages you made earlier keep the design they were made with until you upgrade them. See the next section.
+
+### Upgrade pages you made earlier
+
+Every page made from release 1.5.0 on carries a mark in its `<head>`: `<meta name="generator" content="html-explainer 1.5.0">`. It says which release made the page. The upgrader brings an older page to the current design and keeps your words and pictures.
+
+Ask the agent: *"Upgrade docs/explainers/my-page.html to the current html-explainer design."* It runs the upgrader for you. To run it yourself, use the `scripts/upgrade.mjs` file in the `html-explainer` skill folder:
+
+```bash
+node <skill folder>/scripts/upgrade.mjs docs/explainers/my-page.html --dry-run
+node <skill folder>/scripts/upgrade.mjs docs/explainers/my-page.html
+node <skill folder>/scripts/upgrade.mjs docs/explainers
+```
+
+The first line only says what would happen. The second upgrades one page. The third upgrades every explainer page in a folder.
+
+- **What changes.** The page's first `<style>` block and first `<script>` block become the current ones, and the generator mark is set. Content, extra blocks the page added after those two, and atlas links stay as they are.
+- **How it knows the old version.** It compares the two blocks with every release from 1.0.0 on. A page whose blocks match none of them has hand-edited styles. It is skipped as custom. Add `--force` to upgrade it anyway. Your style edits are then replaced, and the backup keeps them.
+- **Safety.** It saves `my-page.html.bak` first, then runs the checker. If the page passed before and fails after, the original is put back and the backup stays.
+- **Output.** One line per page, for example `upgraded 1.2.0 -> 1.5.0`, `already current`, `skipped: custom styles (use --force)` or `skipped: not an explainer page`.
+
+An upgrade changes the design and the script. It does not add the new components of a release to a page. Make the page again for those.
 
 ### Uninstall
 
@@ -113,5 +145,5 @@ Many of these agents also read `~/.agents/skills/`.
 
 - **The skill does not start.** Name it in the request ("use the html-explainer skill") or call it directly with `/html-explainer:html-explainer <topic>`. In Claude Code, `/plugin` shows load errors under Errors.
 - **Two copies of the skill.** The plugin and a copy in a skills folder (`~/.claude/skills/`) each register it. Keep one. Before 1.4.0 the README offered a git clone into `~/.claude/skills/html-explainer`; if you have that folder, delete it and use the plugin.
-- **Links inside a page do nothing in a preview pane.** Pages made with 1.4.0 or later scroll by script, so chapter links work inside embedded viewers. For an older page, open the file in a browser, or ask the agent to make the page again.
+- **Links inside a page do nothing in a preview pane.** Pages made with 1.4.0 or later scroll by script, so chapter links work inside embedded viewers. For an older page, [upgrade it](#upgrade-pages-you-made-earlier), open the file in a browser, or ask the agent to make the page again.
 - **No Node.** Pages still work, but the agent cannot run the checker, so nothing verifies them before you see them.

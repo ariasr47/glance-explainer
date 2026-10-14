@@ -6,12 +6,13 @@ Thank you for helping. The most useful contribution right now is feedback from a
 
 ```text
 .claude-plugin/          plugin.json and marketplace.json (this repository is a one-plugin marketplace)
+hooks/                   Claude Code hooks, outside the portable skills: hooks.json and explainer-check.mjs (runs the page checker by itself)
 skills/
   html-explainer/        the core skill, self-contained
     SKILL.md
     references/          types.md, design-system.md, diagrams.md, writing.md
     assets/              template.html, gallery.html, i18n/
-    scripts/             check.mjs (the page checker), translate.mjs
+    scripts/             check.mjs (the page checker), translate.mjs, upgrade.mjs (brings an old page to the current template)
     examples/            playbook.html
   explainer-gather/      pages that ask and collect
     SKILL.md
@@ -30,7 +31,7 @@ docs/
 tools/check-repo.mjs     repository checks, run by CI
 ```
 
-Each skill folder works on its own, because installers for other agents copy one skill folder at a time. A skill names its files by paths relative to its own `SKILL.md`. Gather and atlas reach the core skill's template and checker through `../html-explainer/`, which works because the three are always installed side by side. Never point a skill at `docs/`, `tools/` or anything outside `skills/`.
+Each skill folder works on its own, because installers for other agents copy one skill folder at a time. A skill names its files by paths relative to its own `SKILL.md`. Gather and atlas reach the core skill's template and checker through `../html-explainer/`, which works because the three are always installed side by side. Never point a skill at `docs/`, `tools/`, `hooks/` or anything outside `skills/`. The hooks may reach into `skills/` (they run the core skill's checker), never the other way round.
 
 ## Try your change
 
@@ -40,7 +41,7 @@ There is no build step. The scripts need Node 18 or newer and nothing else.
 node tools/check-repo.mjs
 ```
 
-It checks every shipped page with the page checker, that the gallery's style and script match the template's, that every path a skill names exists, and that the manifests agree. CI runs the same script on every push and pull request.
+It checks every shipped page with the page checker, that the gallery's style and script match the template's, that every path a skill names exists, that the manifests agree, that the template's generator mark matches the plugin version, and that `hooks/hooks.json` runs scripts that exist. CI runs the same script on every push and pull request.
 
 To check a single page:
 
@@ -67,7 +68,7 @@ If you also have the marketplace version installed, disable it for that session 
 
 ## Releasing
 
-1. Update `version` in `.claude-plugin/plugin.json` and add a section to `CHANGELOG.md`.
+1. Update `version` in `.claude-plugin/plugin.json` and add a section to `CHANGELOG.md`. The generator mark in the template's `<head>` (`<meta name="generator" content="html-explainer X.Y.Z">`) moves with the plugin version, and `tools/check-repo.mjs` fails until the two agree. Also add the release to `KNOWN` in `skills/html-explainer/scripts/upgrade.mjs`, so the next release can name pages made with this one: run `node skills/html-explainer/scripts/upgrade.mjs --hash skills/html-explainer/assets/template.html` and copy the result.
 2. Run `node tools/check-repo.mjs` and `claude plugin validate --strict .`.
 3. Merge to `main`, tag `vX.Y.Z`, push the tag, and create a GitHub release from the changelog section.
 4. Users on the marketplace get the new version when they update. The public site redeploys from `main` on its own.
