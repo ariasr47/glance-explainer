@@ -2,6 +2,37 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 1.6.0 (2026-10-14)
+
+Roadmaps that say what they mean, and prioritising that adds up. Designed on a canvas and approved before the build; the research behind it compared roadmap and backlog practice with what short-memory readers can hold.
+
+### Added
+- **Roadmap lanes state their meaning.** A `p.lane-note` under each lane gives the horizon, the confidence and whether the lane is ordered. Each card's status word ("Under way", "Waits on another", "Needs your ruling", "Blocked", "Done", "Planned") comes from its class, so one mark means one thing on every page.
+- **Exceptions only.** `data-conf="exploring"` with a `small.conf` reason gives a dashed card. A `small.when` line marks a real fixed date. `small.outside` names a blocker outside the roadmap.
+- **Derived dependencies.** The page counts "Unblocks N" from the After links. A jump to an item shows "You jumped here" with a link back.
+- **Folds for history.** Shipped and parked work folds below the lanes. A `p.asof` line says the roadmap is a plan, not a promise.
+- **A backlog view** for a roadmap chapter: the top five ranked, a cut line, themes folded with their count and top item, and a parked shelf with why and what brings each item back.
+- **Buckets for prioritising.** A `data-kind="buckets"` field sorts each item into Now, Next, Later or Not now, with the recommendation preset, then orders only the first bucket.
+- **A combined ranking in `merge.html`.** With three or more readers: the average place, a spread bar, a Contested flag and how much readers agree, in words. Exports carry the combined columns. CI checks the arithmetic on a fixed sample.
+
+### Fixed
+- **Rank answers.** An untouched rank is now an answer, through "This order is right". Items carry ids, the reason is copied, moves are announced, and "Move to top" saves taps.
+- **Badges in lane cards.** `.who` and `.chip` inside a lane card were invisible. They render now.
+- **Nested folds.** The checker no longer reports a false FAIL for a fold inside a fold.
+
+### Changed
+- **Roadmap warnings.** New checker warnings for roadmap pages:
+  - a lane without a note
+  - a waiting card without an After or Outside line
+  - more than five live cards in a lane
+  - shipped work left in Now
+  - a missing as-of line
+  - backlog limits
+  - a rank item without an id
+- **Buckets checks.** A malformed buckets field fails, since buckets are new.
+- **Docs.** `modes.md` no longer marks the combined ranking parked. A ballot is documented as fitting 5 to 15 decisions.
+- **Site and examples.** The site's pages and both examples carry the 1.6.0 design. The public roadmap page uses the new lanes.
+
 ## 1.5.0 (2026-10-13)
 
 ### Added

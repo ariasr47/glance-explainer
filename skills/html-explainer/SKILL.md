@@ -53,7 +53,7 @@ One `.html` file from `assets/template.html`, in this order:
 - See several views of one thing: `div.views`
 - See where this chapter sits in the whole: `figure.minimap`
 - Compare options on the same criteria: `table.grid` in `div.grid-wrap`
-- Plan now, next and later, with dependencies: `.lanes` with three `.lane`
+- Plan now, next and later, with dependencies: `.lanes` with three `.lane`, each with a `p.lane-note`, and `p.asof` under the answer bar
 - Follow a procedure with a check and a way out at each step: `ol.runbook` with `pre.cmd`
 - Walk through a product on its real screens: `ol.tour` with `figure.shot` and `span.pin`
 - Promise a customer something, with proof kept out of sight: `ul.promises` with `data-evidence`
