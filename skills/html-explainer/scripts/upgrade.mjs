@@ -28,6 +28,7 @@ const KNOWN = {
   '588cf7cbc293e179': '1.2.0',
   'd71e0506754e3c2c': '1.3.0',
   '83e7648169e21f10': '1.4.0',
+  'acae1e82fc72cdc3': '1.5.0',
 };
 
 const here = (p) => fileURLToPath(new URL(p, import.meta.url));
@@ -104,7 +105,7 @@ function plan(html, tpl, force) {
   }
   out = withGenerator(out, tpl.version, eol);
   if (out === html) return { say: 'already current' };
-  return { html: out, from: known || (same ? mark || 'unknown' : 'custom') };
+  return { html: out, from: known || (same ? mark || 'unknown' : 'custom'), markOnly: same };
 }
 
 // ---- one file
@@ -113,13 +114,13 @@ function upgradeFile(file, shown, tpl, opts) {
   try { html = readFileSync(file, 'utf8'); } catch (e) { console.log(`${shown}: error: cannot read (${e.code || e.message})`); return 1; }
   const p = plan(html, tpl, opts.force);
   if (p.say) { console.log(`${shown}: ${p.say}`); return 0; }
-  const before = check(file), line = `${p.from} -> ${tpl.version}`;
+  const before = check(file), line = p.markOnly ? `version mark set to ${tpl.version}` : `upgraded ${p.from} -> ${tpl.version}`; // markOnly: the blocks were current, only the mark was missing or stale
   if (opts.dry) { // judge the result without touching the page
     const dir = mkdtempSync(join(tmpdir(), 'html-explainer-upgrade-'));
     try {
       const tmp = join(dir, basename(file)); writeFileSync(tmp, p.html);
       const after = check(tmp);
-      console.log(`${shown}: ${before.ok && after.ok === false ? 'would restore: upgraded page fails the checker (nothing would change)' : `would upgrade ${line}`}`);
+      console.log(`${shown}: ${before.ok && after.ok === false ? 'would restore: upgraded page fails the checker (nothing would change)' : `would be ${line}`}`);
     } finally { rmSync(dir, { recursive: true, force: true }); }
     return 0;
   }
@@ -136,7 +137,7 @@ function upgradeFile(file, shown, tpl, opts) {
     for (const f of after.fails) console.log(`  FAIL  ${f}`);
     return 0;
   }
-  console.log(`${shown}: upgraded ${line}`);
+  console.log(`${shown}: ${line}`);
   if (before.ok === false && after.ok === false) console.log(`  note: the page failed the checker before the upgrade and still fails it (${after.fails.length} FAIL)`);
   return 0;
 }
