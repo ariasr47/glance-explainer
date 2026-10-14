@@ -1,0 +1,27 @@
+{
+  "description": "Runs the html-explainer page checker on the explainer pages a turn wrote, and asks the agent to fix any FAIL before it finishes.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/explainer-check.mjs\" turn", "timeout": 10 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/explainer-check.mjs\" track", "timeout": 10 }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/explainer-check.mjs\" stop", "timeout": 90 }
+        ]
+      }
+    ]
+  }
+}
