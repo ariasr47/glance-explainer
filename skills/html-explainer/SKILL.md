@@ -66,4 +66,5 @@ One `.html` file from `assets/template.html`, in this order:
 - **Colour as decoration.** Six meaning colours, one meaning each, never colour alone.
 - **A diagram that repeats the paragraph.** Delete the paragraph, write the take-away caption.
 - **A picture with no take line.** A status board or a split proves something too: say what in a `p.take` straight under it.
+- **Editing an old page as it is.** Before you change an existing page, read its `<meta name="generator">`. If it is older than this plugin or missing, offer to run `scripts/upgrade.mjs` on the page first (`--dry-run` shows what changes).
 - **A diagram drawn only for a wide screen.** Keep the template's figure CSS so it scrolls on a phone, or add an `svg.narrow` twin. The checker fails labels under 9 px on a phone.
