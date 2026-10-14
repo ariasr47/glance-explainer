@@ -2,6 +2,27 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 1.7.0 (2026-10-14)
+
+### Added
+- **The `field-guide` page type**, a reference you read once to get oriented and then come back to look things up in. Rodrigo asked for it after a real field guide fought the explainer contract: 33 phone screens, 85 open cards and six chapters over the word limit. It was designed on a canvas and approved before the build.
+  - **A short reading path:** the answer, three facts and three chapters (where everything fits, which ones cannot wait, look something up). The index does not count toward the word limits.
+  - **One territory map by stage,** with "You are here", and a bar and counts per family. The script counts these from the entries, so they cannot drift.
+  - **A start-here list** of at most five items that cannot wait, each with why.
+  - **A searchable index.**
+    - Families fold away, and entries are one-line rows that open to show where you meet them, see-also links and a copy-link button.
+    - The relevance filter starts on Now and always says how many are shown.
+    - A link to an entry opens it, even through a filter.
+  - **Checker rules** for its required parts, entries, relevance values and links.
+  - **A public example:** `examples/field-guide.html`, about web product work for a small notes app.
+  - **Measured on a real 85-entry guide remade with it:** 6,186 px on a phone instead of 28,224, 78% shorter.
+
+### Fixed
+- **Newer pages are left alone.** The automatic check now skips a page made by a newer release than the installed plugin, because an older checker may not know its type. Before, a 1.7.0 page in a repository failed the 1.6.0 check of another session at every turn.
+
+### Changed
+- **The type freeze has a recorded exception.** `docs/install.md` names two limits of the automatic check: pages from newer releases, and pages another program writes into the same repository during a turn.
+
 ## 1.6.0 (2026-10-14)
 
 Roadmaps that say what they mean, and prioritising that adds up. Designed on a canvas and approved before the build; the research behind it compared roadmap and backlog practice with what short-memory readers can hold.

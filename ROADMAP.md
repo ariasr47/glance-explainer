@@ -33,7 +33,7 @@ A rendered version of this roadmap, made with the plugin, is at [ariasr47.github
 
 | Item | Why it is parked | What would restore it |
 |---|---|---|
-| New page types | Sixteen types plus gather and atlas cover every request seen so far. More types would spread the checker thin before outsiders have tried the current ones. | An outside user brings content that no current type can hold. |
+| New page types | Seventeen types plus gather and atlas cover every request seen so far. The field guide was added on 14 October 2026 because a real page fought the explainer contract. More types would spread the checker thin before outsiders have tried the current ones. | An outside user brings content that no current type can hold. |
 | Motion companion (animated walkthroughs) | Parked on 9 October 2026. It needs a Claude Code hook or API to drive it. | A supported hook or API that can render motion from a page. |
 | A hosted service or paid tier | Pages work offline as single files, and everything that makes them useful is in public files. | Teams asking for something that cannot be a file. |
 
@@ -43,6 +43,7 @@ On 12 December 2026 this roadmap is reviewed against outside feedback and the re
 
 ## Recently shipped
 
+- **1.7.0:** the field-guide page type, a reference with a territory map, a start-here list and a searchable index. The automatic check now skips pages made by a newer release.
 - **1.6.0:** roadmap lanes that state their horizon and confidence, one fixed set of status words, exception marks, derived "Unblocks N" counts, folded history and a backlog view; buckets for prioritising, a repaired rank control and a combined ranking in the merge tool.
 - **1.5.0:** a hook runs the checker at the end of every turn that wrote a page, so failures go back to the agent before you see the page (Claude Code only). `upgrade.mjs` brings a page made with an older release to the current design. Decision pages can end in tap-to-answer fields, and ballots take text options, a Pick all ★ button, warning chips and a review list with a note.
 - **1.4.0:** each skill folder became self-contained, so the skills install in other agents; chapter links work inside embedded viewers; this roadmap, a public site and an automatic check on every change.
