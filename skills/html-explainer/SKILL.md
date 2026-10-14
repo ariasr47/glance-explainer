@@ -45,7 +45,7 @@ One `.html` file from `assets/template.html`, in this order:
 - Carry facts: `div.keep`, `p.from`, `p.remember`, `section.recap`
 - See a sequence: `ol.flow`, or SVG in `figure.figure` for branches
 - Compare two states: `div.split`
-- Choose: `div.decision`, then `section.ask`
+- Choose: `div.decision`, then `section.ask`, or a `fieldset.answer-field` after each card and one `.collect` bar
 - Know where things stand: `ul.status`, `ol.timeline` with one `li.here`
 - Act: `ol.steps`
 - Verify or dig: `details.fold`
