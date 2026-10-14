@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.6.0">
+<meta name="generator" content="html-explainer 1.7.0">
 <meta name="color-scheme" content="light dark">
-<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, playbook, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
+<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, playbook, field-guide, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
 <!-- TITLE: 2 to 6 words, the subject, not "explainer" -->
 <title>Topic name here</title>
 <meta name="description" content="One sentence: what this page lets the reader decide or understand.">
@@ -142,7 +142,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 :lang(ja) .lane li.decide, :lang(ja) .backlog-top > li.decide { --st-word: "あなたの判断が必要"; }
 :lang(ja) .lane li.stop, :lang(ja) .backlog-top > li.stop { --st-word: "停止中"; }
 :lang(ja) .lane li.go, :lang(ja) .backlog-top > li.go { --st-word: "完了"; }
-:lang(ja) .lane li.is-target::after, :lang(ja) .backlog-top > li.is-target::after { content: "↓ ここへ移動しました"; }
+:lang(ja) .lane li.is-target::after, :lang(ja) .backlog-top > li.is-target::after, :lang(ja) .entry.is-target::after { content: "↓ ここへ移動しました"; }
+:lang(ja) .stage[data-here] > h3::after { content: "● 現在地"; }
 
 /* ---------- 3. Page frame ---------- */
 .progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
@@ -618,6 +619,130 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .risk p.kept { margin-top: .25rem; padding: .5rem .7rem; background: var(--well); border-radius: 8px; color: var(--ink); }
 .risk p.kept b { font-family: var(--font-head); font-weight: 600; }
 
+/* ---------- 9h. Field guide: where things fit, what to do first, and an index to look things up in ---------- */
+/* A reference: read once to get oriented, then searched. The map's counts and bars, its key and the index's search and filter are written by
+   the script from the entries, so none can drift. Without the script a tile shows a name and a line, and every entry reads open. A relevance is
+   a word with a glyph (● now, ◐ before launch, ○ later), and the bar repeats it as solid, hatched and grey. Every colour is an existing token. */
+.territory { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 1.5rem; max-width: none; }  /* stages share the row, four across on a desktop and one by one on a phone */
+.stage { display: flex; flex: 1 1 10rem; flex-direction: column; gap: .6rem; min-width: 0; padding: .6rem; border: 2px solid transparent; border-radius: 14px; }
+.stage > h3 { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; margin: 0; color: var(--ink-soft); font: 600 var(--size-s)/1.25 var(--font-head); letter-spacing: 0; }
+/* the stage you are in: a here border and tint, and the label is drawn here like a lane's state word */
+.stage[data-here] { border-color: var(--here); background: var(--here-tint); }
+.stage[data-here] > h3 { color: var(--ink); }
+.stage[data-here] > h3::after { content: "● You are here"; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.stage[data-across] { flex-basis: 100%; border: 1.5px dashed var(--line-strong); }  /* families no stage owns */
+.family { display: block; min-width: 0; min-height: 44px; padding: .65rem .8rem .75rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.family:hover { border-color: var(--here); }
+.family b { display: block; font: 600 var(--size-0)/1.3 var(--font-head); }
+.family span { display: block; margin-top: .1rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+/* the bar and the counts are added by the script: solid is now, hatched is before launch, grey is later */
+.family .fam-bar { display: flex; height: .7rem; margin-top: .6rem; overflow: hidden; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); }
+.fam-bar i, .territory-key i { display: block; height: 100%; }
+.r-now { background: var(--here); }
+.r-next { background: repeating-linear-gradient(135deg, var(--here) 0 3px, var(--here-tint) 3px 7px); }
+.r-later { background: var(--line-strong); }
+.family .fam-counts { margin-top: .4rem; color: var(--ink); font-weight: 600; }
+.territory-key { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: .3rem 1.1rem; color: var(--ink); font-size: var(--size-xs); }
+.territory-key > span { display: inline-flex; align-items: center; gap: .4rem; }
+.territory-key i { flex: none; width: 1.5rem; height: .7rem; border: 1.5px solid var(--line-strong); border-radius: 4px; }
+@media (min-width: 760px) {  /* a band that spans the map reads as one row: the name and line, then the bar and its counts */
+  .stage[data-across] .family { display: grid; grid-template-columns: minmax(0, 1fr) minmax(11rem, 17rem); column-gap: 1.25rem; align-items: center; }
+  .stage[data-across] .family > :not(.fam-bar, .fam-counts) { grid-column: 1; }
+  .stage[data-across] .family .fam-bar { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .stage[data-across] .family .fam-counts { grid-column: 2; grid-row: 2; margin-top: .3rem; }
+}
+@media (max-width: 560px) {  /* on a phone a tile is two lines, so ten families fit about two screens: the name with its bar, then the counts. The line is kept for desktop. */
+  .stage { gap: .4rem; padding: .4rem .35rem; }
+  html.js .family { display: grid; grid-template-columns: minmax(0, 1fr) 4.75rem; column-gap: .75rem; align-items: center; padding: .5rem .7rem .55rem; }
+  html.js .family > span:not(.fam-bar, .fam-counts) { display: none; }
+  html.js .family .fam-bar { grid-column: 2; grid-row: 1; margin: 0; }
+  html.js .family .fam-counts { grid-column: 1 / -1; margin-top: .1rem; font-size: var(--size-xs); }
+}
+
+/* start here: at most five, in the risk colour on purpose, because a mistake in these is silent or hard to undo. The whole card is the link. */
+.start-here { list-style: none; counter-reset: start; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 1rem 0; padding: 0; max-width: none; }
+.start-here > li { counter-increment: start; position: relative; min-width: 0; margin: 0; padding: .7rem .9rem .8rem; background: var(--card); border: 1.5px solid var(--stop); border-radius: var(--r-comp); }
+.start-here > li::before { content: counter(start); position: absolute; left: .9rem; top: .7rem; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; background: var(--stop); color: var(--on-stop); font: 700 var(--size-xs)/1 var(--font-head); }
+.start-here a { color: var(--ink); text-decoration: none; }
+.start-here a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.start-here > li:hover a { text-decoration: underline; text-underline-offset: .18em; }
+.start-here a:focus-visible { outline: none; }
+.start-here > li:has(a:focus-visible) { outline: 3px solid var(--here); outline-offset: 3px; }
+.start-here b { display: flex; align-items: center; min-height: 1.6rem; padding-left: 2.2rem; font: 600 var(--size-0)/1.3 var(--font-head); }
+.start-here > li > span { display: block; margin-top: .35rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+.can-wait { max-width: none; margin: 0 0 1rem; color: var(--ink-soft); font-size: var(--size-s); }
+.can-wait b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+@media (max-width: 560px) { .start-here { gap: .5rem; } .start-here > li { padding: .6rem .8rem .7rem; } .start-here > li::before { left: .8rem; top: .6rem; } }
+
+/* the index: a toolbar the script writes (search, a filter per relevance, a status line), then families that fold, then entries that open */
+.index { margin: 1rem 0 1.5rem; max-width: none; }
+.guide-tools { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .6rem 1rem; margin: 0 0 .75rem; }
+@media (min-width: 1100px) { .guide-tools { position: sticky; top: 0; z-index: 5; padding: .6rem 0; background: var(--card); border-bottom: 1px solid var(--line); } }  /* the rail is a sidebar here; below this it is already a sticky strip */
+.guide-search { flex: 1 1 16rem; display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.guide-search > span { color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
+.guide-search input { width: 100%; min-height: 48px; padding: 0 .9rem; border: 2px solid var(--line-strong); border-radius: var(--r-comp); background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
+.guide-search input::placeholder { color: var(--ink-soft); opacity: 1; }
+.guide-filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.guide-filters button { min-height: 44px; padding: 0 .9rem; border: 2px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); white-space: nowrap; }
+.guide-filters button:hover { border-color: var(--here); }
+.guide-filters button[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.guide-status { flex: 1 1 100%; margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+details.family-index { container: famrow / inline-size; margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+details.family-index > summary { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: .05rem .75rem; min-height: 44px; padding: .65rem 2.6rem .65rem 1rem; list-style: none; cursor: pointer; }
+details.family-index > summary::-webkit-details-marker { display: none; }
+details.family-index > summary::after { content: "▾"; position: absolute; right: .9rem; top: .65rem; color: var(--ink-soft); }
+details.family-index[open] > summary::after { content: "▴"; }
+details.family-index > summary h3 { margin: 0; font-size: clamp(1.05rem, 1rem + .4vw, var(--size-1)); }
+.fam-counts { color: var(--ink-soft); font: 600 var(--size-xs)/1.4 var(--font-head); }
+.fam-hidden { margin-left: auto; color: var(--ink-soft); font-size: var(--size-xs); }
+details.family-index:not([open]) .fam-hidden { display: none; }  /* a closed family shows its name and counts. What the filter hides is said once it is open, and in the status line. */
+.index h4.group { margin: 0; padding: .45rem 1rem .3rem; border-top: 1px solid var(--line); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); letter-spacing: 0; }
+.entry { position: relative; border-top: 1px solid var(--line); scroll-margin-top: 4.5rem; }
+.entry > .name { display: block; padding: .7rem 1rem 0; font: 600 var(--size-0)/1.3 var(--font-head); }  /* before the script runs the entry reads as plain lines */
+.entry > .def { margin: 0; padding: .1rem 1rem .4rem; max-width: none; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+html:not(.js) .entry[data-rel]::before { content: attr(data-rel); position: absolute; right: 1rem; top: .75rem; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); }
+.entry-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "name rel chev" "def def def"; align-items: center; gap: .15rem .6rem; width: 100%; min-height: 44px; padding: .7rem 1rem; border: 0; background: transparent; color: var(--ink); font: inherit; text-align: left; }
+.entry-row .name { grid-area: name; font: 600 var(--size-0)/1.3 var(--font-head); }
+.entry-row .rel { grid-area: rel; }
+.entry-row .def { grid-area: def; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+.entry-row::after { content: "▸"; grid-area: chev; color: var(--ink-soft); font-size: var(--size-s); }
+.entry-row[aria-expanded="true"]::after { content: "▾"; }
+@container famrow (min-width: 38rem) {  /* room for one line: name, definition, relevance */
+  .entry-row { grid-template-columns: minmax(8rem, 11.5rem) minmax(0, 1fr) 8.75rem 1rem; grid-template-areas: "name def rel chev"; column-gap: .9rem; }
+}
+/* the relevance word: a glyph and the label. Now is tinted and outlined, before launch is outlined, later is plain. */
+.rel { display: inline-flex; align-items: center; gap: .35rem; justify-self: start; padding: .05rem .65rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
+.rel > [aria-hidden] { color: var(--here); }
+.entry[data-rel="now"] .rel { border-color: var(--here); background: var(--here-tint); }
+.entry[data-rel="next"] .rel { border-color: var(--here); }
+.entry[data-rel="later"] .rel > [aria-hidden] { color: var(--ink-soft); }
+.entry.is-open { background: var(--here-tint); box-shadow: inset 4px 0 0 var(--here); }
+.entry.is-open .rel { background: var(--card); }
+.entry-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: .5rem 1.25rem; align-items: start; padding: .1rem 1rem 1rem; }
+.entry-body p { margin: 0; max-width: none; }
+.entry-body b { font-family: var(--font-head); font-weight: 600; }
+html.js .entry:not(.is-open) > .entry-body { display: none; }
+.copy-link { justify-self: start; min-height: 44px; padding: 0 .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); }
+.copy-link:hover { border-color: var(--here); }
+.copy-link.go { border-color: var(--go); background: var(--go-tint); }
+.copy-link.go::before { content: "✓ "; color: var(--go); }
+.copy-link.stop { border-color: var(--stop); background: var(--stop-tint); }
+.copy-link.stop::before { content: "✕ "; color: var(--stop); }
+.entry.is-out, .index h4.group.is-out { display: none; }
+.none-here { margin: 0; padding: .8rem 1rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+/* a jump lands on an entry or a family you can see: the same static outline and label a roadmap card gets */
+details.family-index.is-target { outline: 3px solid var(--here); outline-offset: 2px; }
+html:not(.js) .entry:target, .entry.is-target { outline: 3px solid var(--here); outline-offset: -3px; }
+.entry.is-target { padding-top: 1.9rem; }
+.entry.is-target::after { content: "↓ You jumped here"; position: absolute; left: 1rem; top: .45rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.entry a.jump-back { padding: 0 1rem .6rem; }
+@media print {  /* a printed guide lists every entry, open, and drops the controls */
+  .guide-tools, .copy-link, .none-here, .fam-hidden, .entry-row::after, details.family-index > summary::after { display: none !important; }
+  .entry.is-out, .index h4.group.is-out { display: block !important; }
+  html.js .entry:not(.is-open) > .entry-body { display: grid !important; }
+  .entry, .start-here > li, .family { break-inside: avoid; }
+}
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -664,7 +789,7 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.lane-note):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.lane-note):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p):not(.can-wait),
 body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
@@ -673,7 +798,7 @@ body[data-skim="on"] .chapter .from { display: none; }
    and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
 body[data-skim="on"] .chapter .callout:not(.warn, .stop),
-body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li) { display: none; }
+body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
 body[data-skim="on"] .chapter .remember { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
@@ -1128,7 +1253,8 @@ html:not(.js) .ballot-tray { display: none; }
     <!-- OPTIONAL COMPONENTS: copy the markup from gallery.html.
          .stepper (change over time, one picture), .views (several views of one thing), .minimap (where this chapter sits in the whole),
          .answer-field and one .collect bar (gather pages and playbooks: put the bar here, outside the chapters, so one-chapter mode never hides it),
-         .phase-strip, .phases, .frame-row, .roles with .rules, .undo and .risks (playbook pages; the strip goes right after the keep box). -->
+         .phase-strip, .phases, .frame-row, .roles with .rules, .undo and .risks (playbook pages; the strip goes right after the keep box),
+         .territory with .stage and a.family, ol.start-here and .index with details.family-index and .entry (field-guide pages: three chapters, the index in the last one). -->
   </main>
 </div>
 
@@ -1226,25 +1352,128 @@ qa('.lane li[id], .backlog-top > li[id]').forEach(li => {
   if (n) li.insertBefore(make('span', 'unblocks', esc(fmt(L.unblocks, { n }))), $('small', li));  /* before the small lines; at the end when there are none */
 });
 
+/* field guide: the map's counts and bars, the index's search and filter, rows that open, and the way a jump opens what it lands on. Every count is
+   worked out from the entries, so none can drift. Without this the tiles show a name and a line, and every entry reads open. */
+Object.assign(T.en, { fgRel: ['Now', 'Next', 'Later'], fgAll: 'All', fgSearch: 'Search the guide', fgHint: 'Name, definition or example', fgGroup: 'Show fields that matter', fgShow: 'Showing {n} of {m} fields', fgOnly: ', {l} only', fgFor: ', matching "{q}"', fgEnd: '.',
+  fgNone: 'Nothing here matches.', fgHid: '{n} hidden by the filter', fgHidQ: '{n} hidden by the filter or search', fgLink: 'Copy link to this field', fgLinked: 'Link copied', fgKey: 'The bar under each family:', fgN: '{n} {l}', fgJoin: ', ' });
+Object.assign(T.ja, { fgRel: ['今', '次', 'その後'], fgAll: 'すべて', fgSearch: 'ガイドを検索', fgHint: '名前、説明、例', fgGroup: '表示する項目', fgShow: '{m}件中{n}件を表示', fgOnly: '（{l}のみ）', fgFor: '、「{q}」に一致', fgEnd: '。',
+  fgNone: '一致するものはありません。', fgHid: 'フィルターで{n}件を非表示', fgHidQ: 'フィルターまたは検索で{n}件を非表示', fgLink: 'この項目へのリンクをコピー', fgLinked: 'リンクをコピーしました', fgKey: '各ファミリーの下のバー：', fgN: '{l}{n}件', fgJoin: '、' });
+let fgReveal = () => false;  /* a jump to an entry or a family opens it; the link handler below calls this first */
+{
+  const REL = ['now', 'next', 'later'], GLYPH = ['●', '◐', '○'], fgx = $('.index'), fgFams = qa('details.family-index'), fgEntries = qa('.entry', fgx || d);
+  const labels = (fgx?.dataset.relLabels || '').split('|').map(s => s.trim()).filter(Boolean), relName = r => labels[REL.indexOf(r)] || L.fgRel[REL.indexOf(r)] || r;
+  const fgTally = el => { const c = { now: 0, next: 0, later: 0 }; qa('.entry', el).forEach(e => { if (e.dataset.rel in c) c[e.dataset.rel]++; }); return c; };
+  const said = c => REL.filter(r => c[r]).map(r => fmt(L.fgN, { n: c[r], l: relName(r).toLowerCase() })).join(L.fgJoin);
+  const setOpen = (e, o) => { e.classList.toggle('is-open', o); $('.entry-row', e)?.setAttribute('aria-expanded', o); };
+  /* the map: each tile gets a three-part bar and its counts, both read off the family it links to, and the whole map gets a key in the index's own words */
+  const terr = $('.territory');
+  qa('a.family[href^="#"]', terr || d).forEach(a => {
+    const f = byId(a.getAttribute('href').slice(1)), c = f?.matches('details.family-index') && fgTally(f), n = c && REL.reduce((s, r) => s + c[r], 0);
+    if (!n) return;
+    const bar = make('span', 'fam-bar', REL.map(r => c[r] ? '<i class="r-' + r + '" style="width:' + c[r] / n * 100 + '%"></i>' : '').join(''));
+    bar.setAttribute('aria-hidden', 'true'); a.append(bar, make('span', 'fam-counts', esc(said(c))));
+  });
+  if (terr && $('.fam-bar', terr)) terr.append(make('div', 'territory-key', '<span>' + esc(L.fgKey) + '</span>' + REL.map(r => '<span><i class="r-' + r + '"></i>' + esc(relName(r)) + '</span>').join('')));
+  if (fgx) {
+    let tools = $('.guide-tools', fgx); if (!tools) fgx.prepend(tools = make('div', 'guide-tools', ''));
+    tools.innerHTML = '<label class="guide-search"><span></span><input type="search" autocomplete="off" spellcheck="false"></label><div class="guide-filters" role="group"></div><div class="guide-status" role="status" aria-live="polite"></div>';
+    const box = $('input', tools), group = $('.guide-filters', tools), say = $('.guide-status', tools), picks = REL.concat('all');
+    $('.guide-search span', tools).textContent = L.fgSearch; box.placeholder = L.fgHint; group.setAttribute('aria-label', L.fgGroup);
+    const btns = picks.map(r => { const b = make('button', '', ''); b.type = 'button'; b.dataset.filter = r; group.append(b); return b; });
+    /* a row per entry: the name, the relevance word and the definition become one button that opens the rest; the copy-link button joins the body */
+    fgEntries.forEach(e => {
+      const name = $('.name', e), def = $('.def', e), body = $('.entry-body', e); if (!name || !body) return;
+      const r = e.dataset.rel, row = make('button', 'entry-row', ''), rel = make('span', 'rel', '<span aria-hidden="true">' + (GLYPH[REL.indexOf(r)] || '') + '</span> ' + esc(relName(r)));
+      row.type = 'button'; row.setAttribute('aria-expanded', 'false');
+      row.append(name, rel); if (def) { row.append(make('span', 'def', def.innerHTML)); def.remove(); }
+      e.prepend(row);
+      const cl = make('button', 'copy-link', esc(L.fgLink)); cl.type = 'button'; body.append(cl);
+      new MutationObserver(() => { cl.textContent = cl.classList.contains('go') ? L.fgLinked : L.fgLink; }).observe(cl, { attributes: true, attributeFilter: ['class'] });
+    });
+    /* each family header carries the same derived counts as its tile, and says how many entries the filter or search is hiding */
+    fgFams.forEach(f => {
+      const s = $('summary', f); if (!s) return;
+      s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
+    });
+    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    let filter = REL[0], words = [], searching = false; const was = new Map();
+    if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
+    const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
+    const apply = () => {
+      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
+      picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
+        const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
+        btns[i].setAttribute('aria-pressed', filter === r);
+        btns[i].innerHTML = (r === 'all' ? '' : '<span aria-hidden="true">' + GLYPH[i] + '</span> ') + esc(r === 'all' ? L.fgAll : relName(r)) + ' ' + c;
+      });
+      fgFams.forEach(f => {
+        const all = qa('.entry', f), out = all.filter(e => e.classList.contains('is-out')).length, note = out ? fmt(q ? L.fgHidQ : L.fgHid, { n: out }) : '';
+        const hid = $('.fam-hidden', f), none = $(':scope > .none-here', f);
+        if (hid) hid.textContent = note;
+        if (none) { none.hidden = out < all.length || !all.length; none.textContent = L.fgNone + (note ? ' ' + note + '.' : ''); }
+        qa(':scope > h4.group', f).forEach(h => {  /* a group heading goes when everything under it is hidden */
+          let x = h.nextElementSibling, any = false;
+          for (; x && !x.matches('h4.group'); x = x.nextElementSibling) if (x.matches('.entry') && !x.classList.contains('is-out')) any = true;
+          h.classList.toggle('is-out', !any);
+        });
+      });
+      /* while a search is typed, a family opens when it has a match; clearing the search puts every family back as it was */
+      if (q && !searching) { searching = true; fgFams.forEach(f => was.set(f, f.open)); }
+      if (q) fgFams.forEach(f => { f.open = !!qa('.entry:not(.is-out)', f).length; });
+      else if (searching) { searching = false; fgFams.forEach(f => { f.open = was.get(f); }); }
+      say.textContent = fmt(L.fgShow, { n, m: fgEntries.length }) + (filter === 'all' ? '' : fmt(L.fgOnly, { l: relName(filter) })) + (q ? fmt(L.fgFor, { q }) : '') + L.fgEnd;
+    };
+    on(box, 'input', apply); on(box, 'search', apply);
+    on(group, 'click', e => { const b = e.target.closest?.('button'); if (b) { filter = b.dataset.filter; apply(); } });
+    on(d, 'click', e => {
+      const row = e.target.closest?.('.entry-row'), cl = e.target.closest?.('.copy-link');
+      if (row) setOpen(row.parentNode, !row.parentNode.classList.contains('is-open'));
+      if (cl) copy(location.href.split('#')[0] + '#' + cl.closest('.entry').id, cl);  /* copy() is defined with the gather bar below and runs only on a click */
+    });
+    /* a jump to an entry lifts a filter or search that would hide it, opens its family and the entry, and brings its chapter up in one-chapter mode */
+    fgReveal = t => {
+      const f = t.closest?.('details.family-index'), e = t.closest?.('.entry'); if (!f || !fgx.contains(t)) return false;
+      if (e && !shown(e)) { filter = 'all'; box.value = ''; }
+      apply(); f.open = true; if (e) setOpen(e, true);
+      const part = t.closest('.chapter, .recap, .ask'); if (focused() && parts.includes(part)) showPart(parts.indexOf(part));
+      return true;
+    };
+    apply();
+    /* a printed guide shows every family open, and puts them back afterwards. beforeprint covers File > Print, the media query covers print preview. */
+    const shut = new Map(), openAll = () => { if (!shut.size) fgFams.forEach(f => { shut.set(f, f.open); f.open = true; }); }, putBack = () => { shut.forEach((o, f) => { f.open = o; }); shut.clear(); };
+    on(window, 'beforeprint', openAll); on(window, 'afterprint', putBack);
+    matchMedia('print').addEventListener?.('change', m => (m.matches ? openAll : putBack)());
+  }
+}
+
 /* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
 on(d, 'click', e => {
   const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
   if (a && a.getAttribute('href') === '#') return e.preventDefault();  /* a bare "#" (the ask's choices) goes nowhere; in a viewer it would reload the frame and blank the page */
   let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
   if (!t) return;
-  e.preventDefault(); t.scrollIntoView();
+  e.preventDefault(); fgReveal(t); t.scrollIntoView();  /* a field guide opens what it lands on first, so there is something to scroll to */
   /* the landing is a static class on the target, one at a time. A jump to a list item from inside another titled item also gets one link back. */
-  const cards = '.lane li, .backlog-top > li, details.theme li';  /* the roadmap's items: each is titled by its first b */
+  const cards = '.lane li, .backlog-top > li, details.theme li, .entry';  /* the roadmap's items and the guide's entries: each is titled by its first b */
   const from = a.closest(cards + ', [id]:not(main)'), name = from && from !== t && $('b, h3, h2', from);  /* read before the old back link goes, in case that is the link just clicked */
   qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
   t.classList.add('is-target');
-  if (name && t.matches('li') && !t.contains(from)) {
+  if (name && t.matches('li, .entry') && !t.contains(from)) {
     from.id = from.id || 'jump-' + qa(cards).indexOf(from);
     const back = d.createElement('a'); back.className = 'jump-back'; back.href = '#' + from.id; back.textContent = fmt(L.back, { t: txt(name) }); t.append(back);
   }
   try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
 });
-try { byId(decodeURIComponent(location.hash.slice(1)))?.classList.add('is-target'); } catch {}  /* a page opened on a link shows its landing too */
+/* a page opened on a link shows its landing too, and so does Back to an earlier link. A hidden entry is opened first and scrolled to, because the browser could not. */
+const land = () => {
+  try {
+    const t = byId(decodeURIComponent(location.hash.slice(1))); if (!t) return;
+    const opened = fgReveal(t); qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
+    t.classList.add('is-target'); if (opened) t.scrollIntoView();
+  } catch {}
+};
+land(); on(window, 'hashchange', land);
 
 /* progress bar */
 const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };

@@ -22,8 +22,9 @@ const VOID = new Set('area base br col embed hr img input link meta param source
 const RAW = new Set(['script', 'style']);               // contents are code, never listed
 const CODE = new Set(['code', 'pre', 'kbd', 'samp']);   // listed with kind "code" so the translator can leave them
 // Attributes that hold text a reader sees. data-rec and data-warn are drawn by CSS (attr()), data-keep feeds the sticky bar,
-// data-buckets is the "A|B|C" list of a buckets field (translate every label, and the same word in each item's data-rec).
-const ATTRS = new Set(['title', 'aria-label', 'placeholder', 'alt', 'data-rec', 'data-warn', 'data-keep', 'data-buckets']);
+// data-buckets is the "A|B|C" list of a buckets field (translate every label, and the same word in each item's data-rec),
+// data-rel-labels is the field guide's "Now|Before launch|Later" (translate all three, in that order).
+const ATTRS = new Set(['title', 'aria-label', 'placeholder', 'alt', 'data-rec', 'data-warn', 'data-keep', 'data-buckets', 'data-rel-labels']);
 const ATTR = /([^\s"'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/dg;
 
 const die = (m) => { console.error('translate: ' + m); process.exit(1); };
