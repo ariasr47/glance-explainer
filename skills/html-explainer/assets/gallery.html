@@ -799,7 +799,9 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-fallback label { color: var(--ink-soft); font-size: var(--size-xs); }
 .ballot-fallback textarea { width: 100%; min-height: 6rem; max-height: 28vh; padding: .6rem .75rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: var(--size-xs)/1.5 var(--font-code); resize: vertical; }
 .ballot-fallback button { justify-self: start; min-height: 36px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
-/* Pick all ★ on the left, Review picks on the right, one line. The button is out of flow so opening the review does not move it. */
+/* Pick all ★ on the left, Review picks on the right, one line. The button is out of flow so opening the review does not move it.
+   Where the tray is too narrow for both (a 320 px phone, or the gallery's still), the two buttons stack. */
+.ballot-tray { container-type: inline-size; }
 .ballot-tools { position: relative; min-height: 44px; }
 .ballot-tray button[data-pick-rec] { position: absolute; top: 0; left: 0; z-index: 1; min-height: 44px; padding: 0 1.1rem; border: 2px solid var(--go); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); white-space: nowrap; }
 .ballot-tray button[data-pick-rec]:hover { background: var(--go-tint); }
@@ -815,6 +817,11 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-rows li.skipped .a { color: var(--ink-soft); font-weight: 500; }
 .ballot-note { display: grid; gap: .2rem; margin-top: .5rem; color: var(--ink-soft); font-size: var(--size-xs); }
 .ballot-note input { width: 100%; min-height: 40px; padding: .4rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
+@container (max-width: 16rem) {
+  .ballot-tools { display: flex; flex-wrap: wrap; align-items: flex-start; gap: .3rem .6rem; min-height: 0; }
+  .ballot-tray button[data-pick-rec] { position: static; }
+  .ballot-review { flex: 1 1 100%; }
+}
 @media (prefers-reduced-motion: no-preference) {
   .ballot-opt, .ballot-card, .ballot-pip::before { transition: border-color .15s, box-shadow .15s, background-color .15s; }
   .ballot-tray.nudge { animation: ballot-nudge .4s; }
@@ -1189,7 +1196,7 @@ html:not(.js) .ballot-tray { display: none; }
             <ul><li class="plus">Zero network</li><li class="minus">Reading-optimised faces lost</li><li class="minus">Looks different on every machine</li></ul>
             <p class="cost">Cost: a worse read for most people.</p>
           </div>
-          <div class="option">
+          <div class="option" data-warn="Heavy pages">
             <h4>Embed the font files</h4>
             <ul><li class="plus">Identical everywhere</li><li class="minus">Adds about 300 KB per page</li><li class="minus">Licence bookkeeping</li></ul>
             <p class="cost">Cost: every explainer gets heavy.</p>
@@ -1197,6 +1204,14 @@ html:not(.js) .ballot-tray { display: none; }
         </div>
         <p class="nothing"><b>If you do nothing:</b> the template already loads them with a fallback. Nothing breaks.</p>
       </div>
+
+      <fieldset class="answer-field" data-q="demo-fonts" data-kind="choice">
+        <legend>Should the explainer load web fonts?</legend>
+        <label data-rec="Recommended"><input type="radio" name="demo-fonts" value="Load them, fall back quietly"> Load them, fall back quietly</label>
+        <label><input type="radio" name="demo-fonts" value="System fonts only"> System fonts only</label>
+        <label><input type="radio" name="demo-fonts" value="Embed the font files"> Embed the font files</label>
+      </fieldset>
+      <p>A decision page can end in tap-to-answer fields. Each card is followed by its field, and one collect bar sits after the recap. A chip such as ⚠ Heavy pages names a cost in words.</p>
 
       <p>When the decision leads to action, the actions are a ladder. Each rung is one verb and one line.</p>
 
@@ -1471,7 +1486,7 @@ html:not(.js) .ballot-tray { display: none; }
         <textarea id="demo-choice-why" rows="2" aria-label="Why"></textarea>
       </fieldset>
 
-      <p>When the writer has a favourite, its option wears a star chip with the writer's own words: "Recommended", or "My pick" when one person is speaking to another. A playbook ends with its decisions this way.</p>
+      <p>When the writer has a favourite, its option wears a star chip with the writer's own words: "Recommended", or "My pick" when one person is speaking to another. A playbook or a decision page ends with its decisions this way.</p>
 
       <fieldset class="answer-field" data-q="demo-pick" data-kind="choice">
         <legend>Which evening should the switch happen?</legend>
@@ -1488,11 +1503,11 @@ html:not(.js) .ballot-tray { display: none; }
         <li><b>Merge</b><span>Author</span></li>
       </ol>
 
-      <details class="fold" open><summary>Ballot: pictured options, one copy</summary>
-        <p>When one person must rule on several open decisions, a ballot page shows each as a card. Every option is a picture. One tap picks it, and one button copies every pick.</p>
+      <details class="fold" open><summary>Ballot: pictured or text options, one copy</summary>
+        <p>When one person must rule on several open decisions, a ballot page shows each as a card. Every option is a picture, or a label and one line when there is nothing to draw. One tap picks it, and one button copies every pick.</p>
 
         <figure class="figure">
-          <div class="ballot-still" role="img" aria-label="A ballot card with two pictured options, the second one picked, above the tray that reads 1 of 4 picked." inert>
+          <div class="ballot-still" role="img" aria-label="Two ballot cards above the tray. The first has two pictured options, the second one picked. The second has two options in words, and one carries a warning chip, Gone for good. The tray reads 1 of 4 picked and has Pick all, Review picks and Copy picks buttons." inert>
           <article class="ballot-card picked" data-q="demo" data-short="Saving">
             <header><span class="num">1</span><h3>When should a note save?</h3><span class="state">Your pick: B</span></header>
             <div class="ballot-opts" role="radiogroup" aria-label="Options">
@@ -1509,21 +1524,40 @@ html:not(.js) .ballot-tray { display: none; }
             </div>
             <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
           </article>
+          <article class="ballot-card" data-q="demo-text" data-short="Deleting">
+            <header><span class="num">2</span><h3>What happens when someone deletes a note?</h3><span class="state">Not picked</span></header>
+            <div class="ballot-opts" role="radiogroup" aria-label="Options">
+              <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
+                <span class="name"><b>A</b> Trash for 30 days</span>
+                <span class="detail">It can be restored.</span>
+              </button>
+              <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-warn="Gone for good">
+                <span class="name"><b>B</b> Delete at once</span>
+                <span class="detail">Undo stays up for 10 seconds.</span>
+              </button>
+            </div>
+            <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
+          </article>
           <div class="ballot-tray">
             <div class="ballot-bar">
               <p class="ballot-tally">1 of 4 picked</p>
               <ol class="ballot-pips"><li><span class="ballot-pip on"><span>1</span></span></li><li><span class="ballot-pip"><span>2</span></span></li><li><span class="ballot-pip"><span>3</span></span></li><li><span class="ballot-pip"><span>4</span></span></li></ol>
               <div class="ballot-actions"><button type="button" data-copy>Copy picks</button></div>
             </div>
+            <div class="ballot-tools">
+              <button type="button" data-pick-rec>Pick all ★</button>
+              <details class="ballot-review"><summary>Review picks</summary></details>
+            </div>
           </div>
         </div>
-          <figcaption class="take"><b>Take from this:</b> a card shows every option as a picture and marks the ★ default. The tray counts the picks and copies them.</figcaption>
+          <figcaption class="take"><b>Take from this:</b> a card shows each option as a picture, or in words when there is nothing to draw, and marks the ★ default. A chip names a cost. The tray counts the picks, fills every ★ and copies them.</figcaption>
         </figure>
       </details>
 
       <details class="fold"><summary>Show the markup for a ballot page</summary>
-        <p>Set <code>data-mode="ballot"</code> beside <code>data-type="gather"</code> on the html element. There is no rail, keep box or recap: a column of cards and one tray. Every option needs a picture in <code>.vis</code>, and each single-choice card needs exactly one <code>data-rec</code>. The finished example is <code>skills/explainer-gather/examples/ballot.html</code>.</p>
-        <pre><code>&lt;p class="answer"&gt;4 decisions. Anything you skip goes with ★.&lt;/p&gt;
+        <p>Set <code>data-mode="ballot"</code> beside <code>data-type="gather"</code> on the html element. There is no rail, keep box or recap: a column of cards and one tray. Every option needs a picture in <code>.vis</code> or, with no picture, a <code>.detail</code> line. Each single-choice card needs exactly one <code>data-rec</code>. The finished example is <code>skills/explainer-gather/examples/ballot.html</code>.</p>
+        <pre><code>&lt;p class="ballot-source"&gt;Rules on: the plan name, the date, the commit&lt;/p&gt;  &lt;!-- optional, under the h1 --&gt;
+&lt;p class="answer"&gt;4 decisions. Anything you skip goes with ★.&lt;/p&gt;
 &lt;ol class="ballot-steps"&gt;&lt;li&gt;&lt;span&gt;&lt;b&gt;Compare&lt;/b&gt; the pictures.&lt;/span&gt;&lt;/li&gt; … the third step shows &lt;span class="ballot-keycap"&gt;Copy picks&lt;/span&gt;&lt;/ol&gt;
 
 &lt;section class="ballot-group" aria-labelledby="g1"&gt;&lt;h2 id="g1"&gt;Shapes the build&lt;/h2&gt;&lt;p&gt;One line on why these come first.&lt;/p&gt;
@@ -1536,7 +1570,12 @@ html:not(.js) .ballot-tray { display: none; }
         &lt;span class="name"&gt;&lt;b&gt;A&lt;/b&gt; As you type&lt;/span&gt;
         &lt;span class="effect"&gt;One line on what happens.&lt;/span&gt;
       &lt;/button&gt;
-      &lt;!-- B, C: the same; only one option carries data-rec --&gt;
+      &lt;!-- B, C: the same; only one option carries data-rec. Put the recommended option first. --&gt;
+      &lt;!-- a text option: no .vis, one plain .detail line; data-warn adds a chip that names the cost --&gt;
+      &lt;button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-warn="Can't undo"&gt;
+        &lt;span class="name"&gt;&lt;b&gt;B&lt;/b&gt; Delete at once&lt;/span&gt;
+        &lt;span class="detail"&gt;One plain line on what happens.&lt;/span&gt;
+      &lt;/button&gt;
     &lt;/div&gt;
     &lt;p class="skip"&gt;&lt;b&gt;If you skip this:&lt;/b&gt; A, the ★ option.&lt;/p&gt;
   &lt;/article&gt;
@@ -1551,10 +1590,13 @@ html:not(.js) .ballot-tray { display: none; }
 
 &lt;!-- reference cards: &lt;section class="ballot-group"&gt;&lt;h2&gt;Already decided&lt;/h2&gt;&lt;p&gt;…&lt;/p&gt;&lt;div class="ballot-dones"&gt;&lt;article class="ballot-done"&gt;&lt;h3&gt;…&lt;/h3&gt;&lt;p&gt;…&lt;/p&gt;&lt;/article&gt;&lt;/div&gt;&lt;/section&gt; --&gt;
 
-&lt;!-- the tray, last in main. The script fills the jump dots; Copy picks is the only primary button. --&gt;
+&lt;!-- the tray, last in main. The script fills the jump dots and the review rows; Copy picks is the only primary button. --&gt;
 &lt;div class="ballot-tray" role="region" aria-label="Your picks"&gt;
   &lt;div class="ballot-bar"&gt;&lt;p class="ballot-tally"&gt;0 of 4 picked&lt;/p&gt;&lt;ol class="ballot-pips" aria-label="Jump to a decision"&gt;&lt;/ol&gt;
     &lt;div class="ballot-actions"&gt;&lt;button type="button" data-copy&gt;Copy picks&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="ballot-tools"&gt;&lt;button type="button" data-pick-rec&gt;Pick all ★&lt;/button&gt;
+    &lt;details class="ballot-review"&gt;&lt;summary&gt;Review picks&lt;/summary&gt;&lt;ol class="ballot-rows"&gt;&lt;/ol&gt;
+      &lt;label class="ballot-note"&gt;&lt;span&gt;Anything else?&lt;/span&gt;&lt;input type="text" maxlength="300" autocomplete="off"&gt;&lt;/label&gt;&lt;/details&gt;&lt;/div&gt;
   &lt;div class="ballot-meta"&gt;&lt;p class="ballot-status" aria-live="polite"&gt;Tap an option on any card. Your picks collect here.&lt;/p&gt;
     &lt;span class="ballot-save"&gt;Saved in this browser&lt;/span&gt;&lt;button type="button" data-json&gt;Copy JSON&lt;/button&gt;&lt;/div&gt;
   &lt;div class="ballot-fallback" hidden&gt;&lt;label for="ballot-fallback-text"&gt;The text is selected. Press Ctrl+C (⌘C on a Mac), then paste it into the chat.&lt;/label&gt;
