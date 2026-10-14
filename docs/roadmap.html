@@ -133,6 +133,14 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 :lang(ja) .answer { line-height: 1.5; }
 :lang(ja) .ask .choices > *[data-rec]::after { content: " · おすすめ"; }
 :lang(ja) .timeline li.here .when::before { content: "現在地 · "; }
+/* roadmap card states: the words are set once in 9c (--st-word), so Japanese swaps the variable and nothing else */
+:lang(ja) .lane li, :lang(ja) .backlog-top > li { --st-word: "予定"; }
+:lang(ja) .lane li.here, :lang(ja) .backlog-top > li.here { --st-word: "進行中"; }
+:lang(ja) .lane li.wait, :lang(ja) .backlog-top > li.wait { --st-word: "他の完了待ち"; }
+:lang(ja) .lane li.decide, :lang(ja) .backlog-top > li.decide { --st-word: "あなたの判断が必要"; }
+:lang(ja) .lane li.stop, :lang(ja) .backlog-top > li.stop { --st-word: "停止中"; }
+:lang(ja) .lane li.go, :lang(ja) .backlog-top > li.go { --st-word: "完了"; }
+:lang(ja) .lane li.is-target::after, :lang(ja) .backlog-top > li.is-target::after { content: "↓ ここへ移動しました"; }
 
 /* ---------- 3. Page frame ---------- */
 .progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
@@ -362,25 +370,92 @@ main { min-width: 0; }
 @media print { .grid-wrap { overflow: visible; } }
 
 /* ---------- 9c. Lanes: now, next, later (roadmap) ---------- */
+/* A lane says what it means in one line (p.lane-note: horizon, confidence, order). A card says its state in a word that CSS writes
+   from its class, so the words cannot drift: the word, its glyph and its text colour are set once here. Lane cards print the word
+   above the title; backlog cards print the glyph and the word. Every colour is an existing token and every word has a glyph or a dot. */
 .lanes { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.5rem; }
 .lane { padding: .9rem .9rem 1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
 .lane[data-lane="now"] { border-color: var(--here); border-width: 2px; }
 .lane[data-lane="later"] { border-style: dashed; border-color: var(--line-strong); }
-.lane > h3 { margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane > h3 { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane-count { flex: none; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+.lane > .lane-note { max-width: none; margin: -.45rem 0 .8rem; color: var(--ink); font-size: var(--size-s); font-weight: 500; }
 .lane > ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.lane li, .backlog-top > li { --st-word: "Planned"; --st-glyph: "○"; --st-ink: var(--ink-soft); }
+.lane li.here, .backlog-top > li.here { --st-word: "Under way"; --st-glyph: "●"; --st-ink: var(--here); }
+.lane li.wait, .backlog-top > li.wait { --st-word: "Waits on another"; --st-glyph: "!"; --st-ink: var(--wait); }
+.lane li.decide, .backlog-top > li.decide { --st-word: "Needs your ruling"; --st-glyph: "?"; --st-ink: var(--decide); }
+.lane li.stop, .backlog-top > li.stop { --st-word: "Blocked"; --st-glyph: "✕"; --st-ink: var(--stop); }
+.lane li.go, .backlog-top > li.go { --st-word: "Done"; --st-glyph: "✓"; --st-ink: var(--go); }
 .lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
 .lane li:last-child { margin-bottom: 0; }
-.lane li:target { outline: 3px solid var(--here); outline-offset: 2px; }
 .lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+/* less certain than its lane: a dashed card and a dashed dot, and small.conf says why. The state rules below come later, so a state keeps its own border colour. */
+.lane li[data-conf] { border-style: dashed; border-width: 2px; border-color: var(--ink-soft); }
+.lane li[data-conf]::before { border-style: dashed; border-color: var(--ink-soft); }
 .lane li.go { border-color: var(--go); }         .lane li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
 .lane li.wait { border-color: var(--wait); }     .lane li.wait::before { content: "!"; background: var(--wait); border-color: var(--wait); color: var(--on-wait); }
 .lane li.stop { border-color: var(--stop); }     .lane li.stop::before { content: "✕"; background: var(--stop); border-color: var(--stop); color: var(--on-stop); }
 .lane li.decide { border-color: var(--decide); } .lane li.decide::before { content: "?"; background: var(--decide); border-color: var(--decide); color: var(--on-decide); }
 .lane li.here { border-color: var(--here); }     .lane li.here::before { content: "●"; background: var(--here); border-color: var(--here); color: var(--on-here); }
-.lane li b { display: block; font-family: var(--font-head); font-weight: 600; }
-.lane li span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
-.lane li small.after { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.lane li > b, .backlog-top > li > b { display: block; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.lane li > b::before { content: var(--st-word); display: block; margin-bottom: .1rem; color: var(--st-ink); font: 700 var(--size-xs)/1.3 var(--font-body); }
+.backlog-top > li > b::before { content: var(--st-glyph) " " var(--st-word); display: block; margin-bottom: .1rem; color: var(--st-ink); font: 700 var(--size-xs)/1.3 var(--font-body); }
+/* :where keeps this at the lowest weight, so a .who or .chip badge, or the Unblocks count, inside a card keeps its own look */
+:where(.lane li, .backlog-top > li) span { display: block; margin-top: .15rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+.lane li small, .backlog-top > li small { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.4; }
+.lane li small + small, .backlog-top > li small + small { margin-top: .2rem; }
+.lane li small.when, .backlog-top > li small.when { color: var(--ink); }
+.lane li small.conf { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px dashed var(--ink-soft); border-radius: 8px; color: var(--ink); font: 600 var(--size-xs)/1.4 var(--font-head); }
+/* what a card unblocks: a count the script derives from the small.after links, with an arrow drawn here */
+.lane li .unblocks, .backlog-top > li .unblocks { display: inline-flex; align-items: center; gap: .3rem; margin-top: .45rem; padding: .05rem .65rem; border: 1.5px solid var(--here); border-radius: var(--r-chip); color: var(--here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.unblocks::before { content: "→"; }
+/* a jump lands on a card you can see: a static outline and a label, one at a time (the script sets .is-target; without script :target does it) */
+html:not(.js) .lane li:target, .lane li.is-target, .backlog-top > li.is-target { outline: 3px solid var(--here); outline-offset: 2px; }
+.lane li.is-target, .backlog-top > li.is-target { padding-top: 2.5rem; }
+.lane li.is-target::before { top: 2.65rem; }
+.backlog-top > li.is-target::before { top: 2.5rem; }
+.lane li.is-target::after, .backlog-top > li.is-target::after { content: "↓ You jumped here"; position: absolute; left: .8rem; top: .55rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+a.jump-back { display: flex; align-items: center; min-height: 44px; font-size: var(--size-s); }
 @media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
+
+/* ---------- 9c2. Roadmap parts: as-of line, folded history, backlog ---------- */
+.asof { display: flex; align-items: center; gap: .5rem; max-width: none; margin: -.4rem 0 1.25rem; color: var(--ink-soft); font-size: var(--size-s); }
+.asof::before { content: ""; flex: none; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; background: linear-gradient(currentColor, currentColor) 50% 16% / 2px 38% no-repeat, linear-gradient(currentColor, currentColor) 62% 50% / 30% 2px no-repeat; }  /* a small clock, drawn */
+/* shipped and parked fold away under the lanes: their summaries wear the ✓ and ✕ dots in place of the + */
+details.fold.shipped > summary::before, details.fold.shipped[open] > summary::before { content: "✓"; border: 0; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+details.fold.parked > summary::before, details.fold.parked[open] > summary::before { content: "✕"; border: 0; background: var(--stop); color: var(--on-stop); font: 700 .75rem/1 var(--font-head); }
+details.fold:is(.shipped, .parked) > summary { flex-wrap: wrap; row-gap: 0; color: var(--ink); }
+details.fold:is(.shipped, .parked) > summary > span { flex: 1 1 9rem; min-width: 0; }  /* the title takes the row; the changelog link and the chevron wrap under it on a phone */
+details.fold:is(.shipped, .parked) > summary::after { content: "▾"; color: var(--ink-soft); }
+details.fold:is(.shipped, .parked)[open] > summary::after { content: "▴"; }
+details.fold.shipped > summary > a { display: inline-flex; align-items: center; min-height: 44px; margin-left: auto; font-size: var(--size-s); font-weight: 600; }
+details.fold.shipped > ul { margin-block: 0; padding-left: 2.2rem; font-size: var(--size-s); }
+/* the backlog: at most five ranked cards, a cut line, a fold per theme, and a shelf of what is parked */
+.backlog-top { list-style: none; counter-reset: top; display: grid; gap: .6rem; margin: 1rem 0 1.25rem; padding: 0; max-width: none; }
+.backlog-top > li { counter-increment: top; position: relative; margin: 0; padding: .7rem .8rem .75rem 3.2rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.backlog-top > li::before { content: counter(top); position: absolute; left: .8rem; top: .7rem; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 600 var(--size-xs) var(--font-head); }
+.cutline { display: flex; align-items: center; gap: .75rem; margin: 1.5rem 0; color: var(--ink); font: 600 var(--size-s)/1.3 var(--font-head); text-align: center; }
+.cutline::before, .cutline::after { content: ""; flex: 1 1 1rem; border-top: 3px dashed var(--ink); }
+@media (max-width: 560px) { .cutline { display: block; padding-top: .5rem; border-top: 3px dashed var(--ink); } .cutline::before, .cutline::after { display: none; } }  /* on a phone the line runs the full width above the words, so it still reads as a cut */
+details.theme { margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+details.theme > summary { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .1rem .75rem; align-items: baseline; min-height: 44px; padding: .7rem 2.4rem .7rem 1rem; list-style: none; cursor: pointer; }
+details.theme > summary::-webkit-details-marker { display: none; }
+details.theme > summary::after { content: "▾"; position: absolute; right: .9rem; top: .7rem; color: var(--ink-soft); }
+details.theme[open] > summary::after { content: "▴"; }
+details.theme > summary > b { font-family: var(--font-head); font-weight: 600; }
+details.theme > summary > .count { color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+details.theme > summary > .top { grid-column: 1 / -1; color: var(--ink-soft); font-size: var(--size-s); }
+details.theme[open] > summary { border-bottom: 1px solid var(--line); }
+details.theme > ul { list-style: none; display: grid; gap: .4rem; margin: 0; padding: .8rem 1rem 1rem; max-width: none; }
+details.theme > ul > li { margin: 0; padding: .45rem .7rem; background: var(--well); border-radius: 8px; font-size: var(--size-s); }
+.parked-shelf { display: grid; gap: .6rem; margin: 1rem 0 1.5rem; }
+details.fold > .parked-shelf { margin-block: 0; }
+.parked-shelf > div { position: relative; padding: .7rem .9rem .75rem 2.8rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.parked-shelf > div::before { content: "✕"; position: absolute; left: .8rem; top: .8rem; display: grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--stop); color: var(--on-stop); font: 700 .7rem/1 var(--font-head); }
+.parked-shelf > div > b { display: block; font-family: var(--font-head); font-weight: 600; }
+.parked-shelf span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
+.parked-shelf span b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
 
 /* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
 .runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
@@ -481,7 +556,7 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
 .phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
 .phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
-@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
+@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .backlog-top > li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
 .phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
 .phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
 .phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
@@ -587,7 +662,7 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.lane-note):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
 body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
@@ -1171,6 +1246,17 @@ if (parts.length) {
     if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
+/* roadmap: each lane is named by its h3, and a card says how many others wait on it. "Unblocks N" is counted from the small.after links, so it cannot drift. */
+Object.assign(T.en, { unblocks: 'Unblocks {n}', back: 'Back to: {t}' }); Object.assign(T.ja, { unblocks: '後続{n}件', back: '戻る：{t}' });
+qa('.lane').forEach((l, i) => { const h = $('h3', l); if (h && !l.hasAttribute('aria-labelledby')) l.setAttribute('aria-labelledby', h.id = h.id || 'lane-' + i); });
+qa('.cutline[role="separator"]:not([aria-label])').forEach(c => c.setAttribute('aria-label', txt(c)));
+const waiting = {};  /* blocker id -> the cards that list it */
+qa('small.after a[href^="#"]').forEach(a => { const id = a.getAttribute('href').slice(1), who = a.closest('li') || a; if (who.id !== id) (waiting[id] = waiting[id] || new Set()).add(who); });
+qa('.lane li[id], .backlog-top > li[id]').forEach(li => {
+  const n = waiting[li.id]?.size;
+  if (n) li.insertBefore(make('span', 'unblocks', esc(fmt(L.unblocks, { n }))), $('small', li));  /* before the small lines; at the end when there are none */
+});
+
 /* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
 on(d, 'click', e => {
   const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
@@ -1178,8 +1264,17 @@ on(d, 'click', e => {
   let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
   if (!t) return;
   e.preventDefault(); t.scrollIntoView();
+  /* the landing is a static class on the target, one at a time. A jump to a list item from inside another titled item also gets one link back. */
+  const from = a.closest('.lane li, [id]:not(main)'), name = from && from !== t && $('b, h3, h2', from);  /* read before the old back link goes, in case that is the link just clicked */
+  qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
+  t.classList.add('is-target');
+  if (name && t.matches('li') && !t.contains(from)) {
+    from.id = from.id || 'lane-card-' + qa('.lane li').indexOf(from);
+    const back = d.createElement('a'); back.className = 'jump-back'; back.href = '#' + from.id; back.textContent = fmt(L.back, { t: txt(name) }); t.append(back);
+  }
   try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
 });
+try { byId(decodeURIComponent(location.hash.slice(1)))?.classList.add('is-target'); } catch {}  /* a page opened on a link shows its landing too */
 
 /* progress bar */
 const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };
