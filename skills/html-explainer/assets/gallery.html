@@ -1360,7 +1360,7 @@ html:not(.js) .ballot-tray { display: none; }
         <div class="tile go"><span class="n">3</span><span class="l">facts a page may ask you to keep</span></div>
       </div>
 
-      <p>Two more shapes answer "which one?" and "in what order?". A grid sets options against the same criteria. Lanes sort work into now, next and later.</p>
+      <p>Two more shapes answer "which one?" and "in what order?". A grid sets options against the same criteria. Lanes sort work into now, next and later, and each lane says how sure it is.</p>
 
       <div class="grid-wrap"><table class="grid">
         <caption>Three ways to install the explainer on a new machine</caption>
@@ -1376,21 +1376,72 @@ html:not(.js) .ballot-tray { display: none; }
       </table></div>
       <p class="take"><b>Take from this:</b> the plugin wins on three of four criteria, and the fourth is your call.</p>
 
+      <p class="asof">A plan, not a promise. Items move as we learn.</p>
       <div class="lanes">
-        <section class="lane" data-lane="now"><h3>Now</h3><ul>
-          <li id="r-types" class="wait"><b>Nine page types</b><span>Portfolio, public, teach, incident, PR, runbook, compare, roadmap and tour.</span></li>
-          <li id="r-ballot" class="wait"><b>Ballot mode</b><span>Readers pick one card per question.</span></li>
-          <li id="r-rail" class="go"><b>Rail clicks work</b><span>Smooth scrolling removed in 1.1.1.</span></li>
+        <section class="lane" data-lane="now"><h3>Now <span class="lane-count">3 of 5</span></h3>
+          <p class="lane-note">Next 4 weeks. Committed. Top item first.</p><ul>
+          <li id="g-trigger" class="here"><b>The skill starts when asked</b><span>Sharper descriptions, tested on the phrases people type.</span></li>
+          <li id="g-name" class="decide"><b>Pick the final name</b><span>A rename after listing loses every install.</span></li>
+          <li id="g-readers"><b>Test pages with outside readers</b><span>Five to ten readers, one topic shown three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, the review needs it.</small></li>
         </ul></section>
-        <section class="lane" data-lane="next"><h3>Next</h3><ul>
-          <li id="r-release" class="wait"><b>Ship version 1.2.0</b><span>Tag it, then update the installed copy.</span><small class="after">After: <a href="#r-types">Nine page types</a>, <a href="#r-ballot">Ballot mode</a></small></li>
+        <section class="lane" data-lane="next"><h3>Next <span class="lane-count">4 of 5</span></h3>
+          <p class="lane-note">1 to 3 months. Likely. Not in order.</p><ul>
+          <li id="g-list" class="wait"><b>List in Anthropic's directory</b><span>Submitted from the claude.ai account.</span><small class="after">After: <a href="#g-name">Pick the final name</a>, <a href="#g-trigger">The skill starts when asked</a></small><small class="outside">Outside: Anthropic reviews each listing.</small></li>
+          <li><b>Browser layout check</b><span>Catches sideways scroll and words split in two.</span></li>
+          <li><b>Tested installs in other agents</b><span>Codex, Gemini CLI, Cursor and Copilot.</span></li>
+          <li data-conf="exploring"><b>Publish pages as Claude artifacts</b><span>Offer an artifact link next to the file.</span><small class="conf">Exploring: depends on the platform</small></li>
         </ul></section>
-        <section class="lane" data-lane="later"><h3>Later</h3><ul>
-          <li id="r-ja" class="decide"><b>Japanese for each type</b><span>Needs a ruling on who reviews the wording.</span><small class="after">After: <a href="#r-release">Ship version 1.2.0</a></small></li>
-          <li id="r-motion" class="stop"><b>Motion companion</b><span>Parked until Claude Code has a hook or an API for it.</span></li>
+        <section class="lane" data-lane="later"><h3>Later <span class="lane-count">3 of 5</span></h3>
+          <p class="lane-note">3 months or more. Exploring. Not in order.</p><ul>
+          <li class="wait"><b>Pull request pages in CI</b><span>A page for every pull request.</span><small class="after">After: <a href="#g-readers">Test pages with outside readers</a></small></li>
+          <li class="wait"><b>Brand themes</b><span>Your colours, the same contrast rules.</span><small class="after">After: <a href="#g-readers">Test pages with outside readers</a></small></li>
+          <li class="stop"><b>Motion companion</b><span>Animated walkthroughs of a page.</span><small class="outside">Outside: it needs a hook or an API in Claude Code.</small></li>
         </ul></section>
       </div>
-      <p class="take"><b>Take from this:</b> two things are in progress, one waits on both, and one is parked on purpose.</p>
+      <p class="take"><b>Take from this:</b> each lane says how sure it is, each card says its state in a word, and the count on a card is worked out from the After links.</p>
+
+      <details class="fold shipped"><summary><span>Shipped in 1.5.0: 3 items</span><a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">Changelog</a></summary>
+        <ul><li>Pages check themselves</li><li>Upgrade old pages</li><li>Answer by tapping</li></ul>
+      </details>
+      <details class="fold parked"><summary><span>Parked on purpose: 3 items, each with what would bring it back</span></summary>
+        <div class="parked-shelf">
+          <div><b>New page types</b><span><b>Why:</b> Sixteen cover every request so far.</span><span><b>Back when:</b> An outside user's content fits none.</span></div>
+          <div><b>A paid tier</b><span><b>Why:</b> Everything useful is a public file.</span><span><b>Back when:</b> Teams ask for more than a file.</span></div>
+          <div><b>A score on every card</b><span><b>Why:</b> A number looks exact when the guess is not.</span><span><b>Back when:</b> Outside readers ask for one.</span></div>
+        </div>
+      </details>
+
+      <details class="fold" open><summary>A roadmap's backlog: the ranked top, the cut line, the themes and the parked shelf</summary>
+        <div>
+          <p>The top five are ranked and numbered. Under the cut line nothing is ranked or promised. A theme folds away and shows its count and its top idea.</p>
+          <ol class="backlog-top">
+            <li id="b-trigger" class="here"><b>The skill starts when asked</b><span>Sharper descriptions, tested on real phrases.</span></li>
+            <li id="b-name" class="decide"><b>Pick the final name</b><span>A rename after listing loses every install.</span></li>
+            <li id="b-readers"><b>Test pages with outside readers</b><span>Five to ten readers, one topic shown three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, for the review.</small></li>
+            <li><b>Lane notes and one set of status words</b><span>Every lane states its horizon and confidence.</span></li>
+            <li><b>Count what each one unblocks</b><span>The page counts it, so nobody traces links.</span></li>
+          </ol>
+          <div class="cutline" role="separator">Cut line. Below is not ranked and not promised.</div>
+          <details class="theme" open><summary><b>Reach</b><span class="count">3 ideas</span><span class="top">Top: List in Anthropic's directory</span></summary><ul>
+            <li><b>List in Anthropic's directory.</b> <small class="after">After: <a href="#b-name">the name</a></small></li>
+            <li><b>Upload zips for claude.ai.</b> <small class="after">After: <a href="#b-name">the name</a></small></li>
+            <li><b>Tested installs in other agents.</b></li>
+          </ul></details>
+          <details class="theme"><summary><b>Reading</b><span class="count">2 ideas</span><span class="top">Top: Mark only the exceptions</span></summary><ul>
+            <li><b>Mark only the exceptions.</b></li>
+            <li><b>Shipped and parked fold away.</b></li>
+          </ul></details>
+          <details class="theme"><summary><b>Asking</b><span class="count">2 ideas</span><span class="top">Top: Repair the rank control</span></summary><ul>
+            <li><b>Repair the rank control.</b></li>
+            <li><b>One combined ranking.</b></li>
+          </ul></details>
+          <div class="parked-shelf">
+            <div><b>Arrow graphs of dependencies</b><span><b>Why:</b> They fail on a phone past about ten items.</span><span><b>Back when:</b> A layout reads well at 390 px.</span></div>
+            <div><b>Faded cards for low confidence</b><span><b>Why:</b> Faded text fails contrast and reads as less important.</span><span><b>Back when:</b> A faded card keeps 4.5 to 1 contrast.</span></div>
+          </div>
+        </div>
+        <p class="take"><b>Take from this:</b> the line between ranked and unranked is drawn, and what is parked says why.</p>
+      </details>
 
       <details class="fold" open><summary>A playbook: the whole plan in one row, then each phase</summary>
         <p>A playbook gathers these shapes into one plan for one decision-maker. Its strip shows every phase in a row. Each segment links to its phase, names the owner in a letter badge, shows how much work it is as a bar, and marks the phases the audience will notice. The grid above groups its rows with a quiet band in the same way.</p>
