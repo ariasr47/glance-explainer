@@ -42,7 +42,7 @@ jobs:
           cp -r docs/images _site/images
           cp skills/html-explainer/assets/gallery.html skills/html-explainer/assets/template.html _site/
           cp skills/explainer-gather/assets/merge.html _site/
-          cp skills/html-explainer/examples/playbook.html skills/explainer-gather/examples/ballot.html _site/examples/
+          cp skills/html-explainer/examples/playbook.html skills/html-explainer/examples/field-guide.html skills/explainer-gather/examples/ballot.html _site/examples/
           touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
       - id: deploy

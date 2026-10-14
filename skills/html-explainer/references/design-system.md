@@ -20,7 +20,7 @@ The reader has severe ADHD and a short working memory. Concretely:
 Every page opens with `<html lang="en" data-type="explainer">`.
 
 - `lang` is `en` or `ja`. Other codes are allowed and fall back to the English rules. The language sets the fonts, the line measure, and whether the checker counts words or characters (see Japanese typography).
-- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. A playbook may run to ten chapters. The sixteen content types are in `types.md`. `gather` and `atlas` have their own skills.
+- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook`, `field-guide`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. A playbook may run to ten chapters. The seventeen content types are in `types.md`. `gather` and `atlas` have their own skills.
 
 ## Tokens
 
@@ -138,7 +138,7 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | State word | state class on a lane or backlog item | The state of one item, in one fixed vocabulary | CSS prints the word above the title from the class, so it cannot drift: `here` Under way, `wait` Waits on another, `decide` Needs your ruling, `stop` Blocked, `go` Done, no class Planned. On a roadmap amber means waits on another, and under way is cobalt. Each word has its glyph dot. No other meaning, and no word typed by hand |
 | Exception | `data-conf="exploring"` with `small.conf`, and `small.when` | An item less certain than its lane, or with a real date | A dashed card and dot, and the reason in words: "Exploring: depends on the platform". `small.when` starts with a bold "Fixed date:". The default carries no mark |
 | Unblocks count | `span.unblocks`, written by the script | How many items wait on this one | Counted from the `small.after` links, never typed. A cobalt outlined chip with an arrow drawn in CSS |
-| Jump landing | `.is-target` and `a.jump-back`, written by the script | Where a jump landed, and the way back | A static 3 px outline, a "You jumped here" label and one "Back to:" link to the item you came from. No animation. The next jump removes them |
+| Jump landing | `.is-target` and `a.jump-back`, written by the script | Where a jump landed, and the way back | A static 3 px outline, a "You jumped here" label and one "Back to:" link to the item you came from. No animation. The next jump removes them. A field guide's entries and families land the same way, and the jump opens them first |
 | Shipped and parked folds | `details.fold.shipped`, `details.fold.parked` | History, kept out of the lanes | The summaries carry the ✓ and ✕ dots. Shipped reads "Shipped in 1.5.0: 3 items" with a changelog link. Parked lists each item with `Why:` and `Back when:` |
 | As-of line | `p.asof` | A roadmap is a plan, not a promise | Under the answer bar of a roadmap page: a small clock and one line |
 | Backlog top | `ol.backlog-top` | The few ideas that are ranked | At most 5 cards, numbered by CSS. Each has a state word, a title, one line and the derived Unblocks |
@@ -155,6 +155,13 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Undo | `div.undo` | The way back from the risky moment | A ↺ glyph, a go tint, and the label `If something goes wrong:` in the markup |
 | Risks | `div.risks` of `article.risk[data-level]` | What could go wrong and what keeps it small | `data-level` is `high`, `medium` or `low`: stop, wait and go tint, each with a glyph and its word in `span.level`. `p.kept` names the mitigation |
 | Thesis | `header.hero` with `figure.thesis` | The outcome of the plan, drawn small | Optional. A small SVG with a `title`, beside the `h1` from 1100 px and under it on a phone |
+| Territory | `div.territory` of `div.stage` | Where each family sits, by stage, and how much of it matters now | Stages share a row on a desktop and stack on a phone. One stage carries `data-here` and CSS prints "You are here" on it. `data-across` makes a full-width dashed band for families no stage owns |
+| Family tile | `a.family[href="#fam-id"]` with a `b` and a `span` | One family: its name and a line | The tile types no digits. The script adds `span.fam-bar` (solid, hatched and grey parts for the three relevances) and `span.fam-counts` ("11 now, 1 before launch, 1 later"), read from the family it links to, and a `div.territory-key` in the index's own labels. On a phone a tile is the name, a short bar and the counts |
+| Start here | `ol.start-here` | The few things not to skip | At most five cards in the risk colour, numbered by CSS, each linking to an entry or a family with a bold name and one line saying why. The whole card is the link. A `p.can-wait` says what may wait |
+| Index | `div.index[data-rel-labels]` with `div.guide-tools` | Everything to look up, outside the reading path | The script fills the tools: a search with a visible label, a filter per relevance plus All with live counts, and a status line. The filter starts on the first relevance. The tools stick from 1100 px up |
+| Family index | `details.family-index[id]` | One family of entries | The summary holds an `h3` and the derived counts. `h4.group` splits it. Open, it says how many entries the filter hides. A family with no match says "Nothing here matches" |
+| Entry | `div.entry[id][data-rel]` with `b.name`, `p.def` and `div.entry-body` (`p.where`, optional `p.see`) | One field | A one-button row: the name, a relevance word with its glyph (● ◐ ○) and the definition. It opens to the example, the see-also links and "Copy link to this field". A jump to it opens it and lands with the jump outline |
+| Relevance word | `span.rel`, written by the script from `data-rel` and the labels | How much an entry matters to the reader now | A glyph and a word, so colour is never the only cue: ● filled and tinted, ◐ outlined, ○ plain |
 | Metaphor | `div.metaphor` | An analogy with an exact mapping | One per chapter at most; say where it stops |
 | Callout | `div.callout` `.tip .warn .stop` | Something that changes what the reader does | Not for asides |
 | Term box | `dl.term` | Plain-English definitions | Directly under the first use |
@@ -214,6 +221,7 @@ These are starting points, not templates. Drop what the content does not need. `
 - **Roadmap**: answer → as-of line → keep → map → the lanes with their shipped and parked folds → what unblocks the most → what is parked on purpose → optionally "What else waits?" (backlog top, cut line, themes, parked shelf) → recap.
 - **Tour**: answer → keep → map → one chapter per task, each a tour of three to six steps → recap.
 - **Playbook**: answer → keep → phase strip (the map is optional) → before and after → what the audience sees (frames) → the phases → what goes where (a grid with group rows) → roles and rules → the risky moment with its undo → the risks → costs and the decisions as answer fields → recap, with the collect bar after it. Up to ten chapters.
+- **Field guide**: answer → keep → the territory map → the start-here list → the index → recap. Three chapters, no ask, and the index stays out of the reading path.
 - **Mixed page**: most real pages mix two of the above. Take the chapter shapes from one and the closing from the other. The opening and closing contract never changes.
 
 ## Atlas add-on

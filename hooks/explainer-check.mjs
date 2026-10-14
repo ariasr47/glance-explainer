@@ -55,6 +55,19 @@ const looksLikeExplainer = (file) => {
   } catch { return false; }
 };
 
+// a page made by a newer release than this plugin: this checker may not know its type or parts, so it leaves the page to that release
+const PLUGIN_JSON = resolve(dirname(fileURLToPath(import.meta.url)), '../.claude-plugin/plugin.json');
+const MINE = (() => { try { return JSON.parse(readFileSync(PLUGIN_JSON, 'utf8')).version || null; } catch { return null; } })();
+const parts = (v) => String(v).split('.').map((n) => parseInt(n, 10) || 0);
+const newer = (a, b) => { const x = parts(a), y = parts(b); for (let i = 0; i < 3; i++) if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) > (y[i] || 0); return false; };
+const madeByNewer = (file) => {
+  if (!MINE) return false;
+  try {
+    const m = /<meta\s+name="generator"\s+content="html-explainer\s+(\d+\.\d+\.\d+)"/i.exec(readFileSync(file, 'utf8'));
+    return !!m && newer(m[1], MINE);
+  } catch { return false; }
+};
+
 // ---- state: one JSON file per session, changed under a small lock because parallel tool calls fire PostToolUse together
 const statePath = (sid) => join(STATE_DIR, String(sid).replace(/[^\w.-]/g, '_').slice(0, 120) + '.json');
 const load = (sid) => { try { return JSON.parse(readFileSync(statePath(sid), 'utf8')); } catch { return {}; } };
@@ -136,7 +149,7 @@ const modes = {
 
     const failing = [], settled = new Set(); // settled: tracked pages that need no more watching (passed, deleted, no longer an explainer)
     for (const [k, file] of seen) {
-      if (!isHtml(file) || !looksLikeExplainer(file)) { settled.add(k); continue; }
+      if (!isHtml(file) || !looksLikeExplainer(file) || madeByNewer(file)) { settled.add(k); continue; }
       const fails = failsOf(file);
       if (fails.length) failing.push({ file, fails }); else settled.add(k);
     }

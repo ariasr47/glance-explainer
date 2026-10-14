@@ -64,7 +64,7 @@ const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].map((m) => ({ sel: m[1]
 const rulesFor = (re) => rules.filter((r) => re.test(r.sel));
 
 // ---- page identity: lang and data-type pick the limits and the extra rules
-const TYPES = ['explainer', 'decision', 'status', 'spec', 'release', 'research', 'handover', 'portfolio', 'public', 'teach', 'incident', 'pr', 'runbook', 'compare', 'roadmap', 'tour', 'playbook', 'gather', 'atlas'];
+const TYPES = ['explainer', 'decision', 'status', 'spec', 'release', 'research', 'handover', 'portfolio', 'public', 'teach', 'incident', 'pr', 'runbook', 'compare', 'roadmap', 'tour', 'playbook', 'field-guide', 'gather', 'atlas'];
 const htmlAttrs = (html.match(/<html\b([^>]*)>/i) || [])[1] || '';
 const lang = (attr(htmlAttrs, 'lang') || '').trim(), type = (attr(htmlAttrs, 'data-type') || 'explainer').trim();
 const ja = /^ja(-|$)/i.test(lang); // any other lang falls back to the English rules
@@ -123,11 +123,21 @@ const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>
 info.chapters = chapters.length;
 const maxChapters = type === 'atlas' ? 12 : type === 'playbook' ? 10 : 7; // the atlas menu offers twelve chapters; a playbook has more parts than an explainer
 if (!ballot && (chapters.length < 3 || chapters.length > maxChapters)) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
-const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo)\b/;
+const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo|territory|start-here|index)\b/;
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
+// a field guide's index is the part the reader looks things up in, not the part they read: it stays out of the reading-path count and the paragraph limits
+const cutIndex = (s) => {
+  let out = '', i = 0, m; const re = /<div\b[^>]*\sclass="(?:[^"]*\s)?index(?:\s[^"]*)?"[^>]*>/gi;
+  while ((m = re.exec(s))) {
+    if (m.index < i) continue;
+    out += s.slice(i, m.index); i = m.index + m[0].length;
+    i += inner(s, i, 'div').length; i += (/^<\/div\s*>/i.exec(s.slice(i)) || [''])[0].length; re.lastIndex = i;
+  }
+  return out + s.slice(i);
+};
 let totalWords = 0;
 chapters.forEach(([, id, body], i) => {
-  const readingPath = unfold(body);
+  const readingPath = unfold(type === 'field-guide' ? cutIndex(body) : body);
   const w = size(readingPath.replace(/<svg[\s\S]*?<\/svg>/g, '')); totalWords += w;
   if (!/<h2\b/.test(body)) fail(`chapter #${id} has no h2`);
   if (!hasClass('p', 'remember').test(body)) fail(`chapter #${id} has no p.remember`);
@@ -385,6 +395,48 @@ if (type === 'tour') {
   find('tour', 'ol').forEach((o) => kids(o.inner, 'li').forEach((li, i) => {
     if (!starts(li.inner).some((m) => m[1].toLowerCase() === 'img' && strip(attr(m[2], 'alt') || ''))) bad(`ol.tour step ${i + 1} has no img with a non-empty alt: "${lead(li.inner)}"`);
   }));
+}
+
+// ---- field guide (1.7.0): a reference read once for orientation, then looked things up in. No older page carries this type, so its required parts fail.
+// The index is outside the reading path (see cutIndex above). Counts on the map are written by the page's script from the entries, so a tile that types digits warns.
+if (type === 'field-guide') {
+  const tally = {};
+  for (const m of html.matchAll(/\sid="([^"]*)"/g)) tally[m[1]] = (tally[m[1]] || 0) + 1;
+  for (const [id, n] of Object.entries(tally)) if (n > 1) bad(`duplicate id "${id}" on ${n} elements; a deep link needs one`);
+  need(num('territory'), 'needs a .territory (the map of families, by stage)');
+  need(num('start-here'), 'needs an ol.start-here (what to do first)');
+  need(num('index'), 'needs a .index (the families and their entries)');
+  need(!num('ask', 'section'), 'a guide asks nothing, so it has no section.ask');
+  const entries = find('entry'), families = find('family-index', 'details'), tiles = find('family', 'a');
+  const entryIds = new Set(entries.map((e) => (attr(e.attrs, 'id') || '').trim()).filter(Boolean)), famIds = new Set(families.map((f) => (attr(f.attrs, 'id') || '').trim()).filter(Boolean));
+  info.entries = entries.length; info.families = families.length;
+  const DEF = ja ? 45 : 20; // a definition is one line: 20 words, or 45 characters in Japanese
+  entries.forEach((e, i) => {
+    const id = (attr(e.attrs, 'id') || '').trim(), at = id ? `"${id}"` : `#${i + 1}`, rel = attr(e.attrs, 'data-rel');
+    if (!id) bad(`.entry ${at} has no id`);
+    if (!find('name', 'b', e.inner).some((n) => strip(n.inner))) bad(`.entry ${at} has no b.name with text`);
+    const defs = find('def', 'p', e.inner).filter((p) => strip(p.inner));
+    if (!defs.length) bad(`.entry ${at} has no p.def with text`);
+    if (!find('where', 'p', e.inner).some((p) => strip(p.inner))) bad(`.entry ${at} has no p.where with text`);
+    if (!['now', 'next', 'later'].includes(rel)) bad(`.entry ${at} needs data-rel of now, next or later, found ${rel ? `"${rel}"` : 'none'}`);
+    for (const p of defs) if (size(p.inner) > DEF) warn(`data-type="field-guide": the definition of ${at} is ${size(p.inner)} ${unit}; one line, ${DEF} or fewer`);
+  });
+  if (entries.length > 150) warn(`data-type="field-guide": ${entries.length} entries; past 150 a guide is hard to keep true, so split it`);
+  if (families.length > 12) warn(`data-type="field-guide": ${families.length} families; 12 or fewer keeps the map on one screen`);
+  tiles.forEach((t) => {
+    const href = attr(t.attrs, 'href'), name = lead(t.inner);
+    if (!href?.startsWith('#') || !famIds.has(href.slice(1))) bad(`a.family "${name}" links to ${href ? `"${href}"` : 'nothing'} and no details.family-index has that id`);
+    if (/\d/.test(strip(t.inner))) warn(`data-type="field-guide": the tile "${name}" types a digit; counts are written by the script from the entries, so leave them out`);
+  });
+  find('start-here', 'ol').forEach((o) => {
+    const items = kids(o.inner, 'li');
+    if (items.length > 5) warn(`data-type="field-guide": ol.start-here has ${items.length} items; 5 or fewer, or nothing is first`);
+    items.forEach((li, n) => {
+      const hrefs = starts(li.inner).filter((m) => m[1].toLowerCase() === 'a').map((m) => attr(m[2], 'href'));
+      if (!hrefs.length) warn(`data-type="field-guide": ol.start-here item ${n + 1} has no link to its entry: "${lead(li.inner)}"`);
+      for (const h of hrefs) if (!h?.startsWith('#') || !(entryIds.has(h.slice(1)) || famIds.has(h.slice(1)))) bad(`ol.start-here links to ${h ? `"${h}"` : 'nothing'} and no entry has that id`);
+    });
+  });
 }
 
 // ---- lanes and backlog (1.6.0): advice only. A new FAIL would make upgrade.mjs refuse the pages it is meant to bring up to date.

@@ -43,6 +43,8 @@ Claude Code only. The plugin adds three small hooks, so the page checker runs wi
 
 - **When.** Just before the agent finishes a turn. If that turn wrote or edited an explainer page, the checker runs on the page.
 - **What it covers.** An `.html` file whose `<html>` tag has a `data-type` and which holds an answer bar or ballot cards. Any other file is left alone. A page saved with Write, Edit or MultiEdit is always covered. A page that a script wrote through Bash is covered only when the folder is inside a git repository and the file is not committed yet.
+- **Pages from a newer release.** A page whose version mark is newer than the installed plugin is skipped, because an older checker may not know its type. Update the plugin to check it.
+- **Pages another program writes.** The git scan can also catch a page that another session or a background agent writes into the same repository during your turn. If that page fails, your session is asked to fix it. Keep work in progress for other sessions out of shared folders until it passes.
 - **On a FAIL.** The agent is shown the FAIL lines and asked to fix the page before it hands over. After three tries in one turn the hook lets go, so one stubborn page cannot trap a session.
 - **What it never does.** It never uses the network and never changes a file. If something breaks inside a hook, the session carries on as if the hook were not there.
 

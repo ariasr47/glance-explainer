@@ -44,12 +44,13 @@ Every page this plugin makes has the same shape:
 | Page | What it shows |
 |---|---|
 | [A plan for one risky change](https://ariasr47.github.io/html-explainer-skill/examples/playbook.html) | A playbook: moving a team wiki, with phases, who notices what, the undo plan and the risks |
+| [A field guide to look things up in](https://ariasr47.github.io/html-explainer-skill/examples/field-guide.html) | A field guide: web product work for a small notes app, with a map by stage, the four fields that come first and 30 entries to search |
 | [Four decisions on one phone screen](https://ariasr47.github.io/html-explainer-skill/examples/ballot.html) | A ballot: tap a pictured option per card, then copy the picks back to the agent |
 | [Every component](https://ariasr47.github.io/html-explainer-skill/gallery.html) | The gallery: each building block with real content, in both themes |
 | [The roadmap](https://ariasr47.github.io/html-explainer-skill/roadmap.html) | This project's roadmap as a roadmap page |
 | [The site's home page](https://ariasr47.github.io/html-explainer-skill/) | A public page: what the plugin promises, with the evidence behind each promise |
 
-All five were made with the plugin and pass its checker.
+All six were made with the plugin and pass its checker.
 
 ## Install
 
@@ -74,6 +75,7 @@ Ask in plain words. The agent picks the page type, writes the page from the temp
 | Know where things stand | "Explain where we are with the project as an html explainer." | status, release, incident, pr, portfolio |
 | Approve a plan | "Turn this spec into an html explainer I can approve." | spec, roadmap, research, playbook |
 | Hand over or teach | "Write a handover page for whoever picks this up." | handover, teach, tour |
+| Look things up | "Make a field guide to this field that I can search later." | field-guide |
 | Follow a procedure | "Make a runbook page for the release steps." | runbook |
 | Tell customers | "Explain to customers what happens to the file they upload." | public |
 | Ask a group | "Make a page that asks my team these questions and collects their answers." | gather (11 modes, including ballot) |
@@ -86,7 +88,7 @@ To bring a page made with an older release up to the current design, ask: *"Upgr
 ## What it makes
 
 <details>
-<summary><b>Sixteen page types</b>, each with its own chapters, required components and checker rules</summary>
+<summary><b>Seventeen page types</b>, each with its own chapters, required components and checker rules</summary>
 
 | Type | When |
 |---|---|
@@ -106,6 +108,7 @@ To bring a page made with an older release up to the current design, ask: *"Upgr
 | roadmap | What is under way now, next and later, and what depends on what. |
 | tour | How a product works, step by step, on its real screens. |
 | playbook | You rule on a plan for one risky, multi-step change. |
+| field-guide | You need to get oriented in a whole field once, then look things up. |
 
 Full definitions: [`skills/html-explainer/references/types.md`](skills/html-explainer/references/types.md).
 </details>

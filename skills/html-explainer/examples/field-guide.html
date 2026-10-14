@@ -1,0 +1,2164 @@
+<!doctype html>
+<html lang="en" data-type="field-guide">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="html-explainer 1.7.0">
+<meta name="color-scheme" content="light dark">
+<title>Field guide for a small notes app</title>
+<meta name="description" content="A field guide to the work behind a web product, shown on a small notes app: where each field fits, which four come first, and 30 entries to look up by family or by search.">
+<link rel="icon" href="data:,">
+<!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
+<style>
+/* =====================================================================
+   html-explainer design system  ·  v1.0
+   Single-file, no build step, no external scripts. Fonts degrade to the
+   system stack. Works from file://, in an artifact, printed, and on a phone.
+   Colour has meaning. Nothing moves unless the reader moved it.
+   ===================================================================== */
+
+/* ---------- 1. Tokens ---------- */
+:root {
+  /* surfaces */
+  --paper: #f2f5f8;          /* page background, cool fog, never cream */
+  --card: #ffffff;           /* chapter and component surface */
+  --well: #e8edf2;           /* inset surface for diagrams and code */
+  --line: #d3dce4;           /* hairline borders */
+  --line-strong: #aebbc8;
+  /* text */
+  --ink: #16222e;            /* body text, deep navy, never pure black */
+  --ink-soft: #4a5a6a;       /* secondary text */
+  --ink-faint: #5f6f7f;      /* tertiary, kickers */
+  /* structure accent: "you are here", links, current, the answer */
+  --here: #2457d6;
+  --here-tint: #e3ebfb;
+  /* meaning colours, used for exactly one meaning each, everywhere */
+  --go: #14784f;   --go-tint: #dff3ea;      /* done, safe, yes */
+  --wait: #9c5d00; --wait-tint: #fdf0d8;    /* in progress, caution, needs a check */
+  --stop: #c43a4b; --stop-tint: #fbe3e6;    /* blocked, risk, no */
+  --decide: #6d4ed8; --decide-tint: #ece6fb;/* the reader must choose */
+  --memory: #fff4c2; --memory-line: #e3c45a;/* "remember this", offloaded working memory */
+  /* text that sits on a meaning fill: white on the light fills, page-dark on the dark fills, 4.5:1 or better */
+  --on-here: #ffffff; --on-go: #ffffff; --on-wait: #ffffff; --on-stop: #ffffff; --on-decide: #ffffff; --on-soft: #ffffff;
+  /* type */
+  --font-head: "Lexend", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+  --font-code: "Atkinson Hyperlegible Mono", "Cascadia Code", Consolas, "SF Mono", monospace;
+  --size-0: 1rem;      /* 18px base */
+  --size-1: 1.25rem;   /* 22.5 */
+  --size-2: 1.5625rem; /* 28 */
+  --size-3: 1.95rem;   /* 35 */
+  --size-4: 2.44rem;   /* 44 */
+  --size-s: .889rem;   /* 16 */
+  --size-xs: .778rem;  /* 14 */
+  /* layout */
+  --measure: 62ch;     /* prose width */
+  --wide: 1120px;      /* page width, diagrams may use all of it */
+  --rail: 232px;
+  --gap: 1.5rem;
+  --r-chapter: 18px;   /* radius by hierarchy: chapter > component > chip */
+  --r-comp: 10px;
+  --r-chip: 999px;
+  --shadow-float: 0 10px 30px rgba(22, 34, 46, .14);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a;
+    --ink: #e8eef4; --ink-soft: #a9b6c3; --ink-faint: #7d8b99;
+    --here: #7ea2ff; --here-tint: #1c2a4a;
+    --go: #4ccf93; --go-tint: #123326; --wait: #f0b455; --wait-tint: #3a2a0f;
+    --stop: #ff7a8a; --stop-tint: #3f1b22; --decide: #b39cff; --decide-tint: #2a2148;
+    --memory: #3a3315; --memory-line: #c9ad4a;
+    --on-here: #0e151c; --on-go: #0e151c; --on-wait: #0e151c; --on-stop: #0e151c; --on-decide: #0e151c; --on-soft: #0e151c;
+    --shadow-float: 0 10px 30px rgba(0, 0, 0, .5);
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a;
+  --ink: #e8eef4; --ink-soft: #a9b6c3; --ink-faint: #7d8b99;
+  --here: #7ea2ff; --here-tint: #1c2a4a;
+  --go: #4ccf93; --go-tint: #123326; --wait: #f0b455; --wait-tint: #3a2a0f;
+  --stop: #ff7a8a; --stop-tint: #3f1b22; --decide: #b39cff; --decide-tint: #2a2148;
+  --memory: #3a3315; --memory-line: #c9ad4a;
+  --on-here: #0e151c; --on-go: #0e151c; --on-wait: #0e151c; --on-stop: #0e151c; --on-decide: #0e151c; --on-soft: #0e151c;
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, .5);
+}
+
+/* ---------- 2. Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { font-size: 18px; -webkit-text-size-adjust: 100%; }
+/* No smooth scrolling: the animation stalls inside embedded browser panes, so rail clicks looked dead. Jumps are instant on purpose. */
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font-family: var(--font-body); font-size: var(--size-0); line-height: 1.6;
+  text-rendering: optimizeLegibility; overflow-wrap: anywhere;
+}
+h1, h2, h3, h4 { font-family: var(--font-head); font-weight: 600; line-height: 1.15; margin: 0 0 .5em; letter-spacing: -.01em; text-wrap: balance; }
+h1 { font-size: clamp(1.75rem, 1.1rem + 2.6vw, var(--size-4)); font-weight: 700; }
+h2 { font-size: clamp(1.45rem, 1rem + 1.8vw, var(--size-3)); }
+h3 { font-size: var(--size-2); }
+h4 { font-size: var(--size-1); }
+p, ul, ol { margin: 0 0 1em; max-width: var(--measure); text-wrap: pretty; hyphens: manual; }
+li { margin-bottom: .35em; }
+li::marker { color: var(--ink-faint); }
+a { color: var(--here); text-decoration-thickness: 1.5px; text-underline-offset: .18em; }
+a:hover { text-decoration-thickness: 2.5px; }
+strong { font-weight: 700; }
+code, kbd, pre { font-family: var(--font-code); font-size: .92em; }
+code { background: var(--well); padding: .1em .35em; border-radius: 5px; }
+pre { background: var(--well); padding: 1rem; border-radius: var(--r-comp); overflow: auto; margin: 0 0 1em; line-height: 1.5; }
+pre code { background: none; padding: 0; }
+:focus-visible { outline: 3px solid var(--here); outline-offset: 3px; border-radius: 4px; }
+button { font: inherit; color: inherit; cursor: pointer; }
+img, svg { max-width: 100%; height: auto; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+.skip { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: .5rem 1rem; background: var(--here); color: var(--on-here); border-radius: var(--r-comp); }
+.skip:focus { top: 1rem; }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+[hidden] { display: none !important; }
+
+/* ---------- 2b. Japanese: lang="ja" swaps the faces, spacing and breaking, and the few words CSS writes ---------- */
+:lang(ja) {
+  --font-head: "BIZ UDPGothic", "Yu Gothic UI", "Yu Gothic", "Hiragino Sans", "Meiryo", "Noto Sans JP", sans-serif;
+  --font-body: "BIZ UDPGothic", "Yu Gothic", "Hiragino Sans", "Meiryo", "Noto Sans JP", sans-serif;
+  --font-code: "BIZ UDGothic", "Cascadia Code", Consolas, monospace;
+  --measure: 36em;
+  line-height: 1.75; letter-spacing: .03em; line-break: strict; hyphens: none;
+  word-break: auto-phrase;  /* break between phrases, so a narrow button never splits ダウン / ロード */
+}
+:lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(ja) h4 { letter-spacing: 0; line-height: 1.35; }
+:lang(ja) em, :lang(ja) i { font-style: normal; font-weight: 700; }
+:lang(ja) .answer { line-height: 1.5; }
+:lang(ja) .ask .choices > *[data-rec]::after { content: " · おすすめ"; }
+:lang(ja) .timeline li.here .when::before { content: "現在地 · "; }
+/* roadmap card states: the words are set once in 9c (--st-word), so Japanese swaps the variable and nothing else */
+:lang(ja) .lane li, :lang(ja) .backlog-top > li { --st-word: "予定"; }
+:lang(ja) .lane li.here, :lang(ja) .backlog-top > li.here { --st-word: "進行中"; }
+:lang(ja) .lane li.wait, :lang(ja) .backlog-top > li.wait { --st-word: "他の完了待ち"; }
+:lang(ja) .lane li.decide, :lang(ja) .backlog-top > li.decide { --st-word: "あなたの判断が必要"; }
+:lang(ja) .lane li.stop, :lang(ja) .backlog-top > li.stop { --st-word: "停止中"; }
+:lang(ja) .lane li.go, :lang(ja) .backlog-top > li.go { --st-word: "完了"; }
+:lang(ja) .lane li.is-target::after, :lang(ja) .backlog-top > li.is-target::after, :lang(ja) .entry.is-target::after { content: "↓ ここへ移動しました"; }
+:lang(ja) .stage[data-here] > h3::after { content: "● 現在地"; }
+
+/* ---------- 3. Page frame ---------- */
+.progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
+.page { width: min(100% - 2rem, var(--wide)); margin: 0 auto; padding: 1.5rem 0 6rem; }
+@media (min-width: 1100px) {
+  .page { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); column-gap: 2.5rem; }
+  .rail { position: sticky; top: 1.5rem; align-self: start; max-height: calc(100vh - 3rem); overflow: auto; }
+}
+.rail { font-size: var(--size-s); }
+.rail ol { list-style: none; margin: 0 0 1rem; padding: 0; max-width: none; }
+.rail li { margin: 0; }
+.rail a { display: flex; gap: .6rem; align-items: baseline; padding: .4rem .6rem; border-radius: var(--r-comp); color: var(--ink-soft); text-decoration: none; }
+.rail a .dot { flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--line-strong); transform: translateY(-.1rem); }
+.rail a[aria-current="true"] { background: var(--here-tint); color: var(--ink); font-weight: 700; }
+.rail a[aria-current="true"] .dot { background: var(--here); }
+.rail a.done .dot, .rail a.answered .dot, body[data-finished="on"] .rail a[href="#recap"] .dot { background: var(--go); }
+.rail a.done::after, .rail a.answered::after, body[data-finished="on"] .rail a[href="#recap"]::after { content: "✓"; margin-left: auto; color: var(--go); font-weight: 700; }
+.rail .tools { display: flex; flex-wrap: wrap; gap: .5rem; padding: .25rem .6rem; }
+.rail .tools button, .read-aloud { padding: .35rem .75rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+.rail .tools button[aria-pressed="true"], .read-aloud[data-reading] { background: var(--here); border-color: var(--here); color: var(--on-here); }
+@media (max-width: 1099px) {
+  .rail { position: sticky; top: 0; z-index: 50; margin: 0 -1rem 1.25rem; padding: .5rem 1rem; background: var(--paper); border-bottom: 1px solid var(--line); }
+  .rail ol { display: flex; gap: .35rem; overflow-x: auto; margin: 0; padding-bottom: .25rem; scrollbar-width: none; }
+  .rail a { white-space: nowrap; padding: .35rem .7rem; border: 1px solid var(--line); background: var(--card); }
+  .rail .tools { padding: .4rem 0 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .rail .tools button { flex: none; white-space: nowrap; }
+}
+main { min-width: 0; }
+
+/* ---------- 4. Opening: the answer first ---------- */
+.kicker { font-family: var(--font-head); font-weight: 500; font-size: var(--size-s); color: var(--ink-faint); margin: 0 0 .5rem; }
+.meta { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; color: var(--ink-soft); font-size: var(--size-s); margin: .5rem 0 1.5rem; max-width: none; }
+.answer {
+  max-width: none; margin: 0 0 1.25rem; padding: 1.25rem 1.5rem 1.25rem 1.75rem;
+  border-left: 6px solid var(--here); background: var(--here-tint); border-radius: 0 var(--r-comp) var(--r-comp) 0;
+  font-family: var(--font-head); font-weight: 500; font-size: var(--size-1); line-height: 1.35; text-wrap: balance;
+}
+.keep { margin: 0 0 2rem; padding: 1rem 1.25rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; }
+.keep > strong { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .4rem; }
+.keep ol { margin: 0; padding-left: 1.4rem; max-width: none; }
+.keep li { margin: 0 0 .15rem; }
+@media (max-width: 560px) {  /* the answer and all three keep items fit a 390 x 844 phone's first screen */
+  .page { padding-top: 1rem; }
+  .kicker { margin-bottom: .25rem; }
+  .meta { gap: 0 .9rem; font-size: var(--size-xs); margin: .25rem 0 .9rem; }
+  .answer { padding: .75rem 1rem .75rem 1.1rem; font-size: 1.05rem; line-height: 1.3; margin-bottom: .9rem; }
+  .keep { padding: .75rem 1rem; }
+}
+
+/* ---------- 5. Chapter map: the visual table of contents ---------- */
+.map { list-style: none; margin: 0 0 2.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width: none; counter-reset: map; }
+.map li { margin: 0; counter-increment: map; }
+.map a { display: block; height: 100%; padding: .9rem 1rem .9rem 3.2rem; position: relative; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.map a::before { content: counter(map); position: absolute; left: 1rem; top: .85rem; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.map a:hover { border-color: var(--here); }
+.map b { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .15rem; }
+.map span { color: var(--ink-soft); font-size: var(--size-s); }
+
+/* ---------- 6. Chapter: one idea, self-contained ---------- */
+.chapter { background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-chapter); padding: 1.5rem clamp(1rem, 3vw, 2rem) 1.25rem; margin: 0 0 2rem; scroll-margin-top: 4.5rem; }
+.chapter > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.chapter > header .kicker { margin: 0 0 .25rem; }
+.chapter > header h2 { margin: 0; }
+.chapter > header label { flex: none; display: inline-flex; align-items: center; gap: .4rem; font-size: var(--size-s); color: var(--ink-soft); padding-top: .35rem; }
+.chapter > header > div { flex: 1; min-width: 0; }
+.chapter > header .read-aloud { flex: none; margin-top: .3rem; }
+.speaking { border-radius: 3px; box-shadow: -.35rem 0 0 var(--here), 0 0 0 .3rem var(--here-tint); }
+.chapter > header input[type="checkbox"] { width: 1.25rem; height: 1.25rem; accent-color: var(--go); margin: 0; }
+.from { display: block; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); max-width: none; }
+.from b { margin-right: .35rem; color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.remember { margin: 1.5rem 0 0; padding: .9rem 1.1rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; display: block; }
+.remember b { margin-right: .35rem; font-family: var(--font-head); font-weight: 600; }
+@media (max-width: 560px) {
+  .remember, .from { display: block; }
+  .remember b, .from b { display: inline; margin-right: .3rem; }
+  .chapter > header { flex-wrap: wrap; }
+  .chapter > header > div { flex-basis: 100%; }
+}
+
+/* ---------- 7. Figures and diagrams ---------- */
+.figure { margin: 1.25rem 0 1.5rem; padding: 1rem; background: var(--well); border-radius: var(--r-comp); border: 1px solid var(--line); }
+.figure > svg { display: block; width: 100%; height: auto; }
+.figure > svg.narrow { display: none; }
+@media (max-width: 560px) {
+  /* An 800-wide diagram scaled to a phone shrinks 13 px labels to 5 px. It keeps 640 px and scrolls
+     sideways instead, with its caption pinned in view; a figure that carries an svg.narrow twin shows that. */
+  .figure { overflow-x: auto; }
+  .figure > svg { min-width: 640px; }
+  .figure > :not(svg) { position: sticky; left: 0; }
+  .figure:has(> svg.narrow) > svg:not(.narrow) { display: none; }
+  .figure > svg.narrow { display: block; min-width: 0; }
+}
+/* the caption that states the conclusion: inside a figure, or straight under any other component */
+.take { margin: .9rem 0 0; padding: .5rem .75rem; background: var(--card); border-left: 4px solid var(--here); border-radius: 0 6px 6px 0; font-size: var(--size-s); max-width: none; }
+.chapter > .take { margin: -.75rem 0 1.5rem; background: var(--well); }
+.take b { font-family: var(--font-head); font-weight: 600; }
+/* svg diagram vocabulary: use these classes on shapes so both themes work */
+.d-box { fill: var(--card); stroke: var(--line-strong); stroke-width: 1.5; }
+.d-box-here { fill: var(--here-tint); stroke: var(--here); stroke-width: 2; }
+.d-box-go { fill: var(--go-tint); stroke: var(--go); stroke-width: 1.5; }
+.d-box-wait { fill: var(--wait-tint); stroke: var(--wait); stroke-width: 1.5; }
+.d-box-stop { fill: var(--stop-tint); stroke: var(--stop); stroke-width: 1.5; }
+.d-box-decide { fill: var(--decide-tint); stroke: var(--decide); stroke-width: 1.5; }
+.d-line { fill: none; stroke: var(--ink-soft); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.d-line-soft { fill: none; stroke: var(--line-strong); stroke-width: 2; stroke-dasharray: 6 6; }
+.d-arrow { fill: var(--ink-soft); }
+.d-text { fill: var(--ink); font-family: var(--font-body); font-size: 15px; }
+.d-text-b { fill: var(--ink); font-family: var(--font-head); font-weight: 600; font-size: 15px; }
+.d-text-s { fill: var(--ink-soft); font-family: var(--font-body); font-size: 13px; }
+.d-num { fill: var(--on-here); font-family: var(--font-head); font-weight: 600; font-size: 13px; }
+.d-pin { fill: var(--here); }
+
+/* CSS flow: steps with connectors, no SVG needed */
+.flow { display: flex; flex-wrap: wrap; gap: .75rem; list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; counter-reset: flow; }
+.flow li { counter-increment: flow; flex: 1 1 150px; overflow-wrap: break-word; position: relative; padding: .8rem .9rem .8rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); min-height: 3.4rem; }
+.flow li::before { content: counter(flow); position: absolute; left: .8rem; top: .75rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.flow li b { display: block; font-family: var(--font-head); font-weight: 600; }
+.flow li span { font-size: var(--size-s); color: var(--ink-soft); }
+.flow li.here { border-color: var(--here); background: var(--here-tint); }
+.flow li.here::before { background: var(--here); color: var(--on-here); }
+.flow li.go { border-color: var(--go); } .flow li.go::before { background: var(--go); color: var(--on-go); }
+.flow li.wait { border-color: var(--wait); } .flow li.wait::before { background: var(--wait); color: var(--on-wait); }
+.flow li.stop { border-color: var(--stop); } .flow li.stop::before { background: var(--stop); color: var(--on-stop); }
+/* a glyph in the top-right corner, inside the padding, so state is never colour alone (the connector keeps li::after) */
+.flow li.go b::after, .flow li.wait b::after, .flow li.stop b::after { position: absolute; top: .5rem; right: .3rem; font-size: .75rem; font-weight: 700; line-height: 1; }
+.flow li.go b::after { content: "✓"; color: var(--go); }
+.flow li.wait b::after { content: "!"; color: var(--wait); }
+.flow li.stop b::after { content: "✕"; color: var(--stop); }
+@media (min-width: 700px) {
+  .flow li:not(:last-child)::after { content: ""; position: absolute; right: -.75rem; top: 50%; width: .75rem; height: 2px; background: var(--line-strong); }
+}
+
+/* ---------- 8. Comparison and decisions ---------- */
+.split { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 1rem 0 1.5rem; }
+.split > div { padding: 1rem 1.1rem; border-radius: var(--r-comp); border: 1.5px solid var(--line); background: var(--card); }
+.split > div > b { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .4rem; }
+.split .before { border-color: var(--stop); background: var(--stop-tint); }
+.split .after { border-color: var(--go); background: var(--go-tint); }
+.split ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
+
+.decision { margin: 1rem 0 1.5rem; padding: 1.25rem; border: 2px solid var(--decide); border-radius: var(--r-comp); background: var(--decide-tint); }
+.decision > h3 { margin: 0 0 .25rem; display: flex; gap: .6rem; align-items: center; }
+.decision > h3::before { content: "?"; flex: none; width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 50%; background: var(--decide); color: var(--on-decide); font-family: var(--font-head); font-size: var(--size-0); }
+.decision > p { color: var(--ink-soft); }
+.options { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 1rem 0; }
+.option { position: relative; padding: 1rem 1.1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.option[data-rec] { border-color: var(--go); border-width: 2.5px; }
+.option[data-rec]::after { content: attr(data-rec); position: absolute; top: -.8rem; right: .9rem; padding: .15rem .65rem; background: var(--go); color: var(--on-go); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+/* a consequence chip: the cost in words ("Can't undo"), amber with a ⚠ glyph, so it never leans on colour alone */
+.option[data-warn]::before { content: "⚠ " attr(data-warn); position: absolute; top: -.8rem; left: .9rem; z-index: 1; padding: .15rem .65rem; background: var(--wait); color: var(--on-wait); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.option h4 { margin: 0 0 .5rem; }
+.option ul { list-style: none; padding: 0; margin: 0; font-size: var(--size-s); }
+.option li { padding-left: 1.4rem; position: relative; }
+.option li.plus::before { content: "✓"; position: absolute; left: 0; color: var(--go); font-weight: 700; }
+.option li.minus::before { content: "✗"; position: absolute; left: 0; color: var(--stop); font-weight: 700; }
+.option .cost { margin-top: .6rem; font-size: var(--size-s); color: var(--ink-soft); }
+.decision .nothing { margin: .5rem 0 0; padding: .6rem .9rem; background: var(--card); border-radius: 6px; font-size: var(--size-s); max-width: none; }
+.decision .nothing b { font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9. Status, timeline, steps, tiles ---------- */
+.status { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; border: 1.5px solid var(--line); border-radius: var(--r-comp); overflow: hidden; }
+.status li { display: grid; grid-template-columns: 1.1rem minmax(120px, 1fr) 2fr; gap: .9rem; align-items: baseline; padding: .7rem 1rem; background: var(--card); margin: 0; }
+.status li + li { border-top: 1px solid var(--line); }
+/* each state carries a glyph as well as a colour (WCAG 1.4.1) */
+.status li::before { content: ""; display: grid; place-items: center; align-self: start; margin-top: .35rem; width: .85rem; height: .85rem; border-radius: 50%; background: var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+.status li.go::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.status li.wait::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.status li.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.status li.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
+.status li.here::before { content: "●"; background: var(--here); color: var(--on-here); }
+.status li.memory::before { content: "★"; background: var(--memory-line); color: color-mix(in srgb, var(--memory-line) 15%, #000); }
+.status li b { font-family: var(--font-head); font-weight: 600; }
+.status li span { color: var(--ink-soft); font-size: var(--size-s); }
+@media (max-width: 560px) { .status li { grid-template-columns: 1.1rem 1fr; } .status li span { grid-column: 2; } }
+
+.timeline { list-style: none; margin: 1.25rem 0 1.5rem; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.5rem 0; max-width: none; position: relative; }
+.timeline li::after { content: ""; position: absolute; left: 0; right: 0; top: .55rem; height: 3px; background: var(--line-strong); }  /* one stretch per item: a wrapped row keeps its line */
+.timeline li { position: relative; padding: 1.5rem .75rem 0 0; margin: 0; overflow-wrap: break-word; }
+.timeline li::before { content: ""; position: absolute; z-index: 1; left: 0; top: 0; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--card); border: 3px solid var(--line-strong); font: 700 .6rem/1 var(--font-head); }
+.timeline li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
+.timeline li.here::before { background: var(--here); border-color: var(--here); box-shadow: 0 0 0 5px var(--here-tint); }
+.timeline li.here .when { color: var(--here); }
+.timeline li.here .when::before { content: "You are here · "; font-weight: 700; }
+.timeline .when { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); margin-bottom: .2rem; }
+.timeline .what { font-size: var(--size-s); color: var(--ink-soft); }
+
+.steps { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: step; max-width: none; }
+.steps > li { counter-increment: step; position: relative; padding: .25rem 0 .9rem 3rem; margin: 0; }
+.steps > li::before { content: counter(step); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.steps > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
+.steps > li > b { font-family: var(--font-head); font-weight: 600; }
+
+.tiles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1rem 0 1.5rem; }
+.tile { container-type: inline-size; padding: .9rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+/* a number never breaks inside itself ("$24,00" / "0+"); it shrinks to fit its tile instead */
+.tile .n { display: block; font-family: var(--font-head); font-weight: 700; font-size: var(--size-3); font-size: min(var(--size-3), 20cqi); line-height: 1; color: var(--here); white-space: nowrap; overflow-wrap: normal; }
+.tile .l { font-size: var(--size-s); color: var(--ink-soft); }
+.tile.go .n { color: var(--go); } .tile.wait .n { color: var(--wait); } .tile.stop .n { color: var(--stop); }
+
+/* ---------- 9b. Grid: options against criteria (compare, portfolio) ---------- */
+.grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+.grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
+.grid caption { padding: .8rem 1rem; text-align: left; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); border-bottom: 1px solid var(--line); }
+.grid :is(th, td) { padding: .65rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: break-word; }
+.grid :is(th, td) + :is(th, td) { border-left: 1px solid var(--line); }
+.grid tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.grid thead th { background: var(--well); font-family: var(--font-head); font-weight: 600; }
+.grid tbody th { min-width: 9rem; background: var(--card); font-family: var(--font-head); font-weight: 600; }
+/* a cell state is a tint and a glyph, never the tint alone (WCAG 1.4.1) */
+.grid :is(td.go, td.wait, td.stop, td.decide) { position: relative; padding-left: 2.5rem; }
+.grid :is(td.go, td.wait, td.stop, td.decide)::before { position: absolute; left: .85rem; top: .75rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.grid td.go { background: var(--go-tint); }         .grid td.go::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.grid td.wait { background: var(--wait-tint); }     .grid td.wait::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.grid td.stop { background: var(--stop-tint); }     .grid td.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.grid td.decide { background: var(--decide-tint); } .grid td.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
+/* the recommended option: a star before its name, and a green foot on the header */
+.grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
+.grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+/* a group row is a quiet band that names the rows under it ("Goes to both"); it is not a criterion */
+.grid tbody tr.group th { min-width: 0; padding: .4rem 1rem; border-left: 0; background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
+@media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
+  .grid { min-width: 34rem; }
+  .grid caption { position: sticky; left: 0; width: 100cqw; }  /* the title stays in view while the columns scroll */
+  .grid :is(thead th:first-child, tbody th) { position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; border-right: 1px solid var(--line-strong); }
+  .grid tbody tr.group th { position: static; width: auto; min-width: 0; max-width: none; border-right: 0; }  /* a band spans every column, so it scrolls with them */
+}
+@media print { .grid-wrap { overflow: visible; } }
+
+/* ---------- 9c. Lanes: now, next, later (roadmap) ---------- */
+/* A lane says what it means in one line (p.lane-note: horizon, confidence, order). A card says its state in a word that CSS writes
+   from its class, so the words cannot drift: the word, its glyph and its text colour are set once here. Lane cards print the word
+   above the title; backlog cards print the glyph and the word. Every colour is an existing token and every word has a glyph or a dot. */
+.lanes { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.5rem; }
+.lane { padding: .9rem .9rem 1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.lane[data-lane="now"] { border-color: var(--here); border-width: 2px; }
+.lane[data-lane="later"] { border-style: dashed; border-color: var(--line-strong); }
+.lane > h3 { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane-count { flex: none; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+.lane > .lane-note { max-width: none; margin: -.45rem 0 .8rem; color: var(--ink); font-size: var(--size-s); font-weight: 500; }
+.lane > ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.lane li, .backlog-top > li { --st-word: "Planned"; --st-glyph: "○"; --st-ink: var(--ink-soft); }
+.lane li.here, .backlog-top > li.here { --st-word: "Under way"; --st-glyph: "●"; --st-ink: var(--here); }
+.lane li.wait, .backlog-top > li.wait { --st-word: "Waits on another"; --st-glyph: "!"; --st-ink: var(--wait); }
+.lane li.decide, .backlog-top > li.decide { --st-word: "Needs your ruling"; --st-glyph: "?"; --st-ink: var(--decide); }
+.lane li.stop, .backlog-top > li.stop { --st-word: "Blocked"; --st-glyph: "✕"; --st-ink: var(--stop); }
+.lane li.go, .backlog-top > li.go { --st-word: "Done"; --st-glyph: "✓"; --st-ink: var(--go); }
+.lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.lane li:last-child { margin-bottom: 0; }
+.lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+/* less certain than its lane: a dashed card and a dashed dot, and small.conf says why. The state rules below come later, so a state keeps its own border colour. */
+.lane li[data-conf] { border-style: dashed; border-width: 2px; border-color: var(--ink-soft); }
+.lane li[data-conf]::before { border-style: dashed; border-color: var(--ink-soft); }
+.lane li.go { border-color: var(--go); }         .lane li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
+.lane li.wait { border-color: var(--wait); }     .lane li.wait::before { content: "!"; background: var(--wait); border-color: var(--wait); color: var(--on-wait); }
+.lane li.stop { border-color: var(--stop); }     .lane li.stop::before { content: "✕"; background: var(--stop); border-color: var(--stop); color: var(--on-stop); }
+.lane li.decide { border-color: var(--decide); } .lane li.decide::before { content: "?"; background: var(--decide); border-color: var(--decide); color: var(--on-decide); }
+.lane li.here { border-color: var(--here); }     .lane li.here::before { content: "●"; background: var(--here); border-color: var(--here); color: var(--on-here); }
+.lane li > b, .backlog-top > li > b { display: block; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.lane li > b::before { content: var(--st-word); display: block; margin-bottom: .1rem; color: var(--st-ink); font: 700 var(--size-xs)/1.3 var(--font-body); }
+.backlog-top > li > b::before { content: var(--st-glyph) " " var(--st-word); display: block; margin-bottom: .1rem; color: var(--st-ink); font: 700 var(--size-xs)/1.3 var(--font-body); }
+/* :where keeps this at the lowest weight, so a .who or .chip badge, or the Unblocks count, inside a card keeps its own look */
+:where(.lane li, .backlog-top > li) span { display: block; margin-top: .15rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+.lane li small, .backlog-top > li small { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.4; }
+.lane li small + small, .backlog-top > li small + small { margin-top: .2rem; }
+.lane li small.when, .backlog-top > li small.when { color: var(--ink); }
+.lane li small.conf { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px dashed var(--ink-soft); border-radius: 8px; color: var(--ink); font: 600 var(--size-xs)/1.4 var(--font-head); }
+/* what a card unblocks: a count the script derives from the small.after links, with an arrow drawn here */
+.lane li .unblocks, .backlog-top > li .unblocks { display: inline-flex; align-items: center; gap: .3rem; margin-top: .45rem; padding: .05rem .65rem; border: 1.5px solid var(--here); border-radius: var(--r-chip); color: var(--here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.unblocks::before { content: "→"; }
+/* a jump lands on a card you can see: a static outline and a label, one at a time (the script sets .is-target; without script :target does it) */
+html:not(.js) .lane li:target, .lane li.is-target, .backlog-top > li.is-target { outline: 3px solid var(--here); outline-offset: 2px; }
+.lane li.is-target, .backlog-top > li.is-target { padding-top: 2.5rem; }
+.lane li.is-target::before { top: 2.65rem; }
+.backlog-top > li.is-target::before { top: 2.5rem; }
+.lane li.is-target::after, .backlog-top > li.is-target::after { content: "↓ You jumped here"; position: absolute; left: .8rem; top: .55rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+a.jump-back { display: flex; align-items: center; min-height: 44px; font-size: var(--size-s); }
+@media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
+
+/* ---------- 9c2. Roadmap parts: as-of line, folded history, backlog ---------- */
+.asof { display: flex; align-items: center; gap: .5rem; max-width: none; margin: -.4rem 0 1.25rem; color: var(--ink-soft); font-size: var(--size-s); }
+.asof::before { content: ""; flex: none; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; background: linear-gradient(currentColor, currentColor) 50% 16% / 2px 38% no-repeat, linear-gradient(currentColor, currentColor) 62% 50% / 30% 2px no-repeat; }  /* a small clock, drawn */
+/* shipped and parked fold away under the lanes: their summaries wear the ✓ and ✕ dots in place of the + */
+details.fold.shipped > summary::before, details.fold.shipped[open] > summary::before { content: "✓"; border: 0; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+details.fold.parked > summary::before, details.fold.parked[open] > summary::before { content: "✕"; border: 0; background: var(--stop); color: var(--on-stop); font: 700 .75rem/1 var(--font-head); }
+details.fold:is(.shipped, .parked) > summary { flex-wrap: wrap; row-gap: 0; color: var(--ink); }
+details.fold:is(.shipped, .parked) > summary > span { flex: 1 1 9rem; min-width: 0; }  /* the title takes the row; the changelog link and the chevron wrap under it on a phone */
+details.fold:is(.shipped, .parked) > summary::after { content: "▾"; color: var(--ink-soft); }
+details.fold:is(.shipped, .parked)[open] > summary::after { content: "▴"; }
+details.fold.shipped > summary > a { display: inline-flex; align-items: center; min-height: 44px; margin-left: auto; font-size: var(--size-s); font-weight: 600; }
+details.fold.shipped > ul { margin-block: 0; padding-left: 2.2rem; font-size: var(--size-s); }
+/* the backlog: at most five ranked cards, a cut line, a fold per theme, and a shelf of what is parked */
+.backlog-top { list-style: none; counter-reset: top; display: grid; gap: .6rem; margin: 1rem 0 1.25rem; padding: 0; max-width: none; }
+.backlog-top > li { counter-increment: top; position: relative; margin: 0; padding: .7rem .8rem .75rem 3.2rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.backlog-top > li::before { content: counter(top); position: absolute; left: .8rem; top: .7rem; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 600 var(--size-xs) var(--font-head); }
+.cutline { display: flex; align-items: center; gap: .75rem; margin: 1.5rem 0; color: var(--ink); font: 600 var(--size-s)/1.3 var(--font-head); text-align: center; }
+.cutline::before, .cutline::after { content: ""; flex: 1 1 1rem; border-top: 3px dashed var(--ink); }
+@media (max-width: 560px) { .cutline { display: block; padding-top: .5rem; border-top: 3px dashed var(--ink); } .cutline::before, .cutline::after { display: none; } }  /* on a phone the line runs the full width above the words, so it still reads as a cut */
+details.theme { margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+details.theme > summary { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .1rem .75rem; align-items: baseline; min-height: 44px; padding: .7rem 2.4rem .7rem 1rem; list-style: none; cursor: pointer; }
+details.theme > summary::-webkit-details-marker { display: none; }
+details.theme > summary::after { content: "▾"; position: absolute; right: .9rem; top: .7rem; color: var(--ink-soft); }
+details.theme[open] > summary::after { content: "▴"; }
+details.theme > summary > b { font-family: var(--font-head); font-weight: 600; }
+details.theme > summary > .count { color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+details.theme > summary > .top { grid-column: 1 / -1; color: var(--ink-soft); font-size: var(--size-s); }
+details.theme[open] > summary { border-bottom: 1px solid var(--line); }
+details.theme > ul { list-style: none; display: grid; gap: .4rem; margin: 0; padding: .8rem 1rem 1rem; max-width: none; }
+details.theme > ul > li { margin: 0; padding: .45rem .7rem; background: var(--well); border-radius: 8px; font-size: var(--size-s); }
+.parked-shelf { display: grid; gap: .6rem; margin: 1rem 0 1.5rem; }
+details.fold > .parked-shelf { margin-block: 0; }
+.parked-shelf > div { position: relative; padding: .7rem .9rem .75rem 2.8rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.parked-shelf > div::before { content: "✕"; position: absolute; left: .8rem; top: .8rem; display: grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--stop); color: var(--on-stop); font: 700 .7rem/1 var(--font-head); }
+.parked-shelf > div > b { display: block; font-family: var(--font-head); font-weight: 600; }
+.parked-shelf span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
+.parked-shelf span b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
+.runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.runbook > li { position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
+.runbook > li::before { content: counter(list-item); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.runbook > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
+.runbook > li > b { font-family: var(--font-head); font-weight: 600; }
+.runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: .55rem .8rem .55rem 2.6rem; border: 1.5px solid; border-radius: var(--r-comp); font-size: var(--size-s); max-width: none; }
+.runbook p.check { border-color: var(--go); background: var(--go-tint); }
+.runbook p.fail { border-color: var(--stop); background: var(--stop-tint); }
+.runbook :is(p.check, p.fail)::before { position: absolute; left: .75rem; top: .62rem; width: 1.15rem; height: 1.15rem; display: grid; place-items: center; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.runbook p.check::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook p.fail::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.runbook :is(p.check, p.fail) > b:first-child { font-family: var(--font-head); font-weight: 600; }
+/* a command the reader types. The template script adds the Copy button; without it the command still reads. */
+pre.cmd { display: flex; align-items: flex-start; gap: .75rem; margin: .5rem 0 .25rem; padding: .6rem .6rem .6rem 1rem; border: 1.5px solid var(--line-strong); }
+pre.cmd > code { flex: 1; min-width: 0; padding: .15rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+pre.cmd > button { flex: none; padding: .2rem .7rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+pre.cmd > button.go { border-color: var(--go); background: var(--go-tint); }
+pre.cmd > button.go::before { content: "✓ "; color: var(--go); }
+pre.cmd > button.stop { border-color: var(--stop); background: var(--stop-tint); }
+pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
+@media (max-width: 560px) {  /* a phone wraps the command instead of hiding its end, and the Copy button drops below it */
+  pre.cmd { flex-direction: column; align-items: stretch; gap: .5rem; }
+  pre.cmd > code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.cmd > button { align-self: flex-end; }
+}
+@media print { pre.cmd > button { display: none; } }
+
+/* ---------- 9e. Tour: real screenshots with numbered pins ---------- */
+.tour { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: 1.75rem; counter-reset: tour; max-width: none; }
+.tour > li { counter-increment: tour; margin: 0; }
+.shot { position: relative; margin: 0 0 .75rem; }
+.shot img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.pin { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border: 3px solid var(--card); border-radius: 50%; outline: 2px solid var(--here); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); line-height: 1; }
+@media (max-width: 560px) { .pin { width: 1.4rem; height: 1.4rem; border-width: 2px; font-size: var(--size-xs); } }  /* a phone shrinks the screenshot, so the pin shrinks with it */
+.tour > li > h3 { display: flex; gap: .6rem; align-items: center; margin: 0 0 .25rem; font-size: var(--size-1); }
+.tour > li > h3::before { content: counter(tour); flex: none; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); }
+.tour > li > p { margin: 0; }
+
+/* ---------- 9f. Promises: what the product does for a person, each with its evidence (public) ---------- */
+.promises { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: none; }
+.promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); }
+.promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
+.promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9g. Playbook: a plan for one risky change, written for one decision-maker ---------- */
+/* Every part keeps min-width: 0 and wraps long words and code, so nothing pushes a phone sideways. Meaning colours stay
+   meaning: who owns a thing is a letter (.who), never a colour. */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 2rem; }
+.hero > * { min-width: 0; }
+.hero > .thesis { width: 100%; max-width: 22rem; margin: .25rem 0 1.25rem; padding: .6rem; background: var(--well); border: 1px solid var(--line); border-radius: var(--r-comp); }
+.hero > .thesis svg { display: block; width: 100%; height: auto; }
+@media (min-width: 1100px) {  /* beside the title; on a narrower screen it sits under the meta line */
+  .hero:has(> .thesis) { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .hero > .thesis { grid-column: 2; grid-row: 1 / span 3; align-self: center; margin: 0; }
+}
+@media (max-width: 560px) { .hero > .thesis { margin: 0 0 .9rem; padding: .35rem; } }  /* tight, so the answer still opens the first screen */
+
+.chip { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.5 var(--font-head); }
+/* who owns it: a letter badge. You is solid, me is outlined, both is quiet, so the three differ without colour.
+   data-owner goes on the phase-strip or steps li that owns it; data-who goes on a role. */
+.who { flex: none; display: inline-grid; place-items: center; min-width: 1.5rem; height: 1.5rem; padding: 0 .4rem; border: 1.5px solid var(--ink-soft); border-radius: var(--r-chip); background: var(--ink-soft); color: var(--on-soft); font: 700 var(--size-xs)/1 var(--font-head); white-space: nowrap; }
+[data-owner="me"] .who, .role[data-who="me"] .who { background: var(--card); color: var(--ink); }
+[data-owner="both"] .who { background: var(--well); color: var(--ink); }
+
+/* the whole plan in one row; each segment links to its phase. A segment is a wrapping flex box: the owner badge sits beside
+   "Phase 1" when there is room and drops to its own line when there is not. */
+.phase-strip { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .5rem; max-width: none; }
+.phase-strip > li { min-width: 0; margin: 0; }
+.phase-strip a { display: flex; flex-wrap: wrap; align-content: flex-start; align-items: center; gap: .3rem .4rem; height: 100%; min-width: 0; padding: .65rem .7rem .7rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.phase-strip a:hover { border-color: var(--here); }
+.phase-strip a:hover b { text-decoration: underline; text-underline-offset: .18em; }
+.phase-strip a > * { min-width: 0; }
+.phase-strip .seg-num { order: 1; flex: 1 1 auto; color: var(--ink-soft); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.phase-strip .who { order: 2; margin-left: auto; }
+.phase-strip b { order: 3; flex: 1 1 100%; font: 600 var(--size-s)/1.25 var(--font-head); }
+.phase-strip .effort { order: 4; flex: 1 1 100%; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.3; }
+.phase-strip .bar { order: 5; flex: 1 1 100%; height: .4rem; border-radius: var(--r-chip); background: linear-gradient(var(--ink-soft), var(--ink-soft)) 0 0 / calc(var(--effort, 1) * 20%) 100% no-repeat, var(--line-strong); }
+/* the phases the audience will notice: a here border and a tinted face, and the label is written in the markup */
+.phase-strip li.notice a { border-color: var(--here); border-width: 2px; background: var(--here-tint); }
+.notice-tag { order: 6; flex: 1 1 100%; display: flex; gap: .35rem; align-items: baseline; margin-top: .1rem; font: 700 var(--size-xs)/1.25 var(--font-head); }
+.notice-tag::before { content: "●"; flex: none; color: var(--here); }
+@media (max-width: 759px) {  /* six or more segments wrap to two rows */
+  .phase-strip:has(> :nth-child(6)) { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .phase-strip:has(> :nth-child(7)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {  /* a phone shows about three segments across and wraps the rest */
+  .phase-strip, .phase-strip:has(> :nth-child(6)), .phase-strip:has(> :nth-child(7)) { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(5.75rem, 1fr)); }
+  .phase-strip a { padding: .55rem .55rem .6rem; gap: .25rem .3rem; }
+  .phase-strip .seg-num { font-size: .72rem; }
+  .phase-strip .who { min-width: 1.3rem; height: 1.3rem; padding: 0 .25rem; font-size: .7rem; }
+}
+
+/* ordered phases, numbered because the order is real */
+.phases { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: phase; max-width: none; }
+.phases > li { counter-increment: phase; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; min-width: 0; margin: 0; padding: .25rem 0 1.3rem 3.1rem; scroll-margin-top: 4.5rem; }
+.phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
+.phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
+@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .backlog-top > li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
+.phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
+.phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.phases p.impact::before { content: "○"; position: absolute; left: .85rem; top: .45rem; color: var(--ink-faint); font-weight: 700; }
+.phases p.impact b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.phases li.notice p.impact { border-style: solid; border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.phases li.notice p.impact::before { content: "●"; color: var(--here); }
+
+/* a small browser or phone mockup of what the audience sees */
+.frame { display: flex; flex-direction: column; min-width: 0; margin: 1rem 0 1.5rem; overflow: hidden; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.frame-bar { display: flex; align-items: center; gap: .6rem; padding: .45rem .65rem; background: var(--well); border-bottom: 1px solid var(--line); }
+.frame .dots { flex: none; width: .5rem; height: .5rem; margin-right: 1.6rem; border-radius: 50%; background: var(--line-strong); box-shadow: .8rem 0 0 var(--line-strong), 1.6rem 0 0 var(--line-strong); }
+.frame .url { flex: 1; min-width: 0; padding: .05rem .65rem; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--card); color: var(--ink-soft); font: var(--size-xs)/1.5 var(--font-code); text-overflow: ellipsis; white-space: nowrap; }
+.frame-screen { flex: 1; min-width: 0; display: grid; gap: .45rem; align-content: start; min-height: 8rem; padding: .8rem; background: var(--well); font-size: var(--size-xs); line-height: 1.35; }
+.frame > .take { margin: 0; border-top: 1px solid var(--line); border-left: 0; border-radius: 0; }
+.frame.phone { max-width: 13rem; margin-inline: auto; border-width: 2px; border-radius: 1.5rem; }
+.frame.phone .frame-bar { justify-content: center; padding: .6rem .7rem .4rem; background: var(--card); border-bottom: 0; }
+.frame.phone .dots { display: none; }
+.frame.phone .url { flex: 0 1 auto; max-width: 100%; }
+.frame-row { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin: 1rem 0 1.5rem; }
+.frame-row:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.frame-row > .frame { margin: 0; }
+.frame-row > .frame.phone { align-self: start; margin-inline: auto; }
+@media (max-width: 640px) { .frame-row, .frame-row:has(> :nth-child(4)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* who does what, and the rules that never bend */
+.roles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); margin: 1rem 0 1.25rem; }
+.role { min-width: 0; padding: .9rem 1.1rem 1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.role > h3 { display: flex; align-items: center; gap: .6rem; margin: 0 0 .5rem; font-size: var(--size-1); }
+.role ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.rules { list-style: none; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 0 0 1.5rem; padding: 0; max-width: none; }
+.rules li { position: relative; min-width: 0; margin: 0; padding: .7rem .9rem .75rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-left: 5px solid var(--go); border-radius: var(--r-comp); font-size: var(--size-s); }
+.rules li::before { content: "✓"; position: absolute; left: .8rem; top: .75rem; width: 1.3rem; height: 1.3rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+.rules li b { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); }
+
+/* the way back from the risky moment */
+.undo, details.fold > .undo { position: relative; margin: 1rem 0 1.5rem; padding: .85rem 1.1rem .85rem 3.7rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); max-width: none; }  /* the second selector outranks the fold's own padding */
+.undo::before { content: "↺"; position: absolute; left: 1rem; top: .8rem; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 1.15rem/1 var(--font-head); }
+.undo > b { font-family: var(--font-head); font-weight: 600; }
+
+/* risks: a level (word and glyph, never colour alone) and what keeps each one small */
+.risks { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin: 1rem 0 1.5rem; }
+.risk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: start; align-items: start; gap: .35rem .75rem; min-width: 0; padding: .85rem 1rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-top: 5px solid var(--line-strong); border-radius: var(--r-comp); }
+.risk > h3 { margin: 0; font-size: var(--size-1); }
+.risk > p { grid-column: 1 / -1; margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+.risk .level { display: inline-flex; align-items: center; gap: .4rem; padding: .05rem .7rem .05rem .35rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.6 var(--font-head); white-space: nowrap; }
+.risk .level::before { display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.risk[data-level="high"] { border-top-color: var(--stop); }
+.risk[data-level="high"] .level { border-color: var(--stop); background: var(--stop-tint); }
+.risk[data-level="high"] .level::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.risk[data-level="medium"] { border-top-color: var(--wait); }
+.risk[data-level="medium"] .level { border-color: var(--wait); background: var(--wait-tint); }
+.risk[data-level="medium"] .level::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.risk[data-level="low"] { border-top-color: var(--go); }
+.risk[data-level="low"] .level { border-color: var(--go); background: var(--go-tint); }
+.risk[data-level="low"] .level::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.risk p.kept { margin-top: .25rem; padding: .5rem .7rem; background: var(--well); border-radius: 8px; color: var(--ink); }
+.risk p.kept b { font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9h. Field guide: where things fit, what to do first, and an index to look things up in ---------- */
+/* A reference: read once to get oriented, then searched. The map's counts and bars, its key and the index's search and filter are written by
+   the script from the entries, so none can drift. Without the script a tile shows a name and a line, and every entry reads open. A relevance is
+   a word with a glyph (● now, ◐ before launch, ○ later), and the bar repeats it as solid, hatched and grey. Every colour is an existing token. */
+.territory { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 1.5rem; max-width: none; }  /* stages share the row, four across on a desktop and one by one on a phone */
+.stage { display: flex; flex: 1 1 10rem; flex-direction: column; gap: .6rem; min-width: 0; padding: .6rem; border: 2px solid transparent; border-radius: 14px; }
+.stage > h3 { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .6rem; margin: 0; color: var(--ink-soft); font: 600 var(--size-s)/1.25 var(--font-head); letter-spacing: 0; }
+/* the stage you are in: a here border and tint, and the label is drawn here like a lane's state word */
+.stage[data-here] { border-color: var(--here); background: var(--here-tint); }
+.stage[data-here] > h3 { color: var(--ink); }
+.stage[data-here] > h3::after { content: "● You are here"; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.stage[data-across] { flex-basis: 100%; border: 1.5px dashed var(--line-strong); }  /* families no stage owns */
+.family { display: block; min-width: 0; min-height: 44px; padding: .65rem .8rem .75rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.family:hover { border-color: var(--here); }
+.family b { display: block; font: 600 var(--size-0)/1.3 var(--font-head); }
+.family span { display: block; margin-top: .1rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+/* the bar and the counts are added by the script: solid is now, hatched is before launch, grey is later */
+.family .fam-bar { display: flex; height: .7rem; margin-top: .6rem; overflow: hidden; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); }
+.fam-bar i, .territory-key i { display: block; height: 100%; }
+.r-now { background: var(--here); }
+.r-next { background: repeating-linear-gradient(135deg, var(--here) 0 3px, var(--here-tint) 3px 7px); }
+.r-later { background: var(--line-strong); }
+.family .fam-counts { margin-top: .4rem; color: var(--ink); font-weight: 600; }
+.territory-key { flex: 1 1 100%; display: flex; flex-wrap: wrap; align-items: center; gap: .3rem 1.1rem; color: var(--ink); font-size: var(--size-xs); }
+.territory-key > span { display: inline-flex; align-items: center; gap: .4rem; }
+.territory-key i { flex: none; width: 1.5rem; height: .7rem; border: 1.5px solid var(--line-strong); border-radius: 4px; }
+@media (min-width: 760px) {  /* a band that spans the map reads as one row: the name and line, then the bar and its counts */
+  .stage[data-across] .family { display: grid; grid-template-columns: minmax(0, 1fr) minmax(11rem, 17rem); column-gap: 1.25rem; align-items: center; }
+  .stage[data-across] .family > :not(.fam-bar, .fam-counts) { grid-column: 1; }
+  .stage[data-across] .family .fam-bar { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .stage[data-across] .family .fam-counts { grid-column: 2; grid-row: 2; margin-top: .3rem; }
+}
+@media (max-width: 560px) {  /* on a phone a tile is two lines, so ten families fit about two screens: the name with its bar, then the counts. The line is kept for desktop. */
+  .stage { gap: .4rem; padding: .4rem .35rem; }
+  html.js .family { display: grid; grid-template-columns: minmax(0, 1fr) 4.75rem; column-gap: .75rem; align-items: center; padding: .5rem .7rem .55rem; }
+  html.js .family > span:not(.fam-bar, .fam-counts) { display: none; }
+  html.js .family .fam-bar { grid-column: 2; grid-row: 1; margin: 0; }
+  html.js .family .fam-counts { grid-column: 1 / -1; margin-top: .1rem; font-size: var(--size-xs); }
+}
+
+/* start here: at most five, in the risk colour on purpose, because a mistake in these is silent or hard to undo. The whole card is the link. */
+.start-here { list-style: none; counter-reset: start; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 1rem 0; padding: 0; max-width: none; }
+.start-here > li { counter-increment: start; position: relative; min-width: 0; margin: 0; padding: .7rem .9rem .8rem; background: var(--card); border: 1.5px solid var(--stop); border-radius: var(--r-comp); }
+.start-here > li::before { content: counter(start); position: absolute; left: .9rem; top: .7rem; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; background: var(--stop); color: var(--on-stop); font: 700 var(--size-xs)/1 var(--font-head); }
+.start-here a { color: var(--ink); text-decoration: none; }
+.start-here a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.start-here > li:hover a { text-decoration: underline; text-underline-offset: .18em; }
+.start-here a:focus-visible { outline: none; }
+.start-here > li:has(a:focus-visible) { outline: 3px solid var(--here); outline-offset: 3px; }
+.start-here b { display: flex; align-items: center; min-height: 1.6rem; padding-left: 2.2rem; font: 600 var(--size-0)/1.3 var(--font-head); }
+.start-here > li > span { display: block; margin-top: .35rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+.can-wait { max-width: none; margin: 0 0 1rem; color: var(--ink-soft); font-size: var(--size-s); }
+.can-wait b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+@media (max-width: 560px) { .start-here { gap: .5rem; } .start-here > li { padding: .6rem .8rem .7rem; } .start-here > li::before { left: .8rem; top: .6rem; } }
+
+/* the index: a toolbar the script writes (search, a filter per relevance, a status line), then families that fold, then entries that open */
+.index { margin: 1rem 0 1.5rem; max-width: none; }
+.guide-tools { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .6rem 1rem; margin: 0 0 .75rem; }
+@media (min-width: 1100px) { .guide-tools { position: sticky; top: 0; z-index: 5; padding: .6rem 0; background: var(--card); border-bottom: 1.5px solid var(--line-strong); } }  /* the rail is a sidebar here; below this it is already a sticky strip */
+.guide-search { flex: 1 1 12rem; display: flex; flex-direction: column; gap: .2rem; min-width: 0; }
+.guide-search > span { color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
+.guide-search input { width: 100%; min-height: 48px; padding: 0 .9rem; border: 2px solid var(--line-strong); border-radius: var(--r-comp); background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
+.guide-search input::placeholder { color: var(--ink-soft); opacity: 1; }
+.guide-filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+.guide-filters button { min-height: 44px; padding: 0 .9rem; border: 2px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); white-space: nowrap; }
+.guide-filters button:hover { border-color: var(--here); }
+.guide-filters button[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.guide-status { flex: 1 1 100%; margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+details.family-index { container: famrow / inline-size; margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 9rem; }  /* a jump lands below the sticky strip or the sticky toolbar */
+details.family-index > summary { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: .05rem .75rem; min-height: 44px; padding: .65rem 2.6rem .65rem 1rem; list-style: none; cursor: pointer; }
+details.family-index > summary::-webkit-details-marker { display: none; }
+details.family-index > summary::after { content: "▾"; position: absolute; right: .9rem; top: .65rem; color: var(--ink-soft); }
+details.family-index[open] > summary::after { content: "▴"; }
+details.family-index > summary h3 { margin: 0; font-size: clamp(1.05rem, 1rem + .4vw, var(--size-1)); }
+.fam-counts { color: var(--ink-soft); font: 600 var(--size-xs)/1.4 var(--font-head); }
+.fam-hidden { margin-left: auto; color: var(--ink-soft); font-size: var(--size-xs); }
+details.family-index:not([open]) .fam-hidden { display: none; }  /* a closed family shows its name and counts. What the filter hides is said once it is open, and in the status line. */
+.index h4.group { margin: 0; padding: .45rem 1rem .3rem; border-top: 1px solid var(--line); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); letter-spacing: 0; }
+.entry { position: relative; border-top: 1px solid var(--line); scroll-margin-top: 9rem; }
+.entry > .name { display: block; padding: .7rem 1rem 0; font: 600 var(--size-0)/1.3 var(--font-head); }  /* before the script runs the entry reads as plain lines */
+.entry > .def { margin: 0; padding: .1rem 1rem .4rem; max-width: none; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+html:not(.js) .entry[data-rel]::before { content: attr(data-rel); position: absolute; right: 1rem; top: .75rem; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); }
+.entry-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "name rel chev" "def def def"; align-items: center; gap: .15rem .6rem; width: 100%; min-height: 44px; padding: .7rem 1rem; border: 0; background: transparent; color: var(--ink); font: inherit; text-align: left; }
+.entry-row .name { grid-area: name; font: 600 var(--size-0)/1.3 var(--font-head); }
+.entry-row .rel { grid-area: rel; }
+.entry-row .def { grid-area: def; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+.entry-row::after { content: "▸"; grid-area: chev; color: var(--ink-soft); font-size: var(--size-s); }
+.entry-row[aria-expanded="true"]::after { content: "▾"; }
+@container famrow (min-width: 38rem) {  /* room for one line: name, definition, relevance */
+  .entry-row { grid-template-columns: minmax(8rem, 11.5rem) minmax(0, 1fr) 8.75rem 1rem; grid-template-areas: "name def rel chev"; column-gap: .9rem; }
+}
+/* the relevance word: a glyph and the label. Now is tinted and outlined, before launch is outlined, later is plain. */
+.rel { display: inline-flex; align-items: center; gap: .35rem; justify-self: start; padding: .05rem .65rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
+.rel > [aria-hidden] { color: var(--here); }
+.entry[data-rel="now"] .rel { border-color: var(--here); background: var(--here-tint); }
+.entry[data-rel="next"] .rel { border-color: var(--here); }
+.entry[data-rel="later"] .rel > [aria-hidden] { color: var(--ink-soft); }
+.entry.is-open { background: var(--here-tint); box-shadow: inset 4px 0 0 var(--here); }
+.entry.is-open .rel { background: var(--card); }
+.entry-body { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); gap: .5rem 1.25rem; align-items: start; padding: .1rem 1rem 1rem; font-size: var(--size-s); }
+.entry-body p { margin: 0; max-width: none; }
+.entry-body b { font-family: var(--font-head); font-weight: 600; }
+html.js .entry:not(.is-open) > .entry-body { display: none; }
+.copy-link { justify-self: start; min-height: 44px; padding: 0 .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); }
+.copy-link:hover { border-color: var(--here); }
+.copy-link.go { border-color: var(--go); background: var(--go-tint); }
+.copy-link.go::before { content: "✓ "; color: var(--go); }
+.copy-link.stop { border-color: var(--stop); background: var(--stop-tint); }
+.copy-link.stop::before { content: "✕ "; color: var(--stop); }
+.entry.is-out, .index h4.group.is-out { display: none; }
+.none-here { margin: 0; padding: .8rem 1rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+/* a jump lands on an entry or a family you can see: the same static outline and label a roadmap card gets */
+details.family-index.is-target { outline: 3px solid var(--here); outline-offset: 2px; }
+html:not(.js) .entry:target, .entry.is-target { outline: 3px solid var(--here); outline-offset: -3px; }
+.entry.is-target { padding-top: 1.9rem; }
+.entry.is-target::after { content: "↓ You jumped here"; position: absolute; left: 1rem; top: .45rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.entry a.jump-back { padding: 0 1rem .6rem; }
+@media print {  /* a printed guide lists every entry, open, and drops the controls */
+  .guide-tools, .copy-link, .none-here, .fam-hidden, .entry-row::after, details.family-index > summary::after { display: none !important; }
+  .entry.is-out, .index h4.group.is-out { display: block !important; }
+  html.js .entry:not(.is-open) > .entry-body { display: grid !important; }
+  .entry, .start-here > li, .family { break-inside: avoid; }
+}
+
+/* ---------- 10. Metaphor, callouts, terms, folds ---------- */
+.metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
+.metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
+.metaphor p { margin: 0; }
+.metaphor b { font-family: var(--font-head); font-weight: 600; }
+@media (max-width: 480px) { .metaphor { grid-template-columns: 1fr; } .metaphor .icon { text-align: left; } }
+
+.callout { margin: 1rem 0 1.5rem; padding: .9rem 1.1rem .9rem 1.25rem; border-left: 5px solid var(--line-strong); border-radius: 0 var(--r-comp) var(--r-comp) 0; background: var(--well); max-width: none; }
+.callout > b { font-family: var(--font-head); font-weight: 600; display: block; margin-bottom: .2rem; }
+.callout p:last-child { margin-bottom: 0; }
+.callout.tip { border-color: var(--go); background: var(--go-tint); }
+.callout.warn { border-color: var(--wait); background: var(--wait-tint); }
+.callout.stop { border-color: var(--stop); background: var(--stop-tint); }
+
+.term { display: grid; grid-template-columns: auto 1fr; gap: .25rem 1rem; align-items: baseline; margin: 1rem 0 1.5rem; padding: .8rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); max-width: none; font-size: var(--size-s); }
+.term dt { font-family: var(--font-head); font-weight: 600; }
+.term dd { margin: 0; color: var(--ink-soft); }
+@media (max-width: 480px) { .term { grid-template-columns: 1fr; } .term dd { margin-bottom: .5rem; } }
+dfn { font-style: normal; text-decoration: underline dotted var(--ink-faint); text-underline-offset: .2em; cursor: help; }
+
+details.fold { margin: 1rem 0 1.25rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+details.fold > summary { list-style: none; cursor: pointer; padding: .75rem 1rem; font-family: var(--font-head); font-weight: 600; display: flex; gap: .6rem; align-items: center; color: var(--ink-soft); }
+details.fold > summary::-webkit-details-marker { display: none; }
+details.fold > summary::before { content: "+"; flex: none; width: 1.4rem; height: 1.4rem; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--line-strong); font-size: var(--size-s); }
+details.fold[open] > summary::before { content: "−"; }
+details.fold[open] > summary { border-bottom: 1px solid var(--line); color: var(--ink); }
+details.fold > :not(summary) { padding: 0 1rem; }
+details.fold > :nth-child(2) { padding-top: 1rem; }
+details.fold > :last-child { padding-bottom: 1rem; }
+
+/* ---------- 11. Closing: recap and the ask ---------- */
+.recap { margin: 0 0 1.5rem; padding: 1.25rem 1.5rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-chapter); max-width: none; }
+.recap h2 { margin-bottom: .6rem; }
+.recap ol { margin: 0; padding-left: 1.4rem; }
+.ask { margin: 0 0 2rem; padding: 1.25rem 1.5rem; border: 2.5px solid var(--decide); border-radius: var(--r-chapter); background: var(--card); }
+.ask h2 { margin-bottom: .5rem; }
+.ask .choices { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0 .5rem; }
+.ask .choices > * { padding: .7rem 1.1rem; border-radius: var(--r-comp); border: 2px solid var(--decide); background: var(--decide-tint); color: var(--ink); font-family: var(--font-head); font-weight: 600; text-decoration: none; }
+.ask .choices > *[data-rec] { background: var(--decide); color: var(--on-decide); }
+.ask .choices > *[data-rec]::after { content: " · recommended"; font-weight: 500; opacity: .85; }
+
+/* ---------- 12. Skim mode ---------- */
+/* Components whose list or copy lives inside a div wrapper must be exempted by
+   their INNER selector, not the wrapper class: `.options` and `.split` name the
+   WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
+   mode emptied every decision card and every before/after panel. */
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.lane-note):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p):not(.can-wait),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
+body[data-skim="on"] .chapter details.fold,
+body[data-skim="on"] .chapter .term,
+body[data-skim="on"] .chapter .from { display: none; }
+/* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
+   and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
+body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
+body[data-skim="on"] .chapter .remember { display: block; }
+body[data-skim="on"] .chapter .figure { display: block; }
+
+/* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
+body[data-focus="on"] .map,
+body[data-focus="on"] .chapter:not([data-active]),
+body[data-focus="on"] .recap:not([data-active]),
+body[data-focus="on"] .ask:not([data-active]) { display: none; }
+.focus-nav { display: none; justify-content: space-between; align-items: center; gap: 1rem; margin: 0 0 2rem; }
+body[data-focus="on"] .focus-nav { display: flex; }
+.focus-nav button, .stepper-nav button { padding: .7rem 1.2rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.focus-nav button[data-next], .stepper-nav button[data-next] { background: var(--here); color: var(--on-here); }
+.focus-nav button:disabled, .stepper-nav button[aria-disabled="true"] { opacity: .4; cursor: default; }
+.focus-nav .where, .stepper-nav .where { color: var(--ink-soft); font-size: var(--size-s); }
+
+/* ---------- 12c. Gather: answer fields and the collect bar ---------- */
+.hint { margin: 0 0 .5rem; color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.answer-field { display: block; min-width: 0; margin: 1.25rem 0; padding: 1rem 1.1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); }
+.answer-field:focus-within { border-color: var(--here); }
+.answer-field > label:first-child, .answer-field > legend { display: block; width: 100%; padding: 0; margin: 0 0 .35rem; font-family: var(--font-head); font-weight: 600; }
+.answer-field > legend { float: left; }
+.answer-field > legend + * { clear: both; }
+.answer-field > label:not(:first-child) { display: flex; align-items: center; gap: .6rem; margin: .4rem 0; padding: .55rem .8rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); cursor: pointer; }
+.answer-field > label:not(:first-child):has(:checked) { border-color: var(--here); background: var(--here-tint); }
+.answer-field[data-kind="scale"] > label:not(:first-child), .answer-field[data-kind="confirm"] > label:not(:first-child) { display: inline-flex; margin-right: .5rem; }
+.answer-field input[type="radio"], .answer-field input[type="checkbox"] { flex: none; width: 1.25rem; height: 1.25rem; margin: 0; accent-color: var(--here); }
+.answer-field textarea { display: block; width: 100%; min-height: 4.5rem; margin: .5rem 0 0; padding: .65rem .8rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; line-height: 1.5; resize: vertical; }
+.answer-field ol { list-style: none; margin: .5rem 0 0; padding: 0; max-width: none; counter-reset: rank; }
+.answer-field ol > li { counter-increment: rank; display: flex; align-items: center; gap: .6rem; margin: .4rem 0; padding: .45rem .5rem .45rem .8rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.answer-field ol > li::before { content: counter(rank); flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font: 600 var(--size-xs) var(--font-head); }
+.answer-field ol > li > :first-child { flex: 1 1 7rem; min-width: 0; }
+.answer-field ol button:is([data-up], [data-down], [data-top]) { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+.answer-field ol button:is([data-up], [data-down], [data-top]):not([aria-disabled="true"]):hover { border-color: var(--here); }
+.answer-field ol button[aria-disabled="true"] { opacity: .4; cursor: default; }  /* the end of the list: the button stays focusable so the reader's place is not lost */
+/* rank and buckets: the script adds the move buttons, "This order is right" and the spoken status; a page carries only the items */
+.answer-field ol > li { flex-wrap: wrap; }
+.rank-moves { display: flex; flex: none; gap: .4rem; margin-left: auto; }  /* the three buttons wrap together: under the words on a phone, beside them when there is room */
+@media (max-width: 560px) { .answer-field ol > li { gap: .4rem .5rem; padding-left: .5rem; } }
+.rank-foot { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .9rem; margin: .6rem 0 0; }
+.rank-foot button { min-height: 44px; padding: 0 1.1rem; border: 2px solid var(--go); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.rank-foot button[aria-pressed="true"] { background: var(--go); color: var(--on-go); }
+.rank-foot button[aria-pressed="true"]::before { content: "✓ "; }
+.rank-say { flex: 1 1 10rem; margin: 0; min-height: 1.4em; color: var(--ink-soft); font-size: var(--size-xs); max-width: none; }
+/* buckets: one row of labelled buttons per item (the page's pick is preset and marked ★), then the first bucket gets an order */
+.answer-field[data-kind="buckets"] > ol > li { display: block; margin: .5rem 0; padding: .65rem .75rem .75rem; }
+.answer-field[data-kind="buckets"] > ol > li::before { content: none; }
+.answer-field[data-kind="buckets"] > ol > li > b { display: block; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.answer-field[data-kind="buckets"] > ol > li > span { display: block; margin-top: .15rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.bucket-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(2.6rem, 1fr)); gap: .4rem; margin-top: .55rem; }  /* never narrower than a 44 px target: a row that does not fit wraps, and five labels wrap 3 and 2 on a phone */
+@media (max-width: 560px) { .bucket-row[data-n="5"] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.bucket-row button { min-height: 44px; padding: .2rem; border: 2px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1.15 var(--font-head); }
+.bucket-row button:hover { border-color: var(--here); }
+.bucket-row button[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.bucket-row button[aria-pressed="true"]::before { content: "✓ "; }
+.buckets-sum { margin: .8rem 0 0; font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); max-width: none; }
+.rank-box { margin: .8rem 0 0; padding: .8rem 1rem 1rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--card); }
+.rank-box > .rank-title { margin: 0; font: 600 var(--size-0)/1.3 var(--font-head); max-width: none; }
+.rank-box > .hint { margin: .1rem 0 0; }
+.rank-box > .rank-empty { margin: .6rem 0 0; font-size: var(--size-s); max-width: none; }
+/* the recommended option wears a ★ chip with the attribute's own words ("Recommended", "My pick"); the star is the only glyph CSS writes */
+.answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
+.collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
+.collect .respondent { flex: 1 1 8rem; min-width: 0; padding: .45rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
+.collect .count { color: var(--ink-soft); font-size: var(--size-s); white-space: nowrap; }
+.collect button { padding: .5rem .9rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); }
+.collect button[data-copy] { background: var(--here); color: var(--on-here); }
+.collect button.go::after { content: " ✓"; }
+.collect button.stop::after { content: " ✕"; }
+@media (max-width: 560px) { .collect { gap: .4rem; padding: .5rem; } .collect .count, .collect button { font-size: var(--size-xs); } .collect button { flex: 1 1 5.5rem; align-self: stretch; min-width: 0; padding: .4rem .35rem; } }
+
+/* ---------- 12d. Reader features: stepper, views, mini-map, resume, keys, finish, ruler, text size ---------- */
+html:not(.js) :is(.rail .tools, .stepper-nav, .views-tabs, .minimap, .read-aloud) { display: none; }
+html:not(.js) .view[hidden] { display: block !important; }
+html:not(.js) .stepper [data-step-text] { display: block; }
+html:not(.js) .stepper [data-step-text]::before { content: attr(data-step-text) ". "; font-weight: 700; }
+.stepper .is-dim, .minimap .is-dim { opacity: .35; }
+@media (prefers-reduced-motion: no-preference) { .stepper svg [data-steps] { transition: opacity .25s; } }
+.stepper-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: .75rem 0 0; }
+.stepper-nav button { padding: .5rem 1rem; font-size: var(--size-s); }
+
+.views { margin: 1rem 0 1.5rem; max-width: none; }
+.views-tabs { display: flex; flex-wrap: wrap; gap: .25rem; border-bottom: 2px solid var(--line); }
+.views-tabs [role="tab"] { margin-bottom: -2px; padding: .55rem 1rem; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--ink-soft); font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); }
+.views-tabs [aria-selected="true"] { border-bottom-color: var(--here); color: var(--ink); }
+.view { padding: 1rem 0 0; }
+.view > :last-child { margin-bottom: 0; }
+
+.minimap { margin: 0 0 1.25rem; max-width: none; }
+.minimap svg { display: block; width: 100%; max-height: 140px; }
+.minimap .is-lit .d-box { fill: var(--here-tint); stroke: var(--here); stroke-width: 2.5; }
+
+.resume { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); font-size: var(--size-s); }
+.resume b { font-family: var(--font-head); font-weight: 600; }
+.resume button { padding: .3rem .85rem; border: 2px solid var(--here); border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font-weight: 700; font-size: var(--size-xs); }
+.resume button[data-resume-dismiss] { margin-left: auto; padding: .1rem .55rem; border-color: transparent; background: none; color: var(--ink-soft); font-size: var(--size-0); }
+
+kbd { padding: .05em .5em; border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 5px; background: var(--well); }
+dialog.keys { width: min(92vw, 26rem); padding: 1.25rem 1.5rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); background: var(--card); color: var(--ink); }
+dialog.keys::backdrop { background: rgba(14, 21, 28, .55); }
+dialog.keys h2 { margin: 0 0 .75rem; font-size: var(--size-1); }
+dialog.keys dl { display: grid; grid-template-columns: auto 1fr; gap: .45rem 1rem; align-items: baseline; margin: 0 0 1rem; }
+dialog.keys dt, dialog.keys dd { margin: 0; }
+dialog.keys dd { color: var(--ink-soft); }
+dialog.keys form button { padding: .5rem 1.1rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+
+.finished { display: none; align-items: center; gap: .4rem; margin: 0 0 .75rem; padding: .2rem .8rem; border: 1.5px solid var(--go); border-radius: var(--r-chip); background: var(--go-tint); font: 600 var(--size-xs) var(--font-head); }
+.finished::before { content: "✓"; color: var(--go); }
+body[data-finished="on"] .finished { display: inline-flex; }
+
+/* reading ruler: inside the chapter under the pointer or focus, only that block keeps full strength */
+body[data-ruler="on"] .chapter:is(:hover, :has(:is(p, li, figure, .flow, .status, .split, .decision):focus-within)) :is(p, li, figure, .flow, .status, .split, .decision):not(:is(.flow, .status, .split, .decision, header) *, :hover, :focus-within) { opacity: .45; }
+@media (prefers-reduced-motion: no-preference) { body[data-ruler="on"] .chapter :is(p, li, figure, .flow, .status, .split, .decision) { transition: opacity .15s; } }
+
+html[data-size="lg"] { font-size: 20px; }
+html[data-size="xl"] { font-size: 22px; }
+html[data-size="lg"] button[data-size]::after { content: " +"; }
+html[data-size="xl"] button[data-size]::after { content: " ++"; }
+
+/* ---------- 12e. Ballot: pictured decision cards, the picks tray, the copy fallback ---------- */
+/* A gather mode for one reader who hands decisions back (<html data-type="gather" data-mode="ballot">). No rail and no
+   chapters: a column of cards, and a tray pinned to the bottom of the screen from the first paint. An option is a picture
+   in .vis, built from plain HTML and CSS or an <img>, or a text option: a bold label and one .detail line, with no .vis, for
+   a ruling that has nothing to draw. .vis sits inside a <button>, so it holds spans, svg and img only. The .mock-* parts
+   below are a small kit for drawing those pictures. */
+html[data-mode="ballot"] .page { display: block; width: min(100% - 2rem, 62rem); padding-bottom: 14rem; }
+html:not(.js) .ballot-tray { display: none; }
+.ballot-source { margin: -.25rem 0 .9rem; color: var(--ink-soft); font-size: var(--size-xs); max-width: none; }  /* "Rules on: <plan>, <date>, <commit>", under the title */
+
+.ballot-steps { list-style: none; counter-reset: bstep; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 2rem; padding: 0; max-width: none; }
+.ballot-steps > li { counter-increment: bstep; display: flex; gap: .7rem; align-items: flex-start; min-width: 0; margin: 0; padding: .8rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); }
+.ballot-steps > li::before { content: counter(bstep); flex: none; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 600 var(--size-xs) var(--font-head); }
+.ballot-steps > li:last-child { border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.ballot-steps b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.ballot-keycap { display: inline-block; padding: .1rem .8rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font: 600 var(--size-s) var(--font-head); white-space: nowrap; }  /* looks like the tray's Copy picks button */
+
+.ballot-group { margin: 0 0 2.5rem; }
+.ballot-group > h2 { margin: 0 0 .25rem; }
+.ballot-group > h2 + p { margin: 0 0 1.25rem; padding-bottom: .75rem; border-bottom: 1.5px solid var(--line-strong); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+
+.ballot-card { margin: 0 0 1.5rem; padding: 1.25rem clamp(.9rem, 2.5vw, 1.5rem) 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-chapter); scroll-margin-top: 1rem; }
+.ballot-card.picked { border-color: var(--line-strong); }
+.ballot-card.flash, .ballot-card:target { border-color: var(--here); box-shadow: 0 0 0 3px var(--here-tint), 0 0 0 5px var(--here); }
+.ballot-card > header { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "num title state" ". why why"; gap: .2rem .8rem; align-items: start; margin: 0 0 1.25rem; }
+.ballot-card .num { grid-area: num; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 var(--size-s)/1 var(--font-head); font-variant-numeric: tabular-nums; }
+.ballot-card.picked .num { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.ballot-card > header h3 { grid-area: title; align-self: center; margin: 0; font-size: var(--size-1); line-height: 1.25; }
+.ballot-card .why { grid-area: why; margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+.ballot-card .state { grid-area: state; align-self: center; justify-self: end; display: inline-flex; align-items: center; gap: .35rem; min-height: 1.75rem; padding: 0 .75rem; border: 1.5px dashed var(--decide); border-radius: var(--r-chip); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+.ballot-card .state::before { content: "?"; color: var(--decide); }
+.ballot-card.picked .state { border-style: solid; border-color: var(--here); background: var(--here); color: var(--on-here); }
+.ballot-card.picked .state::before { content: "✓"; color: inherit; }
+.ballot-card p.skip { position: static; left: auto; top: auto; z-index: auto; margin: 1.1rem 0 0; padding: .7rem 0 0; border-top: 1px solid var(--line); border-radius: 0; background: none; color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.ballot-card p.skip b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+
+/* the options: a grid whose rows (picture, name, effect) line up across the options of one card */
+.ballot-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem .85rem; }
+.ballot-opt { position: relative; display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: .6rem; width: 100%; min-width: 0; margin: 0; padding: .7rem .7rem .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.ballot-card[data-kind="multi"] .ballot-opt { grid-row: span 4; }
+/* A text option has no .vis: its rows are the label and the detail line (and the toggle on a multi card). A consequence chip is
+   one more row, and every option of a card with a chip keeps that row, so the rows still line up. */
+.ballot-opt:not(:has(.vis)) { grid-row: span 2; padding: .9rem .9rem 1rem; }
+.ballot-card[data-kind="multi"] .ballot-opt:not(:has(.vis)) { grid-row: span 3; }
+.ballot-opts:has(> [data-warn]) .ballot-opt { grid-row: span 4; }
+.ballot-opts:has(> [data-warn]) .ballot-opt:not(:has(.vis)) { grid-row: span 3; }
+.ballot-card[data-kind="multi"] .ballot-opts:has(> [data-warn]) .ballot-opt { grid-row: span 5; }
+.ballot-card[data-kind="multi"] .ballot-opts:has(> [data-warn]) .ballot-opt:not(:has(.vis)) { grid-row: span 4; }
+@supports not (grid-template-rows: subgrid) { .ballot-opt { display: flex; flex-direction: column; gap: .6rem; } }
+.ballot-opt:hover { border-color: var(--here); }
+.ballot-opt:focus-visible { border-radius: var(--r-comp); }
+.ballot-opt[aria-checked="true"], .ballot-opt.on { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
+/* the picked mark hangs from the top right corner. It is drawn on .name (which is not positioned, so the corner is the option's) to leave ::after free for the consequence chip */
+.ballot-opt[aria-checked="true"] .name::after, .ballot-opt.on .name::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
+.ballot-opt[data-warn]::after { content: "⚠ " attr(data-warn); align-self: end; justify-self: start; max-width: 100%; padding: .1rem .65rem; border-radius: var(--r-comp); background: var(--wait); color: var(--on-wait); font: 600 var(--size-xs)/1.4 var(--font-head); }  /* a consequence chip: the cost in words, amber, with a ⚠, so it never leans on colour alone; the last row of its option, under the toggle on a multi card */
+.ballot-opt[data-rec]::before { content: "★ " attr(data-rec); position: absolute; top: -.8rem; left: .8rem; z-index: 1; padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs) var(--font-head); }
+.ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] { border-color: var(--line); }
+.ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] .vis { opacity: .6; }  /* a faded picture; the words stay at full contrast */
+.ballot-opt .vis { display: block; min-height: 6.5rem; padding: .7rem; background: var(--well); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); font-size: var(--size-xs); line-height: 1.35; overflow: hidden; overflow-wrap: break-word; }
+.ballot-opt .vis img { display: block; width: 100%; height: auto; border-radius: 6px; }
+.ballot-opt .name { display: flex; align-items: flex-start; gap: .5rem; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.ballot-opt .name b { flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 1.5px solid var(--line-strong); border-radius: 50%; font-size: var(--size-xs); }
+.ballot-opt[aria-checked="true"] .name b, .ballot-opt.on .name b { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.ballot-opt .effect, .ballot-opt .detail { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }  /* .detail is the one plain line of a text option */
+
+/* multi-select: each option has its own toggle, plus one "none" button for the card */
+.ballot-ship { display: flex; align-items: center; justify-content: center; gap: .5rem; align-self: end; width: 100%; min-height: 44px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.ballot-ship::before { content: ""; display: grid; place-items: center; width: 1.15rem; height: 1.15rem; border: 2px solid currentColor; border-radius: 5px; font-size: .8rem; line-height: 1; }
+.ballot-ship[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.ballot-ship[aria-pressed="true"]::before { content: "✓"; }
+.ballot-none { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem; margin-top: 1.1rem; }
+.ballot-none .hint { margin: 0; }
+.ballot-none button { min-height: 44px; padding: 0 1.2rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-chip); background: none; color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.ballot-none button[aria-pressed="true"] { border-style: solid; border-color: var(--here); background: var(--here-tint); }
+.ballot-none button[aria-pressed="true"]::before { content: "✓ "; color: var(--here); }
+
+/* already decided: reference only, nothing to pick */
+.ballot-dones { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .75rem; }
+.ballot-done { padding: .9rem 1.1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.ballot-done h3 { display: flex; gap: .5rem; align-items: baseline; margin: 0 0 .25rem; font-size: var(--size-0); }
+.ballot-done h3::before { content: "✓"; flex: none; color: var(--go); }
+.ballot-done p { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+
+/* the tray: tally, jump dots, the one primary button, a live status line, the save label, the copy fallback */
+.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: min(100% - 1.5rem, 62rem); max-height: calc(100vh - 1.5rem); max-height: calc(100dvh - 1.5rem); overflow-y: auto; overscroll-behavior: contain; margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
+.ballot-tray[data-complete] { border-color: var(--go); }
+.ballot-bar { display: flex; align-items: center; gap: .25rem 1rem; }
+.ballot-tally { flex: none; margin: 0; font: 600 var(--size-1)/1.1 var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; max-width: none; }
+.ballot-tray[data-complete] .ballot-tally::before { content: "✓ "; color: var(--go); }
+.ballot-pips { flex: 1 1 auto; display: flex; gap: .1rem; min-width: 0; margin: 0; padding: 0; list-style: none; overflow-x: auto; scrollbar-width: none; max-width: none; }
+.ballot-pips li { flex: none; margin: 0; }
+.ballot-pip { position: relative; display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink-soft); font: 600 var(--size-s) var(--font-head); font-variant-numeric: tabular-nums; text-decoration: none; }
+.ballot-pip > span { position: relative; }
+.ballot-pip::before { content: ""; position: absolute; inset: 5px; border: 1.5px dashed var(--line-strong); border-radius: 50%; }
+.ballot-pip.on { color: var(--on-here); }
+.ballot-pip.on::before { border-style: solid; border-color: var(--here); background: var(--here); }
+.ballot-pip:hover::before { border-color: var(--here); }
+.ballot-pip:focus-visible { border-radius: 50%; }
+.ballot-actions { flex: none; margin-left: auto; }
+.ballot-tray button[data-copy] { min-height: 44px; padding: 0 1.3rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--here); color: var(--on-here); font: 600 var(--size-0) var(--font-head); }
+.ballot-tray button[data-copy].copied::before { content: "✓"; margin-right: .4em; }
+.ballot-meta { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-status { flex: 1 1 16rem; min-width: 0; min-height: 1.4em; margin: 0; max-width: none; }
+.ballot-save { display: inline-flex; align-items: center; gap: .4rem; }
+.ballot-save::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: var(--wait); }
+.ballot-save[data-state="db"]::before, .ballot-save[data-state="local"]::before { background: var(--go); }
+.ballot-tray button[data-json] { padding: .3rem .5rem; border: 0; background: none; color: var(--here); font: 600 var(--size-xs) var(--font-head); text-decoration: underline; text-underline-offset: .18em; }
+.ballot-fallback { display: grid; gap: .4rem; padding-top: .5rem; border-top: 1px solid var(--line); }
+.ballot-fallback label { color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-fallback textarea { width: 100%; min-height: 6rem; max-height: 28vh; padding: .6rem .75rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: var(--size-xs)/1.5 var(--font-code); resize: vertical; }
+.ballot-fallback button { justify-self: start; min-height: 36px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+/* Pick all ★ on the left, Review picks on the right, one line. The button is out of flow so opening the review does not move it.
+   Where the tray is too narrow for both (a 320 px phone, or the gallery's still), the two buttons stack. */
+.ballot-tray { container-type: inline-size; }
+.ballot-tools { position: relative; min-height: 44px; }
+.ballot-tray button[data-pick-rec] { position: absolute; top: 0; left: 0; z-index: 1; min-height: 44px; padding: 0 1.1rem; border: 2px solid var(--go); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); white-space: nowrap; }
+.ballot-tray button[data-pick-rec]:hover { background: var(--go-tint); }
+.ballot-review > summary { list-style: none; display: flex; align-items: center; gap: .45rem; width: fit-content; min-height: 44px; margin-left: auto; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); cursor: pointer; }
+.ballot-review > summary::-webkit-details-marker { display: none; }
+.ballot-review > summary::after { content: "▾"; }
+.ballot-review[open] > summary::after { content: "▴"; }
+.ballot-rows { list-style: none; margin: .4rem 0 0; padding: 0; max-width: none; max-height: min(34vh, 14rem); overflow-y: auto; border-top: 1px solid var(--line); }
+.ballot-rows li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .6rem; margin: 0; padding: .4rem 0; border-bottom: 1px solid var(--line); font-size: var(--size-s); line-height: 1.35; }
+.ballot-rows .n { flex: none; width: 1.4rem; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); font-variant-numeric: tabular-nums; }
+.ballot-rows .q { flex: 1 1 8rem; min-width: 0; color: var(--ink-soft); }
+.ballot-rows .a { flex: 1 1 8rem; min-width: 0; font-family: var(--font-head); font-weight: 600; }
+.ballot-rows li.skipped .a { color: var(--ink-soft); font-weight: 500; }
+.ballot-note { display: grid; gap: .2rem; margin-top: .5rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-note input { width: 100%; min-height: 40px; padding: .4rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
+@container (max-width: 16rem) {
+  .ballot-tools { display: flex; flex-wrap: wrap; align-items: flex-start; gap: .3rem .6rem; min-height: 0; }
+  .ballot-tray button[data-pick-rec] { position: static; }
+  .ballot-review { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .ballot-opt, .ballot-card, .ballot-pip::before { transition: border-color .15s, box-shadow .15s, background-color .15s; }
+  .ballot-tray.nudge { animation: ballot-nudge .4s; }
+}
+@keyframes ballot-nudge { 40% { transform: translateY(-5px); } }
+@media (max-width: 760px) {
+  .ballot-steps { grid-template-columns: minmax(0, 1fr); gap: .4rem; margin-bottom: 1.5rem; }
+  .ballot-steps > li { padding: .5rem .8rem; }
+  .ballot-card > header { grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "num title" ". state" ". why"; }
+  .ballot-card .state { justify-self: start; }
+}
+@media (max-width: 560px) {  /* two options stay side by side, three or more stack; the tray keeps tally and button on one line, the dots on the next */
+  html[data-mode="ballot"] .page { padding-bottom: 15rem; }
+  .ballot-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .6rem; }
+  .ballot-opts:has(> :nth-child(3)), .ballot-opts:not(:has(.vis)) { grid-template-columns: minmax(0, 1fr); }  /* text options always stack */
+  .ballot-opts:not(:has(> :nth-child(3))):has(.vis) .ballot-opt[data-rec]::before { content: "★"; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; }  /* side by side there is no room for the word; the answer line explains the star */
+  .ballot-opt { padding: .5rem .5rem .7rem; }
+  .ballot-opt .vis { min-height: 5.5rem; padding: .5rem; }
+  .ballot-tray { padding: .45rem .6rem .35rem; }
+  .ballot-bar { flex-wrap: wrap; }
+  .ballot-pips { order: 3; flex-basis: 100%; }
+  .ballot-tally { font-size: var(--size-0); }
+}
+@media print { .ballot-tray { display: none !important; } .ballot-card { break-inside: avoid; } }
+
+/* the picture kit: small parts for drawing a mockup inside .vis (spans only; .vis lives in a button) */
+.mock-win { display: block; padding: .5rem .6rem; background: var(--card); border: 1px solid var(--line); border-radius: 6px; }
+.mock-title { display: block; color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+.mock-line { display: block; height: .4rem; margin: .35rem 0; border-radius: var(--r-chip); background: var(--line-strong); }
+.mock-row { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem .4rem; min-height: 1.7rem; border-bottom: 1px solid var(--line); }
+.mock-row:last-child { border-bottom: 0; }
+.mock-row > :first-child { flex: 1 1 auto; min-width: 0; }
+.mock-btn, .mock-chip, .mock-pill, .mock-toast { white-space: nowrap; }
+.mock-btn { display: inline-block; margin-top: .45rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.mock-btn.quiet { margin: 0; background: none; border: 1px solid var(--line-strong); color: var(--ink); }
+.mock-chip { display: inline-block; margin: .3rem .25rem 0 0; padding: 0 .55rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); }
+.mock-pill { display: inline-block; max-width: 100%; margin-top: .45rem; overflow: hidden; text-overflow: ellipsis; padding: 0 .6rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font: 600 var(--size-xs) var(--font-head); }
+.mock-pill.go { border-color: var(--go); background: var(--go-tint); }
+.mock-pill.go::before { content: "✓ "; color: var(--go); }
+.mock-pill.wait { border-color: var(--wait); background: var(--wait-tint); }
+.mock-pill.wait::before { content: "! "; color: var(--wait); }
+.mock-toast { display: inline-flex; gap: .6rem; margin-top: .45rem; padding: .1rem .65rem; border-radius: 6px; background: var(--ink); color: var(--paper); }
+.mock-toast b { text-decoration: underline; }
+.mock-caret { display: inline-block; width: 2px; height: 1em; margin-left: 1px; vertical-align: text-bottom; background: var(--here); }
+.mock-note { display: block; margin-top: .35rem; color: var(--ink-soft); }
+.ballot-still { pointer-events: none; }
+.ballot-still .ballot-card { margin-bottom: .75rem; }
+.ballot-still .ballot-tray { position: static; width: auto; margin: 0; box-shadow: none; }
+
+/* ---------- 13. Print ---------- */
+@media print {
+  :root { --paper: #fff; --card: #fff; }
+  html, html[data-size] { font-size: 11pt; }
+  .page { display: block; width: auto; padding: 0; }
+  .rail, .progress, .skip, .chapter > header label, .read-aloud, .collect, .resume, .stepper-nav, .views-tabs { display: none !important; }
+  .chapter { break-inside: avoid; border-color: #bbb; box-shadow: none; }
+  details.fold { break-inside: avoid; }
+  details.fold[open] > summary::before, details.fold > summary::before { display: none; }
+  a { color: inherit; text-decoration: none; }
+  .figure, .answer-field, .frame, .risk, .role, .undo { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"></div>
+
+<div class="page">
+  <nav class="rail" aria-label="Chapters">
+    <ol>
+      <li><a href="#map"><span class="dot"></span>Where things fit</a></li>
+      <li><a href="#first"><span class="dot"></span>Start here</a></li>
+      <li><a href="#lookup"><span class="dot"></span>Look something up</a></li>
+      <li><a href="#recap"><span class="dot"></span>Recap</a></li>
+    </ol>
+    <div class="tools">
+      <button type="button" data-skim aria-pressed="false">Skim mode</button>
+      <button type="button" data-focus aria-pressed="false">One chapter at a time</button>
+      <button type="button" data-ruler aria-pressed="false">Reading ruler</button>
+      <button type="button" data-size>Text size</button>
+      <button type="button" data-theme-toggle>Dark / light</button>
+      <button type="button" data-keys>Keys</button>
+    </div>
+  </nav>
+
+  <main id="main">
+    <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
+    <p class="kicker">A field guide: read once, then look things up</p>
+    <h1>Field guide for a small notes app</h1>
+    <div class="meta"><span>Skim in about 2 minutes, look things up anytime</span><span>Written 2026-10-14</span><span>For: a builder with one small app</span></div>
+
+    <p class="answer">Building a notes app draws on 30 fields in six families. For a small team, 16 matter now and 14 can wait.</p>
+
+    <div class="keep">
+      <strong>Keep in your head (only these)</strong>
+      <ol>
+        <li>Design decides it, engineers build it, shipping runs it.</li>
+        <li>Four fields fail quietly, so they come first.</li>
+        <li>Every other field is one search away.</li>
+      </ol>
+    </div>
+
+    <!-- ============ 1 ============ -->
+    <section class="chapter" id="map" data-keep="Design decides, engineers build, shipping runs">
+      <header>
+        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>Where does everything fit?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+      <p>Work moves from left to right. Each family hands its work to the next. The bar under each family shows how much of it matters now.</p>
+      <div class="territory">
+        <div class="stage">
+          <h3>Decide</h3>
+          <a class="family" href="#fam-design"><b>Product and design</b><span>Decide what it is and how it feels</span></a>
+        </div>
+        <div class="stage" data-here>
+          <h3>Build</h3>
+          <a class="family" href="#fam-frontend"><b>Frontend engineering</b><span>Build what runs in the browser</span></a>
+          <a class="family" href="#fam-backend"><b>Backend and data</b><span>Build what runs on the server</span></a>
+        </div>
+        <div class="stage">
+          <h3>Protect and prove</h3>
+          <a class="family" href="#fam-security"><b>Security and privacy</b><span>Keep notes safe and private</span></a>
+        </div>
+        <div class="stage">
+          <h3>Ship and run</h3>
+          <a class="family" href="#fam-ship"><b>Shipping and running</b><span>Release it, watch it, recover it</span></a>
+        </div>
+        <div class="stage" data-across>
+          <h3>Owed by every family</h3>
+          <a class="family" href="#fam-quality"><b>Qualities everyone owes</b><span>Duties that no single family owns</span></a>
+        </div>
+      </div>
+      <p class="take"><b>Take from this:</b> the notes app sits in Build. Most of Ship and run can wait, except backups.</p>
+      <p class="remember"><b>Remember:</b> design decides it, engineers build it, and shipping runs it.</p>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="chapter" id="first" data-keep="Four fields fail quietly, so they come first">
+      <header>
+        <div><p class="kicker">Chapter 2 of 3, about 1 minute</p><h2>Which four cannot wait?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+      <p class="from"><b>Before this:</b> design decides it, engineers build it, and shipping runs it.</p>
+      <p>For one builder, a mistake in these four is silent and hard to undo. Tap one to read its entry.</p>
+      <ol class="start-here">
+        <li><a href="#e-backups"><b>Backups and recovery</b></a><span>One lost database erases every note. Test a restore before launch.</span></li>
+        <li><a href="#e-access"><b>Access control</b></a><span>One wrong rule shows a stranger your notes, and nobody sees it happen.</span></li>
+        <li><a href="#e-privacy"><b>Privacy by design</b></a><span>Notes are personal. Keeping less data is the cheapest protection.</span></li>
+        <li><a href="#e-modelling"><b>Data modelling</b></a><span>A wrong shape is slow and costly to change once people have notes.</span></li>
+      </ol>
+      <p class="can-wait"><b>Can wait:</b> localization, cost tuning and error tracking. They pay off once real people use the app.</p>
+      <p class="take"><b>Take from this:</b> the fields that fail quietly and cost the most come first.</p>
+      <p class="remember"><b>Remember:</b> fields that fail quietly and cost the most come first.</p>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="chapter" id="lookup" data-keep="Search by name, definition or example">
+      <header>
+        <div><p class="kicker">Chapter 3 of 3, about 1 minute</p><h2>Look something up</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+      <p class="from"><b>Before this:</b> fields that fail quietly and cost the most come first.</p>
+      <p>Search by name, definition or example. The filter starts on Now and always says how many entries it hides.</p>
+      <div class="index" data-rel-labels="Now|Before launch|Later">
+        <div class="guide-tools"></div>
+        <details class="family-index" id="fam-design">
+          <summary><h3>Product and design</h3></summary>
+          <h4 class="group">Understand</h4>
+          <div class="entry" id="e-research" data-rel="now">
+            <b class="name">User research</b>
+            <p class="def">Talking to real people to learn what they need, before and after building.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Five short calls with students showed that finding old notes is the main pain.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-strategy" data-rel="now">
+            <b class="name">Product strategy</b>
+            <p class="def">Choosing what to build, for whom, and what to leave out.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app is for people who keep personal notes, not for teams.</p>
+            </div>
+          </div>
+          <h4 class="group">Shape</h4>
+          <div class="entry" id="e-architecture" data-rel="now">
+            <b class="name">Information architecture</b>
+            <p class="def">How things are named, grouped and found.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Notes live in notebooks, and tags cut across notebooks.</p>
+              <p class="see"><b>See also:</b> <a href="#e-search">Search</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-interaction" data-rel="now">
+            <b class="name">Interaction design</b>
+            <p class="def">How a screen behaves when someone taps, types or makes a mistake.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Deleting a note shows an undo bar for ten seconds.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-content" data-rel="next">
+            <b class="name">Content design</b>
+            <p class="def">The words on screen: labels, messages and tone.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Error messages say what happened and what to do next.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-frontend" open>
+          <summary><h3>Frontend engineering</h3></summary>
+          <h4 class="group">Shape</h4>
+          <div class="entry" id="e-ui" data-rel="now">
+            <b class="name">UI architecture</b>
+            <p class="def">How the interface is split into parts that can be reused and changed safely.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The editor, the note list and the sidebar are separate components.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-state" data-rel="now">
+            <b class="name">State management</b>
+            <p class="def">Deciding where data lives on screen and keeping every view in step.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Renaming a note updates the list and the open editor at once.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-fetching" data-rel="now">
+            <b class="name">Data fetching</b>
+            <p class="def">How the browser asks the server for data and keeps answers for reuse.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The note list loads first, and the full text loads when a note opens.</p>
+              <p class="see"><b>See also:</b> <a href="#e-api">API design</a></p>
+            </div>
+          </div>
+          <h4 class="group">Quality of the client</h4>
+          <div class="entry" id="e-frontend-perf" data-rel="next">
+            <b class="name">Frontend performance</b>
+            <p class="def">How fast a page loads and how smooth it feels to use.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The editor loads after the list, so the first screen appears sooner.</p>
+              <p class="see"><b>See also:</b> <a href="#e-performance">Performance</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-frontend-tests" data-rel="next">
+            <b class="name">Frontend testing</b>
+            <p class="def">Automated checks that the screens work the way people expect.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> One test opens a note, edits it and checks that the change shows.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-backend">
+          <summary><h3>Backend and data</h3></summary>
+          <div class="entry" id="e-api" data-rel="now">
+            <b class="name">API design</b>
+            <p class="def">The agreed way the browser and the server talk to each other.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every request to change a note carries the note’s version number.</p>
+              <p class="see"><b>See also:</b> <a href="#e-fetching">Data fetching</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-modelling" data-rel="now">
+            <b class="name">Data modelling</b>
+            <p class="def">How information is shaped and stored so that it stays correct.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A note belongs to one notebook and can have many tags.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-sync" data-rel="later">
+            <b class="name">Sync and conflicts</b>
+            <p class="def">Keeping copies on two devices the same, and deciding what happens when they disagree.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> If a phone and a laptop edit one note, the app keeps both versions.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-jobs" data-rel="next">
+            <b class="name">Background jobs</b>
+            <p class="def">Work the server does later, such as sending email or cleaning up.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A nightly job removes notes that have been in the bin for 30 days.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-search" data-rel="next">
+            <b class="name">Search</b>
+            <p class="def">Finding words inside large amounts of text quickly.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Search covers titles and note text, and ignores capital letters.</p>
+              <p class="see"><b>See also:</b> <a href="#e-architecture">Information architecture</a></p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-security">
+          <summary><h3>Security and privacy</h3></summary>
+          <div class="entry" id="e-signin" data-rel="now">
+            <b class="name">Sign-in</b>
+            <p class="def">Proving who someone is, with passwords, codes or passkeys.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> People sign in with an email link, so there is no password to forget.</p>
+              <p class="see"><b>See also:</b> <a href="#e-access">Access control</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-access" data-rel="now">
+            <b class="name">Access control</b>
+            <p class="def">Deciding who may see or change each thing.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A shared notebook lets a guest read a note but not delete it.</p>
+              <p class="see"><b>See also:</b> <a href="#e-signin">Sign-in</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-encryption" data-rel="next">
+            <b class="name">Encryption</b>
+            <p class="def">Scrambling data so that only the right people can read it.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Notes are encrypted on the server, and the keys are kept somewhere else.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-privacy" data-rel="now">
+            <b class="name">Privacy by design</b>
+            <p class="def">Collecting as little personal data as possible and being clear about it.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app stores an email address and nothing else about a person.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-dependencies" data-rel="next">
+            <b class="name">Dependency hygiene</b>
+            <p class="def">Keeping the libraries the app relies on current and trusted.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A weekly check lists outdated libraries and known security problems.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-ship">
+          <summary><h3>Shipping and running</h3></summary>
+          <div class="entry" id="e-builds" data-rel="now">
+            <b class="name">Automated builds</b>
+            <p class="def">A script that tests and packages every change, so releases are repeatable.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every change to the main branch runs the tests and builds the app.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-hosting" data-rel="next">
+            <b class="name">Hosting</b>
+            <p class="def">The computers and network that serve the app to people.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> One small server and one database serve the whole app.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-backups" data-rel="now">
+            <b class="name">Backups and recovery</b>
+            <p class="def">Copies of data kept apart from the original, and the practice of restoring them.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A copy of the database is saved every night, and nobody has tried a restore yet.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-monitoring" data-rel="next">
+            <b class="name">Monitoring and alerts</b>
+            <p class="def">Watching the app while it runs and being told when it breaks.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Nothing watches the app yet, so the builder hears about problems from users.</p>
+              <p class="see"><b>See also:</b> <a href="#e-errors">Error tracking</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-errors" data-rel="later">
+            <b class="name">Error tracking</b>
+            <p class="def">Capturing the errors people hit, grouped so that the most common come first.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Failed saves are logged with the note text removed.</p>
+              <p class="see"><b>See also:</b> <a href="#e-monitoring">Monitoring and alerts</a></p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-quality">
+          <summary><h3>Qualities everyone owes</h3></summary>
+          <div class="entry" id="e-accessibility" data-rel="now">
+            <b class="name">Accessibility</b>
+            <p class="def">Making the app usable by everyone, including people who use a keyboard or a screen reader.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every button can be reached with the keyboard, and text meets contrast rules.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-performance" data-rel="next">
+            <b class="name">Performance</b>
+            <p class="def">How fast the whole experience feels, from tap to result.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Opening a note should take under half a second on a phone.</p>
+              <p class="see"><b>See also:</b> <a href="#e-frontend-perf">Frontend performance</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-docs" data-rel="now">
+            <b class="name">Documentation</b>
+            <p class="def">Written notes on how the app works and why choices were made.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A short file explains how to run the app and where the data lives.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-cost" data-rel="later">
+            <b class="name">Cost</b>
+            <p class="def">What the app costs to run, and how that grows with use.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Hosting costs about ten dollars a month for the first thousand people.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-localization" data-rel="later">
+            <b class="name">Localization</b>
+            <p class="def">Supporting other languages, date formats and reading directions.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app is English only for now, with all text kept in one file.</p>
+            </div>
+          </div>
+        </details>
+      </div>
+      <p class="take"><b>Take from this:</b> every field is one search away, and each entry says where it shows up in the app.</p>
+      <p class="remember"><b>Remember:</b> any field is one search away.</p>
+    </section>
+
+    <section class="recap" id="recap">
+      <h2>Recap</h2>
+      <ol>
+        <li>Design decides it, engineers build it, and shipping runs it.</li>
+        <li>Fields that fail quietly and cost the most come first.</li>
+        <li>Any field is one search away.</li>
+      </ol>
+    </section>
+  </main>
+</div>
+
+<script>
+/* Optional behaviour. The page reads fine with JavaScript off. */
+(() => {
+'use strict';
+const d = document, root = d.documentElement, body = d.body;
+const $ = (s, r = d) => r?.querySelector(s), qa = (s, r = d) => [...r.querySelectorAll(s)];
+const on = (e, ev, f) => e?.addEventListener(ev, f);
+const byId = id => id ? d.getElementById(id) : null;
+const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
+const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
+const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
+                set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
+const key = 'explainer:' + (location.pathname || 'page');
+root.classList.add('js');
+
+/* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
+const T = {
+  en: { of: '{n} of {m}', step: '{n} of {m}', ans: '{n} of {m} answered', head: 'answers from {name} on {date}', anon: 'anonymous', none: 'Not answered',
+        read: 'Read aloud', stop: 'Stop', cont: 'Continue from', go: 'Go', no: 'Dismiss', keys: 'Keys', next: 'Next chapter', prev: 'Previous chapter', close: 'Close', fin: 'All chapters done',
+        pickN: '{n} of {m} picked', pickCopied: 'Copied', pickNot: 'Not picked', pickYour: 'Your pick: {k}', shipSome: 'Ship {k}', shipNone: 'Ship none',
+        pickHead: '{title}: my picks ({n} of {m})', pickShip: 'ship {k}', pickNone: 'ship none', pickUse: 'Not picked (use ★)',
+        savedDb: 'Saved for Claude', savedLocal: 'Saved in this browser', savedNone: 'Not saved; Copy picks still works',
+        pickIdle: 'Tap an option on any card. Your picks collect here.', pickLeft: '{n} left. Anything you skip goes with the ★ option.', pickAll: 'All {m} picked. Copy them and paste into the chat.',
+        pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.',
+        skipped: '★ (skipped)', allRec: '{title}: all ★ (recommended)', noteLine: 'Note: {t}', recDone: 'Picked ★ for {n}. {p} of {m} done.', recNone: 'Every single-choice card already has a pick.',
+        rankUp: 'Move {item} up', rankDown: 'Move {item} down', rankTop: 'Move {item} to the top', rankOk: 'This order is right', rankMoved: '{item} moved to {n} of {m}', rankStay: '{item} is already {n} of {m}',
+        bkGroup: 'Bucket for {item}', bkRec: '{b}, recommended', bkMoved: '{item} moved to {b}', bkOk: 'These picks are right', bkTitle: 'Order your {b} items', bkHint: 'Only {b} gets an order. First item on top.',
+        bkEmpty: 'Nothing is in {b}. Tap {b} on an item above to add it here.', bkSame: 'All {m} match ★', bkDiff: '{n} of {m} changed from ★', bkOrder: 'Same buckets as ★, new order',
+        bkAll: 'all ★ (recommended)', bkSome: '{n} changed from ★', bkNew: 'same buckets as ★, new order' },
+  ja: { of: '{m}章中 第{n}章', step: '{n} / {m}', ans: '{m}問中 {n}問 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
+        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了',
+        pickN: '{m}問中{n}問 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '含める：{k}', shipNone: 'どれも含めない',
+        pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '含める {k}', pickNone: '含めない', pickUse: '未選択（★を採用）',
+        savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
+        pickIdle: '各カードの選択肢をタップしてください。選択はここに集まります。', pickLeft: '残り{n}問。飛ばした項目は★の選択肢になります。', pickAll: '{m}問すべて選択済み。コピーしてチャットに貼り付けてください。',
+        pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。',
+        skipped: '★（飛ばした）', allRec: '{title}：すべて★（おすすめ）', noteLine: 'メモ：{t}', recDone: '{n}問を★にしました。{m}問中{p}問完了。', recNone: '1つだけ選ぶ項目は、すべて選択済みです。',
+        rankUp: '{item}を上へ移動', rankDown: '{item}を下へ移動', rankTop: '{item}を一番上へ移動', rankOk: 'この順番でよい', rankMoved: '{item}を{m}件中{n}番目に移動しました', rankStay: '{item}はすでに{m}件中{n}番目です',
+        bkGroup: '{item}の振り分け', bkRec: '{b}（おすすめ）', bkMoved: '{item}を「{b}」に移動しました', bkOk: 'この振り分けでよい', bkTitle: '「{b}」の項目を並べる', bkHint: '順番をつけるのは「{b}」だけです。一番上が最優先です。',
+        bkEmpty: '「{b}」に項目がありません。上の項目で「{b}」を押すと、ここに入ります。', bkSame: '{m}件すべて★のままです', bkDiff: '{m}件中{n}件を★から変更', bkOrder: '振り分けは★のまま、順番を変更',
+        bkAll: 'すべて★（おすすめ）', bkSome: '★から{n}件変更', bkNew: '振り分けは★のまま、順番を変更' }
+};
+const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
+const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
+
+/* theme and text size */
+const tt = $('[data-theme-toggle]'), sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]'), sizes = ['', 'lg', 'xl'];
+if (store.get('explainer:theme')) root.dataset.theme = store.get('explainer:theme');
+on(tt, 'click', () => store.set('explainer:theme', root.dataset.theme = (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark' ? 'light' : 'dark'));
+root.dataset.size = store.get('explainer:size') || '';
+on($('button[data-size]'), 'click', () => store.set('explainer:size', root.dataset.size = sizes[(sizes.indexOf(root.dataset.size) + 1) % 3]));
+
+/* skim, ruler and one-chapter modes: on or off on <body>; the ruler is remembered */
+const flip = (btn, attr, k, then) => {
+  if (!btn) return;
+  const set = s => { body.setAttribute(attr, s ? 'on' : 'off'); btn.setAttribute('aria-pressed', s); then?.(s); };
+  if (k && store.get(k) === 'on') set(true);
+  on(btn, 'click', () => { const s = body.getAttribute(attr) !== 'on'; set(s); k && store.set(k, s ? 'on' : 'off'); });
+};
+const parts = qa('.chapter, .recap, .ask'), nav = $('.focus-nav'), [pv, nx] = ['prev', 'next'].map(k => $('[data-' + k + ']', nav));
+let idx = 0, current;
+const focused = () => body.dataset.focus === 'on';
+const showPart = i => {
+  idx = Math.max(0, Math.min(parts.length - 1, i));
+  parts.forEach((p, n) => p.toggleAttribute('data-active', n === idx));
+  if (nav) {
+    pv.disabled = idx === 0; nx.disabled = idx === parts.length - 1;
+    const h = $('h2', parts[idx]); $('.where', nav).textContent = fmt(L.of, { n: idx + 1, m: parts.length }) + (h ? ': ' + h.textContent : '');
+  }
+  if (focused()) scrollTo(0, nav ? nav.getBoundingClientRect().top + scrollY - 8 : 0);
+};
+const jump = e => { const n = parts.indexOf(e); if (n >= 0) focused() ? showPart(n) : e.scrollIntoView(); };
+flip(sk, 'data-skim'); flip(ru, 'data-ruler', 'explainer:ruler');
+if (parts.length) {
+  flip(fb, 'data-focus', 0, s => { if (s) showPart(Math.max(0, parts.findIndex(p => p.getBoundingClientRect().bottom > 120))); });
+  on(pv, 'click', () => showPart(idx - 1)); on(nx, 'click', () => showPart(idx + 1));
+  on(d, 'click', e => {  /* a link to something inside a chapter (a playbook phase) opens that chapter, then scrolls to the thing */
+    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"], .phase-strip a[href^="#"]');
+    const t = a ? byId(a.getAttribute('href').slice(1)) : null, n = parts.indexOf(t?.closest('.chapter, .recap, .ask'));
+    if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
+  });
+}
+/* roadmap: each lane is named by its h3, and a card says how many others wait on it. "Unblocks N" is counted from the small.after links, so it cannot drift. */
+Object.assign(T.en, { unblocks: 'Unblocks {n}', back: 'Back to: {t}' }); Object.assign(T.ja, { unblocks: '後続{n}件', back: '戻る：{t}' });
+qa('.lane').forEach((l, i) => { const h = $('h3', l); if (h && !l.hasAttribute('aria-labelledby')) l.setAttribute('aria-labelledby', h.id = h.id || 'lane-' + i); });
+qa('.cutline[role="separator"]:not([aria-label])').forEach(c => c.setAttribute('aria-label', txt(c)));
+const waiting = {};  /* blocker id -> the cards that list it */
+qa('small.after a[href^="#"]').forEach(a => { const id = a.getAttribute('href').slice(1), who = a.closest('li') || a; if (who.id !== id) (waiting[id] = waiting[id] || new Set()).add(who); });
+qa('.lane li[id], .backlog-top > li[id]').forEach(li => {
+  const n = waiting[li.id]?.size;
+  if (n) li.insertBefore(make('span', 'unblocks', esc(fmt(L.unblocks, { n }))), $('small', li));  /* before the small lines; at the end when there are none */
+});
+
+/* field guide: the map's counts and bars, the index's search and filter, rows that open, and the way a jump opens what it lands on. Every count is
+   worked out from the entries, so none can drift. Without this the tiles show a name and a line, and every entry reads open. */
+Object.assign(T.en, { fgRel: ['Now', 'Next', 'Later'], fgAll: 'All', fgSearch: 'Search the guide', fgHint: 'Name, definition or example', fgGroup: 'Show fields that matter', fgShow: 'Showing {n} of {m} fields', fgOnly: ', {l} only', fgFor: ', matching "{q}"', fgEnd: '.',
+  fgNone: 'Nothing here matches.', fgHid: '{n} hidden by the filter', fgHidQ: '{n} hidden by the filter or search', fgLink: 'Copy link to this field', fgLinked: 'Link copied', fgKey: 'The bar under each family:', fgN: '{n} {l}', fgJoin: ', ' });
+Object.assign(T.ja, { fgRel: ['今', '次', 'その後'], fgAll: 'すべて', fgSearch: 'ガイドを検索', fgHint: '名前、説明、例', fgGroup: '表示する項目', fgShow: '{m}件中{n}件を表示', fgOnly: '（{l}のみ）', fgFor: '、「{q}」に一致', fgEnd: '。',
+  fgNone: '一致するものはありません。', fgHid: 'フィルターで{n}件を非表示', fgHidQ: 'フィルターまたは検索で{n}件を非表示', fgLink: 'この項目へのリンクをコピー', fgLinked: 'リンクをコピーしました', fgKey: '各ファミリーの下のバー：', fgN: '{l}{n}件', fgJoin: '、' });
+let fgReveal = () => false;  /* a jump to an entry or a family opens it; the link handler below calls this first */
+{
+  const REL = ['now', 'next', 'later'], GLYPH = ['●', '◐', '○'], fgx = $('.index'), fgFams = qa('details.family-index'), fgEntries = qa('.entry', fgx || d);
+  const labels = (fgx?.dataset.relLabels || '').split('|').map(s => s.trim()).filter(Boolean), relName = r => labels[REL.indexOf(r)] || L.fgRel[REL.indexOf(r)] || r;
+  const fgTally = el => { const c = { now: 0, next: 0, later: 0 }; qa('.entry', el).forEach(e => { if (e.dataset.rel in c) c[e.dataset.rel]++; }); return c; };
+  const said = c => REL.filter(r => c[r]).map(r => fmt(L.fgN, { n: c[r], l: relName(r).toLowerCase() })).join(L.fgJoin);
+  const setOpen = (e, o) => { e.classList.toggle('is-open', o); $('.entry-row', e)?.setAttribute('aria-expanded', o); };
+  /* the map: each tile gets a three-part bar and its counts, both read off the family it links to, and the whole map gets a key in the index's own words */
+  const terr = $('.territory');
+  qa('a.family[href^="#"]', terr || d).forEach(a => {
+    const f = byId(a.getAttribute('href').slice(1)), c = f?.matches('details.family-index') && fgTally(f), n = c && REL.reduce((s, r) => s + c[r], 0);
+    if (!n) return;
+    const bar = make('span', 'fam-bar', REL.map(r => c[r] ? '<i class="r-' + r + '" style="width:' + c[r] / n * 100 + '%"></i>' : '').join(''));
+    bar.setAttribute('aria-hidden', 'true'); a.append(bar, make('span', 'fam-counts', esc(said(c))));
+  });
+  if (terr && $('.fam-bar', terr)) terr.append(make('div', 'territory-key', '<span>' + esc(L.fgKey) + '</span>' + REL.map(r => '<span><i class="r-' + r + '"></i>' + esc(relName(r)) + '</span>').join('')));
+  if (fgx) {
+    let tools = $('.guide-tools', fgx); if (!tools) fgx.prepend(tools = make('div', 'guide-tools', ''));
+    tools.innerHTML = '<label class="guide-search"><span></span><input type="search" autocomplete="off" spellcheck="false"></label><div class="guide-filters" role="group"></div><div class="guide-status" role="status" aria-live="polite"></div>';
+    const box = $('input', tools), group = $('.guide-filters', tools), say = $('.guide-status', tools), picks = REL.concat('all');
+    $('.guide-search span', tools).textContent = L.fgSearch; box.placeholder = L.fgHint; group.setAttribute('aria-label', L.fgGroup);
+    const btns = picks.map(r => { const b = make('button', '', ''); b.type = 'button'; b.dataset.filter = r; group.append(b); return b; });
+    /* a row per entry: the name, the relevance word and the definition become one button that opens the rest; the copy-link button joins the body */
+    fgEntries.forEach(e => {
+      const name = $('.name', e), def = $('.def', e), body = $('.entry-body', e); if (!name || !body) return;
+      const r = e.dataset.rel, row = make('button', 'entry-row', ''), rel = make('span', 'rel', '<span aria-hidden="true">' + (GLYPH[REL.indexOf(r)] || '') + '</span> ' + esc(relName(r)));
+      row.type = 'button'; row.setAttribute('aria-expanded', 'false');
+      row.append(name, rel); if (def) { row.append(make('span', 'def', def.innerHTML)); def.remove(); }
+      e.prepend(row);
+      const cl = make('button', 'copy-link', esc(L.fgLink)); cl.type = 'button'; body.append(cl);
+      new MutationObserver(() => { cl.textContent = cl.classList.contains('go') ? L.fgLinked : L.fgLink; }).observe(cl, { attributes: true, attributeFilter: ['class'] });
+    });
+    /* each family header carries the same derived counts as its tile, and says how many entries the filter or search is hiding */
+    fgFams.forEach(f => {
+      const s = $('summary', f); if (!s) return;
+      s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
+    });
+    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    let filter = REL[0], words = [], searching = false; const was = new Map();
+    if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
+    const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
+    const apply = () => {
+      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
+      picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
+        const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
+        btns[i].setAttribute('aria-pressed', filter === r);
+        btns[i].innerHTML = (r === 'all' ? '' : '<span aria-hidden="true">' + GLYPH[i] + '</span> ') + esc(r === 'all' ? L.fgAll : relName(r)) + ' ' + c;
+      });
+      fgFams.forEach(f => {
+        const all = qa('.entry', f), out = all.filter(e => e.classList.contains('is-out')).length, note = out ? fmt(q ? L.fgHidQ : L.fgHid, { n: out }) : '';
+        const hid = $('.fam-hidden', f), none = $(':scope > .none-here', f);
+        if (hid) hid.textContent = note;
+        if (none) { none.hidden = out < all.length || !all.length; none.textContent = L.fgNone + (note ? ' ' + note + '.' : ''); }
+        qa(':scope > h4.group', f).forEach(h => {  /* a group heading goes when everything under it is hidden */
+          let x = h.nextElementSibling, any = false;
+          for (; x && !x.matches('h4.group'); x = x.nextElementSibling) if (x.matches('.entry') && !x.classList.contains('is-out')) any = true;
+          h.classList.toggle('is-out', !any);
+        });
+      });
+      /* while a search is typed, a family opens when it has a match; clearing the search puts every family back as it was */
+      if (q && !searching) { searching = true; fgFams.forEach(f => was.set(f, f.open)); }
+      if (q) fgFams.forEach(f => { f.open = !!qa('.entry:not(.is-out)', f).length; });
+      else if (searching) { searching = false; fgFams.forEach(f => { f.open = was.get(f); }); }
+      say.textContent = fmt(L.fgShow, { n, m: fgEntries.length }) + (filter === 'all' ? '' : fmt(L.fgOnly, { l: relName(filter) })) + (q ? fmt(L.fgFor, { q }) : '') + L.fgEnd;
+    };
+    on(box, 'input', apply); on(box, 'search', apply);
+    on(group, 'click', e => { const b = e.target.closest?.('button'); if (b) { filter = b.dataset.filter; apply(); } });
+    on(d, 'click', e => {
+      const row = e.target.closest?.('.entry-row'), cl = e.target.closest?.('.copy-link');
+      if (row) setOpen(row.parentNode, !row.parentNode.classList.contains('is-open'));
+      if (cl) copy(location.href.split('#')[0] + '#' + cl.closest('.entry').id, cl);  /* copy() is defined with the gather bar below and runs only on a click */
+    });
+    /* a jump to an entry lifts a filter or search that would hide it, opens its family and the entry, and brings its chapter up in one-chapter mode */
+    fgReveal = t => {
+      const f = t.closest?.('details.family-index'), e = t.closest?.('.entry'); if (!f || !fgx.contains(t)) return false;
+      if (e && !shown(e)) { filter = 'all'; box.value = ''; }
+      else if (!e && words.length && !qa('.entry', f).some(hits)) box.value = '';  /* a family the search emptied: drop the search, keep the filter */
+      apply(); f.open = true; if (e) setOpen(e, true);
+      const part = t.closest('.chapter, .recap, .ask'); if (focused() && parts.includes(part)) showPart(parts.indexOf(part));
+      return true;
+    };
+    apply();
+    /* a printed guide shows every family open, and puts them back afterwards. beforeprint covers File > Print, the media query covers print preview. */
+    const shut = new Map(), openAll = () => { if (!shut.size) fgFams.forEach(f => { shut.set(f, f.open); f.open = true; }); }, putBack = () => { shut.forEach((o, f) => { f.open = o; }); shut.clear(); };
+    on(window, 'beforeprint', openAll); on(window, 'afterprint', putBack);
+    matchMedia('print').addEventListener?.('change', m => (m.matches ? openAll : putBack)());
+  }
+}
+
+/* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
+on(d, 'click', e => {
+  const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
+  if (a && a.getAttribute('href') === '#') return e.preventDefault();  /* a bare "#" (the ask's choices) goes nowhere; in a viewer it would reload the frame and blank the page */
+  let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
+  if (!t) return;
+  e.preventDefault(); fgReveal(t); t.scrollIntoView();  /* a field guide opens what it lands on first, so there is something to scroll to */
+  /* the landing is a static class on the target, one at a time. A jump to a list item from inside another titled item also gets one link back. */
+  const cards = '.lane li, .backlog-top > li, details.theme li, .entry';  /* the roadmap's items and the guide's entries: each is titled by its first b */
+  const from = a.closest(cards + ', [id]:not(main)'), name = from && from !== t && $('b, h3, h2', from);  /* read before the old back link goes, in case that is the link just clicked */
+  qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
+  t.classList.add('is-target');
+  if (name && t.matches('li, .entry') && !t.contains(from)) {
+    from.id = from.id || 'jump-' + qa(cards).indexOf(from);
+    const back = d.createElement('a'); back.className = 'jump-back'; back.href = '#' + from.id; back.textContent = fmt(L.back, { t: txt(name) }); t.append(back);
+  }
+  try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
+});
+/* a page opened on a link shows its landing too, and so does Back to an earlier link. A hidden entry is opened first and scrolled to, because the browser could not. */
+const land = () => {
+  try {
+    const t = byId(decodeURIComponent(location.hash.slice(1))); if (!t) return;
+    const opened = fgReveal(t); qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
+    t.classList.add('is-target'); if (opened) t.scrollIntoView();
+  } catch {}
+};
+land(); on(window, 'hashchange', land);
+
+/* progress bar */
+const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };
+addEventListener('scroll', progress, { passive: true }); addEventListener('resize', progress); progress();
+
+/* resume: offer the chapter the reader was last in */
+const last = byId(store.get(key + ':last')), head = $('.answer');
+if (last && head && last !== $('.chapter')) {
+  const rc = make('div', 'resume', esc(L.cont) + ' <b>' + esc(txt($('h2', last) || last)) + '</b> <button type="button">' + L.go + '</button><button type="button" aria-label="' + L.no + '">×</button>');
+  const [go, x] = qa('button', rc); go.dataset.resume = x.dataset.resumeDismiss = '';
+  on(go, 'click', () => { rc.remove(); jump(last); }); on(x, 'click', () => rc.remove());
+  head.after(rc);
+}
+
+/* current chapter in the rail, remembered for resume */
+const links = qa('.rail a[href^="#"]'), targets = links.map(a => byId(a.getAttribute('href').slice(1))).filter(Boolean);
+if (window.IntersectionObserver && targets.length) {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) current = e.target; });
+    links.forEach(a => a.setAttribute('aria-current', !!current && a.getAttribute('href') === '#' + current.id));
+    if (current) store.set(key + ':last', current.id);
+  }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
+  targets.forEach(t => io.observe(t));
+}
+
+/* done boxes, remembered per page; all checked sets the finish state */
+let done = {}; try { done = JSON.parse(store.get(key + ':done')) || {}; } catch (e) {}
+const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.finished = boxes.length && boxes.every(b => b.checked) ? 'on' : 'off'; };
+$('.recap h2')?.after(make('span', 'finished', L.fin));
+boxes.forEach(box => {
+  const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
+  box.checked = !!done[c.id]; paint();
+  on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
+});
+finish();
+
+/* stepper: dim what is not lit on this step, show this step's text */
+qa('.stepper').forEach(f => {
+  const tx = qa('[data-step-text]', f), sn = $('.stepper-nav', f), w = $('.where', sn), [a, b] = ['prev', 'next'].map(k => $('[data-' + k + ']', sn));
+  const show = i => {
+    const s = Math.max(1, Math.min(tx.length, i)); f.dataset.step = s;
+    qa('[data-steps]', f).forEach(e => e.classList.toggle('is-dim', !e.dataset.steps.split(/\s*,\s*/).includes('' + s)));
+    tx.forEach(t => { t.hidden = +t.dataset.stepText !== s; });
+    if (w) w.textContent = fmt(L.step, { n: s, m: tx.length });
+    a?.setAttribute('aria-disabled', s < 2); b?.setAttribute('aria-disabled', s >= tx.length);
+  };
+  on(a, 'click', () => show(f.dataset.step - 1)); on(b, 'click', () => show(+f.dataset.step + 1));
+  f.tabIndex = 0;
+  on(f, 'keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); show(+f.dataset.step + (e.key === 'ArrowRight' ? 1 : -1)); } });
+  sn?.setAttribute('aria-live', 'polite'); show(+f.dataset.step || 1);
+});
+
+/* perspectives tabs: the first panel is visible without script */
+qa('.views').forEach(v => {
+  const tabs = qa('[data-view-tab]', v), panels = qa('[data-view-panel]', v);
+  const pick = (t, focus) => {
+    tabs.forEach(x => { x.setAttribute('aria-selected', x === t); x.tabIndex = x === t ? 0 : -1; });
+    panels.forEach(p => { p.hidden = p.dataset.viewPanel !== t.dataset.viewTab; });
+    if (focus) t.focus();
+  };
+  tabs.forEach((t, i) => {
+    on(t, 'click', () => pick(t));
+    on(t, 'keydown', e => {
+      const j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (j !== undefined) { e.preventDefault(); pick(tabs[(j + tabs.length) % tabs.length], 1); }
+    });
+  });
+  if (tabs.length) pick(tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0]);
+});
+
+/* mini-map: light this chapter's node, dim the rest */
+qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.dataset.node === m.dataset.lit ? 'is-lit' : 'is-dim')));
+
+/* commands: every pre.cmd gets a Copy button. The command reads fine without it. copy() and flash() are the gather bar's own, defined below and used only on click. */
+Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
+qa('pre.cmd').forEach(p => {
+  const code = $('code', p) || p, b = d.createElement('button');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  on(b, 'click', () => copy(code.textContent.trim(), b));
+  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  p.append(b);
+});
+
+/* read aloud: one block at a time, in the page language; one chapter at a time */
+const rd = qa('[data-read]'); let sid = 0;
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = L.read; }); };
+rd.forEach(b => {
+  if (!window.speechSynthesis) { b.hidden = true; return; }
+  b.textContent = L.read;
+  on(b, 'click', () => {
+    const was = b.hasAttribute('data-reading'); hush(); if (was) return;
+    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = L.stop;
+    const next = () => {
+      const e = list[i++]; if (me !== sid) return; if (!e) return hush();
+      e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
+      const u = new SpeechSynthesisUtterance(e.innerText); u.lang = root.lang;
+      u.onend = u.onerror = () => { e.classList.remove('speaking'); next(); };
+      speechSynthesis.speak(u);
+    };
+    next();
+  });
+});
+
+/* keys: J K change chapter, F S D R switch modes, ? lists them */
+const kb = $('[data-keys]');
+const dlg = kb && make('dialog', 'keys', '<h2>' + L.keys + '</h2><dl>' + [['J', L.next], ['K', L.prev], ['F', fb], ['S', sk], ['D', tt], ['R', ru], ['?', kb]]
+  .map(([k, b]) => b ? '<dt><kbd>' + k + '</kbd></dt><dd>' + esc(b.textContent ? txt(b) : b) + '</dd>' : '').join('') + '</dl><form method="dialog"><button>' + L.close + '</button></form>');
+if (dlg) { body.append(dlg); on(dlg, 'click', e => { if (e.target === dlg) dlg.close(); }); on(kb, 'click', () => dlg.showModal()); }
+on(d, 'keydown', e => {
+  const k = (e.key || '').toLowerCase(), t = e.target;
+  if (e.ctrlKey || e.metaKey || e.altKey || t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName || '') || t.closest?.('dialog[open]') || dlg?.open) return;
+  if (k === 'j' || k === 'k') { const p = parts[Math.max(0, Math.min(parts.length - 1, (focused() ? idx : parts.indexOf(current)) + (k === 'j' ? 1 : -1)))]; if (p) jump(p); }
+  else if (k === '?' && dlg) dlg.showModal();
+  else { const b = { f: fb, s: sk, d: tt, r: ru }[k]; if (!b?.click) return; b.click(); }
+  e.preventDefault();
+});
+
+/* ballot: one pick per card, a tray that copies every pick. Runs only on <html data-mode="ballot">. Picks are kept in this
+   browser, and in the artifact database when claude.ai grants one, so the agent can read them without a paste. */
+if (root.dataset.mode === 'ballot') {
+  const cards = qa('.ballot-card'), tray = $('.ballot-tray'), total = cards.length, pk = key + ':picks';
+  const [tally, status, saveEl, pipList, hole, holeText, review, rowList, noteIn] = ['.ballot-tally', '.ballot-status', '.ballot-save', '.ballot-pips', '.ballot-fallback', '.ballot-fallback textarea', '.ballot-review', '.ballot-rows', '.ballot-note input'].map(s => $(s, tray));
+  const multi = c => c.dataset.kind === 'multi', optsOf = c => qa('[data-k]', c), letters = c => optsOf(c).map(o => o.dataset.k);
+  const recOf = c => $('[data-rec]', c)?.dataset.k;  /* a single-choice card's ★ option */
+  const numOf = (c, i) => { const n = $('.num', c); return n ? txt(n) : String(i + 1); };
+  const nameOf = (c, k) => { const o = optsOf(c).find(x => x.dataset.k === k), n = $('.name', o).cloneNode(true); $('b', n)?.remove(); return txt(n); };
+  const valid = (c, v) => multi(c) ? Array.isArray(v) && v.every(k => letters(c).includes(k)) : typeof v === 'string' && letters(c).includes(v);
+  const tidy = o => Object.fromEntries(cards.filter(c => o && valid(c, o[c.dataset.q])).map(c => [c.dataset.q, o[c.dataset.q]]));  /* picks: q -> 'B', or ['A','B'] ([] = none) on a multi card */
+  const sig = o => JSON.stringify(cards.map(c => o[c.dataset.q]));
+  let picks = {}; try { picks = tidy(JSON.parse(store.get(pk))); } catch (e) {}
+  let db = null, dbOk = false, localOk = true;
+  let note = (store.get(key + ':note') || '').replace(/\s+/g, ' ').trim();  /* one optional line for the agent; it travels in the copies, not in the database */
+  if (noteIn) noteIn.value = note;
+
+  const stateOf = (c, v) => v === undefined ? L.pickNot : multi(c) ? (v.length ? fmt(L.shipSome, { k: v.join(', ') }) : L.shipNone) : fmt(L.pickYour, { k: v });
+  const pips = cards.map((c, i) => {
+    const a = d.createElement('a'), li = d.createElement('li');
+    c.id = c.id || 'card-' + c.dataset.q; a.className = 'ballot-pip'; a.href = '#' + c.id; a.title = c.dataset.short || '';
+    a.innerHTML = '<span>' + esc(numOf(c, i)) + '</span>'; li.append(a); pipList?.append(li); return a;
+  });
+  let rowsHtml = '';
+  const paint = () => {
+    let n = 0;
+    cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], got = v !== undefined;
+      if (got) n++;
+      c.classList.toggle('picked', got);
+      optsOf(c).forEach((o, j) => {
+        const on = got && (multi(c) ? v.includes(o.dataset.k) : v === o.dataset.k);
+        if (multi(c)) { o.classList.toggle('on', on); $('.ballot-ship', o)?.setAttribute('aria-pressed', on); }
+        else { o.setAttribute('aria-checked', on); o.tabIndex = (got ? on : j === 0) ? 0 : -1; }  /* one tab stop per radio group */
+      });
+      $('[data-none]', c)?.setAttribute('aria-pressed', got && multi(c) && !v.length);
+      $('.state', c).textContent = stateOf(c, v);
+      pips[i].classList.toggle('on', got); pips[i].setAttribute('aria-label', numOf(c, i) + '. ' + (c.dataset.short || '') + ': ' + stateOf(c, v));
+    });
+    if (tally) tally.textContent = fmt(L.pickN, { n, m: total });
+    tray?.toggleAttribute('data-complete', n === total);
+    if (rowList) {  /* review: one row per card, its short name and the pick, or ★ when the card is skipped */
+      const html = cards.map((c, i) => {
+        const v = picks[c.dataset.q], got = v !== undefined;
+        const pick = !got ? L.skipped : multi(c) ? (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone) : v + ' ' + nameOf(c, v);
+        return '<li' + (got ? '' : ' class="skipped"') + '><span class="n">' + esc(numOf(c, i)) + '</span><span class="q">' + esc(c.dataset.short || txt($('h3', c))) + '</span><span class="a">' + esc(pick) + '</span></li>';
+      }).join('');
+      if (html !== rowsHtml) { rowList.innerHTML = rowsHtml = html; }
+    }
+    return n;
+  };
+
+  /* the status line is the tray's aria-live region */
+  let sayTimer;
+  const say = (msg, hold) => { if (status) status.textContent = msg; clearTimeout(sayTimer); if (!hold) sayTimer = setTimeout(() => { if (status) status.textContent = idle(); }, 4200); };
+  const idle = () => { const n = paint(); return n === 0 ? L.pickIdle : n === total ? fmt(L.pickAll, { m: total }) : fmt(L.pickLeft, { n: total - n }); };
+
+  /* saving: this browser always, the artifact database when it answers */
+  const label = () => { const s = db && dbOk ? 'db' : localOk ? 'local' : 'none'; if (saveEl) { saveEl.dataset.state = s; saveEl.textContent = L[{ db: 'savedDb', local: 'savedLocal', none: 'savedNone' }[s]]; } };
+  const saveLocal = () => { try { localStorage.setItem(pk, JSON.stringify(picks)); localOk = true; } catch (e) { localOk = false; } label(); };
+  const lanes = {};  /* one write at a time per document */
+  const saveDb = q => {
+    if (!db) return;
+    lanes[q] = (lanes[q] || Promise.resolve()).then(async () => {
+      try { const ref = db.doc('picks/' + q), v = picks[q]; if (v === undefined) await ref.delete(); else await ref.set({ choice: v, at: new Date().toISOString() }); dbOk = true; }
+      catch (e) { dbOk = false; }
+      label();
+    });
+  };
+  const setPick = (c, v) => {
+    const q = c.dataset.q, i = cards.indexOf(c);
+    if (v === undefined) delete picks[q]; else picks[q] = v;
+    const n = paint(); saveLocal(); saveDb(q);
+    const p = v === undefined ? numOf(c, i) : multi(c) ? numOf(c, i) + ' ' + stateOf(c, v) : numOf(c, i) + v;
+    say(n === total ? fmt(L.pickAll, { m: total }) : fmt(v === undefined ? L.pickClear : L.pickDone, { p, n, m: total }), 1);
+    nudge();
+  };
+  const nudge = () => { tray?.classList.remove('nudge'); void tray?.offsetWidth; tray?.classList.add('nudge'); };
+  /* Pick all ★: every card with no pick takes its ★ option, as if tapped. A card already picked stays as it is, and so does a multi card. */
+  const pickRec = () => {
+    let changed = 0;
+    cards.forEach(c => { const q = c.dataset.q, k = recOf(c); if (!multi(c) && k && picks[q] === undefined) { picks[q] = k; changed++; saveDb(q); } });
+    const n = paint(); saveLocal();
+    say(!changed ? L.recNone : n === total ? fmt(L.pickAll, { m: total }) : fmt(L.recDone, { n: changed, p: n, m: total }), 1);
+    nudge(); $('[data-copy]', tray)?.focus();
+  };
+
+  /* what the agent gets: one line per pick, made for pasting into chat. When every card is single-choice and ends on its ★ option, picked or skipped, it is one line. */
+  const allRec = () => cards.length > 0 && cards.every(c => !multi(c) && recOf(c) && (picks[c.dataset.q] ?? recOf(c)) === recOf(c));
+  const picksText = () => {
+    const n = paint(), left = [], short = allRec(), lines = [short ? fmt(L.allRec, { title: d.title }) : fmt(L.pickHead, { title: d.title, n, m: total })];
+    if (!short) cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], num = numOf(c, i), name = c.dataset.short || txt($('h3', c));
+      if (v === undefined) left.push(num);
+      else if (multi(c)) lines.push(num + ' ' + name + ': ' + (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone));
+      else lines.push(num + v + ' ' + nameOf(c, v) + ' · ' + name);
+    });
+    if (left.length) lines.push(L.pickUse + ': ' + left.join(', '));
+    if (note) lines.push(fmt(L.noteLine, { t: note }));
+    return lines.join('\n');
+  };
+  /* the same shape as the gather copy, so assets/merge.html reads it: kind "choice", the option name as the answer */
+  const picksJson = () => {
+    const o = pack();
+    cards.forEach(c => {
+      const q = c.dataset.q, v = picks[q], question = txt($('h3', c));
+      if (v === undefined) o.unanswered.push({ q, question });
+      else o.answers.push({ q, kind: multi(c) ? 'multi' : 'choice', question, answer: multi(c) ? (v.length ? v.map(k => nameOf(c, k)).join(', ') : L.shipNone) : nameOf(c, v) });
+    });
+    if (note) o.note = note;
+    return JSON.stringify(o, null, 2);
+  };
+
+  /* copy; when the clipboard refuses, show the text in a box with everything selected */
+  let reset;
+  const restore = () => { clearTimeout(reset); qa('[data-label]', tray).forEach(x => { x.textContent = x.dataset.label; x.classList.remove('copied'); }); };
+  const copied = b => { b.dataset.label = b.dataset.label || b.textContent; b.textContent = L.pickCopied; b.classList.add('copied'); clearTimeout(reset); reset = setTimeout(restore, 2400); };
+  const send = (text, b) => {
+    const ok = () => { if (hole) hole.hidden = true; copied(b); say(L.pickMsg); };
+    const no = () => { restore(); if (!hole) return; holeText.value = text; hole.hidden = false; holeText.focus(); holeText.select(); say(L.pickBlocked, 1); };
+    try { navigator.clipboard?.writeText ? navigator.clipboard.writeText(text).then(ok, no) : no(); } catch (e) { no(); }
+  };
+
+  /* clicks: options, multi toggles, "none", jump dots, copy, close */
+  const choose = (c, k) => setPick(c, picks[c.dataset.q] === k ? undefined : k);
+  const ship = (c, k) => { const v = picks[c.dataset.q] || []; const next = letters(c).filter(x => v.includes(x) !== (x === k)); setPick(c, next.length ? next : undefined); };
+  on(d, 'click', e => {
+    const t = e.target.closest ? e.target : e.target.parentElement; if (!t) return;
+    const c = t.closest('.ballot-card'), btn = t.closest('button');
+    if (btn?.classList.contains('ballot-opt')) return choose(c, btn.dataset.k);
+    if (btn?.classList.contains('ballot-ship')) return ship(c, btn.closest('[data-k]').dataset.k);
+    if (btn && 'none' in btn.dataset) return setPick(c, picks[c.dataset.q]?.length === 0 ? undefined : []);
+    if (c && multi(c) && t.closest('.ballot-opt') && !btn) return $('.ballot-ship', t.closest('.ballot-opt'))?.click();  /* the picture and words toggle too */
+    const pip = t.closest('.ballot-pip');
+    if (pip) {
+      e.preventDefault();
+      const target = byId(pip.getAttribute('href').slice(1)); if (!target) return;
+      target.scrollIntoView(); target.classList.add('flash'); setTimeout(() => target.classList.remove('flash'), 1400);
+      $('.ballot-opt[tabindex="0"], .ballot-ship', target)?.focus({ preventScroll: true });
+    } else if (btn && tray?.contains(btn)) {
+      if ('copy' in btn.dataset) send(picksText(), btn);
+      else if ('pickRec' in btn.dataset) pickRec();
+      else if ('json' in btn.dataset) send(picksJson(), btn);
+      else if ('close' in btn.dataset) { hole.hidden = true; $('[data-copy]', tray)?.focus(); }
+    }
+  });
+  /* arrow keys move through a card's options like a radio group: focus follows, and so does the pick */
+  on(d, 'keydown', e => {
+    if (e.key === 'Escape' && hole && !hole.hidden && tray.contains(e.target)) { hole.hidden = true; $('[data-copy]', tray)?.focus(); return; }
+    if (e.key === 'Escape' && review?.open && review.contains(e.target)) { review.open = false; $('summary', review)?.focus(); return; }
+    const o = e.target.closest?.('button.ballot-opt'); if (!o || e.ctrlKey || e.metaKey || e.altKey) return;
+    const all = qa('button.ballot-opt', o.parentElement), i = all.indexOf(o), step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+    const j = step ? (i + step + all.length) % all.length : e.key === 'Home' ? 0 : e.key === 'End' ? all.length - 1 : -1;
+    if (j < 0) return;
+    e.preventDefault(); all[j].focus(); setPick(o.closest('.ballot-card'), all[j].dataset.k);
+  });
+
+  on(noteIn, 'input', () => { note = noteIn.value.replace(/\s+/g, ' ').trim(); store.set(key + ':note', note); });
+  paint(); saveLocal(); say(idle(), 1);
+  (async () => {  /* inside a claude.ai artifact, window.claude.use('db') resolves; anywhere else it is absent or null */
+    try { db = (await window.claude?.use?.('db')) || null; } catch (e) { db = null; }
+    if (!db) return;
+    try {
+      db.collection('picks').onSnapshot(snap => {
+        if (snap.empty && snap.metadata.fromCache) return;  /* not the server's answer yet */
+        dbOk = true; label();
+        const next = tidy(Object.fromEntries(snap.docs.map(x => [x.id, x.data()?.choice])));
+        if (sig(next) === sig(picks)) return;
+        picks = next; saveLocal(); say(idle(), 1);
+      }, () => { dbOk = false; label(); });
+    } catch (e) { db = null; }
+    label();
+  })();
+}
+
+/* gather: answers are saved on this device; the collect bar copies or downloads them */
+const fields = qa('.answer-field'), bar = $('.collect'), cnt = $('.count', bar), who = $('.respondent', bar), ak = key + ':answers';
+let kept = {}; try { kept = JSON.parse(store.get(ak)) || {}; } catch (e) {}
+const lab = i => { const l = i.closest('label'); return l ? txt(l) : i.value; };
+const item = li => { const c = li.cloneNode(true); qa('button, .bucket-row', c).forEach(b => b.remove()); return txt(c); };
+
+/* rank and buckets. An item is known by its data-id, or by its text when it has none. The script adds the move buttons,
+   the "right" button and the spoken status, so a page carries only its items. */
+const ttl = li => { const t = $(':scope > b', li); return t ? txt(t) : item(li); }, idOf = li => li.dataset.id || ttl(li);
+const itemsOf = ol => qa(':scope > li', ol), labelsOf = f => (f.dataset.buckets || '').split('|').map(s => s.trim()).filter(Boolean);
+const entries = f => itemsOf($(':scope > ol', f)).map(li => ({ id: idOf(li), text: ttl(li) }));
+const bst = new Map();  /* bucket fields: { of: { id: bucket }, rec: { id: bucket }, order: [ids in the first bucket, top first], order0 } */
+const hear = (f, msg) => { const s = $('.rank-say', f); if (s) { s.textContent = ''; setTimeout(() => { s.textContent = msg; }, 30); } };
+const ICON = { up: 'M6 15l6-6 6 6', down: 'M6 9l6 6 6-6', top: 'M6 5h12M8 13l4-4 4 4M12 9v10' };
+const moves = (li, nm) => {
+  const w = make('span', 'rank-moves', '');
+  [['up', 'rankUp'], ['down', 'rankDown'], ['top', 'rankTop']].forEach(([k, s]) => {
+    let b = $('[data-' + k + ']', li);  /* an older page already carries up and down */
+    if (!b) {
+      b = make('button', '', '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="' + ICON[k] + '"/></svg>');
+      b.type = 'button'; b.setAttribute('data-' + k, ''); b.setAttribute('aria-label', fmt(L[s], { item: nm }));
+    }
+    w.append(b);
+  });
+  li.append(w);
+};
+const ends = ol => { const a = itemsOf(ol); a.forEach((li, n) => {  /* the ends stay focusable, so a press never drops the reader's place */
+  qa('[data-up], [data-top]', li).forEach(b => b.setAttribute('aria-disabled', n === 0)); qa('[data-down]', li).forEach(b => b.setAttribute('aria-disabled', n === a.length - 1)); }); };
+const foot = () => make('div', 'rank-foot', '<button type="button" data-rank-ok aria-pressed="false"></button><p class="rank-say" role="status" aria-live="polite"></p>');
+const okState = f => $('[data-rank-ok]', f)?.setAttribute('aria-pressed', !!f.dataset.ok);
+const summary = (f, copy) => {  /* the line above the buckets, and the first line of the copy */
+  const st = bst.get(f), all = entries(f), n = all.filter(x => st.of[x.id] !== st.rec[x.id]).length;
+  return n ? fmt(copy ? L.bkSome : L.bkDiff, { n, m: all.length }) : st.order.join('\n') !== st.order0.join('\n') ? (copy ? L.bkNew : L.bkOrder) : copy ? L.bkAll : fmt(L.bkSame, { m: all.length });
+};
+const paintSum = f => {
+  const st = bst.get(f), box = $('.rank-box', f); $('.buckets-sum', f).textContent = summary(f, 0);
+  $('[data-rank-ok]', box).textContent = st.order.length > 1 ? L.rankOk : L.bkOk;
+};
+const paintBuckets = f => {
+  const st = bst.get(f), first = labelsOf(f)[0], all = entries(f), box = $('.rank-box', f), ol = $('ol', box), empty = $('.rank-empty', box), name = Object.fromEntries(all.map(x => [x.id, x.text]));
+  itemsOf($(':scope > ol', f)).forEach(li => qa('[data-bucket]', li).forEach(x => x.setAttribute('aria-pressed', st.of[idOf(li)] === x.dataset.bucket)));
+  ol.replaceChildren(...st.order.map(id => { const li = make('li', '', '<span></span>'); li.dataset.id = id; li.firstChild.textContent = name[id]; moves(li, name[id]); return li; }));
+  ends(ol); ol.hidden = !st.order.length; empty.hidden = !!st.order.length;
+  $('.rank-title', box).textContent = fmt(L.bkTitle, { b: first }); ol.setAttribute('aria-label', fmt(L.bkTitle, { b: first })); $('.hint', box).textContent = fmt(L.bkHint, { b: first }); empty.textContent = fmt(L.bkEmpty, { b: first });
+  paintSum(f); okState(f);
+};
+fields.filter(f => f.dataset.kind === 'rank').forEach(f => {
+  const ol = $('ol', f); if (!ol) return;
+  itemsOf(ol).forEach(li => moves(li, ttl(li))); ends(ol);
+  const fo = foot(); $('button', fo).textContent = L.rankOk; ol.after(fo);
+});
+fields.filter(f => f.dataset.kind === 'buckets').forEach(f => {
+  const labels = labelsOf(f), ol = $(':scope > ol', f); if (!ol || labels.length < 2) return;
+  const st = { of: {}, rec: {}, order: [] }; bst.set(f, st);
+  itemsOf(ol).forEach(li => {  /* the page's pick is preset: a bucket the page does not name falls to the last one */
+    const id = idOf(li), rec = labels.includes(li.dataset.rec) ? li.dataset.rec : labels[labels.length - 1], row = make('div', 'bucket-row', '');
+    st.of[id] = st.rec[id] = rec; row.setAttribute('role', 'group'); row.setAttribute('aria-label', fmt(L.bkGroup, { item: ttl(li) })); row.dataset.n = labels.length;
+    labels.forEach(b => {
+      const x = make('button', '', ''); x.type = 'button'; x.dataset.bucket = b; x.setAttribute('aria-pressed', 'false'); x.textContent = (rec === b ? '★ ' : '') + b;
+      if (rec === b) x.setAttribute('aria-label', fmt(L.bkRec, { b })); row.append(x);
+    });
+    li.append(row);
+  });
+  st.order = entries(f).filter(x => st.of[x.id] === labels[0]).map(x => x.id); st.order0 = st.order.slice();
+  const sum = make('p', 'buckets-sum', ''), box = make('div', 'rank-box', '<p class="rank-title"></p><p class="hint"></p><p class="rank-empty"></p><ol></ol>');
+  box.append(foot()); ol.after(sum); sum.after(box); paintBuckets(f);
+});
+const grab = f => {
+  const t = $('textarea', f)?.value || '', st = bst.get(f);
+  if (f.dataset.kind !== 'rank' && !st) return { v: qa('input:checked', f).map(lab), t };
+  const on = f.dataset.moved || f.dataset.ok || t.trim(), name = st && Object.fromEntries(entries(f).map(x => [x.id, x.text]));
+  const rows = st ? st.order.map(id => ({ id, text: name[id] })) : itemsOf($('ol', f)).map(li => ({ id: idOf(li), text: ttl(li) }));
+  return { v: on ? rows.map(r => r.text) : [], i: on ? rows.map(r => r.id) : [], t, a: on ? 1 : 0, m: f.dataset.moved ? 1 : 0, k: f.dataset.ok ? 1 : 0, ...(st && on ? { b: { ...st.of } } : {}) };
+};
+const put = (f, o) => {
+  const t = $('textarea', f), ol = $('ol', f), st = bst.get(f);
+  if (t) t.value = o.t;
+  if (st) {
+    const labels = labelsOf(f), all = entries(f);
+    all.forEach(x => { if (labels.includes(o.b?.[x.id])) st.of[x.id] = o.b[x.id]; });
+    const first = all.map(x => x.id).filter(id => st.of[id] === labels[0]), keep = (o.i || []).filter(id => first.includes(id));
+    st.order = keep.concat(first.filter(id => !keep.includes(id)));
+  } else if (f.dataset.kind === 'rank' && ol) {
+    const a = itemsOf(ol), want = o.i || o.v, key = li => o.i ? idOf(li) : ttl(li), by = new Map(a.map(li => [key(li), li]));
+    want.map(x => by.get(x)).filter(Boolean).concat(a.filter(li => !want.includes(key(li)))).forEach(li => ol.append(li)); ends(ol);
+  } else qa('input', f).forEach(i => { i.checked = o.v.includes(lab(i)); });
+  if (f.dataset.kind === 'rank' || st) { f.dataset.moved = o.m || !('a' in o) ? '1' : ''; f.dataset.ok = o.k ? '1' : ''; if (st) paintBuckets(f); else okState(f); }
+};
+const answer = f => {
+  const o = kept[f.dataset.q], why = o.t.trim(), tag = $('textarea', f)?.getAttribute('aria-label'), reason = why ? (tag ? tag + ': ' : '') + why : '', st = bst.get(f);
+  if (st) {  /* the summary, then "Now 1: item" in order, then one line per item in every other bucket */
+    const labels = labelsOf(f), all = entries(f);
+    return [summary(f, 1)].concat(st.order.map((id, n) => labels[0] + ' ' + (n + 1) + ': ' + all.find(x => x.id === id).text),
+      ...labels.slice(1).map(b => all.filter(x => st.of[x.id] === b).map(x => b + ': ' + x.text))).join('\n') + (reason ? '\n\n' + reason : '');
+  }
+  if (f.dataset.kind === 'rank') return o.v.join('\n') + (reason ? '\n\n' + reason : '');  /* items, a blank line, then the reason */
+  return o.v.length ? o.v.join(', ') + (reason ? '\n' + reason : '') : why;
+};
+/* the JSON copy carries ids beside the text, so a merge lines items up even when the page is translated */
+const extra = f => {
+  const o = kept[f.dataset.q], st = bst.get(f), why = o.t.trim(), out = {};
+  if (f.dataset.kind !== 'rank' && !st) return out;
+  if (st) { const labels = labelsOf(f), all = entries(f); out.items = all; out.buckets = Object.fromEntries(labels.map((b, n) => [b, n ? all.filter(x => st.of[x.id] === b).map(x => x.id) : st.order])); }
+  else out.items = o.v.map((text, n) => ({ id: o.i?.[n] || text, text }));
+  if (why) out.reason = why;
+  return out;
+};
+const sync = () => {
+  let n = 0; qa('.rail a.answered').forEach(a => a.classList.remove('answered'));
+  fields.forEach(f => { if (kept[f.dataset.q]) { n++; $('.rail a[href="#' + f.closest('section[id]')?.id + '"]')?.classList.add('answered'); } });
+  if (bar) bar.hidden = !n;
+  if (cnt) cnt.textContent = fmt(L.ans, { n, m: fields.length });
+};
+const save = f => {
+  const o = grab(f); if (o.v.length || o.t.trim() || o.a) kept[f.dataset.q] = o; else delete kept[f.dataset.q];
+  store.set(ak, JSON.stringify(kept)); sync();
+};
+fields.forEach(f => { if (kept[f.dataset.q]) put(f, kept[f.dataset.q]); });
+if (who) who.value = store.get('explainer:name') || '';
+on(d, 'input', e => { const f = e.target.closest?.('.answer-field'); if (f) save(f); else if (e.target === who) store.set('explainer:name', who.value); });
+on(d, 'click', e => {  /* rank and buckets: move an item, tap a bucket, or say the order is right. Moving or tapping is an answer. */
+  const b = e.target.closest?.('.answer-field button'), f = b?.closest('.answer-field'), st = bst.get(f), k = ['up', 'down', 'top'].find(x => b && x in b.dataset);
+  if (!f) return;
+  if ('rankOk' in b.dataset) { f.dataset.ok = f.dataset.ok ? '' : '1'; okState(f); }
+  else if (st && 'bucket' in b.dataset) {
+    const li = b.closest('li'), id = idOf(li), to = b.dataset.bucket, was = st.of[id];
+    st.of[id] = to;
+    if (was !== to) { st.order = st.order.filter(x => x !== id); if (to === labelsOf(f)[0]) st.order.push(id); }
+    f.dataset.moved = '1'; f.dataset.ok = ''; paintBuckets(f); hear(f, fmt(L.bkMoved, { item: ttl(li), b: to }));
+  } else if (k) {
+    const li = b.closest('li'), ol = li.parentNode, a = itemsOf(ol), n = a.indexOf(li), to = k === 'top' ? 0 : k === 'up' ? n - 1 : n + 1, nm = ttl(li);
+    if (to >= 0 && to < a.length && to !== n) {
+      ol.insertBefore(li, to < n ? a[to] : a[to].nextSibling); ends(ol);
+      f.dataset.moved = '1'; f.dataset.ok = ''; if (st) { st.order = itemsOf(ol).map(idOf); paintSum(f); } okState(f);
+      hear(f, fmt(L.rankMoved, { item: nm, n: to + 1, m: a.length }));
+    } else hear(f, fmt(L.rankStay, { item: nm, n: n + 1, m: a.length }));
+    b.focus();
+  } else return;
+  save(f);
+});
+sync();
+const pack = () => {
+  const t = new Date(), p = n => String(n).padStart(2, '0'), o = { title: d.title, lang: root.lang || 'en', name: who?.value.trim() || L.anon,
+    date: t.getFullYear() + '-' + p(t.getMonth() + 1) + '-' + p(t.getDate()), answers: [], unanswered: [] };
+  fields.forEach(f => {
+    const h = $('legend, label', f), q = f.dataset.q, question = h ? txt(h) : '';
+    if (kept[q]) o.answers.push({ q, kind: f.dataset.kind || 'text', question, answer: answer(f), ...extra(f) }); else o.unanswered.push({ q, question });
+  });
+  return o;
+};
+const markdown = o => '# ' + o.title + ': ' + fmt(L.head, o) + ' (' + o.lang + ')\n'
+  + o.answers.map(x => '\n## [' + x.q + '] ' + x.question + '\n' + x.answer + '\n').join('')
+  + (o.unanswered.length ? '\n## ' + L.none + '\n' + o.unanswered.map(x => '[' + x.q + '] ' + x.question + '\n').join('') : '');
+const flash = (b, ok) => { b.classList.add(ok ? 'go' : 'stop'); setTimeout(() => b.classList.remove('go', 'stop'), 1600); };
+const copy = (s, b) => {
+  const legacy = () => {
+    const t = d.createElement('textarea'); let ok = false; t.value = s; t.style.cssText = 'position:fixed;opacity:0'; body.append(t); t.select();
+    try { ok = d.execCommand('copy'); } catch (e) {} t.remove(); flash(b, ok);
+  };
+  navigator.clipboard?.writeText ? navigator.clipboard.writeText(s).then(() => flash(b, true), legacy) : legacy();
+};
+on(bar, 'click', e => {
+  const b = e.target.closest?.('button'); if (!b) return;
+  const o = pack();
+  if ('copy' in b.dataset) copy(markdown(o), b);
+  else if ('json' in b.dataset) copy(JSON.stringify(o, null, 2), b);
+  else if ('download' in b.dataset) {
+    const a = d.createElement('a'), slug = s => s.replace(/[\\/:*?"<>|]+/g, ' ').trim().replace(/\s+/g, '-');
+    a.href = URL.createObjectURL(new Blob([markdown(o)], { type: 'text/markdown;charset=utf-8' }));
+    a.download = slug(o.title) + '-answers-' + (who?.value.trim() ? slug(who.value) + '-' : '') + o.date + '.md';
+    body.append(a); a.click(); a.remove(); flash(b, true);
+  }
+});
+})();
+</script>
+</body>
+</html>
