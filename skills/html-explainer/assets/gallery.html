@@ -280,6 +280,8 @@ main { min-width: 0; }
 .option { position: relative; padding: 1rem 1.1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
 .option[data-rec] { border-color: var(--go); border-width: 2.5px; }
 .option[data-rec]::after { content: attr(data-rec); position: absolute; top: -.8rem; right: .9rem; padding: .15rem .65rem; background: var(--go); color: var(--on-go); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+/* a consequence chip: the cost in words ("Can't undo"), amber with a ⚠ glyph, so it never leans on colour alone */
+.option[data-warn]::before { content: "⚠ " attr(data-warn); position: absolute; top: -.8rem; left: .9rem; z-index: 1; padding: .15rem .65rem; background: var(--wait); color: var(--on-wait); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
 .option h4 { margin: 0 0 .5rem; }
 .option ul { list-style: none; padding: 0; margin: 0; font-size: var(--size-s); }
 .option li { padding-left: 1.4rem; position: relative; }
@@ -687,11 +689,13 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
 
 /* ---------- 12e. Ballot: pictured decision cards, the picks tray, the copy fallback ---------- */
 /* A gather mode for one reader who hands decisions back (<html data-type="gather" data-mode="ballot">). No rail and no
-   chapters: a column of cards, and a tray pinned to the bottom of the screen from the first paint. Every option carries a
-   picture in .vis, built from plain HTML and CSS or an <img>; text alone never counts. .vis sits inside a <button>, so
-   it holds spans, svg and img only. The .mock-* parts below are a small kit for drawing those pictures. */
+   chapters: a column of cards, and a tray pinned to the bottom of the screen from the first paint. An option is a picture
+   in .vis, built from plain HTML and CSS or an <img>, or a text option: a bold label and one .detail line, with no .vis, for
+   a ruling that has nothing to draw. .vis sits inside a <button>, so it holds spans, svg and img only. The .mock-* parts
+   below are a small kit for drawing those pictures. */
 html[data-mode="ballot"] .page { display: block; width: min(100% - 2rem, 62rem); padding-bottom: 14rem; }
 html:not(.js) .ballot-tray { display: none; }
+.ballot-source { margin: -.25rem 0 .9rem; color: var(--ink-soft); font-size: var(--size-xs); max-width: none; }  /* "Rules on: <plan>, <date>, <commit>", under the title */
 
 .ballot-steps { list-style: none; counter-reset: bstep; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 2rem; padding: 0; max-width: none; }
 .ballot-steps > li { counter-increment: bstep; display: flex; gap: .7rem; align-items: flex-start; min-width: 0; margin: 0; padding: .8rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); }
@@ -723,11 +727,22 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem .85rem; }
 .ballot-opt { position: relative; display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: .6rem; width: 100%; min-width: 0; margin: 0; padding: .7rem .7rem .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .ballot-card[data-kind="multi"] .ballot-opt { grid-row: span 4; }
+/* A text option has no .vis: its rows are the label and the detail line (and the toggle on a multi card). A consequence chip is
+   one more row, and every option of a card with a chip keeps that row, so the rows still line up. */
+.ballot-opt:not(:has(.vis)) { grid-row: span 2; padding: .9rem .9rem 1rem; }
+.ballot-card[data-kind="multi"] .ballot-opt:not(:has(.vis)) { grid-row: span 3; }
+.ballot-opts:has(> [data-warn]) .ballot-opt { grid-row: span 4; }
+.ballot-opts:has(> [data-warn]) .ballot-opt:not(:has(.vis)) { grid-row: span 3; }
+.ballot-card[data-kind="multi"] .ballot-opts:has(> [data-warn]) .ballot-opt { grid-row: span 5; }
+.ballot-card[data-kind="multi"] .ballot-opts:has(> [data-warn]) .ballot-opt:not(:has(.vis)) { grid-row: span 4; }
 @supports not (grid-template-rows: subgrid) { .ballot-opt { display: flex; flex-direction: column; gap: .6rem; } }
 .ballot-opt:hover { border-color: var(--here); }
 .ballot-opt:focus-visible { border-radius: var(--r-comp); }
 .ballot-opt[aria-checked="true"], .ballot-opt.on { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
-.ballot-opt[aria-checked="true"]::after, .ballot-opt.on::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
+/* the picked mark hangs from the top right corner. It is drawn on .name (which is not positioned, so the corner is the option's) to leave ::after free for the consequence chip */
+.ballot-opt[aria-checked="true"] .name::after, .ballot-opt.on .name::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
+.ballot-opt[data-warn]::after { content: "⚠ " attr(data-warn); order: 1; align-self: end; justify-self: start; max-width: 100%; padding: .1rem .65rem; border-radius: var(--r-comp); background: var(--wait); color: var(--on-wait); font: 600 var(--size-xs)/1.4 var(--font-head); }  /* a consequence chip: the cost in words, amber, with a ⚠, so it never leans on colour alone; the last row of its option */
+.ballot-opt .ballot-ship { order: 2; }
 .ballot-opt[data-rec]::before { content: "★ " attr(data-rec); position: absolute; top: -.8rem; left: .8rem; z-index: 1; padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs) var(--font-head); }
 .ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] { border-color: var(--line); }
 .ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] .vis { opacity: .6; }  /* a faded picture; the words stay at full contrast */
@@ -736,7 +751,7 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-opt .name { display: flex; align-items: flex-start; gap: .5rem; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
 .ballot-opt .name b { flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 1.5px solid var(--line-strong); border-radius: 50%; font-size: var(--size-xs); }
 .ballot-opt[aria-checked="true"] .name b, .ballot-opt.on .name b { background: var(--here); border-color: var(--here); color: var(--on-here); }
-.ballot-opt .effect { color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.ballot-opt .effect, .ballot-opt .detail { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }  /* .detail is the one plain line of a text option */
 
 /* multi-select: each option has its own toggle, plus one "none" button for the card */
 .ballot-ship { display: flex; align-items: center; justify-content: center; gap: .5rem; align-self: end; width: 100%; min-height: 44px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); }
@@ -757,7 +772,7 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-done p { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
 
 /* the tray: tally, jump dots, the one primary button, a live status line, the save label, the copy fallback */
-.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
+.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: min(100% - 1.5rem, 62rem); max-height: calc(100vh - 1.5rem); max-height: calc(100dvh - 1.5rem); overflow-y: auto; overscroll-behavior: contain; margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
 .ballot-tray[data-complete] { border-color: var(--go); }
 .ballot-bar { display: flex; align-items: center; gap: .25rem 1rem; }
 .ballot-tally { flex: none; margin: 0; font: 600 var(--size-1)/1.1 var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; max-width: none; }
@@ -784,6 +799,22 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-fallback label { color: var(--ink-soft); font-size: var(--size-xs); }
 .ballot-fallback textarea { width: 100%; min-height: 6rem; max-height: 28vh; padding: .6rem .75rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: var(--size-xs)/1.5 var(--font-code); resize: vertical; }
 .ballot-fallback button { justify-self: start; min-height: 36px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+/* Pick all ★ on the left, Review picks on the right, one line. The button is out of flow so opening the review does not move it. */
+.ballot-tools { position: relative; min-height: 44px; }
+.ballot-tray button[data-pick-rec] { position: absolute; top: 0; left: 0; z-index: 1; min-height: 44px; padding: 0 1.1rem; border: 2px solid var(--go); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); white-space: nowrap; }
+.ballot-tray button[data-pick-rec]:hover { background: var(--go-tint); }
+.ballot-review > summary { list-style: none; display: flex; align-items: center; gap: .45rem; width: fit-content; min-height: 44px; margin-left: auto; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); cursor: pointer; }
+.ballot-review > summary::-webkit-details-marker { display: none; }
+.ballot-review > summary::after { content: "▾"; }
+.ballot-review[open] > summary::after { content: "▴"; }
+.ballot-rows { list-style: none; margin: .4rem 0 0; padding: 0; max-width: none; max-height: min(34vh, 14rem); overflow-y: auto; border-top: 1px solid var(--line); }
+.ballot-rows li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .6rem; margin: 0; padding: .4rem 0; border-bottom: 1px solid var(--line); font-size: var(--size-s); line-height: 1.35; }
+.ballot-rows .n { flex: none; width: 1.4rem; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); font-variant-numeric: tabular-nums; }
+.ballot-rows .q { flex: 1 1 8rem; min-width: 0; color: var(--ink-soft); }
+.ballot-rows .a { flex: 1 1 8rem; min-width: 0; font-family: var(--font-head); font-weight: 600; }
+.ballot-rows li.skipped .a { color: var(--ink-soft); font-weight: 500; }
+.ballot-note { display: grid; gap: .2rem; margin-top: .5rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-note input { width: 100%; min-height: 40px; padding: .4rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 @media (prefers-reduced-motion: no-preference) {
   .ballot-opt, .ballot-card, .ballot-pip::before { transition: border-color .15s, box-shadow .15s, background-color .15s; }
   .ballot-tray.nudge { animation: ballot-nudge .4s; }
@@ -798,8 +829,8 @@ html:not(.js) .ballot-tray { display: none; }
 @media (max-width: 560px) {  /* two options stay side by side, three or more stack; the tray keeps tally and button on one line, the dots on the next */
   html[data-mode="ballot"] .page { padding-bottom: 15rem; }
   .ballot-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .6rem; }
-  .ballot-opts:has(> :nth-child(3)) { grid-template-columns: minmax(0, 1fr); }
-  .ballot-opts:not(:has(> :nth-child(3))) .ballot-opt[data-rec]::before { content: "★"; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; }  /* side by side there is no room for the word; the answer line explains the star */
+  .ballot-opts:has(> :nth-child(3)), .ballot-opts:not(:has(.vis)) { grid-template-columns: minmax(0, 1fr); }  /* text options always stack */
+  .ballot-opts:not(:has(> :nth-child(3))):has(.vis) .ballot-opt[data-rec]::before { content: "★"; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; }  /* side by side there is no room for the word; the answer line explains the star */
   .ballot-opt { padding: .5rem .5rem .7rem; }
   .ballot-opt .vis { min-height: 5.5rem; padding: .5rem; }
   .ballot-tray { padding: .45rem .6rem .35rem; }
@@ -1630,14 +1661,16 @@ const T = {
         pickHead: '{title}: my picks ({n} of {m})', pickShip: 'ship {k}', pickNone: 'ship none', pickUse: 'Not picked (use ★)',
         savedDb: 'Saved for Claude', savedLocal: 'Saved in this browser', savedNone: 'Not saved; Copy picks still works',
         pickIdle: 'Tap an option on any card. Your picks collect here.', pickLeft: '{n} left. Anything you skip goes with the ★ option.', pickAll: 'All {m} picked. Copy them and paste into the chat.',
-        pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.' },
+        pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.',
+        skipped: '★ (skipped)', allRec: '{title}: all ★ (recommended)', noteLine: 'Note: {t}', recDone: 'Picked ★ for {n}. {p} of {m} done.', recNone: 'Every single-choice card already has a pick.' },
   ja: { of: '{m}章中 第{n}章', step: '{n} / {m}', ans: '{m}問中 {n}問 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
         read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了',
         pickN: '{m}問中{n}問 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '含める：{k}', shipNone: 'どれも含めない',
         pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '含める {k}', pickNone: '含めない', pickUse: '未選択（★を採用）',
         savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
         pickIdle: '各カードの選択肢をタップしてください。選択はここに集まります。', pickLeft: '残り{n}問。飛ばした項目は★の選択肢になります。', pickAll: '{m}問すべて選択済み。コピーしてチャットに貼り付けてください。',
-        pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。' }
+        pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。',
+        skipped: '★（飛ばした）', allRec: '{title}：すべて★（おすすめ）', noteLine: 'メモ：{t}', recDone: '{n}問を★にしました。{m}問中{p}問完了。', recNone: '1つだけ選ぶ項目は、すべて選択済みです。' }
 };
 const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
 const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
@@ -1682,6 +1715,7 @@ if (parts.length) {
 /* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
 on(d, 'click', e => {
   const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
+  if (a && a.getAttribute('href') === '#') return e.preventDefault();  /* a bare "#" (the ask's choices) goes nowhere; in a viewer it would reload the frame and blank the page */
   let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
   if (!t) return;
   e.preventDefault(); t.scrollIntoView();
@@ -1809,8 +1843,9 @@ on(d, 'keydown', e => {
    browser, and in the artifact database when claude.ai grants one, so the agent can read them without a paste. */
 if (root.dataset.mode === 'ballot') {
   const cards = qa('.ballot-card'), tray = $('.ballot-tray'), total = cards.length, pk = key + ':picks';
-  const [tally, status, saveEl, pipList, hole, holeText] = ['.ballot-tally', '.ballot-status', '.ballot-save', '.ballot-pips', '.ballot-fallback', '.ballot-fallback textarea'].map(s => $(s, tray));
+  const [tally, status, saveEl, pipList, hole, holeText, review, rowList, noteIn] = ['.ballot-tally', '.ballot-status', '.ballot-save', '.ballot-pips', '.ballot-fallback', '.ballot-fallback textarea', '.ballot-review', '.ballot-rows', '.ballot-note input'].map(s => $(s, tray));
   const multi = c => c.dataset.kind === 'multi', optsOf = c => qa('[data-k]', c), letters = c => optsOf(c).map(o => o.dataset.k);
+  const recOf = c => $('[data-rec]', c)?.dataset.k;  /* a single-choice card's ★ option */
   const numOf = (c, i) => { const n = $('.num', c); return n ? txt(n) : String(i + 1); };
   const nameOf = (c, k) => { const o = optsOf(c).find(x => x.dataset.k === k), n = $('.name', o).cloneNode(true); $('b', n)?.remove(); return txt(n); };
   const valid = (c, v) => multi(c) ? Array.isArray(v) && v.every(k => letters(c).includes(k)) : typeof v === 'string' && letters(c).includes(v);
@@ -1818,6 +1853,8 @@ if (root.dataset.mode === 'ballot') {
   const sig = o => JSON.stringify(cards.map(c => o[c.dataset.q]));
   let picks = {}; try { picks = tidy(JSON.parse(store.get(pk))); } catch (e) {}
   let db = null, dbOk = false, localOk = true;
+  let note = (store.get(key + ':note') || '').replace(/\s+/g, ' ').trim();  /* one optional line for the agent; it travels in the copies, not in the database */
+  if (noteIn) noteIn.value = note;
 
   const stateOf = (c, v) => v === undefined ? L.pickNot : multi(c) ? (v.length ? fmt(L.shipSome, { k: v.join(', ') }) : L.shipNone) : fmt(L.pickYour, { k: v });
   const pips = cards.map((c, i) => {
@@ -1825,6 +1862,7 @@ if (root.dataset.mode === 'ballot') {
     c.id = c.id || 'card-' + c.dataset.q; a.className = 'ballot-pip'; a.href = '#' + c.id; a.title = c.dataset.short || '';
     a.innerHTML = '<span>' + esc(numOf(c, i)) + '</span>'; li.append(a); pipList?.append(li); return a;
   });
+  let rowsHtml = '';
   const paint = () => {
     let n = 0;
     cards.forEach((c, i) => {
@@ -1842,6 +1880,14 @@ if (root.dataset.mode === 'ballot') {
     });
     if (tally) tally.textContent = fmt(L.pickN, { n, m: total });
     tray?.toggleAttribute('data-complete', n === total);
+    if (rowList) {  /* review: one row per card, its short name and the pick, or ★ when the card is skipped */
+      const html = cards.map((c, i) => {
+        const v = picks[c.dataset.q], got = v !== undefined;
+        const pick = !got ? L.skipped : multi(c) ? (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone) : v + ' ' + nameOf(c, v);
+        return '<li' + (got ? '' : ' class="skipped"') + '><span class="n">' + esc(numOf(c, i)) + '</span><span class="q">' + esc(c.dataset.short || txt($('h3', c))) + '</span><span class="a">' + esc(pick) + '</span></li>';
+      }).join('');
+      if (html !== rowsHtml) { rowList.innerHTML = rowsHtml = html; }
+    }
     return n;
   };
 
@@ -1868,19 +1914,30 @@ if (root.dataset.mode === 'ballot') {
     const n = paint(); saveLocal(); saveDb(q);
     const p = v === undefined ? numOf(c, i) : multi(c) ? numOf(c, i) + ' ' + stateOf(c, v) : numOf(c, i) + v;
     say(n === total ? fmt(L.pickAll, { m: total }) : fmt(v === undefined ? L.pickClear : L.pickDone, { p, n, m: total }), 1);
-    tray?.classList.remove('nudge'); void tray?.offsetWidth; tray?.classList.add('nudge');
+    nudge();
+  };
+  const nudge = () => { tray?.classList.remove('nudge'); void tray?.offsetWidth; tray?.classList.add('nudge'); };
+  /* Pick all ★: every card with no pick takes its ★ option, as if tapped. A card already picked stays as it is, and so does a multi card. */
+  const pickRec = () => {
+    let changed = 0;
+    cards.forEach(c => { const q = c.dataset.q, k = recOf(c); if (!multi(c) && k && picks[q] === undefined) { picks[q] = k; changed++; saveDb(q); } });
+    const n = paint(); saveLocal();
+    say(!changed ? L.recNone : n === total ? fmt(L.pickAll, { m: total }) : fmt(L.recDone, { n: changed, p: n, m: total }), 1);
+    nudge(); $('[data-copy]', tray)?.focus();
   };
 
-  /* what the agent gets: one line per pick, made for pasting into chat */
+  /* what the agent gets: one line per pick, made for pasting into chat. When every card is single-choice and ends on its ★ option, picked or skipped, it is one line. */
+  const allRec = () => cards.length > 0 && cards.every(c => !multi(c) && recOf(c) && (picks[c.dataset.q] ?? recOf(c)) === recOf(c));
   const picksText = () => {
-    const n = paint(), left = [], lines = [fmt(L.pickHead, { title: d.title, n, m: total })];
-    cards.forEach((c, i) => {
-      const v = picks[c.dataset.q], num = numOf(c, i), short = c.dataset.short || txt($('h3', c));
+    const n = paint(), left = [], short = allRec(), lines = [short ? fmt(L.allRec, { title: d.title }) : fmt(L.pickHead, { title: d.title, n, m: total })];
+    if (!short) cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], num = numOf(c, i), name = c.dataset.short || txt($('h3', c));
       if (v === undefined) left.push(num);
-      else if (multi(c)) lines.push(num + ' ' + short + ': ' + (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone));
-      else lines.push(num + v + ' ' + nameOf(c, v) + ' · ' + short);
+      else if (multi(c)) lines.push(num + ' ' + name + ': ' + (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone));
+      else lines.push(num + v + ' ' + nameOf(c, v) + ' · ' + name);
     });
     if (left.length) lines.push(L.pickUse + ': ' + left.join(', '));
+    if (note) lines.push(fmt(L.noteLine, { t: note }));
     return lines.join('\n');
   };
   /* the same shape as the gather copy, so assets/merge.html reads it: kind "choice", the option name as the answer */
@@ -1891,6 +1948,7 @@ if (root.dataset.mode === 'ballot') {
       if (v === undefined) o.unanswered.push({ q, question });
       else o.answers.push({ q, kind: multi(c) ? 'multi' : 'choice', question, answer: multi(c) ? (v.length ? v.map(k => nameOf(c, k)).join(', ') : L.shipNone) : nameOf(c, v) });
     });
+    if (note) o.note = note;
     return JSON.stringify(o, null, 2);
   };
 
@@ -1922,6 +1980,7 @@ if (root.dataset.mode === 'ballot') {
       $('.ballot-opt[tabindex="0"], .ballot-ship', target)?.focus({ preventScroll: true });
     } else if (btn && tray?.contains(btn)) {
       if ('copy' in btn.dataset) send(picksText(), btn);
+      else if ('pickRec' in btn.dataset) pickRec();
       else if ('json' in btn.dataset) send(picksJson(), btn);
       else if ('close' in btn.dataset) { hole.hidden = true; $('[data-copy]', tray)?.focus(); }
     }
@@ -1929,6 +1988,7 @@ if (root.dataset.mode === 'ballot') {
   /* arrow keys move through a card's options like a radio group: focus follows, and so does the pick */
   on(d, 'keydown', e => {
     if (e.key === 'Escape' && hole && !hole.hidden && tray.contains(e.target)) { hole.hidden = true; $('[data-copy]', tray)?.focus(); return; }
+    if (e.key === 'Escape' && review?.open && review.contains(e.target)) { review.open = false; $('summary', review)?.focus(); return; }
     const o = e.target.closest?.('button.ballot-opt'); if (!o || e.ctrlKey || e.metaKey || e.altKey) return;
     const all = qa('button.ballot-opt', o.parentElement), i = all.indexOf(o), step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
     const j = step ? (i + step + all.length) % all.length : e.key === 'Home' ? 0 : e.key === 'End' ? all.length - 1 : -1;
@@ -1936,6 +1996,7 @@ if (root.dataset.mode === 'ballot') {
     e.preventDefault(); all[j].focus(); setPick(o.closest('.ballot-card'), all[j].dataset.k);
   });
 
+  on(noteIn, 'input', () => { note = noteIn.value.replace(/\s+/g, ' ').trim(); store.set(key + ':note', note); });
   paint(); saveLocal(); say(idle(), 1);
   (async () => {  /* inside a claude.ai artifact, window.claude.use('db') resolves; anywhere else it is absent or null */
     try { db = (await window.claude?.use?.('db')) || null; } catch (e) { db = null; }

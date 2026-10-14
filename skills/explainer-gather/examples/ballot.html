@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>Notes app settings</title>
-<meta name="description" content="Four settings for a notes app, each shown as pictures. Pick one option per card, then copy all picks in one tap.">
+<meta name="description" content="Four settings for a notes app, three shown as pictures and one in words. Pick one option per card, then copy all picks in one tap.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -280,6 +280,8 @@ main { min-width: 0; }
 .option { position: relative; padding: 1rem 1.1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
 .option[data-rec] { border-color: var(--go); border-width: 2.5px; }
 .option[data-rec]::after { content: attr(data-rec); position: absolute; top: -.8rem; right: .9rem; padding: .15rem .65rem; background: var(--go); color: var(--on-go); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+/* a consequence chip: the cost in words ("Can't undo"), amber with a ⚠ glyph, so it never leans on colour alone */
+.option[data-warn]::before { content: "⚠ " attr(data-warn); position: absolute; top: -.8rem; left: .9rem; z-index: 1; padding: .15rem .65rem; background: var(--wait); color: var(--on-wait); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
 .option h4 { margin: 0 0 .5rem; }
 .option ul { list-style: none; padding: 0; margin: 0; font-size: var(--size-s); }
 .option li { padding-left: 1.4rem; position: relative; }
@@ -329,6 +331,215 @@ main { min-width: 0; }
 .tile .l { font-size: var(--size-s); color: var(--ink-soft); }
 .tile.go .n { color: var(--go); } .tile.wait .n { color: var(--wait); } .tile.stop .n { color: var(--stop); }
 
+/* ---------- 9b. Grid: options against criteria (compare, portfolio) ---------- */
+.grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+.grid { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
+.grid caption { padding: .8rem 1rem; text-align: left; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); border-bottom: 1px solid var(--line); }
+.grid :is(th, td) { padding: .65rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); overflow-wrap: break-word; }
+.grid :is(th, td) + :is(th, td) { border-left: 1px solid var(--line); }
+.grid tbody tr:last-child :is(th, td) { border-bottom: 0; }
+.grid thead th { background: var(--well); font-family: var(--font-head); font-weight: 600; }
+.grid tbody th { min-width: 9rem; background: var(--card); font-family: var(--font-head); font-weight: 600; }
+/* a cell state is a tint and a glyph, never the tint alone (WCAG 1.4.1) */
+.grid :is(td.go, td.wait, td.stop, td.decide) { position: relative; padding-left: 2.5rem; }
+.grid :is(td.go, td.wait, td.stop, td.decide)::before { position: absolute; left: .85rem; top: .75rem; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.grid td.go { background: var(--go-tint); }         .grid td.go::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.grid td.wait { background: var(--wait-tint); }     .grid td.wait::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.grid td.stop { background: var(--stop-tint); }     .grid td.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.grid td.decide { background: var(--decide-tint); } .grid td.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
+/* the recommended option: a star before its name, and a green foot on the header */
+.grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
+.grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+/* a group row is a quiet band that names the rows under it ("Goes to both"); it is not a criterion */
+.grid tbody tr.group th { min-width: 0; padding: .4rem 1rem; border-left: 0; background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
+@media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
+  .grid { min-width: 34rem; }
+  .grid caption { position: sticky; left: 0; width: 100cqw; }  /* the title stays in view while the columns scroll */
+  .grid :is(thead th:first-child, tbody th) { position: sticky; left: 0; z-index: 1; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; border-right: 1px solid var(--line-strong); }
+  .grid tbody tr.group th { position: static; width: auto; min-width: 0; max-width: none; border-right: 0; }  /* a band spans every column, so it scrolls with them */
+}
+@media print { .grid-wrap { overflow: visible; } }
+
+/* ---------- 9c. Lanes: now, next, later (roadmap) ---------- */
+.lanes { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.5rem; }
+.lane { padding: .9rem .9rem 1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.lane[data-lane="now"] { border-color: var(--here); border-width: 2px; }
+.lane[data-lane="later"] { border-style: dashed; border-color: var(--line-strong); }
+.lane > h3 { margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane > ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.lane li:last-child { margin-bottom: 0; }
+.lane li:target { outline: 3px solid var(--here); outline-offset: 2px; }
+.lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+.lane li.go { border-color: var(--go); }         .lane li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
+.lane li.wait { border-color: var(--wait); }     .lane li.wait::before { content: "!"; background: var(--wait); border-color: var(--wait); color: var(--on-wait); }
+.lane li.stop { border-color: var(--stop); }     .lane li.stop::before { content: "✕"; background: var(--stop); border-color: var(--stop); color: var(--on-stop); }
+.lane li.decide { border-color: var(--decide); } .lane li.decide::before { content: "?"; background: var(--decide); border-color: var(--decide); color: var(--on-decide); }
+.lane li.here { border-color: var(--here); }     .lane li.here::before { content: "●"; background: var(--here); border-color: var(--here); color: var(--on-here); }
+.lane li b { display: block; font-family: var(--font-head); font-weight: 600; }
+.lane li span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
+.lane li small.after { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); }
+@media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
+
+/* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
+.runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.runbook > li { position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
+.runbook > li::before { content: counter(list-item); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.runbook > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
+.runbook > li > b { font-family: var(--font-head); font-weight: 600; }
+.runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: .55rem .8rem .55rem 2.6rem; border: 1.5px solid; border-radius: var(--r-comp); font-size: var(--size-s); max-width: none; }
+.runbook p.check { border-color: var(--go); background: var(--go-tint); }
+.runbook p.fail { border-color: var(--stop); background: var(--stop-tint); }
+.runbook :is(p.check, p.fail)::before { position: absolute; left: .75rem; top: .62rem; width: 1.15rem; height: 1.15rem; display: grid; place-items: center; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.runbook p.check::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook p.fail::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.runbook :is(p.check, p.fail) > b:first-child { font-family: var(--font-head); font-weight: 600; }
+/* a command the reader types. The template script adds the Copy button; without it the command still reads. */
+pre.cmd { display: flex; align-items: flex-start; gap: .75rem; margin: .5rem 0 .25rem; padding: .6rem .6rem .6rem 1rem; border: 1.5px solid var(--line-strong); }
+pre.cmd > code { flex: 1; min-width: 0; padding: .15rem 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+pre.cmd > button { flex: none; padding: .2rem .7rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+pre.cmd > button.go { border-color: var(--go); background: var(--go-tint); }
+pre.cmd > button.go::before { content: "✓ "; color: var(--go); }
+pre.cmd > button.stop { border-color: var(--stop); background: var(--stop-tint); }
+pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
+@media (max-width: 560px) {  /* a phone wraps the command instead of hiding its end, and the Copy button drops below it */
+  pre.cmd { flex-direction: column; align-items: stretch; gap: .5rem; }
+  pre.cmd > code { white-space: pre-wrap; overflow-wrap: anywhere; }
+  pre.cmd > button { align-self: flex-end; }
+}
+@media print { pre.cmd > button { display: none; } }
+
+/* ---------- 9e. Tour: real screenshots with numbered pins ---------- */
+.tour { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: 1.75rem; counter-reset: tour; max-width: none; }
+.tour > li { counter-increment: tour; margin: 0; }
+.shot { position: relative; margin: 0 0 .75rem; }
+.shot img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.pin { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border: 3px solid var(--card); border-radius: 50%; outline: 2px solid var(--here); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); line-height: 1; }
+@media (max-width: 560px) { .pin { width: 1.4rem; height: 1.4rem; border-width: 2px; font-size: var(--size-xs); } }  /* a phone shrinks the screenshot, so the pin shrinks with it */
+.tour > li > h3 { display: flex; gap: .6rem; align-items: center; margin: 0 0 .25rem; font-size: var(--size-1); }
+.tour > li > h3::before { content: counter(tour); flex: none; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); }
+.tour > li > p { margin: 0; }
+
+/* ---------- 9f. Promises: what the product does for a person, each with its evidence (public) ---------- */
+.promises { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: none; }
+.promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); }
+.promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
+.promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
+
+/* ---------- 9g. Playbook: a plan for one risky change, written for one decision-maker ---------- */
+/* Every part keeps min-width: 0 and wraps long words and code, so nothing pushes a phone sideways. Meaning colours stay
+   meaning: who owns a thing is a letter (.who), never a colour. */
+.hero { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 2rem; }
+.hero > * { min-width: 0; }
+.hero > .thesis { width: 100%; max-width: 22rem; margin: .25rem 0 1.25rem; padding: .6rem; background: var(--well); border: 1px solid var(--line); border-radius: var(--r-comp); }
+.hero > .thesis svg { display: block; width: 100%; height: auto; }
+@media (min-width: 1100px) {  /* beside the title; on a narrower screen it sits under the meta line */
+  .hero:has(> .thesis) { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .hero > .thesis { grid-column: 2; grid-row: 1 / span 3; align-self: center; margin: 0; }
+}
+@media (max-width: 560px) { .hero > .thesis { margin: 0 0 .9rem; padding: .35rem; } }  /* tight, so the answer still opens the first screen */
+
+.chip { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.5 var(--font-head); }
+/* who owns it: a letter badge. You is solid, me is outlined, both is quiet, so the three differ without colour.
+   data-owner goes on the phase-strip or steps li that owns it; data-who goes on a role. */
+.who { flex: none; display: inline-grid; place-items: center; min-width: 1.5rem; height: 1.5rem; padding: 0 .4rem; border: 1.5px solid var(--ink-soft); border-radius: var(--r-chip); background: var(--ink-soft); color: var(--on-soft); font: 700 var(--size-xs)/1 var(--font-head); white-space: nowrap; }
+[data-owner="me"] .who, .role[data-who="me"] .who { background: var(--card); color: var(--ink); }
+[data-owner="both"] .who { background: var(--well); color: var(--ink); }
+
+/* the whole plan in one row; each segment links to its phase. A segment is a wrapping flex box: the owner badge sits beside
+   "Phase 1" when there is room and drops to its own line when there is not. */
+.phase-strip { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .5rem; max-width: none; }
+.phase-strip > li { min-width: 0; margin: 0; }
+.phase-strip a { display: flex; flex-wrap: wrap; align-content: flex-start; align-items: center; gap: .3rem .4rem; height: 100%; min-width: 0; padding: .65rem .7rem .7rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
+.phase-strip a:hover { border-color: var(--here); }
+.phase-strip a:hover b { text-decoration: underline; text-underline-offset: .18em; }
+.phase-strip a > * { min-width: 0; }
+.phase-strip .seg-num { order: 1; flex: 1 1 auto; color: var(--ink-soft); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.phase-strip .who { order: 2; margin-left: auto; }
+.phase-strip b { order: 3; flex: 1 1 100%; font: 600 var(--size-s)/1.25 var(--font-head); }
+.phase-strip .effort { order: 4; flex: 1 1 100%; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.3; }
+.phase-strip .bar { order: 5; flex: 1 1 100%; height: .4rem; border-radius: var(--r-chip); background: linear-gradient(var(--ink-soft), var(--ink-soft)) 0 0 / calc(var(--effort, 1) * 20%) 100% no-repeat, var(--line-strong); }
+/* the phases the audience will notice: a here border and a tinted face, and the label is written in the markup */
+.phase-strip li.notice a { border-color: var(--here); border-width: 2px; background: var(--here-tint); }
+.notice-tag { order: 6; flex: 1 1 100%; display: flex; gap: .35rem; align-items: baseline; margin-top: .1rem; font: 700 var(--size-xs)/1.25 var(--font-head); }
+.notice-tag::before { content: "●"; flex: none; color: var(--here); }
+@media (max-width: 759px) {  /* six or more segments wrap to two rows */
+  .phase-strip:has(> :nth-child(6)) { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .phase-strip:has(> :nth-child(7)) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {  /* a phone shows about three segments across and wraps the rest */
+  .phase-strip, .phase-strip:has(> :nth-child(6)), .phase-strip:has(> :nth-child(7)) { grid-auto-flow: row; grid-template-columns: repeat(auto-fill, minmax(5.75rem, 1fr)); }
+  .phase-strip a { padding: .55rem .55rem .6rem; gap: .25rem .3rem; }
+  .phase-strip .seg-num { font-size: .72rem; }
+  .phase-strip .who { min-width: 1.3rem; height: 1.3rem; padding: 0 .25rem; font-size: .7rem; }
+}
+
+/* ordered phases, numbered because the order is real */
+.phases { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: phase; max-width: none; }
+.phases > li { counter-increment: phase; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; min-width: 0; margin: 0; padding: .25rem 0 1.3rem 3.1rem; scroll-margin-top: 4.5rem; }
+.phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
+.phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
+.phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
+@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
+.phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
+.phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.phases p.impact::before { content: "○"; position: absolute; left: .85rem; top: .45rem; color: var(--ink-faint); font-weight: 700; }
+.phases p.impact b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+.phases li.notice p.impact { border-style: solid; border-color: var(--here); background: var(--here-tint); color: var(--ink); }
+.phases li.notice p.impact::before { content: "●"; color: var(--here); }
+
+/* a small browser or phone mockup of what the audience sees */
+.frame { display: flex; flex-direction: column; min-width: 0; margin: 1rem 0 1.5rem; overflow: hidden; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.frame-bar { display: flex; align-items: center; gap: .6rem; padding: .45rem .65rem; background: var(--well); border-bottom: 1px solid var(--line); }
+.frame .dots { flex: none; width: .5rem; height: .5rem; margin-right: 1.6rem; border-radius: 50%; background: var(--line-strong); box-shadow: .8rem 0 0 var(--line-strong), 1.6rem 0 0 var(--line-strong); }
+.frame .url { flex: 1; min-width: 0; padding: .05rem .65rem; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--card); color: var(--ink-soft); font: var(--size-xs)/1.5 var(--font-code); text-overflow: ellipsis; white-space: nowrap; }
+.frame-screen { flex: 1; min-width: 0; display: grid; gap: .45rem; align-content: start; min-height: 8rem; padding: .8rem; background: var(--well); font-size: var(--size-xs); line-height: 1.35; }
+.frame > .take { margin: 0; border-top: 1px solid var(--line); border-left: 0; border-radius: 0; }
+.frame.phone { max-width: 13rem; margin-inline: auto; border-width: 2px; border-radius: 1.5rem; }
+.frame.phone .frame-bar { justify-content: center; padding: .6rem .7rem .4rem; background: var(--card); border-bottom: 0; }
+.frame.phone .dots { display: none; }
+.frame.phone .url { flex: 0 1 auto; max-width: 100%; }
+.frame-row { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); margin: 1rem 0 1.5rem; }
+.frame-row:has(> :nth-child(4)) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.frame-row > .frame { margin: 0; }
+.frame-row > .frame.phone { align-self: start; margin-inline: auto; }
+@media (max-width: 640px) { .frame-row, .frame-row:has(> :nth-child(4)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* who does what, and the rules that never bend */
+.roles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); margin: 1rem 0 1.25rem; }
+.role { min-width: 0; padding: .9rem 1.1rem 1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.role > h3 { display: flex; align-items: center; gap: .6rem; margin: 0 0 .5rem; font-size: var(--size-1); }
+.role ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
+.rules { list-style: none; display: grid; gap: .6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); margin: 0 0 1.5rem; padding: 0; max-width: none; }
+.rules li { position: relative; min-width: 0; margin: 0; padding: .7rem .9rem .75rem 2.9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-left: 5px solid var(--go); border-radius: var(--r-comp); font-size: var(--size-s); }
+.rules li::before { content: "✓"; position: absolute; left: .8rem; top: .75rem; width: 1.3rem; height: 1.3rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+.rules li b { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-0); }
+
+/* the way back from the risky moment */
+.undo, details.fold > .undo { position: relative; margin: 1rem 0 1.5rem; padding: .85rem 1.1rem .85rem 3.7rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); max-width: none; }  /* the second selector outranks the fold's own padding */
+.undo::before { content: "↺"; position: absolute; left: 1rem; top: .8rem; width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 1.15rem/1 var(--font-head); }
+.undo > b { font-family: var(--font-head); font-weight: 600; }
+
+/* risks: a level (word and glyph, never colour alone) and what keeps each one small */
+.risks { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); margin: 1rem 0 1.5rem; }
+.risk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-content: start; align-items: start; gap: .35rem .75rem; min-width: 0; padding: .85rem 1rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-top: 5px solid var(--line-strong); border-radius: var(--r-comp); }
+.risk > h3 { margin: 0; font-size: var(--size-1); }
+.risk > p { grid-column: 1 / -1; margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+.risk .level { display: inline-flex; align-items: center; gap: .4rem; padding: .05rem .7rem .05rem .35rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.6 var(--font-head); white-space: nowrap; }
+.risk .level::before { display: grid; place-items: center; width: 1.1rem; height: 1.1rem; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
+.risk[data-level="high"] { border-top-color: var(--stop); }
+.risk[data-level="high"] .level { border-color: var(--stop); background: var(--stop-tint); }
+.risk[data-level="high"] .level::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+.risk[data-level="medium"] { border-top-color: var(--wait); }
+.risk[data-level="medium"] .level { border-color: var(--wait); background: var(--wait-tint); }
+.risk[data-level="medium"] .level::before { content: "!"; background: var(--wait); color: var(--on-wait); }
+.risk[data-level="low"] { border-top-color: var(--go); }
+.risk[data-level="low"] .level { border-color: var(--go); background: var(--go-tint); }
+.risk[data-level="low"] .level::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.risk p.kept { margin-top: .25rem; padding: .5rem .7rem; background: var(--well); border-radius: 8px; color: var(--ink); }
+.risk p.kept b { font-family: var(--font-head); font-weight: 600; }
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -375,8 +586,8 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p),
-body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
+body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
 body[data-skim="on"] .chapter .from { display: none; }
@@ -417,6 +628,8 @@ body[data-focus="on"] .focus-nav { display: flex; }
 .answer-field ol > li::before { content: counter(rank); flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font: 600 var(--size-xs) var(--font-head); }
 .answer-field ol > li > :first-child { flex: 1; }
 .answer-field ol button { flex: none; width: 2.25rem; height: 2.25rem; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+/* the recommended option wears a ★ chip with the attribute's own words ("Recommended", "My pick"); the star is the only glyph CSS writes */
+.answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
 .collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
 .collect .respondent { flex: 1 1 8rem; min-width: 0; padding: .45rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 .collect .count { color: var(--ink-soft); font-size: var(--size-s); white-space: nowrap; }
@@ -476,11 +689,13 @@ html[data-size="xl"] button[data-size]::after { content: " ++"; }
 
 /* ---------- 12e. Ballot: pictured decision cards, the picks tray, the copy fallback ---------- */
 /* A gather mode for one reader who hands decisions back (<html data-type="gather" data-mode="ballot">). No rail and no
-   chapters: a column of cards, and a tray pinned to the bottom of the screen from the first paint. Every option carries a
-   picture in .vis, built from plain HTML and CSS or an <img>; text alone never counts. .vis sits inside a <button>, so
-   it holds spans, svg and img only. The .mock-* parts below are a small kit for drawing those pictures. */
+   chapters: a column of cards, and a tray pinned to the bottom of the screen from the first paint. An option is a picture
+   in .vis, built from plain HTML and CSS or an <img>, or a text option: a bold label and one .detail line, with no .vis, for
+   a ruling that has nothing to draw. .vis sits inside a <button>, so it holds spans, svg and img only. The .mock-* parts
+   below are a small kit for drawing those pictures. */
 html[data-mode="ballot"] .page { display: block; width: min(100% - 2rem, 62rem); padding-bottom: 14rem; }
 html:not(.js) .ballot-tray { display: none; }
+.ballot-source { margin: -.25rem 0 .9rem; color: var(--ink-soft); font-size: var(--size-xs); max-width: none; }  /* "Rules on: <plan>, <date>, <commit>", under the title */
 
 .ballot-steps { list-style: none; counter-reset: bstep; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 2rem; padding: 0; max-width: none; }
 .ballot-steps > li { counter-increment: bstep; display: flex; gap: .7rem; align-items: flex-start; min-width: 0; margin: 0; padding: .8rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); }
@@ -512,11 +727,22 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-opts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 1.25rem .85rem; }
 .ballot-opt { position: relative; display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: .6rem; width: 100%; min-width: 0; margin: 0; padding: .7rem .7rem .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: inherit; font: inherit; text-align: left; cursor: pointer; }
 .ballot-card[data-kind="multi"] .ballot-opt { grid-row: span 4; }
+/* A text option has no .vis: its rows are the label and the detail line (and the toggle on a multi card). A consequence chip is
+   one more row, and every option of a card with a chip keeps that row, so the rows still line up. */
+.ballot-opt:not(:has(.vis)) { grid-row: span 2; padding: .9rem .9rem 1rem; }
+.ballot-card[data-kind="multi"] .ballot-opt:not(:has(.vis)) { grid-row: span 3; }
+.ballot-opts:has(> [data-warn]) .ballot-opt { grid-row: span 4; }
+.ballot-opts:has(> [data-warn]) .ballot-opt:not(:has(.vis)) { grid-row: span 3; }
+.ballot-card[data-kind="multi"] .ballot-opts:has(> [data-warn]) .ballot-opt { grid-row: span 5; }
+.ballot-card[data-kind="multi"] .ballot-opts:has(> [data-warn]) .ballot-opt:not(:has(.vis)) { grid-row: span 4; }
 @supports not (grid-template-rows: subgrid) { .ballot-opt { display: flex; flex-direction: column; gap: .6rem; } }
 .ballot-opt:hover { border-color: var(--here); }
 .ballot-opt:focus-visible { border-radius: var(--r-comp); }
 .ballot-opt[aria-checked="true"], .ballot-opt.on { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
-.ballot-opt[aria-checked="true"]::after, .ballot-opt.on::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
+/* the picked mark hangs from the top right corner. It is drawn on .name (which is not positioned, so the corner is the option's) to leave ::after free for the consequence chip */
+.ballot-opt[aria-checked="true"] .name::after, .ballot-opt.on .name::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
+.ballot-opt[data-warn]::after { content: "⚠ " attr(data-warn); order: 1; align-self: end; justify-self: start; max-width: 100%; padding: .1rem .65rem; border-radius: var(--r-comp); background: var(--wait); color: var(--on-wait); font: 600 var(--size-xs)/1.4 var(--font-head); }  /* a consequence chip: the cost in words, amber, with a ⚠, so it never leans on colour alone; the last row of its option */
+.ballot-opt .ballot-ship { order: 2; }
 .ballot-opt[data-rec]::before { content: "★ " attr(data-rec); position: absolute; top: -.8rem; left: .8rem; z-index: 1; padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs) var(--font-head); }
 .ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] { border-color: var(--line); }
 .ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] .vis { opacity: .6; }  /* a faded picture; the words stay at full contrast */
@@ -525,7 +751,7 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-opt .name { display: flex; align-items: flex-start; gap: .5rem; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
 .ballot-opt .name b { flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 1.5px solid var(--line-strong); border-radius: 50%; font-size: var(--size-xs); }
 .ballot-opt[aria-checked="true"] .name b, .ballot-opt.on .name b { background: var(--here); border-color: var(--here); color: var(--on-here); }
-.ballot-opt .effect { color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.ballot-opt .effect, .ballot-opt .detail { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }  /* .detail is the one plain line of a text option */
 
 /* multi-select: each option has its own toggle, plus one "none" button for the card */
 .ballot-ship { display: flex; align-items: center; justify-content: center; gap: .5rem; align-self: end; width: 100%; min-height: 44px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); }
@@ -546,7 +772,7 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-done p { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
 
 /* the tray: tally, jump dots, the one primary button, a live status line, the save label, the copy fallback */
-.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: min(100% - 1.5rem, 62rem); margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
+.ballot-tray { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: grid; grid-template-columns: minmax(0, 1fr); gap: .3rem; width: min(100% - 1.5rem, 62rem); max-height: calc(100vh - 1.5rem); max-height: calc(100dvh - 1.5rem); overflow-y: auto; overscroll-behavior: contain; margin: 0 auto; padding: .55rem .8rem .45rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); box-shadow: var(--shadow-float); }
 .ballot-tray[data-complete] { border-color: var(--go); }
 .ballot-bar { display: flex; align-items: center; gap: .25rem 1rem; }
 .ballot-tally { flex: none; margin: 0; font: 600 var(--size-1)/1.1 var(--font-head); font-variant-numeric: tabular-nums; white-space: nowrap; max-width: none; }
@@ -573,6 +799,22 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-fallback label { color: var(--ink-soft); font-size: var(--size-xs); }
 .ballot-fallback textarea { width: 100%; min-height: 6rem; max-height: 28vh; padding: .6rem .75rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: var(--size-xs)/1.5 var(--font-code); resize: vertical; }
 .ballot-fallback button { justify-self: start; min-height: 36px; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs) var(--font-head); }
+/* Pick all ★ on the left, Review picks on the right, one line. The button is out of flow so opening the review does not move it. */
+.ballot-tools { position: relative; min-height: 44px; }
+.ballot-tray button[data-pick-rec] { position: absolute; top: 0; left: 0; z-index: 1; min-height: 44px; padding: 0 1.1rem; border: 2px solid var(--go); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); white-space: nowrap; }
+.ballot-tray button[data-pick-rec]:hover { background: var(--go-tint); }
+.ballot-review > summary { list-style: none; display: flex; align-items: center; gap: .45rem; width: fit-content; min-height: 44px; margin-left: auto; padding: 0 1rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); cursor: pointer; }
+.ballot-review > summary::-webkit-details-marker { display: none; }
+.ballot-review > summary::after { content: "▾"; }
+.ballot-review[open] > summary::after { content: "▴"; }
+.ballot-rows { list-style: none; margin: .4rem 0 0; padding: 0; max-width: none; max-height: min(34vh, 14rem); overflow-y: auto; border-top: 1px solid var(--line); }
+.ballot-rows li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .6rem; margin: 0; padding: .4rem 0; border-bottom: 1px solid var(--line); font-size: var(--size-s); line-height: 1.35; }
+.ballot-rows .n { flex: none; width: 1.4rem; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); font-variant-numeric: tabular-nums; }
+.ballot-rows .q { flex: 1 1 8rem; min-width: 0; color: var(--ink-soft); }
+.ballot-rows .a { flex: 1 1 8rem; min-width: 0; font-family: var(--font-head); font-weight: 600; }
+.ballot-rows li.skipped .a { color: var(--ink-soft); font-weight: 500; }
+.ballot-note { display: grid; gap: .2rem; margin-top: .5rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.ballot-note input { width: 100%; min-height: 40px; padding: .4rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 @media (prefers-reduced-motion: no-preference) {
   .ballot-opt, .ballot-card, .ballot-pip::before { transition: border-color .15s, box-shadow .15s, background-color .15s; }
   .ballot-tray.nudge { animation: ballot-nudge .4s; }
@@ -587,8 +829,8 @@ html:not(.js) .ballot-tray { display: none; }
 @media (max-width: 560px) {  /* two options stay side by side, three or more stack; the tray keeps tally and button on one line, the dots on the next */
   html[data-mode="ballot"] .page { padding-bottom: 15rem; }
   .ballot-opts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem .6rem; }
-  .ballot-opts:has(> :nth-child(3)) { grid-template-columns: minmax(0, 1fr); }
-  .ballot-opts:not(:has(> :nth-child(3))) .ballot-opt[data-rec]::before { content: "★"; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; }  /* side by side there is no room for the word; the answer line explains the star */
+  .ballot-opts:has(> :nth-child(3)), .ballot-opts:not(:has(.vis)) { grid-template-columns: minmax(0, 1fr); }  /* text options always stack */
+  .ballot-opts:not(:has(> :nth-child(3))):has(.vis) .ballot-opt[data-rec]::before { content: "★"; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; padding: 0; }  /* side by side there is no room for the word; the answer line explains the star */
   .ballot-opt { padding: .5rem .5rem .7rem; }
   .ballot-opt .vis { min-height: 5.5rem; padding: .5rem; }
   .ballot-tray { padding: .45rem .6rem .35rem; }
@@ -632,7 +874,7 @@ html:not(.js) .ballot-tray { display: none; }
   details.fold { break-inside: avoid; }
   details.fold[open] > summary::before, details.fold > summary::before { display: none; }
   a { color: inherit; text-decoration: none; }
-  .figure, .answer-field { break-inside: avoid; }
+  .figure, .answer-field, .frame, .risk, .role, .undo { break-inside: avoid; }
 }
 </style>
 </head>
@@ -644,6 +886,7 @@ html:not(.js) .ballot-tray { display: none; }
   <main id="main">
     <p class="kicker">Four settings for the first release</p>
     <h1>Notes app settings</h1>
+    <p class="ballot-source">Rules on: notes app plan, 2026-10-13, commit 4be91d2</p>
     <p class="answer">4 decisions. Anything you skip goes with ★.</p>
 
     <ol class="ballot-steps" aria-label="How this page works">
@@ -684,14 +927,12 @@ html:not(.js) .ballot-tray { display: none; }
           <p class="why">A deleted note is either gone at once or waits in a trash. Waiting needs a new screen.</p><span class="state">Not picked</span></header>
         <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q2">
           <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Trash</span><span class="mock-row"><span>Trip ideas</span><span class="mock-btn quiet">Restore</span></span></span><span class="mock-note">Kept for 30 days</span></span>
             <span class="name"><b>A</b> Trash for 30 days</span>
-            <span class="effect">The note moves to Trash. It can be restored for 30 days.</span>
+            <span class="detail">The note moves to Trash. It can be restored for 30 days.</span>
           </button>
-          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
-            <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-title">Notes</span><span class="mock-line" style="width:85%"></span><span class="mock-line" style="width:60%"></span></span><span class="mock-toast">Deleted <b>Undo</b></span></span>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-warn="Gone for good">
             <span class="name"><b>B</b> Delete at once, with Undo</span>
-            <span class="effect">The note is gone for good. Undo stays up for 10 seconds.</span>
+            <span class="detail">The note is deleted now. Undo stays up for 10 seconds.</span>
           </button>
         </div>
         <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
@@ -762,6 +1003,14 @@ html:not(.js) .ballot-tray { display: none; }
         <ol class="ballot-pips" aria-label="Jump to a decision"></ol>
         <div class="ballot-actions"><button type="button" data-copy>Copy picks</button></div>
       </div>
+      <div class="ballot-tools">
+        <button type="button" data-pick-rec>Pick all ★</button>
+        <details class="ballot-review">
+          <summary>Review picks</summary>
+          <ol class="ballot-rows"></ol>
+          <label class="ballot-note"><span>Anything else?</span><input type="text" maxlength="300" autocomplete="off"></label>
+        </details>
+      </div>
       <div class="ballot-meta">
         <p class="ballot-status" aria-live="polite">Tap an option on any card. Your picks collect here.</p>
         <span class="ballot-save">Saved in this browser</span>
@@ -800,14 +1049,16 @@ const T = {
         pickHead: '{title}: my picks ({n} of {m})', pickShip: 'ship {k}', pickNone: 'ship none', pickUse: 'Not picked (use ★)',
         savedDb: 'Saved for Claude', savedLocal: 'Saved in this browser', savedNone: 'Not saved; Copy picks still works',
         pickIdle: 'Tap an option on any card. Your picks collect here.', pickLeft: '{n} left. Anything you skip goes with the ★ option.', pickAll: 'All {m} picked. Copy them and paste into the chat.',
-        pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.' },
+        pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.',
+        skipped: '★ (skipped)', allRec: '{title}: all ★ (recommended)', noteLine: 'Note: {t}', recDone: 'Picked ★ for {n}. {p} of {m} done.', recNone: 'Every single-choice card already has a pick.' },
   ja: { of: '{m}章中 第{n}章', step: '{n} / {m}', ans: '{m}問中 {n}問 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
         read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了',
         pickN: '{m}問中{n}問 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '含める：{k}', shipNone: 'どれも含めない',
         pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '含める {k}', pickNone: '含めない', pickUse: '未選択（★を採用）',
         savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
         pickIdle: '各カードの選択肢をタップしてください。選択はここに集まります。', pickLeft: '残り{n}問。飛ばした項目は★の選択肢になります。', pickAll: '{m}問すべて選択済み。コピーしてチャットに貼り付けてください。',
-        pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。' }
+        pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。',
+        skipped: '★（飛ばした）', allRec: '{title}：すべて★（おすすめ）', noteLine: 'メモ：{t}', recDone: '{n}問を★にしました。{m}問中{p}問完了。', recNone: '1つだけ選ぶ項目は、すべて選択済みです。' }
 };
 const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
 const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
@@ -843,15 +1094,16 @@ flip(sk, 'data-skim'); flip(ru, 'data-ruler', 'explainer:ruler');
 if (parts.length) {
   flip(fb, 'data-focus', 0, s => { if (s) showPart(Math.max(0, parts.findIndex(p => p.getBoundingClientRect().bottom > 120))); });
   on(pv, 'click', () => showPart(idx - 1)); on(nx, 'click', () => showPart(idx + 1));
-  on(d, 'click', e => {
-    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"]');
-    const n = a ? parts.indexOf(byId(a.getAttribute('href').slice(1))) : -1;
-    if (n >= 0) { e.preventDefault(); showPart(n); }
+  on(d, 'click', e => {  /* a link to something inside a chapter (a playbook phase) opens that chapter, then scrolls to the thing */
+    const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"], .phase-strip a[href^="#"]');
+    const t = a ? byId(a.getAttribute('href').slice(1)) : null, n = parts.indexOf(t?.closest('.chapter, .recap, .ask'));
+    if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
 /* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
 on(d, 'click', e => {
   const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
+  if (a && a.getAttribute('href') === '#') return e.preventDefault();  /* a bare "#" (the ask's choices) goes nowhere; in a viewer it would reload the frame and blank the page */
   let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
   if (!t) return;
   e.preventDefault(); t.scrollIntoView();
@@ -930,6 +1182,16 @@ qa('.views').forEach(v => {
 /* mini-map: light this chapter's node, dim the rest */
 qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.dataset.node === m.dataset.lit ? 'is-lit' : 'is-dim')));
 
+/* commands: every pre.cmd gets a Copy button. The command reads fine without it. copy() and flash() are the gather bar's own, defined below and used only on click. */
+Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
+qa('pre.cmd').forEach(p => {
+  const code = $('code', p) || p, b = d.createElement('button');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  on(b, 'click', () => copy(code.textContent.trim(), b));
+  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  p.append(b);
+});
+
 /* read aloud: one block at a time, in the page language; one chapter at a time */
 const rd = qa('[data-read]'); let sid = 0;
 const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = L.read; }); };
@@ -969,8 +1231,9 @@ on(d, 'keydown', e => {
    browser, and in the artifact database when claude.ai grants one, so the agent can read them without a paste. */
 if (root.dataset.mode === 'ballot') {
   const cards = qa('.ballot-card'), tray = $('.ballot-tray'), total = cards.length, pk = key + ':picks';
-  const [tally, status, saveEl, pipList, hole, holeText] = ['.ballot-tally', '.ballot-status', '.ballot-save', '.ballot-pips', '.ballot-fallback', '.ballot-fallback textarea'].map(s => $(s, tray));
+  const [tally, status, saveEl, pipList, hole, holeText, review, rowList, noteIn] = ['.ballot-tally', '.ballot-status', '.ballot-save', '.ballot-pips', '.ballot-fallback', '.ballot-fallback textarea', '.ballot-review', '.ballot-rows', '.ballot-note input'].map(s => $(s, tray));
   const multi = c => c.dataset.kind === 'multi', optsOf = c => qa('[data-k]', c), letters = c => optsOf(c).map(o => o.dataset.k);
+  const recOf = c => $('[data-rec]', c)?.dataset.k;  /* a single-choice card's ★ option */
   const numOf = (c, i) => { const n = $('.num', c); return n ? txt(n) : String(i + 1); };
   const nameOf = (c, k) => { const o = optsOf(c).find(x => x.dataset.k === k), n = $('.name', o).cloneNode(true); $('b', n)?.remove(); return txt(n); };
   const valid = (c, v) => multi(c) ? Array.isArray(v) && v.every(k => letters(c).includes(k)) : typeof v === 'string' && letters(c).includes(v);
@@ -978,6 +1241,8 @@ if (root.dataset.mode === 'ballot') {
   const sig = o => JSON.stringify(cards.map(c => o[c.dataset.q]));
   let picks = {}; try { picks = tidy(JSON.parse(store.get(pk))); } catch (e) {}
   let db = null, dbOk = false, localOk = true;
+  let note = (store.get(key + ':note') || '').replace(/\s+/g, ' ').trim();  /* one optional line for the agent; it travels in the copies, not in the database */
+  if (noteIn) noteIn.value = note;
 
   const stateOf = (c, v) => v === undefined ? L.pickNot : multi(c) ? (v.length ? fmt(L.shipSome, { k: v.join(', ') }) : L.shipNone) : fmt(L.pickYour, { k: v });
   const pips = cards.map((c, i) => {
@@ -985,6 +1250,7 @@ if (root.dataset.mode === 'ballot') {
     c.id = c.id || 'card-' + c.dataset.q; a.className = 'ballot-pip'; a.href = '#' + c.id; a.title = c.dataset.short || '';
     a.innerHTML = '<span>' + esc(numOf(c, i)) + '</span>'; li.append(a); pipList?.append(li); return a;
   });
+  let rowsHtml = '';
   const paint = () => {
     let n = 0;
     cards.forEach((c, i) => {
@@ -1002,6 +1268,14 @@ if (root.dataset.mode === 'ballot') {
     });
     if (tally) tally.textContent = fmt(L.pickN, { n, m: total });
     tray?.toggleAttribute('data-complete', n === total);
+    if (rowList) {  /* review: one row per card, its short name and the pick, or ★ when the card is skipped */
+      const html = cards.map((c, i) => {
+        const v = picks[c.dataset.q], got = v !== undefined;
+        const pick = !got ? L.skipped : multi(c) ? (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone) : v + ' ' + nameOf(c, v);
+        return '<li' + (got ? '' : ' class="skipped"') + '><span class="n">' + esc(numOf(c, i)) + '</span><span class="q">' + esc(c.dataset.short || txt($('h3', c))) + '</span><span class="a">' + esc(pick) + '</span></li>';
+      }).join('');
+      if (html !== rowsHtml) { rowList.innerHTML = rowsHtml = html; }
+    }
     return n;
   };
 
@@ -1028,19 +1302,30 @@ if (root.dataset.mode === 'ballot') {
     const n = paint(); saveLocal(); saveDb(q);
     const p = v === undefined ? numOf(c, i) : multi(c) ? numOf(c, i) + ' ' + stateOf(c, v) : numOf(c, i) + v;
     say(n === total ? fmt(L.pickAll, { m: total }) : fmt(v === undefined ? L.pickClear : L.pickDone, { p, n, m: total }), 1);
-    tray?.classList.remove('nudge'); void tray?.offsetWidth; tray?.classList.add('nudge');
+    nudge();
+  };
+  const nudge = () => { tray?.classList.remove('nudge'); void tray?.offsetWidth; tray?.classList.add('nudge'); };
+  /* Pick all ★: every card with no pick takes its ★ option, as if tapped. A card already picked stays as it is, and so does a multi card. */
+  const pickRec = () => {
+    let changed = 0;
+    cards.forEach(c => { const q = c.dataset.q, k = recOf(c); if (!multi(c) && k && picks[q] === undefined) { picks[q] = k; changed++; saveDb(q); } });
+    const n = paint(); saveLocal();
+    say(!changed ? L.recNone : n === total ? fmt(L.pickAll, { m: total }) : fmt(L.recDone, { n: changed, p: n, m: total }), 1);
+    nudge(); $('[data-copy]', tray)?.focus();
   };
 
-  /* what the agent gets: one line per pick, made for pasting into chat */
+  /* what the agent gets: one line per pick, made for pasting into chat. When every card is single-choice and ends on its ★ option, picked or skipped, it is one line. */
+  const allRec = () => cards.length > 0 && cards.every(c => !multi(c) && recOf(c) && (picks[c.dataset.q] ?? recOf(c)) === recOf(c));
   const picksText = () => {
-    const n = paint(), left = [], lines = [fmt(L.pickHead, { title: d.title, n, m: total })];
-    cards.forEach((c, i) => {
-      const v = picks[c.dataset.q], num = numOf(c, i), short = c.dataset.short || txt($('h3', c));
+    const n = paint(), left = [], short = allRec(), lines = [short ? fmt(L.allRec, { title: d.title }) : fmt(L.pickHead, { title: d.title, n, m: total })];
+    if (!short) cards.forEach((c, i) => {
+      const v = picks[c.dataset.q], num = numOf(c, i), name = c.dataset.short || txt($('h3', c));
       if (v === undefined) left.push(num);
-      else if (multi(c)) lines.push(num + ' ' + short + ': ' + (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone));
-      else lines.push(num + v + ' ' + nameOf(c, v) + ' · ' + short);
+      else if (multi(c)) lines.push(num + ' ' + name + ': ' + (v.length ? fmt(L.pickShip, { k: v.join(', ') }) : L.pickNone));
+      else lines.push(num + v + ' ' + nameOf(c, v) + ' · ' + name);
     });
     if (left.length) lines.push(L.pickUse + ': ' + left.join(', '));
+    if (note) lines.push(fmt(L.noteLine, { t: note }));
     return lines.join('\n');
   };
   /* the same shape as the gather copy, so assets/merge.html reads it: kind "choice", the option name as the answer */
@@ -1051,6 +1336,7 @@ if (root.dataset.mode === 'ballot') {
       if (v === undefined) o.unanswered.push({ q, question });
       else o.answers.push({ q, kind: multi(c) ? 'multi' : 'choice', question, answer: multi(c) ? (v.length ? v.map(k => nameOf(c, k)).join(', ') : L.shipNone) : nameOf(c, v) });
     });
+    if (note) o.note = note;
     return JSON.stringify(o, null, 2);
   };
 
@@ -1082,6 +1368,7 @@ if (root.dataset.mode === 'ballot') {
       $('.ballot-opt[tabindex="0"], .ballot-ship', target)?.focus({ preventScroll: true });
     } else if (btn && tray?.contains(btn)) {
       if ('copy' in btn.dataset) send(picksText(), btn);
+      else if ('pickRec' in btn.dataset) pickRec();
       else if ('json' in btn.dataset) send(picksJson(), btn);
       else if ('close' in btn.dataset) { hole.hidden = true; $('[data-copy]', tray)?.focus(); }
     }
@@ -1089,6 +1376,7 @@ if (root.dataset.mode === 'ballot') {
   /* arrow keys move through a card's options like a radio group: focus follows, and so does the pick */
   on(d, 'keydown', e => {
     if (e.key === 'Escape' && hole && !hole.hidden && tray.contains(e.target)) { hole.hidden = true; $('[data-copy]', tray)?.focus(); return; }
+    if (e.key === 'Escape' && review?.open && review.contains(e.target)) { review.open = false; $('summary', review)?.focus(); return; }
     const o = e.target.closest?.('button.ballot-opt'); if (!o || e.ctrlKey || e.metaKey || e.altKey) return;
     const all = qa('button.ballot-opt', o.parentElement), i = all.indexOf(o), step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
     const j = step ? (i + step + all.length) % all.length : e.key === 'Home' ? 0 : e.key === 'End' ? all.length - 1 : -1;
@@ -1096,6 +1384,7 @@ if (root.dataset.mode === 'ballot') {
     e.preventDefault(); all[j].focus(); setPick(o.closest('.ballot-card'), all[j].dataset.k);
   });
 
+  on(noteIn, 'input', () => { note = noteIn.value.replace(/\s+/g, ' ').trim(); store.set(key + ':note', note); });
   paint(); saveLocal(); say(idle(), 1);
   (async () => {  /* inside a claude.ai artifact, window.claude.use('db') resolves; anywhere else it is absent or null */
     try { db = (await window.claude?.use?.('db')) || null; } catch (e) { db = null; }
