@@ -8,7 +8,7 @@ Pick one mode per page. A mode that needs two controls uses two fields.
 | confirm | Marks each chapter understood, agree or concern, with a comment | `confirm` | Who has a concern where, most concerns first |
 | choose | Picks one option per decision and says why | `choice`, with the reason box | Tally per option, reasons listed under each |
 | ballot | One person, the owner, rules on several open decisions: taps one option per card, pictured or in words, or skips and takes the ★ default | `choice` (a `.ballot-card`, set by `data-mode="ballot"`), `multi` for a ship-or-not list | One copy, one question per card; the agent can also read the picks straight from the artifact database |
-| prioritise | Orders items, or scores each one | `rank`, or `scale` per item | Combined ranking, items people disagree on flagged |
+| prioritise | Orders items, or scores each one | `rank`, or `scale` per item | Each respondent's order side by side. PARKED 2026-10-14: a combined ranking with disagreements flagged was documented but never built in `merge.html`; it returns when the combined-ranking proposal (`docs/dev/proposals/2026-10-14-roadmap-backlog-redesign.md`) is approved and built |
 | annotate | Reviews a draft and comments per section | `text`, one per section | Comments by section, then by respondent |
 | check | Answers a check question, then writes the idea back in a sentence | `choice`, then `text` for the teach-back | Author scores each question, teach-backs side by side |
 | protocol | An interviewer follows a script and records notes per question | `text`, one copy per interview, interviewee in the name box | Notes per question across all interviews |
