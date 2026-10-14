@@ -133,6 +133,14 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 :lang(ja) .answer { line-height: 1.5; }
 :lang(ja) .ask .choices > *[data-rec]::after { content: " · おすすめ"; }
 :lang(ja) .timeline li.here .when::before { content: "現在地 · "; }
+/* roadmap card states: the words are set once in 9c (--st-word), so Japanese swaps the variable and nothing else */
+:lang(ja) .lane li, :lang(ja) .backlog-top > li { --st-word: "予定"; }
+:lang(ja) .lane li.here, :lang(ja) .backlog-top > li.here { --st-word: "進行中"; }
+:lang(ja) .lane li.wait, :lang(ja) .backlog-top > li.wait { --st-word: "他の完了待ち"; }
+:lang(ja) .lane li.decide, :lang(ja) .backlog-top > li.decide { --st-word: "あなたの判断が必要"; }
+:lang(ja) .lane li.stop, :lang(ja) .backlog-top > li.stop { --st-word: "停止中"; }
+:lang(ja) .lane li.go, :lang(ja) .backlog-top > li.go { --st-word: "完了"; }
+:lang(ja) .lane li.is-target::after, :lang(ja) .backlog-top > li.is-target::after { content: "↓ ここへ移動しました"; }
 
 /* ---------- 3. Page frame ---------- */
 .progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
@@ -362,25 +370,92 @@ main { min-width: 0; }
 @media print { .grid-wrap { overflow: visible; } }
 
 /* ---------- 9c. Lanes: now, next, later (roadmap) ---------- */
+/* A lane says what it means in one line (p.lane-note: horizon, confidence, order). A card says its state in a word that CSS writes
+   from its class, so the words cannot drift: the word, its glyph and its text colour are set once here. Lane cards print the word
+   above the title; backlog cards print the glyph and the word. Every colour is an existing token and every word has a glyph or a dot. */
 .lanes { display: grid; gap: .75rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1rem 0 1.5rem; }
 .lane { padding: .9rem .9rem 1rem; background: var(--well); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
 .lane[data-lane="now"] { border-color: var(--here); border-width: 2px; }
 .lane[data-lane="later"] { border-style: dashed; border-color: var(--line-strong); }
-.lane > h3 { margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane > h3 { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; margin: 0 0 .75rem; font-size: var(--size-1); }
+.lane-count { flex: none; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+.lane > .lane-note { max-width: none; margin: -.45rem 0 .8rem; color: var(--ink); font-size: var(--size-s); font-weight: 500; }
 .lane > ul { list-style: none; margin: 0; padding: 0; max-width: none; }
+.lane li, .backlog-top > li { --st-word: "Planned"; --st-glyph: "○"; --st-ink: var(--ink-soft); }
+.lane li.here, .backlog-top > li.here { --st-word: "Under way"; --st-glyph: "●"; --st-ink: var(--here); }
+.lane li.wait, .backlog-top > li.wait { --st-word: "Waits on another"; --st-glyph: "!"; --st-ink: var(--wait); }
+.lane li.decide, .backlog-top > li.decide { --st-word: "Needs your ruling"; --st-glyph: "?"; --st-ink: var(--decide); }
+.lane li.stop, .backlog-top > li.stop { --st-word: "Blocked"; --st-glyph: "✕"; --st-ink: var(--stop); }
+.lane li.go, .backlog-top > li.go { --st-word: "Done"; --st-glyph: "✓"; --st-ink: var(--go); }
 .lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
 .lane li:last-child { margin-bottom: 0; }
-.lane li:target { outline: 3px solid var(--here); outline-offset: 2px; }
 .lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
+/* less certain than its lane: a dashed card and a dashed dot, and small.conf says why. The state rules below come later, so a state keeps its own border colour. */
+.lane li[data-conf] { border-style: dashed; border-width: 2px; border-color: var(--ink-soft); }
+.lane li[data-conf]::before { border-style: dashed; border-color: var(--ink-soft); }
 .lane li.go { border-color: var(--go); }         .lane li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
 .lane li.wait { border-color: var(--wait); }     .lane li.wait::before { content: "!"; background: var(--wait); border-color: var(--wait); color: var(--on-wait); }
 .lane li.stop { border-color: var(--stop); }     .lane li.stop::before { content: "✕"; background: var(--stop); border-color: var(--stop); color: var(--on-stop); }
 .lane li.decide { border-color: var(--decide); } .lane li.decide::before { content: "?"; background: var(--decide); border-color: var(--decide); color: var(--on-decide); }
 .lane li.here { border-color: var(--here); }     .lane li.here::before { content: "●"; background: var(--here); border-color: var(--here); color: var(--on-here); }
-.lane li b { display: block; font-family: var(--font-head); font-weight: 600; }
-.lane li span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
-.lane li small.after { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); }
+.lane li > b, .backlog-top > li > b { display: block; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.lane li > b::before { content: var(--st-word); display: block; margin-bottom: .1rem; color: var(--st-ink); font: 700 var(--size-xs)/1.3 var(--font-body); }
+.backlog-top > li > b::before { content: var(--st-glyph) " " var(--st-word); display: block; margin-bottom: .1rem; color: var(--st-ink); font: 700 var(--size-xs)/1.3 var(--font-body); }
+/* :where keeps this at the lowest weight, so a .who or .chip badge, or the Unblocks count, inside a card keeps its own look */
+:where(.lane li, .backlog-top > li) span { display: block; margin-top: .15rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
+.lane li small, .backlog-top > li small { display: block; margin-top: .45rem; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.4; }
+.lane li small + small, .backlog-top > li small + small { margin-top: .2rem; }
+.lane li small.when, .backlog-top > li small.when { color: var(--ink); }
+.lane li small.conf { display: inline-block; max-width: 100%; padding: .05rem .65rem; border: 1.5px dashed var(--ink-soft); border-radius: 8px; color: var(--ink); font: 600 var(--size-xs)/1.4 var(--font-head); }
+/* what a card unblocks: a count the script derives from the small.after links, with an arrow drawn here */
+.lane li .unblocks, .backlog-top > li .unblocks { display: inline-flex; align-items: center; gap: .3rem; margin-top: .45rem; padding: .05rem .65rem; border: 1.5px solid var(--here); border-radius: var(--r-chip); color: var(--here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.unblocks::before { content: "→"; }
+/* a jump lands on a card you can see: a static outline and a label, one at a time (the script sets .is-target; without script :target does it) */
+html:not(.js) .lane li:target, .lane li.is-target, .backlog-top > li.is-target { outline: 3px solid var(--here); outline-offset: 2px; }
+.lane li.is-target, .backlog-top > li.is-target { padding-top: 2.5rem; }
+.lane li.is-target::before { top: 2.65rem; }
+.backlog-top > li.is-target::before { top: 2.5rem; }
+.lane li.is-target::after, .backlog-top > li.is-target::after { content: "↓ You jumped here"; position: absolute; left: .8rem; top: .55rem; padding: .05rem .7rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+a.jump-back { display: flex; align-items: center; min-height: 44px; font-size: var(--size-s); }
 @media (max-width: 759px) { .lanes { grid-template-columns: 1fr; } }
+
+/* ---------- 9c2. Roadmap parts: as-of line, folded history, backlog ---------- */
+.asof { display: flex; align-items: center; gap: .5rem; max-width: none; margin: -.4rem 0 1.25rem; color: var(--ink-soft); font-size: var(--size-s); }
+.asof::before { content: ""; flex: none; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; background: linear-gradient(currentColor, currentColor) 50% 16% / 2px 38% no-repeat, linear-gradient(currentColor, currentColor) 62% 50% / 30% 2px no-repeat; }  /* a small clock, drawn */
+/* shipped and parked fold away under the lanes: their summaries wear the ✓ and ✕ dots in place of the + */
+details.fold.shipped > summary::before, details.fold.shipped[open] > summary::before { content: "✓"; border: 0; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+details.fold.parked > summary::before, details.fold.parked[open] > summary::before { content: "✕"; border: 0; background: var(--stop); color: var(--on-stop); font: 700 .75rem/1 var(--font-head); }
+details.fold:is(.shipped, .parked) > summary { flex-wrap: wrap; row-gap: 0; color: var(--ink); }
+details.fold:is(.shipped, .parked) > summary > span { flex: 1 1 9rem; min-width: 0; }  /* the title takes the row; the changelog link and the chevron wrap under it on a phone */
+details.fold:is(.shipped, .parked) > summary::after { content: "▾"; color: var(--ink-soft); }
+details.fold:is(.shipped, .parked)[open] > summary::after { content: "▴"; }
+details.fold.shipped > summary > a { display: inline-flex; align-items: center; min-height: 44px; margin-left: auto; font-size: var(--size-s); font-weight: 600; }
+details.fold.shipped > ul { margin-block: 0; padding-left: 2.2rem; font-size: var(--size-s); }
+/* the backlog: at most five ranked cards, a cut line, a fold per theme, and a shelf of what is parked */
+.backlog-top { list-style: none; counter-reset: top; display: grid; gap: .6rem; margin: 1rem 0 1.25rem; padding: 0; max-width: none; }
+.backlog-top > li { counter-increment: top; position: relative; margin: 0; padding: .7rem .8rem .75rem 3.2rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.backlog-top > li::before { content: counter(top); position: absolute; left: .8rem; top: .7rem; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 600 var(--size-xs) var(--font-head); }
+.cutline { display: flex; align-items: center; gap: .75rem; margin: 1.5rem 0; color: var(--ink); font: 600 var(--size-s)/1.3 var(--font-head); text-align: center; }
+.cutline::before, .cutline::after { content: ""; flex: 1 1 1rem; border-top: 3px dashed var(--ink); }
+@media (max-width: 560px) { .cutline { display: block; padding-top: .5rem; border-top: 3px dashed var(--ink); } .cutline::before, .cutline::after { display: none; } }  /* on a phone the line runs the full width above the words, so it still reads as a cut */
+details.theme { margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+details.theme > summary { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .1rem .75rem; align-items: baseline; min-height: 44px; padding: .7rem 2.4rem .7rem 1rem; list-style: none; cursor: pointer; }
+details.theme > summary::-webkit-details-marker { display: none; }
+details.theme > summary::after { content: "▾"; position: absolute; right: .9rem; top: .7rem; color: var(--ink-soft); }
+details.theme[open] > summary::after { content: "▴"; }
+details.theme > summary > b { font-family: var(--font-head); font-weight: 600; }
+details.theme > summary > .count { color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); white-space: nowrap; }
+details.theme > summary > .top { grid-column: 1 / -1; color: var(--ink-soft); font-size: var(--size-s); }
+details.theme[open] > summary { border-bottom: 1px solid var(--line); }
+details.theme > ul { list-style: none; display: grid; gap: .4rem; margin: 0; padding: .8rem 1rem 1rem; max-width: none; }
+details.theme > ul > li { margin: 0; padding: .45rem .7rem; background: var(--well); border-radius: 8px; font-size: var(--size-s); }
+.parked-shelf { display: grid; gap: .6rem; margin: 1rem 0 1.5rem; }
+details.fold > .parked-shelf { margin-block: 0; }
+.parked-shelf > div { position: relative; padding: .7rem .9rem .75rem 2.8rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.parked-shelf > div::before { content: "✕"; position: absolute; left: .8rem; top: .8rem; display: grid; place-items: center; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: var(--stop); color: var(--on-stop); font: 700 .7rem/1 var(--font-head); }
+.parked-shelf > div > b { display: block; font-family: var(--font-head); font-weight: 600; }
+.parked-shelf span { display: block; color: var(--ink-soft); font-size: var(--size-s); }
+.parked-shelf span b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
 
 /* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
 .runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
@@ -481,7 +556,7 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
 .phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
 .phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
-@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
+@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .backlog-top > li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
 .phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
 .phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
 .phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
@@ -587,7 +662,7 @@ details.fold > :last-child { padding-bottom: 1rem; }
    their INNER selector, not the wrapper class: `.options` and `.split` name the
    WRAPPER, so `ul:not(.options)` never matched the lists inside them and skim
    mode emptied every decision card and every before/after panel. */
-body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
+body[data-skim="on"] .chapter p:not(.take):not(.remember):not(.nothing):not(.lane-note):not(.callout p):not(.metaphor p):not(.option .cost):not(.answer-field p):not(.view p):not(.runbook p):not(.impact):not(.risk p):not(.frame p),
 body[data-skim="on"] .chapter ul:not(.status):not(.flow):not(.options):not(.option ul):not(.split ul):not(.view ul):not(.promises):not(.lane ul):not(.rules):not(.role ul):not(.frame ul),
 body[data-skim="on"] .chapter details.fold,
 body[data-skim="on"] .chapter .term,
@@ -910,11 +985,12 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">Roadmap as of 13 October 2026</p>
+    <p class="kicker">Roadmap as of 14 October 2026</p>
     <h1>What comes next for html-explainer</h1>
     <div class="meta"><span>Reading time about 5 minutes</span><span><a href="index.html">Back to the site home</a></span></div>
 
     <p class="answer">Every page is now checked automatically, so next we test pages with outside readers, and new page types wait until an outside user needs one.</p>
+    <p class="asof">A plan, not a promise. Items move as we learn.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
@@ -926,13 +1002,13 @@ html:not(.js) .ballot-tray { display: none; }
     </div>
 
     <ol class="map">
-      <li><a href="#c1"><b>Now, next and later</b><span>Fifteen items in three lanes, and what waits on what.</span></a></li>
+      <li><a href="#c1"><b>Now, next and later</b><span>Twelve live items in three lanes, and what waits on what.</span></a></li>
       <li><a href="#c2"><b>What unblocks the most</b><span>The outside-reader test and the automatic check.</span></a></li>
       <li><a href="#c3"><b>What is left off</b><span>Three things parked, each with the way back.</span></a></li>
       <li><a href="#c4"><b>The December review</b><span>What happens on 12 December 2026, either way.</span></a></li>
     </ol>
 
-    <section class="chapter" id="c1" data-keep="Fifteen items in three lanes, five wait on another">
+    <section class="chapter" id="c1" data-keep="Twelve live items in three lanes, five wait on another">
       <header>
         <div><p class="kicker">Chapter 1 of 4, about 2 minutes</p><h2>What is under way, next and later?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
@@ -941,25 +1017,23 @@ html:not(.js) .ballot-tray { display: none; }
 
       <p class="from"><b>Before this:</b> the focus is checked decision pages.</p>
 
-      <p>Now is October and November 2026. Next is December 2026. Later is 2027, if outside readers confirm the gain.</p>
-
       <div class="lanes">
-        <section class="lane" data-lane="now"><h3>Now</h3><ul>
-          <li class="go"><b>Check every page automatically</b><span>Shipped in 1.5.0.</span></li>
-          <li class="go"><b>Upgrade old pages</b><span>Shipped in 1.5.0.</span></li>
-          <li class="go"><b>Answer by tapping</b><span>Shipped in 1.5.0.</span></li>
+        <section class="lane" data-lane="now"><h3>Now</h3>
+          <p class="lane-note">Next 4 weeks. Committed. Top item first.</p><ul>
           <li id="r-trigger" class="here"><b>Trigger reliably</b><span>Sharper skill descriptions and trigger tests.</span></li>
-          <li id="r-test" class="here"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span></li>
+          <li id="r-test" class="here"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, the review needs it.</small></li>
           <li id="r-name" class="wait"><b>Settle the name, then list</b><span>Pick the final name, then submit to registries.</span><small class="after">After: <a href="#r-trigger">Trigger reliably</a></small></li>
         </ul></section>
-        <section class="lane" data-lane="next"><h3>Next</h3><ul>
+        <section class="lane" data-lane="next"><h3>Next</h3>
+          <p class="lane-note">1 to 3 months. Likely. Not in order.</p><ul>
           <li><b>Optional browser check</b><span>Reports sideways scroll, split words and clipped commands.</span></li>
           <li><b>Tested installs in other agents</b><span>Codex, Gemini CLI, Cursor and Copilot.</span></li>
           <li class="wait"><b>claude.ai upload</b><span>A zip per skill on each GitHub release.</span><small class="after">After: <a href="#r-name">Settle the name, then list</a></small></li>
-          <li><b>Publish where Claude publishes</b><span>When it can, the agent offers an artifact link.</span></li>
+          <li data-conf="exploring"><b>Publish where Claude publishes</b><span>When it can, the agent offers an artifact link.</span><small class="conf">Exploring: depends on the platform</small></li>
           <li><b>A one-minute demo</b><span>Recorded from the gallery.</span></li>
         </ul></section>
-        <section class="lane" data-lane="later"><h3>Later</h3><ul>
+        <section class="lane" data-lane="later"><h3>Later</h3>
+          <p class="lane-note">3 months or more. Exploring. Not in order.</p><ul>
           <li class="wait"><b>Pull request pages in CI</b><span>A GitHub Action writes one per pull request.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
           <li class="wait"><b>Brand themes</b><span>Your own colour and type, rules still checked.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
           <li><b>More languages</b><span>After Japanese, on request.</span></li>
@@ -967,6 +1041,19 @@ html:not(.js) .ballot-tray { display: none; }
         </ul></section>
       </div>
       <p class="take"><b>Take from this:</b> five items wait on another, and three wait on the outside-reader test.</p>
+
+      <details class="fold shipped"><summary><span>Shipped in 1.5.0: 3 items</span><a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">Changelog</a></summary>
+        <ul><li>Check every page automatically</li><li>Upgrade old pages</li><li>Answer by tapping</li></ul>
+        <p>Before that, 1.4.0 moved each skill into a self-contained folder so the skills install in other agents. It also added this roadmap, a public site and an automatic check on every change.</p>
+      </details>
+
+      <details class="fold parked"><summary><span>Parked on purpose: 3 items, each with what would bring it back</span></summary>
+        <div class="parked-shelf">
+          <div><b>New page types</b><span><b>Why:</b> Sixteen cover every request so far.</span><span><b>Back when:</b> An outside user's content fits none.</span></div>
+          <div><b>Motion companion</b><span><b>Why:</b> Nothing can drive it yet.</span><span><b>Back when:</b> Claude Code gains a hook or API for it.</span></div>
+          <div><b>A hosted service or paid tier</b><span><b>Why:</b> Everything useful is a public file.</span><span><b>Back when:</b> Teams ask for more than a file.</span></div>
+        </div>
+      </details>
 
       <details class="fold"><summary>Show the detail and the reasons behind the items</summary>
         <p><b>Upgrade old pages.</b> A script swaps an older page's styles and reader script for the current template's. Each page carries its own copy of the design, so a page made under 1.2 keeps 1.2's phone bugs.</p>
@@ -980,14 +1067,10 @@ html:not(.js) .ballot-tray { display: none; }
         <p><b>A one-minute demo.</b> It is recorded from the gallery and shows skim mode, one chapter at a time, read aloud and the ballot round trip.</p>
         <p><b>claude.ai upload.</b> Skill descriptions are short enough for the upload form.</p>
         <p><b>Publish where Claude publishes.</b> When the agent can publish a page as a Claude artifact, it offers that link next to the file.</p>
-        <p>The reasons for the first and fifth items in Now are in <a href="#c2">chapter 2</a>.</p>
+        <p>The reasons for the outside-reader test and the automatic check are in <a href="#c2">chapter 2</a>.</p>
       </details>
 
-      <details class="fold"><summary>Show what shipped most recently</summary>
-        <p>The latest release moved each skill into a self-contained folder so the skills install in other agents. It also added this roadmap, a public site and an automatic check on every change. The <a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">changelog</a> has the rest.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> fifteen items sit in three lanes, and five of them wait on another.</p>
+      <p class="remember"><b>Remember:</b> twelve live items sit in three lanes, and five of them wait on another.</p>
     </section>
 
     <section class="chapter" id="c2" data-keep="The reader test and the automatic check come first">
@@ -997,7 +1080,7 @@ html:not(.js) .ballot-tray { display: none; }
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> fifteen items sit in three lanes, and five of them wait on another.</p>
+      <p class="from"><b>Before this:</b> twelve live items sit in three lanes, and five of them wait on another.</p>
 
       <p>The outside-reader test unblocks the most. Every page so far was judged by its author, and this test decides what comes next.</p>
       <p>Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later.</p>
@@ -1085,7 +1168,7 @@ html:not(.js) .ballot-tray { display: none; }
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Fifteen items sit in three lanes, and five of them wait on another.</li>
+        <li>Twelve live items sit in three lanes, and five of them wait on another.</li>
         <li>The outside-reader test decides what comes next, and a hook makes the check impossible to skip.</li>
         <li>Three things are parked, and each names what would bring it back.</li>
         <li>On 12 December 2026 the review either keeps Later or shrinks the roadmap to maintenance.</li>
@@ -1171,6 +1254,17 @@ if (parts.length) {
     if (n >= 0) { e.preventDefault(); showPart(n); if (t !== parts[n]) t.scrollIntoView(); }
   });
 }
+/* roadmap: each lane is named by its h3, and a card says how many others wait on it. "Unblocks N" is counted from the small.after links, so it cannot drift. */
+Object.assign(T.en, { unblocks: 'Unblocks {n}', back: 'Back to: {t}' }); Object.assign(T.ja, { unblocks: '後続{n}件', back: '戻る：{t}' });
+qa('.lane').forEach((l, i) => { const h = $('h3', l); if (h && !l.hasAttribute('aria-labelledby')) l.setAttribute('aria-labelledby', h.id = h.id || 'lane-' + i); });
+qa('.cutline[role="separator"]:not([aria-label])').forEach(c => c.setAttribute('aria-label', txt(c)));
+const waiting = {};  /* blocker id -> the cards that list it */
+qa('small.after a[href^="#"]').forEach(a => { const id = a.getAttribute('href').slice(1), who = a.closest('li') || a; if (who.id !== id) (waiting[id] = waiting[id] || new Set()).add(who); });
+qa('.lane li[id], .backlog-top > li[id]').forEach(li => {
+  const n = waiting[li.id]?.size;
+  if (n) li.insertBefore(make('span', 'unblocks', esc(fmt(L.unblocks, { n }))), $('small', li));  /* before the small lines; at the end when there are none */
+});
+
 /* every other in-page link scrolls by script: a viewer that shows the page in a srcdoc frame resolves "#id" against its own address, and the click blanks the page */
 on(d, 'click', e => {
   const a = !e.defaultPrevented && !e.button && !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) && e.target.closest?.('a[href^="#"]:not(.ballot-pip)');
@@ -1178,8 +1272,18 @@ on(d, 'click', e => {
   let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
   if (!t) return;
   e.preventDefault(); t.scrollIntoView();
+  /* the landing is a static class on the target, one at a time. A jump to a list item from inside another titled item also gets one link back. */
+  const cards = '.lane li, .backlog-top > li, details.theme li';  /* the roadmap's items: each is titled by its first b */
+  const from = a.closest(cards + ', [id]:not(main)'), name = from && from !== t && $('b, h3, h2', from);  /* read before the old back link goes, in case that is the link just clicked */
+  qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
+  t.classList.add('is-target');
+  if (name && t.matches('li') && !t.contains(from)) {
+    from.id = from.id || 'jump-' + qa(cards).indexOf(from);
+    const back = d.createElement('a'); back.className = 'jump-back'; back.href = '#' + from.id; back.textContent = fmt(L.back, { t: txt(name) }); t.append(back);
+  }
   try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
 });
+try { byId(decodeURIComponent(location.hash.slice(1)))?.classList.add('is-target'); } catch {}  /* a page opened on a link shows its landing too */
 
 /* progress bar */
 const pbar = $('.progress'), progress = () => { const h = root.scrollHeight - innerHeight; if (pbar) pbar.style.transform = 'scaleX(' + (h > 0 ? Math.min(1, scrollY / h) : 0) + ')'; };

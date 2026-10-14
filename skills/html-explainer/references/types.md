@@ -234,13 +234,32 @@ Three ways to store uploaded files.
 The reader needs to know what is under way now, what is next, what is later, and what depends on what.
 
 ### Chapter composition
-The lanes. What unblocks the most. What is left off the roadmap on purpose, parked with the reason and what would restore it.
+The lanes. What unblocks the most. What is left off the roadmap on purpose, parked with the reason and what would restore it. A long list of ideas may take one more chapter, "What else waits?" (the backlog view below), and the page stays at seven chapters or fewer.
 
 ### Required components
-`.lanes` holding exactly three `.lane`, with `data-lane` set to `now`, `next` and `later`. Each lane has an `h3` and a `ul` of items. An item takes a state class, and an item that waits on another carries `small.after` with a link to that item's `id`. Every item that others depend on needs an `id`. On a Japanese page the interface file keeps 次へ for the Next button, so the strings file sets 次 for the Next lane.
+`.lanes` holding exactly three `.lane`, with `data-lane` set to `now`, `next` and `later`. Each lane has an `h3`, a `p.lane-note` and a `ul` of items. Under the answer bar sits `p.asof`: "A plan, not a promise. Items move as we learn."
+
+- **A note on each lane.** One line right after the `h3` says the horizon, how sure the lane is and whether order matters: "Next 4 weeks. Committed. Top item first." or "1 to 3 months. Likely. Not in order." or "3 months or more. Exploring. Not in order." A `span.lane-count` inside the `h3` may show the budget, "3 of 5".
+- **One set of states.** An item takes a state class and CSS prints its word above the title, so the words cannot drift: `here` is Under way, `wait` is Waits on another, `decide` is Needs your ruling, `stop` is Blocked, `go` is Done, and no class is Planned. Never use a state for another meaning. A `li.wait` names what it waits on: `small.after` with a link to that item's `id`, or `small.outside` for a blocker outside the roadmap ("Outside: Anthropic reviews each listing."). Every item that others depend on needs an `id`.
+- **Exceptions only.** The lane carries the default, so only an item less certain than its lane is marked: `data-conf="exploring"` on the `li` and a `small.conf` with the reason ("Exploring: depends on the platform"). The card gets a dashed border. A real external date goes in `small.when`, which starts with a bold "Fixed date:". Every other item carries neither.
+- **Derived, never typed.** The script writes "Unblocks N" on each item that other items list in a `small.after`, so do not write it by hand. A jump to an item outlines it, labels it "You jumped here" and adds one link back to the item you came from.
+- **History folds away.** Shipped work does not sit in Now. A `details.fold.shipped` below the lanes reads "Shipped in 1.5.0: 3 items" and links the changelog. A `details.fold.parked` lists each parked item with a `Why:` line and a `Back when:` line. A lane keeps 5 live items at most.
+
+On a Japanese page the interface file keeps 次へ for the Next button, so the strings file sets 次 for the Next lane.
+
+#### The backlog view
+"What else waits?" is an optional chapter of a roadmap, not a page type. Its parts, in order:
+
+- `ol.backlog-top`: at most 5 ranked cards, numbered by CSS. Each has a state word, a title, one line and the derived "Unblocks N".
+- `div.cutline` with `role="separator"`: "Cut line. Below is not ranked and not promised."
+- One `details.theme` per theme. The summary holds the theme name, `span.count` ("6 ideas") and `span.top` ("Top: the first item"). The body is a compact list.
+- `div.parked-shelf`: parked cards, each with `Why:` and `Back when:`.
+
+#### A roadmap for customers
+Show time at quarter precision at most, and a month only for a fixed date. Leave out internal fields such as owner, size, effort and score. Link each shipped item to its changelog entry.
 
 ### Checker rules
-At least one `.lanes`, each with exactly three `.lane`. It fails for each `small.after a[href^="#"]` whose target `id` does not exist.
+At least one `.lanes`, each with exactly three `.lane`. It fails for each `small.after a[href^="#"]` whose target `id` does not exist. It warns, never fails, for a `.lane` without a `p.lane-note`, a `li.wait` with neither `small.after` nor `small.outside`, a `data-conf` without a `small.conf`, a lane with more than 5 live cards, a `li.go` in the Now lane, a roadmap page without `p.asof`, an `ol.backlog-top` with more than 5 items, and a `details.theme` with no `.cutline` before it.
 
 ### Example topic
 The plugin's next three releases.
