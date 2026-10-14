@@ -10,12 +10,9 @@ A rendered version of this roadmap, made with the plugin, is at [ariasr47.github
 
 | # | Item | Why |
 |---|---|---|
-| 1 | **Check every page automatically.** A plugin hook runs the checker whenever the agent writes an explainer and hands any failure back before you see the page. | Today the agent runs the checker because the skill tells it to. An instruction can be skipped; a hook cannot. |
-| 2 | **Upgrade old pages.** A script swaps an older page's styles and reader script for the current template's, so a page made before a fix receives it. | Each page carries its own copy of the design, so a page made under 1.2 keeps 1.2's phone bugs. |
-| 3 | **Answer by tapping.** Decision pages end with tap-to-answer fields and one copy bar instead of a typed reply. Ballots accept options without pictures, a "Pick all recommended" button, warning chips such as "Can't undo", and a review list before sending. | A hand-made ballot without pictures worked well for its reader, and ballot mode would reject it today. Tapping is faster than typing a reply. |
-| 4 | **Trigger reliably.** Sharper skill descriptions and a trigger test suite built with `claude plugin eval`, covering the phrases people actually type. | In the author's own sessions about two requests in three did not visibly load the skill. |
-| 5 | **Test with outside readers.** Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later. | Every page so far was judged by its author. This test decides what comes next. |
-| 6 | **Settle the name, then list.** Pick the final plugin name, then submit to Anthropic's plugin directory and the agent-skills registries. | Renaming a listed plugin orphans every install, so the name comes first. |
+| 1 | **Trigger reliably.** Sharper skill descriptions and a trigger test suite built with `claude plugin eval`, covering the phrases people actually type. | In the author's own sessions about two requests in three did not visibly load the skill. |
+| 2 | **Test with outside readers.** Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later. | Every page so far was judged by its author. This test decides what comes next. |
+| 3 | **Settle the name, then list.** Pick the final plugin name, then submit to Anthropic's plugin directory and the agent-skills registries. | Renaming a listed plugin orphans every install, so the name comes first. |
 
 ## Next: December 2026
 
@@ -46,4 +43,7 @@ On 12 December 2026 this roadmap is reviewed against outside feedback and the re
 
 ## Recently shipped
 
-See [CHANGELOG.md](CHANGELOG.md). The latest release moved each skill into a self-contained folder so the skills install in other agents, and added this roadmap, a public site and an automatic check on every change.
+- **1.5.0:** a hook runs the checker at the end of every turn that wrote a page, so failures go back to the agent before you see the page (Claude Code only). `upgrade.mjs` brings a page made with an older release to the current design. Decision pages can end in tap-to-answer fields, and ballots take text options, a Pick all ★ button, warning chips and a review list with a note.
+- **1.4.0:** each skill folder became self-contained, so the skills install in other agents; chapter links work inside embedded viewers; this roadmap, a public site and an automatic check on every change.
+
+Details are in [CHANGELOG.md](CHANGELOG.md).

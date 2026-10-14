@@ -2,6 +2,22 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 1.5.0 (2026-10-13)
+
+### Added
+- **The checker runs by itself** (Claude Code only). Three plugin hooks note each explainer page a turn writes, then run the checker before the agent finishes. Any FAIL goes back to the agent with the failing lines, at most three times per turn. Pages written by a script are covered when they sit in the session's git repository. The hooks never change a file, never use the network, and step aside on any internal error.
+- **`upgrade.mjs`** brings a page made with an older release to the current design. It swaps the page's template style and script for the current ones, keeps the content byte for byte, saves a `.bak`, and puts the original back if the result fails the checker. It recognises every release from 1.0.0 and skips pages with hand-edited styles unless you pass `--force`.
+- **A version mark.** Pages carry `<meta name="generator" content="html-explainer 1.5.0">`, so the upgrader and the skill know which release made them.
+- **Decision pages can end in tap-to-answer fields** and one copy bar, instead of a typed reply.
+- **Ballots:** options without pictures (a label and one detail line), a Pick all ★ button, warning chips such as "Can't undo" (`data-warn`), a review list with an optional note, a one-line paste when every pick is ★, and an optional line naming the plan the ballot rules on.
+
+### Fixed
+- A link whose target is just `#`, such as the ask's choices, no longer blanks the page inside an embedded viewer.
+
+### Changed
+- The checker's decision rule accepts an `.ask` or answer fields with one `.collect` bar. A ballot option passes with a picture or a detail line. Empty or long `data-warn` chips get a warning.
+- The site pages, the gallery and both examples carry the 1.5.0 design; the site and the playbook example were brought there with `upgrade.mjs`.
+
 ## 1.4.0 (2026-10-13)
 
 ### Fixed

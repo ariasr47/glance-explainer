@@ -34,9 +34,9 @@ Every page this plugin makes has the same shape:
 
 ## What makes it different
 
-- **Checked before you see it.** A checker script runs on every page and the agent fixes each failure first: answer length, at most three keep facts, a picture per chapter, text contrast of 4.5 to 1 in light and dark, status colours that always carry a glyph, diagram labels readable on a phone, and the rules of each page type.
+- **Checked before you see it.** A checker script runs on every page and the agent fixes each failure first: answer length, at most three keep facts, a picture per chapter, text contrast of 4.5 to 1 in light and dark, status colours that always carry a glyph, diagram labels readable on a phone, and the rules of each page type. In Claude Code a hook runs it at the end of every turn that wrote a page, so it cannot be skipped.
 - **The reader is in control.** Every page has skim mode, one chapter at a time, read aloud, a reading ruler, text size, dark or light, keyboard shortcuts, and a link that resumes where you left off. Nothing moves unless you ask.
-- **Pages that ask, not just tell.** A gather page asks questions inside the page; each reader copies their answers back, and a merge tool combines everyone's copies. A ballot lets the owner rule on several open decisions at once, one pictured card each.
+- **Answer by tapping.** A decision page can end in tap-to-answer fields, and a ballot puts one decision per card, pictured or in words, with a Pick all ★ button and warning chips such as "Can't undo". You copy every answer back to the agent in one paste, and a gather page collects answers from several readers, which a merge tool combines.
 - **One file, offline, private.** Each page is a single HTML file. No server, no account, no tracking. It works on a phone and prints cleanly.
 
 ## See it
@@ -80,6 +80,8 @@ Ask in plain words. The agent picks the page type, writes the page from the temp
 | Map a codebase | "Write a backend architecture atlas for this repository." | atlas |
 
 To call a skill directly, type `/html-explainer:html-explainer <topic>`, `/html-explainer:explainer-gather <topic>` or `/html-explainer:explainer-atlas <layer>`.
+
+To bring a page made with an older release up to the current design, ask: *"Upgrade this page to the current html-explainer design."* The agent runs `upgrade.mjs`, which keeps your content and saves a backup.
 
 ## What it makes
 
@@ -145,7 +147,7 @@ Each skill folder is self-contained in the [Agent Skills](https://agentskills.io
 
 ## Roadmap and feedback
 
-Next: the checker runs automatically on every page, older pages can be upgraded to the current design, and pages get tested with outside readers. See [ROADMAP.md](ROADMAP.md).
+Next: the skill starts reliably when asked, pages get tested with outside readers, and the plugin gets its final name and a directory listing. See [ROADMAP.md](ROADMAP.md).
 
 If you try a page, [say how it went](https://github.com/ariasr47/html-explainer-skill/issues/new?template=feedback.yml), especially if you or your reader has ADHD. That feedback decides what gets built.
 

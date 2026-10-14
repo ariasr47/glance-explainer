@@ -81,7 +81,7 @@ The first line only says what would happen. The second upgrades one page. The th
 
 - **What changes.** The page's first `<style>` block and first `<script>` block become the current ones, and the generator mark is set. Content, extra blocks the page added after those two, and atlas links stay as they are.
 - **How it knows the old version.** It compares the two blocks with every release from 1.0.0 on. A page whose blocks match none of them has hand-edited styles. It is skipped as custom. Add `--force` to upgrade it anyway. Your style edits are then replaced, and the backup keeps them.
-- **Safety.** It saves `my-page.html.bak` first, then runs the checker. If the page passed before and fails after, the original is put back and the backup stays.
+- **Safety.** It saves `my-page.html.bak` first, then runs the checker. If the page passed before and fails after, the original is put back and the backup stays. Delete the `.bak` files once you are happy with the result, or add `*.html.bak*` to your `.gitignore`.
 - **Output.** One line per page, for example `upgraded 1.2.0 -> 1.5.0`, `already current`, `skipped: custom styles (use --force)` or `skipped: not an explainer page`.
 
 An upgrade changes the design and the script. It does not add the new components of a release to a page. Make the page again for those.
