@@ -176,6 +176,58 @@ td.ans { white-space: pre-wrap; }
   th, td { display: block; width: auto; padding: 0; border: 0; }
   td.ans { grid-column: 1 / -1; margin-top: .25rem; }
 }
+
+/* ---------- 4. Combined ranking (a rank question, or the first bucket of a buckets question) ---------- */
+.combo { padding: 0 1rem 1rem; }
+.combo p { max-width: none; }
+.combo-line { margin: 0 0 .9rem; padding: .75rem 1rem; background: var(--here-tint); border: 1.5px solid var(--here); border-radius: var(--r-comp); font-family: var(--font-head); font-weight: 500; }
+.combo-note { margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; margin: 0 0 1rem; }
+@media (max-width: 760px) { .tiles { grid-template-columns: minmax(0, 1fr); } }
+.tile { padding: .75rem 1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.tile .big { display: flex; align-items: center; gap: .5rem; font: 700 var(--size-1)/1.2 var(--font-head); }
+.tile > span { display: block; margin-top: .2rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.tile.go { background: var(--go-tint); border-color: var(--go); }
+.tile.wait { background: var(--wait-tint); border-color: var(--wait); }
+.tile.go > span, .tile.wait > span { color: var(--ink); }
+.glyph { flex: none; display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; font: 700 var(--size-xs)/1 var(--font-head); }
+.tile.go .glyph { background: var(--go); color: var(--on-go); }
+.tile.wait .glyph { background: var(--wait); color: var(--on-wait); }
+.flag { display: inline-flex; align-items: center; gap: .3rem; padding: .1rem .6rem; border-radius: var(--r-chip); background: var(--wait); color: var(--on-wait); font: 600 var(--size-xs)/1.4 var(--font-head); white-space: nowrap; }
+.rt-wrap { margin: 0 0 .6rem; overflow-x: auto; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.rt { min-width: 38rem; table-layout: auto; }
+.rt caption { caption-side: top; padding: .7rem 1rem .2rem; text-align: left; font: 600 var(--size-0) var(--font-head); }
+.rt thead th:nth-child(n) { width: auto; }
+.rt th, .rt td { padding: .55rem .8rem; vertical-align: middle; }
+.rt td.place, .rt td.rd { font: 600 var(--size-0)/1 var(--font-head); }
+.rt td.place { font-size: var(--size-1); }
+.rt tbody th .avg { display: block; margin-top: .1rem; color: var(--ink-soft); font: 400 var(--size-xs)/1.3 var(--font-body); }
+.rt tr.contested { background: var(--wait-tint); }
+.rt td.sp { min-width: 9rem; }
+.rt td.reads { display: none; }
+.spread { position: relative; height: 22px; }
+.spread::before { content: ""; position: absolute; left: 0; right: 0; top: 10px; height: 2px; background: var(--line-strong); }
+.spread .rng { position: absolute; top: 6px; height: 10px; left: var(--lo); width: var(--w); border-radius: 5px; background: var(--here); }
+.spread .ring { position: absolute; top: 3px; left: var(--mean); width: 16px; height: 16px; margin-left: -8px; box-sizing: border-box; border: 3px solid var(--ink); border-radius: 50%; background: var(--card); }
+.contested .spread .rng { background: var(--wait); }
+.combo details { margin: 0 0 .6rem; padding: .5rem .9rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.combo summary { cursor: pointer; font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); }
+.combo details p, .combo details li { margin: .5rem 0 0; color: var(--ink-soft); font-size: var(--size-s); }
+.combo details ul { margin: .4rem 0 0; padding-left: 1.2rem; max-width: none; }
+@media (max-width: 640px) {
+  .rt-wrap { overflow: visible; background: none; border: 0; }
+  .rt { min-width: 0; }
+  .rt caption { display: block; padding: 0 0 .4rem; }
+  .rt tbody tr { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: "place item flag" "bar bar bar" "reads reads reads"; align-items: center; gap: .35rem .7rem; margin: 0 0 .5rem; padding: .7rem .8rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+  .rt tbody tr.contested { background: var(--wait-tint); }
+  .rt td.rd { display: none; }
+  .rt td.place { grid-area: place; }
+  .rt tbody th { grid-area: item; }
+  .rt td.fl { grid-area: flag; }
+  .rt td.sp { grid-area: bar; min-width: 0; }
+  .rt td.reads { display: block; grid-area: reads; color: var(--ink-soft); font-size: var(--size-xs); }
+  .rt.tally tbody tr { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "item flag" "reads reads"; }
+}
 </style>
 </head>
 <body>
@@ -188,7 +240,7 @@ td.ans { white-space: pre-wrap; }
     </div>
     <button type="button" class="chip" data-theme-toggle>Dark / light</button>
   </div>
-  <p class="lede">Paste the answers people send back, or drop their files. Each question gets one table with a row per person. Everything is read in this tab and nothing is uploaded.</p>
+  <p class="lede">Paste the answers people send back, or drop their files. Each question gets one table with a row per person. A question that ranks items, or sorts them into buckets, also gets a combined view once three people have answered. Everything is read in this tab and nothing is uploaded.</p>
   <noscript><p class="note">This tool needs JavaScript to read and merge answers.</p></noscript>
 
   <section class="panel" aria-labelledby="add-h">
@@ -227,7 +279,8 @@ td.ans { white-space: pre-wrap; }
    "# T: answers from Taro on 2026-10-07 (ja)" and "# T: Taro の回答 (2026-10-07) (ja)" work. Then
    "## [{q}] {question}" with the answer on the lines below (it may span lines). Any other "## " heading
    with "[{q}] {question}" lines under it ("## Not answered", "## 未回答", in any language) is the unanswered list.
-   JSON: {"title","lang","name","date","answers":[{"q","kind","question","answer"}],"unanswered":[{"q","question"}]}. */
+   JSON: {"title","lang","name","date","answers":[{"q","kind","question","answer"}],"unanswered":[{"q","question"}]}.
+   A rank or buckets answer may also carry "items" [{id,text}], "buckets" {label:[ids]} and "reason". Older copies have only the text. */
 
 const BOM = String.fromCharCode(0xFEFF);
 const Q_HEAD = /^ {0,3}##\s+\[([^\]]+)\]\s*(.*)$/;
@@ -310,8 +363,14 @@ function jsonCopy(o) {
   const c = newCopy(o.title, o.name, o.date, o.lang, 'json');
   list('answers').forEach(a => {
     if (!a || !clean(a.q)) return;
-    const answer = answerText(a.answer, a.kind);
-    if (answer) c.answers.push({ q: clean(a.q), kind: clean(a.kind), question: clean(a.question), answer });
+    const answer = answerText(a.answer, a.kind), entry = { q: clean(a.q), kind: clean(a.kind), question: clean(a.question), answer };
+    if (Array.isArray(a.items)) entry.items = a.items.filter(x => x && typeof x === 'object').map(x => ({ id: clean(x.id), text: clean(x.text) })).filter(x => x.id || x.text);
+    if (a.buckets && typeof a.buckets === 'object' && !Array.isArray(a.buckets)) {
+      entry.buckets = {};
+      Object.keys(a.buckets).forEach(k => { entry.buckets[k] = Array.isArray(a.buckets[k]) ? a.buckets[k].map(clean).filter(Boolean) : []; });
+    }
+    if (clean(a.reason)) entry.reason = clean(a.reason);
+    if (answer) c.answers.push(entry);
     else c.unanswered.push({ q: clean(a.q), question: clean(a.question) });
   });
   list('unanswered').forEach(u => { if (u && clean(u.q)) c.unanswered.push({ q: clean(u.q), question: clean(u.question) }); });
@@ -395,11 +454,15 @@ function groupByQuestion(copies) {
     return g;
   };
   copies.forEach(c => {
-    c.answers.forEach(a => slot(a.q, a.question, c.lang).rows.push({ respondent: c.name, date: c.date, lang: c.lang, answer: a.answer }));
+    c.answers.forEach(a => {
+      const row = { respondent: c.name, date: c.date, lang: c.lang, answer: a.answer };  /* a Markdown copy has no kind, items or buckets: only the text */
+      ['kind', 'items', 'buckets', 'reason'].forEach(k => { if (a[k]) row[k] = a[k]; });
+      slot(a.q, a.question, c.lang).rows.push(row);
+    });
     c.unanswered.forEach(u => slot(u.q, u.question, c.lang).unanswered.push({ respondent: c.name, date: c.date, lang: c.lang }));
   });
   const questions = Array.from(map.values());
-  questions.forEach(g => g.rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0)));
+  questions.forEach(g => { g.rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0)); g.ranking = rankModel(g.rows); });
   return { copies: copies.length, questions };
 }
 
@@ -422,9 +485,171 @@ function checkCopies(copies) {
   return out;
 }
 
+/* ---------- Combined ranking ----------
+   combine() is the arithmetic and nothing else: no DOM, no names, no text. tools/check-repo.mjs cuts it out between the two
+   markers and runs it on a fixture, because a wrong mean place or a wrong W would ship without anyone noticing. */
+/* combine:start */
+function combine(lists) {
+  /* lists: one array per reader, best first, of item keys. An item a reader left out shares the last places with that
+     reader's other left-out items, so it counts as their average place. Returns null when there is nothing to combine, else
+     { readers, items, limit, W, level, named, rows }. Rows come in combined order: best mean place, then best single place,
+     then the order the first reader gave. A row is { key, first, given, sum, mean, best, worst, contested, place }, where given
+     holds each reader's own place (null when left out). An item is contested when its worst and best places are at least
+     two thirds of the scale apart, rounded up. W is Kendall's W with the tie correction, null when it cannot be worked out. */
+  lists = lists.map(l => l.filter((k, i) => l.indexOf(k) === i));
+  const m = lists.length, keys = [];
+  lists.forEach(l => l.forEach(k => { if (keys.indexOf(k) < 0) keys.push(k); }));
+  const n = keys.length;
+  if (!m || !n) return null;
+  const limit = Math.floor((2 * n + 2) / 3);
+  const rows = keys.map((key, first) => {
+    const given = lists.map(l => (l.indexOf(key) < 0 ? null : l.indexOf(key) + 1));
+    const used = lists.map((l, j) => (given[j] === null ? (l.length + 1 + n) / 2 : given[j]));
+    const sum = used.reduce((a, b) => a + b, 0), best = Math.min.apply(null, used), worst = Math.max.apply(null, used);
+    return { key, first, given, sum, mean: sum / m, best, worst, contested: worst - best >= limit, place: 0 };
+  });
+  const mid = m * (n + 1) / 2;
+  const S = rows.reduce((a, r) => a + (r.sum - mid) * (r.sum - mid), 0);
+  const T = lists.reduce((a, l) => { const u = n - l.length; return a + u * u * u - u; }, 0);
+  const den = m * m * (n * n * n - n) - m * T;
+  const W = den > 0 ? Math.round(12 * S / den * 1e6) / 1e6 : null;
+  rows.sort((a, b) => a.sum - b.sum || a.best - b.best || a.first - b.first);
+  rows.forEach((r, i) => { r.place = i + 1; });
+  return { readers: m, items: n, limit, W, level: W === null ? '' : W < 0.3 ? 'weak' : W < 0.5 ? 'moderate' : 'strong', named: W !== null && W >= 0.3, rows };
+}
+/* combine:end */
+
+/* A rank answer is its items one per line, then optionally a blank line and the reason. A buckets answer is a summary line,
+   then "Now 1: item" in order, then "Next: item" for the rest. Older Markdown copies carry no kind, so a question is
+   read as a ranking only when three or more copies hold the same items. */
+const BUCKET_LINE = /^(.*?)(?:\s+(\d+))?\s*[:：]\s*(\S.*)$/;
+const bodyLines = s => s.split('\n').map(l => l.trim()).filter(Boolean);
+function splitReason(text) {
+  const i = text.search(/\n[ \t]*\n/);
+  return i < 0 ? { body: text, reason: '' } : { body: text.slice(0, i), reason: text.slice(i).trim() };
+}
+function bucketLine(line) {
+  const m = BUCKET_LINE.exec(line);
+  return m && m[1].trim() ? { label: m[1].trim(), n: m[2] ? +m[2] : 0, text: m[3].trim() } : null;
+}
+function inferKind(parsed) {
+  if (parsed.length < 3) return '';
+  const lines = parsed.map(p => bodyLines(p.body)), uniq = a => new Set(a).size === a.length;
+  const same = sets => sets.every(s => s.length === sets[0].length && s.every(x => sets[0].indexOf(x) >= 0));
+  const bl = lines.map(ls => ls.map(bucketLine)), labels = new Set();
+  bl.forEach(ls => ls.forEach(x => { if (x) labels.add(x.label); }));
+  const texts = bl.map(ls => ls.filter(Boolean).map(x => x.text));
+  if (bl.some(ls => ls.some(x => x && x.n)) && labels.size >= 2 && bl.every(ls => ls.every((x, i) => x || i === 0)) && texts.every(t => t.length >= 2 && uniq(t)) && same(texts)) return 'buckets';
+  if (lines.every(ls => ls.length >= 3 && uniq(ls)) && same(lines)) return 'rank';
+  return '';
+}
+/* Places the labels of several readers in one order: a label goes right after the one before it in its own reader's list. */
+function mergeOrder(seqs) {
+  const out = [];
+  seqs.forEach(seq => seq.forEach((label, i) => {
+    if (out.indexOf(label) >= 0) return;
+    const at = i ? out.indexOf(seq[i - 1]) : -1;
+    out.splice(at + 1, 0, label);
+  }));
+  return out;
+}
+
+/* One question's rows -> null when it is not a ranking, else { kind, labels, total, counted, ready, combo, texts, tally, reasons, skipped }.
+   Items line up by id, and by text when a copy has no ids. A copy's items go in the combination only when it listed some in the
+   ranked list (the whole list for rank, the first bucket for buckets). */
+function rankModel(rows) {
+  let kind = '';
+  rows.forEach(r => { if (!kind && (r.kind === 'rank' || r.kind === 'buckets')) kind = r.kind; });
+  const parsed = rows.map(r => Object.assign({ row: r }, splitReason(r.answer)));
+  if (!kind) kind = inferKind(parsed);
+  if (!kind) return null;
+  const idByText = new Map(), texts = new Map();
+  rows.forEach(r => (r.items || []).forEach(it => { if (it.id && it.text && !idByText.has(it.text)) idByText.set(it.text, it.id); }));
+  const keyOf = (text, id) => { const k = id || idByText.get(text) || text; if (!texts.has(k) && text) texts.set(k, text); return k; };
+  rows.forEach(r => (r.items || []).forEach(it => keyOf(it.text, it.id)));
+  const readers = [], seqs = [], skipped = [];
+  let jsonLabels = null, numbered = '';
+  parsed.forEach(p => {
+    const r = p.row, rd = { name: r.respondent, list: [], at: new Map(), raw: [], count: 0, reason: r.reason || p.reason };
+    if (kind === 'rank') {
+      if (r.items && r.items.length) rd.list = r.items.map(it => keyOf(it.text, it.id));
+      else if (!r.kind || r.kind === 'rank') rd.list = bodyLines(p.body).map(t => keyOf(t));
+    } else if (r.buckets && r.items) {
+      const labels = Object.keys(r.buckets); rd.count = labels.length; seqs.push(labels); if (!jsonLabels) jsonLabels = labels;
+      labels.forEach((label, k) => r.buckets[label].forEach((id, pos) => rd.raw.push({ key: id, label, k, pos: pos + 1 })));
+    } else if (!r.kind || r.kind === 'buckets') {
+      const ls = bodyLines(p.body).map(bucketLine).filter(Boolean);
+      seqs.push(ls.map(x => x.label).filter((x, i, a) => a.indexOf(x) === i));
+      ls.forEach(x => { if (x.n && !numbered) numbered = x.label; rd.raw.push({ key: keyOf(x.text), label: x.label, k: -1, pos: x.n }); });
+    }
+    if (kind === 'rank' ? !rd.list.length : !rd.raw.length) { skipped.push(r.respondent); return; }
+    readers.push(rd);
+  });
+  let labels = [];
+  if (kind === 'buckets') {
+    labels = jsonLabels || mergeOrder(seqs);
+    if (!jsonLabels && numbered) labels = [numbered].concat(labels.filter(l => l !== numbered));
+    readers.forEach(rd => {  /* a copy that names the same number of buckets lines up by position, so a translated page still merges */
+      const placed = [];
+      rd.raw.forEach(x => {
+        const idx = rd.count && rd.count === labels.length ? x.k : labels.indexOf(x.label);
+        if (idx < 0) return;
+        rd.at.set(x.key, idx);
+        if (idx === 0) placed.push(x);
+      });
+      rd.list = placed.sort((a, b) => a.pos - b.pos).map(x => x.key);
+    });
+  }
+  const counted = readers.filter(r => r.list.length), combo = combine(counted.map(r => r.list));
+  let tally = null;
+  if (kind === 'buckets') {
+    const keys = [];
+    readers.forEach(r => r.at.forEach((v, key) => { if (keys.indexOf(key) < 0) keys.push(key); }));
+    rows.forEach(r => (r.items || []).forEach(it => { const k = keyOf(it.text, it.id); if (keys.indexOf(k) < 0) keys.push(k); }));
+    tally = keys.map((key, order) => {
+      const counts = labels.map(() => 0);
+      readers.forEach(r => { if (r.at.has(key)) counts[r.at.get(key)]++; });
+      const votes = counts.reduce((a, b) => a + b, 0);
+      return { key, text: texts.get(key) || key, counts, votes, order, split: votes > 0 && Math.max.apply(null, counts) * 2 <= votes };
+    }).sort((a, b) => { for (let i = 0; i < labels.length; i++) if (a.counts[i] !== b.counts[i]) return b.counts[i] - a.counts[i]; return a.order - b.order; });
+  }
+  return { kind, labels, total: readers.length, names: counted.map(r => r.name), empty: readers.length - counted.length, ready: counted.length >= 3 && !!combo,
+    combo, texts, tally, skipped, reasons: readers.filter(r => r.reason).map(r => ({ respondent: r.name, reason: r.reason })) };
+}
+
+/* Plain numbers for the exports and the page: places only when the combined order is named. */
+const round = (x, d) => Math.round(x * Math.pow(10, d)) / Math.pow(10, d);
+function combined(model) {
+  if (!model || !model.ready) return null;
+  const c = model.combo, text = k => model.texts.get(k) || k;
+  const order = c.named ? c.rows : c.rows.slice().sort((a, b) => a.first - b.first);  /* no combined order is named below 0.3, so the rows keep the first reader's order */
+  const rows = order.map(r => ({ id: r.key, item: text(r.key), place: c.named ? r.place : null, mean: round(r.mean, 2), best: r.best, worst: r.worst, contested: r.contested, places: r.given }));
+  const split = model.tally ? model.tally.filter(t => t.split).map(t => t.key) : [];
+  return { kind: model.kind, readers: c.readers, reader_names: model.names, items: c.items, W: c.W === null ? null : round(c.W, 3), agreement: c.level, named: c.named,
+    contested: rows.filter(r => r.contested).map(r => r.id), rows, tally: model.tally ? { buckets: model.labels, split, rows: model.tally.map(t => ({ id: t.key, item: t.text, counts: t.counts, split: t.split })) } : null };
+}
+
 function mergeText(text) {
-  const parsed = parseAny(text);
-  return { model: groupByQuestion(parsed.copies), problems: parsed.problems.concat(checkCopies(parsed.copies)) };
+  const parsed = parseAny(text), model = groupByQuestion(parsed.copies), problems = parsed.problems.concat(checkCopies(parsed.copies));
+  model.questions.forEach(g => {
+    if (g.ranking && g.ranking.skipped.length) problems.push('[' + g.q + '] ' + plural(g.ranking.skipped.length, 'answer', 'answers') + ' could not be read as a ' + (g.ranking.kind === 'rank' ? 'ranking' : 'bucket sort') + ' and ' + (g.ranking.skipped.length === 1 ? 'is' : 'are') + ' left out of the combined view: ' + g.ranking.skipped.join(', ') + '.');
+  });
+  return { model, problems };
+}
+
+/* The combined view as Markdown lines: how many readers, how much they agree, then each item. */
+function comboMarkdown(g) {
+  const c = combined(g.ranking);
+  if (!c) return [];
+  const labels = g.ranking.labels;
+  const out = ['', 'Combined ' + (c.kind === 'rank' ? 'ranking' : 'order of the ' + labels[0] + ' bucket') + ', ' + plural(c.readers, 'reader', 'readers') + '. '
+    + (c.W === null ? 'Agreement could not be measured.' : 'Agreement is ' + c.agreement + " (Kendall's W " + c.W.toFixed(2) + ').') + (c.named ? '' : ' No combined order is named below 0.3.')];
+  c.rows.forEach(r => out.push((c.named ? r.place + '. ' : '- ') + r.item + ': average place ' + r.mean + ', best ' + r.best + ', worst ' + r.worst + (r.contested ? ' (Contested)' : '')));
+  if (c.tally) {
+    out.push('', 'Tally by bucket:');
+    c.tally.rows.forEach(t => out.push('- ' + t.item + ': ' + t.counts.map((n, i) => c.tally.buckets[i] + ' ' + n).join(', ') + (t.split ? ' (Split)' : '')));
+  }
+  return out;
 }
 
 function toMarkdown(model) {
@@ -439,6 +664,7 @@ function toMarkdown(model) {
     });
     if (!g.rows.length) out.push('Nobody answered.');
     if (g.unanswered.length) out.push('', 'Not answered: ' + g.unanswered.map(r => r.respondent).join(', '));
+    comboMarkdown(g).forEach(l => out.push(l));
     out.push('');
   });
   return out.join('\n');
@@ -447,7 +673,11 @@ function toMarkdown(model) {
 function toJSON(model) {
   return JSON.stringify({
     copies: model.copies,
-    questions: model.questions.map(g => ({ q: g.q, question: g.question, answers: g.rows, unanswered: g.unanswered }))
+    questions: model.questions.map(g => {
+      const q = { q: g.q, question: g.question, answers: g.rows, unanswered: g.unanswered }, c = combined(g.ranking);
+      if (c) q.combined = c;
+      return q;
+    })
   }, null, 2);
 }
 
@@ -459,9 +689,22 @@ function csvCell(v) {
   return /[",\r\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
 }
 
+/* One row per respondent, as before. A ranked question adds one row per item with respondent "Combined" and the item, place, mean,
+   best, worst, flag and (for buckets) tally columns filled; every other row leaves those columns empty. */
 function toCSV(model) {
-  const rows = [['q', 'question', 'respondent', 'date', 'lang', 'answer']];
-  model.questions.forEach(g => g.rows.forEach(r => rows.push([g.q, g.question, r.respondent, r.date, r.lang, r.answer])));
+  const rows = [['q', 'question', 'respondent', 'date', 'lang', 'answer', 'item', 'place', 'mean', 'best', 'worst', 'flag', 'tally']], blank = ['', '', '', '', '', '', ''];
+  model.questions.forEach(g => {
+    g.rows.forEach(r => rows.push([g.q, g.question, r.respondent, r.date, r.lang, r.answer].concat(blank)));
+    const c = combined(g.ranking);
+    if (!c) return;
+    const tally = new Map((c.tally ? c.tally.rows : []).map(t => [t.id, t])), seen = new Set();
+    const line = t => t ? t.counts.map((n, i) => c.tally.buckets[i] + ' ' + n).join(', ') : '';
+    c.rows.forEach(r => {
+      const t = tally.get(r.id); seen.add(r.id);
+      rows.push([g.q, g.question, 'Combined', '', '', '', r.item, r.place === null ? '' : r.place, r.mean, r.best, r.worst, [r.contested ? 'Contested' : '', t && t.split ? 'Split' : ''].filter(Boolean).join(' and '), line(t)]);
+    });
+    tally.forEach((t, id) => { if (!seen.has(id)) rows.push([g.q, g.question, 'Combined', '', '', '', t.item, '', '', '', '', t.split ? 'Split' : '', line(t)]); });
+  });
   return rows.map(r => r.map(csvCell).join(',')).join('\r\n') + '\r\n';
 }
 /* ===== PURE:END ===== */
@@ -481,12 +724,79 @@ function toCSV(model) {
   const okLang = l => (/^[A-Za-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(l) ? l : '');
   function say(text) { msg.textContent = ''; setTimeout(() => { msg.textContent = text; }, 30); }
 
+  /* The combined view of a ranked question: a headline, three tiles, a table with a spread bar per item, and how agreement is measured. */
+  const fmt2 = x => String(Math.round(x * 100) / 100);
+  const cell = (tag, role, cls, ...kids) => el(tag, { role, class: cls, scope: tag === 'th' ? (role === 'rowheader' ? 'row' : 'col') : '' }, ...kids);
+  const flagChip = word => el('span', { class: 'flag' }, '! ' + word);
+  const tile = (tone, glyph, big, small) => el('div', { class: 'tile ' + tone }, el('b', { class: 'big' }, el('span', { class: 'glyph', 'aria-hidden': 'true' }, glyph), big), el('span', {}, small));
+  const grid = (cls, caption, head, rows) => el('div', { class: 'rt-wrap' }, el('table', { class: cls, role: 'table' }, el('caption', {}, caption),
+    el('thead', { role: 'rowgroup' }, el('tr', { role: 'row' }, ...head)), el('tbody', { role: 'rowgroup' }, ...rows)));
+
+  function comboView(g) {
+    const model = g.ranking;
+    if (!model) return null;
+    const root = el('div', { class: 'combo' }), first = model.labels[0] || '';
+    if (!model.ready) {
+      const n = model.names.length;
+      root.append(el('p', { class: 'combo-note' }, 'A combined ranking needs 3 readers. So far ' + n + (n === 1 ? ' reader has' : ' readers have') + ' ordered the ' + (model.kind === 'rank' ? 'items.' : first + ' items.')));
+      return root;
+    }
+    const c = model.combo, text = k => model.texts.get(k) || k, names = model.names, items = c.items;
+    const rows = c.named ? c.rows : c.rows.slice().sort((a, b) => a.first - b.first), hot = c.rows.filter(r => r.contested);
+    const split = c.rows.length > 2 ? 'They split on ' + hot.slice(0, 2).map(r => text(r.key)).join(' and ') + (hot.length > 2 ? ' and ' + (hot.length - 2) + ' more' : '') + '.' : '';
+    const line = c.named
+      ? 'The ' + c.readers + ' readers ' + (c.level === 'strong' ? 'agree strongly' : 'mostly agree') + ': ' + text(c.rows[0].key) + ' first' + (c.rows[1] ? ', ' + text(c.rows[1].key) + ' second' : '') + '. ' + (hot.length ? split : '')
+      : 'The ' + c.readers + " readers do not agree enough to name one order. Read each reader's order below.";
+    root.append(el('p', { class: 'combo-line' }, line.trim()));
+    const level = c.W === null ? tile('wait', '!', 'Agreement unknown', 'There are too few items to measure it.')
+      : c.level === 'strong' ? tile('go', '✓', 'Strong agreement', 'The combined order is safe to use.')
+      : c.level === 'moderate' ? tile('go', '✓', 'Moderate agreement', 'The combined order is a fair guide. Check the contested items.')
+      : tile('wait', '!', 'Weak agreement', 'Readers differ too much to name one order.');
+    root.append(el('div', { class: 'tiles' },
+      el('div', { class: 'tile' }, el('b', { class: 'big' }, String(c.readers)), el('span', {}, model.kind === 'rank' ? 'readers ranked all ' + items + ' items' : 'readers ordered ' + items + ' items in ' + first)),
+      level,
+      hot.length ? tile('wait', '!', plural(hot.length, 'item', 'items') + ' contested', 'Talk about it before you decide.') : tile('go', '✓', 'No item contested', 'No two readers are far apart on any item.')));
+    if (model.empty) root.append(el('p', { class: 'combo-note' }, plural(model.empty, 'reader put', 'readers put') + ' nothing in ' + first + ' and ' + (model.empty === 1 ? 'is' : 'are') + ' not counted below.'));
+    const pct = p => (items > 1 ? ((p - 1) / (items - 1)) * 100 : 0);
+    const head = [cell('th', 'columnheader', 'place', 'Place'), cell('th', 'columnheader', '', model.kind === 'rank' ? 'Item' : 'Item in ' + first)]
+      .concat(names.map(n => cell('th', 'columnheader', 'rd', n)), [cell('th', 'columnheader', '', 'Spread of places, 1 to ' + items), cell('th', 'columnheader', '', 'Flag')]);
+    const body = rows.map(r => {
+      const w = Math.max(2, pct(r.worst) - pct(r.best)), lo = Math.min(pct(r.best), 100 - w);
+      const bar = el('div', { class: 'spread', role: 'img', 'aria-label': 'Places ' + fmt2(r.best) + ' to ' + fmt2(r.worst) + ', average ' + fmt2(r.mean),
+        style: '--lo:' + lo.toFixed(1) + '%;--w:' + w.toFixed(1) + '%;--mean:' + pct(r.mean).toFixed(1) + '%' }, el('i', { class: 'rng' }), el('i', { class: 'ring' }));
+      return el('tr', { role: 'row', class: r.contested ? 'contested' : '' },
+        cell('td', 'cell', 'place', c.named ? String(r.place) : '–'),
+        cell('th', 'rowheader', '', text(r.key), el('span', { class: 'avg' }, 'Average place ' + fmt2(r.mean))),
+        ...r.given.map(v => cell('td', 'cell', 'rd', v === null ? '–' : String(v))),
+        cell('td', 'cell', 'sp', bar),
+        cell('td', 'cell', 'fl', r.contested ? flagChip('Contested') : ''),
+        cell('td', 'cell', 'reads', names.map((n, j) => n + ' ' + (r.given[j] === null ? '–' : r.given[j])).join(', ')));
+    });
+    root.append(grid('rt', c.named ? 'Combined ranking, best average place first' : "Average places, in the first reader's order", head, body));
+    root.append(el('p', { class: 'hint' }, "Place is the average of everyone's places. The bar runs from the best to the worst place an item got, and the ring marks its average. Contested means two readers put it "
+      + c.limit + ' or more places apart.' + (model.kind === 'buckets' ? ' A dash means the reader did not put the item in ' + first + '. It counts as tied for last place.' : '')));
+    root.append(el('details', {}, el('summary', {}, 'How agreement is measured'), el('p', {}, c.W === null ? 'Agreement cannot be worked out for one item.'
+      : "Kendall's W is " + c.W.toFixed(2) + ' for these answers, on a scale from 0 (no agreement) to 1 (everyone the same). Under 0.3 is weak, 0.3 to 0.5 is moderate and 0.5 or more is strong. The page names a combined order only at 0.3 or above, and needs 3 readers or more.')));
+    if (model.tally) {
+      const lbl = model.labels;
+      const trows = model.tally.map(t => el('tr', { role: 'row', class: t.split ? 'contested' : '' },
+        cell('th', 'rowheader', '', t.text),
+        ...t.counts.map(n => cell('td', 'cell', 'rd', String(n))),
+        cell('td', 'cell', 'fl', t.split ? flagChip('Split') : ''),
+        cell('td', 'cell', 'reads', lbl.map((l, i) => l + ' ' + t.counts[i]).join(', '))));
+      root.append(grid('rt tally', 'Tally by bucket, most votes for ' + first + ' first', [cell('th', 'columnheader', '', 'Item')].concat(lbl.map(l => cell('th', 'columnheader', 'rd', l)), [cell('th', 'columnheader', '', 'Flag')]), trows));
+      root.append(el('p', { class: 'hint' }, 'Split means no bucket got more than half of the readers who placed the item.'));
+    }
+    if (model.reasons.length) root.append(el('details', {}, el('summary', {}, 'Reasons readers gave (' + model.reasons.length + ')'), el('ul', {}, ...model.reasons.map(r => el('li', {}, r.respondent + ': ' + r.reason)))));
+    return root;
+  }
+
   function block(g, i) {
     const hid = 'qh' + i, missing = g.unanswered.length;
     const counts = g.rows.length + ' answered, ' + missing + ' not answered' + (missing ? ': ' + g.unanswered.map(r => r.respondent).join(', ') : '');
     const head = el('header', {}, el('h3', { id: hid, lang: okLang(g.lang) }, el('span', { class: 'qid' }, g.q), g.question || 'Question text missing'), el('p', { class: 'counts' }, counts));
     if (!g.rows.length) return el('section', { class: 'q', 'aria-labelledby': hid }, head, el('p', { class: 'none' }, 'Nobody answered this question.'));
-    const cols = ['Respondent', 'Date', 'Lang', 'Answer'].map(t => el('th', { scope: 'col', role: 'columnheader' }, t));
+    const combo = comboView(g), cols = ['Respondent', 'Date', 'Lang', 'Answer'].map(t => el('th', { scope: 'col', role: 'columnheader' }, t));
     const rows = g.rows.map(r => el('tr', { role: 'row' },
       el('th', { scope: 'row', role: 'rowheader' }, r.respondent),
       el('td', { role: 'cell', class: 'meta' }, r.date),
@@ -495,7 +805,7 @@ function toCSV(model) {
     const table = el('table', { role: 'table', 'aria-labelledby': hid },
       el('thead', { role: 'rowgroup' }, el('tr', { role: 'row' }, ...cols)),
       el('tbody', { role: 'rowgroup' }, ...rows));
-    return el('section', { class: 'q', 'aria-labelledby': hid }, head, table);
+    return combo ? el('section', { class: 'q', 'aria-labelledby': hid }, head, combo, table) : el('section', { class: 'q', 'aria-labelledby': hid }, head, table);
   }
 
   function render(res) {

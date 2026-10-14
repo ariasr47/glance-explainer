@@ -445,6 +445,36 @@ if (type === 'playbook') {
   else answerFieldRules(fields, 'decisions', (m) => warn(`data-type="playbook": ${m}`)); // the decisions copy through the gather bar: one .collect, and every field a data-q
 }
 
+// ---- fields that order or sort (1.6.0), on any page type. A rank item only warns, so an older page still passes. A buckets field is a new kind,
+// so a broken one fails: its labels, ids and picks decide what the copies say.
+find('answer-field').forEach((f, i) => {
+  const kind = attr(f.attrs, 'data-kind'), q = attr(f.attrs, 'data-q'), at = q ? `"${q}"` : `#${i + 1}`;
+  if (kind !== 'rank' && kind !== 'buckets') return;
+  const ol = /<ol\b[^>]*>/i.exec(f.inner), items = ol ? kids(inner(f.inner, ol.index + ol[0].length, 'ol'), 'li') : [];
+  const ids = items.map((li) => (attr(li.attrs, 'data-id') || '').trim());
+  if (kind === 'rank') {
+    const bare = ids.filter((id) => !id).length;
+    if (bare) warn(`.answer-field ${at} (rank): ${bare} of ${items.length} item(s) have no data-id; an id lets a merge line items up when a page is translated or reworded`);
+    else if (new Set(ids).size < ids.length) warn(`.answer-field ${at} (rank): two items share a data-id`);
+    return;
+  }
+  const raw = attr(f.attrs, 'data-buckets'), labels = (raw || '').split('|').map((s) => s.trim());
+  const sound = raw !== undefined && labels.length >= 2 && labels.length <= 5 && !labels.some((l) => !l || l.includes(':')) && new Set(labels.map((l) => l.toLowerCase())).size === labels.length;
+  if (raw === undefined) fail(`.answer-field ${at} (buckets) has no data-buckets; list 2 to 5 labels split by "|", such as "Now|Next|Later"`);
+  else if (!sound) fail(`.answer-field ${at} (buckets): data-buckets "${raw}" is malformed; 2 to 5 distinct labels split by "|", none empty and none holding a colon`);
+  if (!items.length) fail(`.answer-field ${at} (buckets) has no ol of li items`);
+  const seen = new Set();
+  items.forEach((li, n) => {
+    const id = ids[n], rec = (attr(li.attrs, 'data-rec') || '').trim();
+    if (!id) warn(`.answer-field ${at} (buckets): item ${n + 1} has no data-id`);
+    else if (seen.has(id)) fail(`.answer-field ${at} (buckets): duplicate data-id "${id}"`);
+    seen.add(id);
+    if (!rec) warn(`.answer-field ${at} (buckets): item ${n + 1} has no data-rec, so no bucket is marked ★ for it`);
+    else if (sound && !labels.includes(rec)) fail(`.answer-field ${at} (buckets): item ${n + 1} has data-rec "${rec}", which is not one of the buckets (${labels.join(', ')})`);
+  });
+  if (items.length > 15) warn(`.answer-field ${at} (buckets) has ${items.length} items; 15 or fewer keeps the page short enough to finish on a phone`);
+});
+
 // ---- reader-feature components, on any page type
 find('stepper').forEach((s, i) => {
   if (!num('stepper-nav', null, s.inner)) fail(`.stepper #${i + 1} has no .stepper-nav`);

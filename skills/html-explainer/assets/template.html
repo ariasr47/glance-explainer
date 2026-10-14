@@ -704,8 +704,35 @@ body[data-focus="on"] .focus-nav { display: flex; }
 .answer-field ol { list-style: none; margin: .5rem 0 0; padding: 0; max-width: none; counter-reset: rank; }
 .answer-field ol > li { counter-increment: rank; display: flex; align-items: center; gap: .6rem; margin: .4rem 0; padding: .45rem .5rem .45rem .8rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); }
 .answer-field ol > li::before { content: counter(rank); flex: none; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font: 600 var(--size-xs) var(--font-head); }
-.answer-field ol > li > :first-child { flex: 1; }
-.answer-field ol button { flex: none; width: 2.25rem; height: 2.25rem; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+.answer-field ol > li > :first-child { flex: 1 1 7rem; min-width: 0; }
+.answer-field ol button:is([data-up], [data-down], [data-top]) { flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); }
+.answer-field ol button:is([data-up], [data-down], [data-top]):not([aria-disabled="true"]):hover { border-color: var(--here); }
+.answer-field ol button[aria-disabled="true"] { opacity: .4; cursor: default; }  /* the end of the list: the button stays focusable so the reader's place is not lost */
+/* rank and buckets: the script adds the move buttons, "This order is right" and the spoken status; a page carries only the items */
+.answer-field ol > li { flex-wrap: wrap; }
+.rank-moves { display: flex; flex: none; gap: .4rem; margin-left: auto; }  /* the three buttons wrap together: under the words on a phone, beside them when there is room */
+@media (max-width: 560px) { .answer-field ol > li { gap: .4rem .5rem; padding-left: .5rem; } }
+.rank-foot { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .9rem; margin: .6rem 0 0; }
+.rank-foot button { min-height: 44px; padding: 0 1.1rem; border: 2px solid var(--go); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-s) var(--font-head); }
+.rank-foot button[aria-pressed="true"] { background: var(--go); color: var(--on-go); }
+.rank-foot button[aria-pressed="true"]::before { content: "✓ "; }
+.rank-say { flex: 1 1 10rem; margin: 0; min-height: 1.4em; color: var(--ink-soft); font-size: var(--size-xs); max-width: none; }
+/* buckets: one row of labelled buttons per item (the page's pick is preset and marked ★), then the first bucket gets an order */
+.answer-field[data-kind="buckets"] > ol > li { display: block; margin: .5rem 0; padding: .65rem .75rem .75rem; }
+.answer-field[data-kind="buckets"] > ol > li::before { content: none; }
+.answer-field[data-kind="buckets"] > ol > li > b { display: block; font-family: var(--font-head); font-weight: 600; line-height: 1.3; }
+.answer-field[data-kind="buckets"] > ol > li > span { display: block; margin-top: .15rem; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.bucket-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(2.6rem, 1fr)); gap: .4rem; margin-top: .55rem; }  /* never narrower than a 44 px target: a row that does not fit wraps, and five labels wrap 3 and 2 on a phone */
+@media (max-width: 560px) { .bucket-row[data-n="5"] { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.bucket-row button { min-height: 44px; padding: .2rem; border: 2px solid var(--line-strong); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1.15 var(--font-head); }
+.bucket-row button:hover { border-color: var(--here); }
+.bucket-row button[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.bucket-row button[aria-pressed="true"]::before { content: "✓ "; }
+.buckets-sum { margin: .8rem 0 0; font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); max-width: none; }
+.rank-box { margin: .8rem 0 0; padding: .8rem 1rem 1rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--card); }
+.rank-box > .rank-title { margin: 0; font: 600 var(--size-0)/1.3 var(--font-head); max-width: none; }
+.rank-box > .hint { margin: .1rem 0 0; }
+.rank-box > .rank-empty { margin: .6rem 0 0; font-size: var(--size-s); max-width: none; }
 /* the recommended option wears a ★ chip with the attribute's own words ("Recommended", "My pick"); the star is the only glyph CSS writes */
 .answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
 .collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
@@ -1130,7 +1157,11 @@ const T = {
         savedDb: 'Saved for Claude', savedLocal: 'Saved in this browser', savedNone: 'Not saved; Copy picks still works',
         pickIdle: 'Tap an option on any card. Your picks collect here.', pickLeft: '{n} left. Anything you skip goes with the ★ option.', pickAll: 'All {m} picked. Copy them and paste into the chat.',
         pickDone: 'Picked {p}. {n} of {m} done.', pickClear: 'Cleared {p}.', pickMsg: 'Copied. Paste it into the chat.', pickBlocked: 'Copy is blocked in this window. Use the box below.',
-        skipped: '★ (skipped)', allRec: '{title}: all ★ (recommended)', noteLine: 'Note: {t}', recDone: 'Picked ★ for {n}. {p} of {m} done.', recNone: 'Every single-choice card already has a pick.' },
+        skipped: '★ (skipped)', allRec: '{title}: all ★ (recommended)', noteLine: 'Note: {t}', recDone: 'Picked ★ for {n}. {p} of {m} done.', recNone: 'Every single-choice card already has a pick.',
+        rankUp: 'Move {item} up', rankDown: 'Move {item} down', rankTop: 'Move {item} to the top', rankOk: 'This order is right', rankMoved: '{item} moved to {n} of {m}', rankStay: '{item} is already {n} of {m}',
+        bkGroup: 'Bucket for {item}', bkRec: '{b}, recommended', bkMoved: '{item} moved to {b}', bkOk: 'These picks are right', bkTitle: 'Order your {b} items', bkHint: 'Only {b} gets an order. First item on top.',
+        bkEmpty: 'Nothing is in {b}. Tap {b} on an item above to add it here.', bkSame: 'All {m} match ★', bkDiff: '{n} of {m} changed from ★', bkOrder: 'Same buckets as ★, new order',
+        bkAll: 'all ★ (recommended)', bkSome: '{n} changed from ★', bkNew: 'same buckets as ★, new order' },
   ja: { of: '{m}章中 第{n}章', step: '{n} / {m}', ans: '{m}問中 {n}問 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
         read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了',
         pickN: '{m}問中{n}問 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '含める：{k}', shipNone: 'どれも含めない',
@@ -1138,7 +1169,11 @@ const T = {
         savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
         pickIdle: '各カードの選択肢をタップしてください。選択はここに集まります。', pickLeft: '残り{n}問。飛ばした項目は★の選択肢になります。', pickAll: '{m}問すべて選択済み。コピーしてチャットに貼り付けてください。',
         pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。',
-        skipped: '★（飛ばした）', allRec: '{title}：すべて★（おすすめ）', noteLine: 'メモ：{t}', recDone: '{n}問を★にしました。{m}問中{p}問完了。', recNone: '1つだけ選ぶ項目は、すべて選択済みです。' }
+        skipped: '★（飛ばした）', allRec: '{title}：すべて★（おすすめ）', noteLine: 'メモ：{t}', recDone: '{n}問を★にしました。{m}問中{p}問完了。', recNone: '1つだけ選ぶ項目は、すべて選択済みです。',
+        rankUp: '{item}を上へ移動', rankDown: '{item}を下へ移動', rankTop: '{item}を一番上へ移動', rankOk: 'この順番でよい', rankMoved: '{item}を{m}件中{n}番目に移動しました', rankStay: '{item}はすでに{m}件中{n}番目です',
+        bkGroup: '{item}の振り分け', bkRec: '{b}（おすすめ）', bkMoved: '{item}を「{b}」に移動しました', bkOk: 'この振り分けでよい', bkTitle: '「{b}」の項目を並べる', bkHint: '順番をつけるのは「{b}」だけです。一番上が最優先です。',
+        bkEmpty: '「{b}」に項目がありません。上の項目で「{b}」を押すと、ここに入ります。', bkSame: '{m}件すべて★のままです', bkDiff: '{m}件中{n}件を★から変更', bkOrder: '振り分けは★のまま、順番を変更',
+        bkAll: 'すべて★（おすすめ）', bkSome: '★から{n}件変更', bkNew: '振り分けは★のまま、順番を変更' }
 };
 const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
 const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
@@ -1507,17 +1542,108 @@ if (root.dataset.mode === 'ballot') {
 const fields = qa('.answer-field'), bar = $('.collect'), cnt = $('.count', bar), who = $('.respondent', bar), ak = key + ':answers';
 let kept = {}; try { kept = JSON.parse(store.get(ak)) || {}; } catch (e) {}
 const lab = i => { const l = i.closest('label'); return l ? txt(l) : i.value; };
-const item = li => { const c = li.cloneNode(true); qa('button', c).forEach(b => b.remove()); return txt(c); };
-const grab = f => ({ v: f.dataset.kind === 'rank' ? qa('li', f).map(item) : qa('input:checked', f).map(lab), t: $('textarea', f)?.value || '' });
+const item = li => { const c = li.cloneNode(true); qa('button, .bucket-row', c).forEach(b => b.remove()); return txt(c); };
+
+/* rank and buckets. An item is known by its data-id, or by its text when it has none. The script adds the move buttons,
+   the "right" button and the spoken status, so a page carries only its items. */
+const ttl = li => { const t = $(':scope > b', li); return t ? txt(t) : item(li); }, idOf = li => li.dataset.id || ttl(li);
+const itemsOf = ol => qa(':scope > li', ol), labelsOf = f => (f.dataset.buckets || '').split('|').map(s => s.trim()).filter(Boolean);
+const entries = f => itemsOf($(':scope > ol', f)).map(li => ({ id: idOf(li), text: ttl(li) }));
+const bst = new Map();  /* bucket fields: { of: { id: bucket }, rec: { id: bucket }, order: [ids in the first bucket, top first], order0 } */
+const hear = (f, msg) => { const s = $('.rank-say', f); if (s) { s.textContent = ''; setTimeout(() => { s.textContent = msg; }, 30); } };
+const ICON = { up: 'M6 15l6-6 6 6', down: 'M6 9l6 6 6-6', top: 'M6 5h12M8 13l4-4 4 4M12 9v10' };
+const moves = (li, nm) => {
+  const w = make('span', 'rank-moves', '');
+  [['up', 'rankUp'], ['down', 'rankDown'], ['top', 'rankTop']].forEach(([k, s]) => {
+    let b = $('[data-' + k + ']', li);  /* an older page already carries up and down */
+    if (!b) {
+      b = make('button', '', '<svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="' + ICON[k] + '"/></svg>');
+      b.type = 'button'; b.setAttribute('data-' + k, ''); b.setAttribute('aria-label', fmt(L[s], { item: nm }));
+    }
+    w.append(b);
+  });
+  li.append(w);
+};
+const ends = ol => { const a = itemsOf(ol); a.forEach((li, n) => {  /* the ends stay focusable, so a press never drops the reader's place */
+  qa('[data-up], [data-top]', li).forEach(b => b.setAttribute('aria-disabled', n === 0)); qa('[data-down]', li).forEach(b => b.setAttribute('aria-disabled', n === a.length - 1)); }); };
+const foot = () => make('div', 'rank-foot', '<button type="button" data-rank-ok aria-pressed="false"></button><p class="rank-say" role="status" aria-live="polite"></p>');
+const okState = f => $('[data-rank-ok]', f)?.setAttribute('aria-pressed', !!f.dataset.ok);
+const summary = (f, copy) => {  /* the line above the buckets, and the first line of the copy */
+  const st = bst.get(f), all = entries(f), n = all.filter(x => st.of[x.id] !== st.rec[x.id]).length;
+  return n ? fmt(copy ? L.bkSome : L.bkDiff, { n, m: all.length }) : st.order.join('\n') !== st.order0.join('\n') ? (copy ? L.bkNew : L.bkOrder) : copy ? L.bkAll : fmt(L.bkSame, { m: all.length });
+};
+const paintSum = f => {
+  const st = bst.get(f), box = $('.rank-box', f); $('.buckets-sum', f).textContent = summary(f, 0);
+  $('[data-rank-ok]', box).textContent = st.order.length > 1 ? L.rankOk : L.bkOk;
+};
+const paintBuckets = f => {
+  const st = bst.get(f), first = labelsOf(f)[0], all = entries(f), box = $('.rank-box', f), ol = $('ol', box), empty = $('.rank-empty', box), name = Object.fromEntries(all.map(x => [x.id, x.text]));
+  itemsOf($(':scope > ol', f)).forEach(li => qa('[data-bucket]', li).forEach(x => x.setAttribute('aria-pressed', st.of[idOf(li)] === x.dataset.bucket)));
+  ol.replaceChildren(...st.order.map(id => { const li = make('li', '', '<span></span>'); li.dataset.id = id; li.firstChild.textContent = name[id]; moves(li, name[id]); return li; }));
+  ends(ol); ol.hidden = !st.order.length; empty.hidden = !!st.order.length;
+  $('.rank-title', box).textContent = fmt(L.bkTitle, { b: first }); ol.setAttribute('aria-label', fmt(L.bkTitle, { b: first })); $('.hint', box).textContent = fmt(L.bkHint, { b: first }); empty.textContent = fmt(L.bkEmpty, { b: first });
+  paintSum(f); okState(f);
+};
+fields.filter(f => f.dataset.kind === 'rank').forEach(f => {
+  const ol = $('ol', f); if (!ol) return;
+  itemsOf(ol).forEach(li => moves(li, ttl(li))); ends(ol);
+  const fo = foot(); $('button', fo).textContent = L.rankOk; ol.after(fo);
+});
+fields.filter(f => f.dataset.kind === 'buckets').forEach(f => {
+  const labels = labelsOf(f), ol = $(':scope > ol', f); if (!ol || labels.length < 2) return;
+  const st = { of: {}, rec: {}, order: [] }; bst.set(f, st);
+  itemsOf(ol).forEach(li => {  /* the page's pick is preset: a bucket the page does not name falls to the last one */
+    const id = idOf(li), rec = labels.includes(li.dataset.rec) ? li.dataset.rec : labels[labels.length - 1], row = make('div', 'bucket-row', '');
+    st.of[id] = st.rec[id] = rec; row.setAttribute('role', 'group'); row.setAttribute('aria-label', fmt(L.bkGroup, { item: ttl(li) })); row.dataset.n = labels.length;
+    labels.forEach(b => {
+      const x = make('button', '', ''); x.type = 'button'; x.dataset.bucket = b; x.setAttribute('aria-pressed', 'false'); x.textContent = (rec === b ? '★ ' : '') + b;
+      if (rec === b) x.setAttribute('aria-label', fmt(L.bkRec, { b })); row.append(x);
+    });
+    li.append(row);
+  });
+  st.order = entries(f).filter(x => st.of[x.id] === labels[0]).map(x => x.id); st.order0 = st.order.slice();
+  const sum = make('p', 'buckets-sum', ''), box = make('div', 'rank-box', '<p class="rank-title"></p><p class="hint"></p><p class="rank-empty"></p><ol></ol>');
+  box.append(foot()); ol.after(sum); sum.after(box); paintBuckets(f);
+});
+const grab = f => {
+  const t = $('textarea', f)?.value || '', st = bst.get(f);
+  if (f.dataset.kind !== 'rank' && !st) return { v: qa('input:checked', f).map(lab), t };
+  const on = f.dataset.moved || f.dataset.ok || t.trim(), name = st && Object.fromEntries(entries(f).map(x => [x.id, x.text]));
+  const rows = st ? st.order.map(id => ({ id, text: name[id] })) : itemsOf($('ol', f)).map(li => ({ id: idOf(li), text: ttl(li) }));
+  return { v: on ? rows.map(r => r.text) : [], i: on ? rows.map(r => r.id) : [], t, a: on ? 1 : 0, m: f.dataset.moved ? 1 : 0, k: f.dataset.ok ? 1 : 0, ...(st && on ? { b: { ...st.of } } : {}) };
+};
 const put = (f, o) => {
-  const t = $('textarea', f), ol = $('ol', f);
+  const t = $('textarea', f), ol = $('ol', f), st = bst.get(f);
   if (t) t.value = o.t;
-  if (ol) o.v.forEach(k => qa('li', ol).forEach(li => { if (item(li) === k) ol.append(li); }));
-  else qa('input', f).forEach(i => { i.checked = o.v.includes(lab(i)); });
+  if (st) {
+    const labels = labelsOf(f), all = entries(f);
+    all.forEach(x => { if (labels.includes(o.b?.[x.id])) st.of[x.id] = o.b[x.id]; });
+    const first = all.map(x => x.id).filter(id => st.of[id] === labels[0]), keep = (o.i || []).filter(id => first.includes(id));
+    st.order = keep.concat(first.filter(id => !keep.includes(id)));
+  } else if (f.dataset.kind === 'rank' && ol) {
+    const a = itemsOf(ol), want = o.i || o.v, key = li => o.i ? idOf(li) : ttl(li), by = new Map(a.map(li => [key(li), li]));
+    want.map(x => by.get(x)).filter(Boolean).concat(a.filter(li => !want.includes(key(li)))).forEach(li => ol.append(li)); ends(ol);
+  } else qa('input', f).forEach(i => { i.checked = o.v.includes(lab(i)); });
+  if (f.dataset.kind === 'rank' || st) { f.dataset.moved = o.m || !('a' in o) ? '1' : ''; f.dataset.ok = o.k ? '1' : ''; if (st) paintBuckets(f); else okState(f); }
 };
 const answer = f => {
-  const o = kept[f.dataset.q], why = o.t.trim(), tag = $('textarea', f)?.getAttribute('aria-label');
-  return f.dataset.kind === 'rank' ? o.v.join('\n') : o.v.length ? o.v.join(', ') + (why ? '\n' + (tag ? tag + ': ' : '') + why : '') : why;
+  const o = kept[f.dataset.q], why = o.t.trim(), tag = $('textarea', f)?.getAttribute('aria-label'), reason = why ? (tag ? tag + ': ' : '') + why : '', st = bst.get(f);
+  if (st) {  /* the summary, then "Now 1: item" in order, then one line per item in every other bucket */
+    const labels = labelsOf(f), all = entries(f);
+    return [summary(f, 1)].concat(st.order.map((id, n) => labels[0] + ' ' + (n + 1) + ': ' + all.find(x => x.id === id).text),
+      ...labels.slice(1).map(b => all.filter(x => st.of[x.id] === b).map(x => b + ': ' + x.text))).join('\n') + (reason ? '\n\n' + reason : '');
+  }
+  if (f.dataset.kind === 'rank') return o.v.join('\n') + (reason ? '\n\n' + reason : '');  /* items, a blank line, then the reason */
+  return o.v.length ? o.v.join(', ') + (reason ? '\n' + reason : '') : why;
+};
+/* the JSON copy carries ids beside the text, so a merge lines items up even when the page is translated */
+const extra = f => {
+  const o = kept[f.dataset.q], st = bst.get(f), why = o.t.trim(), out = {};
+  if (f.dataset.kind !== 'rank' && !st) return out;
+  if (st) { const labels = labelsOf(f), all = entries(f); out.items = all; out.buckets = Object.fromEntries(labels.map((b, n) => [b, n ? all.filter(x => st.of[x.id] === b).map(x => x.id) : st.order])); }
+  else out.items = o.v.map((text, n) => ({ id: o.i?.[n] || text, text }));
+  if (why) out.reason = why;
+  return out;
 };
 const sync = () => {
   let n = 0; qa('.rail a.answered').forEach(a => a.classList.remove('answered'));
@@ -1526,18 +1652,31 @@ const sync = () => {
   if (cnt) cnt.textContent = fmt(L.ans, { n, m: fields.length });
 };
 const save = f => {
-  const o = grab(f); if (o.v.length || o.t.trim()) kept[f.dataset.q] = o; else delete kept[f.dataset.q];
+  const o = grab(f); if (o.v.length || o.t.trim() || o.a) kept[f.dataset.q] = o; else delete kept[f.dataset.q];
   store.set(ak, JSON.stringify(kept)); sync();
 };
 fields.forEach(f => { if (kept[f.dataset.q]) put(f, kept[f.dataset.q]); });
 if (who) who.value = store.get('explainer:name') || '';
 on(d, 'input', e => { const f = e.target.closest?.('.answer-field'); if (f) save(f); else if (e.target === who) store.set('explainer:name', who.value); });
-on(d, 'click', e => {  /* rank: move an item up or down */
-  const b = e.target.closest?.('[data-up], [data-down]'), li = b?.closest('li'), f = li?.closest('.answer-field');
+on(d, 'click', e => {  /* rank and buckets: move an item, tap a bucket, or say the order is right. Moving or tapping is an answer. */
+  const b = e.target.closest?.('.answer-field button'), f = b?.closest('.answer-field'), st = bst.get(f), k = ['up', 'down', 'top'].find(x => b && x in b.dataset);
   if (!f) return;
-  const up = 'up' in b.dataset, sib = up ? li.previousElementSibling : li.nextElementSibling;
-  if (sib) li.parentNode.insertBefore(up ? li : sib, up ? sib : li);
-  b.focus(); save(f);
+  if ('rankOk' in b.dataset) { f.dataset.ok = f.dataset.ok ? '' : '1'; okState(f); }
+  else if (st && 'bucket' in b.dataset) {
+    const li = b.closest('li'), id = idOf(li), to = b.dataset.bucket, was = st.of[id];
+    st.of[id] = to;
+    if (was !== to) { st.order = st.order.filter(x => x !== id); if (to === labelsOf(f)[0]) st.order.push(id); }
+    f.dataset.moved = '1'; f.dataset.ok = ''; paintBuckets(f); hear(f, fmt(L.bkMoved, { item: ttl(li), b: to }));
+  } else if (k) {
+    const li = b.closest('li'), ol = li.parentNode, a = itemsOf(ol), n = a.indexOf(li), to = k === 'top' ? 0 : k === 'up' ? n - 1 : n + 1, nm = ttl(li);
+    if (to >= 0 && to < a.length && to !== n) {
+      ol.insertBefore(li, to < n ? a[to] : a[to].nextSibling); ends(ol);
+      f.dataset.moved = '1'; f.dataset.ok = ''; if (st) { st.order = itemsOf(ol).map(idOf); paintSum(f); } okState(f);
+      hear(f, fmt(L.rankMoved, { item: nm, n: to + 1, m: a.length }));
+    } else hear(f, fmt(L.rankStay, { item: nm, n: n + 1, m: a.length }));
+    b.focus();
+  } else return;
+  save(f);
 });
 sync();
 const pack = () => {
@@ -1545,7 +1684,7 @@ const pack = () => {
     date: t.getFullYear() + '-' + p(t.getMonth() + 1) + '-' + p(t.getDate()), answers: [], unanswered: [] };
   fields.forEach(f => {
     const h = $('legend, label', f), q = f.dataset.q, question = h ? txt(h) : '';
-    if (kept[q]) o.answers.push({ q, kind: f.dataset.kind || 'text', question, answer: answer(f) }); else o.unanswered.push({ q, question });
+    if (kept[q]) o.answers.push({ q, kind: f.dataset.kind || 'text', question, answer: answer(f), ...extra(f) }); else o.unanswered.push({ q, question });
   });
   return o;
 };

@@ -6,6 +6,7 @@
 // 3. Every relative path a skill file names in backticks exists, so a moved file cannot break a skill silently.
 // 4. The plugin and marketplace manifests parse and agree on the plugin name, and the template's generator mark matches the plugin version.
 // 5. hooks/hooks.json parses and the scripts it runs exist.
+// 6. merge.html's combine() gives the right order, Kendall's W and contested flag on a fixture.
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -85,6 +86,20 @@ try {
   else if (missing.length) bad(`hooks/hooks.json runs ${missing.join(', ')}, which does not exist`);
   else ok(`hooks: ${commands.length} commands in ${Object.keys(hooks).join(', ')}`);
 } catch (e) { bad(`hooks/hooks.json does not parse: ${e.message}`); }
+
+// 6. the combined ranking in merge.html: the arithmetic sits between two markers and runs here on a fixture, because a wrong mean place,
+// order or Kendall's W would ship without anyone noticing. Four readers rank items A to F (places per reader, in reader order).
+try {
+  const merge = readFileSync(at('skills/explainer-gather/assets/merge.html'), 'utf8');
+  const a = merge.indexOf('/* combine:start */'), z = merge.indexOf('/* combine:end */');
+  if (a < 0 || z < a) throw new Error('the /* combine:start */ and /* combine:end */ markers are missing or out of order');
+  const combine = new Function(`'use strict';${merge.slice(a, z)}\nreturn combine;`)();
+  const places = { A: [1, 1, 3, 1], B: [3, 2, 5, 3], C: [2, 3, 1, 2], D: [4, 4, 4, 5], E: [5, 5, 6, 6], F: [6, 6, 2, 4] };
+  const res = combine([0, 1, 2, 3].map((r) => Object.keys(places).sort((x, y) => places[x][r] - places[y][r])));
+  const got = `order ${res.rows.map((r) => r.key).join('')}, W ${res.W?.toFixed(3)} (${res.level}, named ${res.named}), contested ${res.rows.filter((r) => r.contested).map((r) => r.key).join('') || 'none'}`;
+  if (got === 'order ACBDFE, W 0.679 (strong, named true), contested F') ok(`merge.html combine(): ${got}`);
+  else bad(`merge.html combine() is wrong on the 4-reader fixture: got ${got}; expected order ACBDFE, W 0.679 (strong, named true), contested F`);
+} catch (e) { bad(`merge.html combine() could not run: ${e.message}`); }
 
 console.log(problems.length ? `\n${problems.length} problem(s)` : '\nall checks passed');
 process.exit(problems.length ? 1 : 0);
