@@ -72,5 +72,20 @@
   "Agree": "賛成",
   "Concern": "懸念あり",
   "Move up": "上へ移動",
-  "Move down": "下へ移動"
+  "Move down": "下へ移動",
+  "Next 4 weeks. Committed. Top item first.": "今後4週間。確定。上から順に進めます。",
+  "1 to 3 months. Likely. Not in order.": "1〜3か月。見込み。順不同。",
+  "3 months or more. Exploring. Not in order.": "3か月以降。検討中。順不同。",
+  "A plan, not a promise. Items move as we learn.": "これは計画であり、約束ではありません。状況に応じて項目は動きます。",
+  "Fixed date:": "期日固定：",
+  "Outside:": "外部要因：",
+  "Why:": "理由：",
+  "Back when:": "再開の条件：",
+  "Changelog": "変更履歴",
+  "{n} of {m}": "{m}件中{n}件",
+  "Shipped in {v}: {n} items": "{v}でリリース済み：{n}件",
+  "Parked on purpose: {n} items, each with what would bring it back": "意図して保留：{n}件（それぞれ再開の条件つき）",
+  "{n} ideas": "{n}件のアイデア",
+  "{n} idea": "{n}件のアイデア",
+  "Cut line. Below is not ranked and not promised.": "区切り線。これより下は順位付けも約束もしません。"
 }
