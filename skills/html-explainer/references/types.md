@@ -303,3 +303,36 @@ At least one `.phase-strip`, `.phases`, `.undo` and `.risks`. It fails for each 
 
 ### Example topic
 Moving a small team's wiki to a new host (`../examples/playbook.html`): six phases, two the team notices, three frames, roles and four rules, switch day with its undo, four risks, cost tiles and three decisions.
+
+## field-guide
+
+### When
+The reader needs to get oriented in a whole field of work once, then come back to look things up. The content is many short entries in families, each with a plain definition, an example from the reader's own project and a relevance. It is a reference, not a story.
+
+### Chapter composition
+Three chapters, in this order, each with its kicker, a question heading, a visual and a remember line.
+
+1. "Where does everything fit?" holds the territory map.
+2. "Which ones cannot wait?" holds the start-here list.
+3. "Look something up" holds the index.
+
+The recap closes it. There is no `section.ask`, because a guide asks nothing. The chapter map is optional, because the rail and the territory already navigate. The reading path is the answer bar, the keep box, the map and the start-here list. The index sits outside it, so the usual word limits do not count it.
+
+### Required components
+`div.territory` holds `div.stage` blocks, each with an `h3` naming the stage. One stage carries `data-here`, and CSS prints "You are here" on it, the way a lane prints its state word. Families no stage owns go in a `div.stage[data-across]` band. A stage holds `a.family[href="#fam-<id>"]` tiles, each with a bold name in `b` and a one-line `span`. The tiles carry no digits. The script reads the entries of the family a tile links to and adds a three-part bar (solid for the first relevance, hatched for the second, grey for the third), the counts in words ("11 now, 1 before launch, 1 later") and a key under the map, all in the index's own labels. Without script a tile shows its name and line.
+
+`ol.start-here` holds at most five items. Each item is `li > a[href="#<entry id>"] > b` with the entry's name, then a `span` with one line saying why it comes first. The cards use the risk colour on purpose, because a mistake in these is silent or hard to undo. A link to a whole family is fine when the advice is about the family. A `p.can-wait` under the list says what may wait.
+
+`div.index` holds the families and carries `data-rel-labels="Now|Before launch|Later"`, the three words for the relevance values `now`, `next` and `later`. They default to Now, Next and Later. An empty `div.guide-tools` at its top marks where the toolbar goes. The script fills it with a search field that has a visible label, a filter button for each relevance plus All, each showing a live count, and a status line ("Showing 48 of 85 fields, Now only"). The filter starts on the first relevance.
+
+- **Family:** `details.family-index[id="fam-<id>"]` whose `summary` holds an `h3`. The script adds its counts, derived from its entries. Optional `h4.group` subheadings split a long family.
+- **Entry:** `div.entry[id][data-rel]` with a `b.name`, a `p.def` of 20 words or fewer, and a `div.entry-body` holding `p.where` (a bold lead, then the example from the reader's project) and an optional `p.see` linking other entries. The script turns the name, the relevance word (a glyph and the label) and the definition into one button that opens the body, and adds a "Copy link to this field" button.
+- **Search:** it matches the name, the definition and the where line, in any case. A family with no match says "Nothing here matches" and how many entries are hidden.
+- **Links:** a link to an entry, or a page opened on its hash, opens the entry and its family, lifts a filter or search that would hide it, and lands on it with the roadmap's outline and "You jumped here" label.
+- **Print and skim:** printing opens every family and entry. Skim mode keeps the rows and hides the bodies.
+
+### Checker rules
+It fails without a `.territory`, a `.index` or an `ol.start-here`. It fails for an entry without an `id`, a `b.name`, a `p.def` or a `p.where`, for a `data-rel` that is not `now`, `next` or `later`, for a duplicate `id` anywhere on the page, for a `section.ask`, for an `a.family` whose family does not exist, and for a start-here link whose entry or family does not exist. It warns for a definition over 20 words, more than 150 entries, more than 12 families, more than 5 start-here items, and a family tile with a digit in its text, because the counts are derived. Everything inside `.index` stays out of the reading-path count and the chapter word limits.
+
+### Example topic
+A field guide to web product work for a small notes app (`../examples/field-guide.html`): four stages, six families, 30 entries with fictional notes-app examples, four fields that come first and a "can wait" line.
