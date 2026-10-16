@@ -1,6 +1,29 @@
 # Page types
 
-Set the type on `<html data-type="...">`. Every type keeps the core contract (answer bar, keep box, chapter map, chapters, recap). Each entry adds only what that type needs. A page with no type is a plain `explainer`.
+Set the type on `<html data-type="...">`. Every type keeps the core contract (answer bar, keep box, at a glance, chapter map, chapters, recap). Each entry adds only what that type needs. A page with no type is a plain `explainer`.
+
+**At a glance.** Each entry names the picture its page opens with. It goes in a `section.glance` straight after the keep box and before the chapter map. The section holds a `div.glance-head` (an `h2` and an optional `span.chip`), the picture, and a `p.take` (or the picture's own `figcaption.take`). It is not a chapter, so it has no kicker, no read-aloud and no Done. The chapter that explains the glance picture builds on it and does not repeat it. A roadmap, a playbook and a field guide have none, because their lanes, phase strip and territory already open the page.
+
+Some glance pictures are **derived**. You write an empty placeholder and the take line, and the script fills the placeholder from parts already on the page, so nothing is typed twice. Without script the placeholder stays empty and the glance still shows its take line.
+
+The checker warns when a page made by 1.8.0 or later has no `section.glance`, and when any glance has no take line. A page made by an older release is never warned. A ballot has no glance either.
+
+## explainer
+
+### When
+The reader needs to understand one thing, and no more specific type fits. This is the default when a page has no type.
+
+### Chapter composition
+Three to seven chapters, one idea each, in the order the reader needs them. Add an ask only when a decision is needed.
+
+### Required components
+**At a glance:** the one figure that carries the idea (`figure.figure` with its `figcaption.take`).
+
+### Checker rules
+The core rules only. No extra rules.
+
+### Example topic
+How the nightly export works, for someone who has never seen it.
 
 ## decision
 
@@ -11,6 +34,8 @@ The reader must rule on options that a session poses.
 One chapter per option or ruling, each with a split or a small diagram. Then the recap and the ending.
 
 ### Required components
+**At a glance:** `div.rulings`, derived. One row per `.decision`: its question, the recommended option with a ★, and "Needs your ruling" until the reader answers. Write an empty `div.rulings` and a `p.take`.
+
 A `.decision` card for each ruling, one option marked recommended, and a line saying what happens if the reader does nothing. The page ends in one of two ways.
 
 - **A typed reply.** A closing `section.ask`.
@@ -19,7 +44,7 @@ A `.decision` card for each ruling, one option marked recommended, and a line sa
 An option may carry `data-warn="Can't undo"`, a chip that names its cost in words.
 
 ### Checker rules
-At least one `.decision`, and either a `.ask` or at least one `.answer-field` with exactly one `.collect` bar where every field has a `data-q`.
+At least one `.decision`, and either a `.ask` or at least one `.answer-field` with exactly one `.collect` bar where every field has a `data-q`. A `div.rulings` fails on a page with no `.decision`.
 
 ### Example topic
 Three rulings on how the nightly export should behave.
@@ -33,6 +58,8 @@ The reader needs to know where things stand and what comes next.
 A timeline chapter, a status board chapter, a "since last time" list, and a next-steps chapter. Add an ask only if something is blocked on the reader.
 
 ### Required components
+**At a glance:** a `div.duo` with `ul.status` beside `ol.timeline` (one `li.here`), and the one blocker as a `div.callout` under it.
+
 `ol.timeline` with one `li.here`, `ul.status` for the health of each item, a short list of what changed since last time, `ol.steps` for what happens next.
 
 ### Checker rules
@@ -50,6 +77,8 @@ The reader must approve a feature before it is built.
 What it does (a flow). What changes for you (a split, plus a wireframe when a screen changes). How we know it works (a status board of checks). The risks. End with the ask: approve or hold.
 
 ### Required components
+**At a glance:** a `div.duo` with the before and after `figure.frame` drawings beside a verdict: approve or hold, and the check count.
+
 `ol.flow`, `div.split`, `ul.status` for the checks, a `div.callout` for each risk, `section.ask`.
 
 ### Checker rules
@@ -67,6 +96,8 @@ The reader needs to know what shipped and what to do differently now.
 The counts that matter as tiles. One chapter per theme, each with a before and after. A short chapter on what changes in practice.
 
 ### Required components
+**At a glance:** a `div.duo` with `div.tiles` beside `ol.steps` headed "What you do differently".
+
 `div.tiles` with a label saying what each number means, `div.split` for each theme, `ol.steps` for what to do differently.
 
 ### Checker rules
@@ -84,10 +115,12 @@ The reader needs findings and how far to trust each one.
 One chapter per finding, each carrying its evidence and its strength, with sources in a fold. Then what this changes (a split) and the open questions. Ask only if the findings force a choice.
 
 ### Required components
+**At a glance:** `ul.findings`. Each `li` takes `data-strength` of `strong`, `moderate` or `weak`. It holds the finding in an `a` or `b`, one line in a `span`, `small.evidence` ("8 sources") and an optional `small.open` ("2 open"). CSS prints the strength word and draws the bars, so type no strength word. The weak row is the only tinted one.
+
 Evidence as `div.tiles`, `ul.status` or `ol.timeline`. Source quotes in `details.fold`. A strength label on every finding.
 
 ### Checker rules
-At least one `.status` or `.tiles`, and at least one `details.fold`.
+At least one `.status` or `.tiles`, and at least one `details.fold`. A `ul.findings` fails for each `li` whose `data-strength` is missing or is not `strong`, `moderate` or `weak`.
 
 ### Example topic
 What eleven interviews say about why new users stop at step two.
@@ -101,6 +134,8 @@ A session or a person takes over work in progress.
 State. Work in flight. What is next. What is verified and what is only a claim. Evidence links in folds.
 
 ### Required components
+**At a glance:** a `div.cols` of three `section.col`, each with an `h3` and a list: Verified (`go`), Only claimed (`wait`) and Do first (`here`).
+
 `ul.status` for state and in-flight work, verified items green and unchecked claims amber. `ol.steps` for next actions. `details.fold` for evidence links.
 
 ### Checker rules
@@ -118,6 +153,8 @@ The reader owns several projects and needs to see all of them at once: what move
 A status board with one row per project. What moved since last time. What is blocked and why, one callout each. What waits on the reader, most valuable first. Add an ask only when one decision unblocks several projects.
 
 ### Required components
+**At a glance:** `ul.status` grouped under `h3` headings, most urgent first: Needs you, Moving, Stalled.
+
 `ul.status` with one row per project: the dot is the health, the first words say what changed. `ol.steps` for what waits on the reader. A `table.grid` helps when the projects share the same few measures.
 
 ### Checker rules
@@ -135,6 +172,8 @@ The reader is a customer, not a teammate, and needs to know what the product doe
 One chapter per kind of promise, in the customer's words: what you can do, what we do with what you give us, what happens when something goes wrong. Nothing is asked of the reader, so there is no ask. The proof sits in a fold.
 
 ### Required components
+**At a glance:** `ul.promises`, three cards in the customer's words.
+
 `ul.promises`: each item is one bold lead and one plain sentence, and each carries `data-evidence` holding the file and line or the URL that backs it. The attribute is not displayed. A `details.fold` titled "How we know" lists the evidence in words.
 
 ### Checker rules
@@ -152,10 +191,12 @@ A newcomer must learn one system well enough to work with it.
 One chapter per layer or step of the system, the easiest first. Each defines its new words in a term box and shows its idea in a figure. Finish with a short chapter of steps the newcomer can try.
 
 ### Required components
+**At a glance:** `ol.layers`, easiest first. Each `li` has a `b` name, a `span` line and a `span.terms` of `span` chips for the layer's new words. Exactly one `li.here` marks where the newcomer is, and CSS prints "You are here" on it.
+
 `dl.term` in every chapter, under the first use of a new word. `figure.figure` in every chapter. `p.from` restating what the last chapter gave.
 
 ### Checker rules
-At least one `dl.term`. A warning for each chapter without a `dl.term`, and for each chapter without a `figure.figure`.
+At least one `dl.term`. A warning for each chapter without a `dl.term`, and for each chapter without a `figure.figure`. An `ol.layers` fails unless it has exactly one `li.here`.
 
 ### Example topic
 How an order travels through the shop, for someone on their first day.
@@ -169,6 +210,8 @@ Something broke and the reader needs what happened, why, what is fixed, and what
 What broke and who felt it. The timeline, in order. The cause chain, one step causing the next. What is fixed and what is still open. What prevents a repeat. Name the cause in the system, never in a person.
 
 ### Required components
+**At a glance:** `div.tiles` (what broke, who felt it, how long, status now) over `ol.timeline`.
+
 `ol.timeline` of three or more points. `ol.flow` for the cause chain, with the failing step in `stop`. `ul.status` for the follow-ups: done is `go`, in progress is `wait`, needs a ruling is `decide`.
 
 ### Checker rules
@@ -186,6 +229,8 @@ A reviewer must understand a pull request before reading its diff.
 What changed and why, as a before and after. How big the diff is. What was checked. Where to look first and what to skip.
 
 ### Required components
+**At a glance:** `div.tiles` for the diff stat, then `ul.status` for the checks, each with its command and exit code.
+
 `div.split` for the behaviour before and after. `ul.status` with one row per check, each naming its command and its exit code. `div.tiles` for the diff stat: files changed, lines added, lines removed.
 
 ### Checker rules
@@ -203,10 +248,12 @@ A person or an agent follows a procedure step by step and must know after each s
 What you need before you start. The procedure, in chapters of five steps or fewer. What to do when it goes wrong, including how to undo it.
 
 ### Required components
+**At a glance:** `div.runbook-overview`, derived. Every step is a row, grouped by chapter, with a checkbox that shares the step's done state, and the first unchecked step marked "Next". Write an empty `div.runbook-overview` and a `p.take`. The overview shows each step's own number, so when the procedure runs over several chapters, give each later `ol.runbook` a `start` that continues the count.
+
 `ol.runbook`. Every step has a bold sentence that starts with a verb, its command in `pre.cmd`, a `p.check` that says how to know it worked (the command that proves it), and a `p.fail` that says what to do if it did not. The template script gives every `pre.cmd` a Copy button, and the page reads fine without it.
 
 ### Checker rules
-At least one `ol.runbook`. It fails for each step that lacks a `p.check` with text or a `p.fail` with text.
+At least one `ol.runbook`. It fails for each step that lacks a `p.check` with text or a `p.fail` with text. A `div.runbook-overview` fails on a page with no `ol.runbook`.
 
 ### Example topic
 Cut a release of the plugin.
@@ -220,6 +267,8 @@ The reader must choose between options, and the choice rests on a few criteria t
 The grid first: options across, criteria down. Then one chapter for each criterion that decides the matter. End with the recommendation, and a `.decision` and an ask if the reader must rule.
 
 ### Required components
+**At a glance:** the `table.grid` itself. It opens the page, so the first chapter is the first criterion that decides, not the grid again.
+
 `table.grid` inside a `div.grid-wrap`, with a `caption`, a `th[scope="col"]` for each option, `data-rec` on the recommended option's header, a `th[scope="row"]` for each criterion, and a state class (`go`, `wait`, `stop` or `decide`) on each cell, with a few words beside the glyph. A `p.take` straight after the grid says what it shows. On a phone the grid scrolls sideways and the criterion column stays in view.
 
 ### Checker rules
@@ -237,6 +286,8 @@ The reader needs to know what is under way now, what is next, what is later, and
 The lanes. What unblocks the most. What is left off the roadmap on purpose, parked with the reason and what would restore it. A long list of ideas may take one more chapter, "What else waits?" (the backlog view below), and the page stays at seven chapters or fewer.
 
 ### Required components
+**At a glance:** none. The lanes already open the page.
+
 `.lanes` holding exactly three `.lane`, with `data-lane` set to `now`, `next` and `later`. Each lane has an `h3`, a `p.lane-note` and a `ul` of items. Under the answer bar sits `p.asof`: "A plan, not a promise. Items move as we learn."
 
 - **A note on each lane.** One line right after the `h3` says the horizon, how sure the lane is and whether order matters: "Next 4 weeks. Committed. Top item first." or "1 to 3 months. Likely. Not in order." or "3 months or more. Exploring. Not in order." A `span.lane-count` inside the `h3` may show the budget, "3 of 5".
@@ -273,10 +324,12 @@ The reader must see how a product works, step by step, on its real screens.
 One chapter per task, three to six steps. Each step is one screenshot with a numbered pin and one line. End with where to go next.
 
 ### Required components
+**At a glance:** `div.filmstrip`, derived. One thumbnail per `ol.tour` step, each linking to its step. Write an empty `div.filmstrip` and a `p.take`.
+
 `ol.tour`. Every step has a `figure.shot` holding an `img` (an inline data URI) with an `alt` that says what is on the screen, a `span.pin` for each spot to look at with `--x` and `--y` as percentages, then an `h3` and one plain line. Use real screenshots, about 1000 px wide, saved as WebP.
 
 ### Checker rules
-At least one `ol.tour`. It fails for each step without an `img` that has a non-empty `alt`. The size limit is 2048 KB, not 400 KB.
+At least one `ol.tour`. It fails for each step without an `img` that has a non-empty `alt`. A `div.filmstrip` fails on a page with no `ol.tour`. The size limit is 2048 KB, not 400 KB.
 
 ### Example topic
 Your first transfer in the vault app, in four screens.
@@ -290,6 +343,8 @@ The reader must rule on a plan for a risky, multi-step change, and needs the who
 Up to ten chapters, not seven. In this order: before and after; what the audience sees; the phases; what goes where; who does what, and the rules that never bend; the risky moment, step by step, with its undo; the risks; costs and decisions. The page opens as every page does (answer bar, keep box), then the `ol.phase-strip` gives the whole plan in one row. The chapter map is optional, because the strip already navigates. The decisions come last, answerable on the page, and the recap closes it.
 
 ### Required components
+**At a glance:** none. The phase strip already opens the page.
+
 `ol.phase-strip`: one `li` per phase, each linking to its phase. Each segment carries `span.seg-num` ("Phase 1"), a bold title, a `span.who` letter badge for the owner, `small.effort` in words, and `span.bar` with `--effort` from 1 to 5. `li.notice` marks a phase the audience will notice and adds a `span.notice-tag` whose label is written in the markup. Six or more segments wrap to two rows under 760 px. Owner is the badge, never colour alone.
 
 `ol.phases`: the same phases in order, numbered because the order is real. Each `li` has an `id` the strip links to, an `h3`, `span.chip` labels for who and how long, a short `ul` of work, and a `p.impact` that names the real audience ("Members notice:", "Customers notice:"). A phase the audience notices carries `class="notice"` too.
@@ -319,6 +374,8 @@ Three chapters, in this order, each with its kicker, a question heading, a visua
 The recap closes it. There is no `section.ask`, because a guide asks nothing. The chapter map is optional, because the rail and the territory already navigate. The reading path is the answer bar, the keep box, the map and the start-here list. The index sits outside it, so the usual word limits do not count it.
 
 ### Required components
+**At a glance:** none. The territory already opens the page.
+
 `div.territory` holds `div.stage` blocks, each with an `h3` naming the stage. One stage carries `data-here`, and CSS prints "You are here" on it, the way a lane prints its state word. Families no stage owns go in a `div.stage[data-across]` band. A stage holds `a.family[href="#fam-<id>"]` tiles, each with a bold name in `b` and a one-line `span`. The tiles carry no digits. The script reads the entries of the family a tile links to and adds a three-part bar (solid for the first relevance, hatched for the second, grey for the third), the counts in words ("11 now, 1 before launch, 1 later") and a key under the map, all in the index's own labels. Without script a tile shows its name and line.
 
 `ol.start-here` holds at most five items. Each item is `li > a[href="#<entry id>"] > b` with the entry's name, then a `span` with one line saying why it comes first. The cards use the risk colour on purpose, because a mistake in these is silent or hard to undo. A link to a whole family is fine when the advice is about the family. A `p.can-wait` under the list says what may wait.

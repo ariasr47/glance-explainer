@@ -74,10 +74,22 @@ const LIM = { para: ja ? 90 : 40, sent: ja ? 60 : 30, keep: ja ? 25 : 15, answer
 const ballot = type === 'gather' && /data-mode="ballot"/.test(htmlAttrs); // a ballot is a column of cards and a tray: no keep box, recap, chapters or rail
 if (!lang) fail('missing lang on <html>; set lang="en" or lang="ja"');
 if (!TYPES.includes(type)) fail(`unknown data-type "${type}"; use one of ${TYPES.join(', ')}`);
+// the generator mark (meta name="generator", content "html-explainer 1.8.0"), as [major, minor, patch]. null when it is missing or another tool's.
+// A rule that only newer pages can meet reads it, so an older page is never judged by it.
+const generator = (() => {
+  for (const m of html.matchAll(/<meta\b[^>]*>/gi)) {
+    if (!/\sname\s*=\s*["']?generator\b/i.test(m[0])) continue;
+    const c = /\scontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i.exec(m[0]);
+    const v = /^html-explainer\s+(\d+)\.(\d+)\.(\d+)/i.exec((c?.[1] ?? c?.[2] ?? '').trim());
+    return v ? v.slice(1).map(Number) : null;
+  }
+  return null;
+})();
+const atLeast = (v, want) => { for (let i = 0; i < 3; i++) if (v[i] !== want[i]) return v[i] > want[i]; return true; };
 
 // ---- document basics
 const title = (html.match(/<title>([\s\S]*?)<\/title>/i) || [])[1]?.trim() ?? '';
-info.title = title; info.lang = lang; info.type = type; info.unit = unit;
+info.title = title; info.lang = lang; info.type = type; info.unit = unit; info.generator = generator ? generator.join('.') : null;
 if (!title) fail('missing <title>');
 else {
   const tw = ja ? chars(title) : title.split(/\s+/).length, [lo, hi] = ja ? [4, 24] : [2, 8];
@@ -123,7 +135,7 @@ const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>
 info.chapters = chapters.length;
 const maxChapters = type === 'atlas' ? 12 : type === 'playbook' ? 10 : 7; // the atlas menu offers twelve chapters; a playbook has more parts than an explainer
 if (!ballot && (chapters.length < 3 || chapters.length > maxChapters)) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
-const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo|territory|start-here|index)\b/;
+const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo|territory|start-here|index|duo|cols|findings|layers|runbook-overview|filmstrip|rulings|qprogress|journey)\b/;
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
 // a field guide's index is the part the reader looks things up in, not the part they read: it stays out of the reading-path count and the paragraph limits
 const cutIndex = (s) => {
@@ -151,6 +163,10 @@ chapters.forEach(([, id, body], i) => {
     for (const s of sentences(p[1])) if (size(s) > LIM.sent) warn(`chapter #${id}: sentence of ${size(s)} ${unit}: "${s.slice(0, 60)}…"`);
   }
 });
+// The at-a-glance picture (1.8.0) sits between the keep box and the chapter map. The reader reads it, so its words join the page's reading path,
+// but it is no chapter, so they never join a chapter's own count. The script fills a derived picture's empty placeholder later, so those words are not counted.
+const glances = find('glance', 'section');
+for (const g of glances) totalWords += size(unfold(g.inner).replace(/<svg[\s\S]*?<\/svg>/g, ''));
 info.readingPathWords = totalWords; info.readingMinutes = Math.ceil(totalWords / RATE);
 if (totalWords > LIM.path) warn(`reading path is ${totalWords} ${unit} across chapters; aim under ${LIM.path}`);
 
@@ -526,6 +542,32 @@ find('answer-field').forEach((f, i) => {
   });
   if (items.length > 15) warn(`.answer-field ${at} (buckets) has ${items.length} items; 15 or fewer keeps the page short enough to finish on a phone`);
 });
+
+// ---- at a glance and the type parts (1.8.0), on any page type.
+// Advice for the glance itself: only a page whose generator mark says 1.8.0 or later is asked for one, so no older page changes verdict.
+// A part whose data is wrong or missing fails, because each would draw a broken picture: a finding with no strength, a layers list without one
+// "you are here", and a derived picture (the script builds it from other parts of the page) with nothing on the page to build it from.
+{
+  const hasCls = (attrs, c) => new RegExp(`(?:^|\\s)class="(?:[^"]*\\s)?${c}(?:\\s[^"]*)?"`).test(attrs);
+  const opensItself = ['roadmap', 'playbook', 'field-guide'].includes(type) || ballot; // their lanes, phase strip, territory or cards already open the page
+  if (generator && atLeast(generator, [1, 8, 0]) && !opensItself && !glances.length)
+    warn(`data-type="${type}": no section.glance; a page made by 1.8.0 or later puts the type's own picture on the first screen, after the keep box (see "At a glance" in types.md)`);
+  glances.forEach((g, i) => {
+    if (!find('take', null, g.inner).some((t) => strip(t.inner))) warn(`section.glance #${i + 1} has no take line; say in one line what its picture shows (a p.take, or the figure's own figcaption.take)`);
+  });
+  find('findings', 'ul').forEach((u, i) => kids(u.inner, 'li').forEach((li, n) => {
+    const s = (attr(li.attrs, 'data-strength') || '').trim();
+    if (!['strong', 'moderate', 'weak'].includes(s)) fail(`ul.findings #${i + 1}, finding ${n + 1} needs data-strength of strong, moderate or weak, found ${s ? `"${s}"` : 'none'}: "${lead(li.inner)}"`);
+  }));
+  find('layers', 'ol').forEach((o, i) => {
+    const here = kids(o.inner, 'li').filter((li) => hasCls(li.attrs, 'here')).length;
+    if (here !== 1) fail(`ol.layers #${i + 1} has ${here} li.here; exactly one marks the layer the newcomer is on`);
+  });
+  if (num('runbook-overview', 'div') && !num('runbook', 'ol')) fail('div.runbook-overview needs an ol.runbook on the page; the overview is built from its steps');
+  if (num('filmstrip', 'div') && !num('tour', 'ol')) fail('div.filmstrip needs an ol.tour on the page; the strip is built from its steps');
+  if (num('rulings', 'div') && !num('decision')) fail('div.rulings needs at least one .decision on the page; the list is built from them');
+  if (num('qprogress', 'div') && !find('answer-field').some((f) => attr(f.attrs, 'data-q'))) fail('div.qprogress needs at least one .answer-field with a data-q; the dots are built from them');
+}
 
 // ---- reader-feature components, on any page type
 find('stepper').forEach((s, i) => {

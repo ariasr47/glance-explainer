@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.7.0">
+<meta name="generator" content="html-explainer 1.8.0">
 <meta name="color-scheme" content="light dark">
 <title>html-explainer: pages you can decide from</title>
 <meta name="description" content="html-explainer is a free, open source Claude Code plugin. It turns what your agent did into one checked page you can read in minutes and decide from.">
@@ -131,7 +131,10 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 :lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(ja) h4 { letter-spacing: 0; line-height: 1.35; }
 :lang(ja) em, :lang(ja) i { font-style: normal; font-weight: 700; }
 :lang(ja) .answer { line-height: 1.5; }
-:lang(ja) .ask .choices > *[data-rec]::after { content: " · おすすめ"; }
+:lang(ja) .ask .choices > *[data-rec]::after { content: "★ おすすめ"; }
+:lang(ja) .tile.go::after { content: "✓ 良好"; }
+:lang(ja) .tile.wait::after { content: "! 注意"; }
+:lang(ja) .tile.stop::after { content: "✕ 問題あり"; }
 :lang(ja) .timeline li.here .when::before { content: "現在地 · "; }
 /* roadmap card states: the words are set once in 9c (--st-word), so Japanese swaps the variable and nothing else */
 :lang(ja) .lane li, :lang(ja) .backlog-top > li { --st-word: "予定"; }
@@ -144,85 +147,151 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 :lang(ja) .stage[data-here] > h3::after { content: "● 現在地"; }
 
 /* ---------- 3. Page frame ---------- */
+/* Small icons are drawn once here and painted with a mask, so each takes the colour of the part that wears it, in both themes. */
+:root {
+  --ico-speaker: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M11 5 6 9H3v6h3l5 4z'/%3E%3Cpath d='M15.5 8.5a5 5 0 0 1 0 7'/%3E%3Cpath d='M18.5 5.5a9 9 0 0 1 0 13'/%3E%3C/svg%3E");
+  --ico-stop: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000' stroke='%23000' stroke-width='2' stroke-linejoin='round'%3E%3Crect x='6' y='6' width='12' height='12' rx='2'/%3E%3C/svg%3E");
+  --ico-check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+  --ico-back: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 14 4 9l5-5'/%3E%3Cpath d='M4 9h10.5a5.5 5.5 0 0 1 0 11H11'/%3E%3C/svg%3E");
+  --ico-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z'/%3E%3C/svg%3E");
+  --ico-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  --ico-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 15 6-6 6 6'/%3E%3C/svg%3E");
+  --ico-sliders: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'/%3E%3C/svg%3E");
+}
 .progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
 .page { width: min(100% - 2rem, var(--wide)); margin: 0 auto; padding: 1.5rem 0 6rem; }
 @media (min-width: 1100px) {
   .page { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); column-gap: 2.5rem; }
   .rail { position: sticky; top: 1.5rem; align-self: start; max-height: calc(100vh - 3rem); overflow: auto; }
 }
-.rail { font-size: var(--size-s); }
-.rail ol { list-style: none; margin: 0 0 1rem; padding: 0; max-width: none; }
+/* Below 1100 px the rail is not shown and there is no sticky strip: the map list in the opening is the way to a chapter,
+   and the thin bar at the top shows how far you are. */
+@media (max-width: 1099px) { .rail { display: none; } }
+
+/* The rail is the chapter map. The script adds a small line to each link (the chapter's one line and its minutes), a progress
+   line under the list and the Reading tools button. A link that is not a chapter (the recap, the ask) shows no number. */
+.rail { font-size: .833rem; line-height: 1.35; }
+.rail::before { content: "In this page"; display: block; margin: 0 .5rem .6rem; color: var(--ink-faint); font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+:lang(ja) .rail::before { content: "このページ"; letter-spacing: .05em; }
+.rail ol { list-style: none; display: flex; flex-direction: column; gap: 2px; margin: 0 0 1rem; padding: 0; max-width: none; counter-reset: rail; }
 .rail li { margin: 0; }
-.rail a { display: flex; gap: .6rem; align-items: baseline; padding: .4rem .6rem; border-radius: var(--r-comp); color: var(--ink-soft); text-decoration: none; }
-.rail a .dot { flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--line-strong); transform: translateY(-.1rem); }
-.rail a[aria-current="true"] { background: var(--here-tint); color: var(--ink); font-weight: 700; }
-.rail a[aria-current="true"] .dot { background: var(--here); }
-.rail a.done .dot, .rail a.answered .dot, body[data-finished="on"] .rail a[href="#recap"] .dot { background: var(--go); }
-.rail a.done::after, .rail a.answered::after, body[data-finished="on"] .rail a[href="#recap"]::after { content: "✓"; margin-left: auto; color: var(--go); font-weight: 700; }
-.rail .tools { display: flex; flex-wrap: wrap; gap: .5rem; padding: .25rem .6rem; }
-.rail .tools button, .read-aloud { padding: .35rem .75rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
-.rail .tools button[aria-pressed="true"], .read-aloud[data-reading] { background: var(--here); border-color: var(--here); color: var(--on-here); }
-@media (max-width: 1099px) {
-  .rail { position: sticky; top: 0; z-index: 50; margin: 0 -1rem 1.25rem; padding: .5rem 1rem; background: var(--paper); border-bottom: 1px solid var(--line); }
-  .rail ol { display: flex; gap: .35rem; overflow-x: auto; margin: 0; padding-bottom: .25rem; scrollbar-width: none; }
-  .rail a { white-space: nowrap; padding: .35rem .7rem; border: 1px solid var(--line); background: var(--card); }
-  .rail .tools { padding: .4rem 0 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .rail .tools button { flex: none; white-space: nowrap; }
-}
+.rail a { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: .65rem; align-items: start; padding: .5rem; border-radius: var(--r-comp); color: var(--ink-soft); text-decoration: none; counter-increment: rail; }
+.rail a[href="#recap"], .rail a[data-end] { counter-increment: none; }
+.rail a:hover { background: var(--well); }
+.rail :focus-visible { outline-offset: -3px; }  /* the rail scrolls and would clip a ring drawn outside the edge */
+.rail a .dot { grid-row: 1 / span 2; display: grid; place-items: center; width: 26px; height: 26px; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 13px/1 var(--font-head); }
+.rail a .dot::before { content: counter(rail); }
+.rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.rail a small { grid-column: 2; margin-top: 2px; color: var(--ink-faint); font-size: .722rem; font-weight: 400; line-height: 1.35; }
+.rail a:hover small { color: var(--ink-soft); }
+/* where you are: a white card with a hairline ring and a filled circle. Read: a check in a go circle, which wins over the number. */
+.rail a[aria-current="true"] { background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 700; }
+.rail a[aria-current="true"] .dot { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.rail a.done .dot, .rail a.answered .dot, body[data-finished="on"] .rail a[href="#recap"] .dot { background: var(--go-tint); border-color: var(--go); color: var(--go); }
+.rail a.done .dot::before, .rail a.answered .dot::before, body[data-finished="on"] .rail a[href="#recap"] .dot::before { content: "✓"; width: auto; height: auto; border-radius: 0; background: none; }
+.rail-progress { display: flex; flex-direction: column; gap: 6px; margin: 0 .5rem 1rem; color: var(--ink-faint); font-size: .722rem; }
+.rail-progress .bar { height: 6px; border-radius: 3px; background: var(--line); }
+.rail-progress .bar b { display: block; height: 100%; border-radius: 3px; background: var(--here); }
+
+/* Reading tools: the six tool buttons live in one panel behind one button. In the rail the panel opens under the button; below 1100 px
+   the script moves the button to the end of the meta line and the panel opens under it. The panel never shows without script,
+   because nothing in it would work. */
+.tools-toggle { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: 0 1rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 .833rem/1 var(--font-head); cursor: pointer; }
+.tools-toggle::before { content: ""; flex: none; width: 18px; height: 18px; background: currentColor; -webkit-mask: var(--ico-sliders) center / contain no-repeat; mask: var(--ico-sliders) center / contain no-repeat; }
+.tools-toggle:hover, .tools-toggle[aria-expanded="true"] { border-color: var(--here); }
+.tools-toggle[aria-expanded="true"] { box-shadow: 0 0 0 1px var(--here); }
+.tools { display: none; }
+html.js .tools:not([hidden]) { display: flex; flex-direction: column; gap: 2px; margin: .5rem 0 0; padding: .4rem; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 14px; }  /* in the rail it sits in the flow, so no shadow (the rail scrolls and would clip it) */
+.tools button { position: relative; display: flex; align-items: center; gap: 0; width: 100%; min-height: 44px; padding: 0 .55rem 0 .5rem; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font: 500 .833rem/1.2 var(--font-body); text-align: left; }
+.tools button:hover { background: var(--well); }
+.tools button::before { content: ""; flex: none; width: .9rem; margin-right: .4rem; color: var(--here); font-weight: 700; text-align: center; }
+.tools button[aria-pressed="true"] { background: var(--here-tint); font-weight: 700; }
+.tools button[aria-pressed="true"]::before { content: "✓"; }
+.tools button[data-key]::after { content: attr(data-key); flex: none; min-width: 1.5rem; margin-left: auto; padding: .2em .45em; border: 1px solid var(--line-strong); border-radius: 5px; color: var(--ink-soft); font: 600 12px/1.2 var(--font-code); text-align: center; }
+/* text size: the label and three 44 px segments share a row when the panel is wide enough, and stack when it is not (the rail is narrow) */
+.tool-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 .4rem; min-height: 44px; padding: .3rem .1rem .15rem calc(.5rem + .9rem + .4rem); font: 500 .833rem/1.2 var(--font-body); }
+.tool-row > span:first-child { flex: 0 0 auto; }
+.tools .sizes { display: flex; flex: 1 1 8.5rem; gap: 2px; max-width: 14rem; margin-left: auto; }
+.tools .sizes button { flex: 1 1 44px; justify-content: center; width: auto; min-width: 44px; max-width: 4.5rem; padding: 0; border: 1px solid var(--line-strong); border-radius: 8px; font: 600 .833rem/1 var(--font-head); }
+.tools .sizes button::before, .tools .sizes button::after { content: none; }
+.tools .sizes button[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
+.tools .sizes button[aria-disabled="true"] { opacity: .4; cursor: default; }
+html[data-size="xl"] .tools .sizes button[data-step="1"]::after { content: "+"; }
+/* below 1100 px the panel opens under the meta line and floats over what follows */
+.meta { position: relative; }
+.meta > .tools-toggle { margin-top: .15rem; }
+.meta > .tools { position: absolute; top: calc(100% + .25rem); left: 0; z-index: 55; width: min(100%, 20rem); margin: 0; box-shadow: var(--shadow-float); }
 main { min-width: 0; }
 
 /* ---------- 4. Opening: the answer first ---------- */
 .kicker { font-family: var(--font-head); font-weight: 500; font-size: var(--size-s); color: var(--ink-faint); margin: 0 0 .5rem; }
-.meta { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; color: var(--ink-soft); font-size: var(--size-s); margin: .5rem 0 1.5rem; max-width: none; }
-.answer {
-  max-width: none; margin: 0 0 1.25rem; padding: 1.25rem 1.5rem 1.25rem 1.75rem;
-  border-left: 6px solid var(--here); background: var(--here-tint); border-radius: 0 var(--r-comp) var(--r-comp) 0;
-  font-family: var(--font-head); font-weight: 500; font-size: var(--size-1); line-height: 1.35; text-wrap: balance;
-}
-.keep { margin: 0 0 2rem; padding: 1rem 1.25rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; }
-.keep > strong { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .4rem; }
-.keep ol { margin: 0; padding-left: 1.4rem; max-width: none; }
-.keep li { margin: 0 0 .15rem; }
-@media (max-width: 560px) {  /* the answer and all three keep items fit a 390 x 844 phone's first screen */
+.meta { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.25rem; color: var(--ink-soft); font-size: var(--size-s); margin: .5rem 0 1.5rem; max-width: none; }
+/* the answer is the headline: no box and no bar, a short rule above it. 34rem is the 18 px root, so the line length does not grow with the type. */
+.answer { max-width: 34rem; margin: 1.1rem 0 1.5rem; padding: 0; font-family: var(--font-head); font-weight: 500; font-size: 1.555rem; line-height: 1.32; letter-spacing: -.012em; text-wrap: pretty; }
+.answer::before { content: ""; display: block; width: 56px; height: 4px; margin-bottom: 1rem; border-radius: 2px; background: var(--here); }
+/* the three keep facts sit side by side as yellow cards, each with a number drawn by a counter */
+.keep { margin: 0 0 2rem; max-width: none; }
+.keep > strong { display: block; margin: 0 0 .6rem; color: var(--ink-faint); font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+.keep ol { list-style: none; counter-reset: keep; display: grid; gap: .75rem; margin: 0; padding: 0; max-width: none; }
+.keep li { position: relative; margin: 0; padding: .85rem 1rem 1rem 3.4rem; background: var(--memory); border: 1px solid var(--memory-line); border-radius: var(--r-comp); font: 500 .917rem/1.42 var(--font-body); counter-increment: keep; }
+.keep li::before { content: counter(keep); position: absolute; left: 1rem; top: .9rem; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 13px/1 var(--font-head); }
+@media (min-width: 760px) { .keep ol { grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) {  /* the answer and all three keep cards fit a 390 x 844 phone's first screen */
   .page { padding-top: 1rem; }
   .kicker { margin-bottom: .25rem; }
   .meta { gap: 0 .9rem; font-size: var(--size-xs); margin: .25rem 0 .9rem; }
-  .answer { padding: .75rem 1rem .75rem 1.1rem; font-size: 1.05rem; line-height: 1.3; margin-bottom: .9rem; }
-  .keep { padding: .75rem 1rem; }
+  .answer { margin: .9rem 0 1.25rem; font-size: 1.28rem; }
+  .answer::before { margin-bottom: .8rem; }
+  .keep { margin-bottom: 1.5rem; }
+  .keep ol { gap: .5rem; }
+  .keep li { padding: .7rem .85rem .8rem 3.1rem; }
+  .keep li::before { left: .85rem; top: .75rem; }
 }
 
-/* ---------- 5. Chapter map: the visual table of contents ---------- */
-.map { list-style: none; margin: 0 0 2.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); max-width: none; counter-reset: map; }
-.map li { margin: 0; counter-increment: map; }
-.map a { display: block; height: 100%; padding: .9rem 1rem .9rem 3.2rem; position: relative; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); color: var(--ink); text-decoration: none; }
-.map a::before { content: counter(map); position: absolute; left: 1rem; top: .85rem; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
-.map a:hover { border-color: var(--here); }
-.map b { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .15rem; }
-.map span { color: var(--ink-soft); font-size: var(--size-s); }
+/* ---------- 5. Chapter map: the contents, as a plain list ---------- */
+/* One row per chapter: its number, the question and its one line, hairlines between rows. From 1100 px up the rail is the map, so this list goes. */
+.map { list-style: none; margin: 0 0 2.5rem; padding: 0; border-top: 1px solid var(--line); max-width: none; counter-reset: map; }
+.map li { margin: 0; border-bottom: 1px solid var(--line); counter-increment: map; }
+.map a { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: .75rem; align-items: start; min-height: 44px; padding: .65rem .25rem; color: var(--ink); text-decoration: none; }
+.map a::before { content: counter(map); grid-row: 1 / span 2; display: grid; place-items: center; width: 26px; height: 26px; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 13px/1 var(--font-head); }
+.map a:hover { background: var(--well); }
+.map b { display: block; font-family: var(--font-head); font-weight: 600; }
+.map span { grid-column: 2; color: var(--ink-soft); font-size: var(--size-s); }
+@media (min-width: 1100px) { .map { display: none; } }
 
 /* ---------- 6. Chapter: one idea, self-contained ---------- */
-.chapter { background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-chapter); padding: 1.5rem clamp(1rem, 3vw, 2rem) 1.25rem; margin: 0 0 2rem; scroll-margin-top: 4.5rem; }
-.chapter > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
-.chapter > header .kicker { margin: 0 0 .25rem; }
-.chapter > header h2 { margin: 0; }
-.chapter > header label { flex: none; display: inline-flex; align-items: center; gap: .4rem; font-size: var(--size-s); color: var(--ink-soft); padding-top: .35rem; }
-.chapter > header > div { flex: 1; min-width: 0; }
-.chapter > header .read-aloud { flex: none; margin-top: .3rem; }
+/* Two framing devices: the card, and the picture's well. The kicker is a small label; the two header tools are quiet icon buttons;
+   the "builds on" line, the take and the remember line are plain lines and a strip. */
+.chapter { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-chapter); padding: 1.5rem clamp(1rem, 3vw, 2rem) 1.25rem; margin: 0 0 2rem; scroll-margin-top: 1.25rem; }
+.chapter > header { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "kick aloud done" "title title title"; align-items: center; column-gap: .1rem; margin-bottom: 1rem; }
+.chapter > header > div { display: contents; }
+.chapter > header .kicker { grid-area: kick; margin: 0; font-size: .694rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; }
+.chapter > header h2 { grid-area: title; margin: 0; }
+.read-aloud, .chapter > header label { position: relative; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: var(--r-comp); background: transparent; color: var(--ink-soft); font-size: 0; line-height: 0; cursor: pointer; }
+.read-aloud { grid-area: aloud; overflow: hidden; }
+.chapter > header label { grid-area: done; }
+.read-aloud::before, .chapter > header label::before { content: ""; width: 20px; height: 20px; background: currentColor; -webkit-mask: var(--ico-speaker) center / contain no-repeat; mask: var(--ico-speaker) center / contain no-repeat; }
+.chapter > header label::before { -webkit-mask-image: var(--ico-check); mask-image: var(--ico-check); }
+.read-aloud:hover, .chapter > header label:hover { background: var(--well); color: var(--ink); }
+.read-aloud[data-reading] { background: var(--here); color: var(--on-here); }
+.read-aloud[data-reading]::before { -webkit-mask-image: var(--ico-stop); mask-image: var(--ico-stop); }
+/* Done: the check is quiet until it is ticked, then it is a ringed check in the go colour. The words stay in the page as the name. */
+.chapter > header label:has(input:checked) { background: var(--go-tint); color: var(--go); box-shadow: inset 0 0 0 1.5px var(--go); }
+.chapter > header input[type="checkbox"] { -webkit-appearance: none; appearance: none; position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border: 0; border-radius: inherit; background: transparent; cursor: pointer; }
 .speaking { border-radius: 3px; box-shadow: -.35rem 0 0 var(--here), 0 0 0 .3rem var(--here-tint); }
-.chapter > header input[type="checkbox"] { width: 1.25rem; height: 1.25rem; accent-color: var(--go); margin: 0; }
-.from { display: block; margin: 0 0 1.25rem; padding: .6rem .9rem; background: var(--well); border-radius: var(--r-comp); font-size: var(--size-s); color: var(--ink-soft); max-width: none; }
+/* builds on: one quiet line with a small corner arrow */
+.from { position: relative; display: block; margin: 0 0 1.25rem; padding: 0 0 0 1.5rem; color: var(--ink-soft); font-size: .833rem; line-height: 1.45; max-width: none; }
+.from::before { content: ""; position: absolute; left: 0; top: .2em; width: 16px; height: 16px; background: var(--ink-faint); -webkit-mask: var(--ico-back) center / contain no-repeat; mask: var(--ico-back) center / contain no-repeat; }
 .from b { margin-right: .35rem; color: var(--ink); font-family: var(--font-head); font-weight: 600; }
-.remember { margin: 1.5rem 0 0; padding: .9rem 1.1rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-comp); max-width: none; display: block; }
+/* remember: a yellow strip with a small bookmark */
+.remember { position: relative; display: block; margin: 1.5rem 0 0; padding: .75rem 1rem .75rem 2.75rem; background: var(--memory); border: 0; border-radius: var(--r-comp); font-size: var(--size-s); line-height: 1.45; max-width: none; }
+.remember::before { content: ""; position: absolute; left: 1rem; top: .95rem; width: 18px; height: 18px; background: var(--wait); -webkit-mask: var(--ico-mark) center / contain no-repeat; mask: var(--ico-mark) center / contain no-repeat; }
 .remember b { margin-right: .35rem; font-family: var(--font-head); font-weight: 600; }
-@media (max-width: 560px) {
-  .remember, .from { display: block; }
-  .remember b, .from b { display: inline; margin-right: .3rem; }
-  .chapter > header { flex-wrap: wrap; }
-  .chapter > header > div { flex-basis: 100%; }
-}
+/* public pages: the reader is a customer, so there is no Done control and no progress line */
+html[data-type="public"] .chapter > header label { display: none; }
 
 /* ---------- 7. Figures and diagrams ---------- */
-.figure { margin: 1.25rem 0 1.5rem; padding: 1rem; background: var(--well); border-radius: var(--r-comp); border: 1px solid var(--line); }
+.figure { margin: 1.25rem 0 1.5rem; padding: 1.25rem; background: var(--well); border-radius: var(--r-comp); }
 .figure > svg { display: block; width: 100%; height: auto; }
 .figure > svg.narrow { display: none; }
 @media (max-width: 560px) {
@@ -234,10 +303,11 @@ main { min-width: 0; }
   .figure:has(> svg.narrow) > svg:not(.narrow) { display: none; }
   .figure > svg.narrow { display: block; min-width: 0; }
 }
-/* the caption that states the conclusion: inside a figure, or straight under any other component */
-.take { margin: .9rem 0 0; padding: .5rem .75rem; background: var(--card); border-left: 4px solid var(--here); border-radius: 0 6px 6px 0; font-size: var(--size-s); max-width: none; }
-.chapter > .take { margin: -.75rem 0 1.5rem; background: var(--well); }
-.take b { font-family: var(--font-head); font-weight: 600; }
+/* the caption that states the conclusion: a line under a hairline, inside a figure or straight under any other component. Its bold lead is the one place text takes the here colour. */
+.take { margin: .9rem 0 0; padding: .75rem 0 0; border-top: 1px solid var(--line); font-size: var(--size-s); line-height: 1.5; max-width: none; }
+.figure .take { border-top-color: var(--line-strong); }
+.chapter > .take { margin: -.75rem 0 1.5rem; }
+.take b { color: var(--here); font-family: var(--font-head); font-weight: 600; }
 /* svg diagram vocabulary: use these classes on shapes so both themes work */
 .d-box { fill: var(--card); stroke: var(--line-strong); stroke-width: 1.5; }
 .d-box-here { fill: var(--here-tint); stroke: var(--here); stroke-width: 2; }
@@ -278,18 +348,19 @@ main { min-width: 0; }
 .split { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 1rem 0 1.5rem; }
 .split > div { padding: 1rem 1.1rem; border-radius: var(--r-comp); border: 1.5px solid var(--line); background: var(--card); }
 .split > div > b { display: block; font-family: var(--font-head); font-weight: 600; margin-bottom: .4rem; }
-.split .before { border-color: var(--stop); background: var(--stop-tint); }
-.split .after { border-color: var(--go); background: var(--go-tint); }
+.split .before { background: var(--card); }  /* two white cards; only the after card wears a rule, 3 px of go along its top */
+.split .after { border-color: var(--go); background: var(--card); box-shadow: inset 0 3px 0 var(--go); }
 .split ul { margin: 0; padding-left: 1.2rem; font-size: var(--size-s); }
 
-.decision { margin: 1rem 0 1.5rem; padding: 1.25rem; border: 2px solid var(--decide); border-radius: var(--r-comp); background: var(--decide-tint); }
+.decision { margin: 1rem 0 1.5rem; padding: 1.25rem; border: 2px solid var(--decide); border-radius: var(--r-comp); background: var(--card); }
 .decision > h3 { margin: 0 0 .25rem; display: flex; gap: .6rem; align-items: center; }
 .decision > h3::before { content: "?"; flex: none; width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 50%; background: var(--decide); color: var(--on-decide); font-family: var(--font-head); font-size: var(--size-0); }
 .decision > p { color: var(--ink-soft); }
 .options { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 1rem 0; }
-.option { position: relative; padding: 1rem 1.1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
-.option[data-rec] { border-color: var(--go); border-width: 2.5px; }
-.option[data-rec]::after { content: attr(data-rec); position: absolute; top: -.8rem; right: .9rem; padding: .15rem .65rem; background: var(--go); color: var(--on-go); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.option { position: relative; display: flex; flex-direction: column; padding: 1rem 1.1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+/* the recommendation is the decide colour: a border, a tint, and a star chip inside the card at the top, in the page's own word */
+.option[data-rec] { border-color: var(--decide); background: var(--decide-tint); }
+.option[data-rec]::after { content: "★ " attr(data-rec); order: -1; align-self: flex-start; margin: 0 0 .6rem; padding: .1rem .7rem; background: var(--decide); color: var(--on-decide); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); line-height: 1.5; }
 /* a consequence chip: the cost in words ("Can't undo"), amber with a ⚠ glyph, so it never leans on colour alone */
 .option[data-warn]::before { content: "⚠ " attr(data-warn); position: absolute; top: -.8rem; left: .9rem; z-index: 1; padding: .15rem .65rem; background: var(--wait); color: var(--on-wait); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
 .option h4 { margin: 0 0 .5rem; }
@@ -298,8 +369,8 @@ main { min-width: 0; }
 .option li.plus::before { content: "✓"; position: absolute; left: 0; color: var(--go); font-weight: 700; }
 .option li.minus::before { content: "✗"; position: absolute; left: 0; color: var(--stop); font-weight: 700; }
 .option .cost { margin-top: .6rem; font-size: var(--size-s); color: var(--ink-soft); }
-.decision .nothing { margin: .5rem 0 0; padding: .6rem .9rem; background: var(--card); border-radius: 6px; font-size: var(--size-s); max-width: none; }
-.decision .nothing b { font-family: var(--font-head); font-weight: 600; }
+.decision .nothing { margin: .5rem 0 0; padding: 0; color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+.decision .nothing b { color: var(--ink); font-family: var(--font-head); font-weight: 600; }
 
 /* ---------- 9. Status, timeline, steps, tiles ---------- */
 .status { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; border: 1.5px solid var(--line); border-radius: var(--r-comp); overflow: hidden; }
@@ -335,11 +406,15 @@ main { min-width: 0; }
 .steps > li > b { font-family: var(--font-head); font-weight: 600; }
 
 .tiles { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin: 1rem 0 1.5rem; }
-.tile { container-type: inline-size; padding: .9rem 1rem; background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r-comp); }
+.tile { container-type: inline-size; padding: .9rem 1rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-comp); }
 /* a number never breaks inside itself ("$24,00" / "0+"); it shrinks to fit its tile instead */
-.tile .n { display: block; font-family: var(--font-head); font-weight: 700; font-size: var(--size-3); font-size: min(var(--size-3), 20cqi); line-height: 1; color: var(--here); white-space: nowrap; overflow-wrap: normal; }
+.tile .n { display: block; font-family: var(--font-head); font-weight: 700; font-size: var(--size-3); font-size: min(var(--size-3), 20cqi); line-height: 1; color: var(--ink); white-space: nowrap; overflow-wrap: normal; }
 .tile .l { font-size: var(--size-s); color: var(--ink-soft); }
-.tile.go .n { color: var(--go); } .tile.wait .n { color: var(--wait); } .tile.stop .n { color: var(--stop); }
+/* the number stays ink; a state is a glyph and a word under it, so it never leans on colour */
+.tile:is(.go, .wait, .stop)::after { display: block; margin-top: .45rem; font: 700 var(--size-xs)/1.3 var(--font-head); }
+.tile.go::after { content: "✓ Good"; color: var(--go); }
+.tile.wait::after { content: "! Watch"; color: var(--wait); }
+.tile.stop::after { content: "✕ Problem"; color: var(--stop); }
 
 /* ---------- 9b. Grid: options against criteria (compare, portfolio) ---------- */
 .grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
@@ -388,7 +463,7 @@ main { min-width: 0; }
 .lane li.decide, .backlog-top > li.decide { --st-word: "Needs your ruling"; --st-glyph: "?"; --st-ink: var(--decide); }
 .lane li.stop, .backlog-top > li.stop { --st-word: "Blocked"; --st-glyph: "✕"; --st-ink: var(--stop); }
 .lane li.go, .backlog-top > li.go { --st-word: "Done"; --st-glyph: "✓"; --st-ink: var(--go); }
-.lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.lane li { position: relative; margin: 0 0 .6rem; padding: .7rem .8rem .7rem 2.6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 1.25rem; }
 .lane li:last-child { margin-bottom: 0; }
 .lane li::before { content: ""; position: absolute; left: .8rem; top: .85rem; width: 1.1rem; height: 1.1rem; display: grid; place-items: center; border-radius: 50%; border: 2px solid var(--line-strong); font: 700 .65rem/1 var(--font-head); }
 /* less certain than its lane: a dashed card and a dashed dot, and small.conf says why. The state rules below come later, so a state keeps its own border colour. */
@@ -424,8 +499,8 @@ a.jump-back { display: flex; align-items: center; min-height: 44px; font-size: v
 .asof { display: flex; align-items: center; gap: .5rem; max-width: none; margin: -.4rem 0 1.25rem; color: var(--ink-soft); font-size: var(--size-s); }
 .asof::before { content: ""; flex: none; width: 1rem; height: 1rem; border: 2px solid currentColor; border-radius: 50%; background: linear-gradient(currentColor, currentColor) 50% 16% / 2px 38% no-repeat, linear-gradient(currentColor, currentColor) 62% 50% / 30% 2px no-repeat; }  /* a small clock, drawn */
 /* shipped and parked fold away under the lanes: their summaries wear the ✓ and ✕ dots in place of the + */
-details.fold.shipped > summary::before, details.fold.shipped[open] > summary::before { content: "✓"; border: 0; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
-details.fold.parked > summary::before, details.fold.parked[open] > summary::before { content: "✕"; border: 0; background: var(--stop); color: var(--on-stop); font: 700 .75rem/1 var(--font-head); }
+details.fold.shipped > summary::before, details.fold.shipped[open] > summary::before { content: "✓"; display: grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; -webkit-mask: none; mask: none; background: var(--go); color: var(--on-go); font: 700 .75rem/1 var(--font-head); }
+details.fold.parked > summary::before, details.fold.parked[open] > summary::before { content: "✕"; display: grid; place-items: center; width: 1.4rem; height: 1.4rem; border-radius: 50%; -webkit-mask: none; mask: none; background: var(--stop); color: var(--on-stop); font: 700 .75rem/1 var(--font-head); }
 details.fold:is(.shipped, .parked) > summary { flex-wrap: wrap; row-gap: 0; color: var(--ink); }
 details.fold:is(.shipped, .parked) > summary > span { flex: 1 1 9rem; min-width: 0; }  /* the title takes the row; the changelog link and the chevron wrap under it on a phone */
 details.fold:is(.shipped, .parked) > summary::after { content: "▾"; color: var(--ink-soft); }
@@ -434,7 +509,7 @@ details.fold.shipped > summary > a { display: inline-flex; align-items: center; 
 details.fold.shipped > ul { margin-block: 0; padding-left: 2.2rem; font-size: var(--size-s); }
 /* the backlog: at most five ranked cards, a cut line, a fold per theme, and a shelf of what is parked */
 .backlog-top { list-style: none; counter-reset: top; display: grid; gap: .6rem; margin: 1rem 0 1.25rem; padding: 0; max-width: none; }
-.backlog-top > li { counter-increment: top; position: relative; margin: 0; padding: .7rem .8rem .75rem 3.2rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 4.5rem; }
+.backlog-top > li { counter-increment: top; position: relative; margin: 0; padding: .7rem .8rem .75rem 3.2rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 1.25rem; }
 .backlog-top > li::before { content: counter(top); position: absolute; left: .8rem; top: .7rem; display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 600 var(--size-xs) var(--font-head); }
 .cutline { display: flex; align-items: center; gap: .75rem; margin: 1.5rem 0; color: var(--ink); font: 600 var(--size-s)/1.3 var(--font-head); text-align: center; }
 .cutline::before, .cutline::after { content: ""; flex: 1 1 1rem; border-top: 3px dashed var(--ink); }
@@ -460,16 +535,15 @@ details.fold > .parked-shelf { margin-block: 0; }
 
 /* ---------- 9d. Runbook: numbered steps, each with a command, a check and a way out ---------- */
 .runbook { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
-.runbook > li { position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 4.5rem; }
+.runbook > li { position: relative; margin: 0; padding: .25rem 0 1.1rem 3rem; scroll-margin-top: 1.25rem; }
 .runbook > li::before { content: counter(list-item); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
 .runbook > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.3rem; bottom: 0; width: 2px; background: var(--line); }
 .runbook > li > b { font-family: var(--font-head); font-weight: 600; }
-.runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: .55rem .8rem .55rem 2.6rem; border: 1.5px solid; border-radius: var(--r-comp); font-size: var(--size-s); max-width: none; }
-.runbook p.check { border-color: var(--go); background: var(--go-tint); }
-.runbook p.fail { border-color: var(--stop); background: var(--stop-tint); }
-.runbook :is(p.check, p.fail)::before { position: absolute; left: .75rem; top: .62rem; width: 1.15rem; height: 1.15rem; display: grid; place-items: center; border-radius: 50%; font: 700 .7rem/1 var(--font-head); }
-.runbook p.check::before { content: "✓"; background: var(--go); color: var(--on-go); }
-.runbook p.fail::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
+/* a check and a fail are quiet lines: a glyph in the meaning colour, then ink text. No box. */
+.runbook :is(p.check, p.fail) { position: relative; margin: .5rem 0 0; padding: 0 0 0 1.7rem; font-size: var(--size-s); max-width: none; }
+.runbook :is(p.check, p.fail)::before { position: absolute; left: .1rem; top: 0; font: 700 1rem/1.6 var(--font-head); }
+.runbook p.check::before { content: "✓"; color: var(--go); }
+.runbook p.fail::before { content: "✕"; color: var(--stop); }
 .runbook :is(p.check, p.fail) > b:first-child { font-family: var(--font-head); font-weight: 600; }
 /* a command the reader types. The template script adds the Copy button; without it the command still reads. */
 pre.cmd { display: flex; align-items: flex-start; gap: .75rem; margin: .5rem 0 .25rem; padding: .6rem .6rem .6rem 1rem; border: 1.5px solid var(--line-strong); }
@@ -499,8 +573,8 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 
 /* ---------- 9f. Promises: what the product does for a person, each with its evidence (public) ---------- */
 .promises { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: none; }
-.promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--go-tint); border: 1.5px solid var(--go); border-radius: var(--r-comp); }
-.promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; background: var(--go); color: var(--on-go); font: 700 .85rem/1 var(--font-head); }
+.promises li { position: relative; margin: 0; padding: .9rem 1rem .9rem 3.1rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-comp); }
+.promises li::before { content: "✓"; position: absolute; left: .9rem; top: .95rem; width: 1.5rem; height: 1.5rem; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--go); background: var(--go-tint); color: var(--go); font: 700 .85rem/1 var(--font-head); }
 .promises li b { display: block; font-family: var(--font-head); font-weight: 600; }
 
 /* ---------- 9g. Playbook: a plan for one risky change, written for one decision-maker ---------- */
@@ -553,11 +627,10 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 
 /* ordered phases, numbered because the order is real */
 .phases { list-style: none; margin: 1rem 0 1.5rem; padding: 0; counter-reset: phase; max-width: none; }
-.phases > li { counter-increment: phase; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; min-width: 0; margin: 0; padding: .25rem 0 1.3rem 3.1rem; scroll-margin-top: 4.5rem; }
+.phases > li { counter-increment: phase; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .5rem; min-width: 0; margin: 0; padding: .25rem 0 1.3rem 3.1rem; scroll-margin-top: 1.25rem; }
 .phases > li::before { content: counter(phase); position: absolute; left: 0; top: .1rem; width: 2rem; height: 2rem; display: grid; place-items: center; border-radius: 50%; background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 600; }
 .phases > li:not(:last-child)::after { content: ""; position: absolute; left: .95rem; top: 2.4rem; bottom: .2rem; width: 2px; background: var(--line); }
 .phases > li:target::before { box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--here); }
-@media (max-width: 1099px) { .phases > li, .chapter, .lane li, .backlog-top > li, .runbook > li { scroll-margin-top: 9rem; } }  /* the rail is a sticky strip here, about 125 px tall: a phase must land below it */
 .phases > li > h3 { flex: 0 1 auto; min-width: 0; margin: 0 .25rem 0 0; font-size: var(--size-1); }
 .phases > li > ul { flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding-left: 1.2rem; font-size: var(--size-s); }
 .phases p.impact { position: relative; flex: 1 1 100%; min-width: 0; margin: .3rem 0 0; padding: .45rem .8rem .45rem 2.3rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
@@ -572,7 +645,7 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .frame .dots { flex: none; width: .5rem; height: .5rem; margin-right: 1.6rem; border-radius: 50%; background: var(--line-strong); box-shadow: .8rem 0 0 var(--line-strong), 1.6rem 0 0 var(--line-strong); }
 .frame .url { flex: 1; min-width: 0; padding: .05rem .65rem; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--card); color: var(--ink-soft); font: var(--size-xs)/1.5 var(--font-code); text-overflow: ellipsis; white-space: nowrap; }
 .frame-screen { flex: 1; min-width: 0; display: grid; gap: .45rem; align-content: start; min-height: 8rem; padding: .8rem; background: var(--well); font-size: var(--size-xs); line-height: 1.35; }
-.frame > .take { margin: 0; border-top: 1px solid var(--line); border-left: 0; border-radius: 0; }
+.frame > .take { margin: 0; padding: .6rem .8rem; border-top: 1px solid var(--line); }
 .frame.phone { max-width: 13rem; margin-inline: auto; border-width: 2px; border-radius: 1.5rem; }
 .frame.phone .frame-bar { justify-content: center; padding: .6rem .7rem .4rem; background: var(--card); border-bottom: 0; }
 .frame.phone .dots { display: none; }
@@ -685,7 +758,7 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 .guide-filters button:hover { border-color: var(--here); }
 .guide-filters button[aria-pressed="true"] { border-color: var(--here); background: var(--here); color: var(--on-here); }
 .guide-status { flex: 1 1 100%; margin: 0; color: var(--ink-soft); font-size: var(--size-s); }
-details.family-index { container: famrow / inline-size; margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 9rem; }  /* a jump lands below the sticky strip or the sticky toolbar */
+details.family-index { container: famrow / inline-size; margin: 0 0 .6rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); scroll-margin-top: 1.25rem; }
 details.family-index > summary { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: .05rem .75rem; min-height: 44px; padding: .65rem 2.6rem .65rem 1rem; list-style: none; cursor: pointer; }
 details.family-index > summary::-webkit-details-marker { display: none; }
 details.family-index > summary::after { content: "▾"; position: absolute; right: .9rem; top: .65rem; color: var(--ink-soft); }
@@ -695,7 +768,8 @@ details.family-index > summary h3 { margin: 0; font-size: clamp(1.05rem, 1rem + 
 .fam-hidden { margin-left: auto; color: var(--ink-soft); font-size: var(--size-xs); }
 details.family-index:not([open]) .fam-hidden { display: none; }  /* a closed family shows its name and counts. What the filter hides is said once it is open, and in the status line. */
 .index h4.group { margin: 0; padding: .45rem 1rem .3rem; border-top: 1px solid var(--line); background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); letter-spacing: 0; }
-.entry { position: relative; border-top: 1px solid var(--line); scroll-margin-top: 9rem; }
+.entry { position: relative; border-top: 1px solid var(--line); scroll-margin-top: 1.25rem; }
+@media (min-width: 1100px) { details.family-index, .entry { scroll-margin-top: 9rem; } }  /* a jump lands below the sticky toolbar */
 .entry > .name { display: block; padding: .7rem 1rem 0; font: 600 var(--size-0)/1.3 var(--font-head); }  /* before the script runs the entry reads as plain lines */
 .entry > .def { margin: 0; padding: .1rem 1rem .4rem; max-width: none; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.45; }
 html:not(.js) .entry[data-rel]::before { content: attr(data-rel); position: absolute; right: 1rem; top: .75rem; color: var(--ink-soft); font: 600 var(--size-xs) var(--font-head); }
@@ -741,6 +815,202 @@ html:not(.js) .entry:target, .entry.is-target { outline: 3px solid var(--here); 
   .entry, .start-here > li, .family { break-inside: avoid; }
 }
 
+/* ---------- 9i. At a glance and the type parts ---------- */
+/* The first screen's own picture. A glance sits after the keep box and before the chapter map. It is not a chapter: no kicker, no
+   read aloud, no Done. Inside it, div.duo, div.cols, ul.findings and ol.layers are ready-made pictures, and the four derived
+   pictures (div.runbook-overview, div.filmstrip, div.rulings, div.qprogress) are empty placeholders that the script fills from
+   parts already on the page. Without script a placeholder stays empty and the glance shows its take line. Meaning colour stays on
+   dots, glyphs, thin rules and small chips; the one tint on a screen marks the one thing that needs the reader. */
+.glance { display: flex; flex-direction: column; gap: .9rem; margin: 0 0 2rem; padding: 1.2rem 1.35rem 1.1rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-chapter); scroll-margin-top: 1rem; }
+section.glance > * { min-width: 0; margin-top: 0; margin-bottom: 0; }  /* the glance spaces its own parts, so a component's own margins do not stack */
+.glance-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .3rem 1rem; }
+.glance-head :is(h2, h3) { margin: 0; font-size: 1.17rem; line-height: 1.3; font-weight: 600; letter-spacing: -.01em; }
+.glance-head .chip { padding: .15rem .65rem; border-color: transparent; color: var(--ink); }
+.glance-head .chip.go { background: var(--go-tint); } .glance-head .chip.wait { background: var(--wait-tint); } .glance-head .chip.stop { background: var(--stop-tint); }
+.glance-head .chip.decide { background: var(--decide-tint); } .glance-head .chip.here { background: var(--here-tint); }
+.glance .take { margin: 0; padding: .7rem 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; font-size: var(--size-s); line-height: 1.5; max-width: none; }
+.glance .take b { color: var(--here); }
+.glance .status { border-width: 1px 0; border-radius: 0; }  /* rows between hairlines: the glance is already the card */
+section.glance > h3, .duo > div > h3:first-child { margin: 0 0 .55rem; font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); }
+section.glance > h3 { margin-bottom: -.5rem; }  /* a heading keeps close to the list it names */
+section.glance > h3:not(:first-of-type) { margin-top: .35rem; }
+section.glance > .answer-field { margin-bottom: 0; }
+
+/* two columns: one picture beside another (health beside timeline, tiles beside steps, drawings beside a verdict). Stacks on a phone. */
+.duo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.1rem; align-items: start; margin: 1rem 0 1.5rem; }
+.duo > * { min-width: 0; }
+div.duo > :is(ul, ol, div, section, figure, aside) { margin-top: 0; margin-bottom: 0; }
+.duo .status li { grid-template-columns: 1.1rem minmax(0, 1fr); row-gap: .1rem; }  /* in half a width a row is a name with its line under it */
+.duo .status li span { grid-column: 2; }
+.duo .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.duo .timeline { grid-template-columns: minmax(0, 1fr); gap: 0; }  /* a vertical timeline: the dot on the left, the connector running down to the next */
+.duo .timeline li { padding: 0 0 1rem 2rem; }
+.duo .timeline li:last-child { padding-bottom: 0; }
+.duo .timeline li::before { top: .12rem; }
+.duo .timeline li::after { left: calc(.55rem - 1.5px); right: auto; top: 1.3rem; bottom: -.1rem; width: 3px; height: auto; }
+.duo .timeline li:last-child::after { display: none; }
+@media (max-width: 759px) { .duo { grid-template-columns: minmax(0, 1fr); } }
+
+/* columns: what to trust, what to check, what to do. Each column is one state: a glyph and a word in the head, a 3 px rule on top. */
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; align-items: stretch; margin: 1rem 0 1.5rem; max-width: none; }
+.cols:has(> .col:nth-child(3)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.col { --accent: var(--line-strong); --glyph: ""; --mark: "•"; display: flex; flex-direction: column; gap: .45rem; min-width: 0; margin: 0; padding: .95rem 1rem .75rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-comp); box-shadow: inset 0 3px 0 var(--accent); }
+.col.go { --accent: var(--go); --glyph: "✓"; --mark: "✓"; }
+.col.wait { --accent: var(--wait); --glyph: "!"; --mark: "○"; }
+.col.here { --accent: var(--here); --glyph: "●"; --mark: "●"; }
+.col.decide { --accent: var(--decide); --glyph: "◆"; --mark: "◆"; }
+.col.stop { --accent: var(--stop); --glyph: "✕"; --mark: "✕"; }
+.col > h3 { display: flex; align-items: baseline; gap: .5rem; margin: 0; font: 600 var(--size-0)/1.3 var(--font-head); letter-spacing: 0; }
+.col > h3::before { content: var(--glyph); flex: none; color: var(--accent); font-weight: 700; }
+.col > p { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.4; }
+.col :is(ul, ol) { list-style: none; margin: 0; padding: 0; max-width: none; }
+.col li { position: relative; margin: 0; padding: .55rem 0 .6rem 1.5rem; border-top: 1px solid var(--line); font-size: .861rem; line-height: 1.4; }
+.col li:first-child { border-top: 0; }
+.col ul > li::before { content: var(--mark); position: absolute; left: .1rem; top: .55rem; color: var(--accent); font-weight: 700; line-height: 1.4; }
+.col ol { counter-reset: col; }
+.col ol > li { counter-increment: col; padding-left: 2.35rem; }
+.col ol > li::before { content: counter(col); position: absolute; left: 0; top: .5rem; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1.5px solid var(--accent); border-radius: 50%; background: color-mix(in srgb, var(--accent) 12%, var(--card)); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); }
+.col li > b { display: block; font-weight: 700; }
+.col li > span { display: block; color: var(--ink-soft); font-size: .81rem; line-height: 1.4; }
+@media (max-width: 759px) { .cols, .cols:has(> .col:nth-child(3)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* findings: one row per finding, how sure it is in words and three bars (filled 3, 2 or 1), what backs it, what is still open.
+   Strength is never a colour: only the weak row is tinted, because it is the one the reader should look at. */
+.findings { list-style: none; counter-reset: find; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.findings li { --s1: var(--line-strong); --s2: var(--line-strong); --s3: var(--line-strong); counter-increment: find; display: grid; grid-template-columns: 1.7rem minmax(0, 1fr) 9.5rem 5.6rem 4.6rem; grid-template-areas: "n t s e o" "n l s e o"; column-gap: .9rem; row-gap: .1rem; align-items: center; margin: 0; padding: .7rem .6rem; border-bottom: 1px solid var(--line); }
+.findings li:first-child { border-top: 1px solid var(--line); }
+.findings li::before { content: counter(find); grid-area: n; align-self: start; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 var(--size-xs)/1 var(--font-head); }
+.findings li > :is(a, b) { grid-area: t; font: 600 .917rem/1.3 var(--font-head); text-decoration: none; }
+.findings li > b { color: var(--ink); }
+.findings li > a:hover { text-decoration: underline; text-underline-offset: .18em; }
+.findings li > span { grid-area: l; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.findings li::after { grid-area: s; display: block; height: 1rem; padding-left: 2.1rem; font: 600 var(--size-s)/1rem var(--font-head); color: var(--ink);
+  background: linear-gradient(var(--s1), var(--s1)) 0 100% / .45rem .39rem no-repeat, linear-gradient(var(--s2), var(--s2)) .61rem 100% / .45rem .67rem no-repeat, linear-gradient(var(--s3), var(--s3)) 1.22rem 100% / .45rem 1rem no-repeat; }
+.findings li[data-strength="strong"] { --s1: var(--ink); --s2: var(--ink); --s3: var(--ink); }
+.findings li[data-strength="moderate"] { --s1: var(--ink); --s2: var(--ink); }
+.findings li[data-strength="weak"] { --s1: var(--ink); background: var(--wait-tint); border-radius: 12px; border-bottom-color: transparent; }
+.findings li[data-strength="strong"]::after { content: "Strong"; }
+.findings li[data-strength="moderate"]::after { content: "Moderate"; }
+.findings li[data-strength="weak"]::after { content: "Weak"; }
+:lang(ja) .findings li[data-strength="strong"]::after { content: "強い"; }
+:lang(ja) .findings li[data-strength="moderate"]::after { content: "中程度"; }
+:lang(ja) .findings li[data-strength="weak"]::after { content: "弱い"; }
+.findings small { font-size: var(--size-s); line-height: 1.3; color: var(--ink-soft); white-space: nowrap; }
+.findings small.evidence { grid-area: e; color: var(--ink); }
+.findings small.open { grid-area: o; }
+@media (max-width: 559px) {
+  .findings li { grid-template-columns: 1.7rem auto minmax(0, 1fr); grid-template-areas: "n t t" "n l l" "n s e" "n o o"; column-gap: .75rem; row-gap: .15rem; justify-items: start; }
+  .findings li::after, .findings small { margin-top: .4rem; }
+  .findings small.open { margin-top: 0; }
+}
+
+/* layers: the system in layers, easiest first. Each layer lists the new words it brings; exactly one says "You are here". */
+.layers { list-style: none; counter-reset: layer; display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.layers > li { counter-increment: layer; position: relative; display: grid; grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 40%); grid-template-areas: "n b t" "n s t"; column-gap: 1rem; row-gap: .1rem; align-items: center; margin: 0; padding: .7rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; }
+.layers > li::before { content: counter(layer); grid-area: n; display: grid; place-items: center; width: 2rem; height: 2rem; border: 1.5px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--ink); font: 600 var(--size-s)/1 var(--font-head); }
+.layers > li:not(:last-child)::after { content: ""; position: absolute; left: calc(2rem - 1px); top: 100%; width: 2px; height: .75rem; background: var(--line-strong); }  /* the way down to the next layer */
+.layers > li > b { grid-area: b; display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .8rem; font: 600 .972rem/1.3 var(--font-head); }
+.layers > li > span:not(.terms) { grid-area: s; color: var(--ink-soft); font-size: .861rem; line-height: 1.4; }
+.layers .terms { grid-area: t; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .4rem; }
+.layers .terms > span { padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.layers > li.here { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
+.layers > li.here::before { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.layers > li.here > b::after { content: "● You are here"; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.layers > li.here .terms > span { background: var(--card); }
+:lang(ja) .layers > li.here > b::after { content: "● 現在地"; }
+@media (max-width: 559px) {
+  .layers > li { grid-template-columns: 2rem minmax(0, 1fr); grid-template-areas: "n b" "n s" ". t"; column-gap: .8rem; }
+  .layers .terms { justify-content: flex-start; margin-top: .45rem; }
+}
+
+/* a skimmed chapter hides its lists; these two pictures are the chapter's picture, so they stay */
+body[data-skim="on"] .chapter :is(.cols ul, ul.findings) { display: block !important; }
+
+/* ---- derived pictures: empty placeholders, filled by the script from the page's own parts ---- */
+div:is(.runbook-overview, .filmstrip, .rulings, .qprogress):not(:has(*)) { display: none; }  /* without script they stay empty and take no room */
+
+/* runbook-overview: every step as one row with a checkbox that shares the step's own done state, grouped by chapter, the first open step marked Next */
+.runbook-overview { display: flex; flex-direction: column; gap: 1rem; max-width: none; }
+.ro-group { display: flex; flex-direction: column; gap: .1rem; }
+.ro-label, .film-label { margin: 0; padding: 0 .6rem .3rem; max-width: none; font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); }
+.ro-steps { list-style: none; margin: 0; padding: 0; max-width: none; }
+.ro-row { display: flex; align-items: center; gap: .15rem; min-height: 44px; margin: 0; border-radius: var(--r-comp); }
+.ro-box { flex: none; display: grid; place-items: center; width: 44px; height: 44px; cursor: pointer; }
+.ro-box input { width: 1.3rem; height: 1.3rem; margin: 0; accent-color: var(--go); }
+.ro-link { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: .6rem; min-height: 44px; padding: .5rem .7rem .5rem 0; color: var(--ink); font-size: .917rem; line-height: 1.35; text-decoration: none; }
+.ro-link:hover .ro-t { text-decoration: underline; text-underline-offset: .18em; }
+.ro-n { flex: none; width: 1.5rem; color: var(--ink-soft); font: 600 var(--size-xs)/1.35 var(--font-head); text-align: right; }
+.ro-t { flex: 0 1 auto; min-width: 0; }
+.ro-row.is-done .ro-t { color: var(--ink-soft); }
+.ro-row.is-next { background: var(--here-tint); box-shadow: inset 0 0 0 1.5px var(--here); }
+.ro-row.is-next .ro-t { font-weight: 700; }
+.ro-next { display: inline-flex; align-items: center; gap: .4rem; color: var(--ink); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.ro-next::before { content: "●"; color: var(--here); }
+.ro-count, .rl-count { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+/* the same done state, in the step itself: a small label at the top right of the step, added by the script */
+.step-done { float: right; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; margin: -.4rem 0 .2rem .75rem; padding: 0 .4rem; color: var(--ink-soft); font-size: var(--size-s); cursor: pointer; }
+.step-done input { width: 1.25rem; height: 1.25rem; margin: 0; accent-color: var(--go); }
+.runbook > li > :is(pre, p, ul, ol, div, details, figure) { clear: right; }  /* the first block starts under the label; a long title still wraps beside it */
+.runbook > li.is-done::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook > li.is-done > b { color: var(--ink-soft); }
+
+/* filmstrip: one thumbnail per tour step, each a link to its step; the row scrolls sideways inside its own box */
+.filmstrip { display: flex; flex-direction: column; gap: .9rem; max-width: none; }
+.film-group { min-width: 0; }
+.film-row { list-style: none; display: flex; gap: 1rem; margin: 0; padding: .15rem .15rem .6rem; max-width: none; overflow-x: auto; scrollbar-width: thin; }
+.film-row > li { flex: 1 0 10.5rem; max-width: 16rem; margin: 0; }
+.film { display: block; color: var(--ink); text-decoration: none; }
+.film-shot { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--well); border: 1px solid var(--line-strong); border-radius: 8px; }
+.film-shot img { display: block; width: 100%; height: 100%; object-fit: cover; border: 0; border-radius: 0; }
+.film-shot .pin { width: 1.1rem; height: 1.1rem; border-width: 2px; outline-width: 1px; font-size: .6rem; }
+.film-cap { display: flex; gap: .5rem; align-items: flex-start; margin-top: .55rem; font: 600 .806rem/1.3 var(--font-head); }
+.film-cap i { flex: none; display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 .7rem/1 var(--font-head); font-style: normal; }
+.film:hover .film-cap span { text-decoration: underline; text-underline-offset: .18em; }
+
+/* rulings: one row per decision card, the recommended option and a state; the first unanswered row is the one tint */
+.rulings { display: flex; flex-direction: column; gap: .6rem; max-width: none; }
+.rl-row { line-height: 1.35; }
+.rl-head, .rl-row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, .9fr); column-gap: 1.1rem; }
+.rl-head { padding: 0 .9rem .5rem; border-bottom: 1px solid var(--line-strong); color: var(--ink-faint); font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+.rl-list { list-style: none; margin: 0; padding: 0; max-width: none; }
+.rl-list > li { margin: 0; border-bottom: 1px solid var(--line); }
+.rl-list > li:last-child { border-bottom: 0; }
+.rl-row { align-items: start; row-gap: .5rem; min-height: 44px; padding: .8rem .9rem; border-radius: 12px; color: var(--ink); text-decoration: none; }
+.rl-row:hover { background: var(--well); }
+.rl-row.is-first, .rl-row.is-first:hover { background: var(--decide-tint); }
+.rl-q { display: grid; grid-template-columns: 1.7rem minmax(0, 1fr); gap: .7rem; align-items: start; font: 600 .917rem/1.35 var(--font-head); }
+.rl-n { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 var(--size-xs)/1 var(--font-head); }
+.rl-rec { display: block; padding-left: 1.15em; text-indent: -1.15em; font: 600 .889rem/1.35 var(--font-head); }  /* a long option wraps under its words, not under the star */
+.rl-rec::before { content: "★ "; color: var(--decide); }
+.rl-rec.is-none { padding-left: 0; text-indent: 0; color: var(--ink-soft); font-weight: 400; }
+.rl-rec.is-none::before { content: none; }
+.rl-state { display: inline-flex; align-items: baseline; gap: .45rem; font: 600 var(--size-xs)/1.35 var(--font-head); }
+.rl-state::before { content: "◆"; flex: none; color: var(--decide); }
+.rl-state.go::before { content: "✓"; color: var(--go); }
+.rl-k { display: none; margin-bottom: .1rem; color: var(--ink-soft); font: 600 .667rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+@media (max-width: 559px) {  /* each ruling is a small card: its question, then the two parts under their own words */
+  .rl-head { display: none; }
+  .rl-list > li { margin: 0 0 .6rem; border: 1px solid var(--line); border-radius: 12px; }
+  .rl-row { grid-template-columns: minmax(0, 1fr); padding: .85rem .9rem; }
+  .rl-k { display: block; }
+}
+
+/* qprogress: one numbered dot per question, linking to it, filled once it has an answer */
+.qprogress { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1rem; max-width: none; }
+.qp-dots { list-style: none; display: flex; flex-wrap: wrap; margin: 0; padding: 0; max-width: none; }
+.qp-dots li { margin: 0; }
+.qp-dot { display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink); font: 700 var(--size-xs)/1 var(--font-head); text-decoration: none; }
+.qp-dot > span { display: grid; place-items: center; width: 2rem; height: 2rem; border: 2px solid var(--line-strong); border-radius: 50%; background: var(--card); }
+.qp-dot:hover > span { border-color: var(--here); }
+.qp-dot.is-done > span { background: var(--go); border-color: var(--go); color: var(--on-go); }
+.qp-count { margin: 0; max-width: none; font: 600 var(--size-s)/1.3 var(--font-head); }
+
+@media print {
+  .glance { break-inside: avoid; }
+  .film-row { flex-wrap: wrap; overflow: visible; }
+  .step-done, .ro-box { display: none !important; }
+}
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -761,26 +1031,26 @@ html:not(.js) .entry:target, .entry.is-target { outline: 3px solid var(--here); 
 @media (max-width: 480px) { .term { grid-template-columns: 1fr; } .term dd { margin-bottom: .5rem; } }
 dfn { font-style: normal; text-decoration: underline dotted var(--ink-faint); text-underline-offset: .2em; cursor: help; }
 
-details.fold { margin: 1rem 0 1.25rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
-details.fold > summary { list-style: none; cursor: pointer; padding: .75rem 1rem; font-family: var(--font-head); font-weight: 600; display: flex; gap: .6rem; align-items: center; color: var(--ink-soft); }
+details.fold { margin: 1rem 0 1.25rem; border: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); border-radius: 0; background: none; }
+details.fold > summary { list-style: none; cursor: pointer; display: flex; gap: .6rem; align-items: center; min-height: 46px; padding: 0 .15rem; color: var(--ink); font-weight: 500; font-size: var(--size-s); }
 details.fold > summary::-webkit-details-marker { display: none; }
-details.fold > summary::before { content: "+"; flex: none; width: 1.4rem; height: 1.4rem; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--line-strong); font-size: var(--size-s); }
-details.fold[open] > summary::before { content: "−"; }
-details.fold[open] > summary { border-bottom: 1px solid var(--line); color: var(--ink); }
+details.fold > summary::before { content: ""; flex: none; width: 18px; height: 18px; background: var(--ink-soft); -webkit-mask: var(--ico-down) center / contain no-repeat; mask: var(--ico-down) center / contain no-repeat; }
+details.fold[open] > summary::before { -webkit-mask-image: var(--ico-up); mask-image: var(--ico-up); }
+details.fold[open] > summary { border-bottom: 1px solid var(--line); }
 details.fold > :not(summary) { padding: 0 1rem; }
 details.fold > :nth-child(2) { padding-top: 1rem; }
 details.fold > :last-child { padding-bottom: 1rem; }
 
 /* ---------- 11. Closing: recap and the ask ---------- */
-.recap { margin: 0 0 1.5rem; padding: 1.25rem 1.5rem; background: var(--memory); border: 1.5px solid var(--memory-line); border-radius: var(--r-chapter); max-width: none; }
-.recap h2 { margin-bottom: .6rem; }
-.recap ol { margin: 0; padding-left: 1.4rem; }
+.recap { margin: 0 0 1.5rem; padding: 0 .25rem; max-width: none; }
+.recap h2 { margin-bottom: .6rem; font-size: 1.333rem; }
+.recap ol { margin: 0; padding-left: 1.4rem; font-size: .917rem; }
 .ask { margin: 0 0 2rem; padding: 1.25rem 1.5rem; border: 2.5px solid var(--decide); border-radius: var(--r-chapter); background: var(--card); }
 .ask h2 { margin-bottom: .5rem; }
 .ask .choices { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0 .5rem; }
-.ask .choices > * { padding: .7rem 1.1rem; border-radius: var(--r-comp); border: 2px solid var(--decide); background: var(--decide-tint); color: var(--ink); font-family: var(--font-head); font-weight: 600; text-decoration: none; }
-.ask .choices > *[data-rec] { background: var(--decide); color: var(--on-decide); }
-.ask .choices > *[data-rec]::after { content: " · recommended"; font-weight: 500; opacity: .85; }
+.ask .choices > * { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .15rem .6rem; min-height: 44px; padding: .55rem 1.1rem; text-align: left; border-radius: var(--r-comp); border: 1.5px solid var(--line-strong); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; text-decoration: none; }
+.ask .choices > *[data-rec] { border-color: var(--decide); background: var(--decide-tint); }
+.ask .choices > *[data-rec]::after { content: "★ Recommended"; flex: none; white-space: nowrap; padding: .1rem .7rem; border-radius: var(--r-chip); background: var(--decide); color: var(--on-decide); font: 600 var(--size-xs)/1.5 var(--font-head); }
 
 /* ---------- 12. Skim mode ---------- */
 /* Components whose list or copy lives inside a div wrapper must be exempted by
@@ -868,7 +1138,7 @@ body[data-focus="on"] .focus-nav { display: flex; }
 @media (max-width: 560px) { .collect { gap: .4rem; padding: .5rem; } .collect .count, .collect button { font-size: var(--size-xs); } .collect button { flex: 1 1 5.5rem; align-self: stretch; min-width: 0; padding: .4rem .35rem; } }
 
 /* ---------- 12d. Reader features: stepper, views, mini-map, resume, keys, finish, ruler, text size ---------- */
-html:not(.js) :is(.rail .tools, .stepper-nav, .views-tabs, .minimap, .read-aloud) { display: none; }
+html:not(.js) :is(.tools, .stepper-nav, .views-tabs, .minimap, .read-aloud) { display: none; }
 html:not(.js) .view[hidden] { display: block !important; }
 html:not(.js) .stepper [data-step-text] { display: block; }
 html:not(.js) .stepper [data-step-text]::before { content: attr(data-step-text) ". "; font-weight: 700; }
@@ -910,10 +1180,9 @@ body[data-finished="on"] .finished { display: inline-flex; }
 body[data-ruler="on"] .chapter:is(:hover, :has(:is(p, li, figure, .flow, .status, .split, .decision):focus-within)) :is(p, li, figure, .flow, .status, .split, .decision):not(:is(.flow, .status, .split, .decision, header) *, :hover, :focus-within) { opacity: .45; }
 @media (prefers-reduced-motion: no-preference) { body[data-ruler="on"] .chapter :is(p, li, figure, .flow, .status, .split, .decision) { transition: opacity .15s; } }
 
+html[data-size="sm"] { font-size: 16px; }
 html[data-size="lg"] { font-size: 20px; }
 html[data-size="xl"] { font-size: 22px; }
-html[data-size="lg"] button[data-size]::after { content: " +"; }
-html[data-size="xl"] button[data-size]::after { content: " ++"; }
 
 /* ---------- 12e. Ballot: pictured decision cards, the picks tray, the copy fallback ---------- */
 /* A gather mode for one reader who hands decisions back (<html data-type="gather" data-mode="ballot">). No rail and no
@@ -1103,7 +1372,8 @@ html:not(.js) .ballot-tray { display: none; }
   :root { --paper: #fff; --card: #fff; }
   html, html[data-size] { font-size: 11pt; }
   .page { display: block; width: auto; padding: 0; }
-  .rail, .progress, .skip, .chapter > header label, .read-aloud, .collect, .resume, .stepper-nav, .views-tabs { display: none !important; }
+  .rail, .progress, .skip, .tools, .tools-toggle, .chapter > header label, .read-aloud, .collect, .resume, .stepper-nav, .views-tabs { display: none !important; }
+  .map { display: block !important; }  /* the rail is the map on a wide screen; on paper the map list is the contents */
   .chapter { break-inside: avoid; border-color: #bbb; box-shadow: none; }
   details.fold { break-inside: avoid; }
   details.fold[open] > summary::before, details.fold > summary::before { display: none; }
@@ -1155,16 +1425,19 @@ html:not(.js) .ballot-tray { display: none; }
       </ol>
     </div>
 
-    <figure class="figure">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="images/hero-dark.png">
-        <img src="images/hero-light.png" alt="A plan page on a desktop and a decision ballot on a phone, both made by the plugin" width="1600" height="900" loading="eager">
-      </picture>
-      <figcaption class="take"><b>Take from this:</b> one plugin made a plan page for a desktop and a ballot for a phone.</figcaption>
-    </figure>
+    <section class="glance" aria-labelledby="glance-h">
+      <div class="glance-head"><h2 id="glance-h">What does it make?</h2><span class="chip here">Two real pages</span></div>
+      <figure class="figure">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="images/hero-dark.png">
+          <img src="images/hero-light.png" alt="A plan page on a desktop and a decision ballot on a phone, both made by the plugin" width="1600" height="900" loading="eager">
+        </picture>
+        <figcaption class="take"><b>Take from this:</b> one plugin made a plan page for a desktop and a ballot for a phone.</figcaption>
+      </figure>
+    </section>
 
     <ol class="map">
-      <li><a href="#shape"><b>What a page looks like</b><span>The same six parts, in the same order.</span></a></li>
+      <li><a href="#shape"><b>What a page looks like</b><span>The same seven parts, in the same order.</span></a></li>
       <li><a href="#types"><b>What it can make</b><span>Seventeen page types, by the job they do.</span></a></li>
       <li><a href="#reader"><b>What you control</b><span>Eight reader tools. Nothing moves unless you ask.</span></a></li>
       <li><a href="#promises"><b>What it promises</b><span>Five promises, each with proof.</span></a></li>
@@ -1172,7 +1445,7 @@ html:not(.js) .ballot-tray { display: none; }
       <li><a href="#next"><b>What comes next</b><span>The focus, and how to tell us what to fix.</span></a></li>
     </ol>
 
-    <section class="chapter" id="shape" data-keep="Every page has the same shape: answer, three facts, chapters with pictures, recap.">
+    <section class="chapter" id="shape" data-keep="Every page has the same shape: answer, three facts, its own picture, chapters, recap.">
       <header>
         <div><p class="kicker">Chapter 1 of 6, about 1 minute</p><h2>What does a page look like?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
@@ -1186,7 +1459,8 @@ html:not(.js) .ballot-tray { display: none; }
       <ol class="flow">
         <li><b>Answer bar</b><span>The whole page in one sentence.</span></li>
         <li><b>Keep box</b><span>Three facts to carry, no more.</span></li>
-        <li><b>Chapter map</b><span>One line for each chapter.</span></li>
+        <li><b>At a glance</b><span>The page's own picture, on the first screen.</span></li>
+        <li><b>Chapter map</b><span>One line for each chapter, in the side rail on a computer.</span></li>
         <li><b>Chapters</b><span>A picture in each, and a remember line to close.</span></li>
         <li><b>Recap</b><span>The remember lines, collected.</span></li>
         <li><b>The ask</b><span>One question, only when you must decide.</span></li>
@@ -1428,11 +1702,10 @@ const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
 const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 
 /* theme and text size */
-const tt = $('[data-theme-toggle]'), sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]'), sizes = ['', 'lg', 'xl'];
+const tt = $('[data-theme-toggle]'), sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 if (store.get('explainer:theme')) root.dataset.theme = store.get('explainer:theme');
 on(tt, 'click', () => store.set('explainer:theme', root.dataset.theme = (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark' ? 'light' : 'dark'));
 root.dataset.size = store.get('explainer:size') || '';
-on($('button[data-size]'), 'click', () => store.set('explainer:size', root.dataset.size = sizes[(sizes.indexOf(root.dataset.size) + 1) % 3]));
 
 /* skim, ruler and one-chapter modes: on or off on <body>; the ruler is remembered */
 const flip = (btn, attr, k, then) => {
@@ -1629,10 +1902,68 @@ const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.fin
 $('.recap h2')?.after(make('span', 'finished', L.fin));
 boxes.forEach(box => {
   const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
-  box.checked = !!done[c.id]; paint();
+  box.checked = !!done[c.id]; paint(); if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
   on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
 });
 finish();
+
+/* the rail as the chapter map, and Reading tools. Each rail link that has a matching map item gets a small line (that item's one line and the
+   chapter's minutes, read from its kicker), and the rail gets a progress line from the done and answered marks above, so nothing is typed twice.
+   The tool buttons sit in one panel behind one button: in the rail on a wide screen, at the end of the meta line below 1100 px. Escape and a
+   click outside close it. Without script the panel never shows, because nothing in it would work. */
+Object.assign(T.en, { tools: 'Reading tools', sizeDn: 'Smaller text', sizeNo: 'Normal text size', sizeUp: 'Larger text', railOf: '{n} of {m} read', min: '{n} min' });
+Object.assign(T.ja, { tools: '読み方の設定', sizeDn: '文字を小さく', sizeNo: '標準の文字サイズ', sizeUp: '文字を大きく', railOf: '{m}章中{n}章 読了', min: '約{n}分' });
+const rail = $('.rail'), railList = $('ol', rail), railLinks = rail ? qa('a[href^="#"]', rail) : [], panel = $('.tools');
+let railBar = null;
+railLinks.forEach(a => {
+  const t = byId(a.getAttribute('href').slice(1)), m = qa('.map a').find(x => x.getAttribute('href') === a.getAttribute('href'));
+  if (!t?.matches('.chapter')) { a.dataset.end = ''; return; }  /* the recap and the ask are not chapters: no number, not counted */
+  const mins = [...txt($('.kicker', t) || '').matchAll(/(\d+)\s*(?:min|分)/gi)].pop()?.[1];
+  const line = [m && $('span', m) ? txt($('span', m)) : '', mins && fmt(L.min, { n: mins })].filter(Boolean).join(' · ');
+  if (m && line) a.append(make('small', '', esc(line)));
+});
+const chLinks = railLinks.filter(a => !('end' in a.dataset));
+if (railList && root.dataset.type !== 'public' && chLinks.length && (boxes.length || $('.answer-field'))) {  /* a public page's reader is a customer: no progress line */
+  railBar = make('div', 'rail-progress', '<span aria-live="polite"></span><div class="bar" aria-hidden="true"><b></b></div>');
+  railList.after(railBar);
+  const upd = () => {
+    const n = chLinks.filter(a => a.classList.contains('done') || a.classList.contains('answered')).length;
+    $('span', railBar).textContent = fmt(L.railOf, { n, m: chLinks.length }); $('b', railBar).style.width = n / chLinks.length * 100 + '%';
+  };
+  new MutationObserver(upd).observe(railList, { subtree: true, attributes: true, attributeFilter: ['class'] }); upd();
+}
+if (panel) {
+  const toggle = make('button', 'tools-toggle', esc(L.tools)), wide = matchMedia('(min-width: 1100px)');
+  toggle.type = 'button'; panel.id = panel.id || 'reading-tools'; panel.hidden = true;
+  panel.setAttribute('role', 'group'); panel.setAttribute('aria-label', L.tools);
+  toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-controls', panel.id);
+  /* text size is three segments: smaller, normal, larger. The steps run small, normal, large (20 px), extra large (22 px). */
+  const sz = $('button[data-size]', panel), steps = ['sm', '', 'lg', 'xl'];
+  if (sz) {
+    const row = make('div', 'tool-row', '<span></span><span class="sizes" role="group"></span>'), grp = $('.sizes', row), at = () => Math.max(0, steps.indexOf(root.dataset.size || ''));
+    row.firstChild.textContent = txt(sz); grp.setAttribute('aria-label', txt(sz));
+    const bs = [[-1, 'A−', L.sizeDn], [0, 'A', L.sizeNo], [1, 'A+', L.sizeUp]].map(([k, g, name]) => {
+      const b = make('button', '', esc(g)); b.type = 'button'; b.dataset.step = k; b.setAttribute('aria-label', name); b.title = name; grp.append(b);
+      on(b, 'click', () => { store.set('explainer:size', root.dataset.size = steps[k ? Math.max(0, Math.min(3, at() + k)) : 1]); paint(); });
+      return b;
+    });
+    const paint = () => {
+      const i = at(); [i === 0, i === 1, i > 1].forEach((p, n) => bs[n].setAttribute('aria-pressed', p));
+      bs[0].setAttribute('aria-disabled', i === 0); bs[2].setAttribute('aria-disabled', i === 3);
+    };
+    sz.replaceWith(row); paint();
+  }
+  const place = () => {
+    const host = wide.matches && railList ? railBar || railList : null;
+    if (host) { host.after(toggle); toggle.after(panel); }
+    else { const spot = $('.meta') || $('main h1'); if (spot?.matches('.meta')) spot.append(toggle, panel); else spot?.after(toggle, panel); }
+  };
+  const show = o => { panel.hidden = !o; toggle.setAttribute('aria-expanded', o); };
+  on(toggle, 'click', () => show(panel.hidden));
+  on(d, 'click', e => { if (!panel.hidden && !e.target.closest?.('.tools, .tools-toggle, dialog')) show(false); });
+  on(d, 'keydown', e => { if (e.key === 'Escape' && !panel.hidden && !dlg?.open) { show(false); toggle.focus(); } });
+  place(); wide.addEventListener?.('change', place);
+}
 
 /* stepper: dim what is not lit on this step, show this step's text */
 qa('.stepper').forEach(f => {
@@ -1683,14 +2014,14 @@ qa('pre.cmd').forEach(p => {
 
 /* read aloud: one block at a time, in the page language; one chapter at a time */
 const rd = qa('[data-read]'); let sid = 0;
-const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = L.read; }); };
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; }); };
 rd.forEach(b => {
   if (!window.speechSynthesis) { b.hidden = true; return; }
-  b.textContent = L.read;
+  b.textContent = b.title = L.read;  /* the words stay in the page as the button's name; the header shows an icon */
   on(b, 'click', () => {
     const was = b.hasAttribute('data-reading'); hush(); if (was) return;
     const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
-    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = L.stop;
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop;
     const next = () => {
       const e = list[i++]; if (me !== sid) return; if (!e) return hush();
       e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
@@ -1706,6 +2037,7 @@ rd.forEach(b => {
 const kb = $('[data-keys]');
 const dlg = kb && make('dialog', 'keys', '<h2>' + L.keys + '</h2><dl>' + [['J', L.next], ['K', L.prev], ['F', fb], ['S', sk], ['D', tt], ['R', ru], ['?', kb]]
   .map(([k, b]) => b ? '<dt><kbd>' + k + '</kbd></dt><dd>' + esc(b.textContent ? txt(b) : b) + '</dd>' : '').join('') + '</dl><form method="dialog"><button>' + L.close + '</button></form>');
+[['F', fb], ['S', sk], ['D', tt], ['R', ru], ['?', kb]].forEach(([k, b]) => { if (b?.closest('.tools')) { b.dataset.key = k; b.setAttribute('aria-keyshortcuts', k); } });  /* CSS prints it on the right of the row */
 if (dlg) { body.append(dlg); on(dlg, 'click', e => { if (e.target === dlg) dlg.close(); }); on(kb, 'click', () => dlg.showModal()); }
 on(d, 'keydown', e => {
   const k = (e.key || '').toLowerCase(), t = e.target;
@@ -2064,6 +2396,164 @@ on(bar, 'click', e => {
     body.append(a); a.click(); a.remove(); flash(b, true);
   }
 });
+
+/* at a glance: the four derived pictures. A page writes an empty placeholder (div.runbook-overview, div.filmstrip, div.rulings, div.qprogress)
+   and these fill it from parts already on the page, so nothing is typed twice. Each runs on its own, so one that cannot build changes nothing.
+   Without script the placeholders stay empty and the glance shows its take line. */
+Object.assign(T.en, { roLabel: 'Steps, in order', roDone: 'Done: {t}', roNext: 'Next', roCount: '{n} of {m} done', stepDone: 'Done',
+  filmLabel: 'Tour screens, scrolls sideways', rlLabel: 'Your rulings', rlQ: 'The question', rlRec: 'We recommend', rlState: 'State', rlNeed: 'Needs your ruling', rlNone: 'No pick yet', rlAns: 'Answered', rlCount: '{n} of {m} ruled',
+  qpLabel: 'Your questions', qpDot: 'Question {n}: {t}', qpYes: 'answered', qpNo: 'not answered' });
+Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext: '次', roCount: '{m}件中{n}件 完了', stepDone: '完了',
+  filmLabel: 'ツアーの画面（横にスクロール）', rlLabel: 'あなたの判断', rlQ: '判断すること', rlRec: 'おすすめ', rlState: '状態', rlNeed: 'あなたの判断が必要', rlNone: 'おすすめなし', rlAns: '回答済み', rlCount: '{m}件中{n}件 判断済み',
+  qpLabel: '質問', qpDot: '質問{n}：{t}', qpYes: '回答済み', qpNo: '未回答' });
+{
+  const refresh = [], safe = f => { try { f(); } catch (e) {} };
+  const link = (cls, id) => { const a = d.createElement('a'); a.className = cls; a.setAttribute('href', '#' + id); return a; };
+  const answered = f => qa('input', f).some(i => i.checked) || !!$('textarea', f)?.value.trim() || !!f.dataset.moved || !!f.dataset.ok;  /* the gather bar's own rule, read from the field */
+  const chosen = f => {  /* the choice made, in the option's own words; a field with only a typed answer shows its first words */
+    const v = qa('input:checked', f).map(i => txt(i.closest('label') || i)).filter(Boolean).join(', '), t = $('textarea', f)?.value.replace(/\s+/g, ' ').trim().slice(0, 80);
+    return v || t || L.rlAns;
+  };
+  const hold = () => refresh.forEach(f => f()), wanted = !!$('.runbook-overview, .filmstrip, .rulings, .qprogress');  /* a page with none of the four runs nothing below */
+  if (wanted) ['input', 'change', 'click'].forEach(ev => on(d, ev, hold));  /* registered after the gather bar's own handlers, so a field's state is settled when these run */
+
+  /* runbook: a row per step, and the same done state in the step itself; both are stored with the done boxes' kind of key, in this browser */
+  safe(() => {
+    const hosts = qa('.runbook-overview'), steps = [];
+    qa('ol.runbook').forEach(ol => {
+      let n = (parseInt(ol.getAttribute('start'), 10) || 1) - 1;
+      qa(':scope > li', ol).forEach(li => { n = li.hasAttribute('value') ? parseInt(li.getAttribute('value'), 10) || n + 1 : n + 1; steps.push({ li, n }); });
+    });
+    if (!hosts.length || !steps.length) return;
+    const sk = key + ':steps'; let got = {}; try { got = JSON.parse(store.get(sk)) || {}; } catch (e) {}
+    const titleOf = li => {
+      const b = $(':scope > b', li) || $('b', li); let t = b ? txt(b) : '';
+      if (!t) { const c = li.cloneNode(true); qa('pre, p, ul, ol, details, label', c).forEach(x => x.remove()); t = txt(c); t = (t.match(/^.*?[.!?](?=\s|$)/) || [t])[0]; }
+      return t.replace(/[.:]$/, '');
+    };
+    const rows = [];  /* { s, box, row, next } per step per host, plus the step's own box */
+    steps.forEach((s, i) => {
+      s.id = s.li.id = s.li.id || 'step-' + (i + 1); s.title = titleOf(s.li);
+      const lab = make('label', 'step-done', '<input type="checkbox"> <span></span><span class="visually-hidden"></span>');
+      $('span', lab).textContent = L.stepDone; $('.visually-hidden', lab).textContent = ': ' + s.title;
+      s.li.prepend(lab); s.own = $('input', lab);
+    });
+    const set = (s, v) => { if (v) got[s.id] = true; else delete got[s.id]; store.set(sk, JSON.stringify(got)); paint(); };
+    const paint = () => {
+      const m = steps.length, n = steps.filter(s => got[s.id]).length, next = steps.find(s => !got[s.id]);
+      steps.forEach(s => { s.own.checked = !!got[s.id]; s.li.classList.toggle('is-done', !!got[s.id]); });
+      rows.forEach(r => { const on = !!got[r.s.id]; r.box.checked = on; r.row.classList.toggle('is-done', on); r.row.classList.toggle('is-next', r.s === next); r.next.hidden = r.s !== next; });
+      qa('.ro-count').forEach(p => { p.textContent = fmt(L.roCount, { n, m }); });
+    };
+    steps.forEach(s => on(s.own, 'change', () => set(s, s.own.checked)));
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.roLabel);
+      const groups = new Map(); steps.forEach(s => { const c = s.li.closest('.chapter'); groups.set(c, (groups.get(c) || []).concat(s)); });
+      groups.forEach((list, c) => {
+        const g = make('div', 'ro-group', ''), h = c && $('h2', c);
+        if (h) g.append(Object.assign(make('p', 'ro-label', ''), { textContent: txt(h) }));
+        const ul = make('ul', 'ro-steps', '');
+        list.forEach(s => {
+          const li = make('li', 'ro-row', '<label class="ro-box"><input type="checkbox"></label>'), a = link('ro-link', s.id), n = make('b', 'ro-n', ''), t = make('span', 'ro-t', ''), nx = make('span', 'ro-next', '');
+          n.textContent = s.n; t.textContent = s.title; nx.textContent = L.roNext; nx.hidden = true; a.append(n, t, nx); li.append(a);
+          const box = $('input', li); box.setAttribute('aria-label', fmt(L.roDone, { t: s.title }));
+          on(box, 'change', () => set(s, box.checked)); rows.push({ s, box, row: li, next: nx }); ul.append(li);
+        });
+        g.append(ul); host.append(g);
+      });
+      host.append(make('p', 'ro-count', ''));
+    });
+    paint();
+  });
+
+  /* tour: a thumbnail per step. The step's picture is cloned at 16:10 with its pins; each links to its step, which gets an id if it has none. */
+  safe(() => {
+    const hosts = qa('.filmstrip'), tours = qa('ol.tour'); let k = 0;
+    if (!hosts.length || !tours.length) return;
+    tours.forEach(ol => qa(':scope > li', ol).forEach(li => { li.id = li.id || 'tour-step-' + (++k); }));
+    hosts.forEach(host => tours.forEach(ol => {
+      const g = make('div', 'film-group', ''), row = make('ol', 'film-row', ''), h = tours.length > 1 && $('h2', ol.closest('.chapter'));
+      if (h) g.append(Object.assign(make('p', 'film-label', ''), { textContent: txt(h) }));
+      row.tabIndex = 0; row.setAttribute('role', 'group'); row.setAttribute('aria-label', L.filmLabel);
+      qa(':scope > li', ol).forEach((li, i) => {
+        const a = link('film', li.id), shot = make('span', 'film-shot', ''), img = $('img', li), cap = make('span', 'film-cap', '<i></i><span></span>');
+        if (img) { const c = img.cloneNode(true); c.alt = ''; shot.append(c); }
+        qa('.pin', li).forEach(p => shot.append(p.cloneNode(true)));
+        shot.setAttribute('aria-hidden', 'true'); $('i', cap).textContent = i + 1; $('span', cap).textContent = txt($('h3', li) || li);
+        a.append(shot, cap); const item = d.createElement('li'); item.append(a); row.append(item);
+      });
+      g.append(row); host.append(g);
+    }));
+  });
+
+  /* decision: a row per .decision card. It waits as "Needs your ruling" until the answer field after the card has an answer, then names the choice. */
+  safe(() => {
+    const hosts = qa('.rulings'), decs = qa('.decision');
+    if (!hosts.length || !decs.length) return;
+    const fieldFor = dec => { for (let x = dec.nextElementSibling; x && !x.matches('.decision'); x = x.nextElementSibling) if (x.matches('.answer-field')) return x; return $('.answer-field', dec); };
+    const items = decs.map((dec, i) => {
+      const ch = dec.closest('.chapter, section[id]'), rec = $('[data-rec] h4', dec);
+      return { field: fieldFor(dec), q: txt($('h3', dec) || dec), rec: rec ? txt(rec) : '', to: ch?.id || (dec.id = dec.id || 'ruling-' + (i + 1)) };
+    });
+    const rows = [];
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.rlLabel);
+      const head = make('div', 'rl-head', '<span></span><span></span><span></span>'), list = make('ol', 'rl-list', '');
+      [L.rlQ, L.rlRec, L.rlState].forEach((w, i) => { head.children[i].textContent = w; }); head.setAttribute('aria-hidden', 'true');
+      items.forEach((it, i) => {
+        const li = d.createElement('li'), a = link('rl-row', it.to), q = make('span', 'rl-q', '<i class="rl-n"></i><span></span>'), rec = make('span', '', '<span class="rl-k"></span><span class="rl-rec"></span>'), st = make('span', '', '<span class="rl-k"></span><span class="rl-state"></span>');
+        $('.rl-n', q).textContent = i + 1; $('span', q).textContent = it.q;
+        $('.rl-k', rec).textContent = L.rlRec; $('.rl-k', st).textContent = L.rlState;
+        $('.rl-rec', rec).textContent = it.rec || L.rlNone; $('.rl-rec', rec).classList.toggle('is-none', !it.rec);
+        a.append(q, rec, st); li.append(a); list.append(li); rows.push({ it, a, st: $('.rl-state', st) });
+      });
+      host.append(head, list, make('p', 'rl-count', ''));
+    });
+    refresh.push(() => {
+      let first = true, n = 0;
+      rows.forEach(r => {
+        const done = !!r.it.field && answered(r.it.field);
+        if (done) n++;
+        r.st.textContent = done ? chosen(r.it.field) : L.rlNeed; r.st.classList.toggle('go', done);
+        r.a.classList.toggle('is-first', !done && first); if (!done) first = false;  /* the one tint: the first ruling still waiting */
+      });
+      qa('.rl-count').forEach(p => { p.textContent = fmt(L.rlCount, { n, m: items.length }); });
+    });
+  });
+
+  /* gather: one numbered dot per question, linking to it, filled once it has an answer */
+  safe(() => {
+    const hosts = qa('.qprogress'), fs = qa('.answer-field[data-q]');
+    if (!hosts.length || !fs.length) return;
+    const names = fs.map(f => txt($('legend, label', f) || f));
+    fs.forEach(f => { f.id = f.id || 'q-' + f.dataset.q; });
+    const dots = [];
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.qpLabel);
+      const ol = make('ol', 'qp-dots', ''), count = make('p', 'qp-count', '');
+      count.setAttribute('role', 'status');
+      fs.forEach((f, i) => { const li = d.createElement('li'), a = link('qp-dot', f.id), s = d.createElement('span'); s.textContent = i + 1; a.title = names[i]; a.append(s); li.append(a); ol.append(li); dots.push({ f, a, i }); });
+      host.append(ol, count);
+    });
+    refresh.push(() => {
+      const n = fs.filter(answered).length;
+      dots.forEach(x => { const on = answered(x.f); x.a.classList.toggle('is-done', on); x.a.setAttribute('aria-label', fmt(L.qpDot, { n: x.i + 1, t: names[x.i] }) + ', ' + (on ? L.qpYes : L.qpNo)); });
+      qa('.qp-count').forEach(p => { p.textContent = fmt(L.ans, { n, m: fs.length }); });
+    });
+  });
+
+  /* a link from one of these pictures goes to a chapter or a card the page may be hiding: one-chapter mode shows that chapter first, a closed fold opens */
+  if (wanted) on(d, 'click', e => {
+    const a = e.target.closest?.('.film, .ro-link, .rl-row, .qp-dot'); if (!a) return;
+    const t = byId(decodeURIComponent((a.getAttribute('href') || '').slice(1))); if (!t) return;
+    qa('a.jump-back').forEach(x => x.remove());  /* the glance is no card to go back to */
+    for (let x = t.closest('details'); x; x = x.parentElement?.closest('details')) x.open = true;
+    const part = t.closest('.chapter, .recap, .ask');
+    try { if (part && body.dataset.focus === 'on') showPart(parts.indexOf(part)); } catch (e) {}
+    t.scrollIntoView();
+  });
+  hold();
+}
 })();
 </script>
 <script>

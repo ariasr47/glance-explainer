@@ -4,11 +4,12 @@ The reader can hold about three things at once and loses them the moment they sc
 
 ## The contract of every page
 
-1. **Answer first.** The `.answer` line is the whole page in one sentence. Write it before anything else. If you cannot write it, you do not understand the topic yet.
+1. **Answer first.** The `.answer` line is the whole page in one sentence, and it is the page's headline. Write it before anything else. If you cannot write it, you do not understand the topic yet.
 2. **Three facts to keep.** The `.keep` box holds at most three lines under fifteen words each. These are the only things the page asks the reader to carry.
-3. **Chapters are self-contained.** A chapter opens with `.from` (the one fact it builds on, restated, never "as we saw above") and closes with `.remember` (one sentence). A reader who lands mid-page loses nothing.
-4. **Recap = the remember lines.** The closing `.recap` list is the chapters' remember lines, copied. Nothing new appears at the end.
-5. **The ask is one question.** If a decision is needed, `.ask` holds one question, two to four choices, the recommendation marked, and what happens if the reader does nothing.
+3. **The glance shows the type's own picture.** A `section.glance` sits after the keep box. It holds one picture and one `.take` line that says what the picture shows. The chapter that explains the picture builds on it and does not repeat it. A roadmap, a playbook and a field guide have none.
+4. **Chapters are self-contained.** A chapter opens with `.from` (the one fact it builds on, restated, never "as we saw above") and closes with `.remember` (one sentence). A reader who lands mid-page loses nothing.
+5. **Recap = the remember lines.** The closing `.recap` list is the chapters' remember lines, copied. Nothing new appears at the end.
+6. **The ask is one question.** If a decision is needed, `.ask` holds one question, two to four choices, the recommendation marked, and what happens if the reader does nothing.
 
 ## Titles and headings
 
