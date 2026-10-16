@@ -2,6 +2,55 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 1.8.0 (2026-10-15)
+
+Every page type redesigned around its own picture. A review of 21 real pages found that 19 types opened with the same first phone screen, so a status report looked like a release note until the third screen. Every type was redrawn on a canvas, today beside redesigned, and Rodrigo approved them before the build.
+
+### Changed
+- **The opening.**
+  - The answer is the page's headline, with no box.
+  - The three keep facts sit side by side as cards.
+  - On a computer, the side rail is the chapter map: each chapter's one line and its minutes, a number per chapter and an "N of M read" bar.
+  - On a phone, the chapter map is a compact list and the two rows of tool chips are gone.
+- **One Reading tools button** holds skim mode, one chapter at a time, the reading ruler, text size (A−, A, A+), dark or light, and the keys. It replaces six buttons.
+- **A calmer chapter.**
+  - Read aloud and Done are small icon buttons.
+  - "Before this" is a quiet line. The take line is a caption, and folds are quiet rows.
+  - Remember is the only tinted strip.
+  - Four look-alike bars per chapter became two.
+- **Calmer colour.**
+  - The before pane of a split is white, and the after pane has a thin green rule.
+  - The recommended option is marked in purple with ★ inside its card.
+  - Tile numbers are ink.
+  - A runbook's check and failure lines are quiet glyph lines, not red and green boxes.
+  - Customer pages drop the Done control and the progress line.
+- **Old pages get the new look** through `upgrade.mjs`. On 21 real pages brought from 1.7.0, phone height fell by a median of 9%, up to 15% for a runbook, with no markup changed.
+- **The atlas:**
+  - layer filter chips beside the search
+  - a detail line for the part you pick
+  - a key for current, dormant and target
+  - a journey strip with file anchors
+  - the snapshot warning as one quiet line
+
+### Added
+- **At a glance**, a section after the keep box that puts the type's own picture on the first screen. `types.md` names the picture for each type; roadmap, playbook, field-guide and ballot pages already open with theirs.
+- **New parts for the glance:**
+  - `div.duo`, two columns.
+  - `div.cols`, two or three state columns.
+  - `ul.findings`, each finding with its strength in words and bars.
+  - `ol.layers`, a system as layers with "You are here".
+- **Four pictures the page draws for itself,** from parts already on the page, so nothing is typed twice:
+  - `div.runbook-overview`: every step as a checklist that shares the steps' done state.
+  - `div.filmstrip`: a tour's screens as thumbnails.
+  - `div.rulings`: a decision page's rulings, with the recommendation and the state.
+  - `div.qprogress`: a questionnaire's questions as dots that fill as you answer.
+- **Checker rules.**
+  - A page from 1.8.0 on without a glance gets a warning, and a glance without a take line gets one too. Older pages are never warned.
+  - Each new part fails when its data is wrong, or when it is missing what it draws from.
+
+### Fixed
+- **No rail, no error.** A page with no side rail, such as a ballot, no longer stops the reader script.
+
 ## 1.7.0 (2026-10-14)
 
 ### Added
