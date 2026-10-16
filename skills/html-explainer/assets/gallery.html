@@ -741,6 +741,202 @@ html:not(.js) .entry:target, .entry.is-target { outline: 3px solid var(--here); 
   .entry, .start-here > li, .family { break-inside: avoid; }
 }
 
+/* ---------- 9i. At a glance and the type parts ---------- */
+/* The first screen's own picture. A glance sits after the keep box and before the chapter map. It is not a chapter: no kicker, no
+   read aloud, no Done. Inside it, div.duo, div.cols, ul.findings and ol.layers are ready-made pictures, and the four derived
+   pictures (div.runbook-overview, div.filmstrip, div.rulings, div.qprogress) are empty placeholders that the script fills from
+   parts already on the page. Without script a placeholder stays empty and the glance shows its take line. Meaning colour stays on
+   dots, glyphs, thin rules and small chips; the one tint on a screen marks the one thing that needs the reader. */
+.glance { display: flex; flex-direction: column; gap: .9rem; margin: 0 0 2rem; padding: 1.2rem 1.35rem 1.1rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-chapter); scroll-margin-top: 1rem; }
+section.glance > * { min-width: 0; margin-top: 0; margin-bottom: 0; }  /* the glance spaces its own parts, so a component's own margins do not stack */
+.glance-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .3rem 1rem; }
+.glance-head :is(h2, h3) { margin: 0; font-size: 1.17rem; line-height: 1.3; font-weight: 600; letter-spacing: -.01em; }
+.glance-head .chip { padding: .15rem .65rem; border-color: transparent; color: var(--ink); }
+.glance-head .chip.go { background: var(--go-tint); } .glance-head .chip.wait { background: var(--wait-tint); } .glance-head .chip.stop { background: var(--stop-tint); }
+.glance-head .chip.decide { background: var(--decide-tint); } .glance-head .chip.here { background: var(--here-tint); }
+.glance .take { margin: 0; padding: .7rem 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; font-size: var(--size-s); line-height: 1.5; max-width: none; }
+.glance .take b { color: var(--here); }
+.glance .status { border-width: 1px 0; border-radius: 0; }  /* rows between hairlines: the glance is already the card */
+section.glance > h3, .duo > div > h3:first-child { margin: 0 0 .55rem; font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); }
+section.glance > h3 { margin-bottom: -.5rem; }  /* a heading keeps close to the list it names */
+section.glance > h3:not(:first-of-type) { margin-top: .35rem; }
+section.glance > .answer-field { margin-bottom: 0; }
+
+/* two columns: one picture beside another (health beside timeline, tiles beside steps, drawings beside a verdict). Stacks on a phone. */
+.duo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.1rem; align-items: start; margin: 1rem 0 1.5rem; }
+.duo > * { min-width: 0; }
+div.duo > :is(ul, ol, div, section, figure, aside) { margin-top: 0; margin-bottom: 0; }
+.duo .status li { grid-template-columns: 1.1rem minmax(0, 1fr); row-gap: .1rem; }  /* in half a width a row is a name with its line under it */
+.duo .status li span { grid-column: 2; }
+.duo .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.duo .timeline { grid-template-columns: minmax(0, 1fr); gap: 0; }  /* a vertical timeline: the dot on the left, the connector running down to the next */
+.duo .timeline li { padding: 0 0 1rem 2rem; }
+.duo .timeline li:last-child { padding-bottom: 0; }
+.duo .timeline li::before { top: .12rem; }
+.duo .timeline li::after { left: calc(.55rem - 1.5px); right: auto; top: 1.3rem; bottom: -.1rem; width: 3px; height: auto; }
+.duo .timeline li:last-child::after { display: none; }
+@media (max-width: 759px) { .duo { grid-template-columns: minmax(0, 1fr); } }
+
+/* columns: what to trust, what to check, what to do. Each column is one state: a glyph and a word in the head, a 3 px rule on top. */
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; align-items: stretch; margin: 1rem 0 1.5rem; max-width: none; }
+.cols:has(> .col:nth-child(3)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.col { --accent: var(--line-strong); --glyph: ""; --mark: "•"; display: flex; flex-direction: column; gap: .45rem; min-width: 0; margin: 0; padding: .95rem 1rem .75rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-comp); box-shadow: inset 0 3px 0 var(--accent); }
+.col.go { --accent: var(--go); --glyph: "✓"; --mark: "✓"; }
+.col.wait { --accent: var(--wait); --glyph: "!"; --mark: "○"; }
+.col.here { --accent: var(--here); --glyph: "●"; --mark: "●"; }
+.col.decide { --accent: var(--decide); --glyph: "◆"; --mark: "◆"; }
+.col.stop { --accent: var(--stop); --glyph: "✕"; --mark: "✕"; }
+.col > h3 { display: flex; align-items: baseline; gap: .5rem; margin: 0; font: 600 var(--size-0)/1.3 var(--font-head); letter-spacing: 0; }
+.col > h3::before { content: var(--glyph); flex: none; color: var(--accent); font-weight: 700; }
+.col > p { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.4; }
+.col :is(ul, ol) { list-style: none; margin: 0; padding: 0; max-width: none; }
+.col li { position: relative; margin: 0; padding: .55rem 0 .6rem 1.5rem; border-top: 1px solid var(--line); font-size: .861rem; line-height: 1.4; }
+.col li:first-child { border-top: 0; }
+.col ul > li::before { content: var(--mark); position: absolute; left: .1rem; top: .55rem; color: var(--accent); font-weight: 700; line-height: 1.4; }
+.col ol { counter-reset: col; }
+.col ol > li { counter-increment: col; padding-left: 2.35rem; }
+.col ol > li::before { content: counter(col); position: absolute; left: 0; top: .5rem; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1.5px solid var(--accent); border-radius: 50%; background: color-mix(in srgb, var(--accent) 12%, var(--card)); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); }
+.col li > b { display: block; font-weight: 700; }
+.col li > span { display: block; color: var(--ink-soft); font-size: .81rem; line-height: 1.4; }
+@media (max-width: 759px) { .cols, .cols:has(> .col:nth-child(3)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* findings: one row per finding, how sure it is in words and three bars (filled 3, 2 or 1), what backs it, what is still open.
+   Strength is never a colour: only the weak row is tinted, because it is the one the reader should look at. */
+.findings { list-style: none; counter-reset: find; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.findings li { --s1: var(--line-strong); --s2: var(--line-strong); --s3: var(--line-strong); counter-increment: find; display: grid; grid-template-columns: 1.7rem minmax(0, 1fr) 9.5rem 5.6rem 4.6rem; grid-template-areas: "n t s e o" "n l s e o"; column-gap: .9rem; row-gap: .1rem; align-items: center; margin: 0; padding: .7rem .6rem; border-bottom: 1px solid var(--line); }
+.findings li:first-child { border-top: 1px solid var(--line); }
+.findings li::before { content: counter(find); grid-area: n; align-self: start; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 var(--size-xs)/1 var(--font-head); }
+.findings li > :is(a, b) { grid-area: t; font: 600 .917rem/1.3 var(--font-head); text-decoration: none; }
+.findings li > b { color: var(--ink); }
+.findings li > a:hover { text-decoration: underline; text-underline-offset: .18em; }
+.findings li > span { grid-area: l; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.findings li::after { grid-area: s; display: block; height: 1rem; padding-left: 2.1rem; font: 600 var(--size-s)/1rem var(--font-head); color: var(--ink);
+  background: linear-gradient(var(--s1), var(--s1)) 0 100% / .45rem .39rem no-repeat, linear-gradient(var(--s2), var(--s2)) .61rem 100% / .45rem .67rem no-repeat, linear-gradient(var(--s3), var(--s3)) 1.22rem 100% / .45rem 1rem no-repeat; }
+.findings li[data-strength="strong"] { --s1: var(--ink); --s2: var(--ink); --s3: var(--ink); }
+.findings li[data-strength="moderate"] { --s1: var(--ink); --s2: var(--ink); }
+.findings li[data-strength="weak"] { --s1: var(--ink); background: var(--wait-tint); border-radius: 12px; border-bottom-color: transparent; }
+.findings li[data-strength="strong"]::after { content: "Strong"; }
+.findings li[data-strength="moderate"]::after { content: "Moderate"; }
+.findings li[data-strength="weak"]::after { content: "Weak"; }
+:lang(ja) .findings li[data-strength="strong"]::after { content: "強い"; }
+:lang(ja) .findings li[data-strength="moderate"]::after { content: "中程度"; }
+:lang(ja) .findings li[data-strength="weak"]::after { content: "弱い"; }
+.findings small { font-size: var(--size-s); line-height: 1.3; color: var(--ink-soft); white-space: nowrap; }
+.findings small.evidence { grid-area: e; color: var(--ink); }
+.findings small.open { grid-area: o; }
+@media (max-width: 559px) {
+  .findings li { grid-template-columns: 1.7rem auto minmax(0, 1fr); grid-template-areas: "n t t" "n l l" "n s e" "n o o"; column-gap: .75rem; row-gap: .15rem; justify-items: start; }
+  .findings li::after, .findings small { margin-top: .4rem; }
+  .findings small.open { margin-top: 0; }
+}
+
+/* layers: the system in layers, easiest first. Each layer lists the new words it brings; exactly one says "You are here". */
+.layers { list-style: none; counter-reset: layer; display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.layers > li { counter-increment: layer; position: relative; display: grid; grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 40%); grid-template-areas: "n b t" "n s t"; column-gap: 1rem; row-gap: .1rem; align-items: center; margin: 0; padding: .7rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; }
+.layers > li::before { content: counter(layer); grid-area: n; display: grid; place-items: center; width: 2rem; height: 2rem; border: 1.5px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--ink); font: 600 var(--size-s)/1 var(--font-head); }
+.layers > li:not(:last-child)::after { content: ""; position: absolute; left: calc(2rem - 1px); top: 100%; width: 2px; height: .75rem; background: var(--line-strong); }  /* the way down to the next layer */
+.layers > li > b { grid-area: b; display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .8rem; font: 600 .972rem/1.3 var(--font-head); }
+.layers > li > span:not(.terms) { grid-area: s; color: var(--ink-soft); font-size: .861rem; line-height: 1.4; }
+.layers .terms { grid-area: t; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .4rem; }
+.layers .terms > span { padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.layers > li.here { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
+.layers > li.here::before { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.layers > li.here > b::after { content: "● You are here"; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.layers > li.here .terms > span { background: var(--card); }
+:lang(ja) .layers > li.here > b::after { content: "● 現在地"; }
+@media (max-width: 559px) {
+  .layers > li { grid-template-columns: 2rem minmax(0, 1fr); grid-template-areas: "n b" "n s" ". t"; column-gap: .8rem; }
+  .layers .terms { justify-content: flex-start; margin-top: .45rem; }
+}
+
+/* a skimmed chapter hides its lists; these two pictures are the chapter's picture, so they stay */
+body[data-skim="on"] .chapter :is(.cols ul, ul.findings) { display: block !important; }
+
+/* ---- derived pictures: empty placeholders, filled by the script from the page's own parts ---- */
+div:is(.runbook-overview, .filmstrip, .rulings, .qprogress):not(:has(*)) { display: none; }  /* without script they stay empty and take no room */
+
+/* runbook-overview: every step as one row with a checkbox that shares the step's own done state, grouped by chapter, the first open step marked Next */
+.runbook-overview { display: flex; flex-direction: column; gap: 1rem; max-width: none; }
+.ro-group { display: flex; flex-direction: column; gap: .1rem; }
+.ro-label, .film-label { margin: 0; padding: 0 .6rem .3rem; max-width: none; font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); }
+.ro-steps { list-style: none; margin: 0; padding: 0; max-width: none; }
+.ro-row { display: flex; align-items: center; gap: .15rem; min-height: 44px; margin: 0; border-radius: var(--r-comp); }
+.ro-box { flex: none; display: grid; place-items: center; width: 44px; height: 44px; cursor: pointer; }
+.ro-box input { width: 1.3rem; height: 1.3rem; margin: 0; accent-color: var(--go); }
+.ro-link { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: .6rem; min-height: 44px; padding: .5rem .7rem .5rem 0; color: var(--ink); font-size: .917rem; line-height: 1.35; text-decoration: none; }
+.ro-link:hover .ro-t { text-decoration: underline; text-underline-offset: .18em; }
+.ro-n { flex: none; width: 1.5rem; color: var(--ink-soft); font: 600 var(--size-xs)/1.35 var(--font-head); text-align: right; }
+.ro-t { flex: 0 1 auto; min-width: 0; }
+.ro-row.is-done .ro-t { color: var(--ink-soft); }
+.ro-row.is-next { background: var(--here-tint); box-shadow: inset 0 0 0 1.5px var(--here); }
+.ro-row.is-next .ro-t { font-weight: 700; }
+.ro-next { display: inline-flex; align-items: center; gap: .4rem; color: var(--ink); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.ro-next::before { content: "●"; color: var(--here); }
+.ro-count, .rl-count { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+/* the same done state, in the step itself: a small label at the top right of the step, added by the script */
+.step-done { float: right; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; margin: -.4rem 0 .2rem .75rem; padding: 0 .4rem; color: var(--ink-soft); font-size: var(--size-s); cursor: pointer; }
+.step-done input { width: 1.25rem; height: 1.25rem; margin: 0; accent-color: var(--go); }
+.runbook > li > :is(pre, p, ul, ol, div, details, figure) { clear: right; }  /* the first block starts under the label; a long title still wraps beside it */
+.runbook > li.is-done::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook > li.is-done > b { color: var(--ink-soft); }
+
+/* filmstrip: one thumbnail per tour step, each a link to its step; the row scrolls sideways inside its own box */
+.filmstrip { display: flex; flex-direction: column; gap: .9rem; max-width: none; }
+.film-group { min-width: 0; }
+.film-row { list-style: none; display: flex; gap: 1rem; margin: 0; padding: .15rem .15rem .6rem; max-width: none; overflow-x: auto; scrollbar-width: thin; }
+.film-row > li { flex: 1 0 10.5rem; max-width: 16rem; margin: 0; }
+.film { display: block; color: var(--ink); text-decoration: none; }
+.film-shot { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--well); border: 1px solid var(--line-strong); border-radius: 8px; }
+.film-shot img { display: block; width: 100%; height: 100%; object-fit: cover; border: 0; border-radius: 0; }
+.film-shot .pin { width: 1.1rem; height: 1.1rem; border-width: 2px; outline-width: 1px; font-size: .6rem; }
+.film-cap { display: flex; gap: .5rem; align-items: flex-start; margin-top: .55rem; font: 600 .806rem/1.3 var(--font-head); }
+.film-cap i { flex: none; display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 .7rem/1 var(--font-head); font-style: normal; }
+.film:hover .film-cap span { text-decoration: underline; text-underline-offset: .18em; }
+
+/* rulings: one row per decision card, the recommended option and a state; the first unanswered row is the one tint */
+.rulings { display: flex; flex-direction: column; gap: .6rem; max-width: none; }
+.rl-row { line-height: 1.35; }
+.rl-head, .rl-row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, .9fr); column-gap: 1.1rem; }
+.rl-head { padding: 0 .9rem .5rem; border-bottom: 1px solid var(--line-strong); color: var(--ink-faint); font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+.rl-list { list-style: none; margin: 0; padding: 0; max-width: none; }
+.rl-list > li { margin: 0; border-bottom: 1px solid var(--line); }
+.rl-list > li:last-child { border-bottom: 0; }
+.rl-row { align-items: start; row-gap: .5rem; min-height: 44px; padding: .8rem .9rem; border-radius: 12px; color: var(--ink); text-decoration: none; }
+.rl-row:hover { background: var(--well); }
+.rl-row.is-first, .rl-row.is-first:hover { background: var(--decide-tint); }
+.rl-q { display: grid; grid-template-columns: 1.7rem minmax(0, 1fr); gap: .7rem; align-items: start; font: 600 .917rem/1.35 var(--font-head); }
+.rl-n { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 var(--size-xs)/1 var(--font-head); }
+.rl-rec { display: block; padding-left: 1.15em; text-indent: -1.15em; font: 600 .889rem/1.35 var(--font-head); }  /* a long option wraps under its words, not under the star */
+.rl-rec::before { content: "★ "; color: var(--decide); }
+.rl-rec.is-none { padding-left: 0; text-indent: 0; color: var(--ink-soft); font-weight: 400; }
+.rl-rec.is-none::before { content: none; }
+.rl-state { display: inline-flex; align-items: baseline; gap: .45rem; font: 600 var(--size-xs)/1.35 var(--font-head); }
+.rl-state::before { content: "◆"; flex: none; color: var(--decide); }
+.rl-state.go::before { content: "✓"; color: var(--go); }
+.rl-k { display: none; margin-bottom: .1rem; color: var(--ink-soft); font: 600 .667rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+@media (max-width: 559px) {  /* each ruling is a small card: its question, then the two parts under their own words */
+  .rl-head { display: none; }
+  .rl-list > li { margin: 0 0 .6rem; border: 1px solid var(--line); border-radius: 12px; }
+  .rl-row { grid-template-columns: minmax(0, 1fr); padding: .85rem .9rem; }
+  .rl-k { display: block; }
+}
+
+/* qprogress: one numbered dot per question, linking to it, filled once it has an answer */
+.qprogress { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1rem; max-width: none; }
+.qp-dots { list-style: none; display: flex; flex-wrap: wrap; margin: 0; padding: 0; max-width: none; }
+.qp-dots li { margin: 0; }
+.qp-dot { display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink); font: 700 var(--size-xs)/1 var(--font-head); text-decoration: none; }
+.qp-dot > span { display: grid; place-items: center; width: 2rem; height: 2rem; border: 2px solid var(--line-strong); border-radius: 50%; background: var(--card); }
+.qp-dot:hover > span { border-color: var(--here); }
+.qp-dot.is-done > span { background: var(--go); border-color: var(--go); color: var(--on-go); }
+.qp-count { margin: 0; max-width: none; font: 600 var(--size-s)/1.3 var(--font-head); }
+
+@media print {
+  .glance { break-inside: avoid; }
+  .film-row { flex-wrap: wrap; overflow: visible; }
+  .step-done, .ro-box { display: none !important; }
+}
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -1155,6 +1351,17 @@ html:not(.js) .ballot-tray { display: none; }
       </ol>
     </div>
 
+    <section class="glance" aria-labelledby="glance-h">
+      <div class="glance-head"><h2 id="glance-h">What the first screen holds</h2><span class="chip here">Four steps, in this order</span></div>
+      <ol class="flow">
+        <li class="go"><b>The opening</b><span>An answer, then three facts.</span></li>
+        <li class="here"><b>At a glance</b><span>The page's own picture.</span></li>
+        <li><b>The chapters</b><span>One idea each.</span></li>
+        <li><b>Recap and ask</b><span>What to carry, and what to pick.</span></li>
+      </ol>
+      <p class="take"><b>Take:</b> the picture comes before the chapters, so the first screen already says what kind of page this is.</p>
+    </section>
+
     <ol class="map">
       <li><a href="#memory"><b>Memory is the limit</b><span>Why the page restates things and never asks for a fourth fact.</span></a></li>
       <li><a href="#colour"><b>Colour means one thing</b><span>Six colours, six meanings, no decoration.</span></a></li>
@@ -1268,6 +1475,17 @@ html:not(.js) .ballot-tray { display: none; }
       <div class="callout warn"><b>Check before relying on this</b><p>Amber marks a thing that is probably fine but has not been verified. The page says what would verify it.</p></div>
       <div class="callout stop"><b>Do not do this</b><p>Red marks a step that breaks something. It says what breaks and what to do instead.</p></div>
 
+      <details class="fold" open><summary>Strength without colour: a table of findings</summary>
+        <p>A research page says how sure it is in words and three bars, never in a colour. Only the weak row gets a tint, because that is the one to look at.</p>
+        <ul class="findings">
+          <li data-strength="strong"><a href="#decide">Notes reach the server quickly</a><span>Saves land in under a second, even on a weak signal.</span><small class="evidence">8 sources</small></li>
+          <li data-strength="moderate"><a href="#standing">Two devices rarely clash</a><span>Clashes showed up on 3 of 40 test days.</span><small class="evidence">5 sources</small><small class="open">1 open</small></li>
+          <li data-strength="weak"><b>Storage cost stays small</b><span>The prices are quoted, but the plan tier is a guess.</span><small class="evidence">3 sources</small><small class="open">2 open</small></li>
+          <li data-strength="strong"><b>Notes survive a restart</b><span>Every test run kept its unsynced notes.</span><small class="evidence">6 sources</small></li>
+        </ul>
+        <p class="take"><b>Take from this:</b> three findings stand firm. The weak one, storage cost, is the one the choice turns on.</p>
+      </details>
+
       <p class="remember"><b>Remember:</b> if a colour shows up, it is telling you something; if nothing is coloured, nothing needs you.</p>
     </section>
 
@@ -1333,8 +1551,19 @@ html:not(.js) .ballot-tray { display: none; }
           <h3>Pick an account</h3><p>The list shows every account you can open. The picked row is the one the next screen works on.</p></li>
         <li><figure class="shot"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDAwIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY2ZjgiLz4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0NCIgZmlsbD0iIzFmMmEzNyIvPjx0ZXh0IHg9IjIwIiB5PSIyOCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WYXVsdDwvdGV4dD4KPGNpcmNsZSBjeD0iNjA0IiBjeT0iMjIiIHI9IjExIiBmaWxsPSIjNWI2YjdiIi8+CjxyZWN0IHk9IjQ0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjM1NiIgZmlsbD0iI2ZmZiIvPjxsaW5lIHgxPSIxNTAiIHkxPSI0NCIgeDI9IjE1MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZDZkZGU0Ii8+CjxyZWN0IHg9IjEwIiB5PSI1OCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNlM2ViZmIiLz48dGV4dCB4PSIyNCIgeT0iODAiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzI0NTdkNiI+QWNjb3VudHM8L3RleHQ+Cjx0ZXh0IHg9IjI0IiB5PSIxMTYiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+VHJhbnNmZXJzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNDgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+UmVwb3J0czwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSI4NiIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTYyMjJlIj5Nb3ZlIG1vbmV5IGZyb20gU2F2aW5nczwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+VG88L3RleHQ+CjxyZWN0IHg9IjE3MiIgeT0iMTM2IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQyIiByeD0iOCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjE4OCIgeT0iMTYzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiPkhvdXNlaG9sZDwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIyMTIiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+QW1vdW50PC90ZXh0Pgo8cmVjdCB4PSIxNzIiIHk9IjIyMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0MiIgcng9IjgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzI0NTdkNiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMTg4IiB5PSIyNDciIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzE2MjIyZSI+JDI1MC4wMDwvdGV4dD4KPHJlY3QgeD0iMTcyIiB5PSIyOTYiIHdpZHRoPSIxMTAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMjQ1N2Q2Ii8+PHRleHQgeD0iMjI3IiB5PSIzMjEiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UmV2aWV3PC90ZXh0Pgo8dGV4dCB4PSIyOTYiIHk9IjMyMSIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNGE1YTZhIj5DYW5jZWw8L3RleHQ+PC9zdmc+" alt="The transfer form with 250 dollars typed into the amount field"><span class="pin" style="--x:74%;--y:60%">2</span></figure>
           <h3>Type the amount</h3><p>Only the amount is yours to fill in. The destination is already chosen.</p></li>
+        <li><figure class="shot"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDAwIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY2ZjgiLz4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0NCIgZmlsbD0iIzFmMmEzNyIvPjx0ZXh0IHg9IjIwIiB5PSIyOCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WYXVsdDwvdGV4dD4KPGNpcmNsZSBjeD0iNjA0IiBjeT0iMjIiIHI9IjExIiBmaWxsPSIjNWI2YjdiIi8+CjxyZWN0IHk9IjQ0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjM1NiIgZmlsbD0iI2ZmZiIvPjxsaW5lIHgxPSIxNTAiIHkxPSI0NCIgeDI9IjE1MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZDZkZGU0Ii8+CjxyZWN0IHg9IjEwIiB5PSI1OCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNlM2ViZmIiLz48dGV4dCB4PSIyNCIgeT0iODAiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzI0NTdkNiI+QWNjb3VudHM8L3RleHQ+Cjx0ZXh0IHg9IjI0IiB5PSIxMTYiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+VHJhbnNmZXJzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNDgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+UmVwb3J0czwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSI4NiIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTYyMjJlIj5Nb3ZlIG1vbmV5IGZyb20gU2F2aW5nczwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+VG88L3RleHQ+CjxyZWN0IHg9IjE3MiIgeT0iMTM2IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQyIiByeD0iOCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjE4OCIgeT0iMTYzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiPkhvdXNlaG9sZDwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIyMTIiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+QW1vdW50PC90ZXh0Pgo8cmVjdCB4PSIxNzIiIHk9IjIyMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0MiIgcng9IjgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzI0NTdkNiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMTg4IiB5PSIyNDciIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzE2MjIyZSI+JDI1MC4wMDwvdGV4dD4KPHJlY3QgeD0iMTcyIiB5PSIyOTYiIHdpZHRoPSIxMTAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMjQ1N2Q2Ii8+PHRleHQgeD0iMjI3IiB5PSIzMjEiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UmV2aWV3PC90ZXh0Pgo8dGV4dCB4PSIyOTYiIHk9IjMyMSIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNGE1YTZhIj5DYW5jZWw8L3RleHQ+PC9zdmc+" alt="The same transfer form, with the Review button ready under the amount"><span class="pin" style="--x:35%;--y:79%">3</span></figure>
+          <h3>Review the transfer</h3><p>One last look at the amount and the destination. Then you send it.</p></li>
       </ol>
       <p class="take"><b>Take from this:</b> a tour shows the real screen first, then says in one line where to look.</p>
+
+      <details class="fold" open><summary>The filmstrip: every step of a tour on one screen</summary>
+        <p>A tour page opens with its steps as thumbnails. The page builds the strip from the steps above, so nothing is typed twice.</p>
+        <section class="glance" aria-labelledby="g-film-h">
+          <div class="glance-head"><h3 id="g-film-h">The tour in three screens</h3><span class="chip">Moving money between accounts</span></div>
+          <div class="filmstrip"></div>
+          <p class="take"><b>Take:</b> pick an account, type an amount, then review it. Tap a screen to jump to its step.</p>
+        </section>
+      </details>
 
       <details class="fold" open><summary>Mock screens: what the people affected will see</summary>
         <p>A plan for a risky change shows each audience what it will notice. A frame is a small browser window, or a phone, holding a plain mockup and one take-away line. A row lays out two to four of them, and stacks them on a phone.</p>
@@ -1465,6 +1694,52 @@ html:not(.js) .ballot-tray { display: none; }
           <p class="fail"><b>If it fails:</b> restart Claude Code and run the command again.</p></li>
       </ol>
       <p class="take"><b>Take from this:</b> every step ends in a check the reader can run, and a way out if the check fails.</p>
+
+      <details class="fold" open><summary>The overview that ticks itself</summary>
+        <p>A runbook opens with every step as one row, grouped by chapter. Tick a row and its step ticks too. The first step still open is marked Next.</p>
+        <section class="glance" aria-labelledby="g-ro-h">
+          <div class="glance-head"><h3 id="g-ro-h">The five steps, in order</h3><span class="chip">Publish the wiki page</span></div>
+          <div class="runbook-overview"></div>
+          <p class="take"><b>Take:</b> the page builds this list from the steps themselves, and remembers what you ticked.</p>
+        </section>
+      </details>
+
+      <details class="fold" open><summary>Rulings: the board that opens a decision page</summary>
+        <p>A decision page opens with one row per card: the question, the recommended option and where it stands. The board builds itself from the cards and their answer fields. Tap an answer to watch it change.</p>
+        <section class="glance" aria-labelledby="g-rulings-h">
+          <div class="glance-head"><h3 id="g-rulings-h">Your three rulings</h3><span class="chip decide">Rule on the first one first</span></div>
+          <div class="rulings"></div>
+          <p class="take"><b>Take:</b> the first ruling still waiting gets the one tint. Nothing else on the board is coloured.</p>
+        </section>
+        <div class="decision">
+          <h3>Should notes sync over mobile data?</h3>
+          <p>A phone plan can charge for the data a sync uses.</p>
+          <div class="options">
+            <div class="option" data-rec="Recommended"><h4>Text only on mobile data</h4><ul><li class="plus">Notes stay current</li><li class="minus">Pictures wait for Wi-Fi</li></ul></div>
+            <div class="option"><h4>Wi-Fi only</h4><ul><li class="plus">No data is used</li><li class="minus">A note can be hours old</li></ul></div>
+          </div>
+          <p class="nothing"><b>If you do nothing:</b> sync stays on Wi-Fi only.</p>
+        </div>
+        <fieldset class="answer-field" data-q="demo-sync" data-kind="choice">
+          <legend>Should notes sync over mobile data?</legend>
+          <label data-rec="Recommended"><input type="radio" name="demo-sync" value="Text only on mobile data"> Text only on mobile data</label>
+          <label><input type="radio" name="demo-sync" value="Wi-Fi only"> Wi-Fi only</label>
+        </fieldset>
+        <div class="decision">
+          <h3>Which export format comes first?</h3>
+          <p>People ask for both. Building one well takes a week.</p>
+          <div class="options">
+            <div class="option" data-rec="Recommended"><h4>Markdown files</h4><ul><li class="plus">Opens in any editor</li><li class="minus">No page layout</li></ul></div>
+            <div class="option"><h4>PDF</h4><ul><li class="plus">Looks the same everywhere</li><li class="minus">Hard to edit again</li></ul></div>
+          </div>
+          <p class="nothing"><b>If you do nothing:</b> export waits until the next planning round.</p>
+        </div>
+        <fieldset class="answer-field" data-q="demo-export" data-kind="choice">
+          <legend>Which export format comes first?</legend>
+          <label data-rec="Recommended"><input type="radio" name="demo-export" value="Markdown files"> Markdown files</label>
+          <label><input type="radio" name="demo-export" value="PDF"> PDF</label>
+        </fieldset>
+      </details>
 
       <p class="remember"><b>Remember:</b> a purple card always tells you the recommended option and what happens if you ignore it.</p>
     </section>
@@ -1693,6 +1968,50 @@ html:not(.js) .ballot-tray { display: none; }
         <p class="take"><b>Take from this:</b> the filter starts on Now and always says how many entries it hides. A link to an entry opens it, even when the filter or a search would hide it.</p>
       </details>
 
+      <details class="fold" open><summary>Two pictures side by side: how it is going, and when</summary>
+        <p>A status page puts its health rows beside a short timeline. On a phone they stack.</p>
+        <section class="glance" aria-labelledby="g-duo-h">
+          <div class="glance-head"><h3 id="g-duo-h">Where is the wiki move?</h3><span class="chip decide">1 part waits on you</span></div>
+          <div class="duo">
+            <div>
+              <h3>The parts</h3>
+              <ul class="status">
+                <li class="go"><b>Page copy</b><span>All 214 pages are copied and checked.</span></li>
+                <li class="go"><b>Links</b><span>Every internal link still opens.</span></li>
+                <li class="wait"><b>Search</b><span>Reindexing. Results lag by a day.</span></li>
+                <li class="decide"><b>Old address</b><span>Waiting for you to say when it redirects.</span></li>
+              </ul>
+            </div>
+            <div>
+              <h3>The last two weeks</h3>
+              <ol class="timeline">
+                <li class="go"><span class="when">Two weeks ago</span><span class="what">Pages exported from the old host.</span></li>
+                <li class="go"><span class="when">Last week</span><span class="what">New host live for the team only.</span></li>
+                <li class="here"><span class="when">Today</span><span class="what">Search is reindexing.</span></li>
+                <li><span class="when">Next</span><span class="what">The old address redirects.</span></li>
+              </ol>
+            </div>
+          </div>
+          <p class="take"><b>Take:</b> every part is fine except the one only you can decide.</p>
+        </section>
+      </details>
+
+      <details class="fold" open><summary>Three columns: what to trust, what to check, what to do</summary>
+        <p>A handover sorts what it knows by how it was checked. Each column is one state, with its own glyph and word.</p>
+        <section class="glance" aria-labelledby="g-cols-h">
+          <div class="glance-head"><h3 id="g-cols-h">What can you trust, and what do you do first?</h3><span class="chip here">Snapshot at 09:30</span></div>
+          <div class="cols">
+            <section class="col go"><h3>Verified</h3><p>Checked today with a command.</p>
+              <ul><li><b>Release 1.8.0 is merged</b><span>Main holds the merge commit.</span></li><li><b>The gallery opens</b><span>Seen at 390 and 1280 pixels.</span></li></ul></section>
+            <section class="col wait"><h3>Only claimed, check first</h3><p>A note says so. Nobody re-ran it.</p>
+              <ul><li><b>The checker passes</b><span>Exit 0, says the pull request.</span></li><li><b>Old pages still open</b><span>Reported by the reviewer.</span></li></ul></section>
+            <section class="col here"><h3>Do first</h3><p>Three steps, in order.</p>
+              <ol><li><b>Re-check this page against git.</b><span>Expect more commits than listed.</span></li><li><b>Run the checker.</b><span>Then read the exit code.</span></li><li><b>Tag the release.</b><span>Then update the install.</span></li></ol></section>
+          </div>
+          <p class="take"><b>Take:</b> only the first column was checked today. Re-run a claimed row before you build on it.</p>
+        </section>
+      </details>
+
       <p class="remember"><b>Remember:</b> the cobalt dot on a timeline is today; the colour of a status dot is the whole status.</p>
     </section>
 
@@ -1764,6 +2083,31 @@ html:not(.js) .ballot-tray { display: none; }
           <li><code>docs/privacy.md:22</code> states that uploads are never shared or sold.</li>
           <li><code>https://status.example.com/uptime</code> publishes the daily uptime record.</li>
         </ul>
+      </details>
+
+      <details class="fold" open><summary>Layers, easiest first, with the new words of each</summary>
+        <p>A teaching page shows its subject as layers. Each layer lists the words it brings. One layer says where you are.</p>
+        <ol class="layers">
+          <li class="here"><b>What the page is</b><span>One file you open in a browser.</span><span class="terms"><span>Reading path</span><span>Fold</span></span></li>
+          <li><b>How it stays readable</b><span>Short blocks, one idea each, and a line that says the point.</span><span class="terms"><span>Keep box</span><span>Take</span><span>Remember</span></span></li>
+          <li><b>How it carries your place</b><span>The rail, the progress bar and the Done boxes.</span><span class="terms"><span>Rail</span><span>Done box</span></span></li>
+          <li><b>How it asks you things</b><span>Fields that save on this device until you copy them.</span><span class="terms"><span>Answer field</span><span>Collect bar</span></span></li>
+        </ol>
+        <p class="take"><b>Take from this:</b> each layer builds on the one before it. The chips are its new words.</p>
+      </details>
+
+      <details class="fold"><summary>Show the steps to publish the page</summary>
+        <p>The exact commands live here, out of the reading path. They number on from the steps in chapter 4.</p>
+        <ol class="runbook" start="4">
+          <li id="rb-4"><b>Open the pull request.</b>
+            <pre class="cmd"><code>gh pr create --fill</code></pre>
+            <p class="check"><b>Check:</b> the command prints a pull request address.</p>
+            <p class="fail"><b>If it fails:</b> run <code>git push -u origin HEAD</code> first, then try again.</p></li>
+          <li id="rb-5"><b>Merge it.</b>
+            <pre class="cmd"><code>gh pr merge --merge --delete-branch</code></pre>
+            <p class="check"><b>Check:</b> <code>git branch -r</code> lists only main.</p>
+            <p class="fail"><b>If it fails:</b> pull main into your branch, fix the conflicts and push again.</p></li>
+        </ol>
       </details>
 
       <p class="remember"><b>Remember:</b> if you hit a hard word or a wall of detail in the reading path, the page is wrong, not you.</p>
@@ -2007,6 +2351,15 @@ html:not(.js) .ballot-tray { display: none; }
   &lt;label&gt;&lt;input type="radio" name="q6" value="concern"&gt; Concern&lt;/label&gt;
   &lt;textarea id="q6-why" rows="2" aria-label="Comment"&gt;&lt;/textarea&gt;
 &lt;/fieldset&gt;</code></pre>
+      </details>
+
+      <details class="fold" open><summary>The progress row of a questionnaire</summary>
+        <p>A questionnaire's first screen shows one dot per question. A dot links to its question and fills in once you answer it.</p>
+        <section class="glance" aria-labelledby="g-qp-h">
+          <div class="glance-head"><h3 id="g-qp-h">The questions on this page</h3><span class="chip">About five minutes</span></div>
+          <div class="qprogress"></div>
+          <p class="take"><b>Take:</b> answer in any order. The count and the dots keep up with you.</p>
+        </section>
       </details>
 
       <p class="remember"><b>Remember:</b> your answers stay on your device until you copy or download them.</p>
@@ -2726,6 +3079,164 @@ on(bar, 'click', e => {
     body.append(a); a.click(); a.remove(); flash(b, true);
   }
 });
+
+/* at a glance: the four derived pictures. A page writes an empty placeholder (div.runbook-overview, div.filmstrip, div.rulings, div.qprogress)
+   and these fill it from parts already on the page, so nothing is typed twice. Each runs on its own, so one that cannot build changes nothing.
+   Without script the placeholders stay empty and the glance shows its take line. */
+Object.assign(T.en, { roLabel: 'Steps, in order', roDone: 'Done: {t}', roNext: 'Next', roCount: '{n} of {m} done', stepDone: 'Done',
+  filmLabel: 'Tour screens, scrolls sideways', rlLabel: 'Your rulings', rlQ: 'The question', rlRec: 'We recommend', rlState: 'State', rlNeed: 'Needs your ruling', rlNone: 'No pick yet', rlAns: 'Answered', rlCount: '{n} of {m} ruled',
+  qpLabel: 'Your questions', qpDot: 'Question {n}: {t}', qpYes: 'answered', qpNo: 'not answered' });
+Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext: '次', roCount: '{m}件中{n}件 完了', stepDone: '完了',
+  filmLabel: 'ツアーの画面（横にスクロール）', rlLabel: 'あなたの判断', rlQ: '判断すること', rlRec: 'おすすめ', rlState: '状態', rlNeed: 'あなたの判断が必要', rlNone: 'おすすめなし', rlAns: '回答済み', rlCount: '{m}件中{n}件 判断済み',
+  qpLabel: '質問', qpDot: '質問{n}：{t}', qpYes: '回答済み', qpNo: '未回答' });
+{
+  const refresh = [], safe = f => { try { f(); } catch (e) {} };
+  const link = (cls, id) => { const a = d.createElement('a'); a.className = cls; a.setAttribute('href', '#' + id); return a; };
+  const answered = f => qa('input', f).some(i => i.checked) || !!$('textarea', f)?.value.trim() || !!f.dataset.moved || !!f.dataset.ok;  /* the gather bar's own rule, read from the field */
+  const chosen = f => {  /* the choice made, in the option's own words; a field with only a typed answer shows its first words */
+    const v = qa('input:checked', f).map(i => txt(i.closest('label') || i)).filter(Boolean).join(', '), t = $('textarea', f)?.value.replace(/\s+/g, ' ').trim().slice(0, 80);
+    return v || t || L.rlAns;
+  };
+  const hold = () => refresh.forEach(f => f()), wanted = !!$('.runbook-overview, .filmstrip, .rulings, .qprogress');  /* a page with none of the four runs nothing below */
+  if (wanted) ['input', 'change', 'click'].forEach(ev => on(d, ev, hold));  /* registered after the gather bar's own handlers, so a field's state is settled when these run */
+
+  /* runbook: a row per step, and the same done state in the step itself; both are stored with the done boxes' kind of key, in this browser */
+  safe(() => {
+    const hosts = qa('.runbook-overview'), steps = [];
+    qa('ol.runbook').forEach(ol => {
+      let n = (parseInt(ol.getAttribute('start'), 10) || 1) - 1;
+      qa(':scope > li', ol).forEach(li => { n = li.hasAttribute('value') ? parseInt(li.getAttribute('value'), 10) || n + 1 : n + 1; steps.push({ li, n }); });
+    });
+    if (!hosts.length || !steps.length) return;
+    const sk = key + ':steps'; let got = {}; try { got = JSON.parse(store.get(sk)) || {}; } catch (e) {}
+    const titleOf = li => {
+      const b = $(':scope > b', li) || $('b', li); let t = b ? txt(b) : '';
+      if (!t) { const c = li.cloneNode(true); qa('pre, p, ul, ol, details, label', c).forEach(x => x.remove()); t = txt(c); t = (t.match(/^.*?[.!?](?=\s|$)/) || [t])[0]; }
+      return t.replace(/[.:]$/, '');
+    };
+    const rows = [];  /* { s, box, row, next } per step per host, plus the step's own box */
+    steps.forEach((s, i) => {
+      s.id = s.li.id = s.li.id || 'step-' + (i + 1); s.title = titleOf(s.li);
+      const lab = make('label', 'step-done', '<input type="checkbox"> <span></span><span class="visually-hidden"></span>');
+      $('span', lab).textContent = L.stepDone; $('.visually-hidden', lab).textContent = ': ' + s.title;
+      s.li.prepend(lab); s.own = $('input', lab);
+    });
+    const set = (s, v) => { if (v) got[s.id] = true; else delete got[s.id]; store.set(sk, JSON.stringify(got)); paint(); };
+    const paint = () => {
+      const m = steps.length, n = steps.filter(s => got[s.id]).length, next = steps.find(s => !got[s.id]);
+      steps.forEach(s => { s.own.checked = !!got[s.id]; s.li.classList.toggle('is-done', !!got[s.id]); });
+      rows.forEach(r => { const on = !!got[r.s.id]; r.box.checked = on; r.row.classList.toggle('is-done', on); r.row.classList.toggle('is-next', r.s === next); r.next.hidden = r.s !== next; });
+      qa('.ro-count').forEach(p => { p.textContent = fmt(L.roCount, { n, m }); });
+    };
+    steps.forEach(s => on(s.own, 'change', () => set(s, s.own.checked)));
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.roLabel);
+      const groups = new Map(); steps.forEach(s => { const c = s.li.closest('.chapter'); groups.set(c, (groups.get(c) || []).concat(s)); });
+      groups.forEach((list, c) => {
+        const g = make('div', 'ro-group', ''), h = c && $('h2', c);
+        if (h) g.append(Object.assign(make('p', 'ro-label', ''), { textContent: txt(h) }));
+        const ul = make('ul', 'ro-steps', '');
+        list.forEach(s => {
+          const li = make('li', 'ro-row', '<label class="ro-box"><input type="checkbox"></label>'), a = link('ro-link', s.id), n = make('b', 'ro-n', ''), t = make('span', 'ro-t', ''), nx = make('span', 'ro-next', '');
+          n.textContent = s.n; t.textContent = s.title; nx.textContent = L.roNext; nx.hidden = true; a.append(n, t, nx); li.append(a);
+          const box = $('input', li); box.setAttribute('aria-label', fmt(L.roDone, { t: s.title }));
+          on(box, 'change', () => set(s, box.checked)); rows.push({ s, box, row: li, next: nx }); ul.append(li);
+        });
+        g.append(ul); host.append(g);
+      });
+      host.append(make('p', 'ro-count', ''));
+    });
+    paint();
+  });
+
+  /* tour: a thumbnail per step. The step's picture is cloned at 16:10 with its pins; each links to its step, which gets an id if it has none. */
+  safe(() => {
+    const hosts = qa('.filmstrip'), tours = qa('ol.tour'); let k = 0;
+    if (!hosts.length || !tours.length) return;
+    tours.forEach(ol => qa(':scope > li', ol).forEach(li => { li.id = li.id || 'tour-step-' + (++k); }));
+    hosts.forEach(host => tours.forEach(ol => {
+      const g = make('div', 'film-group', ''), row = make('ol', 'film-row', ''), h = tours.length > 1 && $('h2', ol.closest('.chapter'));
+      if (h) g.append(Object.assign(make('p', 'film-label', ''), { textContent: txt(h) }));
+      row.tabIndex = 0; row.setAttribute('role', 'group'); row.setAttribute('aria-label', L.filmLabel);
+      qa(':scope > li', ol).forEach((li, i) => {
+        const a = link('film', li.id), shot = make('span', 'film-shot', ''), img = $('img', li), cap = make('span', 'film-cap', '<i></i><span></span>');
+        if (img) { const c = img.cloneNode(true); c.alt = ''; shot.append(c); }
+        qa('.pin', li).forEach(p => shot.append(p.cloneNode(true)));
+        shot.setAttribute('aria-hidden', 'true'); $('i', cap).textContent = i + 1; $('span', cap).textContent = txt($('h3', li) || li);
+        a.append(shot, cap); const item = d.createElement('li'); item.append(a); row.append(item);
+      });
+      g.append(row); host.append(g);
+    }));
+  });
+
+  /* decision: a row per .decision card. It waits as "Needs your ruling" until the answer field after the card has an answer, then names the choice. */
+  safe(() => {
+    const hosts = qa('.rulings'), decs = qa('.decision');
+    if (!hosts.length || !decs.length) return;
+    const fieldFor = dec => { for (let x = dec.nextElementSibling; x && !x.matches('.decision'); x = x.nextElementSibling) if (x.matches('.answer-field')) return x; return $('.answer-field', dec); };
+    const items = decs.map((dec, i) => {
+      const ch = dec.closest('.chapter, section[id]'), rec = $('[data-rec] h4', dec);
+      return { field: fieldFor(dec), q: txt($('h3', dec) || dec), rec: rec ? txt(rec) : '', to: ch?.id || (dec.id = dec.id || 'ruling-' + (i + 1)) };
+    });
+    const rows = [];
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.rlLabel);
+      const head = make('div', 'rl-head', '<span></span><span></span><span></span>'), list = make('ol', 'rl-list', '');
+      [L.rlQ, L.rlRec, L.rlState].forEach((w, i) => { head.children[i].textContent = w; }); head.setAttribute('aria-hidden', 'true');
+      items.forEach((it, i) => {
+        const li = d.createElement('li'), a = link('rl-row', it.to), q = make('span', 'rl-q', '<i class="rl-n"></i><span></span>'), rec = make('span', '', '<span class="rl-k"></span><span class="rl-rec"></span>'), st = make('span', '', '<span class="rl-k"></span><span class="rl-state"></span>');
+        $('.rl-n', q).textContent = i + 1; $('span', q).textContent = it.q;
+        $('.rl-k', rec).textContent = L.rlRec; $('.rl-k', st).textContent = L.rlState;
+        $('.rl-rec', rec).textContent = it.rec || L.rlNone; $('.rl-rec', rec).classList.toggle('is-none', !it.rec);
+        a.append(q, rec, st); li.append(a); list.append(li); rows.push({ it, a, st: $('.rl-state', st) });
+      });
+      host.append(head, list, make('p', 'rl-count', ''));
+    });
+    refresh.push(() => {
+      let first = true, n = 0;
+      rows.forEach(r => {
+        const done = !!r.it.field && answered(r.it.field);
+        if (done) n++;
+        r.st.textContent = done ? chosen(r.it.field) : L.rlNeed; r.st.classList.toggle('go', done);
+        r.a.classList.toggle('is-first', !done && first); if (!done) first = false;  /* the one tint: the first ruling still waiting */
+      });
+      qa('.rl-count').forEach(p => { p.textContent = fmt(L.rlCount, { n, m: items.length }); });
+    });
+  });
+
+  /* gather: one numbered dot per question, linking to it, filled once it has an answer */
+  safe(() => {
+    const hosts = qa('.qprogress'), fs = qa('.answer-field[data-q]');
+    if (!hosts.length || !fs.length) return;
+    const names = fs.map(f => txt($('legend, label', f) || f));
+    fs.forEach(f => { f.id = f.id || 'q-' + f.dataset.q; });
+    const dots = [];
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.qpLabel);
+      const ol = make('ol', 'qp-dots', ''), count = make('p', 'qp-count', '');
+      count.setAttribute('role', 'status');
+      fs.forEach((f, i) => { const li = d.createElement('li'), a = link('qp-dot', f.id), s = d.createElement('span'); s.textContent = i + 1; a.title = names[i]; a.append(s); li.append(a); ol.append(li); dots.push({ f, a, i }); });
+      host.append(ol, count);
+    });
+    refresh.push(() => {
+      const n = fs.filter(answered).length;
+      dots.forEach(x => { const on = answered(x.f); x.a.classList.toggle('is-done', on); x.a.setAttribute('aria-label', fmt(L.qpDot, { n: x.i + 1, t: names[x.i] }) + ', ' + (on ? L.qpYes : L.qpNo)); });
+      qa('.qp-count').forEach(p => { p.textContent = fmt(L.ans, { n, m: fs.length }); });
+    });
+  });
+
+  /* a link from one of these pictures goes to a chapter or a card the page may be hiding: one-chapter mode shows that chapter first, a closed fold opens */
+  if (wanted) on(d, 'click', e => {
+    const a = e.target.closest?.('.film, .ro-link, .rl-row, .qp-dot'); if (!a) return;
+    const t = byId(decodeURIComponent((a.getAttribute('href') || '').slice(1))); if (!t) return;
+    qa('a.jump-back').forEach(x => x.remove());  /* the glance is no card to go back to */
+    for (let x = t.closest('details'); x; x = x.parentElement?.closest('details')) x.open = true;
+    const part = t.closest('.chapter, .recap, .ask');
+    try { if (part && body.dataset.focus === 'on') showPart(parts.indexOf(part)); } catch (e) {}
+    t.scrollIntoView();
+  });
+  hold();
+}
 })();
 </script>
 </body>

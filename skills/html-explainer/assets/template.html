@@ -743,6 +743,202 @@ html:not(.js) .entry:target, .entry.is-target { outline: 3px solid var(--here); 
   .entry, .start-here > li, .family { break-inside: avoid; }
 }
 
+/* ---------- 9i. At a glance and the type parts ---------- */
+/* The first screen's own picture. A glance sits after the keep box and before the chapter map. It is not a chapter: no kicker, no
+   read aloud, no Done. Inside it, div.duo, div.cols, ul.findings and ol.layers are ready-made pictures, and the four derived
+   pictures (div.runbook-overview, div.filmstrip, div.rulings, div.qprogress) are empty placeholders that the script fills from
+   parts already on the page. Without script a placeholder stays empty and the glance shows its take line. Meaning colour stays on
+   dots, glyphs, thin rules and small chips; the one tint on a screen marks the one thing that needs the reader. */
+.glance { display: flex; flex-direction: column; gap: .9rem; margin: 0 0 2rem; padding: 1.2rem 1.35rem 1.1rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-chapter); scroll-margin-top: 1rem; }
+section.glance > * { min-width: 0; margin-top: 0; margin-bottom: 0; }  /* the glance spaces its own parts, so a component's own margins do not stack */
+.glance-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: .3rem 1rem; }
+.glance-head :is(h2, h3) { margin: 0; font-size: 1.17rem; line-height: 1.3; font-weight: 600; letter-spacing: -.01em; }
+.glance-head .chip { padding: .15rem .65rem; border-color: transparent; color: var(--ink); }
+.glance-head .chip.go { background: var(--go-tint); } .glance-head .chip.wait { background: var(--wait-tint); } .glance-head .chip.stop { background: var(--stop-tint); }
+.glance-head .chip.decide { background: var(--decide-tint); } .glance-head .chip.here { background: var(--here-tint); }
+.glance .take { margin: 0; padding: .7rem 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; font-size: var(--size-s); line-height: 1.5; max-width: none; }
+.glance .take b { color: var(--here); }
+.glance .status { border-width: 1px 0; border-radius: 0; }  /* rows between hairlines: the glance is already the card */
+section.glance > h3, .duo > div > h3:first-child { margin: 0 0 .55rem; font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); }
+section.glance > h3 { margin-bottom: -.5rem; }  /* a heading keeps close to the list it names */
+section.glance > h3:not(:first-of-type) { margin-top: .35rem; }
+section.glance > .answer-field { margin-bottom: 0; }
+
+/* two columns: one picture beside another (health beside timeline, tiles beside steps, drawings beside a verdict). Stacks on a phone. */
+.duo { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 1.1rem; align-items: start; margin: 1rem 0 1.5rem; }
+.duo > * { min-width: 0; }
+div.duo > :is(ul, ol, div, section, figure, aside) { margin-top: 0; margin-bottom: 0; }
+.duo .status li { grid-template-columns: 1.1rem minmax(0, 1fr); row-gap: .1rem; }  /* in half a width a row is a name with its line under it */
+.duo .status li span { grid-column: 2; }
+.duo .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.duo .timeline { grid-template-columns: minmax(0, 1fr); gap: 0; }  /* a vertical timeline: the dot on the left, the connector running down to the next */
+.duo .timeline li { padding: 0 0 1rem 2rem; }
+.duo .timeline li:last-child { padding-bottom: 0; }
+.duo .timeline li::before { top: .12rem; }
+.duo .timeline li::after { left: calc(.55rem - 1.5px); right: auto; top: 1.3rem; bottom: -.1rem; width: 3px; height: auto; }
+.duo .timeline li:last-child::after { display: none; }
+@media (max-width: 759px) { .duo { grid-template-columns: minmax(0, 1fr); } }
+
+/* columns: what to trust, what to check, what to do. Each column is one state: a glyph and a word in the head, a 3 px rule on top. */
+.cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; align-items: stretch; margin: 1rem 0 1.5rem; max-width: none; }
+.cols:has(> .col:nth-child(3)) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.col { --accent: var(--line-strong); --glyph: ""; --mark: "•"; display: flex; flex-direction: column; gap: .45rem; min-width: 0; margin: 0; padding: .95rem 1rem .75rem; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-comp); box-shadow: inset 0 3px 0 var(--accent); }
+.col.go { --accent: var(--go); --glyph: "✓"; --mark: "✓"; }
+.col.wait { --accent: var(--wait); --glyph: "!"; --mark: "○"; }
+.col.here { --accent: var(--here); --glyph: "●"; --mark: "●"; }
+.col.decide { --accent: var(--decide); --glyph: "◆"; --mark: "◆"; }
+.col.stop { --accent: var(--stop); --glyph: "✕"; --mark: "✕"; }
+.col > h3 { display: flex; align-items: baseline; gap: .5rem; margin: 0; font: 600 var(--size-0)/1.3 var(--font-head); letter-spacing: 0; }
+.col > h3::before { content: var(--glyph); flex: none; color: var(--accent); font-weight: 700; }
+.col > p { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-xs); line-height: 1.4; }
+.col :is(ul, ol) { list-style: none; margin: 0; padding: 0; max-width: none; }
+.col li { position: relative; margin: 0; padding: .55rem 0 .6rem 1.5rem; border-top: 1px solid var(--line); font-size: .861rem; line-height: 1.4; }
+.col li:first-child { border-top: 0; }
+.col ul > li::before { content: var(--mark); position: absolute; left: .1rem; top: .55rem; color: var(--accent); font-weight: 700; line-height: 1.4; }
+.col ol { counter-reset: col; }
+.col ol > li { counter-increment: col; padding-left: 2.35rem; }
+.col ol > li::before { content: counter(col); position: absolute; left: 0; top: .5rem; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1.5px solid var(--accent); border-radius: 50%; background: color-mix(in srgb, var(--accent) 12%, var(--card)); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); }
+.col li > b { display: block; font-weight: 700; }
+.col li > span { display: block; color: var(--ink-soft); font-size: .81rem; line-height: 1.4; }
+@media (max-width: 759px) { .cols, .cols:has(> .col:nth-child(3)) { grid-template-columns: minmax(0, 1fr); } }
+
+/* findings: one row per finding, how sure it is in words and three bars (filled 3, 2 or 1), what backs it, what is still open.
+   Strength is never a colour: only the weak row is tinted, because it is the one the reader should look at. */
+.findings { list-style: none; counter-reset: find; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.findings li { --s1: var(--line-strong); --s2: var(--line-strong); --s3: var(--line-strong); counter-increment: find; display: grid; grid-template-columns: 1.7rem minmax(0, 1fr) 9.5rem 5.6rem 4.6rem; grid-template-areas: "n t s e o" "n l s e o"; column-gap: .9rem; row-gap: .1rem; align-items: center; margin: 0; padding: .7rem .6rem; border-bottom: 1px solid var(--line); }
+.findings li:first-child { border-top: 1px solid var(--line); }
+.findings li::before { content: counter(find); grid-area: n; align-self: start; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 var(--size-xs)/1 var(--font-head); }
+.findings li > :is(a, b) { grid-area: t; font: 600 .917rem/1.3 var(--font-head); text-decoration: none; }
+.findings li > b { color: var(--ink); }
+.findings li > a:hover { text-decoration: underline; text-underline-offset: .18em; }
+.findings li > span { grid-area: l; color: var(--ink-soft); font-size: var(--size-s); line-height: 1.4; }
+.findings li::after { grid-area: s; display: block; height: 1rem; padding-left: 2.1rem; font: 600 var(--size-s)/1rem var(--font-head); color: var(--ink);
+  background: linear-gradient(var(--s1), var(--s1)) 0 100% / .45rem .39rem no-repeat, linear-gradient(var(--s2), var(--s2)) .61rem 100% / .45rem .67rem no-repeat, linear-gradient(var(--s3), var(--s3)) 1.22rem 100% / .45rem 1rem no-repeat; }
+.findings li[data-strength="strong"] { --s1: var(--ink); --s2: var(--ink); --s3: var(--ink); }
+.findings li[data-strength="moderate"] { --s1: var(--ink); --s2: var(--ink); }
+.findings li[data-strength="weak"] { --s1: var(--ink); background: var(--wait-tint); border-radius: 12px; border-bottom-color: transparent; }
+.findings li[data-strength="strong"]::after { content: "Strong"; }
+.findings li[data-strength="moderate"]::after { content: "Moderate"; }
+.findings li[data-strength="weak"]::after { content: "Weak"; }
+:lang(ja) .findings li[data-strength="strong"]::after { content: "強い"; }
+:lang(ja) .findings li[data-strength="moderate"]::after { content: "中程度"; }
+:lang(ja) .findings li[data-strength="weak"]::after { content: "弱い"; }
+.findings small { font-size: var(--size-s); line-height: 1.3; color: var(--ink-soft); white-space: nowrap; }
+.findings small.evidence { grid-area: e; color: var(--ink); }
+.findings small.open { grid-area: o; }
+@media (max-width: 559px) {
+  .findings li { grid-template-columns: 1.7rem auto minmax(0, 1fr); grid-template-areas: "n t t" "n l l" "n s e" "n o o"; column-gap: .75rem; row-gap: .15rem; justify-items: start; }
+  .findings li::after, .findings small { margin-top: .4rem; }
+  .findings small.open { margin-top: 0; }
+}
+
+/* layers: the system in layers, easiest first. Each layer lists the new words it brings; exactly one says "You are here". */
+.layers { list-style: none; counter-reset: layer; display: flex; flex-direction: column; gap: .75rem; margin: 1rem 0 1.5rem; padding: 0; max-width: none; }
+.layers > li { counter-increment: layer; position: relative; display: grid; grid-template-columns: 2rem minmax(0, 1fr) minmax(0, 40%); grid-template-areas: "n b t" "n s t"; column-gap: 1rem; row-gap: .1rem; align-items: center; margin: 0; padding: .7rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; }
+.layers > li::before { content: counter(layer); grid-area: n; display: grid; place-items: center; width: 2rem; height: 2rem; border: 1.5px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--ink); font: 600 var(--size-s)/1 var(--font-head); }
+.layers > li:not(:last-child)::after { content: ""; position: absolute; left: calc(2rem - 1px); top: 100%; width: 2px; height: .75rem; background: var(--line-strong); }  /* the way down to the next layer */
+.layers > li > b { grid-area: b; display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .8rem; font: 600 .972rem/1.3 var(--font-head); }
+.layers > li > span:not(.terms) { grid-area: s; color: var(--ink-soft); font-size: .861rem; line-height: 1.4; }
+.layers .terms { grid-area: t; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .4rem; }
+.layers .terms > span { padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--well); color: var(--ink); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.layers > li.here { border-color: var(--here); background: var(--here-tint); box-shadow: 0 0 0 1px var(--here); }
+.layers > li.here::before { background: var(--here); border-color: var(--here); color: var(--on-here); }
+.layers > li.here > b::after { content: "● You are here"; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--here); color: var(--on-here); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.layers > li.here .terms > span { background: var(--card); }
+:lang(ja) .layers > li.here > b::after { content: "● 現在地"; }
+@media (max-width: 559px) {
+  .layers > li { grid-template-columns: 2rem minmax(0, 1fr); grid-template-areas: "n b" "n s" ". t"; column-gap: .8rem; }
+  .layers .terms { justify-content: flex-start; margin-top: .45rem; }
+}
+
+/* a skimmed chapter hides its lists; these two pictures are the chapter's picture, so they stay */
+body[data-skim="on"] .chapter :is(.cols ul, ul.findings) { display: block !important; }
+
+/* ---- derived pictures: empty placeholders, filled by the script from the page's own parts ---- */
+div:is(.runbook-overview, .filmstrip, .rulings, .qprogress):not(:has(*)) { display: none; }  /* without script they stay empty and take no room */
+
+/* runbook-overview: every step as one row with a checkbox that shares the step's own done state, grouped by chapter, the first open step marked Next */
+.runbook-overview { display: flex; flex-direction: column; gap: 1rem; max-width: none; }
+.ro-group { display: flex; flex-direction: column; gap: .1rem; }
+.ro-label, .film-label { margin: 0; padding: 0 .6rem .3rem; max-width: none; font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); }
+.ro-steps { list-style: none; margin: 0; padding: 0; max-width: none; }
+.ro-row { display: flex; align-items: center; gap: .15rem; min-height: 44px; margin: 0; border-radius: var(--r-comp); }
+.ro-box { flex: none; display: grid; place-items: center; width: 44px; height: 44px; cursor: pointer; }
+.ro-box input { width: 1.3rem; height: 1.3rem; margin: 0; accent-color: var(--go); }
+.ro-link { flex: 1; min-width: 0; display: flex; align-items: baseline; gap: .6rem; min-height: 44px; padding: .5rem .7rem .5rem 0; color: var(--ink); font-size: .917rem; line-height: 1.35; text-decoration: none; }
+.ro-link:hover .ro-t { text-decoration: underline; text-underline-offset: .18em; }
+.ro-n { flex: none; width: 1.5rem; color: var(--ink-soft); font: 600 var(--size-xs)/1.35 var(--font-head); text-align: right; }
+.ro-t { flex: 0 1 auto; min-width: 0; }
+.ro-row.is-done .ro-t { color: var(--ink-soft); }
+.ro-row.is-next { background: var(--here-tint); box-shadow: inset 0 0 0 1.5px var(--here); }
+.ro-row.is-next .ro-t { font-weight: 700; }
+.ro-next { display: inline-flex; align-items: center; gap: .4rem; color: var(--ink); font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.ro-next::before { content: "●"; color: var(--here); }
+.ro-count, .rl-count { margin: 0; max-width: none; color: var(--ink-soft); font-size: var(--size-s); }
+/* the same done state, in the step itself: a small label at the top right of the step, added by the script */
+.step-done { float: right; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; margin: -.4rem 0 .2rem .75rem; padding: 0 .4rem; color: var(--ink-soft); font-size: var(--size-s); cursor: pointer; }
+.step-done input { width: 1.25rem; height: 1.25rem; margin: 0; accent-color: var(--go); }
+.runbook > li > :is(pre, p, ul, ol, div, details, figure) { clear: right; }  /* the first block starts under the label; a long title still wraps beside it */
+.runbook > li.is-done::before { content: "✓"; background: var(--go); color: var(--on-go); }
+.runbook > li.is-done > b { color: var(--ink-soft); }
+
+/* filmstrip: one thumbnail per tour step, each a link to its step; the row scrolls sideways inside its own box */
+.filmstrip { display: flex; flex-direction: column; gap: .9rem; max-width: none; }
+.film-group { min-width: 0; }
+.film-row { list-style: none; display: flex; gap: 1rem; margin: 0; padding: .15rem .15rem .6rem; max-width: none; overflow-x: auto; scrollbar-width: thin; }
+.film-row > li { flex: 1 0 10.5rem; max-width: 16rem; margin: 0; }
+.film { display: block; color: var(--ink); text-decoration: none; }
+.film-shot { position: relative; display: block; aspect-ratio: 16 / 10; overflow: hidden; background: var(--well); border: 1px solid var(--line-strong); border-radius: 8px; }
+.film-shot img { display: block; width: 100%; height: 100%; object-fit: cover; border: 0; border-radius: 0; }
+.film-shot .pin { width: 1.1rem; height: 1.1rem; border-width: 2px; outline-width: 1px; font-size: .6rem; }
+.film-cap { display: flex; gap: .5rem; align-items: flex-start; margin-top: .55rem; font: 600 .806rem/1.3 var(--font-head); }
+.film-cap i { flex: none; display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 .7rem/1 var(--font-head); font-style: normal; }
+.film:hover .film-cap span { text-decoration: underline; text-underline-offset: .18em; }
+
+/* rulings: one row per decision card, the recommended option and a state; the first unanswered row is the one tint */
+.rulings { display: flex; flex-direction: column; gap: .6rem; max-width: none; }
+.rl-row { line-height: 1.35; }
+.rl-head, .rl-row { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, .9fr); column-gap: 1.1rem; }
+.rl-head { padding: 0 .9rem .5rem; border-bottom: 1px solid var(--line-strong); color: var(--ink-faint); font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+.rl-list { list-style: none; margin: 0; padding: 0; max-width: none; }
+.rl-list > li { margin: 0; border-bottom: 1px solid var(--line); }
+.rl-list > li:last-child { border-bottom: 0; }
+.rl-row { align-items: start; row-gap: .5rem; min-height: 44px; padding: .8rem .9rem; border-radius: 12px; color: var(--ink); text-decoration: none; }
+.rl-row:hover { background: var(--well); }
+.rl-row.is-first, .rl-row.is-first:hover { background: var(--decide-tint); }
+.rl-q { display: grid; grid-template-columns: 1.7rem minmax(0, 1fr); gap: .7rem; align-items: start; font: 600 .917rem/1.35 var(--font-head); }
+.rl-n { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--ink); color: var(--paper); font: 700 var(--size-xs)/1 var(--font-head); }
+.rl-rec { display: block; padding-left: 1.15em; text-indent: -1.15em; font: 600 .889rem/1.35 var(--font-head); }  /* a long option wraps under its words, not under the star */
+.rl-rec::before { content: "★ "; color: var(--decide); }
+.rl-rec.is-none { padding-left: 0; text-indent: 0; color: var(--ink-soft); font-weight: 400; }
+.rl-rec.is-none::before { content: none; }
+.rl-state { display: inline-flex; align-items: baseline; gap: .45rem; font: 600 var(--size-xs)/1.35 var(--font-head); }
+.rl-state::before { content: "◆"; flex: none; color: var(--decide); }
+.rl-state.go::before { content: "✓"; color: var(--go); }
+.rl-k { display: none; margin-bottom: .1rem; color: var(--ink-soft); font: 600 .667rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
+@media (max-width: 559px) {  /* each ruling is a small card: its question, then the two parts under their own words */
+  .rl-head { display: none; }
+  .rl-list > li { margin: 0 0 .6rem; border: 1px solid var(--line); border-radius: 12px; }
+  .rl-row { grid-template-columns: minmax(0, 1fr); padding: .85rem .9rem; }
+  .rl-k { display: block; }
+}
+
+/* qprogress: one numbered dot per question, linking to it, filled once it has an answer */
+.qprogress { display: flex; flex-wrap: wrap; align-items: center; gap: .1rem 1rem; max-width: none; }
+.qp-dots { list-style: none; display: flex; flex-wrap: wrap; margin: 0; padding: 0; max-width: none; }
+.qp-dots li { margin: 0; }
+.qp-dot { display: grid; place-items: center; width: 44px; height: 44px; color: var(--ink); font: 700 var(--size-xs)/1 var(--font-head); text-decoration: none; }
+.qp-dot > span { display: grid; place-items: center; width: 2rem; height: 2rem; border: 2px solid var(--line-strong); border-radius: 50%; background: var(--card); }
+.qp-dot:hover > span { border-color: var(--here); }
+.qp-dot.is-done > span { background: var(--go); border-color: var(--go); color: var(--on-go); }
+.qp-count { margin: 0; max-width: none; font: 600 var(--size-s)/1.3 var(--font-head); }
+
+@media print {
+  .glance { break-inside: avoid; }
+  .film-row { flex-wrap: wrap; overflow: visible; }
+  .step-done, .ro-box { display: none !important; }
+}
+
 /* ---------- 10. Metaphor, callouts, terms, folds ---------- */
 .metaphor { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; align-items: start; margin: 1rem 0 1.5rem; padding: 1rem 1.1rem; background: var(--card); border: 1.5px dashed var(--line-strong); border-radius: var(--r-comp); }
 .metaphor .icon { font-size: 2.6rem; line-height: 1; text-align: center; padding-top: .2rem; }
@@ -1941,6 +2137,164 @@ on(bar, 'click', e => {
     body.append(a); a.click(); a.remove(); flash(b, true);
   }
 });
+
+/* at a glance: the four derived pictures. A page writes an empty placeholder (div.runbook-overview, div.filmstrip, div.rulings, div.qprogress)
+   and these fill it from parts already on the page, so nothing is typed twice. Each runs on its own, so one that cannot build changes nothing.
+   Without script the placeholders stay empty and the glance shows its take line. */
+Object.assign(T.en, { roLabel: 'Steps, in order', roDone: 'Done: {t}', roNext: 'Next', roCount: '{n} of {m} done', stepDone: 'Done',
+  filmLabel: 'Tour screens, scrolls sideways', rlLabel: 'Your rulings', rlQ: 'The question', rlRec: 'We recommend', rlState: 'State', rlNeed: 'Needs your ruling', rlNone: 'No pick yet', rlAns: 'Answered', rlCount: '{n} of {m} ruled',
+  qpLabel: 'Your questions', qpDot: 'Question {n}: {t}', qpYes: 'answered', qpNo: 'not answered' });
+Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext: '次', roCount: '{m}件中{n}件 完了', stepDone: '完了',
+  filmLabel: 'ツアーの画面（横にスクロール）', rlLabel: 'あなたの判断', rlQ: '判断すること', rlRec: 'おすすめ', rlState: '状態', rlNeed: 'あなたの判断が必要', rlNone: 'おすすめなし', rlAns: '回答済み', rlCount: '{m}件中{n}件 判断済み',
+  qpLabel: '質問', qpDot: '質問{n}：{t}', qpYes: '回答済み', qpNo: '未回答' });
+{
+  const refresh = [], safe = f => { try { f(); } catch (e) {} };
+  const link = (cls, id) => { const a = d.createElement('a'); a.className = cls; a.setAttribute('href', '#' + id); return a; };
+  const answered = f => qa('input', f).some(i => i.checked) || !!$('textarea', f)?.value.trim() || !!f.dataset.moved || !!f.dataset.ok;  /* the gather bar's own rule, read from the field */
+  const chosen = f => {  /* the choice made, in the option's own words; a field with only a typed answer shows its first words */
+    const v = qa('input:checked', f).map(i => txt(i.closest('label') || i)).filter(Boolean).join(', '), t = $('textarea', f)?.value.replace(/\s+/g, ' ').trim().slice(0, 80);
+    return v || t || L.rlAns;
+  };
+  const hold = () => refresh.forEach(f => f()), wanted = !!$('.runbook-overview, .filmstrip, .rulings, .qprogress');  /* a page with none of the four runs nothing below */
+  if (wanted) ['input', 'change', 'click'].forEach(ev => on(d, ev, hold));  /* registered after the gather bar's own handlers, so a field's state is settled when these run */
+
+  /* runbook: a row per step, and the same done state in the step itself; both are stored with the done boxes' kind of key, in this browser */
+  safe(() => {
+    const hosts = qa('.runbook-overview'), steps = [];
+    qa('ol.runbook').forEach(ol => {
+      let n = (parseInt(ol.getAttribute('start'), 10) || 1) - 1;
+      qa(':scope > li', ol).forEach(li => { n = li.hasAttribute('value') ? parseInt(li.getAttribute('value'), 10) || n + 1 : n + 1; steps.push({ li, n }); });
+    });
+    if (!hosts.length || !steps.length) return;
+    const sk = key + ':steps'; let got = {}; try { got = JSON.parse(store.get(sk)) || {}; } catch (e) {}
+    const titleOf = li => {
+      const b = $(':scope > b', li) || $('b', li); let t = b ? txt(b) : '';
+      if (!t) { const c = li.cloneNode(true); qa('pre, p, ul, ol, details, label', c).forEach(x => x.remove()); t = txt(c); t = (t.match(/^.*?[.!?](?=\s|$)/) || [t])[0]; }
+      return t.replace(/[.:]$/, '');
+    };
+    const rows = [];  /* { s, box, row, next } per step per host, plus the step's own box */
+    steps.forEach((s, i) => {
+      s.id = s.li.id = s.li.id || 'step-' + (i + 1); s.title = titleOf(s.li);
+      const lab = make('label', 'step-done', '<input type="checkbox"> <span></span><span class="visually-hidden"></span>');
+      $('span', lab).textContent = L.stepDone; $('.visually-hidden', lab).textContent = ': ' + s.title;
+      s.li.prepend(lab); s.own = $('input', lab);
+    });
+    const set = (s, v) => { if (v) got[s.id] = true; else delete got[s.id]; store.set(sk, JSON.stringify(got)); paint(); };
+    const paint = () => {
+      const m = steps.length, n = steps.filter(s => got[s.id]).length, next = steps.find(s => !got[s.id]);
+      steps.forEach(s => { s.own.checked = !!got[s.id]; s.li.classList.toggle('is-done', !!got[s.id]); });
+      rows.forEach(r => { const on = !!got[r.s.id]; r.box.checked = on; r.row.classList.toggle('is-done', on); r.row.classList.toggle('is-next', r.s === next); r.next.hidden = r.s !== next; });
+      qa('.ro-count').forEach(p => { p.textContent = fmt(L.roCount, { n, m }); });
+    };
+    steps.forEach(s => on(s.own, 'change', () => set(s, s.own.checked)));
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.roLabel);
+      const groups = new Map(); steps.forEach(s => { const c = s.li.closest('.chapter'); groups.set(c, (groups.get(c) || []).concat(s)); });
+      groups.forEach((list, c) => {
+        const g = make('div', 'ro-group', ''), h = c && $('h2', c);
+        if (h) g.append(Object.assign(make('p', 'ro-label', ''), { textContent: txt(h) }));
+        const ul = make('ul', 'ro-steps', '');
+        list.forEach(s => {
+          const li = make('li', 'ro-row', '<label class="ro-box"><input type="checkbox"></label>'), a = link('ro-link', s.id), n = make('b', 'ro-n', ''), t = make('span', 'ro-t', ''), nx = make('span', 'ro-next', '');
+          n.textContent = s.n; t.textContent = s.title; nx.textContent = L.roNext; nx.hidden = true; a.append(n, t, nx); li.append(a);
+          const box = $('input', li); box.setAttribute('aria-label', fmt(L.roDone, { t: s.title }));
+          on(box, 'change', () => set(s, box.checked)); rows.push({ s, box, row: li, next: nx }); ul.append(li);
+        });
+        g.append(ul); host.append(g);
+      });
+      host.append(make('p', 'ro-count', ''));
+    });
+    paint();
+  });
+
+  /* tour: a thumbnail per step. The step's picture is cloned at 16:10 with its pins; each links to its step, which gets an id if it has none. */
+  safe(() => {
+    const hosts = qa('.filmstrip'), tours = qa('ol.tour'); let k = 0;
+    if (!hosts.length || !tours.length) return;
+    tours.forEach(ol => qa(':scope > li', ol).forEach(li => { li.id = li.id || 'tour-step-' + (++k); }));
+    hosts.forEach(host => tours.forEach(ol => {
+      const g = make('div', 'film-group', ''), row = make('ol', 'film-row', ''), h = tours.length > 1 && $('h2', ol.closest('.chapter'));
+      if (h) g.append(Object.assign(make('p', 'film-label', ''), { textContent: txt(h) }));
+      row.tabIndex = 0; row.setAttribute('role', 'group'); row.setAttribute('aria-label', L.filmLabel);
+      qa(':scope > li', ol).forEach((li, i) => {
+        const a = link('film', li.id), shot = make('span', 'film-shot', ''), img = $('img', li), cap = make('span', 'film-cap', '<i></i><span></span>');
+        if (img) { const c = img.cloneNode(true); c.alt = ''; shot.append(c); }
+        qa('.pin', li).forEach(p => shot.append(p.cloneNode(true)));
+        shot.setAttribute('aria-hidden', 'true'); $('i', cap).textContent = i + 1; $('span', cap).textContent = txt($('h3', li) || li);
+        a.append(shot, cap); const item = d.createElement('li'); item.append(a); row.append(item);
+      });
+      g.append(row); host.append(g);
+    }));
+  });
+
+  /* decision: a row per .decision card. It waits as "Needs your ruling" until the answer field after the card has an answer, then names the choice. */
+  safe(() => {
+    const hosts = qa('.rulings'), decs = qa('.decision');
+    if (!hosts.length || !decs.length) return;
+    const fieldFor = dec => { for (let x = dec.nextElementSibling; x && !x.matches('.decision'); x = x.nextElementSibling) if (x.matches('.answer-field')) return x; return $('.answer-field', dec); };
+    const items = decs.map((dec, i) => {
+      const ch = dec.closest('.chapter, section[id]'), rec = $('[data-rec] h4', dec);
+      return { field: fieldFor(dec), q: txt($('h3', dec) || dec), rec: rec ? txt(rec) : '', to: ch?.id || (dec.id = dec.id || 'ruling-' + (i + 1)) };
+    });
+    const rows = [];
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.rlLabel);
+      const head = make('div', 'rl-head', '<span></span><span></span><span></span>'), list = make('ol', 'rl-list', '');
+      [L.rlQ, L.rlRec, L.rlState].forEach((w, i) => { head.children[i].textContent = w; }); head.setAttribute('aria-hidden', 'true');
+      items.forEach((it, i) => {
+        const li = d.createElement('li'), a = link('rl-row', it.to), q = make('span', 'rl-q', '<i class="rl-n"></i><span></span>'), rec = make('span', '', '<span class="rl-k"></span><span class="rl-rec"></span>'), st = make('span', '', '<span class="rl-k"></span><span class="rl-state"></span>');
+        $('.rl-n', q).textContent = i + 1; $('span', q).textContent = it.q;
+        $('.rl-k', rec).textContent = L.rlRec; $('.rl-k', st).textContent = L.rlState;
+        $('.rl-rec', rec).textContent = it.rec || L.rlNone; $('.rl-rec', rec).classList.toggle('is-none', !it.rec);
+        a.append(q, rec, st); li.append(a); list.append(li); rows.push({ it, a, st: $('.rl-state', st) });
+      });
+      host.append(head, list, make('p', 'rl-count', ''));
+    });
+    refresh.push(() => {
+      let first = true, n = 0;
+      rows.forEach(r => {
+        const done = !!r.it.field && answered(r.it.field);
+        if (done) n++;
+        r.st.textContent = done ? chosen(r.it.field) : L.rlNeed; r.st.classList.toggle('go', done);
+        r.a.classList.toggle('is-first', !done && first); if (!done) first = false;  /* the one tint: the first ruling still waiting */
+      });
+      qa('.rl-count').forEach(p => { p.textContent = fmt(L.rlCount, { n, m: items.length }); });
+    });
+  });
+
+  /* gather: one numbered dot per question, linking to it, filled once it has an answer */
+  safe(() => {
+    const hosts = qa('.qprogress'), fs = qa('.answer-field[data-q]');
+    if (!hosts.length || !fs.length) return;
+    const names = fs.map(f => txt($('legend, label', f) || f));
+    fs.forEach(f => { f.id = f.id || 'q-' + f.dataset.q; });
+    const dots = [];
+    hosts.forEach(host => {
+      host.setAttribute('role', 'group'); host.setAttribute('aria-label', L.qpLabel);
+      const ol = make('ol', 'qp-dots', ''), count = make('p', 'qp-count', '');
+      count.setAttribute('role', 'status');
+      fs.forEach((f, i) => { const li = d.createElement('li'), a = link('qp-dot', f.id), s = d.createElement('span'); s.textContent = i + 1; a.title = names[i]; a.append(s); li.append(a); ol.append(li); dots.push({ f, a, i }); });
+      host.append(ol, count);
+    });
+    refresh.push(() => {
+      const n = fs.filter(answered).length;
+      dots.forEach(x => { const on = answered(x.f); x.a.classList.toggle('is-done', on); x.a.setAttribute('aria-label', fmt(L.qpDot, { n: x.i + 1, t: names[x.i] }) + ', ' + (on ? L.qpYes : L.qpNo)); });
+      qa('.qp-count').forEach(p => { p.textContent = fmt(L.ans, { n, m: fs.length }); });
+    });
+  });
+
+  /* a link from one of these pictures goes to a chapter or a card the page may be hiding: one-chapter mode shows that chapter first, a closed fold opens */
+  if (wanted) on(d, 'click', e => {
+    const a = e.target.closest?.('.film, .ro-link, .rl-row, .qp-dot'); if (!a) return;
+    const t = byId(decodeURIComponent((a.getAttribute('href') || '').slice(1))); if (!t) return;
+    qa('a.jump-back').forEach(x => x.remove());  /* the glance is no card to go back to */
+    for (let x = t.closest('details'); x; x = x.parentElement?.closest('details')) x.open = true;
+    const part = t.closest('.chapter, .recap, .ask');
+    try { if (part && body.dataset.focus === 'on') showPart(parts.indexOf(part)); } catch (e) {}
+    t.scrollIntoView();
+  });
+  hold();
+}
 })();
 </script>
 </body>
