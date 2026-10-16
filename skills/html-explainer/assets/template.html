@@ -180,7 +180,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .rail a { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: .65rem; align-items: start; padding: .5rem; border-radius: var(--r-comp); color: var(--ink-soft); text-decoration: none; counter-increment: rail; }
 .rail a[href="#recap"], .rail a[data-end] { counter-increment: none; }
 .rail a:hover { background: var(--well); }
-.rail a:focus-visible { outline-offset: -3px; }
+.rail :focus-visible { outline-offset: -3px; }  /* the rail scrolls and would clip a ring drawn outside the edge */
 .rail a .dot { grid-row: 1 / span 2; display: grid; place-items: center; width: 26px; height: 26px; border: 1.5px solid var(--line-strong); border-radius: 50%; color: var(--ink-soft); font: 600 13px/1 var(--font-head); }
 .rail a .dot::before { content: counter(rail); }
 .rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
@@ -854,9 +854,9 @@ details.fold > :last-child { padding-bottom: 1rem; }
 .ask { margin: 0 0 2rem; padding: 1.25rem 1.5rem; border: 2.5px solid var(--decide); border-radius: var(--r-chapter); background: var(--card); }
 .ask h2 { margin-bottom: .5rem; }
 .ask .choices { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0 .5rem; }
-.ask .choices > * { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; padding: .55rem 1.1rem; border-radius: var(--r-comp); border: 1.5px solid var(--line-strong); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; text-decoration: none; }
+.ask .choices > * { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .15rem .6rem; min-height: 44px; padding: .55rem 1.1rem; text-align: left; border-radius: var(--r-comp); border: 1.5px solid var(--line-strong); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; text-decoration: none; }
 .ask .choices > *[data-rec] { border-color: var(--decide); background: var(--decide-tint); }
-.ask .choices > *[data-rec]::after { content: "★ Recommended"; padding: .1rem .7rem; border-radius: var(--r-chip); background: var(--decide); color: var(--on-decide); font: 600 var(--size-xs)/1.5 var(--font-head); }
+.ask .choices > *[data-rec]::after { content: "★ Recommended"; flex: none; white-space: nowrap; padding: .1rem .7rem; border-radius: var(--r-chip); background: var(--decide); color: var(--on-decide); font: 600 var(--size-xs)/1.5 var(--font-head); }
 
 /* ---------- 12. Skim mode ---------- */
 /* Components whose list or copy lives inside a div wrapper must be exempted by
