@@ -248,7 +248,7 @@ A person or an agent follows a procedure step by step and must know after each s
 What you need before you start. The procedure, in chapters of five steps or fewer. What to do when it goes wrong, including how to undo it.
 
 ### Required components
-**At a glance:** `div.runbook-overview`, derived. Every step is a row, grouped by chapter, with a checkbox that shares the step's done state, and the first unchecked step marked "Next". Write an empty `div.runbook-overview` and a `p.take`.
+**At a glance:** `div.runbook-overview`, derived. Every step is a row, grouped by chapter, with a checkbox that shares the step's done state, and the first unchecked step marked "Next". Write an empty `div.runbook-overview` and a `p.take`. The overview shows each step's own number, so when the procedure runs over several chapters, give each later `ol.runbook` a `start` that continues the count.
 
 `ol.runbook`. Every step has a bold sentence that starts with a verb, its command in `pre.cmd`, a `p.check` that says how to know it worked (the command that proves it), and a `p.fail` that says what to do if it did not. The template script gives every `pre.cmd` a Copy button, and the page reads fine without it.
 
