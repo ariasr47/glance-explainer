@@ -21,14 +21,15 @@ const bad = (msg) => { problems.push(msg); console.log(`FAIL  ${msg}`); };
 
 // 1. pages
 const checker = at('skills/html-explainer/scripts/check.mjs');
+// every example page under skills/*/examples ships and is published on the site, so each one is checked
+const htmlUnder = (d) => (existsSync(at(d)) ? readdirSync(at(d), { recursive: true }).map(String).filter((n) => n.endsWith('.html')).map((n) => `${d}/${n.replace(/\\/g, '/')}`) : []);
+const examples = readdirSync(at('skills')).flatMap((s) => htmlUnder(`skills/${s}/examples`)).sort();
+const sitePages = ['docs/index.html', 'docs/roadmap.html', 'docs/examples.html'];
 const pages = [
   'skills/html-explainer/assets/template.html',
   'skills/html-explainer/assets/gallery.html',
-  'skills/html-explainer/examples/playbook.html',
-  'skills/html-explainer/examples/field-guide.html',
-  'skills/explainer-gather/examples/ballot.html',
-  'docs/index.html',
-  'docs/roadmap.html',
+  ...examples,
+  ...sitePages,
 ].filter((p) => existsSync(at(p)));
 for (const page of pages) {
   try { execFileSync(process.execPath, [checker, at(page)], { stdio: 'pipe' }); ok(`check.mjs ${page}`); }
@@ -43,8 +44,8 @@ for (const tag of ['style', 'script']) {
   if (block(tpl, tag) && block(tpl, tag) === block(gal, tag)) ok(`gallery <${tag}> matches the template`);
   else bad(`gallery <${tag}> differs from the template; paste the template's block into the gallery`);
 }
-// the public site shows the current design, so its pages carry the template's blocks too (a page may add its own after them)
-for (const page of ['docs/index.html', 'docs/roadmap.html'].filter((p) => existsSync(at(p)))) {
+// the public site shows the current design, so its pages and every published example carry the template's blocks too (a page may add its own after them)
+for (const page of [...sitePages, ...examples].filter((p) => existsSync(at(p)))) {
   const s = readFileSync(at(page), 'utf8');
   for (const tag of ['style', 'script']) {
     if (block(tpl, tag) === block(s, tag)) ok(`${page} <${tag}> matches the template`);
