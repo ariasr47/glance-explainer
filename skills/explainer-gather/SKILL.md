@@ -15,7 +15,8 @@ Paths are relative to this file. The template, gallery and checker live in the s
 
 One `.html` file with `<html lang="en" data-type="gather">`:
 
-- One `.answer-field` per question, at the end of the chapter that makes it answerable.
+- One `.answer-field` per question, at the end of the chapter that makes it answerable. The first question is the exception: it sits in the glance.
+- A glance (`section.glance`) after the keep box. It holds an empty `div.qprogress`, the first question and a take line. The script draws one numbered dot in `div.qprogress` for each `.answer-field[data-q]`, fills it when the question is answered, and writes "N of M answered". The checker fails a `div.qprogress` on a page with no such field.
 - Exactly one `.collect` bar (a ballot has a tray instead; see Ballot mode below).
 - Every question is a full sentence the reader can answer without rereading the chapter.
 - Every hint says what a good answer contains.
@@ -34,7 +35,7 @@ Other kinds set `data-kind` on the field: `choice`, `multi`, `scale`, `rank`, `b
 
 1. Write the questions first. Give each a stable id (`q1`, `q2`) that never changes, even in a translation.
 2. Pick a mode from `references/modes.md`. It names the `data-kind` to use.
-3. Write the chapters that make each question answerable. Teach only what the answer needs.
+3. Write the chapters that make each question answerable. Teach only what the answer needs. The first question sits in the glance, before any chapter, so pick one the reader can answer from what they do today.
 4. Build from `../html-explainer/assets/template.html`. Its script autosaves answers, counts them and builds the copies.
 5. Run `node ../html-explainer/scripts/check.mjs <file.html>` and fix every FAIL. The page must pass with every field empty.
 6. Open the page once in a browser. Fill one field and check that the collect bar appears.
@@ -61,7 +62,7 @@ Use it when several people must say what comes first. Sort first, then order onl
 
 ## Ballot mode
 
-Use it when an agent needs rulings back from the owner: several open decisions, one respondent, no typing. A ballot suits 5 to 15 decisions. Above that, group the rest as "Already decided" reference cards or send a second ballot. The page is `<html lang="en" data-type="gather" data-mode="ballot">`. It has no rail, keep box, chapters or recap, and a tray pinned to the bottom of the screen replaces the `.collect` bar.
+Use it when an agent needs rulings back from the owner: several open decisions, one respondent, no typing. A ballot suits 5 to 15 decisions. Above that, group the rest as "Already decided" reference cards or send a second ballot. The page is `<html lang="en" data-type="gather" data-mode="ballot">`. It has no rail, keep box, glance, chapters or recap, and keeps its own opening. A tray pinned to the bottom of the screen replaces the `.collect` bar.
 
 - Each decision is a `.ballot-card` with a stable `data-q` and a short `data-short`. The "Ask and collect" chapter of `../html-explainer/assets/gallery.html` shows the markup, and `examples/ballot.html` is a whole page to copy from.
 - Every option is a picture in `.vis`, a small mockup in plain HTML and CSS or an `<img>`, or a text option. A text option has no `.vis`: a bold `.name` and one plain `span.detail` line. Use text options when the ruling has nothing to draw, such as an address, a waiting time or a policy, and do not invent a picture for it. If an option cannot be pictured or said in one line, the question belongs in choose mode.
