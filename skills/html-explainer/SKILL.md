@@ -15,12 +15,13 @@ Paths are relative to this file.
 
 One `.html` file from `assets/template.html`, in this order:
 
-1. **Answer bar**: the whole page in one sentence.
-2. **Keep box**: at most three facts to carry.
-3. **Chapter map**: 3 to 7 chapters, one line each.
-4. **Chapters**: one idea each. Each opens by restating the fact it builds on, has a visual component, puts machinery in a fold, and closes with one remember line.
-5. **Recap**: the remember lines.
-6. **The ask**, only when a decision is needed: one question, 2 to 4 choices, the recommendation marked, and what happens if the reader does nothing.
+1. **Answer bar**: the whole page in one sentence. It is the page's headline.
+2. **Keep box**: at most three facts to carry, shown as three cards side by side.
+3. **At a glance**: the type's own picture, on the first screen, with its take line. A roadmap, playbook or field guide has none, because its lanes, phase strip or territory already open the page.
+4. **Chapter map**: 3 to 7 chapters, one line each.
+5. **Chapters**: one idea each. Each opens by restating the fact it builds on, has a visual component, puts machinery in a fold, and closes with one remember line.
+6. **Recap**: the remember lines.
+7. **The ask**, only when a decision is needed: one question, 2 to 4 choices, the recommendation marked, and what happens if the reader does nothing.
 
 ## Page identity and conventions
 
@@ -32,7 +33,7 @@ One `.html` file from `assets/template.html`, in this order:
 
 ## Process
 
-1. **Write the answer line first**, then the three keep facts, then the chapter headings. If any will not come, reread the source.
+1. **Write the answer line first**, then the three keep facts. Then pick the glance picture from the type's entry in `references/types.md`, and last the chapter headings. If any will not come, reread the source.
 2. **Pick each chapter's visual from the relationship it holds** (sequence, branch, before and after, time, choice, health, parts) using `references/diagrams.md`. Prefer CSS components; draw an SVG only for branches or nesting.
 3. **Copy the template, fill it, delete what you do not need.** Keep the tokens, base CSS and script. `references/design-system.md` explains the components; `assets/gallery.html` shows them.
 4. **Write the prose last** under `references/writing.md`: paragraphs under forty words, one idea per sentence.
@@ -43,6 +44,11 @@ One `.html` file from `assets/template.html`, in this order:
 
 - Know the point: `p.answer`
 - Carry facts: `div.keep`, `p.from`, `p.remember`, `section.recap`
+- Open on the type's own picture: `section.glance` (after `div.keep`, not a chapter) with `div.glance-head`, the picture and a `p.take`
+- Put two pictures or three lists side by side: `div.duo`, `div.cols` (columns `.go .wait .here .decide .stop`)
+- Rank findings by trust: `ul.findings`, each `li` with `data-strength` of strong, moderate or weak
+- Teach in layers, easiest first: `ol.layers` with one `li.here`
+- Pictures the script draws from the page: an empty `div.runbook-overview`, `div.filmstrip`, `div.rulings` or `div.qprogress`. Each needs its source (`ol.runbook`, `ol.tour`, `.decision`, `.answer-field[data-q]`) or the checker fails
 - See a sequence: `ol.flow`, or SVG in `figure.figure` for branches
 - Compare two states: `div.split`
 - Choose: `div.decision`, then `section.ask`, or a `fieldset.answer-field` after each card and one `.collect` bar
@@ -66,6 +72,7 @@ One `.html` file from `assets/template.html`, in this order:
 - **"As we saw above."** The reader scrolled. Restate it in `p.from`.
 - **Colour as decoration.** Six meaning colours, one meaning each, never colour alone.
 - **A diagram that repeats the paragraph.** Delete the paragraph, write the take-away caption.
-- **A picture with no take line.** A status board or a split proves something too: say what in a `p.take` straight under it.
+- **A picture with no take line.** A status board or a split proves something too: say what in a `p.take` straight under it. The glance needs one too.
+- **A chapter that repeats the glance.** The chapter that explains the glance picture builds on it. It adds the why, not the picture again.
 - **Editing an old page as it is.** Before you change an existing page, read its `<meta name="generator">`. If it is older than this plugin or missing, offer to run `scripts/upgrade.mjs` on the page first (`--dry-run` shows what changes).
 - **A diagram drawn only for a wide screen.** Keep the template's figure CSS so it scrolls on a phone, or add an `svg.narrow` twin. The checker fails labels under 9 px on a phone.
