@@ -51,7 +51,8 @@ const looksLikeExplainer = (file) => {
   try {
     if (statSync(file).size > 8 * 1024 * 1024) return false;
     const s = readFileSync(file, 'utf8');
-    return /<html\b[^>]*\sdata-type\s*=/i.test(s) && (s.includes('class="answer"') || s.includes('class="ballot-card"'));
+    // a body fragment that a build script will wrap in the template has no <style> yet: it is not a page, so it is not checked
+    return /<html\b[^>]*\sdata-type\s*=/i.test(s) && (s.includes('class="answer"') || s.includes('class="ballot-card"')) && /<style[\s>]/i.test(s);
   } catch { return false; }
 };
 

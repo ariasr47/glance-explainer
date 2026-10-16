@@ -1,0 +1,194 @@
+/* =====================================================================
+   html-explainer atlas add-on  ·  v1.1
+   Atlas pages only. Load after the template's <style> block:
+     <link rel="stylesheet" href="atlas.css">
+   Uses the template's tokens and nothing else. The markup each part
+   expects is listed at the top of atlas.js. Without JavaScript the page
+   still reads: node details show, traces list their steps.
+   ===================================================================== */
+
+/* ---------- 1. Three states: the key and the diagram classes ---------- */
+/* current = solid and filled, dormant = dashed amber, target = dashed and empty. The key sits under the map. */
+.legend { display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; margin: 0 0 1.25rem; padding: 0; list-style: none; max-width: none; font-size: var(--size-s); color: var(--ink-soft); }
+.legend > * { display: inline-flex; align-items: center; gap: .55rem; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; color: inherit; }
+.legend > *::before { content: ""; flex: none; width: 1.5rem; height: .8rem; border: 2px solid var(--line-strong); border-radius: 4px; background: var(--card); }
+.legend .state-dormant::before { border-style: dashed; border-color: var(--wait); background: var(--wait-tint); }
+.legend .state-target::before { border-style: dashed; border-color: var(--ink-faint); background: transparent; }
+.d-dormant { fill: var(--wait-tint); stroke: var(--wait); stroke-width: 1.5; stroke-dasharray: 6 4; }
+.d-target { fill: none; stroke: var(--ink-faint); stroke-width: 1.5; stroke-dasharray: 6 6; }
+
+/* ---------- 2. Anchors and inspect links ---------- */
+.anchor { padding: .05em .5em; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--well); color: var(--ink-soft); font-family: var(--font-code); font-size: .85em; }
+.inspect { font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); white-space: nowrap; }
+
+/* ---------- 3. System map ---------- */
+/* A node is an svg shape or <g> with data-node; an edge has data-edge="from>to". The map sits in a well that
+   scrolls sideways on a phone (atlas.js adds the .map-scroll box when the svg has none). */
+.figure.sysmap:has(> .map-scroll) { margin: 1rem 0 1.25rem; padding: 0; overflow: visible; background: none; border: 0; border-radius: 0; }
+.figure.sysmap > .map-scroll { overflow-x: auto; padding: .9rem; background: var(--well); border-radius: 12px; }
+.sysmap .map-scroll > svg { display: block; width: 100%; min-width: 640px; height: auto; }
+.sysmap .map-scroll:focus-visible { outline-offset: 2px; }
+.sysmap > .legend { margin: 1rem 0 0; }
+.d-zone { fill: var(--paper); stroke: var(--line-strong); stroke-width: 1; pointer-events: none; }   /* a container: a process, a volume */
+.d-zone-label { fill: var(--ink-soft); font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+.sysmap :is(g, rect, circle, ellipse, polygon, path)[data-node] { cursor: pointer; pointer-events: all; }
+.sysmap text { pointer-events: none; }                      /* a click on a label reaches the shape under it */
+.sysmap g[data-node] text { pointer-events: auto; }         /* or counts as a click on its own node */
+.sysmap :is(rect, circle, ellipse, polygon, path)[data-node]:hover,
+.sysmap g[data-node]:hover :is(rect, circle, ellipse, polygon, path) { stroke: var(--here); }
+.sysmap :is(rect, circle, ellipse, polygon, path)[data-node].is-lit,
+.sysmap g[data-node].is-lit :is(rect, circle, ellipse, polygon, path) { stroke: var(--here); stroke-width: 2.5; }
+.sysmap :is(rect, circle, ellipse, polygon, path)[data-node].is-selected,
+.sysmap g[data-node].is-selected :is(rect, circle, ellipse, polygon, path) { stroke: var(--here); stroke-width: 4; }
+.sysmap g[data-node].is-selected .d-box { fill: var(--here-tint); }   /* the picked part, tinted; dormant and target keep their own fill */
+/* Keyboard focus is a heavy ink stroke: WebKit paints no outline on SVG shapes, and Chromium draws a stray ring after a click. */
+.sysmap :is(g, rect, circle, ellipse, polygon, path)[data-node]:focus { outline: none; }
+.sysmap :is(rect, circle, ellipse, polygon, path)[data-node]:focus-visible,
+.sysmap g[data-node]:focus-visible :is(rect, circle, ellipse, polygon, path) { stroke: var(--ink); stroke-width: 4; }
+/* A lit edge: line and arrowhead turn --here, the label turns bold ink. */
+.sysmap :is([data-edge].is-lit, [data-edge].is-lit *):is(.d-line, .d-line-soft) { stroke: var(--here); stroke-width: 3; }
+.sysmap :is([data-edge].is-lit, [data-edge].is-lit *).d-arrow { fill: var(--here); }
+.sysmap :is([data-edge].is-lit, [data-edge].is-lit *).d-text-s { fill: var(--ink); font-weight: 700; }
+/* With a selection, whatever is neither selected nor lit steps back. A layer chip or a search does the same
+   with .is-off, and a part that is selected or lit still shows. */
+.sysmap:has(.is-selected) :is(g, rect, circle, ellipse, polygon, path)[data-node]:not(.is-selected, .is-lit),
+.sysmap:has(.is-selected) [data-edge]:not(.is-lit),
+.sysmap .is-off:not(.is-selected, .is-lit) { opacity: .3; }
+
+/* the row above the map: search, then one chip per layer, each with its count */
+.atlas-tool { display: flex; flex-direction: column; gap: .75rem; margin: 0 0 1rem; }
+.atlas-tool output { font-size: var(--size-xs); color: var(--ink-soft); }
+.atlas-tool output:empty { display: none; }
+.atlas-search-wrap { position: relative; display: block; --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m21 21-4.3-4.3'/%3E%3C/svg%3E"); }
+.atlas-search-wrap::before { content: ""; position: absolute; left: 1rem; top: 50%; width: 1.1rem; height: 1.1rem; margin-top: -.55rem; background: var(--ink-soft); pointer-events: none; -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+.atlas-tool .atlas-search { display: block; width: 100%; min-height: 44px; padding: .35rem 1.1rem .35rem 2.9rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
+.atlas-tool .atlas-search::placeholder { color: var(--ink-soft); opacity: 1; }
+.atlas-filters { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.atlas-label { margin-right: .35rem; font: 600 .72rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; color: var(--ink-faint); }
+.atlas-filters button { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; padding: 0 .95rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: 600 var(--size-xs)/1 var(--font-head); cursor: pointer; }
+.atlas-filters button b { font-weight: 600; color: var(--ink-soft); }
+.atlas-filters button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+.atlas-filters button[aria-pressed="true"] b { color: var(--paper); }
+
+/* the picked part: its title, its file anchors as pills, then its one line, under the map */
+.node-detail { margin: .75rem 0 0; padding: .85rem 1.1rem 1rem; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+.node-detail > :first-child { margin-top: 0; }
+.node-detail > :last-child { margin-bottom: 0; }
+.node-detail :is(h3, h4) { font-size: var(--size-1); }
+.node-detail p { max-width: 66ch; }
+.node-head { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .75rem; margin: 0 0 .5rem; }
+.node-head > b { font-family: var(--font-head); font-weight: 600; font-size: 1.05rem; line-height: 1.3; }
+.node-state { display: inline-flex; align-items: center; gap: .45rem; font: 600 var(--size-xs)/1.2 var(--font-head); white-space: nowrap; }
+.node-state::before { content: ""; width: .6rem; height: .6rem; border-radius: 50%; background: var(--here); }
+.node-pills { display: flex; flex-wrap: wrap; gap: .5rem; margin-left: auto; min-width: 0; }
+.node-detail .node-pills a.anchor.inspect { display: inline-flex; align-items: center; max-width: 100%; min-height: 44px; padding: .25rem .9rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--here); font: 400 var(--size-xs)/1.3 var(--font-code); white-space: normal; overflow-wrap: anywhere; text-decoration: none; }
+.node-detail .node-pills a.anchor.inspect:hover { border-color: var(--here); }
+.node-hint { margin: .75rem 0 0; padding: .65rem 1rem; border: 1px dashed var(--line-strong); border-radius: 12px; color: var(--ink-soft); font-size: var(--size-s); max-width: none; }
+body[data-skim="on"] .node-detail :is(p, ul) { display: block !important; }   /* a detail the reader asked for is never skimmed away */
+
+/* ---------- 4. Source inspector ---------- */
+dialog.inspector { width: min(100% - 2rem, 62rem); max-height: calc(100% - 2rem); padding: 0; overflow: hidden; border: 1.5px solid var(--line-strong); border-radius: var(--r-chapter); background: var(--card); color: var(--ink); box-shadow: var(--shadow-float); }
+dialog.inspector[open] { display: flex; flex-direction: column; }
+dialog.inspector::backdrop { background: rgb(14 21 28 / .55); }
+dialog.inspector > header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 1.1rem; border-bottom: 1px solid var(--line); }
+dialog.inspector b { display: block; font-family: var(--font-code); font-size: var(--size-s); }
+dialog.inspector small { color: var(--ink-soft); font-size: var(--size-xs); }
+dialog.inspector button { flex: none; padding: .35rem .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); font-size: var(--size-xs); font-weight: 700; }
+dialog.inspector pre { flex: 1; min-height: 0; margin: 0; padding: .6rem 0; border-radius: 0; overflow: auto; font-size: var(--size-xs); line-height: 1.55; tab-size: 4; }
+dialog.inspector pre:focus-visible { outline-offset: -3px; }
+dialog.inspector pre > span { display: block; width: max-content; min-width: 100%; padding-right: 1rem; white-space: pre; }
+dialog.inspector pre > span::before { content: attr(data-n); position: sticky; left: 0; display: inline-block; width: calc(var(--w, 3) * 1ch + 1.6rem); margin-right: 1rem; padding: 0 .7rem 0 .9rem; text-align: right; background: var(--well); color: var(--ink-soft); user-select: none; }
+dialog.inspector pre > [aria-current] { background: var(--here-tint); }   /* the anchored line, with a bar on its sticky number */
+dialog.inspector pre > [aria-current]::before { background: var(--here-tint); box-shadow: inset 4px 0 0 var(--here); color: var(--ink); }
+
+/* ---------- 5. Journey: one thing's life as a strip of cards ---------- */
+/* Each card holds a step number on a line that points at the next card, a title, a short line, one fact, and the file anchors
+   in mono type at the foot. The strip scrolls sideways inside its own box on a phone. */
+ol.journey { --pad: .7rem; --dot: 1.5rem; list-style: none; display: flex; gap: .5rem; margin: 1rem 0 1.25rem; padding: 0 0 .5rem; max-width: none; overflow-x: auto; counter-reset: jstep;
+  --chev: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 2 5 5-5 5'/%3E%3C/svg%3E"); }
+ol.journey:focus-visible { outline-offset: 2px; }
+ol.journey > li { counter-increment: jstep; position: relative; flex: 1 0 8.5rem; min-width: 0; display: flex; flex-direction: column; gap: .45rem; margin: 0; padding: calc(var(--pad) * 2 + var(--dot)) var(--pad) .9rem; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; }
+ol.journey > li::before { content: counter(jstep); position: absolute; left: var(--pad); top: var(--pad); width: var(--dot); height: var(--dot); display: grid; place-items: center; border: 1.5px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--ink); font: 700 var(--size-xs)/1 var(--font-head); }
+ol.journey > li::after { content: ""; position: absolute; left: calc(var(--pad) + var(--dot) + .4rem); right: var(--pad); top: calc(var(--pad) + (var(--dot) - .9rem) / 2); height: .9rem; background: var(--ink-faint);
+  -webkit-mask: var(--chev) right center / .9rem .9rem no-repeat, linear-gradient(#000, #000) left center / calc(100% - .5rem) 2px no-repeat;
+  mask: var(--chev) right center / .9rem .9rem no-repeat, linear-gradient(#000, #000) left center / calc(100% - .5rem) 2px no-repeat; }
+ol.journey > li:last-child::after { display: none; }
+ol.journey > li > b { font: 600 var(--size-s)/1.25 var(--font-head); }
+ol.journey > li > span { font-size: var(--size-xs); line-height: 1.4; color: var(--ink-soft); }
+ol.journey > li > p { margin: 0; max-width: none; font-size: var(--size-xs); line-height: 1.4; }
+ol.journey > li.here { border-color: var(--here); box-shadow: 0 0 0 1px var(--here); }
+ol.journey > li.here::before { border-color: var(--here); background: var(--here); color: var(--on-here); }
+ol.journey .anchors { list-style: none; display: flex; flex-direction: column; gap: .35rem; margin: auto 0 0; padding: .5rem 0 0; max-width: none; border-top: 1px solid var(--line); font: 400 .72rem/1.35 var(--font-code); }
+ol.journey .anchors li { margin: 0; }
+ol.journey li a.anchor.inspect { display: inline; padding: 0; border: 0; border-radius: 0; background: none; color: var(--here); font: inherit; white-space: normal; overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 2px; }
+
+/* ---------- 6. Request traces: swimlanes ---------- */
+/* Narrow screens and no JavaScript: a numbered list, each step tagged with its lane.
+   Wide screens, once atlas.js has added the lane heads: one grid column per lane. */
+ol.trace { list-style: none; margin: 1rem 0 1.5rem; padding: 0; max-width: none; display: grid; gap: .5rem; counter-reset: trace; font-size: var(--size-s); }
+ol.trace > li { margin: 0; }
+ol.trace > li:not(.trace-lane) { position: relative; padding: .6rem .9rem .6rem 3rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); counter-increment: trace; cursor: pointer; }
+ol.trace > li:not(.trace-lane)::after { content: counter(trace); position: absolute; left: .8rem; top: .55rem; width: 1.6rem; height: 1.6rem; display: grid; place-items: center; border-radius: 50%; background: var(--ink-soft); color: var(--on-soft); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+ol.trace > li[data-lane]::before { content: attr(data-lane); display: inline-block; margin-right: .5rem; padding: 0 .5rem; border: 1px solid var(--line-strong); border-radius: var(--r-chip); background: var(--well); color: var(--ink-soft); font-family: var(--font-code); font-size: var(--size-xs); }
+ol.trace > .trace-lane { display: none; }
+ol.trace.is-selected { border-color: var(--here); }
+ol.trace.is-selected > li { border-color: var(--here); }
+ol.trace.is-selected > li::after { background: var(--here); color: var(--on-here); }
+@media (min-width: 760px) {
+  ol.trace:has(> .trace-lane) { grid-template-columns: repeat(var(--lanes), minmax(0, 1fr)); gap: .5rem 0; padding-bottom: .5rem; border: 1px solid var(--line); border-radius: var(--r-comp); background: linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / calc(100% / var(--lanes)) 100% repeat-x, var(--well); background-origin: border-box; }
+  ol.trace > .trace-lane { display: block; grid-column: var(--lane); grid-row: 1; padding: .45rem .5rem; border-bottom: 1px solid var(--line-strong); text-align: center; font-family: var(--font-code); font-size: var(--size-xs); font-weight: 600; color: var(--ink-soft); }
+  ol.trace:has(> .trace-lane) > li:not(.trace-lane) { grid-column: var(--lane); grid-row: var(--step); margin: 0 .5rem; }
+  /* the column now names the lane: keep the tag for screen readers only */
+  ol.trace:has(> .trace-lane) > li[data-lane]::before { position: absolute; width: 1px; height: 1px; margin: 0; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+}
+
+/* ---------- 7. Matrix ---------- */
+/* The first column stays put while the rest scrolls; atlas.js wraps the table in .matrix-wrap. */
+.matrix-wrap { margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
+table.matrix { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
+table.matrix th, table.matrix td { overflow-wrap: break-word; }  /* whole words: the page sets overflow-wrap: anywhere, which splits words mid-word in narrow cells */
+.matrix-wrap > table.matrix { min-width: 36rem; }
+.matrix caption { position: sticky; left: 0; width: fit-content; max-width: min(100vw - 4rem, 40rem); padding: .6rem .9rem; text-align: left; font-family: var(--font-head); font-weight: 600; }
+.matrix :is(th, td) { padding: .55rem .9rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.matrix thead th { background: var(--well); font-family: var(--font-head); font-weight: 600; }
+.matrix tbody tr:last-child > * { border-bottom: 0; }
+.matrix :is(th, td):first-child { position: sticky; left: 0; z-index: 1; background: var(--card); border-right: 1px solid var(--line); font-family: var(--font-head); font-weight: 600; }
+.matrix thead th:first-child { z-index: 2; background: var(--well); }
+.matrix td.go { background: var(--go-tint); }
+.matrix td.wait { background: var(--wait-tint); }
+.matrix td.stop { background: var(--stop-tint); }
+.matrix :is(td.go, td.wait, td.stop)::before { margin-right: .4em; font-weight: 700; }   /* a glyph too, so colour is never alone */
+.matrix td.go::before { content: "✓"; color: var(--go); }
+.matrix td.wait::before { content: "!"; color: var(--wait); }
+.matrix td.stop::before { content: "✕"; color: var(--stop); }
+
+/* ---------- 8. Snapshot: one quiet line ---------- */
+/* A dated snapshot says so once, under the keep facts: a dot and a word, then the sentence, between two hairlines.
+   Write it as <div class="callout warn snapshot"><b>..</b><p>..</p></div>; the callout straight after .keep, or after the chapter map that follows it, gets the same look. */
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem 1rem; margin: 0 0 1.5rem; padding: .75rem .1rem; border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; font-size: var(--size-s); line-height: 1.5; color: var(--ink-soft); }
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) > b { display: inline-flex; align-items: center; gap: .5rem; margin: 0; color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) > b::before { content: ""; flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--wait); }
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) > p { flex: 1 1 22rem; margin: 0; max-width: none; }
+
+/* ---------- 9. Search in the rail ---------- */
+/* Without a map the search stays in the rail's tools; with one, atlas.js moves it above the map (section 3). */
+.rail .atlas-search { flex: 1 1 100%; min-width: 0; padding: .4rem .9rem; border: 1.5px solid var(--line-strong); border-radius: var(--r-chip); background: var(--card); color: var(--ink); font: inherit; font-size: var(--size-s); }
+.rail .atlas-search::placeholder { color: var(--ink-soft); opacity: 1; }
+.rail .tools output { flex: 1 1 100%; font-size: var(--size-xs); color: var(--ink-soft); }
+.rail .tools output:empty { display: none; }
+main :is(h2, h3, dt) { scroll-margin-top: 1.5rem; }          /* only the thin progress bar sits over the page now */
+
+/* ---------- 10. Motion and print ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .sysmap :is([data-node], [data-edge]) { transition: opacity .15s; }
+}
+@media print {
+  dialog.inspector, .inspect, .atlas-tool, .node-hint { display: none !important; }
+  .node-detail[hidden] { display: block !important; }         /* print shows every detail, past the template's [hidden] rule */
+  .sysmap :is([data-node], [data-edge]) { opacity: 1 !important; }
+  .node-detail, ol.trace, ol.journey > li { break-inside: avoid; }
+  .sysmap .map-scroll, ol.journey { overflow: visible; }
+  ol.journey { flex-wrap: wrap; }
+  .matrix-wrap { overflow: visible; }
+  .matrix :is(th, td):first-child { position: static; }
+}

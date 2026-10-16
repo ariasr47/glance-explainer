@@ -43,6 +43,7 @@ On 12 December 2026 this roadmap is reviewed against outside feedback and the re
 
 ## Recently shipped
 
+- **1.9.0:** a working public example of every kind of page, an examples page on the site and a thumbnail grid in the README.
 - **1.8.0:** every page type redesigned around its own picture: the answer as the headline, an At a glance section on the first screen, the rail as the chapter map, one Reading tools button and a calmer chapter. Old pages get the look through `upgrade.mjs`.
 - **1.7.0:** the field-guide page type, a reference with a territory map, a start-here list and a searchable index. The automatic check now skips pages made by a newer release.
 - **1.6.0:** roadmap lanes that state their horizon and confidence, one fixed set of status words, exception marks, derived "Unblocks N" counts, folded history and a backlog view; buckets for prioritising, a repaired rank control and a combined ranking in the merge tool.
