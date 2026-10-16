@@ -8,10 +8,11 @@ Paths are relative to this file. `template.html` and `gallery.html` are in `../a
 
 The reader has severe ADHD and a short working memory. Concretely:
 
-- They lose the thread when they scroll. So context is restated where it is needed, and a sticky rail always shows where they are.
+- They lose the thread when they scroll. So context is restated where it is needed, and the page always shows where they are: the rail on a wide screen, the progress bar at the top on a narrow one.
 - They can hold three things. So the page names the three things up front and never asks for a fourth.
 - Their attention goes to whatever moves or is brightest. So nothing moves on its own, and saturated colour is spent only on meaning.
-- They skim first and read second, if at all. So the page must work as a skim: answer, chapter map, diagram captions, remember lines. Skim mode makes this literal.
+- They need the point on the first screen. So the answer is the headline, the three keep facts sit beside it, and the type's own picture comes next, before any chapter.
+- They skim first and read second, if at all. So the page must work as a skim: answer, glance, chapter map, diagram captions, remember lines. Skim mode makes this literal.
 - Finishing something feels good and keeps them going. So chapters have a done checkbox and the rail shows progress.
 - Dense text is a wall. So paragraphs are short, type is large, lines are 62 characters, and the machinery lives in folds.
 
@@ -20,7 +21,7 @@ The reader has severe ADHD and a short working memory. Concretely:
 Every page opens with `<html lang="en" data-type="explainer">`.
 
 - `lang` is `en` or `ja`. Other codes are allowed and fall back to the English rules. The language sets the fonts, the line measure, and whether the checker counts words or characters (see Japanese typography).
-- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook`, `field-guide`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. A playbook may run to ten chapters. The seventeen content types are in `types.md`. `gather` and `atlas` have their own skills.
+- `data-type` names the page's job: `explainer` (the default when missing), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook`, `field-guide`, `gather` or `atlas`. Every type keeps the same opening and closing contract and adds required components. A playbook may run to ten chapters. The eighteen content types are in `types.md`. `gather` and `atlas` have their own skills.
 
 ## Tokens
 
@@ -30,14 +31,16 @@ All tokens live in `:root` in `template.html`. Change them there, nowhere else.
 
 | Token | Meaning | Where it appears |
 |---|---|---|
-| `--here` cobalt | You are here, the answer, structure, links | answer bar, rail current, map numbers, step numbers, timeline current, `d-box-here` |
-| `--go` green | Done, safe, yes, recommended | status rows, flow steps, recommended stamp, after-panel |
+| `--here` cobalt | You are here, the answer, structure, links | the rule above the answer, rail current, map numbers, step numbers, timeline current, `d-box-here` |
+| `--go` green | Done, safe, yes, recommended | status rows, flow steps, recommended stamp, the top rule of the after card |
 | `--wait` amber | In progress, caution, needs a check | status rows, callout.warn, flow steps |
-| `--stop` red | Blocked, risk, no | status rows, callout.stop, before-panel |
-| `--decide` purple | The reader must choose | decision card, the ask, status rows |
-| `--memory` yellow | Offloaded working memory | keep box, remember lines, recap |
+| `--stop` red | Blocked, risk, no | status rows, callout.stop, the ✕ on a runbook failure |
+| `--decide` purple | The reader must choose | decision card, the recommended option, the ask, status rows |
+| `--memory` yellow | Offloaded working memory | keep cards, remember strip, recap |
 
 Each has a `-tint` for fills. Never use a meaning colour for decoration, and never introduce a seventh colour. If two things need to be told apart and neither carries one of these meanings, use position, a border, or a label, not a new colour.
+
+**Calm colour.** Meaning colour is spent on dots, glyphs, thin rules and small chips, and a large area is a white card. The before side of a split is a white card, and the after side is a white card with a 3 px `--go` rule along its top. The recommended option takes a `--decide` border and tint. Tile numbers are plain `--ink`, with any state shown as a glyph and a word under the number. Yellow is the one large fill, because it means "keep this": the keep cards, the remember strip and the recap.
 
 Surfaces are cool neutrals: `--paper` fog, `--card` white, `--well` inset for diagrams and code. Text is deep navy `--ink`, never pure black, with `--ink-soft` and `--ink-faint` for secondary and tertiary.
 
@@ -57,9 +60,9 @@ Colour is never the only signal (WCAG 1.4.1). Each status dot carries a glyph: �
 | Body | Atkinson Hyperlegible Next 400 and 700 | Designed for maximum letter distinction (b/d, I/l/1, O/0) |
 | Code | Atkinson Hyperlegible Mono | Same letterforms for anything the reader must type |
 
-Fallback is the Segoe UI Variable and system stack, so an offline file still reads well. The scale is 18 px base with a 1.25 ratio: 18, 22.5, 28, 35, 44. Body line height is 1.6, headings 1.15. Prose width is 62 characters. Text is always left aligned, never justified, never all caps. Japanese pages swap the whole stack; see Japanese typography below.
+Fallback is the Segoe UI Variable and system stack, so an offline file still reads well. The scale is 18 px base with a 1.25 ratio: 18, 22.5, 28, 35, 44. Body line height is 1.6, headings 1.15. Prose width is 62 characters. Text is always left aligned and never justified. It is never all caps, except two short fixed labels: the chapter kicker and the keep label. Japanese pages swap the whole stack; see Japanese typography below.
 
-Headings are sentences a person would say, not labels. A chapter heading is the question the chapter answers: "Why does this need you at all?" not "Rationale". Kickers are small, sentence case, and only where they carry information: the page purpose above the title, and above each chapter its position and reading time ("Chapter 2 of 6, about 1 minute", counted at 200 words a minute, or 500 characters a minute in Japanese, rounded up).
+Headings are sentences a person would say, not labels. A chapter heading is the question the chapter answers: "Why does this need you at all?" not "Rationale". Kickers are small labels that CSS prints in capitals, so write them in sentence case, and only where they carry information: the page purpose above the title, and above each chapter its position and reading time ("Chapter 2 of 6, about 1 minute", counted at 200 words a minute, or 500 characters a minute in Japanese, rounded up).
 
 ### Japanese typography
 
@@ -84,26 +87,29 @@ For `lang="ja"` the checker counts characters, not words: paragraph 90, sentence
 
 ### Space and shape
 
-Radius follows hierarchy: chapters 18 px, components 10 px, chips full. Borders are 1.5 px hairlines; meaning borders go to 2 or 2.5 px. There are no drop shadows on content; the only elevation is the sticky rail on narrow screens. Chapters are separated by 2 rem of paper, which is the page's main rhythm.
+Radius follows hierarchy: chapters 18 px, components 10 px, chips full. Borders are 1.5 px hairlines; meaning borders go to 2 or 2.5 px. There are no drop shadows on content. Chapters are separated by 2 rem of paper, which is the page's main rhythm.
 
 ### Layout
 
 ```
-≥1100 px                                      <1100 px
+≥1100 px                                       <1100 px
 ┌──────────┬───────────────────────────────┐   ┌──────────────────────────┐
-│ rail     │ kicker                        │   │ rail (sticky chip strip) │
-│ chapters │ H1                            │   ├──────────────────────────┤
-│ • here   │ answer bar                    │   │ kicker / H1              │
-│ • done   │ keep box (3 lines)            │   │ answer bar               │
-│ tools    │ chapter map (cards)           │   │ keep box                 │
-│          │ ┌───────────────────────────┐ │   │ map (1 column)           │
-│          │ │ chapter 1                 │ │   │ chapter 1 …              │
-│          │ │  from / prose / figure    │ │   │                          │
+│ rail =   │ kicker                        │   │ progress bar (4 px)      │
+│ chapter  │ H1                            │   ├──────────────────────────┤
+│ map      │ answer (the headline)         │   │ kicker / H1              │
+│ 1 • done │ keep (three cards in a row)   │   │ answer (the headline)    │
+│ 2 • here │ at a glance (the type's own   │   │ keep (cards stacked)     │
+│ 3        │   picture, then its take)     │   │ at a glance              │
+│ 2 of 5   │ ┌───────────────────────────┐ │   │ chapter map (list)       │
+│ Reading  │ │ chapter 1                 │ │   │ chapter 1 …              │
+│ tools    │ │  from / prose / figure    │ │   │                          │
 │          │ │  fold / remember          │ │   │                          │
 │          │ └───────────────────────────┘ │   │                          │
 │          │ recap · ask                   │   │ recap · ask              │
 └──────────┴───────────────────────────────┘   └──────────────────────────┘
 ```
+
+From 1100 px the rail is the chapter map and `ol.map` is hidden. Below 1100 px the rail is hidden, the 4 px progress bar stays at the top, and `ol.map` is a compact list. The Reading tools button sits in the rail on a wide screen and at the end of `.meta` on a narrow one.
 
 Prose stays inside 62 ch. Figures, flows, decision grids, status boards and timelines may use the full column width. The eye reads left aligned text and left to right diagrams; nothing is centred except labels inside boxes.
 
@@ -114,24 +120,37 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Component | Class | Information it encodes | Rules |
 |---|---|---|---|
 | Answer bar | `p.answer` | The whole page in one sentence | Exactly one per page, before anything else |
+| Answer as headline | `p.answer` | The whole page, said as its headline | No box and no left bar. Lexend weight 500, about 28 px (23 px on a phone), line height 1.32, no wider than 34em, with a short cobalt rule above it. Still exactly one per page and one sentence |
 | Keep box | `div.keep` | The three facts to carry | Max three lines, under fifteen words each |
-| Chapter map | `ol.map` | What the chapters are and what each gives | 3 to 7 entries, one line each. Optional in a playbook, where the phase strip navigates |
+| Keep cards | `div.keep` with `strong` and `ol` | The three facts to carry, side by side | No outer box. `strong` is a small uppercase label in `--ink-faint`. The `ol` is a row of three yellow cards (`--memory` fill and line), each numbered in a 26 px navy circle. They stack under 560 px |
+| At a glance | `section.glance` with `div.glance-head`, the type's picture and a `p.take` | The type's own picture, on the first screen | After `div.keep`, before `ol.map`. A white card with a hairline. The head is an `h2` and an optional `span.chip`. It is not a chapter: no kicker, no read-aloud, no Done. Its words count toward the reading path and toward no chapter. Skim mode keeps it, and one-chapter mode shows it with the opening. The checker warns for a missing glance on a page made by 1.8.0 or later, and for a glance with no take line. A roadmap, playbook and field guide have none. `types.md` names each type's picture |
+| Duo | `div.duo` | Two pictures that explain each other, side by side | Two columns, the first a little wider. Stacks under 760 px. Used in a glance or a chapter: status (health beside the timeline), release (tiles beside steps), spec (drawings beside the verdict) |
+| Columns | `div.cols` of `section.col` | Two or three lists that differ by state | Each column is `.go`, `.wait`, `.here`, `.decide` or `.stop`: an `h3` with that state's glyph, a 3 px rule on top in its colour, then a `ul` or `ol`. Stacks under 760 px. Handover: Verified, Only claimed, Do first |
+| Findings | `ul.findings` | Findings ranked by how far to trust each | Each `li` has `data-strength` (`strong`, `moderate` or `weak`; the checker fails anything else), the finding in an `a` or `b`, one line in a `span`, `small.evidence` and an optional `small.open`. CSS prints the strength word and draws three bars, filled 3, 2 or 1. Only the weak row is tinted, in `--wait-tint`. Stacks on a phone |
+| Layers | `ol.layers` | A system taught one layer at a time, easiest first | Each `li` has a numbered circle, a `b` name, a `span` line and a `span.terms` of `span` chips for the layer's new words. Exactly one `li.here` gets a `--here` ring and "You are here", the way `.stage[data-here]` does. The checker fails any other count |
+| Runbook overview | `div.runbook-overview`, written empty | Every runbook step on one screen | Derived by the script. One row per `ol.runbook > li`, grouped under its chapter's `h2`: a checkbox that shares the step's done state, the step number and the step's first bold sentence. The first unchecked step is marked "Next". Each row links to its step. Fails without an `ol.runbook` |
+| Filmstrip | `div.filmstrip`, written empty | Every tour step as a thumbnail | Derived by the script. One per `ol.tour > li`: the step's `img` cloned at 16:10 with `object-fit: cover`, its pins, the step number and its `h3`. Each links to its step, and the script gives the step an `id` if it has none. Scrolls sideways inside its box on a phone. Fails without an `ol.tour` |
+| Rulings | `div.rulings`, written empty | Every ruling and where it stands | Derived by the script. One row per `.decision`: its `h3` question, the `data-rec` option with a ★, and a state. The state is "Needs your ruling" with the `--decide` glyph until the matching `fieldset.answer-field` has an answer, then the chosen option. The first unanswered row is the only tinted one. Each row links to its chapter. Fails without a `.decision` |
+| Question progress | `div.qprogress`, written empty | How many questions are answered | Derived by the script, on gather pages. One numbered dot per `.answer-field[data-q]`, linking to its field and filled when answered, with "N of M answered". Updates live. Fails without such a field |
+| Chapter map | `ol.map` | What the chapters are and what each gives | 3 to 7 entries, one line each. Optional in a playbook, where the phase strip navigates. A compact list under 1100 px, and hidden from 1100 px, where the rail is the map |
+| Rail as chapter map | `nav.rail` | The chapters, always in view on a wide screen | From 1100 px. The script adds to each `.rail a` that has a matching `.map a` the map item's `span` text and the chapter's minutes, read from the kicker. The `.dot` is a 26 px numbered circle. The current item is a white card with a filled `--here` circle, and a read item shows ✓ in `--go`. Under the list sits "2 of 5 read" with a 6 px bar, derived from the done or answered state. A public page has no Done control and no progress line |
 | Chapter | `section.chapter` | One idea | Has a kicker with position and time, `.from`, a body, optional folds, one `.remember` |
+| Quiet chapter frame | `p.from`, `.take`, `details.fold`, `p.remember`, and the chapter header | Fewer frames, so the picture stands out | `p.from` is one quiet line: a small corner-arrow icon and a bold lead, no grey box. `.take` has no bar: under a figure it is the caption below a hairline, under any other component a plain line with a hairline above, with a `--here` bold lead. A fold's summary is a 46 px row with a chevron and hairlines, no fill. `p.remember` is a `--memory` strip with a bookmark icon. In the header, Read aloud and Done are 44 px icon buttons (a speaker and a check), and their words stay in the markup as the accessible name. Done checked shows the check in `--go` |
 | Carry-forward | `p.from` | The one prior fact this chapter needs | Restated in full, never "as above" |
 | Remember line | `p.remember` | The one sentence to keep from the chapter | Copied verbatim into the recap |
 | Figure | `figure.figure` + `figcaption.take` | A relationship that prose cannot hold | Always has a take-away caption. Scrolls sideways on a phone; an `svg.narrow` twin replaces the wide drawing there |
-| Take line | `p.take` straight after a component | What a status board, split, flow or tiles proves | One line; every chapter's picture gets one |
+| Take line | `p.take` straight after a component | What a status board, split, flow or tiles proves | One line; every chapter's picture gets one, and so does the glance |
 | Stepper | `figure.stepper` + `.stepper-nav` | Change over time, one step at a time | Everything stays visible and steps not lit are dimmed; the caption shows the current step; step 1 carries the point; no autoplay |
 | Views | `div.views` + `.views-tabs` + `.view` | Several views of one thing | The first tab is open and carries the point; the others are `hidden` |
 | Minimap | `figure.minimap` | Where this chapter sits in the whole | The page's master SVG, small; `data-lit` names the lit node and the rest dim |
 | Flow | `ol.flow` | A linear sequence | 3 to 7 steps, states via `.here .go .wait .stop` |
-| Split | `div.split` | Two states of the same thing | `.before` red, `.after` green |
-| Decision | `div.decision` + `div.options` | A choice the reader owns | One recommended option, a "do nothing" line. The page may follow each card with its `fieldset.answer-field[data-kind="choice"]` and end with one `.collect` bar, instead of the ask |
+| Split | `div.split` | Two states of the same thing | `.before` is a white card. `.after` is a white card with a 3 px green rule along its top |
+| Decision | `div.decision` + `div.options` | A choice the reader owns | One recommended option, with a `--decide` border and tint and its ★ chip inside the card at the top, and a "do nothing" line. The page may follow each card with its `fieldset.answer-field[data-kind="choice"]` and end with one `.collect` bar, instead of the ask |
 | Warning chip | `[data-warn]` on a decision `.option` or a `.ballot-opt` | A cost the reader must see on the option itself | Amber (`--wait`) with a ⚠ glyph and the attribute's own words, such as "Can't undo". Four words at most. Never colour alone. It hangs from the top left edge of a decision option and is the last line of a ballot option |
 | Status board | `ul.status` | Health of several items | One dot colour per row, one line each |
 | Timeline | `ol.timeline` | Position in time | Exactly one `li.here` |
 | Steps | `ol.steps` | Ordered actions | Bold verb first, one line, detail in a fold |
-| Tiles | `div.tiles` | Numbers that change the decision | Label says what the number means. The number never wraps and shrinks to fit its tile, so keep it short: `$24k`, not `$24,000+` |
+| Tiles | `div.tiles` | Numbers that change the decision | Label says what the number means. The number is plain ink, and any state shows as a glyph and a word under it. The number never wraps and shrinks to fit its tile, so keep it short: `$24k`, not `$24,000+` |
 | Grid | `table.grid` in `div.grid-wrap` | Options measured against the same criteria | `caption`, a column per option, a row per criterion. A cell state (`td.go .wait .stop .decide`) is a tint and a glyph. `th[data-rec]` carries a ★. `tr.group` with a `th[colspan][scope="colgroup"]` is a quiet band that names the rows under it; it is not a criterion. On a phone it scrolls sideways and the criterion column stays. A `p.take` follows |
 | Lanes | `div.lanes` with three `section.lane` | What is now, next and later, and what waits on what | Exactly three lanes (`data-lane`), stacked under 760 px. Each has an `h3`, a `p.lane-note` and its items. An item takes a state class and its glyph. A `li.wait` links to what it waits on in `small.after`, or names an outside blocker in `small.outside`. At most 5 live items a lane |
 | Lane note | `p.lane-note` | What a lane means | One line after the `h3`: horizon, confidence, order. "Next 4 weeks. Committed. Top item first." A `span.lane-count` in the `h3` may show the budget, "3 of 5" |
@@ -145,9 +164,9 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Cut line | `div.cutline[role="separator"]` | Where ranked stops and unranked begins | A dashed rule and "Cut line. Below is not ranked and not promised." It comes before the themes |
 | Theme fold | `details.theme` | A group of unranked ideas | The summary shows the theme name, `span.count` ("6 ideas") and `span.top` ("Top: ..."). The body is a compact list |
 | Parked shelf | `div.parked-shelf` | What is parked on purpose and what would bring it back | One card per item with a ✕ dot, `Why:` and `Back when:` |
-| Runbook | `ol.runbook` | A procedure a person follows, step by step | Numbered like `.steps`. Each step has its command in `pre.cmd`, a `p.check` (go tint, ✓) and a `p.fail` (stop tint, ✕). The script adds a Copy button to every `pre.cmd`; long commands wrap. To continue the numbering in a later chapter, start that list where the last one stopped: `<ol class="runbook" start="4">` |
+| Runbook | `ol.runbook` | A procedure a person follows, step by step | Numbered like `.steps`. Each step has its command in `pre.cmd`, a `p.check` (a green ✓, then ink text) and a `p.fail` (a red ✕, then ink text). Neither is a filled box. The script adds a Copy button to every `pre.cmd`; long commands wrap. To continue the numbering in a later chapter, start that list where the last one stopped: `<ol class="runbook" start="4">` |
 | Tour | `ol.tour` with `figure.shot` and `span.pin` | A product walkthrough on real screenshots | One screenshot per step, a numbered pin placed with `--x` and `--y`, an `h3` and one line. Every image has an `alt` |
-| Promises | `ul.promises` | What the product does for a customer | Each item has a ✓, one bold lead and one plain sentence. `data-evidence` holds the file and line or the URL; it is not shown. A "How we know" fold lists it |
+| Promises | `ul.promises` | What the product does for a customer | Each item is a card in an auto-fit grid with a ✓, one bold lead and one plain sentence. `data-evidence` holds the file and line or the URL; it is not shown. A "How we know" fold lists it |
 | Phase strip | `ol.phase-strip` | The whole plan in one row | A segment links to its phase: `span.seg-num`, a bold title, a `span.who` letter badge (the owner, never colour alone), `small.effort` in words and `span.bar` with `--effort` 1 to 5. `li.notice` adds a `span.notice-tag` for the phases the audience will notice. Six or more segments wrap to two rows under 760 px |
 | Phases | `ol.phases` | Ordered phases, numbered because the order is real | Each `li` has an `id`, an `h3`, `span.chip` labels, a short `ul` and a `p.impact` naming the real audience. `li.notice` marks the phases the audience notices |
 | Frame | `figure.frame`, `.frame.phone`, `.frame-row` | What the audience sees | A browser bar (`.frame-bar` with `.dots` and `.url`), a plain mockup in `.frame-screen`, a `figcaption.take`. Two to four per row, stacked on a phone |
@@ -166,13 +185,14 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Callout | `div.callout` `.tip .warn .stop` | Something that changes what the reader does | Not for asides |
 | Term box | `dl.term` | Plain-English definitions | Directly under the first use |
 | Fold | `details.fold` | Machinery: commands, paths, tables, reasoning | Page must read with all folds closed |
-| Focus mode | rail button `[data-focus]` + `.focus-nav` | One chapter on screen at a time, reader paced | Built into the template; needs no content work beyond self-contained chapters |
-| Read aloud | `button.read-aloud` | The chapter spoken, one block at a time | In each chapter header, only where the browser can speak; folds and SVG text are skipped; the block being read is `.speaking` |
-| Reading ruler | rail button `[data-ruler]` | One block at full strength, the rest dimmed | Reader-triggered and remembered |
+| Reading tools | `button.tools-toggle`, written by the script before `.tools` | The reader's aids behind one button | The toggle reads "Reading tools" with a sliders icon, `aria-expanded` and `aria-controls`. `.tools` stays hidden until it is opened, and always without script. Open, it is a small panel: one 44 px row per tool, its keyboard key on the right where it has one, and Text size as three segments. Escape or a click outside closes it. On a wide screen the toggle sits in the rail under the progress line. Below 1100 px the script moves it to the end of `.meta`. Print hides it |
+| Focus mode | Reading tools row `[data-focus]` + `.focus-nav` | One chapter on screen at a time, reader paced | Built into the template; needs no content work beyond self-contained chapters |
+| Read aloud | `button.read-aloud` | The chapter spoken, one block at a time | A 44 px speaker button in each chapter header, only where the browser can speak; folds and SVG text are skipped; the block being read is `.speaking` |
+| Reading ruler | Reading tools row `[data-ruler]` | One block at full strength, the rest dimmed | Reader-triggered and remembered |
 | Resume | `div.resume` | Where the reader left off | Under the answer bar, only when the stored chapter is not the first |
-| Keys | `dialog.keys` | Keyboard shortcuts | J next chapter, K previous, F one-chapter mode, S skim, D theme, R ruler, ? this list; the rail has a Keys button too |
+| Keys | `dialog.keys` | Keyboard shortcuts | J next chapter, K previous, F one-chapter mode, S skim, D theme, R ruler, ? this list; the Reading tools menu has a Keys row too |
 | Finish state | `.finished` chip + `body[data-finished]` | Every chapter is done | Set when all Done boxes are ticked; the recap dot in the rail turns green; no confetti, no motion |
-| Text size | rail button `[data-size]` | The reader's own type size | Cycles normal, 20 px, 22 px; remembered |
+| Text size | Reading tools segments | The reader's own type size | Three segments (A−, A, A+): normal, 20 px, 22 px; remembered |
 | Recap | `section.recap` | The remember lines, collected | Nothing new |
 | The ask | `section.ask` | One question with 2 to 4 choices | Recommendation marked, "if you do nothing" stated |
 | Answer field | `.answer-field` | A question the reader answers | A full-sentence question, a stable `data-q`, a `.hint` saying what a good answer holds. On a choice, `label[data-rec]` marks the recommended option with a ★ chip that shows the attribute's words ("Recommended", "My pick") |
@@ -202,24 +222,24 @@ A `data-type="gather"` page lets its chapters ask questions. The mechanic lives 
 
 ## Composition patterns by page type
 
-These are starting points, not templates. Drop what the content does not need. `types.md` lists the required components and checker rules for each type.
+These are starting points, not templates. Drop what the content does not need. Every pattern except the roadmap, playbook and field guide puts the type's glance between the keep box and the map. `types.md` lists the glance picture, the required components and the checker rules for each type.
 
-- **Decision page**: answer → keep → map → one chapter per option or per ruling (each with a split or a small diagram) → a `.decision` per ruling, each followed by its answer field when the page answers by tapping → recap → the ask, or the one collect bar.
-- **Status / where are we**: answer → keep → map → timeline chapter with `li.here` → status board chapter → "what is next" chapter with steps → recap → ask only if something is blocked on the reader.
-- **Spec / feature**: answer → keep → map → "what it does" chapter with a flow → "what changes for you" chapter with a split and a wireframe if UI is touched → "how we know it works" chapter with a status board of checks → "risks" chapter with callouts → recap → ask (approve / hold).
-- **Architecture / how it works**: answer → keep → map → one chapter per layer, each with one SVG box map and a metaphor → "how a request travels" chapter with a flow → recap. A reference anchored to code is an atlas page; see the atlas add-on below.
-- **What shipped**: answer → keep → map → tiles for the counts that matter → one chapter per theme with split before/after → "what to do differently now" steps → recap.
-- **Research findings**: answer → keep → map → one chapter per finding, each carrying its evidence as tiles, a timeline, or a status board and the source quotes in a fold → "what this changes" chapter with a split → recap → ask only if the findings force a choice.
-- **Ask and collect**: answer → keep → map → one chapter per topic, each teaching only what its question needs and ending with its answer fields → recap → the collect bar.
-- **Portfolio**: answer → keep → map → a status board with a row per project → what moved → what is blocked → what waits on you (steps) → recap.
-- **Public / customer**: answer → keep → map → one chapter per kind of promise, each a `ul.promises` → a "How we know" fold in each → recap. No ask.
-- **Teach**: answer → keep → map → one chapter per layer, each with a term box and a figure → a short "try it" chapter of steps → recap.
-- **Incident**: answer → keep → map → what broke → the timeline → the cause chain (flow) → the follow-ups (status board) → what prevents a repeat → recap.
-- **Pull request**: answer → keep → map → a split of before and after → tiles for the diff stat → a status board of checks, each with its exit code → where to look first → recap.
-- **Runbook**: answer → keep → map → before you start → the procedure in `ol.runbook` chapters of five steps or fewer → when it goes wrong → recap.
-- **Compare**: answer → keep → map → the grid → one chapter per criterion that decides → recap → the decision and ask if the reader must rule.
+- **Decision page**: answer → keep → glance → map → one chapter per option or per ruling (each with a split or a small diagram) → a `.decision` per ruling, each followed by its answer field when the page answers by tapping → recap → the ask, or the one collect bar.
+- **Status / where are we**: answer → keep → glance → map → timeline chapter with `li.here` → status board chapter → "what is next" chapter with steps → recap → ask only if something is blocked on the reader.
+- **Spec / feature**: answer → keep → glance → map → "what it does" chapter with a flow → "what changes for you" chapter with a split and a wireframe if UI is touched → "how we know it works" chapter with a status board of checks → "risks" chapter with callouts → recap → ask (approve / hold).
+- **Architecture / how it works**: answer → keep → glance → map → one chapter per layer, each with one SVG box map and a metaphor → "how a request travels" chapter with a flow → recap. A reference anchored to code is an atlas page; see the atlas add-on below.
+- **What shipped**: answer → keep → glance → map → tiles for the counts that matter → one chapter per theme with split before/after → "what to do differently now" steps → recap.
+- **Research findings**: answer → keep → glance → map → one chapter per finding, each carrying its evidence as tiles, a timeline, or a status board and the source quotes in a fold → "what this changes" chapter with a split → recap → ask only if the findings force a choice.
+- **Ask and collect**: answer → keep → glance (the question dots and the first question) → map → one chapter per topic, each teaching only what its question needs and ending with its answer fields → recap → the collect bar.
+- **Portfolio**: answer → keep → glance → map → a status board with a row per project → what moved → what is blocked → what waits on you (steps) → recap.
+- **Public / customer**: answer → keep → glance → map → one chapter per kind of promise, each a `ul.promises` → a "How we know" fold in each → recap. No ask.
+- **Teach**: answer → keep → glance → map → one chapter per layer, each with a term box and a figure → a short "try it" chapter of steps → recap.
+- **Incident**: answer → keep → glance → map → what broke → the timeline → the cause chain (flow) → the follow-ups (status board) → what prevents a repeat → recap.
+- **Pull request**: answer → keep → glance → map → a split of before and after → tiles for the diff stat → a status board of checks, each with its exit code → where to look first → recap.
+- **Runbook**: answer → keep → glance → map → before you start → the procedure in `ol.runbook` chapters of five steps or fewer → when it goes wrong → recap.
+- **Compare**: answer → keep → the grid as the glance → map → one chapter per criterion that decides → recap → the decision and ask if the reader must rule.
 - **Roadmap**: answer → as-of line → keep → map → the lanes with their shipped and parked folds → what unblocks the most → what is parked on purpose → optionally "What else waits?" (backlog top, cut line, themes, parked shelf) → recap.
-- **Tour**: answer → keep → map → one chapter per task, each a tour of three to six steps → recap.
+- **Tour**: answer → keep → glance → map → one chapter per task, each a tour of three to six steps → recap.
 - **Playbook**: answer → keep → phase strip (the map is optional) → before and after → what the audience sees (frames) → the phases → what goes where (a grid with group rows) → roles and rules → the risky moment with its undo → the risks → costs and the decisions as answer fields → recap, with the collect bar after it. Up to ten chapters.
 - **Field guide**: answer → keep → the territory map → the start-here list → the index → recap. Three chapters, no ask, and the index stays out of the reading path.
 - **Mixed page**: most real pages mix two of the above. Take the chapter shapes from one and the closing from the other. The opening and closing contract never changes.
@@ -240,7 +260,7 @@ It adds a clickable system map (`.sysmap`), an "Inspect implementation" dialog f
 
 ## The one memorable thing
 
-The page spends its boldness on memory offloading: the yellow keep box at the top, the yellow remember line closing every chapter, and the yellow recap at the end are the same colour on purpose. The reader learns in one page that yellow means "this is what you keep". Everything else stays quiet so that stays loud.
+The page spends its boldness on memory offloading: the yellow keep cards at the top, the yellow remember strip closing every chapter, and the yellow recap at the end are the same colour on purpose. The reader learns in one page that yellow means "this is what you keep". Everything else stays quiet so that stays loud.
 
 ## What the evidence says
 
@@ -266,7 +286,7 @@ A verified research pass (September 2026, sources fetched and each claim adversa
 ## What this system refuses
 
 - Cream paper with a warm-clay accent, or a near-black page with a single neon accent. Both read as generated and neither serves reading.
-- All-caps eyebrows, tracked-out labels, middle-dot meta strings, monospace for anything that is not code.
+- All-caps or tracked-out text longer than a short fixed label (the chapter kicker and the keep label are the only ones), middle-dot meta strings, monospace for anything that is not code.
 - Cards for everything. A chapter is a card; the things inside it mostly are not.
 - Entrance animations, parallax, hover effects that change layout. Motion only answers the reader's action: a fold opening, a checkbox ticking, the progress bar following the scroll.
 - Numbered markers on things that are not a sequence.
