@@ -2,6 +2,21 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 1.8.1 (2026-10-15)
+
+A polish round on the 1.8.0 redesign, after a close look at the gallery, the examples and real pages at both widths and in both themes.
+
+### Changed
+- **Labels in sentence case.** The keep label, a chapter's kicker, small headings in a glance and the runbook overview's chapter names were in spaced capitals. They are authored text and can be long ("Chapter 1 of 5, about 1 minute"), and capitals slow reading. Short labels the page writes itself, such as "In this page", stay in capitals.
+- **The rail's lines fit.** Each chapter's line in the rail shows its minutes first and stops at two lines.
+- **Calmer callouts.** A tip, a warning or a stop is a white card with a hairline in its colour, and a glyph before its title. It used to be a full tint with a thick left bar.
+- **Roomier flow steps.** A step's number sits beside its title, and the line under it uses the card's full width, so narrow steps no longer squeeze their text.
+- **Quieter "Before this".** The gap after the bold lead is now a normal space.
+
+### Fixed
+- **The mini-map on a phone.** It scrolls sideways instead of shrinking its labels to 7 px.
+- **Atlas snapshot line.** The quiet snapshot line also applies when the chapter map sits between the keep box and the warning. An atlas page built before 1.8.0 carries its own atlas styles, so it shows the quiet line once it is built again.
+
 ## 1.8.0 (2026-10-15)
 
 Every page type redesigned around its own picture. A review of 21 real pages found that 19 types opened with the same first phone screen, so a status report looked like a release note until the third screen. Every type was redrawn on a canvas, today beside redesigned, and Rodrigo approved them before the build.

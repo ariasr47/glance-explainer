@@ -163,11 +163,11 @@ table.matrix { width: 100%; border-collapse: separate; border-spacing: 0; font-s
 
 /* ---------- 8. Snapshot: one quiet line ---------- */
 /* A dated snapshot says so once, under the keep facts: a dot and a word, then the sentence, between two hairlines.
-   Write it as <div class="callout warn snapshot"><b>..</b><p>..</p></div>; the callout straight after .keep gets the same look. */
-:is(.keep + .callout.warn, .callout.snapshot) { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem 1rem; margin: 0 0 1.5rem; padding: .75rem .1rem; border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; font-size: var(--size-s); line-height: 1.5; color: var(--ink-soft); }
-:is(.keep + .callout.warn, .callout.snapshot) > b { display: inline-flex; align-items: center; gap: .5rem; margin: 0; color: var(--ink); font-family: var(--font-head); font-weight: 600; }
-:is(.keep + .callout.warn, .callout.snapshot) > b::before { content: ""; flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--wait); }
-:is(.keep + .callout.warn, .callout.snapshot) > p { flex: 1 1 22rem; margin: 0; max-width: none; }
+   Write it as <div class="callout warn snapshot"><b>..</b><p>..</p></div>; the callout straight after .keep, or after the chapter map that follows it, gets the same look. */
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) { display: flex; flex-wrap: wrap; align-items: baseline; gap: .15rem 1rem; margin: 0 0 1.5rem; padding: .75rem .1rem; border: 0; border-block: 1px solid var(--line); border-radius: 0; background: none; font-size: var(--size-s); line-height: 1.5; color: var(--ink-soft); }
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) > b { display: inline-flex; align-items: center; gap: .5rem; margin: 0; color: var(--ink); font-family: var(--font-head); font-weight: 600; }
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) > b::before { content: ""; flex: none; width: .6rem; height: .6rem; border-radius: 50%; background: var(--wait); }
+:is(.keep + .callout.warn, .keep + .map + .callout.warn, .callout.snapshot) > p { flex: 1 1 22rem; margin: 0; max-width: none; }
 
 /* ---------- 9. Search in the rail ---------- */
 /* Without a map the search stays in the rail's tools; with one, atlas.js moves it above the map (section 3). */
