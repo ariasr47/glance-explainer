@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.7.0">
+<meta name="generator" content="html-explainer 1.8.0">
 <meta name="color-scheme" content="light dark">
 <title>html-explainer: pages you can decide from</title>
 <meta name="description" content="html-explainer is a free, open source Claude Code plugin. It turns what your agent did into one checked page you can read in minutes and decide from.">
@@ -1425,16 +1425,19 @@ html:not(.js) .ballot-tray { display: none; }
       </ol>
     </div>
 
-    <figure class="figure">
-      <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="images/hero-dark.png">
-        <img src="images/hero-light.png" alt="A plan page on a desktop and a decision ballot on a phone, both made by the plugin" width="1600" height="900" loading="eager">
-      </picture>
-      <figcaption class="take"><b>Take from this:</b> one plugin made a plan page for a desktop and a ballot for a phone.</figcaption>
-    </figure>
+    <section class="glance" aria-labelledby="glance-h">
+      <div class="glance-head"><h2 id="glance-h">What does it make?</h2><span class="chip here">Two real pages</span></div>
+      <figure class="figure">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="images/hero-dark.png">
+          <img src="images/hero-light.png" alt="A plan page on a desktop and a decision ballot on a phone, both made by the plugin" width="1600" height="900" loading="eager">
+        </picture>
+        <figcaption class="take"><b>Take from this:</b> one plugin made a plan page for a desktop and a ballot for a phone.</figcaption>
+      </figure>
+    </section>
 
     <ol class="map">
-      <li><a href="#shape"><b>What a page looks like</b><span>The same six parts, in the same order.</span></a></li>
+      <li><a href="#shape"><b>What a page looks like</b><span>The same seven parts, in the same order.</span></a></li>
       <li><a href="#types"><b>What it can make</b><span>Seventeen page types, by the job they do.</span></a></li>
       <li><a href="#reader"><b>What you control</b><span>Eight reader tools. Nothing moves unless you ask.</span></a></li>
       <li><a href="#promises"><b>What it promises</b><span>Five promises, each with proof.</span></a></li>
@@ -1442,7 +1445,7 @@ html:not(.js) .ballot-tray { display: none; }
       <li><a href="#next"><b>What comes next</b><span>The focus, and how to tell us what to fix.</span></a></li>
     </ol>
 
-    <section class="chapter" id="shape" data-keep="Every page has the same shape: answer, three facts, chapters with pictures, recap.">
+    <section class="chapter" id="shape" data-keep="Every page has the same shape: answer, three facts, its own picture, chapters, recap.">
       <header>
         <div><p class="kicker">Chapter 1 of 6, about 1 minute</p><h2>What does a page look like?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
@@ -1456,7 +1459,8 @@ html:not(.js) .ballot-tray { display: none; }
       <ol class="flow">
         <li><b>Answer bar</b><span>The whole page in one sentence.</span></li>
         <li><b>Keep box</b><span>Three facts to carry, no more.</span></li>
-        <li><b>Chapter map</b><span>One line for each chapter.</span></li>
+        <li><b>At a glance</b><span>The page's own picture, on the first screen.</span></li>
+        <li><b>Chapter map</b><span>One line for each chapter, in the side rail on a computer.</span></li>
         <li><b>Chapters</b><span>A picture in each, and a remember line to close.</span></li>
         <li><b>Recap</b><span>The remember lines, collected.</span></li>
         <li><b>The ask</b><span>One question, only when you must decide.</span></li>
@@ -1909,7 +1913,7 @@ finish();
    click outside close it. Without script the panel never shows, because nothing in it would work. */
 Object.assign(T.en, { tools: 'Reading tools', sizeDn: 'Smaller text', sizeNo: 'Normal text size', sizeUp: 'Larger text', railOf: '{n} of {m} read', min: '{n} min' });
 Object.assign(T.ja, { tools: '読み方の設定', sizeDn: '文字を小さく', sizeNo: '標準の文字サイズ', sizeUp: '文字を大きく', railOf: '{m}章中{n}章 読了', min: '約{n}分' });
-const rail = $('.rail'), railList = $('ol', rail), railLinks = qa('a[href^="#"]', rail), panel = $('.tools');
+const rail = $('.rail'), railList = $('ol', rail), railLinks = rail ? qa('a[href^="#"]', rail) : [], panel = $('.tools');
 let railBar = null;
 railLinks.forEach(a => {
   const t = byId(a.getAttribute('href').slice(1)), m = qa('.map a').find(x => x.getAttribute('href') === a.getAttribute('href'));

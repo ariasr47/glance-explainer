@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.7.0">
+<meta name="generator" content="html-explainer 1.8.0">
 <meta name="color-scheme" content="light dark">
 <title>How an explainer is built</title>
 <meta name="description" content="The visual system behind every explainer, demonstrated with itself: answer first, three facts to keep, a picture per chapter, colour with one meaning.">
@@ -2730,7 +2730,7 @@ finish();
    click outside close it. Without script the panel never shows, because nothing in it would work. */
 Object.assign(T.en, { tools: 'Reading tools', sizeDn: 'Smaller text', sizeNo: 'Normal text size', sizeUp: 'Larger text', railOf: '{n} of {m} read', min: '{n} min' });
 Object.assign(T.ja, { tools: '読み方の設定', sizeDn: '文字を小さく', sizeNo: '標準の文字サイズ', sizeUp: '文字を大きく', railOf: '{m}章中{n}章 読了', min: '約{n}分' });
-const rail = $('.rail'), railList = $('ol', rail), railLinks = qa('a[href^="#"]', rail), panel = $('.tools');
+const rail = $('.rail'), railList = $('ol', rail), railLinks = rail ? qa('a[href^="#"]', rail) : [], panel = $('.tools');
 let railBar = null;
 railLinks.forEach(a => {
   const t = byId(a.getAttribute('href').slice(1)), m = qa('.map a').find(x => x.getAttribute('href') === a.getAttribute('href'));
