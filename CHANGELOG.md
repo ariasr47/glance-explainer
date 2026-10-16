@@ -2,6 +2,26 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 1.9.0 (2026-10-16)
+
+A working public example of every kind of page. Before, a prospective user could open six: the playbook, field guide, ballot, roadmap, the site's home page and the gallery. The other examples were private, because they used real project content.
+
+### Added
+- **Sixteen new examples**, written fresh, each passing the checker with no warnings.
+  - **About a made-up notes app,** labelled as made-up data: decision, spec, compare, research, status, incident, handover, portfolio, teach and a questionnaire.
+  - **About this plugin, with real facts from this repository:** a release note for 1.8.0 and 1.8.1, the pull request page for #9, the release runbook, an explainer of why every page opens with the answer, a tour on real screenshots of the examples, and an atlas of this repository with 69 file anchors.
+- **An examples page on the site** (`examples.html`) with a card for each of the 21 kinds of page, grouped by the job you have. Each card shows the type's own picture.
+- **A thumbnail grid in the README** that links each example to its live page.
+
+### Changed
+- **The repo check covers every example.** `tools/check-repo.mjs` now finds every page under `skills/*/examples/`. It runs the checker on each one and requires the template's current blocks, so a published example cannot fall behind the design.
+- **The site build publishes every example,** the atlas folder included.
+
+### Fixed
+- **Captions in a glance.** The glance's take-line style no longer strips the padding from a caption inside a figure or frame in the glance.
+- **Drafts are not checked.** The stop check skips an HTML file with no `<style>` block, such as a page body a build script will wrap. Before, such drafts failed at every turn.
+- **Atlas tables keep whole words.** Matrix cells no longer split words mid-word on a phone.
+
 ## 1.8.1 (2026-10-15)
 
 A polish round on the 1.8.0 redesign, after a close look at the gallery, the examples and real pages at both widths and in both themes.

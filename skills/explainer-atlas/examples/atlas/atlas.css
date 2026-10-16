@@ -146,6 +146,7 @@ ol.trace.is-selected > li::after { background: var(--here); color: var(--on-here
 /* The first column stays put while the rest scrolls; atlas.js wraps the table in .matrix-wrap. */
 .matrix-wrap { margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
 table.matrix { width: 100%; border-collapse: separate; border-spacing: 0; font-size: var(--size-s); }
+table.matrix th, table.matrix td { overflow-wrap: break-word; }  /* whole words: the page sets overflow-wrap: anywhere, which splits words mid-word in narrow cells */
 .matrix-wrap > table.matrix { min-width: 36rem; }
 .matrix caption { position: sticky; left: 0; width: fit-content; max-width: min(100vw - 4rem, 40rem); padding: .6rem .9rem; text-align: left; font-family: var(--font-head); font-weight: 600; }
 .matrix :is(th, td) { padding: .55rem .9rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
