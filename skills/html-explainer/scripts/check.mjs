@@ -135,7 +135,7 @@ const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>
 info.chapters = chapters.length;
 const maxChapters = type === 'atlas' ? 12 : type === 'playbook' ? 10 : 7; // the atlas menu offers twelve chapters; a playbook has more parts than an explainer
 if (!ballot && (chapters.length < 3 || chapters.length > maxChapters)) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
-const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo|territory|start-here|index)\b/;
+const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo|territory|start-here|index|duo|cols|findings|layers|runbook-overview|filmstrip|rulings|qprogress)\b/;
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
 // a field guide's index is the part the reader looks things up in, not the part they read: it stays out of the reading-path count and the paragraph limits
 const cutIndex = (s) => {
