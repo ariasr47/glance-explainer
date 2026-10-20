@@ -1,21 +1,23 @@
 {
   "v": 3,
   "createdOnFiles": { "v": 1, "at": "2026-10-14T03:30:00Z" },
-  "title": "Roadmap and backlog redesign",
+  "title": "Roadmap and backlog design (shipped in 1.6.0)",
   "launch": { "view": "canvas" },
   "pages": [],
   "boards": {
-    "Lanes-Today.dc.html": { "x": 0, "y": 0, "w": 1280, "h": 980, "title": "Today: lanes as they ship in 1.5.0", "expand": "fill" },
-    "Main.dc.html": { "x": 1360, "y": 0, "w": 1280, "h": 1320, "title": "Proposed: lanes that say what they mean", "expand": "fill" },
-    "Lanes-Phone.dc.html": { "x": 2720, "y": 0, "w": 390, "h": 2480, "title": "Proposed, on a 390 px phone" },
-    "Prioritise-Phone.dc.html": { "x": 0, "y": 2900, "w": 390, "h": 1960, "title": "Proposed: sort ideas into buckets, then order the top", "is_interactive": true },
-    "Merge-Desktop.dc.html": { "x": 470, "y": 2900, "w": 1280, "h": 980, "title": "Proposed: one combined ranking from several readers", "expand": "fill" },
-    "Backlog-Phone.dc.html": { "x": 1830, "y": 2900, "w": 390, "h": 2240, "title": "Proposed: a backlog with a cut line" }
+    "Lanes-Today.dc.html": { "x": 0, "y": 0, "w": 1280, "h": 980, "title": "Before: lanes as they shipped in 1.5.0", "expand": "fill" },
+    "Main.dc.html": { "x": 1360, "y": 0, "w": 1280, "h": 1320, "title": "Approved: lanes that say what they mean", "expand": "fill" },
+    "Lanes-Phone.dc.html": { "x": 2720, "y": 0, "w": 390, "h": 2480, "title": "Approved, on a 390 px phone" },
+    "Shipped.dc.html": { "x": 3190, "y": 0, "w": 1280, "h": 2119, "title": "Shipped: the live roadmap page in 1.9.0" },
+    "Prioritise-Phone.dc.html": { "x": 0, "y": 2900, "w": 390, "h": 1960, "title": "Approved: sort ideas into buckets, then order the top", "is_interactive": true },
+    "Merge-Desktop.dc.html": { "x": 470, "y": 2900, "w": 1280, "h": 980, "title": "Approved: one combined ranking from several readers", "expand": "fill" },
+    "Backlog-Phone.dc.html": { "x": 1830, "y": 2900, "w": 390, "h": 2240, "title": "Approved: a backlog with a cut line" }
   },
-  "order": ["Lanes-Today.dc.html", "Main.dc.html", "Lanes-Phone.dc.html", "Prioritise-Phone.dc.html", "Merge-Desktop.dc.html", "Backlog-Phone.dc.html"],
+  "order": ["Lanes-Today.dc.html", "Main.dc.html", "Lanes-Phone.dc.html", "Shipped.dc.html", "Prioritise-Phone.dc.html", "Merge-Desktop.dc.html", "Backlog-Phone.dc.html"],
   "notes": {
-    "row1": { "x": 0, "y": -300, "text": "1. Roadmap lanes: today, proposed, and on a phone", "kind": "title1", "maxW": 3110 },
-    "row2": { "x": 0, "y": 2600, "text": "2. Prioritise, combine rankings, and a backlog view", "kind": "title1", "maxW": 2220 }
+    "row1": { "x": 0, "y": -300, "text": "1. Roadmap lanes: before, approved, and as they ship today", "kind": "title1", "maxW": 4470 },
+    "row2": { "x": 0, "y": 2600, "text": "2. Prioritise, combine rankings, and a backlog view", "kind": "title1", "maxW": 2220 },
+    "status": { "x": 4550, "y": 0, "w": 420, "text": "A design record\n• Approved 14 October 2026, all six boards\n• Shipped in plugin 1.6.0\n• The fourth board shows the live roadmap page in 1.9.0, after the 1.8.0 redesign\n• Source kept in the plugin repo: docs/dev/design/2026-10-14-roadmap-backlog-canvas/" }
   },
   "designSystems": []
 }
