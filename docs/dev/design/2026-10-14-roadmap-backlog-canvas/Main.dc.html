@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Proposed roadmap lanes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&amp;family=Atkinson+Hyperlegible+Next:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#f2f5f8}
+a{color:#2457d6}a:hover{color:#1a3f9e}
+.lanes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+@media (max-width:760px){.lanes{grid-template-columns:minmax(0,1fr)}}
+.lane{background:#e8edf2;border:1.5px solid #aebbc8;border-radius:14px;padding:16px}
+.lane ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.card{position:relative;background:#ffffff;border:1.5px solid #aebbc8;border-radius:10px;padding:12px 14px 12px 46px}
+.dot{position:absolute;left:14px;top:14px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 12px/1 Lexend,sans-serif;box-sizing:border-box}
+.word{font:700 13px/1.3 "Atkinson Hyperlegible Next",sans-serif;letter-spacing:.01em}
+.title{font:600 17px/1.3 Lexend,sans-serif;color:#16222e;margin-top:2px}
+.line{font:400 15px/1.45 "Atkinson Hyperlegible Next",sans-serif;color:#4a5a6a;margin-top:3px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;font:600 13px/1.3 "Atkinson Hyperlegible Next",sans-serif}
+.small{font:400 14px/1.4 "Atkinson Hyperlegible Next",sans-serif;color:#4a5a6a;margin-top:8px}
+</style>
+</helmet>
+<div style="box-sizing:border-box;width:100%;padding:48px 24px 64px;font-family:'Atkinson Hyperlegible Next',sans-serif;color:#16222e">
+<div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:22px">
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font:500 15px/1.3 'Atkinson Hyperlegible Next',sans-serif;color:#5f6f7f">Roadmap as of 14 October 2026</div>
+<h1 style="margin:0;font:700 40px/1.12 Lexend,sans-serif;color:#16222e">What comes next for html-explainer</h1>
+<p style="margin:6px 0 0;padding:16px 20px;background:#e3ebfb;border:1.5px solid #2457d6;border-radius:12px;font:500 20px/1.45 Lexend,sans-serif;color:#16222e;max-width:900px">Every page is now checked by itself, so next the skill must start reliably and outside readers must test the pages before the 12 December review.</p>
+<p style="margin:0;display:flex;align-items:center;gap:8px;font:400 15px/1.45 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4a5a6a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>A plan, not a promise. Items move as we learn, and shipped work moves to the changelog.</p>
+</div>
+
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px">
+<h2 style="margin:0;font:600 26px/1.2 Lexend,sans-serif">What happens now, next and later?</h2>
+<span style="font:400 14px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#5f6f7f">Chapter 1 of 4, about 2 minutes</span>
+</div>
+
+<div class="lanes">
+
+<section class="lane" aria-labelledby="ln-now" style="border:2px solid #2457d6">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+<h3 id="ln-now" style="margin:0;font:700 22px/1.2 Lexend,sans-serif">Now</h3>
+<span style="font:600 13px/1.3 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">3 of 5 slots</span>
+</div>
+<p style="margin:4px 0 14px;font:500 15px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#16222e">Next 4 weeks. Committed. Top item first.</p>
+<ul>
+<li class="card" id="i-trigger"><span class="dot" aria-hidden="true" style="background:#2457d6;color:#ffffff">●</span>
+<div class="word" style="color:#2457d6">Under way</div>
+<div class="title">The skill starts when asked</div>
+<div class="line">Sharper descriptions, tested on the phrases people type.</div>
+<div class="meta"><span class="chip" style="border:1.5px solid #2457d6;color:#2457d6"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2457d6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>Unblocks 2</span></div>
+</li>
+<li class="card" id="i-name"><span class="dot" aria-hidden="true" style="background:#6d4ed8;color:#ffffff">?</span>
+<div class="word" style="color:#6d4ed8">Needs your ruling</div>
+<div class="title">Pick the final name</div>
+<div class="line">A rename after listing loses every install.</div>
+<div class="meta"><span class="chip" style="border:1.5px solid #2457d6;color:#2457d6"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2457d6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>Unblocks 2</span></div>
+</li>
+<li class="card" id="i-readers"><span class="dot" aria-hidden="true" style="background:#ffffff;border:2px solid #aebbc8;color:#4a5a6a"></span>
+<div class="word" style="color:#4a5a6a">Planned</div>
+<div class="title">Test pages with outside readers</div>
+<div class="line">Five to ten readers, one topic shown three ways.</div>
+<div class="meta"><span class="chip" style="border:1.5px solid #2457d6;color:#2457d6"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2457d6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>Unblocks 4</span></div>
+<div class="small" style="display:flex;align-items:center;gap:6px;color:#16222e"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16222e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg><b style="font-weight:700">Fixed date:</b> by 12 December, the review needs it.</div>
+</li>
+</ul>
+</section>
+
+<section class="lane" aria-labelledby="ln-next">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+<h3 id="ln-next" style="margin:0;font:700 22px/1.2 Lexend,sans-serif">Next</h3>
+<span style="font:600 13px/1.3 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">4 of 5 slots</span>
+</div>
+<p style="margin:4px 0 14px;font:500 15px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#16222e">1 to 3 months. Likely. Not in order.</p>
+<ul>
+<li class="card" id="i-list"><span class="dot" aria-hidden="true" style="background:#9c5d00;color:#ffffff">!</span>
+<div class="word" style="color:#9c5d00">Waits on another</div>
+<div class="title">List in Anthropic's directory</div>
+<div class="line">Submitted from the claude.ai account.</div>
+<div class="small">After: <a href="#i-name">Pick the final name</a>, <a href="#i-trigger">The skill starts when asked</a></div>
+<div class="small" style="margin-top:4px">Outside: Anthropic reviews each listing.</div>
+</li>
+<li class="card"><span class="dot" aria-hidden="true" style="background:#ffffff;border:2px solid #aebbc8;color:#4a5a6a"></span>
+<div class="word" style="color:#4a5a6a">Planned</div>
+<div class="title">Browser layout check</div>
+<div class="line">Catches sideways scroll and words split in two.</div>
+</li>
+<li class="card"><span class="dot" aria-hidden="true" style="background:#ffffff;border:2px solid #aebbc8;color:#4a5a6a"></span>
+<div class="word" style="color:#4a5a6a">Planned</div>
+<div class="title">Tested installs in other agents</div>
+<div class="line">Codex, Gemini CLI, Cursor and Copilot.</div>
+</li>
+<li class="card" style="border-style:dashed;border-width:2px"><span class="dot" aria-hidden="true" style="background:#ffffff;border:2px dashed #4a5a6a;color:#4a5a6a"></span>
+<div class="word" style="color:#4a5a6a">Planned</div>
+<div class="title">Publish pages as Claude artifacts</div>
+<div class="line">Offer an artifact link next to the file.</div>
+<div class="meta"><span class="chip" style="border:1.5px dashed #4a5a6a;color:#16222e">Exploring: depends on the platform</span></div>
+</li>
+</ul>
+</section>
+
+<section class="lane" aria-labelledby="ln-later" style="border-style:dashed">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+<h3 id="ln-later" style="margin:0;font:700 22px/1.2 Lexend,sans-serif">Later</h3>
+<span style="font:600 13px/1.3 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">3 of 5 slots</span>
+</div>
+<p style="margin:4px 0 14px;font:500 15px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#16222e">3 months or more. Exploring. Not in order.</p>
+<ul>
+<li class="card"><span class="dot" aria-hidden="true" style="background:#9c5d00;color:#ffffff">!</span>
+<div class="word" style="color:#9c5d00">Waits on another</div>
+<div class="title">Pull request pages in CI</div>
+<div class="line">A page for every pull request.</div>
+<div class="small">After: <a href="#i-readers">Test pages with outside readers</a></div>
+</li>
+<li class="card"><span class="dot" aria-hidden="true" style="background:#9c5d00;color:#ffffff">!</span>
+<div class="word" style="color:#9c5d00">Waits on another</div>
+<div class="title">Brand themes</div>
+<div class="line">Your colours, the same contrast rules.</div>
+<div class="small">After: <a href="#i-readers">Test pages with outside readers</a></div>
+</li>
+<li class="card"><span class="dot" aria-hidden="true" style="background:#9c5d00;color:#ffffff">!</span>
+<div class="word" style="color:#9c5d00">Waits on another</div>
+<div class="title">More languages</div>
+<div class="line">After Japanese, on request.</div>
+<div class="small">After: <a href="#i-readers">Test pages with outside readers</a></div>
+</li>
+</ul>
+</section>
+
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+<details style="background:#ffffff;border:1.5px solid #aebbc8;border-radius:10px;padding:12px 16px">
+<summary style="cursor:pointer;display:flex;align-items:center;gap:10px;font:600 17px/1.3 Lexend,sans-serif;color:#16222e"><span aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:#14784f;color:#ffffff;display:inline-flex;align-items:center;justify-content:center;font:700 12px/1 Lexend,sans-serif">✓</span>Shipped in 1.5.0: 3 items<span style="margin-left:auto;font:500 15px/1.3 'Atkinson Hyperlegible Next',sans-serif"><a href="#changelog">Changelog</a></span></summary>
+<ul style="margin:10px 0 0 32px;padding:0;font:400 15px/1.6 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a"><li>Pages check themselves</li><li>Upgrade old pages</li><li>Answer by tapping</li></ul>
+</details>
+<details style="background:#ffffff;border:1.5px solid #aebbc8;border-radius:10px;padding:12px 16px">
+<summary style="cursor:pointer;display:flex;align-items:center;gap:10px;font:600 17px/1.3 Lexend,sans-serif;color:#16222e"><span aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:#c43a4b;color:#ffffff;display:inline-flex;align-items:center;justify-content:center;font:700 12px/1 Lexend,sans-serif">✕</span>Parked on purpose: 3 items, each with what would bring it back</summary>
+<ul style="margin:10px 0 0 32px;padding:0;font:400 15px/1.6 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a"><li>New page types. Back when an outside user's content fits none.</li><li>Motion companion. Back when Claude Code gains a hook or API for it.</li><li>A paid tier. Back when teams ask for more than a file.</li></ul>
+</details>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1320}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

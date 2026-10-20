@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>One combined ranking</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&amp;family=Atkinson+Hyperlegible+Next:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#f2f5f8}
+a{color:#2457d6}a:hover{color:#1a3f9e}
+button{font:inherit;cursor:pointer}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.tiles{grid-template-columns:minmax(0,1fr)}}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid #d3dce4;vertical-align:middle}
+th{font:600 14px/1.3 Lexend,sans-serif;color:#4a5a6a;background:#e8edf2}
+</style>
+</helmet>
+<div style="box-sizing:border-box;width:100%;padding:48px 24px 64px;font-family:'Atkinson Hyperlegible Next',sans-serif;color:#16222e">
+<div style="max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:20px">
+
+<div style="font:500 15px/1.3 'Atkinson Hyperlegible Next',sans-serif;color:#5f6f7f">Merged answers, sample data</div>
+<h1 style="margin:0;font:700 38px/1.15 Lexend,sans-serif">Which ideas come first, with every reader counted?</h1>
+<p style="margin:0;padding:16px 20px;background:#e3ebfb;border:1.5px solid #2457d6;border-radius:12px;font:500 20px/1.45 Lexend,sans-serif;max-width:900px">The four readers mostly agree: lane notes first, the unblocks count second. They split on the backlog view.</p>
+
+<div class="tiles">
+<div style="background:#ffffff;border:1.5px solid #aebbc8;border-radius:12px;padding:16px"><div style="font:700 34px/1.1 Lexend,sans-serif">4</div><div style="margin-top:4px;font:400 15px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">readers ranked all 6 ideas</div></div>
+<div style="background:#dff3ea;border:1.5px solid #14784f;border-radius:12px;padding:16px"><div style="display:flex;align-items:center;gap:8px;font:700 26px/1.2 Lexend,sans-serif;color:#14784f"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#14784f;color:#ffffff;display:inline-flex;align-items:center;justify-content:center;font:700 13px/1 Lexend,sans-serif">✓</span>Strong agreement</div><div style="margin-top:4px;font:400 15px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#16222e">The combined order is safe to use.</div></div>
+<div style="background:#fdf0d8;border:1.5px solid #9c5d00;border-radius:12px;padding:16px"><div style="display:flex;align-items:center;gap:8px;font:700 26px/1.2 Lexend,sans-serif;color:#9c5d00"><span aria-hidden="true" style="width:24px;height:24px;border-radius:50%;background:#9c5d00;color:#ffffff;display:inline-flex;align-items:center;justify-content:center;font:700 13px/1 Lexend,sans-serif">!</span>1 idea contested</div><div style="margin-top:4px;font:400 15px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#16222e">Talk about it before you build it.</div></div>
+</div>
+
+<div style="background:#ffffff;border:1.5px solid #aebbc8;border-radius:12px;overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;min-width:820px">
+<caption style="caption-side:top;text-align:left;padding:14px 14px 4px;font:600 18px/1.3 Lexend,sans-serif">Combined ranking, best average place first</caption>
+<thead><tr><th scope="col">Place</th><th scope="col">Idea</th><th scope="col">Reader 1</th><th scope="col">Reader 2</th><th scope="col">Reader 3</th><th scope="col">Reader 4</th><th scope="col" style="width:220px">Spread of places, 1 to 6</th><th scope="col">Flag</th></tr></thead>
+<tbody>
+<sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+<tr style="background:{{ r.bg }}">
+<td style="font:700 20px/1 Lexend,sans-serif">{{ r.place }}</td>
+<th scope="row" style="background:transparent;color:#16222e;font:600 16px/1.3 Lexend,sans-serif">{{ r.title }}<div style="font:400 13px/1.3 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a;margin-top:2px">Average place {{ r.mean }}</div></th>
+<td style="font:600 16px/1 Lexend,sans-serif">{{ r.r1 }}</td>
+<td style="font:600 16px/1 Lexend,sans-serif">{{ r.r2 }}</td>
+<td style="font:600 16px/1 Lexend,sans-serif">{{ r.r3 }}</td>
+<td style="font:600 16px/1 Lexend,sans-serif">{{ r.r4 }}</td>
+<td><div role="img" aria-label="{{ r.spreadLabel }}" style="position:relative;height:22px"><div style="position:absolute;left:0;right:0;top:10px;height:2px;background:#d3dce4"></div><div style="position:absolute;top:6px;height:10px;border-radius:5px;background:{{ r.barColor }};left:{{ r.left }}%;width:{{ r.width }}%"></div><div style="position:absolute;top:3px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:#ffffff;border:3px solid #16222e;box-sizing:border-box;left:{{ r.dot }}%"></div></div></td>
+<td><sc-if value="{{ r.contested }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:999px;background:#9c5d00;color:#ffffff;font:600 13px/1.3 'Atkinson Hyperlegible Next',sans-serif">! Contested</span></sc-if></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<p style="margin:0;font:400 15px/1.45 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">Place is the average of everyone's places. The bar runs from the best to the worst place an idea got, and the ring marks its average. Contested means two readers put it 4 or more places apart.</p>
+
+<details style="background:#ffffff;border:1.5px solid #aebbc8;border-radius:10px;padding:12px 16px">
+<summary style="cursor:pointer;font:600 16px/1.3 Lexend,sans-serif">How agreement is measured</summary>
+<p style="margin:10px 0 0;font:400 15px/1.5 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">Kendall's W is 0.68 for these answers, on a scale from 0 (no agreement) to 1 (everyone the same). The page names a combined order only at 0.3 or above, and needs 3 readers or more.</p>
+</details>
+
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button type="button" style="min-height:44px;padding:0 18px;border-radius:10px;border:2px solid #2457d6;background:#2457d6;color:#ffffff;font:700 15px/1 Lexend,sans-serif">Copy as Markdown</button>
+<button type="button" style="min-height:44px;padding:0 18px;border-radius:10px;border:2px solid #aebbc8;background:#ffffff;color:#16222e;font:600 15px/1 Lexend,sans-serif">Download CSV</button>
+<button type="button" style="min-height:44px;padding:0 18px;border-radius:10px;border:2px solid #aebbc8;background:#ffffff;color:#16222e;font:600 15px/1 Lexend,sans-serif">Download JSON</button>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":980}}'>
+var DATA = [
+  { title: 'Lane notes and one set of status words', ranks: [1, 1, 3, 1] },
+  { title: 'Count what each item unblocks', ranks: [2, 3, 1, 2] },
+  { title: 'Mark only the exceptions', ranks: [3, 2, 5, 3] },
+  { title: 'Shipped and parked fold away', ranks: [4, 4, 4, 5] },
+  { title: 'A backlog view with a cut line', ranks: [6, 6, 2, 4] },
+  { title: 'One combined ranking', ranks: [5, 5, 6, 6] }
+];
+class Component extends DCLogic {
+  renderVals() {
+    var n = 6;
+    var pct = function (p) { return ((p - 1) / (n - 1)) * 100; };
+    var rows = DATA.map(function (d, i) {
+      var min = Math.min.apply(null, d.ranks), max = Math.max.apply(null, d.ranks);
+      var mean = d.ranks.reduce(function (a, b) { return a + b; }, 0) / d.ranks.length;
+      var contested = max - min >= 4;
+      return {
+        place: String(i + 1), title: d.title, mean: mean.toFixed(2).replace(/0$/, '').replace(/\.0$/, ''),
+        r1: d.ranks[0], r2: d.ranks[1], r3: d.ranks[2], r4: d.ranks[3],
+        left: pct(min).toFixed(1), width: Math.max(2, pct(max) - pct(min)).toFixed(1), dot: pct(mean).toFixed(1),
+        barColor: contested ? '#9c5d00' : '#2457d6', contested: contested, bg: contested ? '#fdf0d8' : '#ffffff',
+        spreadLabel: 'Places ' + min + ' to ' + max + ', average ' + mean.toFixed(2)
+      };
+    });
+    return { rows: rows };
+  }
+}
+</script>
+</body>
+</html>

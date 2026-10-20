@@ -1,6 +1,6 @@
 # Roadmap and backlog redesign
 
-Status: proposal, awaiting Rodrigo's approval. Written 2026-10-14.
+Status: approved by Rodrigo on 2026-10-14 (all six boards) and shipped in 1.6.0 (see `CHANGELOG.md`, 1.6.0). Written 2026-10-14. The canvas below is an archived record; its source is in `docs/dev/design/2026-10-14-roadmap-backlog-canvas/`.
 
 - Research report (private): `C:\Dev\explainer-eval\reports\Roadmap and backlog page design.md`, with notes in `research_notes/Roadmap and backlog page design/`.
 - Design canvas (private): https://claude.ai/artifact/HbUB4LJmuTgJka7gchpeMV, six artboards: today's lanes, proposed lanes on desktop and on a phone, a bucket row for prioritise, a combined ranking, and a backlog with a cut line.

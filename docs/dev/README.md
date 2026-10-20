@@ -8,6 +8,7 @@ Files keep the paths they had when they were written. Before release 1.4.0 the t
 |---|---|
 | `plan/` | Build specs for each release |
 | `proposals/` | Design proposals, including parked ones |
+| `design/` | Source of the design canvases whose builds have shipped |
 | `research/` | Research that shaped the visuals and the roadmap |
 | `scenarios/` | Prompts used to assess the plugin across audiences and page types |
 | `explainers/` | Explainer pages about the plugin, made with earlier versions |
