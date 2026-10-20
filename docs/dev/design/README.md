@@ -6,7 +6,7 @@ Each canvas is a folder of `.dc.html` artboards and a `canvas.json` layout. Thes
 
 | Folder | Canvas | Shipped in | Status |
 |---|---|---|---|
-| `2026-10-14-roadmap-backlog-canvas/` | Roadmap and backlog redesign, https://claude.ai/artifact/HbUB4LJmuTgJka7gchpeMV (private) | 1.6.0 | Kept as a record (2026-10-19). The shipped design is `docs/roadmap.html` and the roadmap parts of `skills/html-explainer/assets/gallery.html`. |
+| `2026-10-14-roadmap-backlog-canvas/` | Roadmap and backlog design (shipped in 1.6.0), https://claude.ai/artifact/HbUB4LJmuTgJka7gchpeMV (private) | 1.6.0 | Kept as a record (2026-10-19). A fourth board, added 2026-10-20, shows the live roadmap page in 1.9.0; `shipped-roadmap.webp` here is that image. The shipped design is `docs/roadmap.html` and the roadmap parts of `skills/html-explainer/assets/gallery.html`. |
 
 Two other canvases are recorded but not kept here, because their artboards hold private project content:
 
