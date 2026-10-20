@@ -6,12 +6,12 @@ Each canvas is a folder of `.dc.html` artboards and a `canvas.json` layout. Thes
 
 | Folder | Canvas | Shipped in | Status |
 |---|---|---|---|
-| `2026-10-14-roadmap-backlog-canvas/` | Roadmap and backlog redesign, https://claude.ai/artifact/HbUB4LJmuTgJka7gchpeMV (private, razorstick account) | 1.6.0 | Archived. The shipped design is `docs/roadmap.html` and the roadmap parts of `skills/html-explainer/assets/gallery.html`. |
+| `2026-10-14-roadmap-backlog-canvas/` | Roadmap and backlog redesign, https://claude.ai/artifact/HbUB4LJmuTgJka7gchpeMV (private) | 1.6.0 | Archived. The shipped design is `docs/roadmap.html` and the roadmap parts of `skills/html-explainer/assets/gallery.html`. |
 
 Two other canvases are recorded but not kept here, because their artboards hold private project content:
 
-- **Field guide redesign**, https://claude.ai/artifact/1HocoT2mHHeiU6fpRcgQG4 (private, razorstick account), shipped in 1.7.0. Its boards redraw a private Lockercore field guide. The public record is `docs/dev/proposals/2026-10-14-field-guide-type.md` and `skills/html-explainer/examples/field-guide.html`.
-- **Explainer types redesign**, https://claude.ai/artifact/5RJfShZTE4xS6BW4LhfSTq (private, rodrigoarias4 account), shipped in 1.8.0. Its boards use Lockercore, FormIntact and Spire content. Its source is kept in the private explainer-eval repository, and the public record is `docs/dev/plan/2026-10-15-1.8.0-redesign-build-spec.md`.
+- **Field guide redesign**, https://claude.ai/artifact/1HocoT2mHHeiU6fpRcgQG4 (private), shipped in 1.7.0. Its boards redraw a private Lockercore field guide. The public record is `docs/dev/proposals/2026-10-14-field-guide-type.md` and `skills/html-explainer/examples/field-guide.html`.
+- **Explainer types redesign**, https://claude.ai/artifact/5RJfShZTE4xS6BW4LhfSTq (private), shipped in 1.8.0. Its boards use Lockercore, FormIntact and Spire content. Its source is kept in the private explainer-eval repository, and the public record is `docs/dev/plan/2026-10-15-1.8.0-redesign-build-spec.md`.
 
 ## Rule
 
