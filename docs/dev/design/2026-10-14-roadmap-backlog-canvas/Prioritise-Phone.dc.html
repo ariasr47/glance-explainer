@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sort ideas into buckets</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&amp;family=Atkinson+Hyperlegible+Next:wght@400;500;700&amp;display=swap">
+<style>
+body{margin:0;background:#f2f5f8}
+a{color:#2457d6}a:hover{color:#1a3f9e}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:3px solid #2457d6;outline-offset:2px}
+button[disabled]{opacity:.4;cursor:default}
+</style>
+</helmet>
+<div style="box-sizing:border-box;width:390px;min-height:1960px;padding:22px 16px 40px;font-family:'Atkinson Hyperlegible Next',sans-serif;color:#16222e;background:#f2f5f8;display:flex;flex-direction:column;gap:16px">
+
+<div style="font:500 14px/1.3 'Atkinson Hyperlegible Next',sans-serif;color:#5f6f7f">Prioritise, 6 ideas</div>
+<h1 style="margin:0;font:700 30px/1.15 Lexend,sans-serif">Which ideas come first?</h1>
+<p style="margin:0;padding:14px 16px;background:#e3ebfb;border:1.5px solid #2457d6;border-radius:12px;font:500 18px/1.45 Lexend,sans-serif">Tap a bucket for each idea. My pick is already set, marked ★, so you only change what you disagree with.</p>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ items }}" as="item" hint-placeholder-count="6">
+<div style="background:#ffffff;border:1.5px solid #aebbc8;border-radius:12px;padding:14px">
+<div style="font:600 17px/1.3 Lexend,sans-serif">{{ item.title }}</div>
+<div style="margin-top:3px;font:400 15px/1.45 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">{{ item.line }}</div>
+<div role="group" aria-label="{{ item.groupLabel }}" style="margin-top:12px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px">
+<sc-for list="{{ item.buttons }}" as="b" hint-placeholder-count="4">
+<button type="button" aria-pressed="{{ b.pressed }}" onClick="{{ b.pick }}" style="min-height:44px;padding:4px 2px;border-radius:10px;border:2px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};font:600 14px/1.15 Lexend,sans-serif">{{ b.label }}</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="background:#ffffff;border:2px solid #2457d6;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px">
+<h2 style="margin:0;font:700 21px/1.25 Lexend,sans-serif">Order your Now ideas</h2>
+<p style="margin:0;font:400 15px/1.45 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">Only the Now bucket gets an order. Top item first.</p>
+<sc-if value="{{ hasNow }}" hint-placeholder-val="{{ true }}">
+<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ nowItems }}" as="n" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:8px;background:#e8edf2;border-radius:10px;padding:8px 8px 8px 12px">
+<span style="flex:none;width:28px;height:28px;border-radius:50%;background:#2457d6;color:#ffffff;display:flex;align-items:center;justify-content:center;font:700 14px/1 Lexend,sans-serif">{{ n.pos }}</span>
+<span style="flex:1;min-width:0;font:600 15px/1.3 Lexend,sans-serif">{{ n.title }}</span>
+<button type="button" aria-label="{{ n.upLabel }}" disabled="{{ n.first }}" onClick="{{ n.up }}" style="flex:none;width:44px;height:44px;border-radius:10px;border:1.5px solid #aebbc8;background:#ffffff;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16222e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"></path></svg></button>
+<button type="button" aria-label="{{ n.downLabel }}" disabled="{{ n.last }}" onClick="{{ n.down }}" style="flex:none;width:44px;height:44px;border-radius:10px;border:1.5px solid #aebbc8;background:#ffffff;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16222e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg></button>
+<button type="button" aria-label="{{ n.topLabel }}" disabled="{{ n.first }}" onClick="{{ n.top }}" style="flex:none;width:44px;height:44px;border-radius:10px;border:1.5px solid #aebbc8;background:#ffffff;display:flex;align-items:center;justify-content:center"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16222e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5h12M8 13l4-4 4 4M12 9v10"></path></svg></button>
+</li>
+</sc-for>
+</ol>
+<button type="button" aria-pressed="{{ agreed }}" onClick="{{ agree }}" style="min-height:44px;border-radius:10px;border:2px solid #14784f;background:{{ agreeBg }};color:{{ agreeFg }};font:600 15px/1.2 Lexend,sans-serif">{{ agreeLabel }}</button>
+</sc-if>
+<sc-if value="{{ noNow }}" hint-placeholder-val="{{ false }}">
+<p style="margin:0;font:500 15px/1.45 'Atkinson Hyperlegible Next',sans-serif">Nothing is in Now. Tap Now on an idea above to add it here.</p>
+</sc-if>
+<p role="status" style="margin:0;font:400 14px/1.4 'Atkinson Hyperlegible Next',sans-serif;color:#4a5a6a">{{ announce }}</p>
+</div>
+
+<div style="background:#ffffff;border:1.5px solid #aebbc8;border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 10px 30px rgba(22,34,46,.14)">
+<div style="flex:1;min-width:0;font:600 15px/1.35 'Atkinson Hyperlegible Next',sans-serif">{{ tally }}</div>
+<button type="button" onClick="{{ copy }}" style="flex:none;min-height:48px;padding:0 18px;border-radius:10px;border:2px solid #2457d6;background:#2457d6;color:#ffffff;font:700 16px/1 Lexend,sans-serif">{{ copyLabel }}</button>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":1960}}'>
+var ITEMS = [
+  { id: 'notes', title: 'Lane notes and one set of status words', line: 'Every lane states its horizon and how sure we are.', rec: 'now' },
+  { id: 'marks', title: 'Mark only the exceptions', line: 'A dashed card for less sure, a line for a fixed date.', rec: 'now' },
+  { id: 'unblocks', title: 'Count what each item unblocks', line: 'The page counts it, so nobody traces links.', rec: 'now' },
+  { id: 'folds', title: 'Shipped and parked fold away', line: 'Now holds only live work.', rec: 'next' },
+  { id: 'merge', title: 'One combined ranking', line: 'The merge tool averages everyone and flags disagreement.', rec: 'next' },
+  { id: 'backlog', title: 'A backlog view with a cut line', line: 'Top five ranked, the rest grouped by theme.', rec: 'later' }
+];
+var BUCKETS = [ { key: 'now', label: 'Now' }, { key: 'next', label: 'Next' }, { key: 'later', label: 'Later' }, { key: 'not', label: 'Not now' } ];
+function titleOf(id) { for (var i = 0; i < ITEMS.length; i++) if (ITEMS[i].id === id) return ITEMS[i].title; return id; }
+
+class Component extends DCLogic {
+  cur() {
+    var s = this.state || {};
+    var bucket = s.bucket;
+    if (!bucket) { bucket = {}; ITEMS.forEach(function (i) { bucket[i.id] = i.rec; }); }
+    var order = s.order || ITEMS.filter(function (i) { return i.rec === 'now'; }).map(function (i) { return i.id; });
+    return { bucket: bucket, order: order, agreed: !!s.agreed, copied: !!s.copied, announce: s.announce || '' };
+  }
+  renderVals() {
+    var self = this, c = this.cur();
+    var pick = function (id, key) {
+      return function () {
+        var bucket = Object.assign({}, c.bucket); bucket[id] = key;
+        var order = c.order.filter(function (x) { return x !== id; });
+        if (key === 'now') order.push(id);
+        var label = BUCKETS.filter(function (b) { return b.key === key; })[0].label;
+        self.setState({ bucket: bucket, order: order, agreed: false, copied: false, announce: titleOf(id) + ' moved to ' + label + '.' });
+      };
+    };
+    var items = ITEMS.map(function (i) {
+      return {
+        title: i.title, line: i.line, groupLabel: 'Bucket for ' + i.title,
+        buttons: BUCKETS.map(function (b) {
+          var on = c.bucket[i.id] === b.key;
+          return { label: (i.rec === b.key ? '★ ' : '') + b.label, pressed: on, pick: pick(i.id, b.key),
+            bg: on ? '#2457d6' : '#ffffff', fg: on ? '#ffffff' : '#16222e', bd: on ? '#2457d6' : '#aebbc8' };
+        })
+      };
+    });
+    var move = function (id, to) {
+      return function () {
+        var order = c.order.filter(function (x) { return x !== id; });
+        order.splice(Math.max(0, Math.min(order.length, to)), 0, id);
+        self.setState({ order: order, agreed: false, copied: false, announce: titleOf(id) + ' is now ' + (order.indexOf(id) + 1) + ' of ' + order.length + '.' });
+      };
+    };
+    var nowItems = c.order.map(function (id, n) {
+      var t = titleOf(id);
+      return { pos: String(n + 1), title: t, first: n === 0, last: n === c.order.length - 1,
+        up: move(id, n - 1), down: move(id, n + 1), top: move(id, 0),
+        upLabel: 'Move ' + t + ' up', downLabel: 'Move ' + t + ' down', topLabel: 'Move ' + t + ' to the top' };
+    });
+    var changed = ITEMS.filter(function (i) { return c.bucket[i.id] !== i.rec; }).length;
+    var copy = function () {
+      var lines = ['Prioritise, 6 ideas: ' + (changed ? changed + ' changed from ★' : 'all ★ (recommended)')];
+      c.order.forEach(function (id, n) { lines.push('Now ' + (n + 1) + ': ' + titleOf(id)); });
+      ITEMS.forEach(function (i) { if (c.bucket[i.id] !== 'now') lines.push(BUCKETS.filter(function (b) { return b.key === c.bucket[i.id]; })[0].label + ': ' + i.title); });
+      try { navigator.clipboard.writeText(lines.join('\n')); } catch (e) {}
+      self.setState({ copied: true });
+    };
+    return {
+      items: items, nowItems: nowItems, hasNow: nowItems.length > 0, noNow: nowItems.length === 0,
+      agreed: c.agreed, agree: function () { self.setState({ agreed: true, announce: 'Order confirmed.' }); },
+      agreeLabel: c.agreed ? '✓ This order is right' : 'This order is right',
+      agreeBg: c.agreed ? '#14784f' : '#ffffff', agreeFg: c.agreed ? '#ffffff' : '#14784f',
+      announce: c.announce,
+      tally: changed ? changed + ' of 6 changed from ★' : 'All 6 match ★',
+      copy: copy, copyLabel: c.copied ? '✓ Copied' : 'Copy picks'
+    };
+  }
+}
+</script>
+</body>
+</html>
