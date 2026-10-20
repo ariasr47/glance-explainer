@@ -1,6 +1,6 @@
 # A field-guide page type
 
-Status: approved by Rodrigo on 2026-10-14 and shipped in 1.7.0 as the `field-guide` page type (see `CHANGELOG.md`, 1.7.0, and `skills/html-explainer/examples/field-guide.html`). Written 2026-10-14. Design canvas (private, an archived record): https://claude.ai/artifact/1HocoT2mHHeiU6fpRcgQG4, three artboards: the page as written, the proposed desktop page, and a working phone prototype. Its source is not kept in this repository, because the boards redraw a private field guide; see `docs/dev/design/README.md`.
+Status: approved by Rodrigo on 2026-10-14 and shipped in 1.7.0 as the `field-guide` page type (see `CHANGELOG.md`, 1.7.0, and `skills/html-explainer/examples/field-guide.html`). Written 2026-10-14. Design canvas (private, retired on 2026-10-19), three artboards: the page as written, the proposed desktop page, and a working phone prototype. Its source is not kept in this repository, because the boards redraw a private field guide; see `docs/dev/design/README.md`.
 
 ## Source
 
