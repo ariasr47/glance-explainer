@@ -36,7 +36,7 @@ Every page this plugin makes has the same shape:
 ## What makes it different
 
 - **Checked before you see it.** A checker script runs on every page and the agent fixes each failure first: answer length, at most three keep facts, a picture per chapter, text contrast of 4.5 to 1 in light and dark, status colours that always carry a glyph, diagram labels readable on a phone, and the rules of each page type. In Claude Code a hook runs it at the end of every turn that wrote a page, so it cannot be skipped.
-- **The reader is in control.** One Reading tools button holds skim mode, one chapter at a time, a reading ruler, text size, dark or light and keyboard shortcuts. Each chapter can be read aloud, and a link resumes where you left off. Nothing moves unless you ask.
+- **The reader is in control.** A dark or light switch sits beside one Reading tools button, which holds skim mode, one chapter at a time, a reading ruler, text size and keyboard shortcuts. Each chapter can be read aloud, and a link resumes where you left off. Nothing moves unless you ask.
 - **Answer by tapping.** A decision page can end in tap-to-answer fields, and a ballot puts one decision per card, pictured or in words, with a Pick all ★ button and warning chips such as "Can't undo". You copy every answer back to the agent in one paste, and a gather page collects answers from several readers, which a merge tool combines.
 - **One file, offline, private.** Each page is a single HTML file. No server, no account, no tracking. It works on a phone and prints cleanly.
 

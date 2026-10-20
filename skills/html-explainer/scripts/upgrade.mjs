@@ -34,6 +34,7 @@ const KNOWN = {
   'a289e76ebdc435d0': '1.8.0',
   'a44e96f9ad0659b3': '1.8.1',
   'c91f446872902d39': '1.9.0',
+  '9dae902e0dda4c49': '1.9.1',
 };
 
 const here = (p) => fileURLToPath(new URL(p, import.meta.url));

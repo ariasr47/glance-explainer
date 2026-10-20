@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.0">
+<meta name="generator" content="html-explainer 1.9.1">
 <meta name="color-scheme" content="light dark">
 <title>Pull request 9: the 1.8.1 polish</title>
 <meta name="description" content="A reviewer's page for pull request 9 of the html-explainer plugin: what changed, where the 192 added lines go, what the checks prove, and where to look first.">
@@ -157,6 +157,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   --ico-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --ico-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 15 6-6 6 6'/%3E%3C/svg%3E");
   --ico-sliders: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'/%3E%3C/svg%3E");
+  --ico-theme: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 3a9 9 0 0 1 0 18z' fill='%23000'/%3E%3C/svg%3E");
 }
 .progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
 .page { width: min(100% - 2rem, var(--wide)); margin: 0 auto; padding: 1.5rem 0 6rem; }
@@ -200,6 +201,12 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .tools-toggle::before { content: ""; flex: none; width: 18px; height: 18px; background: currentColor; -webkit-mask: var(--ico-sliders) center / contain no-repeat; mask: var(--ico-sliders) center / contain no-repeat; }
 .tools-toggle:hover, .tools-toggle[aria-expanded="true"] { border-color: var(--here); }
 .tools-toggle[aria-expanded="true"] { box-shadow: 0 0 0 1px var(--here); }
+/* dark or light is the one tool people look for at once, so it stays visible as an icon button beside Reading tools (it also stays on the D key) */
+.tools-bar { display: inline-flex; align-items: center; gap: .5rem; }
+.tools .theme-quick, .tools-bar .theme-quick { flex: none; display: grid; place-items: center; width: 44px; min-height: 44px; height: 44px; padding: 0; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--ink); font-size: 0; line-height: 0; cursor: pointer; }
+.tools-bar .theme-quick::before { content: ""; width: 20px; height: 20px; margin: 0; background: currentColor; -webkit-mask: var(--ico-theme) center / contain no-repeat; mask: var(--ico-theme) center / contain no-repeat; }
+.tools-bar .theme-quick::after { content: none; }
+.tools-bar .theme-quick:hover { border-color: var(--here); }
 .tools { display: none; }
 html.js .tools:not([hidden]) { display: flex; flex-direction: column; gap: 2px; margin: .5rem 0 0; padding: .4rem; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 14px; }  /* in the rail it sits in the flow, so no shadow (the rail scrolls and would clip it) */
 .tools button { position: relative; display: flex; align-items: center; gap: 0; width: 100%; min-height: 44px; padding: 0 .55rem 0 .5rem; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font: 500 .833rem/1.2 var(--font-body); text-align: left; }
@@ -219,7 +226,7 @@ html.js .tools:not([hidden]) { display: flex; flex-direction: column; gap: 2px; 
 html[data-size="xl"] .tools .sizes button[data-step="1"]::after { content: "+"; }
 /* below 1100 px the panel opens under the meta line and floats over what follows */
 .meta { position: relative; }
-.meta > .tools-toggle { margin-top: .15rem; }
+.meta > .tools-toggle, .meta > .tools-bar { margin-top: .15rem; }
 .meta > .tools { position: absolute; top: calc(100% + .25rem); left: 0; z-index: 55; width: min(100%, 20rem); margin: 0; box-shadow: var(--shadow-float); }
 main { min-width: 0; }
 
@@ -1383,7 +1390,7 @@ html:not(.js) .ballot-tray { display: none; }
   :root { --paper: #fff; --card: #fff; }
   html, html[data-size] { font-size: 11pt; }
   .page { display: block; width: auto; padding: 0; }
-  .rail, .progress, .skip, .tools, .tools-toggle, .chapter > header label, .read-aloud, .collect, .resume, .stepper-nav, .views-tabs { display: none !important; }
+  .rail, .progress, .skip, .tools, .tools-toggle, .tools-bar, .chapter > header label, .read-aloud, .collect, .resume, .stepper-nav, .views-tabs { display: none !important; }
   .map { display: block !important; }  /* the rail is the map on a wide screen; on paper the map list is the contents */
   .chapter { break-inside: avoid; border-color: #bbb; box-shadow: none; }
   details.fold { break-inside: avoid; }
@@ -1666,7 +1673,16 @@ const L = T[(root.lang || '').slice(0, 2).toLowerCase()] || T.en;
 const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 
 /* theme and text size */
-const tt = $('[data-theme-toggle]'), sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
+let tt = $('button[data-theme-toggle]');
+const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
+/* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
+Object.assign(T.en, { theme: 'Dark / light' }); Object.assign(T.ja, { theme: 'ダーク / ライト' });
+if (!tt) {
+  tt = make('button', 'theme-quick', esc(L.theme)); tt.type = 'button'; tt.setAttribute('data-theme-toggle', ''); tt.setAttribute('aria-label', L.theme); tt.title = L.theme;
+  const bar = make('div', 'tools-bar', ''), spot = $('.meta') || $('main h1') || $('h1');
+  bar.append(tt);
+  if (spot?.matches('.meta')) spot.append(bar); else spot?.after(bar);
+}
 if (store.get('explainer:theme')) root.dataset.theme = store.get('explainer:theme');
 on(tt, 'click', () => store.set('explainer:theme', root.dataset.theme = (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark' ? 'light' : 'dark'));
 root.dataset.size = store.get('explainer:size') || '';
@@ -1901,6 +1917,10 @@ if (panel) {
   toggle.type = 'button'; panel.id = panel.id || 'reading-tools'; panel.hidden = true;
   panel.setAttribute('role', 'group'); panel.setAttribute('aria-label', L.tools);
   toggle.setAttribute('aria-expanded', 'false'); toggle.setAttribute('aria-controls', panel.id);
+  /* dark or light leaves the panel and sits beside the toggle as an icon button, so it is never more than one tap away */
+  const bar = make('div', 'tools-bar', ''), quick = $('button[data-theme-toggle]', panel);
+  bar.append(toggle);
+  if (quick) { const name = txt(quick); quick.classList.add('theme-quick'); quick.setAttribute('aria-label', name); quick.title = name; bar.append(quick); }
   /* text size is three segments: smaller, normal, larger. The steps run small, normal, large (20 px), extra large (22 px). */
   const sz = $('button[data-size]', panel), steps = ['sm', '', 'lg', 'xl'];
   if (sz) {
@@ -1919,12 +1939,12 @@ if (panel) {
   }
   const place = () => {
     const host = wide.matches && railList ? railBar || railList : null;
-    if (host) { host.after(toggle); toggle.after(panel); }
-    else { const spot = $('.meta') || $('main h1'); if (spot?.matches('.meta')) spot.append(toggle, panel); else spot?.after(toggle, panel); }
+    if (host) { host.after(bar); bar.after(panel); }
+    else { const spot = $('.meta') || $('main h1'); if (spot?.matches('.meta')) spot.append(bar, panel); else spot?.after(bar, panel); }
   };
   const show = o => { panel.hidden = !o; toggle.setAttribute('aria-expanded', o); };
   on(toggle, 'click', () => show(panel.hidden));
-  on(d, 'click', e => { if (!panel.hidden && !e.target.closest?.('.tools, .tools-toggle, dialog')) show(false); });
+  on(d, 'click', e => { if (!panel.hidden && !e.target.closest?.('.tools, .tools-bar, dialog')) show(false); });
   on(d, 'keydown', e => { if (e.key === 'Escape' && !panel.hidden && !dlg?.open) { show(false); toggle.focus(); } });
   place(); wide.addEventListener?.('change', place);
 }
