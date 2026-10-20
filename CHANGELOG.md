@@ -2,6 +2,13 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 1.9.1 (2026-10-20)
+
+### Fixed
+- **Dark or light is one tap again.** Since 1.8.0 the switch sat inside the Reading tools menu, so pages looked light-only to anyone who did not open it. It is now a round icon button beside Reading tools, in the rail on a wide screen and on the meta line on a phone. The D key still works.
+- **Ballots can switch too.** A ballot page had no Dark / light button at all. Any page without one now gets the switch beside its meta line or title.
+- Old pages get both fixes through `upgrade.mjs`.
+
 ## 1.9.0 (2026-10-16)
 
 A working public example of every kind of page. Before, a prospective user could open six: the playbook, field guide, ballot, roadmap, the site's home page and the gallery. The other examples were private, because they used real project content.
