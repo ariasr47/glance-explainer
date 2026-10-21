@@ -23,5 +23,5 @@ body:
     id: check
     attributes:
       label: Checker output
-      description: The output of `node <plugin folder>/skills/html-explainer/scripts/check.mjs page.html`, if you ran it.
+      description: The output of `node <plugin folder>/skills/glance-explainer/scripts/check.mjs page.html`, if you ran it.
       render: text

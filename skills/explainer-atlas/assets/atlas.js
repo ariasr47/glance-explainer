@@ -1,4 +1,4 @@
-/* html-explainer atlas add-on, v1.1. Zero dependencies, atlas pages only.
+/* glance-explainer atlas add-on, v1.1. Zero dependencies, atlas pages only.
    Load after the template script:  <script src="atlas.js" defer></script>
 
    Markup (names are final)

@@ -1,14 +1,14 @@
 {
-  "name": "html-explainer",
-  "description": "Create single-file HTML explanations with plain language, meaningful visuals, and support for readers with ADHD or short working memory",
-  "version": "1.9.1",
+  "name": "glance-explainer",
+  "description": "Explainer pages for readers with ADHD or a short working memory: one checked HTML file with the answer first and a picture in every chapter",
+  "version": "2.0.0",
   "author": {
     "name": "Rodrigo Arias",
     "url": "https://github.com/ariasr47"
   },
-  "homepage": "https://ariasr47.github.io/html-explainer-skill/",
-  "repository": "https://github.com/ariasr47/html-explainer-skill",
+  "homepage": "https://ariasr47.github.io/glance-explainer/",
+  "repository": "https://github.com/ariasr47/glance-explainer",
   "license": "MIT",
-  "keywords": ["html", "explainer", "adhd", "accessibility", "decisions", "documentation", "visual", "plain-language"],
-  "skills": ["./skills/html-explainer", "./skills/explainer-gather", "./skills/explainer-atlas"]
+  "keywords": ["glance", "explainer", "adhd", "html", "accessibility", "decisions", "documentation", "visual", "plain-language"],
+  "skills": ["./skills/glance-explainer", "./skills/explainer-gather", "./skills/explainer-atlas"]
 }

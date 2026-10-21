@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
 <title>Pull request 9: the 1.8.1 polish</title>
-<meta name="description" content="A reviewer's page for pull request 9 of the html-explainer plugin: what changed, where the 192 added lines go, what the checks prove, and where to look first.">
+<meta name="description" content="A reviewer's page for pull request 9 of the glance-explainer plugin: what changed, where the 192 added lines go, what the checks prove, and where to look first.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1427,7 +1427,7 @@ html:not(.js) .ballot-tray { display: none; }
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
     <p class="kicker">A pull request, before you read the diff</p>
     <h1>Pull request 9: the 1.8.1 polish</h1>
-    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: a reviewer</span><span><a href="https://github.com/ariasr47/html-explainer-skill/pull/9">Pull request 9 on GitHub</a></span></div>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: a reviewer</span><span><a href="https://github.com/ariasr47/glance-explainer/pull/9">Pull request 9 on GitHub</a></span></div>
 
     <p class="answer">Pull request 9 polishes the look in 12 files, but 7 of them carry the same 24 lines, so one file, template.html, is the real change.</p>
 
@@ -1537,12 +1537,12 @@ docs/index.html                                   | 37 +++++++++++++++--------
 docs/roadmap.html                                 | 37 +++++++++++++++--------
 skills/explainer-atlas/assets/atlas.css           | 10 +++---
 skills/explainer-gather/examples/ballot.html      | 37 +++++++++++++++--------
-skills/html-explainer/assets/gallery.html         | 37 +++++++++++++++--------
-skills/html-explainer/assets/template.html        | 37 +++++++++++++++--------
-skills/html-explainer/examples/field-guide.html   | 37 +++++++++++++++--------
-skills/html-explainer/examples/playbook.html      | 37 +++++++++++++++--------
-skills/html-explainer/references/design-system.md |  4 +--
-skills/html-explainer/scripts/upgrade.mjs         |  1 +
+skills/glance-explainer/assets/gallery.html         | 37 +++++++++++++++--------
+skills/glance-explainer/assets/template.html        | 37 +++++++++++++++--------
+skills/glance-explainer/examples/field-guide.html   | 37 +++++++++++++++--------
+skills/glance-explainer/examples/playbook.html      | 37 +++++++++++++++--------
+skills/glance-explainer/references/design-system.md |  4 +--
+skills/glance-explainer/scripts/upgrade.mjs         |  1 +
 12 files changed, 192 insertions(+), 99 deletions(-)</code></pre>
         <p>This is the output of <code>git show --stat 04cb440</code>. Each of the seven pages shows 24 added and 13 removed lines.</p>
       </details>
@@ -1604,7 +1604,7 @@ claude plugin validate --strict .</code></pre>
       <p class="take"><b>Take from this:</b> six files are worth a look, and the template's 37 changed lines are the ones to read.</p>
 
       <details class="fold"><summary>Show how to confirm the seven files changed alike</summary>
-        <pre><code>for f in skills/html-explainer/assets/template.html skills/html-explainer/assets/gallery.html skills/html-explainer/examples/playbook.html skills/html-explainer/examples/field-guide.html skills/explainer-gather/examples/ballot.html docs/index.html docs/roadmap.html; do
+        <pre><code>for f in skills/glance-explainer/assets/template.html skills/glance-explainer/assets/gallery.html skills/glance-explainer/examples/playbook.html skills/glance-explainer/examples/field-guide.html skills/explainer-gather/examples/ballot.html docs/index.html docs/roadmap.html; do
   git diff -U0 04cb440~1 04cb440 -- "$f" | grep '^[+-]' | grep -v '^+++\|^---' | sort | md5sum
 done</code></pre>
         <p>Seven identical hashes mean the seven files changed in the same way. The repository check already proves this for the gallery and the two site pages.</p>

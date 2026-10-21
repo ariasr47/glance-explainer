@@ -22,7 +22,7 @@ The merge tool groups by question and exports Markdown, JSON and CSV. A `rank` o
 
 1. One question per field (one `.ballot-card` in a ballot). A second idea gets its own field.
 2. Stable `data-q` ids never change between versions or languages, so answers merge.
-3. The page passes `../../html-explainer/scripts/check.mjs` with every field empty.
+3. The page passes `../../glance-explainer/scripts/check.mjs` with every field empty.
 4. Prioritise with `buckets` for 5 to 15 items. Give every item a stable `data-id` that never changes between versions or languages, so the merge lines items up. Set `data-rec` on every item to the bucket you recommend, so a reader changes only what they disagree with. Above 15 items, split the list into two fields.
 5. A rank or buckets answer counts only when the reader acts: a move, a bucket tap, a reason, or the "This order is right" button. An untouched field stays in "Not answered".
 6. The combined view needs 3 readers and names an order only when Kendall's W is 0.3 or more. Below that it shows each reader's order and says there is not enough agreement.

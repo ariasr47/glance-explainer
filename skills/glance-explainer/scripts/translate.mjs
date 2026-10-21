@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// html-explainer translation sidecar. Zero dependencies.
+// glance-explainer translation sidecar. Zero dependencies.
 //   node translate.mjs extract page.html > strings.json
 //   node translate.mjs apply page.html strings.ja.json --lang ja [--ui ../assets/i18n/ui.ja.json] > page.ja.html
 //   node translate.mjs check page.html page.ja.html

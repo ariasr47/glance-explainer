@@ -1,19 +1,21 @@
 <!doctype html>
-<html lang="en" data-type="research">
+<html lang="en" data-type="explainer">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Why new users stop after one note</title>
-<meta name="description" content="What six interviews, a week of usage numbers and a small beta say about why new users of the notes app stop after their first note, and how far to trust each finding.">
+<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, playbook, field-guide, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
+<!-- TITLE: 2 to 6 words, the subject, not "explainer" -->
+<title>Topic name here</title>
+<meta name="description" content="One sentence: what this page lets the reader decide or understand.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1405,13 +1407,12 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="progress" aria-hidden="true"></div>
 
 <div class="page">
+  <!-- RAIL: chapter map that follows the reader. Keep to 3 to 7 chapters. -->
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#test"><span class="dot"></span>The first note is a test</a></li>
-      <li><a href="#return"><span class="dot"></span>Nothing calls people back</a></li>
-      <li><a href="#elsewhere"><span class="dot"></span>Their notes live elsewhere</a></li>
-      <li><a href="#sharing"><span class="dot"></span>Sharing may keep people</a></li>
-      <li><a href="#change"><span class="dot"></span>What this changes</a></li>
+      <li><a href="#c1"><span class="dot"></span>Chapter title</a></li>
+      <li><a href="#c2"><span class="dot"></span>Chapter title</a></li>
+      <li><a href="#c3"><span class="dot"></span>Chapter title</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,211 +1426,123 @@ html:not(.js) .ballot-tray { display: none; }
   </nav>
 
   <main id="main">
+    <!-- FOCUS NAV: only visible in one-chapter-at-a-time mode. Leave as is. -->
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">Findings from six interviews, a week of numbers and a beta</p>
-    <h1>Why new users stop after one note</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-01</span><span>For: Mara and Ted</span><span>Example with made-up data</span></div>
+    <!-- OPENING: the answer before anything else. -->
+    <p class="kicker">What this page is for, in a few words</p>
+    <h1>Topic name here</h1>
+    <div class="meta"><span>Reading time about N minutes</span><span>Written YYYY-MM-DD</span><span>For: who</span></div>
 
-    <p class="answer">Half of the people who write a first note never write a second, because the first was only a test and nothing calls them back.</p>
+    <p class="answer">The one-sentence answer or decision. If the reader reads nothing else, this is it.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>189 of 371 first-note writers never wrote a second.</li>
-        <li>One cause is strong, two are moderate, one is weak.</li>
-        <li>Sharing as a way to keep people is the weakest finding.</li>
+        <li>Fact one, under fifteen words.</li>
+        <li>Fact two.</li>
+        <li>Fact three. Never a fourth.</li>
       </ol>
     </div>
 
-    <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">What we found, and how far to trust it</h2><span class="chip here">8 sources in all</span></div>
-      <ul class="findings">
-        <li data-strength="strong"><a href="#test">The first note is a test</a><span>Short throwaway notes stop twice as often.</span><small class="evidence">6 sources</small></li>
-        <li data-strength="moderate"><a href="#return">Nothing calls people back</a><span>The app says nothing after the first note.</span><small class="evidence">5 sources</small><small class="open">1 open</small></li>
-        <li data-strength="moderate"><a href="#elsewhere">Their notes live elsewhere</a><span>Three of six keep another app.</span><small class="evidence">4 sources</small><small class="open">1 open</small></li>
-        <li data-strength="weak"><a href="#sharing">Sharing may keep people</a><span>Sharers wrote twice as many notes in a small beta.</span><small class="evidence">3 sources</small><small class="open">2 open</small></li>
-      </ul>
-      <p class="take"><b>Take:</b> two causes rest on most of the sources. The weakest, that sharing keeps people, is the one the 2.4 headline bets on.</p>
-    </section>
-
     <ol class="map">
-      <li><a href="#test"><b>The first note is a test</b><span>Strong: short notes stop twice as often.</span></a></li>
-      <li><a href="#return"><b>Nothing calls people back</b><span>Moderate: four in five never return.</span></a></li>
-      <li><a href="#elsewhere"><b>Their notes live elsewhere</b><span>Moderate: three of six keep another app.</span></a></li>
-      <li><a href="#sharing"><b>Sharing may keep people</b><span>Weak: a small beta and two interviews.</span></a></li>
-      <li><a href="#change"><b>What this changes</b><span>What we do now, and what stays open.</span></a></li>
+      <li><a href="#c1"><b>Chapter title</b><span>What you will get from it, one line.</span></a></li>
+      <li><a href="#c2"><b>Chapter title</b><span>What you will get from it, one line.</span></a></li>
     </ol>
 
-    <!-- ============ 1 ============ -->
-    <section class="chapter" id="test" data-keep="Strong: most first notes are a test, and short test notes stop twice as often.">
+    <!-- CHAPTER: one idea. Restate what the reader needs from before. End with one thing to remember.
+         KICKER: "Chapter N of M, about T minute(s)". T is the reading-path words divided by 200, rounded up (Japanese: 第N章 / 全M章、約T分, characters divided by 500). Work it out by hand; no script does it.
+         READ ALOUD: the button stays in every chapter header; the script shows it only where the browser can speak. -->
+    <section class="chapter" id="c1" data-keep="One line the sticky bar shows while this chapter is on screen">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Is the first note a real note?</h2></div>
+        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>Chapter title as a plain sentence</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> half of the people who write a first note never write a second.</p>
+      <p class="from"><b>Before this:</b> the one fact from earlier this chapter builds on.</p>
 
-      <p>In the week of 21 September, 371 new people wrote a first note, and 189 never wrote another. The first notes show why.</p>
+      <p>One idea per paragraph. Under forty words. Say it the way you would say it out loud.</p>
 
-      <div class="tiles">
-        <div class="tile"><span class="n">58%</span><span class="l">of first notes had under 10 words</span></div>
-        <div class="tile"><span class="n">65%</span><span class="l">of those short-note writers stopped</span></div>
-        <div class="tile"><span class="n">31%</span><span class="l">of longer-note writers stopped</span></div>
-        <div class="tile"><span class="n">5 of 6</span><span class="l">interviewees called it a try-out</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> people who wrote only a few words stopped twice as often as people who wrote more.</p>
+      <figure class="figure">
+        <!-- SVG diagram goes here. Use the d-* classes so it renders in both themes. See diagrams.md.
+             On a phone this svg keeps 640 px and scrolls sideways. To show a phone its own drawing, add a second
+             <svg class="narrow" viewBox="0 0 360 ..."> laid out top to bottom; it replaces this one under 560 px. -->
+        <svg viewBox="0 0 800 160" role="img" aria-labelledby="f1-title"><title id="f1-title">Describe the diagram in one sentence</title>
+          <rect class="d-box" x="20" y="50" width="200" height="60" rx="10"/><text class="d-text-b" x="120" y="86" text-anchor="middle">Step one</text>
+          <path class="d-line" d="M220 80 H300"/><path class="d-arrow" d="M300 74 L312 80 L300 86 Z"/>
+          <rect class="d-box-here" x="312" y="50" width="200" height="60" rx="10"/><text class="d-text-b" x="412" y="86" text-anchor="middle">You are here</text>
+          <path class="d-line" d="M512 80 H592"/><path class="d-arrow" d="M592 74 L604 80 L592 86 Z"/>
+          <rect class="d-box-go" x="604" y="50" width="176" height="60" rx="10"/><text class="d-text-b" x="692" y="86" text-anchor="middle">Outcome</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> the single conclusion the diagram exists to show.</figcaption>
+      </figure>
 
-      <p><b>How far to trust it: strong.</b> Six of the eight sources agree, and the numbers back the interviews.</p>
-
-      <details class="fold"><summary>Show what people said</summary>
-        <ul>
-          <li>"I typed 'test 123' to see if it saved. It did, so I was done." (P2, student)</li>
-          <li>"It was a throwaway line. I never planned to open it again." (P5, freelancer)</li>
-          <li>"I wanted to see what it looked like, not to start writing." (P6, retired nurse)</li>
-        </ul>
+      <details class="fold"><summary>Show the machinery</summary>
+        <p>Everything technical, exact names, numbers, and commands live here, out of the reading path.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> the first note is usually a test, and short test notes stop twice as often.</p>
+      <p class="remember"><b>Remember:</b> one sentence. This is the only thing carried to the next chapter.</p>
     </section>
 
-    <!-- ============ 2 ============ -->
-    <section class="chapter" id="return" data-keep="Moderate: the app is silent after note one, and four in five who stop never return.">
+    <section class="chapter" id="c2" data-keep="Second chapter's one line">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>Does anything bring people back?</h2></div>
+        <div><p class="kicker">Chapter 2 of 3, about 1 minute</p><h2>Second chapter title</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> the first note is usually a test, and short test notes stop twice as often.</p>
-
-      <p>After the first note, the app sends nothing. Four of the six interviewees said they forgot it was installed.</p>
-
-      <ol class="timeline">
-        <li><span class="when">Day 0</span><span class="what">189 people write one note and stop.</span></li>
-        <li><span class="when">Day 1</span><span class="what">The app sends no reminder and no email.</span></li>
-        <li><span class="when">Days 2 to 6</span><span class="what">151 of the 189 never open the app again.</span></li>
-        <li><span class="when">Day 7</span><span class="what">The other 38 open it once and leave.</span></li>
+      <p class="from"><b>Before this:</b> the remember-line from chapter 1, restated.</p>
+      <p>Body. A linear sequence needs no SVG; use the CSS flow.</p>
+      <ol class="flow">
+        <li class="go"><b>Done step</b><span>One line.</span></li>
+        <li class="here"><b>Current step</b><span>One line.</span></li>
+        <li><b>Next step</b><span>One line.</span></li>
       </ol>
-      <p class="take"><b>Take from this:</b> four in five of the people who stop never come back, and nothing asks them to.</p>
-
-      <p><b>How far to trust it: moderate.</b> Four interviews and the numbers agree, but nobody has tested a reminder yet.</p>
-
-      <details class="fold"><summary>Show what people said</summary>
-        <ul>
-          <li>"I forgot I even had it." (P4, freelancer)</li>
-          <li>"Nothing told me it was there. My phone is full of apps." (P1, student)</li>
-          <li>"A week later I found the icon and wondered what it was." (P6, retired nurse)</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> after the first note the app says nothing, and four in five of the people who stop never return.</p>
+      <p class="take"><b>Take from this:</b> what the picture above proves, in one line. Every chapter's picture gets one.</p>
+      <p class="remember"><b>Remember:</b> one sentence.</p>
     </section>
 
-    <!-- ============ 3 ============ -->
-    <section class="chapter" id="elsewhere" data-keep="Moderate: half the interviewees keep notes elsewhere. The numbers only hint at it.">
+    <section class="chapter" id="c3" data-keep="Third chapter's one line">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>Are their notes already somewhere else?</h2></div>
+        <div><p class="kicker">Chapter 3 of 3, about 1 minute</p><h2>Third chapter title</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> after the first note the app says nothing, and four in five of the people who stop never return.</p>
-
-      <p>Three of the six interviewees already keep their notes in another app or on paper. The week's numbers hint at the same thing, but less clearly.</p>
-
-      <ul class="status">
-        <li class="go"><b>Interviews</b><span>3 of 6 said their notes live elsewhere, before we asked.</span></li>
-        <li class="wait"><b>Usage</b><span>61 of the 96 people who opened Import stopped, which is 64% against 51% overall.</span></li>
-        <li class="wait"><b>The reason</b><span>We know they opened Import. We do not know why they stopped.</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> the interviews say it clearly, the numbers only hint at it, and nobody has told us why Import failed.</p>
-
-      <p><b>How far to trust it: moderate.</b> Three interviews and a 13-point gap, with no test of the cause.</p>
-
-      <details class="fold"><summary>Show what people said</summary>
-        <ul>
-          <li>"My phone's notes app is already on my home screen." (P5, freelancer)</li>
-          <li>"I would have to move two years of notes before this was any use." (P3, student)</li>
-          <li>"I use paper for lists, and one app was not going to change that." (P6, retired nurse)</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> half the interviewees keep notes elsewhere, and people who open Import stop a little more often.</p>
-    </section>
-
-    <!-- ============ 4 ============ -->
-    <section class="chapter" id="sharing" data-keep="Weak: sharers wrote twice as many notes, but 40 volunteers cannot show sharing is the reason.">
-      <header>
-        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>Does sharing keep people?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> half the interviewees keep notes elsewhere, and people who open Import stop a little more often.</p>
-
-      <p>In September, 40 testers used an early build with view-only sharing. Two interviewees also said a partner or a sister would keep them using the app.</p>
-
-      <div class="tiles">
-        <div class="tile"><span class="n">5.2</span><span class="l">notes in week one for the 18 who shared</span></div>
-        <div class="tile"><span class="n">2.3</span><span class="l">notes in week one for the 22 who did not</span></div>
-        <div class="tile wait"><span class="n">40</span><span class="l">testers, who all chose to join</span></div>
-        <div class="tile"><span class="n">2 of 6</span><span class="l">interviewees named someone to share with</span></div>
+      <p class="from"><b>Before this:</b> the remember-line from chapter 2, restated.</p>
+      <p>Body. When the reader must choose, the decision card lays the options side by side.</p>
+      <div class="decision">
+        <h3>The question, as a question?</h3>
+        <p>One line on why it matters.</p>
+        <div class="options">
+          <div class="option" data-rec="Recommended"><h4>Option A</h4><ul><li class="plus">Gain</li><li class="minus">Cost</li></ul></div>
+          <div class="option"><h4>Option B</h4><ul><li class="plus">Gain</li><li class="minus">Cost</li></ul></div>
+        </div>
+        <p class="nothing"><b>If you do nothing:</b> what happens.</p>
       </div>
-      <p class="take"><b>Take from this:</b> sharers wrote more than twice as many notes, but 40 volunteers cannot say whether sharing was the reason.</p>
-
-      <p><b>How far to trust it: weak.</b> People who like the app may share more anyway. Nobody has tested it with new users.</p>
-
-      <details class="fold"><summary>Show how the beta was counted</summary>
-        <p>The beta ran from 14 to 27 September with 40 volunteers. A note counts if it was written in the tester's first 7 days. Two interviewees said: "If my partner used it, I'd have kept going" (P1, student) and "My sister and I share everything" (P4, freelancer).</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</p>
+      <p class="take"><b>Take from this:</b> the option you recommend, and the one reason that decides it.</p>
+      <p class="remember"><b>Remember:</b> one sentence.</p>
     </section>
 
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="change" data-keep="Act on the two solid causes now. Measure the weak one in 2.4.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What does this change?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</p>
-
-      <p>We act on the causes that rest on most of the sources. We measure the weak one before we bet on it.</p>
-
-      <div class="split">
-        <div class="before"><b>The plan before this</b><ul><li>2.4 is sharing and little else for a new user.</li><li>A new user hears nothing after the first note.</li><li>Success is counted in shared notebooks.</li></ul></div>
-        <div class="after"><b>The plan now</b><ul><li>Sharing stays the 2.4 headline.</li><li>A weekly digest email brings people back to their notes.</li><li>We count second notes, not only shared notebooks.</li></ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> the two stronger findings change what we build, and the weak one changes only what we measure.</p>
-
-      <p>Four questions stay open. Each one is a small test, not a debate.</p>
-      <ul>
-        <li>Would a reminder help, or annoy?</li>
-        <li>Why did people stop after opening Import?</li>
-        <li>Does sharing make people stay, or do keen people share?</li>
-        <li>Does a partner who joins stay too?</li>
-      </ul>
-
-      <details class="fold"><summary>Show how the interviews were run</summary>
-        <p>Six people, 20 minutes each, from 22 to 29 September. P1 to P3 are students, P4 and P5 are freelancers, and P6 is a retired nurse. Each wrote a first note in the app in the week before the interview.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> act on the two stronger findings now, and test the weak one in 2.4.</p>
-    </section>
-
+    <!-- CLOSING: recap and, when a decision is needed, the ask. -->
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>The first note is usually a test, and short test notes stop twice as often.</li>
-        <li>After the first note the app says nothing, and four in five of the people who stop never return.</li>
-        <li>Half the interviewees keep notes elsewhere, and people who open Import stop a little more often.</li>
-        <li>Sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</li>
-        <li>Act on the two stronger findings now, and test the weak one in 2.4.</li>
+        <li>Remember-line from chapter 1.</li>
+        <li>Remember-line from chapter 2.</li>
+        <li>Remember-line from chapter 3.</li>
       </ol>
     </section>
+
+    <section class="ask">
+      <h2>What I need from you</h2>
+      <p>One question. Plain words.</p>
+      <div class="choices"><a href="#" data-rec>Option A</a><a href="#">Option B</a><a href="#">Ask me something first</a></div>
+      <p class="nothing"><b>If you do nothing:</b> what happens.</p>
+    </section>
+    <!-- OPTIONAL COMPONENTS: copy the markup from gallery.html.
+         .stepper (change over time, one picture), .views (several views of one thing), .minimap (where this chapter sits in the whole),
+         .answer-field and one .collect bar (gather pages and playbooks: put the bar here, outside the chapters, so one-chapter mode never hides it),
+         .phase-strip, .phases, .frame-row, .roles with .rules, .undo and .risks (playbook pages; the strip goes right after the keep box),
+         .territory with .stage and a.family, ol.start-here and .index with details.family-index and .entry (field-guide pages: three chapters, the index in the last one). -->
   </main>
 </div>
 

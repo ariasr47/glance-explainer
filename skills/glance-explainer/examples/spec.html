@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="explainer">
+<html lang="en" data-type="spec">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Why every page opens with the answer</title>
-<meta name="description" content="The idea behind the html-explainer plugin for someone deciding whether to try it: the answer comes first, three facts follow, and a checker enforces both.">
+<title>Pin a note to the top</title>
+<meta name="description" content="A spec for pinning in the notes app: keep up to three notes at the top of a notebook. Before and after drawings, six checks and the risks, then approve or hold.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,10 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#why"><span class="dot"></span>Why the answer comes first</a></li>
-      <li><a href="#orient"><span class="dot"></span>What keeps a long page readable</a></li>
-      <li><a href="#honest"><span class="dot"></span>How the plugin keeps itself honest</a></li>
-      <li><a href="#try"><span class="dot"></span>Whether to try it</a></li>
+      <li><a href="#does"><span class="dot"></span>What pinning does</a></li>
+      <li><a href="#changes"><span class="dot"></span>What changes for you</a></li>
+      <li><a href="#checks"><span class="dot"></span>How we know it works</a></li>
+      <li><a href="#risks"><span class="dot"></span>What could go wrong</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,223 +1425,205 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">The idea behind the plugin</p>
-    <h1>Why every page opens with the answer</h1>
-    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: someone deciding whether to try it</span></div>
+    <p class="kicker">A feature for Mara to approve</p>
+    <h1>Pin a note to the top</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-05</span><span>For: Mara</span><span>Example with made-up data</span></div>
 
-    <p class="answer">Every page opens with its one-sentence answer, so a reader who stops after the first screen has still got the point.</p>
+    <p class="answer">Pinning lets you keep up to three notes at the top of a notebook, it costs 2 build days, and I ask you to approve it for 2.4.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>The answer is one sentence, right under the title.</li>
-        <li>Three facts at most, then the page's own picture.</li>
-        <li>A checker enforces both before you see the page.</li>
+        <li>Up to 3 pinned notes stay on top of a notebook.</li>
+        <li>It costs 2 build days. 4 of 6 checks already pass.</li>
+        <li>In a shared notebook, your pins stay yours.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Where the answer sits</h2><span class="chip">Same content, two orders</span></div>
-      <figure class="figure">
-        <svg viewBox="0 0 800 286" role="img" aria-labelledby="f-order"><title id="f-order">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
-          <text class="d-text-b" x="20" y="22">A long page, answer last</text>
-          <text class="d-text-b" x="420" y="22">This plugin's page, answer first</text>
-          <path class="d-line-soft" d="M20 34 H380 V212 H20 Z"/>
-          <path class="d-line-soft" d="M420 34 H780 V212 H420 Z"/>
-          <text class="d-text-s" x="372" y="204" text-anchor="end">first screen</text>
-          <text class="d-text-s" x="772" y="204" text-anchor="end">first screen</text>
-          <rect class="d-box" x="36" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="71" text-anchor="middle">Background</text>
-          <rect class="d-box" x="36" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="119" text-anchor="middle">Method</text>
-          <rect class="d-box" x="36" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="167" text-anchor="middle">Results</text>
-          <rect class="d-box-wait" x="20" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="200" y="247" text-anchor="middle">The answer</text><text class="d-text-s" x="200" y="265" text-anchor="middle">out of sight on the first screen</text>
-          <rect class="d-box-go" x="436" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="71" text-anchor="middle">The answer</text>
-          <rect class="d-box" x="436" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="119" text-anchor="middle">Three facts to keep</text>
-          <rect class="d-box" x="436" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="167" text-anchor="middle">The page's own picture</text>
-          <rect class="d-box" x="420" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="600" y="247" text-anchor="middle">Chapters, one idea each</text><text class="d-text-s" x="600" y="265" text-anchor="middle">read only if you want more</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 280 270" role="img" aria-labelledby="f-order-n"><title id="f-order-n">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
-          <text class="d-text-b" x="2" y="16">Answer last</text>
-          <text class="d-text-b" x="148" y="16">Answer first</text>
-          <path class="d-line-soft" d="M2 26 H132 V194 H2 Z"/>
-          <path class="d-line-soft" d="M148 26 H278 V194 H148 Z"/>
-          <text class="d-text-s" x="126" y="187" text-anchor="end">first screen</text>
-          <text class="d-text-s" x="272" y="187" text-anchor="end">first screen</text>
-          <rect class="d-box" x="8" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="61" text-anchor="middle">Background</text>
-          <rect class="d-box" x="8" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="107" text-anchor="middle">Method</text>
-          <rect class="d-box" x="8" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="153" text-anchor="middle">Results</text>
-          <rect class="d-box-wait" x="2" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="67" y="230" text-anchor="middle">The answer</text><text class="d-text-s" x="67" y="249" text-anchor="middle">on the last screen</text>
-          <rect class="d-box-go" x="154" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="61" text-anchor="middle">The answer</text>
-          <rect class="d-box" x="154" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="102" text-anchor="middle">Three facts</text><text class="d-text-s" x="213" y="117" text-anchor="middle">to keep</text>
-          <rect class="d-box" x="154" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="148" text-anchor="middle">A picture</text><text class="d-text-s" x="213" y="163" text-anchor="middle">the page's own</text>
-          <rect class="d-box" x="148" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="213" y="230" text-anchor="middle">Chapters</text><text class="d-text-s" x="213" y="249" text-anchor="middle">one idea each</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the same content in two orders. With the answer first, a reader who stops after one screen still has the point.</figcaption>
-      </figure>
+      <div class="glance-head"><h2 id="glance-h">Pinning, before and after</h2><span class="chip decide">Needs your approval</span></div>
+      <div class="duo">
+        <div>
+          <h3>One notebook, two screens</h3>
+          <div class="frame-row" style="margin:0;grid-template-columns:repeat(2,minmax(0,1fr))">
+            <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Before</span></div>
+              <div class="frame-screen">
+                <span class="mock-title">Home</span>
+                <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Plumber number</span></span><span class="mock-row"><span>Wifi password</span></span></span>
+              </div>
+              <figcaption class="take" style="padding:.6rem .8rem"><b>Take:</b> the wifi password sank.</figcaption></figure>
+            <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">After</span></div>
+              <div class="frame-screen">
+                <span class="mock-title">Home</span>
+                <span class="mock-note">Pinned</span>
+                <span class="mock-win"><span class="mock-row"><span><b>Wifi password</b></span></span></span>
+                <span class="mock-note">Other notes</span>
+                <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Plumber number</span></span></span>
+              </div>
+              <figcaption class="take" style="padding:.6rem .8rem"><b>Take:</b> it stays on top.</figcaption></figure>
+          </div>
+        </div>
+        <div>
+          <h3>The verdict</h3>
+          <div class="tiles">
+            <div class="tile"><span class="n">Approve</span><span class="l">my pick</span></div>
+            <div class="tile"><span class="n">4 of 6</span><span class="l">checks already pass</span></div>
+          </div>
+          <p>It costs 2 build days. With my three sharing picks, 2.4 then uses 13 of my 14.</p>
+        </div>
+      </div>
+      <p class="take"><b>Take:</b> pinning changes one thing on one screen, and 4 of its 6 checks already pass.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#why"><b>Why the answer comes first</b><span>Pages are long, readers are tired, and the first screen decides.</span></a></li>
-      <li><a href="#orient"><b>What keeps a long page readable</b><span>Three facts, a restated line and a line to remember.</span></a></li>
-      <li><a href="#honest"><b>How the plugin keeps itself honest</b><span>A checker with hard limits, and a hook that runs it.</span></a></li>
-      <li><a href="#try"><b>Whether to try it</b><span>What is evidence, what is taste, and what is untested.</span></a></li>
+      <li><a href="#does"><b>What pinning does</b><span>Hold a note, choose Pin to top, and it stays.</span></a></li>
+      <li><a href="#changes"><b>What changes for you</b><span>One screen, and what a shared notebook shows.</span></a></li>
+      <li><a href="#checks"><b>How we know it works</b><span>Six checks, four already passing.</span></a></li>
+      <li><a href="#risks"><b>What could go wrong</b><span>Three risks and what keeps each one small.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="why" data-keep="The first screen decides whether a tired reader goes on.">
+    <section class="chapter" id="does" data-keep="Pinning is two taps. Each notebook holds up to three pins.">
       <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>Why does the answer come first?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does pinning do?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the answer sits right under the title, so a reader who stops there still has the point.</p>
+      <p class="from"><b>Before this:</b> pinning keeps up to three notes at the top of a notebook, so an old note you need often does not sink.</p>
 
-      <p>Agents write more than anyone can read: long summaries, plans, diffs and status reports. A reader with a short working memory loses the thread as they scroll. They skim first and read second, if at all.</p>
+      <p>You pin a note with two taps. Each notebook holds up to three pins, and a fourth asks you to unpin one first.</p>
 
       <ol class="flow">
-        <li class="here"><b>The answer</b><span>Read one sentence, under the title.</span></li>
-        <li><b>Three facts</b><span>Check the yellow cards. Never a fourth.</span></li>
-        <li><b>The picture</b><span>Look at the page's own, such as a status board.</span></li>
-        <li><b>Stop or read on</b><span>Chapters are optional.</span></li>
+        <li><b>Hold a note</b><span>Press and hold, or right-click on the web.</span></li>
+        <li><b>Pin to top</b><span>It is the first item in the menu.</span></li>
+        <li><b>Moves up</b><span>The note joins the pinned group.</span></li>
+        <li class="go"><b>Stays</b><span>Every device shows it there.</span></li>
       </ol>
-      <p class="take"><b>Take from this:</b> every step is a place to stop. The answer and the three facts already carry the point.</p>
+      <p class="take"><b>Take from this:</b> the whole feature is one menu item and one group at the top of the list.</p>
 
-      <p>A review of 21 real pages found that 19 types opened with the same first phone screen. Release 1.8.0 changed that, so the first screen now says what kind of page it is.</p>
+      <details class="fold"><summary>Show the exact rules</summary>
+        <ul>
+          <li>The newest pin goes to the top of the pinned group.</li>
+          <li>The same menu item then reads Unpin.</li>
+          <li>Deleting a note also removes its pin.</li>
+          <li>A pin belongs to one notebook, because a note lives in one notebook.</li>
+        </ul>
+      </details>
 
-      <p class="remember"><b>Remember:</b> the first screen decides, so the answer and the three facts go there.</p>
+      <p class="remember"><b>Remember:</b> pinning is two taps, and each notebook holds up to three pins.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="orient" data-keep="Each chapter restates what it builds on and closes with one line to keep.">
+    <section class="chapter" id="changes" data-keep="One screen changes: a pinned group above the notes. Your pins stay yours.">
       <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What keeps a long page from losing you?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What changes for you?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the first screen holds the answer, three facts and the page's own picture.</p>
+      <p class="from"><b>Before this:</b> pinning is two taps, and each notebook holds up to three pins.</p>
 
-      <p>The keep box names the three facts to carry, and the page never asks for a fourth. Each chapter after it must stand alone, so a reader who lands in the middle loses nothing.</p>
+      <p>Only the note list changes. Sorting below the pinned group works as it does today.</p>
 
       <div class="split">
-        <div class="before"><b>Instead of writing</b>
-          <ul>
-            <li>"As mentioned above"</li>
-            <li>"See section 3"</li>
-            <li>"In conclusion"</li>
-          </ul></div>
-        <div class="after"><b>The page does this</b>
-          <ul>
-            <li>A "Before this" line restates the one fact the chapter builds on.</li>
-            <li>A link to the chapter, with its one fact restated.</li>
-            <li>A recap box that holds the remember lines.</li>
-          </ul></div>
+        <div class="before"><b>Today</b><ul><li>Notes sort by last edited.</li><li>A note you need often sinks as you write new ones.</li></ul></div>
+        <div class="after"><b>With pinning</b><ul><li>Up to three notes stay on top.</li><li>Every other note sorts by last edited, as before.</li></ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> a reader can land on any chapter and find the one fact it builds on.</p>
 
-      <p>Every chapter closes with one sentence to remember. The recap at the end is those sentences, copied. Nothing new appears there.</p>
+      <div class="frame-row" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Hold a note</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Wifi password</span>
+            <span class="mock-win"><span class="mock-row"><span><b>Pin to top</b></span></span><span class="mock-row"><span>Move to notebook</span></span><span class="mock-row"><span>Delete</span></span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Pin to top comes first.</figcaption></figure>
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Sam's screen</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Home, shared</span>
+            <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Wifi password</span></span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Sam does not see your pin.</figcaption></figure>
+      </div>
 
-      <details class="fold"><summary>Show the order of a page</summary>
-        <ol>
-          <li>The answer, then the keep box.</li>
-          <li>At a glance, the page's own picture.</li>
-          <li>The chapter map, then three to seven chapters.</li>
-          <li>The recap, and the ask only when a decision is needed.</li>
-        </ol>
-      </details>
-
-      <p class="remember"><b>Remember:</b> every chapter restates what it builds on and closes with one line to keep.</p>
+      <p class="remember"><b>Remember:</b> one screen changes, and a pin is yours alone even in a shared notebook.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="honest" data-keep="Hard limits, enforced by a checker and by a hook.">
+    <section class="chapter" id="checks" data-keep="Four checks pass on a prototype. Two edge cases are still to run.">
       <header>
-        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>How does the plugin keep itself honest?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>How do we know it works?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> each page promises one short answer, three facts at most and a picture per chapter.</p>
+      <p class="from"><b>Before this:</b> one screen changes, and a pin is yours alone even in a shared notebook.</p>
 
-      <p>A checker script reads every page and fails it when a promise is broken. These are four of its limits.</p>
+      <p>I built a rough prototype to test the parts that could lose a pin. Four checks pass and two are still to run.</p>
 
-      <div class="tiles">
-        <div class="tile"><span class="n">40</span><span class="l">words in the answer, at most, before the page fails</span></div>
-        <div class="tile"><span class="n">3</span><span class="l">facts the keep box may hold</span></div>
-        <div class="tile"><span class="n">4.5:1</span><span class="l">text contrast needed, in light and dark</span></div>
-        <div class="tile"><span class="n">9 px</span><span class="l">smallest diagram label on a phone</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> these limits are hard. A page that breaks one fails, and the agent fixes it before you see the page.</p>
+      <ul class="status">
+        <li class="go"><b>Pin and unpin</b><span>Works on Android and on an iPhone.</span></li>
+        <li class="go"><b>Pins survive a restart</b><span>No pin lost in 20 restarts.</span></li>
+        <li class="go"><b>Pins reach the web app</b><span>They show up within 3 seconds on Wi-Fi.</span></li>
+        <li class="go"><b>A fourth pin is refused</b><span>A message asks you to unpin one first.</span></li>
+        <li class="wait"><b>Two devices pin at once</b><span>Not run yet. It is my first job on day one.</span></li>
+        <li class="wait"><b>A notebook of 2,000 notes</b><span>Not run yet. The pinned group must not slow the list.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the four checks that guard against a lost pin pass. The two left are edge cases.</p>
 
-      <p>In Claude Code a hook runs the checker at the end of every turn that wrote a page. It sends each failure back to the agent, up to three times in a turn.</p>
-
-      <details class="fold"><summary>Show where each limit lives</summary>
-        <ul>
-          <li><code>skills/html-explainer/scripts/check.mjs:73</code> sets the answer limit of 40 words, paragraphs of 40 words and keep facts of 15 words.</li>
-          <li><code>check.mjs:126</code> fails a keep box with more than 3 items.</li>
-          <li><code>check.mjs:184</code> sets the smallest phone label at 9 px.</li>
-          <li><code>check.mjs:258</code> fails any text pair under 4.5 to 1.</li>
-          <li><code>hooks/explainer-check.mjs:14</code> lets the hook block a turn at most 3 times.</li>
-        </ul>
-        <p>Line numbers are as of commit 6ffbbbc.</p>
+      <details class="fold"><summary>Show how I tested</summary>
+        <p>I ran a throwaway build on my Android phone and on a borrowed iPhone, with a test notebook of 300 notes. I closed and reopened the app 20 times and counted the pins after each restart.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> the limits are hard, and a checker and a hook enforce them before you see a page.</p>
+      <p class="remember"><b>Remember:</b> four of six checks pass, and the two left are edge cases.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="try" data-keep="Part of it is evidence, part is taste, and no outside reader has tested it yet.">
+    <section class="chapter" id="risks" data-keep="The risk to fix is an old app erasing a pin. Pins live in their own list.">
       <header>
-        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Is it worth trying on your work?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 2 minutes</p><h2>What could go wrong?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a checker and a hook enforce the shape of every page.</p>
+      <p class="from"><b>Before this:</b> four of six checks pass, and the two left are edge cases.</p>
 
-      <p>The design guide sorts its own choices into three bins. You can see how much of it rests on evidence.</p>
+      <div class="callout stop"><b>An older app could erase a pin</b>
+        <p>Version 2.3 saves a whole note at once, and it does not know pins exist.</p>
+        <p><b>Kept small by:</b> pins live in their own list, away from the note.</p></div>
+      <div class="callout warn"><b>Three pins can fill a small phone</b>
+        <p>On a 5.4 inch screen, three pinned rows push the other notes down.</p>
+        <p><b>Kept small by:</b> a pinned row shows one line, and I test on the smallest phone we support.</p></div>
+      <div class="callout warn"><b>Sam may wonder why a pin is missing</b>
+        <p>In a shared notebook, your pins stay yours, so Sam does not see them.</p>
+        <p><b>Kept small by:</b> the share sheet says so in one line.</p></div>
 
-      <div class="cols">
-        <section class="col go"><h3>Backed by evidence</h3>
-          <ul>
-            <li><b>Short paragraphs</b><span>One topic each, as W3C COGA advises.</span></li>
-            <li><b>Visible progress</b><span>Done, current and pending are shown.</span></li>
-          </ul></section>
-        <section class="col wait"><h3>A design choice</h3>
-          <ul>
-            <li><b>Three facts</b><span>Kept because it is small and forces a choice.</span></li>
-            <li><b>Chapter length</b><span>A craft default. Its claims failed checking.</span></li>
-          </ul></section>
-        <section class="col stop"><h3>Refused, for lack of evidence</h3>
-          <ul>
-            <li><b>Bionic bolding</b><span>Eye tracking shows no gain.</span></li>
-            <li><b>Dyslexia fonts</b><span>No benefit over ordinary fonts.</span></li>
-          </ul></section>
+      <p>The first risk is the only one that could lose something, so it decides where pins are stored.</p>
+
+      <div class="split">
+        <div class="before"><b>A pin inside the note</b><ul><li>Version 2.3 saves the whole note.</li><li>It drops the pin, which it has never heard of.</li></ul></div>
+        <div class="after"><b>A pin in its own list</b><ul><li>Version 2.3 saves the note and leaves the list alone.</li><li>The pin stays.</li></ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> the page says which of its choices are evidence and which are taste.</p>
+      <p class="take"><b>Take from this:</b> a separate list costs no extra build time and removes the one risk that could lose a pin.</p>
 
-      <div class="callout warn"><b>Not yet tested on outside readers</b>
-        <p>The roadmap says every page so far was judged by its author. If plugin pages do not help outside readers more than a default page does, the roadmap shrinks to maintenance.</p></div>
-
-      <p class="remember"><b>Remember:</b> part of it is evidence, part is taste, and no outside reader has tested it yet.</p>
+      <p class="remember"><b>Remember:</b> the risk worth fixing is an old app erasing a pin, so pins live in their own list.</p>
     </section>
 
-    <!-- CLOSING -->
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>The first screen decides, so the answer and the three facts go there.</li>
-        <li>Every chapter restates what it builds on and closes with one line to keep.</li>
-        <li>The limits are hard, and a checker and a hook enforce them before you see a page.</li>
-        <li>Part of it is evidence, part is taste, and no outside reader has tested it yet.</li>
+        <li>Pinning is two taps, and each notebook holds up to three pins.</li>
+        <li>One screen changes, and a pin is yours alone even in a shared notebook.</li>
+        <li>Four of six checks pass, and the two left are edge cases.</li>
+        <li>The risk worth fixing is an old app erasing a pin, so pins live in their own list.</li>
       </ol>
     </section>
 
     <section class="ask">
       <h2>What I need from you</h2>
-      <p>Where would you like to start?</p>
-      <div class="choices"><a href="https://ariasr47.github.io/html-explainer-skill/gallery.html" data-rec>Open the gallery</a><a href="https://github.com/ariasr47/html-explainer-skill/blob/main/docs/install.md">Read the install guide</a><a href="https://ariasr47.github.io/html-explainer-skill/roadmap.html">See the roadmap</a></div>
-      <p class="nothing"><b>If you do nothing:</b> nothing changes. Pages you already have stay as they are.</p>
+      <p>Do you approve pinning for 2.4? Reply with one of these.</p>
+      <div class="choices"><a href="#" data-rec>Approve, and I build it this week</a><a href="#">Hold until 2.5</a><a href="#">Ask me something first</a></div>
+      <p class="nothing"><b>If you do nothing:</b> pinning waits for 2.5, and I start on sharing alone.</p>
     </section>
   </main>
 </div>

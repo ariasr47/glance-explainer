@@ -6,16 +6,16 @@ Each canvas is a folder of `.dc.html` artboards and a `canvas.json` layout. Thes
 
 | Folder | Canvas | Shipped in | Status |
 |---|---|---|---|
-| `2026-10-14-roadmap-backlog-canvas/` | Roadmap and backlog design (canvas retired on 2026-10-20) | 1.6.0 | Archived here. The canvas's last version added a board of the live roadmap page in 1.9.0; `shipped-roadmap.webp` is that image. The shipped design is `docs/roadmap.html` and the roadmap parts of `skills/html-explainer/assets/gallery.html`. |
+| `2026-10-14-roadmap-backlog-canvas/` | Roadmap and backlog design (canvas retired on 2026-10-20) | 1.6.0 | Archived here. The canvas's last version added a board of the live roadmap page in 1.9.0; `shipped-roadmap.webp` is that image. The shipped design is `docs/roadmap.html` and the roadmap parts of `skills/glance-explainer/assets/gallery.html`. |
 
 Two other canvases are recorded but not kept here, because their artboards hold private project content:
 
-- **Field guide redesign**, shipped in 1.7.0. Retired on 2026-10-19: its boards redraw a private Lockercore field guide, and the shipped type replaces it. The public record is `docs/dev/proposals/2026-10-14-field-guide-type.md` and `skills/html-explainer/examples/field-guide.html`.
+- **Field guide redesign**, shipped in 1.7.0. Retired on 2026-10-19: its boards redraw a private Lockercore field guide, and the shipped type replaces it. The public record is `docs/dev/proposals/2026-10-14-field-guide-type.md` and `skills/glance-explainer/examples/field-guide.html`.
 - **Explainer types redesign**, shipped in 1.8.0. On 2026-10-20 its canvas became the living designs canvas below, and its redesign boards were removed. They used Lockercore, FormIntact and Spire content; their source is kept in the private explainer-eval repository, and the public record is `docs/dev/plan/2026-10-15-1.8.0-redesign-build-spec.md`.
 
 ## The living designs canvas
 
-**html-explainer designs**, https://claude.ai/artifact/5RJfShZTE4xS6BW4LhfSTq (private), is the one canvas kept current. It has two pages:
+**glance-explainer designs**, https://claude.ai/artifact/5RJfShZTE4xS6BW4LhfSTq (private), is the one canvas kept current. It has two pages:
 
 - **Current designs.** One board per kind of page (21), each the shipped example at 1280 px beside the same page on a phone, grouped by the job the reader has. The page name carries the release it shows.
 - **Exploratory designs.** New ideas for a page type, today beside proposed. When an idea ships, its type's board on Current designs is replaced and the idea leaves this page.

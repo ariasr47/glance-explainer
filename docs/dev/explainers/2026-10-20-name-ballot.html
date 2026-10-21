@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" data-type="release">
+<html lang="en" data-type="gather" data-mode="ballot">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="html-explainer 1.9.1">
 <meta name="color-scheme" content="light dark">
-<title>What shipped in 1.8.0 and 1.8.1</title>
-<meta name="description" content="What the 1.8.0 redesign and the 1.8.1 polish changed in the html-explainer plugin, in numbers, with a before and after for each theme and the steps to take now.">
+<title>Plugin name ballot</title>
+<meta name="description" content="Four naming calls for the html-explainer plugin before it is listed: the name, the tagline, the GitHub repo and the main skill name. Tap a pick, then copy the picks into the chat.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1405,226 +1405,146 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="progress" aria-hidden="true"></div>
 
 <div class="page">
-  <nav class="rail" aria-label="Chapters">
-    <ol>
-      <li><a href="#first"><span class="dot"></span>What the first screen shows now</a></li>
-      <li><a href="#calmer"><span class="dot"></span>What got calmer to read</a></li>
-      <li><a href="#polish"><span class="dot"></span>What 1.8.1 fixed</a></li>
-      <li><a href="#upgrade"><span class="dot"></span>What an upgrade does</a></li>
-      <li><a href="#recap"><span class="dot"></span>Recap</a></li>
-    </ol>
-    <div class="tools">
-      <button type="button" data-skim aria-pressed="false">Skim mode</button>
-      <button type="button" data-focus aria-pressed="false">One chapter at a time</button>
-      <button type="button" data-ruler aria-pressed="false">Reading ruler</button>
-      <button type="button" data-size>Text size</button>
-      <button type="button" data-theme-toggle>Dark / light</button>
-      <button type="button" data-keys>Keys</button>
-    </div>
-  </nav>
-
   <main id="main">
-    <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">What shipped</p>
-    <h1>What shipped in 1.8.0 and 1.8.1</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-16</span><span>For: anyone who uses the plugin</span></div>
+    <p class="kicker">Four naming calls before the plugin is listed</p>
+    <h1>The plugin's name</h1>
+    <p class="ballot-source">Rules on: the plugin name, its tagline, the repo and the skill name, 20 October 2026</p>
+    <p class="answer">4 decisions. Anything you skip goes with ★.</p>
 
-    <p class="answer">Every page type now opens with its own picture, and an old page catches up with one upgrade command.</p>
-
-    <div class="keep">
-      <strong>Keep in your head (only these)</strong>
-      <ol>
-        <li>The answer, three facts, then the page's own picture.</li>
-        <li>1.8.1 changed looks only: labels, callouts, flow steps.</li>
-        <li>An old page keeps its old look until you upgrade it.</li>
-      </ol>
-    </div>
-
-    <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">What changed, and what to do</h2><span class="chip here">Both released 15 October 2026</span></div>
-      <div class="duo">
-        <div>
-          <h3>The numbers</h3>
-          <div class="tiles">
-            <div class="tile stop"><span class="n">19</span><span class="l">page types opened alike before 1.8.0</span></div>
-            <div class="tile go"><span class="n">9%</span><span class="l">median fall in phone height, 21 real pages</span></div>
-            <div class="tile"><span class="n">4</span><span class="l">pictures the page now draws for itself</span></div>
-            <div class="tile"><span class="n">1</span><span class="l">Reading tools button, replacing six</span></div>
-          </div>
-        </div>
-        <div>
-          <h3>What you do differently</h3>
-          <ol class="steps">
-            <li><b>Update the plugin.</b> Then restart Claude Code.</li>
-            <li><b>Preview an old page's upgrade.</b> A dry run changes nothing.</li>
-            <li><b>Upgrade the page.</b> Your words and pictures stay.</li>
-            <li><b>Make a page again</b> when you want the new parts.</li>
-          </ol>
-        </div>
-      </div>
-      <p class="take"><b>Take:</b> 1.8.0 changed how every page opens. The only work it asks of you is to update and upgrade.</p>
-    </section>
-
-    <ol class="map">
-      <li><a href="#first"><b>What the first screen shows now</b><span>The answer as the headline, three facts as cards, then the page's own picture.</span></a></li>
-      <li><a href="#calmer"><b>What got calmer to read</b><span>One Reading tools button, a quieter chapter and calmer colour.</span></a></li>
-      <li><a href="#polish"><b>What 1.8.1 fixed</b><span>Small fixes to labels, callouts and flow steps, three hours later.</span></a></li>
-      <li><a href="#upgrade"><b>What an upgrade does</b><span>Four moves, and when to make a page again instead.</span></a></li>
+    <ol class="ballot-steps" aria-label="How this page works">
+      <li><span><b>Read</b> the options on each card.</span></li>
+      <li><span><b>Tap</b> the option you want. Tap it again to clear it.</span></li>
+      <li><span>Press <span class="ballot-keycap">Copy picks</span> in the bar at the bottom, then paste into the chat.</span></li>
     </ol>
 
-    <!-- ============ 1 ============ -->
-    <section class="chapter" id="first" data-keep="The answer is the headline. The page's own picture comes next.">
-      <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does the first screen show now?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
+    <section class="ballot-group" aria-labelledby="g-build">
+      <h2 id="g-build">Shapes the listing</h2>
+      <p>These are what a stranger sees first.</p>
 
-      <p class="from"><b>Before this:</b> every page type now opens with its own picture, under the answer.</p>
+      <article class="ballot-card" id="card-q1" data-q="q1" data-short="Plugin name">
+        <header><span class="num" aria-hidden="true">1</span><h3 id="q-q1">What should the plugin be called?</h3>
+          <p class="why">A listed name is permanent. All six are unused as Claude plugin and skill names today.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q1">
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
+            <span class="name"><b>A</b> glance-explainer</span>
+            <span class="detail">Says what the reader gets, and matches the At a glance section.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-warn="Reads as about ADHD">
+            <span class="name"><b>B</b> adhd-explainer</span>
+            <span class="detail">Says who it is for. Can read as a page that explains ADHD.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="C">
+            <span class="name"><b>C</b> focus-pages</span>
+            <span class="detail">ADHD-friendly without the label. Could pass for a focus timer.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="D">
+            <span class="name"><b>D</b> calm-pages</span>
+            <span class="detail">Nothing moves on its own. Says the feel, not the job.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="E">
+            <span class="name"><b>E</b> clear-explainer</span>
+            <span class="detail">A plain promise, but clear is a word every tool uses.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="F">
+            <span class="name"><b>F</b> keep-three</span>
+            <span class="detail">Named after the keep box. Memorable, but needs explaining.</span>
+          </button>
+        </div>
+        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
+      </article>
 
-      <p>A review of 21 real pages found that 19 types opened with the same first phone screen. A status report looked like a release note until the third screen.</p>
+      <article class="ballot-card" id="card-q2" data-q="q2" data-short="Tagline">
+        <header><span class="num" aria-hidden="true">2</span><h3 id="q-q2">Which line goes under the name?</h3>
+          <p class="why">Searches match the tagline too, so ADHD can live here even when the name is neutral.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q2">
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
+            <span class="name"><b>A</b> Explainer pages for readers with ADHD or a short working memory</span>
+            <span class="detail">Puts ADHD where searches find it, and welcomes anyone short on memory.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
+            <span class="name"><b>B</b> Decision pages for readers who can't hold a long document</span>
+            <span class="detail">The roadmap's focus line today. Leaves ADHD out.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="C">
+            <span class="name"><b>C</b> One-page explainers you understand at a glance</span>
+            <span class="detail">Pairs best with glance-explainer. Leaves ADHD out.</span>
+          </button>
+        </div>
+        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
+      </article>
+    </section>
 
-      <div class="split">
-        <div class="before"><b>Before, in 1.7.0</b>
-          <ul>
-            <li>The answer sat in a box with a thick bar down its side.</li>
-            <li>The three facts shared one yellow box.</li>
-            <li>Every type showed the same chapter map next.</li>
-          </ul></div>
-        <div class="after"><b>After, in 1.8.0</b>
-          <ul>
-            <li>The answer is the headline, with no box.</li>
-            <li>The three facts are three cards side by side.</li>
-            <li>A section called At a glance shows the type's own picture.</li>
-          </ul></div>
+    <section class="ballot-group" aria-labelledby="g-small">
+      <h2 id="g-small">Small calls</h2>
+      <p>Quick ones. Skipping any of them means the ★ option.</p>
+
+      <article class="ballot-card" id="card-q3" data-q="q3" data-short="GitHub repo">
+        <header><span class="num" aria-hidden="true">3</span><h3 id="q-q3">Should the GitHub repo take the new name too?</h3>
+          <p class="why">GitHub forwards old git links after a rename. The public site's address changes once.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q3">
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended" data-warn="Site link changes">
+            <span class="name"><b>A</b> Rename it</span>
+            <span class="detail">Plugin and repo match. I update every link to the site.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
+            <span class="name"><b>B</b> Keep html-explainer-skill</span>
+            <span class="detail">Nothing moves. The repo and the plugin carry different names.</span>
+          </button>
+        </div>
+        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
+      </article>
+
+      <article class="ballot-card" id="card-q4" data-q="q4" data-short="Skill name">
+        <header><span class="num" aria-hidden="true">4</span><h3 id="q-q4">Should the main skill's name change to match?</h3>
+          <p class="why">The skill name is what you type after the slash. Gather and atlas keep theirs.</p><span class="state">Not picked</span></header>
+        <div class="ballot-opts" role="radiogroup" aria-labelledby="q-q4">
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
+            <span class="name"><b>A</b> Match the plugin</span>
+            <span class="detail">One name everywhere. The skill folder moves in the same release.</span>
+          </button>
+          <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B">
+            <span class="name"><b>B</b> Keep html-explainer</span>
+            <span class="detail">No folder moves. You type a name that differs from the plugin's.</span>
+          </button>
+        </div>
+        <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
+      </article>
+    </section>
+
+    <section class="ballot-group" aria-labelledby="g-done">
+      <h2 id="g-done">Already decided</h2>
+      <p>Settled earlier, for reference. Nothing to pick.</p>
+      <div class="ballot-dones">
+        <article class="ballot-done"><h3>Why html-explainer is not on the list</h3><p>Two other projects already use the name. One is a Claude skill for HTML explainers, three months older than this one.</p></article>
+        <article class="ballot-done"><h3>Old pages keep working</h3><p>The checker, the upgrade and the hook accept the old name as well as the new one.</p></article>
       </div>
-      <p class="take"><b>Take from this:</b> the first screen now says what kind of page this is, before any chapter.</p>
-
-      <p>A status page opens with its health board beside a timeline. A runbook opens with its steps as a checklist. A research page opens with its findings, ranked by trust.</p>
-
-      <details class="fold"><summary>Show the new parts and the pictures a page draws itself</summary>
-        <ul>
-          <li><b>New parts:</b> <code>div.duo</code> for two columns, <code>div.cols</code> for state columns, <code>ul.findings</code> for findings ranked by trust, and <code>ol.layers</code> for a system in layers.</li>
-          <li><b>Drawn by the page:</b> <code>div.runbook-overview</code>, <code>div.filmstrip</code>, <code>div.rulings</code> and <code>div.qprogress</code>. Each is filled from parts already on the page.</li>
-          <li><b>Checker:</b> a page made by 1.8.0 or later with no glance gets a warning. Older pages are never warned.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> the answer is the headline, and the page's own picture comes next.</p>
     </section>
 
-    <!-- ============ 2 ============ -->
-    <section class="chapter" id="calmer" data-keep="One tools button, one tinted strip per chapter, and colour only where it means something.">
-      <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What got calmer to read?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> the first screen now shows the answer, three facts and the page's own picture.</p>
-
-      <p>The other half of 1.8.0 removed things that competed for attention.</p>
-
-      <div class="split">
-        <div class="before"><b>Before, in 1.7.0</b>
-          <ul>
-            <li>Six tool buttons sat in two rows.</li>
-            <li>Four look-alike bars framed every chapter.</li>
-            <li>The before side of a split was tinted red.</li>
-            <li>Tile numbers took the colour of their state.</li>
-            <li>A runbook's check and failure lines were green and red boxes.</li>
-          </ul></div>
-        <div class="after"><b>After, in 1.8.0</b>
-          <ul>
-            <li>One Reading tools button holds all six.</li>
-            <li>Two bars a chapter, and only Remember is tinted.</li>
-            <li>Both sides are white, and the after side has a thin green rule.</li>
-            <li>Tile numbers are plain ink, with the state as a glyph and a word.</li>
-            <li>Check and failure lines are quiet lines with a glyph.</li>
-          </ul></div>
+    <div class="ballot-tray" role="region" aria-label="Your picks">
+      <div class="ballot-bar">
+        <p class="ballot-tally">0 of 4 picked</p>
+        <ol class="ballot-pips" aria-label="Jump to a decision"></ol>
+        <div class="ballot-actions"><button type="button" data-copy>Copy picks</button></div>
       </div>
-      <p class="take"><b>Take from this:</b> colour is spent on meaning. Yellow stays the one large fill because it means keep this.</p>
-
-      <p class="remember"><b>Remember:</b> one Reading tools button, one tinted strip per chapter, and colour only where it means something.</p>
-    </section>
-
-    <!-- ============ 3 ============ -->
-    <section class="chapter" id="polish" data-keep="Five small fixes to the look, found by viewing real pages at both widths.">
-      <header>
-        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What did 1.8.1 fix three hours later?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> 1.8.0 redrew the page, and 1.8.1 touched its look and labels only.</p>
-
-      <p>The fixes came from a close look at the gallery, the examples and real pages at 390 and 1280 px, in both themes. The release changed no markup.</p>
-
-      <div class="split">
-        <div class="before"><b>Before, in 1.8.0</b>
-          <ul>
-            <li>Labels in spaced capitals, such as the chapter kicker.</li>
-            <li>A tip, warning or stop was a full tint with a thick left bar.</li>
-            <li>A flow step's number sat over its text and squeezed it.</li>
-          </ul></div>
-        <div class="after"><b>After, in 1.8.1</b>
-          <ul>
-            <li>Sentence case: "Chapter 1 of 5, about 1 minute".</li>
-            <li>A white card with a hairline in its colour and a glyph before the title.</li>
-            <li>The number sits beside the title, and the line below uses the full width.</li>
-          </ul></div>
+      <div class="ballot-tools">
+        <button type="button" data-pick-rec>Pick all ★</button>
+        <details class="ballot-review">
+          <summary>Review picks</summary>
+          <ol class="ballot-rows"></ol>
+          <label class="ballot-note"><span>Anything else?</span><input type="text" maxlength="300" autocomplete="off"></label>
+        </details>
       </div>
-      <p class="take"><b>Take from this:</b> each fix removes a little noise, and none changes what a page says.</p>
-
-      <p>Two more fixes finish the round. The mini-map scrolls on a phone instead of shrinking its labels to 7 px. The atlas's quiet snapshot line also works after the chapter map.</p>
-
-      <p class="remember"><b>Remember:</b> 1.8.1 changed looks and labels only. An upgrade brings the fix to an older page.</p>
-    </section>
-
-    <!-- ============ 4 ============ -->
-    <section class="chapter" id="upgrade" data-keep="The upgrader swaps the style and script, then checks the page, and puts it back if it fails.">
-      <header>
-        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>What happens when I upgrade a page?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> 1.8.1 changed looks only, and an old page keeps its old look until you upgrade it.</p>
-
-      <p>An upgrade is safe to try. On 21 real pages brought up from 1.7.0, phone height fell by a median of 9%, and by up to 15% for a runbook. No markup changed.</p>
-
-      <ol class="flow">
-        <li class="go"><b>Save a backup</b><span>The page is copied to a .bak file first.</span></li>
-        <li class="go"><b>Swap the code</b><span>The page's style and script become the current ones.</span></li>
-        <li class="here"><b>Check the page</b><span>The checker runs on the result.</span></li>
-        <li><b>Keep or restore</b><span>A page that passed before and fails now is put back.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> an upgrade changes the design and the script, and keeps your content byte for byte.</p>
-
-      <div class="callout warn"><b>Make the page again for new parts</b>
-        <p>An upgrade does not add the new parts of a release, such as At a glance. Ask the agent to make the page again for those.</p></div>
-
-      <details class="fold"><summary>Show the exact commands</summary>
-        <pre><code>claude plugin marketplace update html-explainer-skill
-claude plugin update html-explainer@html-explainer-skill
-node &lt;skill folder&gt;/scripts/upgrade.mjs docs/explainers/my-page.html --dry-run
-node &lt;skill folder&gt;/scripts/upgrade.mjs docs/explainers/my-page.html</code></pre>
-        <p>Restart Claude Code after the update. Add <code>--force</code> only for a page with hand-edited styles. The backup keeps those edits.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> update, preview, upgrade, and make a page again when you want its new parts.</p>
-    </section>
-
-    <!-- CLOSING -->
-    <section class="recap" id="recap">
-      <h2>Recap</h2>
-      <ol>
-        <li>The answer is the headline, and the page's own picture comes next.</li>
-        <li>One Reading tools button, one tinted strip per chapter, and colour only where it means something.</li>
-        <li>1.8.1 changed looks and labels only. An upgrade brings the fix to an older page.</li>
-        <li>Update, preview, upgrade, and make a page again when you want its new parts.</li>
-      </ol>
-    </section>
+      <div class="ballot-meta">
+        <p class="ballot-status" aria-live="polite">Tap an option on any card. Your picks collect here.</p>
+        <span class="ballot-save">Saved in this browser</span>
+        <button type="button" data-json>Copy JSON</button>
+      </div>
+      <div class="ballot-fallback" hidden>
+        <label for="ballot-fallback-text">The text is selected. Press Ctrl+C (⌘C on a Mac), then paste it into the chat.</label>
+        <textarea id="ballot-fallback-text" readonly></textarea>
+        <button type="button" data-close>Close</button>
+      </div>
+    </div>
   </main>
 </div>
 

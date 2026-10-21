@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="runbook">
+<html lang="en" data-type="explainer">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Cutting a plugin release</title>
-<meta name="description" content="The twelve steps that cut a release of the html-explainer plugin, with the command, the check and the way out for each step.">
+<title>Why every page opens with the answer</title>
+<meta name="description" content="The idea behind the glance-explainer plugin for someone deciding whether to try it: the answer comes first, three facts follow, and a checker enforces both.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,11 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#needs"><span class="dot"></span>What you need first</a></li>
-      <li><a href="#prepare"><span class="dot"></span>Prepare the release branch</a></li>
-      <li><a href="#check"><span class="dot"></span>Check it and open the pull request</a></li>
-      <li><a href="#ship"><span class="dot"></span>Publish it and update your copy</a></li>
-      <li><a href="#wrong"><span class="dot"></span>When it goes wrong</a></li>
+      <li><a href="#why"><span class="dot"></span>Why the answer comes first</a></li>
+      <li><a href="#orient"><span class="dot"></span>What keeps a long page readable</a></li>
+      <li><a href="#honest"><span class="dot"></span>How the plugin keeps itself honest</a></li>
+      <li><a href="#try"><span class="dot"></span>Whether to try it</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,211 +1425,223 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">A procedure, step by step</p>
-    <h1>Cutting a plugin release</h1>
-    <div class="meta"><span>Reading time about 6 minutes</span><span>Written 2026-10-16</span><span>For: the maintainer</span></div>
+    <p class="kicker">The idea behind the plugin</p>
+    <h1>Why every page opens with the answer</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: someone deciding whether to try it</span></div>
 
-    <p class="answer">Cut a release in 11 steps: bump the version, pass the checks, merge, tag, publish, then update your own copy.</p>
+    <p class="answer">Every page opens with its one-sentence answer, so a reader who stops after the first screen has still got the point.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Work in a worktree, on a branch named release/X.Y.Z.</li>
-        <li>node tools/check-repo.mjs must exit 0 before the pull request opens.</li>
-        <li>A release is a merged pull request, a tag and a GitHub release.</li>
+        <li>The answer is one sentence, right under the title.</li>
+        <li>Three facts at most, then the page's own picture.</li>
+        <li>A checker enforces both before you see the page.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">The 11 steps, in order</h2><span class="chip">Cutting 1.9.0</span></div>
-      <div class="runbook-overview"></div>
-      <p class="take"><b>Take:</b> tick a row as you finish its step. The first open step is marked Next, and each row links to its step.</p>
+      <div class="glance-head"><h2 id="glance-h">Where the answer sits</h2><span class="chip">Same content, two orders</span></div>
+      <figure class="figure">
+        <svg viewBox="0 0 800 286" role="img" aria-labelledby="f-order"><title id="f-order">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
+          <text class="d-text-b" x="20" y="22">A long page, answer last</text>
+          <text class="d-text-b" x="420" y="22">This plugin's page, answer first</text>
+          <path class="d-line-soft" d="M20 34 H380 V212 H20 Z"/>
+          <path class="d-line-soft" d="M420 34 H780 V212 H420 Z"/>
+          <text class="d-text-s" x="372" y="204" text-anchor="end">first screen</text>
+          <text class="d-text-s" x="772" y="204" text-anchor="end">first screen</text>
+          <rect class="d-box" x="36" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="71" text-anchor="middle">Background</text>
+          <rect class="d-box" x="36" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="119" text-anchor="middle">Method</text>
+          <rect class="d-box" x="36" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="167" text-anchor="middle">Results</text>
+          <rect class="d-box-wait" x="20" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="200" y="247" text-anchor="middle">The answer</text><text class="d-text-s" x="200" y="265" text-anchor="middle">out of sight on the first screen</text>
+          <rect class="d-box-go" x="436" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="71" text-anchor="middle">The answer</text>
+          <rect class="d-box" x="436" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="119" text-anchor="middle">Three facts to keep</text>
+          <rect class="d-box" x="436" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="167" text-anchor="middle">The page's own picture</text>
+          <rect class="d-box" x="420" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="600" y="247" text-anchor="middle">Chapters, one idea each</text><text class="d-text-s" x="600" y="265" text-anchor="middle">read only if you want more</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 280 270" role="img" aria-labelledby="f-order-n"><title id="f-order-n">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
+          <text class="d-text-b" x="2" y="16">Answer last</text>
+          <text class="d-text-b" x="148" y="16">Answer first</text>
+          <path class="d-line-soft" d="M2 26 H132 V194 H2 Z"/>
+          <path class="d-line-soft" d="M148 26 H278 V194 H148 Z"/>
+          <text class="d-text-s" x="126" y="187" text-anchor="end">first screen</text>
+          <text class="d-text-s" x="272" y="187" text-anchor="end">first screen</text>
+          <rect class="d-box" x="8" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="61" text-anchor="middle">Background</text>
+          <rect class="d-box" x="8" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="107" text-anchor="middle">Method</text>
+          <rect class="d-box" x="8" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="153" text-anchor="middle">Results</text>
+          <rect class="d-box-wait" x="2" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="67" y="230" text-anchor="middle">The answer</text><text class="d-text-s" x="67" y="249" text-anchor="middle">on the last screen</text>
+          <rect class="d-box-go" x="154" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="61" text-anchor="middle">The answer</text>
+          <rect class="d-box" x="154" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="102" text-anchor="middle">Three facts</text><text class="d-text-s" x="213" y="117" text-anchor="middle">to keep</text>
+          <rect class="d-box" x="154" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="148" text-anchor="middle">A picture</text><text class="d-text-s" x="213" y="163" text-anchor="middle">the page's own</text>
+          <rect class="d-box" x="148" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="213" y="230" text-anchor="middle">Chapters</text><text class="d-text-s" x="213" y="249" text-anchor="middle">one idea each</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> the same content in two orders. With the answer first, a reader who stops after one screen still has the point.</figcaption>
+      </figure>
     </section>
 
     <ol class="map">
-      <li><a href="#needs"><b>What you need first</b><span>Four tools, with a one-line check for each.</span></a></li>
-      <li><a href="#prepare"><b>Prepare the release branch</b><span>A worktree, the version, the changelog and the upgrade hash.</span></a></li>
-      <li><a href="#check"><b>Check it and open the pull request</b><span>Upgrade the shipped pages, run both checks, open the pull request.</span></a></li>
-      <li><a href="#ship"><b>Publish it and update your copy</b><span>Merge, tag, create the GitHub release, then update.</span></a></li>
-      <li><a href="#wrong"><b>When it goes wrong</b><span>How far each stage can be taken back.</span></a></li>
+      <li><a href="#why"><b>Why the answer comes first</b><span>Pages are long, readers are tired, and the first screen decides.</span></a></li>
+      <li><a href="#orient"><b>What keeps a long page readable</b><span>Three facts, a restated line and a line to remember.</span></a></li>
+      <li><a href="#honest"><b>How the plugin keeps itself honest</b><span>A checker with hard limits, and a hook that runs it.</span></a></li>
+      <li><a href="#try"><b>Whether to try it</b><span>What is evidence, what is taste, and what is untested.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="needs" data-keep="Four tools and a clean main. Each has a one-line check.">
+    <section class="chapter" id="why" data-keep="The first screen decides whether a tired reader goes on.">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>What do I need before I start?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>Why does the answer come first?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a release is a merged pull request, a tag and a GitHub release.</p>
+      <p class="from"><b>Before this:</b> the answer sits right under the title, so a reader who stops there still has the point.</p>
 
-      <p>The steps use 1.9.0, the next release, and 1.8.1, the last one. Change both numbers for yours. Release work gets its own worktree, in a folder the repository already ignores.</p>
+      <p>Agents write more than anyone can read: long summaries, plans, diffs and status reports. A reader with a short working memory loses the thread as they scroll. They skim first and read second, if at all.</p>
 
-      <ul class="status">
-        <li class="wait"><b>Node 18 or newer</b><span><code>node --version</code> prints v18 or higher.</span></li>
-        <li class="wait"><b>Git, on a clean main</b><span><code>git status --short</code> prints nothing.</span></li>
-        <li class="wait"><b>GitHub CLI, signed in</b><span><code>gh auth status</code> names your account.</span></li>
-        <li class="wait"><b>Claude Code</b><span><code>claude --version</code> prints a version.</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> four tools, one command each. If one prints nothing, fix it before step 1.</p>
+      <ol class="flow">
+        <li class="here"><b>The answer</b><span>Read one sentence, under the title.</span></li>
+        <li><b>Three facts</b><span>Check the yellow cards. Never a fourth.</span></li>
+        <li><b>The picture</b><span>Look at the page's own, such as a status board.</span></li>
+        <li><b>Stop or read on</b><span>Chapters are optional.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> every step is a place to stop. The answer and the three facts already carry the point.</p>
 
-      <p class="remember"><b>Remember:</b> check the four tools first, and swap in your own version numbers.</p>
+      <p>A review of 21 real pages found that 19 types opened with the same first phone screen. Release 1.8.0 changed that, so the first screen now says what kind of page it is.</p>
+
+      <p class="remember"><b>Remember:</b> the first screen decides, so the answer and the three facts go there.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="prepare" data-keep="A worktree, then the version, the changelog and the hash.">
+    <section class="chapter" id="orient" data-keep="Each chapter restates what it builds on and closes with one line to keep.">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 2 minutes</p><h2>How do I prepare the release branch?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What keeps a long page from losing you?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the four tools work and main is clean.</p>
+      <p class="from"><b>Before this:</b> the first screen holds the answer, three facts and the page's own picture.</p>
 
-      <ol class="runbook">
-        <li><b>Start a release branch in its own worktree.</b>
-          <pre class="cmd"><code>git worktree add .claude/worktrees/release-1.9.0 -b release/1.9.0 main
-cd .claude/worktrees/release-1.9.0</code></pre>
-          <p class="check"><b>Check:</b> <code>git worktree list</code> shows the new folder on <code>[release/1.9.0]</code>.</p>
-          <p class="fail"><b>If it fails:</b> if the branch exists, drop <code>-b release/1.9.0 main</code> and name the branch last.</p></li>
-        <li><b>Set the version in the manifest and the template.</b>
-          <pre class="cmd"><code>sed -i 's/1\.8\.1/1.9.0/' .claude-plugin/plugin.json skills/html-explainer/assets/template.html</code></pre>
-          <p class="check"><b>Check:</b> <code>git diff --stat</code> shows <code>2 +-</code> for both files.</p>
-          <p class="fail"><b>If it fails:</b> any other count means a stray match. Undo it and edit both numbers by hand.</p></li>
-        <li><b>List what shipped, then write the changelog section.</b>
-          <pre class="cmd"><code>git log --oneline v1.8.1..main</code></pre>
-          <p class="check"><b>Check:</b> <code>grep -n '^## ' CHANGELOG.md</code> lists <code>## 1.9.0</code> above <code>## 1.8.1</code>.</p>
-          <p class="fail"><b>If it fails:</b> move the new section above the newest release.</p></li>
-        <li><b>Find the template's hash for the upgrader.</b>
-          <pre class="cmd"><code>node skills/html-explainer/scripts/upgrade.mjs --hash skills/html-explainer/assets/template.html</code></pre>
-          <p class="check"><b>Check:</b> 16 hex digits print. If KNOWN lists them, add nothing. If not, add <code>'digits': '1.9.0',</code>.</p>
-          <p class="fail"><b>If it fails:</b> run it from the worktree's top folder.</p></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> after step 4 the branch holds the new version, the changelog and the hash.</p>
+      <p>The keep box names the three facts to carry, and the page never asks for a fourth. Each chapter after it must stand alone, so a reader who lands in the middle loses nothing.</p>
 
-      <p class="remember"><b>Remember:</b> a release branch starts in a worktree and ends with the version, the changelog and the hash.</p>
+      <div class="split">
+        <div class="before"><b>Instead of writing</b>
+          <ul>
+            <li>"As mentioned above"</li>
+            <li>"See section 3"</li>
+            <li>"In conclusion"</li>
+          </ul></div>
+        <div class="after"><b>The page does this</b>
+          <ul>
+            <li>A "Before this" line restates the one fact the chapter builds on.</li>
+            <li>A link to the chapter, with its one fact restated.</li>
+            <li>A recap box that holds the remember lines.</li>
+          </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> a reader can land on any chapter and find the one fact it builds on.</p>
+
+      <p>Every chapter closes with one sentence to remember. The recap at the end is those sentences, copied. Nothing new appears there.</p>
+
+      <details class="fold"><summary>Show the order of a page</summary>
+        <ol>
+          <li>The answer, then the keep box.</li>
+          <li>At a glance, the page's own picture.</li>
+          <li>The chapter map, then three to seven chapters.</li>
+          <li>The recap, and the ask only when a decision is needed.</li>
+        </ol>
+      </details>
+
+      <p class="remember"><b>Remember:</b> every chapter restates what it builds on and closes with one line to keep.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="check" data-keep="Upgrade the shipped pages, run both checks, then open the pull request.">
+    <section class="chapter" id="honest" data-keep="Hard limits, enforced by a checker and by a hook.">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 2 minutes</p><h2>How do I check the release and open the pull request?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>How does the plugin keep itself honest?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the branch holds the new version, the changelog and the hash.</p>
+      <p class="from"><b>Before this:</b> each page promises one short answer, three facts at most and a picture per chapter.</p>
 
-      <ol class="runbook" start="5">
-        <li><b>Bring the shipped pages to the new mark.</b>
-          <pre class="cmd"><code>node skills/html-explainer/scripts/upgrade.mjs skills/html-explainer/assets/gallery.html skills/html-explainer/examples skills/explainer-gather/examples docs/index.html docs/roadmap.html</code></pre>
-          <p class="check"><b>Check:</b> every line says <code>version mark set</code>, <code>upgraded</code> or <code>already current</code>.</p>
-          <p class="fail"><b>If it fails:</b> <code>skipped: custom styles</code> means hand edits. Paste the template's style and script in.</p></li>
-        <li><b>Run both checks.</b>
-          <pre class="cmd"><code>node tools/check-repo.mjs
-claude plugin validate --strict .</code></pre>
-          <p class="check"><b>Check:</b> they end with <code>all checks passed</code> and <code>Validation passed</code>, and both exit 0.</p>
-          <p class="fail"><b>If it fails:</b> fix each FAIL line. A mark mismatch means step 2 missed a number.</p></li>
-        <li><b>Commit, push and open the pull request.</b>
-          <pre class="cmd"><code>git add -A &amp;&amp; git commit -m "chore(release): 1.9.0"
-git push -u origin release/1.9.0
-gh pr create --title "Release 1.9.0: public examples" --fill</code></pre>
-          <p class="check"><b>Check:</b> <code>gh pr checks --watch</code> ends with <code>check</code> passing. The <code>site</code> job is skipped on a pull request.</p>
-          <p class="fail"><b>If it fails:</b> <code>gh pr checks --web</code> opens the log. Fix the FAIL line here and push again.</p></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> the checks run on your machine first, and CI runs the repository check again.</p>
+      <p>A checker script reads every page and fails it when a promise is broken. These are four of its limits.</p>
 
-      <p class="remember"><b>Remember:</b> upgrade the shipped pages, run both checks, then open the pull request.</p>
+      <div class="tiles">
+        <div class="tile"><span class="n">40</span><span class="l">words in the answer, at most, before the page fails</span></div>
+        <div class="tile"><span class="n">3</span><span class="l">facts the keep box may hold</span></div>
+        <div class="tile"><span class="n">4.5:1</span><span class="l">text contrast needed, in light and dark</span></div>
+        <div class="tile"><span class="n">9 px</span><span class="l">smallest diagram label on a phone</span></div>
+      </div>
+      <p class="take"><b>Take from this:</b> these limits are hard. A page that breaks one fails, and the agent fixes it before you see the page.</p>
+
+      <p>In Claude Code a hook runs the checker at the end of every turn that wrote a page. It sends each failure back to the agent, up to three times in a turn.</p>
+
+      <details class="fold"><summary>Show where each limit lives</summary>
+        <ul>
+          <li><code>skills/glance-explainer/scripts/check.mjs:73</code> sets the answer limit of 40 words, paragraphs of 40 words and keep facts of 15 words.</li>
+          <li><code>check.mjs:126</code> fails a keep box with more than 3 items.</li>
+          <li><code>check.mjs:184</code> sets the smallest phone label at 9 px.</li>
+          <li><code>check.mjs:258</code> fails any text pair under 4.5 to 1.</li>
+          <li><code>hooks/explainer-check.mjs:14</code> lets the hook block a turn at most 3 times.</li>
+        </ul>
+        <p>Line numbers are as of commit 6ffbbbc.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> the limits are hard, and a checker and a hook enforce them before you see a page.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="ship" data-keep="The merge, the tag and the GitHub release make it public.">
+    <section class="chapter" id="try" data-keep="Part of it is evidence, part is taste, and no outside reader has tested it yet.">
       <header>
-        <div><p class="kicker">Chapter 4 of 5, about 2 minutes</p><h2>How do I publish the release and update my copy?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Is it worth trying on your work?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the pull request is open and its check job passes.</p>
+      <p class="from"><b>Before this:</b> a checker and a hook enforce the shape of every page.</p>
 
-      <ol class="runbook" start="8">
-        <li><b>Merge the pull request and delete its branch.</b>
-          <pre class="cmd"><code>gh pr merge --merge
-git push origin --delete release/1.9.0</code></pre>
-          <p class="check"><b>Check:</b> after <code>git fetch</code>, <code>git log origin/main -1 --oneline</code> names your pull request.</p>
-          <p class="fail"><b>If it fails:</b> wait for the check job. If main moved, merge origin/main and push.</p></li>
-        <li><b>Tag the merge and push the tag.</b>
-          <pre class="cmd"><code>git tag -a v1.9.0 -m "1.9.0: public examples" origin/main
-git push origin v1.9.0</code></pre>
-          <p class="check"><b>Check:</b> <code>git ls-remote --tags origin v1.9.0</code> lists the tag.</p>
-          <p class="fail"><b>If it fails:</b> <code>already exists</code> means someone tagged it. Read <code>git show v1.9.0</code> first.</p></li>
-        <li><b>Create the GitHub release from the changelog.</b>
-          <pre class="cmd"><code>sed -n '/^## 1.9.0/,/^## 1.8.1/{//!p}' CHANGELOG.md &gt; ../notes.md
-gh release create v1.9.0 --title "1.9.0: public examples" --notes-file ../notes.md</code></pre>
-          <p class="check"><b>Check:</b> <code>gh release view v1.9.0</code> prints the title and the 1.9.0 changelog text.</p>
-          <p class="fail"><b>If it fails:</b> <code>../notes.md</code> must hold only the 1.9.0 section.</p></li>
-        <li><b>Update your own copy.</b>
-          <pre class="cmd"><code>claude plugin marketplace update html-explainer-skill
-claude plugin update html-explainer@html-explainer-skill</code></pre>
-          <p class="check"><b>Check:</b> after a restart, <code>claude plugin list</code> shows <code>Version: 1.9.0</code>.</p>
-          <p class="fail"><b>If it fails:</b> still old? Run both commands in this order, then restart.</p></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> merge, tag and release are separate acts with separate checks.</p>
+      <p>The design guide sorts its own choices into three bins. You can see how much of it rests on evidence.</p>
 
-      <details class="fold"><summary>Show how to confirm the site redeployed</summary>
-        <pre><code>gh run list --workflow ci --branch main --limit 1</code></pre>
-        <p>The public site builds from main after the merge. The newest run should end in <code>completed</code> and <code>success</code>.</p>
-      </details>
+      <div class="cols">
+        <section class="col go"><h3>Backed by evidence</h3>
+          <ul>
+            <li><b>Short paragraphs</b><span>One topic each, as W3C COGA advises.</span></li>
+            <li><b>Visible progress</b><span>Done, current and pending are shown.</span></li>
+          </ul></section>
+        <section class="col wait"><h3>A design choice</h3>
+          <ul>
+            <li><b>Three facts</b><span>Kept because it is small and forces a choice.</span></li>
+            <li><b>Chapter length</b><span>A craft default. Its claims failed checking.</span></li>
+          </ul></section>
+        <section class="col stop"><h3>Refused, for lack of evidence</h3>
+          <ul>
+            <li><b>Bionic bolding</b><span>Eye tracking shows no gain.</span></li>
+            <li><b>Dyslexia fonts</b><span>No benefit over ordinary fonts.</span></li>
+          </ul></section>
+      </div>
+      <p class="take"><b>Take from this:</b> the page says which of its choices are evidence and which are taste.</p>
 
-      <p class="remember"><b>Remember:</b> merge, tag, release, then update your own copy and restart.</p>
-    </section>
+      <div class="callout warn"><b>Not yet tested on outside readers</b>
+        <p>The roadmap says every page so far was judged by its author. If plugin pages do not help outside readers more than a default page does, the roadmap shrinks to maintenance.</p></div>
 
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="wrong" data-keep="Take it back as far as it got. After people update, fix forward.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What do I do when it goes wrong?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> a release is a merge, a tag and a GitHub release, and each can be taken back.</p>
-
-      <ul class="status">
-        <li class="go"><b>Before the merge</b><span>Close the pull request and remove the worktree. Nothing reached main.</span></li>
-        <li class="wait"><b>After the merge, before the tag</b><span>Revert the merge in a new pull request, then run the checks again.</span></li>
-        <li class="wait"><b>After the tag and the release</b><span>Delete the release and its tag. Releases here are not locked.</span></li>
-        <li class="stop"><b>After people have updated</b><span>You cannot recall it. Fix forward with a patch release.</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> the earlier you stop, the cheaper the way back. This repository has shipped fast fixes before: 1.8.1 followed 1.8.0 about three hours later.</p>
-
-      <details class="fold"><summary>Show the commands for each stage</summary>
-        <pre><code># before the merge (run the second line from the main checkout)
-gh pr close --comment "Not shipping"
-git worktree remove .claude/worktrees/release-1.9.0
-
-# after the merge, before the tag
-git revert -m 1 &lt;merge commit&gt;
-
-# after the tag and the release
-gh release delete v1.9.0 --cleanup-tag --yes
-git tag -d v1.9.0</code></pre>
-        <p>A reader can stay on one release by adding its tag when they add the marketplace: <code>ariasr47/html-explainer-skill#v1.8.1</code>.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> take it back as far as it got, and fix forward once people have updated.</p>
+      <p class="remember"><b>Remember:</b> part of it is evidence, part is taste, and no outside reader has tested it yet.</p>
     </section>
 
     <!-- CLOSING -->
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Check the four tools first, and swap in your own version numbers.</li>
-        <li>A release branch starts in a worktree and ends with the version, the changelog and the hash.</li>
-        <li>Upgrade the shipped pages, run both checks, then open the pull request.</li>
-        <li>Merge, tag, release, then update your own copy and restart.</li>
-        <li>Take it back as far as it got, and fix forward once people have updated.</li>
+        <li>The first screen decides, so the answer and the three facts go there.</li>
+        <li>Every chapter restates what it builds on and closes with one line to keep.</li>
+        <li>The limits are hard, and a checker and a hook enforce them before you see a page.</li>
+        <li>Part of it is evidence, part is taste, and no outside reader has tested it yet.</li>
       </ol>
+    </section>
+
+    <section class="ask">
+      <h2>What I need from you</h2>
+      <p>Where would you like to start?</p>
+      <div class="choices"><a href="https://ariasr47.github.io/glance-explainer/gallery.html" data-rec>Open the gallery</a><a href="https://github.com/ariasr47/glance-explainer/blob/main/docs/install.md">Read the install guide</a><a href="https://ariasr47.github.io/glance-explainer/roadmap.html">See the roadmap</a></div>
+      <p class="nothing"><b>If you do nothing:</b> nothing changes. Pages you already have stay as they are.</p>
     </section>
   </main>
 </div>

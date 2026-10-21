@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="playbook">
+<html lang="en" data-type="field-guide">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Moving the team wiki</title>
-<meta name="description" content="A plan for moving a small team's wiki to a new host: six phases, what your team sees, who does what, the risky evening with its undo, the risks, and three decisions you can answer on the page.">
+<title>Field guide for a small notes app</title>
+<meta name="description" content="A field guide to the work behind a web product, shown on a small notes app: where each field fits, which four come first, and 30 entries to look up by family or by search.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,14 +1407,9 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#change"><span class="dot"></span>What changes</a></li>
-      <li><a href="#team"><span class="dot"></span>What your team sees</a></li>
-      <li><a href="#phases"><span class="dot"></span>The six phases</a></li>
-      <li><a href="#goes"><span class="dot"></span>What goes where</a></li>
-      <li><a href="#roles"><span class="dot"></span>Who does what</a></li>
-      <li><a href="#switch"><span class="dot"></span>Switch day</a></li>
-      <li><a href="#risks"><span class="dot"></span>What could go wrong</a></li>
-      <li><a href="#decide"><span class="dot"></span>Costs and decisions</a></li>
+      <li><a href="#map"><span class="dot"></span>Where things fit</a></li>
+      <li><a href="#first"><span class="dot"></span>Start here</a></li>
+      <li><a href="#lookup"><span class="dot"></span>Look something up</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1429,344 +1424,342 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
+    <p class="kicker">A field guide: read once, then look things up</p>
+    <h1>Field guide for a small notes app</h1>
+    <div class="meta"><span>Skim in about 2 minutes, look things up anytime</span><span>Written 2026-10-14</span><span>For: a builder with one small app</span></div>
 
-    <header class="hero">
-      <p class="kicker">A plan for one risky change</p>
-      <h1>Moving the team wiki to a new host</h1>
-      <div class="meta"><span>Reading time about 7 minutes</span><span>Written 2026-10-13</span><span>For: the wiki owner</span></div>
-      <figure class="thesis">
-        <svg viewBox="0 0 400 170" role="img" aria-labelledby="f-thesis"><title id="f-thesis">The wiki is copied from the old host to the new host, and a dashed line shows the way back for a month.</title>
-          <rect class="d-box" x="10" y="10" width="130" height="64" rx="10"/><text class="d-text-b" x="75" y="38" text-anchor="middle">Old host</text><text class="d-text" x="75" y="59" text-anchor="middle">the wiki today</text>
-          <text class="d-text" x="200" y="32" text-anchor="middle">copy first</text>
-          <path class="d-line" d="M140 42 H250"/><path class="d-arrow" d="M250 36 L262 42 L250 48 Z"/>
-          <rect class="d-box-go" x="262" y="10" width="128" height="64" rx="10"/><text class="d-text-b" x="326" y="38" text-anchor="middle">New host</text><text class="d-text" x="326" y="59" text-anchor="middle">the wiki after</text>
-          <path class="d-line-soft" d="M326 82 C326 136 75 136 75 96"/><path class="d-arrow" d="M69 96 L75 84 L81 96 Z"/>
-          <text class="d-text" x="200" y="160" text-anchor="middle">the way back, for a month</text>
-        </svg>
-      </figure>
-    </header>
-
-    <p class="answer">We copy the wiki to a new host, switch on one planned evening, and keep the old host for a month, so your team notices one new address.</p>
+    <p class="answer">Building a notes app draws on 30 fields in six families. For a small team, 16 matter now and 14 can wait.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Six phases. Only two reach your team.</li>
-        <li>Nothing goes live without your yes.</li>
-        <li>Going back takes minutes, for a month.</li>
+        <li>Design decides it, engineers build it, shipping runs it.</li>
+        <li>Four fields fail quietly, so they come first.</li>
+        <li>Every other field is one search away.</li>
       </ol>
     </div>
 
-    <ol class="phase-strip" aria-label="The six phases">
-      <li data-owner="you"><a href="#phase-1"><span class="seg-num">Phase 1</span><b>Decide what moves</b>
-        <span class="who" title="You">Y</span><small class="effort">a few days</small><span class="bar" style="--effort:2"></span></a></li>
-      <li data-owner="me"><a href="#phase-2"><span class="seg-num">Phase 2</span><b>Copy and rehearse</b>
-        <span class="who" title="Me">M</span><small class="effort">about a day</small><span class="bar" style="--effort:3"></span></a></li>
-      <li class="notice" data-owner="you"><a href="#phase-3"><span class="seg-num">Phase 3</span><b>Announce the date</b>
-        <span class="who" title="You">Y</span><small class="effort">ten minutes</small><span class="bar" style="--effort:1"></span>
-        <span class="notice-tag">Team notices</span></a></li>
-      <li class="notice" data-owner="both"><a href="#phase-4"><span class="seg-num">Phase 4</span><b>Switch day</b>
-        <span class="who" title="Both">Y+M</span><small class="effort">one evening</small><span class="bar" style="--effort:2"></span>
-        <span class="notice-tag">Team notices</span></a></li>
-      <li data-owner="me"><a href="#phase-5"><span class="seg-num">Phase 5</span><b>Watch and fix</b>
-        <span class="who" title="Me">M</span><small class="effort">a week</small><span class="bar" style="--effort:2"></span></a></li>
-      <li data-owner="you"><a href="#phase-6"><span class="seg-num">Phase 6</span><b>Retire the old host</b>
-        <span class="who" title="You">Y</span><small class="effort">an hour</small><span class="bar" style="--effort:1"></span></a></li>
-    </ol>
-
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="change" data-keep="The address changes. The pages are copied, never moved.">
+    <section class="chapter" id="map" data-keep="Design decides, engineers build, shipping runs">
       <header>
-        <div><p class="kicker">Chapter 1 of 8, about 1 minute</p><h2>What changes, and what stays the same?</h2></div>
+        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>Where does everything fit?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> the answer says the wiki moves to a new host and your team notices one new address.</p>
-
-      <p>Today one host does everything. After the move the new host does, and the old one stays on for a month in case we need to go back.</p>
-
-      <figure class="figure">
-        <svg viewBox="0 0 800 330" role="img" aria-labelledby="f-change"><title id="f-change">Before, one address leads to the old host and its pages. After, a new address leads to the new host and a copy of the pages, and the old host stays on for a month as the way back.</title>
-          <text class="d-text-b" x="20" y="28">Before</text>
-          <rect class="d-box" x="20" y="44" width="220" height="64" rx="10"/><text class="d-text-b" x="130" y="72" text-anchor="middle">old-wiki.example</text><text class="d-text-s" x="130" y="92" text-anchor="middle">the address today</text>
-          <path class="d-line" d="M240 76 H290"/><path class="d-arrow" d="M290 70 L302 76 L290 82 Z"/>
-          <rect class="d-box" x="302" y="44" width="196" height="64" rx="10"/><text class="d-text-b" x="400" y="72" text-anchor="middle">Old host</text><text class="d-text-s" x="400" y="92" text-anchor="middle">runs the wiki</text>
-          <path class="d-line" d="M498 76 H548"/><path class="d-arrow" d="M548 70 L560 76 L548 82 Z"/>
-          <rect class="d-box" x="560" y="44" width="220" height="64" rx="10"/><text class="d-text-b" x="670" y="72" text-anchor="middle">Pages and files</text><text class="d-text-s" x="670" y="92" text-anchor="middle">all in one place</text>
-          <text class="d-text-b" x="20" y="150">After</text>
-          <rect class="d-box-here" x="20" y="166" width="220" height="64" rx="10"/><text class="d-text-b" x="130" y="194" text-anchor="middle">wiki.example.com</text><text class="d-text-s" x="130" y="214" text-anchor="middle">the new address</text>
-          <path class="d-line" d="M240 198 H290"/><path class="d-arrow" d="M290 192 L302 198 L290 204 Z"/>
-          <rect class="d-box-go" x="302" y="166" width="196" height="64" rx="10"/><text class="d-text-b" x="400" y="194" text-anchor="middle">New host</text><text class="d-text-s" x="400" y="214" text-anchor="middle">runs the wiki</text>
-          <path class="d-line" d="M498 198 H548"/><path class="d-arrow" d="M548 192 L560 198 L548 204 Z"/>
-          <rect class="d-box-go" x="560" y="166" width="220" height="64" rx="10"/><text class="d-text-b" x="670" y="194" text-anchor="middle">Pages and files</text><text class="d-text-s" x="670" y="214" text-anchor="middle">copied, not moved</text>
-          <path class="d-line-soft" d="M400 230 V250"/>
-          <rect class="d-line-soft" x="262" y="250" width="276" height="62" rx="10"/><text class="d-text-b" x="400" y="276" text-anchor="middle">Old host, kept for a month</text><text class="d-text-s" x="400" y="297" text-anchor="middle">forwards visitors, and is our way back</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the address and the host behind it change. Nothing is taken out of the old host, only copied.</figcaption>
-      </figure>
-
-      <p class="remember"><b>Remember:</b> we copy and never move, and the old host stays on for a month.</p>
+      <p>Work moves from left to right. Each family hands its work to the next. The bar under each family shows how much of it matters now.</p>
+      <div class="territory">
+        <div class="stage">
+          <h3>Decide</h3>
+          <a class="family" href="#fam-design"><b>Product and design</b><span>Decide what it is and how it feels</span></a>
+        </div>
+        <div class="stage" data-here>
+          <h3>Build</h3>
+          <a class="family" href="#fam-frontend"><b>Frontend engineering</b><span>Build what runs in the browser</span></a>
+          <a class="family" href="#fam-backend"><b>Backend and data</b><span>Build what runs on the server</span></a>
+        </div>
+        <div class="stage">
+          <h3>Protect and prove</h3>
+          <a class="family" href="#fam-security"><b>Security and privacy</b><span>Keep notes safe and private</span></a>
+        </div>
+        <div class="stage">
+          <h3>Ship and run</h3>
+          <a class="family" href="#fam-ship"><b>Shipping and running</b><span>Release it, watch it, recover it</span></a>
+        </div>
+        <div class="stage" data-across>
+          <h3>Owed by every family</h3>
+          <a class="family" href="#fam-quality"><b>Qualities everyone owes</b><span>Duties that no single family owns</span></a>
+        </div>
+      </div>
+      <p class="take"><b>Take from this:</b> the notes app sits in Build. Most of Ship and run can wait, except backups.</p>
+      <p class="remember"><b>Remember:</b> design decides it, engineers build it, and shipping runs it.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="team" data-keep="Your team sees a message, then a new address and one extra sign-in.">
+    <section class="chapter" id="first" data-keep="Four fields fail quietly, so they come first">
       <header>
-        <div><p class="kicker">Chapter 2 of 8, about 1 minute</p><h2>What does your team see?</h2></div>
+        <div><p class="kicker">Chapter 2 of 3, about 1 minute</p><h2>Which four cannot wait?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> we copy the pages and the address changes.</p>
-
-      <p>Three moments reach your team. Everything else happens out of their sight.</p>
-
-      <div class="frame-row">
-        <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">old-wiki.example/handbook</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Handbook</span>
-            <span class="mock-win"><span class="mock-row"><span>Onboarding</span></span><span class="mock-row"><span>Holiday policy</span></span><span class="mock-row"><span>Expenses</span></span></span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> until the date is announced, nothing looks different.</figcaption></figure>
-        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">team chat</span></div>
-          <div class="frame-screen">
-            <span class="mock-win"><span class="mock-title">From you, Friday</span>The wiki moves on Saturday evening. Your pages stay as they are. You will sign in once more.</span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> a day before, you send one message. I can draft it.</figcaption></figure>
-        <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">wiki.example.com/sign-in</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Sign in</span>
-            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="width:55%"></span><span class="mock-btn">Sign in</span></span>
-            <span class="mock-note">Then the same pages as before.</span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> from switch day, one new address and one extra sign-in.</figcaption></figure>
-      </div>
-
-      <p class="remember"><b>Remember:</b> your team sees a message, then a new address, then one extra sign-in.</p>
+      <p class="from"><b>Before this:</b> design decides it, engineers build it, and shipping runs it.</p>
+      <p>For one builder, a mistake in these four is silent and hard to undo. Tap one to read its entry.</p>
+      <ol class="start-here">
+        <li><a href="#e-backups"><b>Backups and recovery</b></a><span>One lost database erases every note. Test a restore before launch.</span></li>
+        <li><a href="#e-access"><b>Access control</b></a><span>One wrong rule shows a stranger your notes, and nobody sees it happen.</span></li>
+        <li><a href="#e-privacy"><b>Privacy by design</b></a><span>Notes are personal. Keeping less data is the cheapest protection.</span></li>
+        <li><a href="#e-modelling"><b>Data modelling</b></a><span>A wrong shape is slow and costly to change once people have notes.</span></li>
+      </ol>
+      <p class="can-wait"><b>Can wait:</b> localization, cost tuning and error tracking. They pay off once real people use the app.</p>
+      <p class="take"><b>Take from this:</b> the fields that fail quietly and cost the most come first.</p>
+      <p class="remember"><b>Remember:</b> fields that fail quietly and cost the most come first.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="phases" data-keep="Six phases in order. The last line of each says what your team notices.">
+    <section class="chapter" id="lookup" data-keep="Search by name, definition or example">
       <header>
-        <div><p class="kicker">Chapter 3 of 8, about 2 minutes</p><h2>What happens in each phase?</h2></div>
+        <div><p class="kicker">Chapter 3 of 3, about 1 minute</p><h2>Look something up</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> your team sees a message, a new address and one extra sign-in.</p>
-
-      <p>Each phase finishes before the next starts.</p>
-
-      <ol class="phases">
-        <li id="phase-1"><h3>Decide what moves</h3><span class="chip">You decide</span><span class="chip">A few days</span>
-          <ul><li>Pick what comes across: pages, files and comments.</li><li>Answer the three questions at the end of this page.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing.</p></li>
-        <li id="phase-2"><h3>Copy and rehearse</h3><span class="chip">I do the work</span><span class="chip">About a day</span>
-          <ul><li>Copy everything to the new host.</li><li>Rehearse the move on a spare copy, then take a fresh backup.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing. The old wiki still works.</p></li>
-        <li class="notice" id="phase-3"><h3>Announce the date</h3><span class="chip">You send it</span><span class="chip">Ten minutes</span>
-          <ul><li>One message with the date and the new address.</li></ul>
-          <p class="impact"><b>Team notices:</b> a message with the date and the new address.</p></li>
-        <li class="notice" id="phase-4"><h3>Switch day</h3><span class="chip">Both of us</span><span class="chip">One evening</span>
-          <ul><li>The wiki is read-only for about an hour.</li><li>The new address goes live, and the old one forwards to it.</li></ul>
-          <p class="impact"><b>Team notices:</b> the new address, and one extra sign-in.</p></li>
-        <li id="phase-5"><h3>Watch and fix</h3><span class="chip">I do the work</span><span class="chip">A week</span>
-          <ul><li>Watch for errors and broken links.</li><li>Fix what turns up the same day.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing new.</p></li>
-        <li id="phase-6"><h3>Retire the old host</h3><span class="chip">You decide</span><span class="chip">After a month</span>
-          <ul><li>Check that nobody still uses the old address.</li><li>Say yes, and I switch it off.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing.</p></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> four of the six phases happen out of your team's sight.</p>
-
-      <p class="remember"><b>Remember:</b> only phases 3 and 4 reach your team, and both are marked "Team notices".</p>
-    </section>
-
-    <!-- ============ 4 ============ -->
-    <section class="chapter" id="goes" data-keep="Almost everything moves. Two things stay behind on purpose, and one is your call.">
-      <header>
-        <div><p class="kicker">Chapter 4 of 8, about 1 minute</p><h2>What goes where?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> only phases 3 and 4 reach your team, and we copy rather than move.</p>
-
-      <div class="grid-wrap"><table class="grid">
-        <caption>Where each piece of the wiki ends up</caption>
-        <thead><tr><th scope="col">Piece</th><th scope="col">Old host</th><th scope="col">New host</th></tr></thead>
-        <tbody>
-          <tr class="group"><th colspan="3" scope="colgroup">Moves over</th></tr>
-          <tr><th scope="row">Pages and their history</th><td class="go">Kept, read-only</td><td class="go">Copied in full</td></tr>
-          <tr><th scope="row">Uploaded files and images</th><td class="go">Kept, read-only</td><td class="go">Copied in full</td></tr>
-          <tr class="group"><th colspan="3" scope="colgroup">Stays behind</th></tr>
-          <tr><th scope="row">Visitor statistics</th><td class="go">Kept</td><td class="stop">Not copied</td></tr>
-          <tr><th scope="row">Plugins nobody uses</th><td class="go">Kept</td><td class="stop">Left out</td></tr>
-          <tr class="group"><th colspan="3" scope="colgroup">Your call</th></tr>
-          <tr><th scope="row">Page comments</th><td class="go">Kept</td><td class="decide">Copy them?</td></tr>
-        </tbody>
-      </table></div>
-      <p class="take"><b>Take from this:</b> two pieces stay behind on purpose, and the old host keeps all of them.</p>
-
-      <p class="remember"><b>Remember:</b> the old host keeps everything, so a piece we leave out is never lost.</p>
-    </section>
-
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="roles" data-keep="You decide and send. I copy and check. The rules never bend.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 8, about 1 minute</p><h2>Who does what, and what never bends?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> six phases, with a part for each of us.</p>
-
-      <div class="roles">
-        <section class="role" data-who="you"><h3><span class="who" title="You">Y</span> You</h3><ul>
-          <li>Answer the three questions below.</li>
-          <li>Say yes before any step that touches the live wiki.</li>
-          <li>Send the message to your team.</li>
-          <li>Decide when the old host goes.</li>
-        </ul></section>
-        <section class="role" data-who="me"><h3><span class="who" title="Me">M</span> Me</h3><ul>
-          <li>Copy the wiki and rehearse the move.</li>
-          <li>Do each live step, after your yes.</li>
-          <li>Check the pages that matter, before and after.</li>
-          <li>Watch for errors for a week.</li>
-        </ul></section>
+      <p class="from"><b>Before this:</b> fields that fail quietly and cost the most come first.</p>
+      <p>Search by name, definition or example. The filter starts on Now and always says how many entries it hides.</p>
+      <div class="index" data-rel-labels="Now|Before launch|Later">
+        <div class="guide-tools"></div>
+        <details class="family-index" id="fam-design">
+          <summary><h3>Product and design</h3></summary>
+          <h4 class="group">Understand</h4>
+          <div class="entry" id="e-research" data-rel="now">
+            <b class="name">User research</b>
+            <p class="def">Talking to real people to learn what they need, before and after building.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Five short calls with students showed that finding old notes is the main pain.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-strategy" data-rel="now">
+            <b class="name">Product strategy</b>
+            <p class="def">Choosing what to build, for whom, and what to leave out.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app is for people who keep personal notes, not for teams.</p>
+            </div>
+          </div>
+          <h4 class="group">Shape</h4>
+          <div class="entry" id="e-architecture" data-rel="now">
+            <b class="name">Information architecture</b>
+            <p class="def">How things are named, grouped and found.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Notes live in notebooks, and tags cut across notebooks.</p>
+              <p class="see"><b>See also:</b> <a href="#e-search">Search</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-interaction" data-rel="now">
+            <b class="name">Interaction design</b>
+            <p class="def">How a screen behaves when someone taps, types or makes a mistake.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Deleting a note shows an undo bar for ten seconds.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-content" data-rel="next">
+            <b class="name">Content design</b>
+            <p class="def">The words on screen: labels, messages and tone.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Error messages say what happened and what to do next.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-frontend" open>
+          <summary><h3>Frontend engineering</h3></summary>
+          <h4 class="group">Shape</h4>
+          <div class="entry" id="e-ui" data-rel="now">
+            <b class="name">UI architecture</b>
+            <p class="def">How the interface is split into parts that can be reused and changed safely.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The editor, the note list and the sidebar are separate components.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-state" data-rel="now">
+            <b class="name">State management</b>
+            <p class="def">Deciding where data lives on screen and keeping every view in step.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Renaming a note updates the list and the open editor at once.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-fetching" data-rel="now">
+            <b class="name">Data fetching</b>
+            <p class="def">How the browser asks the server for data and keeps answers for reuse.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The note list loads first, and the full text loads when a note opens.</p>
+              <p class="see"><b>See also:</b> <a href="#e-api">API design</a></p>
+            </div>
+          </div>
+          <h4 class="group">Quality of the client</h4>
+          <div class="entry" id="e-frontend-perf" data-rel="next">
+            <b class="name">Frontend performance</b>
+            <p class="def">How fast a page loads and how smooth it feels to use.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The editor loads after the list, so the first screen appears sooner.</p>
+              <p class="see"><b>See also:</b> <a href="#e-performance">Performance</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-frontend-tests" data-rel="next">
+            <b class="name">Frontend testing</b>
+            <p class="def">Automated checks that the screens work the way people expect.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> One test opens a note, edits it and checks that the change shows.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-backend">
+          <summary><h3>Backend and data</h3></summary>
+          <div class="entry" id="e-api" data-rel="now">
+            <b class="name">API design</b>
+            <p class="def">The agreed way the browser and the server talk to each other.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every request to change a note carries the note’s version number.</p>
+              <p class="see"><b>See also:</b> <a href="#e-fetching">Data fetching</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-modelling" data-rel="now">
+            <b class="name">Data modelling</b>
+            <p class="def">How information is shaped and stored so that it stays correct.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A note belongs to one notebook and can have many tags.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-sync" data-rel="later">
+            <b class="name">Sync and conflicts</b>
+            <p class="def">Keeping copies on two devices the same, and deciding what happens when they disagree.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> If a phone and a laptop edit one note, the app keeps both versions.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-jobs" data-rel="next">
+            <b class="name">Background jobs</b>
+            <p class="def">Work the server does later, such as sending email or cleaning up.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A nightly job removes notes that have been in the bin for 30 days.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-search" data-rel="next">
+            <b class="name">Search</b>
+            <p class="def">Finding words inside large amounts of text quickly.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Search covers titles and note text, and ignores capital letters.</p>
+              <p class="see"><b>See also:</b> <a href="#e-architecture">Information architecture</a></p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-security">
+          <summary><h3>Security and privacy</h3></summary>
+          <div class="entry" id="e-signin" data-rel="now">
+            <b class="name">Sign-in</b>
+            <p class="def">Proving who someone is, with passwords, codes or passkeys.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> People sign in with an email link, so there is no password to forget.</p>
+              <p class="see"><b>See also:</b> <a href="#e-access">Access control</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-access" data-rel="now">
+            <b class="name">Access control</b>
+            <p class="def">Deciding who may see or change each thing.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A shared notebook lets a guest read a note but not delete it.</p>
+              <p class="see"><b>See also:</b> <a href="#e-signin">Sign-in</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-encryption" data-rel="next">
+            <b class="name">Encryption</b>
+            <p class="def">Scrambling data so that only the right people can read it.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Notes are encrypted on the server, and the keys are kept somewhere else.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-privacy" data-rel="now">
+            <b class="name">Privacy by design</b>
+            <p class="def">Collecting as little personal data as possible and being clear about it.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app stores an email address and nothing else about a person.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-dependencies" data-rel="next">
+            <b class="name">Dependency hygiene</b>
+            <p class="def">Keeping the libraries the app relies on current and trusted.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A weekly check lists outdated libraries and known security problems.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-ship">
+          <summary><h3>Shipping and running</h3></summary>
+          <div class="entry" id="e-builds" data-rel="now">
+            <b class="name">Automated builds</b>
+            <p class="def">A script that tests and packages every change, so releases are repeatable.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every change to the main branch runs the tests and builds the app.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-hosting" data-rel="next">
+            <b class="name">Hosting</b>
+            <p class="def">The computers and network that serve the app to people.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> One small server and one database serve the whole app.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-backups" data-rel="now">
+            <b class="name">Backups and recovery</b>
+            <p class="def">Copies of data kept apart from the original, and the practice of restoring them.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A copy of the database is saved every night, and nobody has tried a restore yet.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-monitoring" data-rel="next">
+            <b class="name">Monitoring and alerts</b>
+            <p class="def">Watching the app while it runs and being told when it breaks.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Nothing watches the app yet, so the builder hears about problems from users.</p>
+              <p class="see"><b>See also:</b> <a href="#e-errors">Error tracking</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-errors" data-rel="later">
+            <b class="name">Error tracking</b>
+            <p class="def">Capturing the errors people hit, grouped so that the most common come first.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Failed saves are logged with the note text removed.</p>
+              <p class="see"><b>See also:</b> <a href="#e-monitoring">Monitoring and alerts</a></p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-quality">
+          <summary><h3>Qualities everyone owes</h3></summary>
+          <div class="entry" id="e-accessibility" data-rel="now">
+            <b class="name">Accessibility</b>
+            <p class="def">Making the app usable by everyone, including people who use a keyboard or a screen reader.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every button can be reached with the keyboard, and text meets contrast rules.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-performance" data-rel="next">
+            <b class="name">Performance</b>
+            <p class="def">How fast the whole experience feels, from tap to result.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Opening a note should take under half a second on a phone.</p>
+              <p class="see"><b>See also:</b> <a href="#e-frontend-perf">Frontend performance</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-docs" data-rel="now">
+            <b class="name">Documentation</b>
+            <p class="def">Written notes on how the app works and why choices were made.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A short file explains how to run the app and where the data lives.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-cost" data-rel="later">
+            <b class="name">Cost</b>
+            <p class="def">What the app costs to run, and how that grows with use.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Hosting costs about ten dollars a month for the first thousand people.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-localization" data-rel="later">
+            <b class="name">Localization</b>
+            <p class="def">Supporting other languages, date formats and reading directions.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app is English only for now, with all text kept in one file.</p>
+            </div>
+          </div>
+        </details>
       </div>
-      <ul class="rules">
-        <li><b>Nothing live without your yes.</b> Every step that changes the live wiki waits for you.</li>
-        <li><b>Copy, never move.</b> The old host keeps every page until you say it can go.</li>
-        <li><b>A backup before every switch.</b> A fresh one, checked that it opens.</li>
-        <li><b>Rehearse first.</b> Each live step runs on a spare copy with fake data.</li>
-      </ul>
-      <p class="take"><b>Take from this:</b> you decide and send, I copy and check.</p>
-
-      <p class="remember"><b>Remember:</b> you say yes to every live step, and the old host stays until you say it can go.</p>
-    </section>
-
-    <!-- ============ 6 ============ -->
-    <section class="chapter" id="switch" data-keep="Six steps in one evening, and the way back is a single step.">
-      <header>
-        <div><p class="kicker">Chapter 6 of 8, about 1 minute</p><h2>What happens on switch day, step by step?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> I do each live step, and only after your yes.</p>
-
-      <ol class="steps">
-        <li data-owner="you"><span class="who" title="You">Y</span> <b>Send the heads-up.</b> One message, a day before: the date and the new address.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Take a fresh backup.</b> I check that it opens.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Make the old wiki read-only.</b> Nobody can edit for about an hour.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Copy the last changes across.</b> Then I check the pages that matter.</li>
-        <li data-owner="both"><span class="who" title="Both">Y+M</span> <b>Point the new address at the new host.</b> You say yes first.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Forward the old address.</b> Visitors to the old address land on the new one.</li>
-      </ol>
-      <div class="undo"><b>If something goes wrong:</b> point the new address back at the old host and turn the forwarding off. The old host still has every page, so the wiki is back within minutes.</div>
-      <p class="take"><b>Take from this:</b> one evening, six steps, and the way back is one step.</p>
-
-      <p class="remember"><b>Remember:</b> on switch day the way back is one step, because the old host still has every page.</p>
-    </section>
-
-    <!-- ============ 7 ============ -->
-    <section class="chapter" id="risks" data-keep="One risk is high, and it is about afterwards, not about switch day.">
-      <header>
-        <div><p class="kicker">Chapter 7 of 8, about 1 minute</p><h2>What could go wrong?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> the way back on switch day is one step.</p>
-
-      <div class="risks">
-        <article class="risk" data-level="high"><h3>The old host gets forgotten</h3><span class="level">High</span>
-          <p>It still holds every page. Left alone, it turns into the weak spot.</p>
-          <p class="kept"><b>Kept small by:</b> a reminder to switch it off one month after switch day.</p></article>
-        <article class="risk" data-level="medium"><h3>Someone misses the message</h3><span class="level">Medium</span>
-          <p>They open the old address and wonder where the wiki went.</p>
-          <p class="kept"><b>Kept small by:</b> the old address forwards to the new one for a month.</p></article>
-        <article class="risk" data-level="medium"><h3>Sign-in breaks on the new host</h3><span class="level">Medium</span>
-          <p>People reach the wiki but cannot log in.</p>
-          <p class="kept"><b>Kept small by:</b> I test sign-in on the spare copy, and again right after the switch.</p></article>
-        <article class="risk" data-level="low"><h3>A page looks different</h3><span class="level">Low</span>
-          <p>A few pages use a feature the new host handles in its own way.</p>
-          <p class="kept"><b>Kept small by:</b> I check the twenty most-read pages before and after.</p></article>
-      </div>
-      <p class="take"><b>Take from this:</b> the one high risk is about the weeks after the move, so it has a date on the calendar.</p>
-
-      <p class="remember"><b>Remember:</b> the biggest risk is forgetting the old host, so it gets a reminder.</p>
-    </section>
-
-    <!-- ============ 8 ============ -->
-    <section class="chapter" id="decide" data-keep="Running both hosts for a month is the only extra cost. Three answers from you.">
-      <header>
-        <div><p class="kicker">Chapter 8 of 8, about 2 minutes</p><h2>What will it cost, and what do I need from you?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> one risk is high, and it has a reminder.</p>
-
-      <div class="tiles">
-        <div class="tile"><span class="n">$12</span><span class="l">a month for the new host</span></div>
-        <div class="tile wait"><span class="n">$8</span><span class="l">for the one extra month of the old host</span></div>
-        <div class="tile"><span class="n">2 h</span><span class="l">of your time, in all</span></div>
-        <div class="tile go"><span class="n">$0</span><span class="l">to copy the pages and files</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> running both hosts for one month is the only extra cost.</p>
-
-      <p>Three questions are left. Pick an answer for each. My choice is marked. The bar at the bottom copies your answers so you can paste them back to me.</p>
-
-      <fieldset class="answer-field" data-q="comments" data-kind="choice">
-        <legend>Should page comments come across?</legend>
-        <p class="hint">Comments are the discussion under pages. They are small, and some are useful.</p>
-        <label data-rec="Recommended"><input type="radio" name="comments" value="Copy them"> Copy them</label>
-        <label><input type="radio" name="comments" value="Leave them behind"> Leave them behind</label>
-      </fieldset>
-
-      <fieldset class="answer-field" data-q="evening" data-kind="choice">
-        <legend>Which evening should the switch happen?</legend>
-        <p class="hint">The wiki is read-only for about an hour. A quiet evening costs your team the least.</p>
-        <label data-rec="Recommended"><input type="radio" name="evening" value="Saturday evening"> Saturday evening</label>
-        <label><input type="radio" name="evening" value="Sunday evening"> Sunday evening</label>
-        <label><input type="radio" name="evening" value="A weekday evening"> A weekday evening</label>
-      </fieldset>
-
-      <fieldset class="answer-field" data-q="old-host" data-kind="choice">
-        <legend>How long do we keep the old host after the switch?</legend>
-        <p class="hint">It is our way back, and it costs $8 a month.</p>
-        <label data-rec="Recommended"><input type="radio" name="old-host" value="One month"> One month</label>
-        <label><input type="radio" name="old-host" value="Two weeks"> Two weeks</label>
-        <label><input type="radio" name="old-host" value="Three months"> Three months</label>
-      </fieldset>
-
-      <p class="remember"><b>Remember:</b> three answers from you, and the copy bar at the bottom sends them back to me.</p>
+      <p class="take"><b>Take from this:</b> every field is one search away, and each entry says where it shows up in the app.</p>
+      <p class="remember"><b>Remember:</b> any field is one search away.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>We copy and never move, and the old host stays on for a month.</li>
-        <li>Your team sees a message, then a new address, then one extra sign-in.</li>
-        <li>Only phases 3 and 4 reach your team, and both are marked "Team notices".</li>
-        <li>The old host keeps everything, so a piece we leave out is never lost.</li>
-        <li>You say yes to every live step, and the old host stays until you say it can go.</li>
-        <li>On switch day the way back is one step, because the old host still has every page.</li>
-        <li>The biggest risk is forgetting the old host, so it gets a reminder.</li>
-        <li>Three answers from you, and the copy bar at the bottom sends them back to me.</li>
+        <li>Design decides it, engineers build it, and shipping runs it.</li>
+        <li>Fields that fail quietly and cost the most come first.</li>
+        <li>Any field is one search away.</li>
       </ol>
     </section>
-
-    <!-- The collect bar carries the decisions back. It sits outside the chapters so one-chapter mode never hides it, and stays hidden until the first answer. -->
-    <div class="collect" hidden>
-      <input class="respondent" type="text" placeholder="Your name (optional)" aria-label="Your name">
-      <span class="count"></span>
-      <button type="button" data-copy>Copy all answers</button>
-      <button type="button" data-download>Download .md</button>
-      <button type="button" data-json>Copy JSON</button>
-    </div>
   </main>
 </div>
 

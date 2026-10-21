@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// html-explainer anchor check. Zero dependencies.
+// glance-explainer anchor check. Zero dependencies.
 // Usage: node anchors.mjs <index.html> --repo <path> [--rev <hash>]
 // Collects every .anchor and .inspect element, then confirms that its data-src exists in the
 // repository (working tree, or the committed tree at --rev) and that data-line falls inside the file.

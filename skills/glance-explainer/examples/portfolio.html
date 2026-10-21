@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="status">
+<html lang="en" data-type="portfolio">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Where version 2.4 stands</title>
-<meta name="description" content="Where version 2.4 of a small notes app stands in week 3 of 5: five parts, the timeline to 29 October, and the one blocker that needs ten minutes from you. Example with made-up data.">
+<title>Where six side projects stand</title>
+<meta name="description" content="A Sunday check on six side projects: a notes app, a recipe site, a cycling-route map, a household budget sheet, a podcast feed and a photo-backup script. Which two need you this week, what moved, what is blocked and what waits. Example with made-up data.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,11 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#date"><span class="dot"></span>Is the date safe?</a></li>
-      <li><a href="#phone"><span class="dot"></span>The phone app</a></li>
-      <li><a href="#changed"><span class="dot"></span>Since last Friday</a></li>
-      <li><a href="#blocker"><span class="dot"></span>The one blocker</a></li>
-      <li><a href="#next"><span class="dot"></span>What happens next</a></li>
+      <li><a href="#needs"><span class="dot"></span>What each one needs</a></li>
+      <li><a href="#moved"><span class="dot"></span>What moved</a></li>
+      <li><a href="#blocked"><span class="dot"></span>What is blocked</a></li>
+      <li><a href="#waits"><span class="dot"></span>What waits on me</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,225 +1425,186 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">A status update, week 3 of 5</p>
-    <h1>Where version 2.4 stands</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-16</span><span>For: Mara</span><span>Example with made-up data</span></div>
+    <p class="kicker">A portfolio check, Sunday 18 October</p>
+    <h1>Where six side projects stand</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-18</span><span>For: the builder, in a Sunday review</span><span>Example with made-up data</span></div>
 
-    <p class="answer">Version 2.4 is on track for 29 October, with one spare day, if you add two DNS records on Monday.</p>
+    <p class="answer">Two of my six side projects need me this week: the photo backup is failing, and the podcast hosting renews on 24 October.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>2.4 ships on 29 October with one spare day.</li>
-        <li>One part is blocked: invite emails.</li>
-        <li>Only you can unblock it, in ten minutes.</li>
+        <li>Two of six projects need me this week.</li>
+        <li>The photo backup is the only one putting data at risk.</li>
+        <li>The budget sheet has been stalled for 44 days.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Where is 2.4 in week 3?</h2><span class="chip stop">1 blocker</span></div>
-      <div class="duo">
-        <div>
-          <h3>The five parts</h3>
-          <ul class="status">
-            <li class="go"><b>Sync server</b><span>Share, accept and remove work. 38 of 38 tests pass.</span></li>
-            <li class="go"><b>Web app</b><span>The share and accept screens are on the test site.</span></li>
-            <li class="wait"><b>Phone app</b><span>Android passes. The iPhone build has 3 open bugs.</span></li>
-            <li class="wait"><b>Release notes</b><span>Draft written. Screenshots wait for the iPhone fixes.</span></li>
-            <li class="stop"><b>Invite emails</b><span>Blocked until two DNS records are added.</span></li>
-          </ul>
-        </div>
-        <div>
-          <h3>The five weeks</h3>
-          <ol class="timeline">
-            <li class="go"><span class="when">Week 1, from 28 Sep</span><span class="what">Sharing designed.</span></li>
-            <li class="go"><span class="when">Week 2, from 5 Oct</span><span class="what">Server and web app built.</span></li>
-            <li class="here"><span class="when">Week 3, from 12 Oct</span><span class="what">Phone app and invites. Today is Friday 16 Oct.</span></li>
-            <li><span class="when">Week 4, from 19 Oct</span><span class="what">Bug fixes, then both stores.</span></li>
-            <li><span class="when">Week 5, from 26 Oct</span><span class="what">Store review. Release on 29 Oct.</span></li>
-          </ol>
-        </div>
-      </div>
-      <div class="callout stop"><b>The one blocker: invite emails</b><p>The email service will not send from our new address until two DNS records are added. Only you have the registrar login. Without them, 2.4 still ships, but a person with no account gets no email.</p></div>
-      <p class="take"><b>Take:</b> nothing is late. One part is blocked, and you can unblock it in ten minutes.</p>
+      <div class="glance-head"><h2 id="glance-h">Where do the six projects stand?</h2><span class="chip decide">2 need you this week</span></div>
+      <h3>Needs you</h3>
+      <ul class="status">
+        <li class="stop"><b>Photo-backup script</b><span>Failed 4 nights in a row. The drive is 96% full.</span></li>
+        <li class="decide"><b>Podcast feed</b><span>The hosting plan renews on 24 October. Keep it or move?</span></li>
+      </ul>
+      <h3>Moving</h3>
+      <ul class="status">
+        <li class="go"><b>Notes app</b><span>Version 2.4 is on track for 29 October.</span></li>
+        <li class="go"><b>Recipe site</b><span>Search works. 41 of 120 recipes are tagged.</span></li>
+        <li class="wait"><b>Cycling-route map</b><span>Autumn tiles are fresh. Two routes cross a closed bridge.</span></li>
+      </ul>
+      <h3>Stalled</h3>
+      <ul class="status">
+        <li class="stop"><b>Household budget sheet</b><span>The import has failed for 44 days, since the bank changed its export.</span></li>
+      </ul>
+      <p class="take"><b>Take:</b> two projects need me this week. Three are moving and one is stalled.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#date"><b>Is 29 October still safe?</b><span>Four days of work, five days to do it in.</span></a></li>
-      <li><a href="#phone"><b>What is left on the phone app?</b><span>Three small iPhone bugs and what each costs.</span></a></li>
-      <li><a href="#changed"><b>What changed since last Friday?</b><span>Three things got better and one got worse.</span></a></li>
-      <li><a href="#blocker"><b>What blocks the invite emails?</b><span>Two DNS records, and the day they are due.</span></a></li>
-      <li><a href="#next"><b>What happens next?</b><span>Six steps with an owner and a day each.</span></a></li>
+      <li><a href="#needs"><b>What does each project need from me?</b><span>Two measures for all six: last touched, and what it waits on.</span></a></li>
+      <li><a href="#moved"><b>What moved since last Sunday?</b><span>Three moved forward, one slid back, two stood still.</span></a></li>
+      <li><a href="#blocked"><b>What is blocked, and why?</b><span>One thing puts data at risk. Two only cost time.</span></a></li>
+      <li><a href="#waits"><b>What waits on me, most valuable first?</b><span>Five steps, and the first two come before Saturday.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="date" data-keep="The stores need the builds on 26 October. One spare day protects the date.">
+    <section class="chapter" id="needs" data-keep="Three projects wait on me. Two are urgent and one is not.">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Is 29 October still safe?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does each project need from me?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> two parts are done, two are under way, and one is blocked.</p>
+      <p class="from"><b>Before this:</b> two projects need me this week, three are moving and one is stalled.</p>
 
-      <p>The release date has held since week 1. The real deadline is earlier: both app stores need the builds on Monday 26 October, so they can review them before Thursday.</p>
+      <p>The six projects share two measures: when I last touched it, and what it waits on. Green is the last week, amber the last month, red longer.</p>
 
-      <div class="tiles">
-        <div class="tile"><span class="n">13</span><span class="l">days to the 29 October release</span></div>
-        <div class="tile"><span class="n">4</span><span class="l">working days of work left</span></div>
-        <div class="tile wait"><span class="n">1</span><span class="l">spare day before 26 October</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> the plan fits with one spare day, so a slip of more than a day moves the release.</p>
+      <div class="grid-wrap"><table class="grid">
+        <caption>Six projects, measured the same two ways</caption>
+        <thead><tr><th scope="col">Project</th><th scope="col">Last touched</th><th scope="col">Waits on</th></tr></thead>
+        <tbody>
+          <tr class="group"><th colspan="3" scope="colgroup">Needs me</th></tr>
+          <tr><th scope="row">Photo-backup script</th><td class="stop">5 months ago</td><td class="decide">Me: free space on the drive</td></tr>
+          <tr><th scope="row">Podcast feed</th><td class="wait">12 days ago</td><td class="decide">Me: keep or move the hosting</td></tr>
+          <tr class="group"><th colspan="3" scope="colgroup">Moving</th></tr>
+          <tr><th scope="row">Notes app</th><td class="go">2 days ago</td><td class="wait">Mara: two DNS records</td></tr>
+          <tr><th scope="row">Recipe site</th><td class="go">4 days ago</td><td class="go">Nothing</td></tr>
+          <tr><th scope="row">Cycling-route map</th><td class="go">1 day ago</td><td class="go">Nothing</td></tr>
+          <tr class="group"><th colspan="3" scope="colgroup">Stalled</th></tr>
+          <tr><th scope="row">Household budget sheet</th><td class="stop">44 days ago</td><td class="decide">Me: rewrite the import</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take from this:</b> the three projects that wait on me are the same three that have gone quiet.</p>
 
-      <details class="fold"><summary>Show how the four days are used</summary>
+      <details class="fold"><summary>Show what each project is</summary>
         <ul>
-          <li>Two days for the three iPhone bugs.</li>
-          <li>One day to test invite emails with real inboxes.</li>
-          <li>One day for the full test pass.</li>
-          <li>The release notes are Mara's work, so they run beside Ted's days and cost none.</li>
+          <li><b>Notes app:</b> a phone app, a web app and a sync server, used by about 3,400 people a week.</li>
+          <li><b>Recipe site:</b> a static site of 120 family recipes.</li>
+          <li><b>Cycling-route map:</b> a web map of 18 local rides.</li>
+          <li><b>Household budget sheet:</b> a spreadsheet and a script that imports the bank's file.</li>
+          <li><b>Podcast feed:</b> 24 episodes on a hosted feed, $9 a month.</li>
+          <li><b>Photo-backup script:</b> a nightly copy of 31,204 photos to an external drive.</li>
         </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> the stores need the builds on 26 October, and one spare day protects the date.</p>
+      <p class="remember"><b>Remember:</b> three projects wait on me. Two are urgent and one is not.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="phone" data-keep="Three small iPhone bugs. Two days of work. No note is at risk.">
+    <section class="chapter" id="moved" data-keep="Three moved forward, one slid back, two stood still.">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>What is left on the phone app?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What moved since last Sunday?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> four working days of work are left, and the iPhone bugs take two of them.</p>
+      <p class="from"><b>Before this:</b> three projects wait on me, and two of them are urgent.</p>
 
-      <p>Three bugs are open, and all three are on the iPhone. None of them can lose a note. Each is small and known, and together they take two days.</p>
+      <p>Three projects moved forward and one slid backward. The podcast feed and the budget sheet did not change at all.</p>
 
-      <ul class="status">
-        <li class="go"><b>Android build</b><span>All 14 sharing checks pass.</span></li>
-        <li class="wait"><b>Long titles</b><span>On a small iPhone a long notebook title hides the Share button. Half a day.</span></li>
-        <li class="wait"><b>Stale people list</b><span>Removing a person leaves their name on screen until you reopen the notebook. Half a day.</span></li>
-        <li class="wait"><b>Accept link</b><span>On an iPhone the link opens the browser, not the app. One day.</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> the accept link is the biggest bug at one day, and it is the one a new sharer would meet first.</p>
+      <div class="split">
+        <div class="before"><b>Sunday 11 October</b><ul>
+          <li><b>Notes app:</b> sharing worked on the test server only.</li>
+          <li><b>Recipe site:</b> no search.</li>
+          <li><b>Cycling map:</b> last year's autumn tiles.</li>
+          <li><b>Photo backup:</b> passing every night.</li>
+        </ul></div>
+        <div class="after"><b>Sunday 18 October</b><ul>
+          <li><b>Notes app:</b> sharing works on the server, the web and Android.</li>
+          <li><b>Recipe site:</b> search works, with 41 of 120 recipes tagged.</li>
+          <li><b>Cycling map:</b> this year's tiles, but two routes cross a closed bridge.</li>
+          <li><b>Photo backup:</b> failing for four nights, with the drive 96% full.</li>
+        </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> three projects improved, and the one that slid back is the one that matters most.</p>
 
-      <details class="fold"><summary>Show the test counts</summary>
-        <pre><code>suite     passed  failed
-server        38       0
-web            9       0
-android       14       0
-iphone        11       3</code></pre>
-        <p>The three failing iPhone checks are the three bugs above, one each.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> three small iPhone bugs, two days of work, and no note is at risk.</p>
+      <p class="remember"><b>Remember:</b> three projects moved forward, one slid back, and two stood still.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="changed" data-keep="Server, web and Android now share. Invite emails now fail.">
+    <section class="chapter" id="blocked" data-keep="Only the photo backup puts data at risk. The other two cost time.">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>What changed since last Friday?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What is blocked, and why?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the iPhone bugs are small, known and two days of work.</p>
+      <p class="from"><b>Before this:</b> three projects moved forward, one slid back, and two stood still.</p>
 
-      <p>Last Friday only the sync server could share a notebook. Today the server, the web app and Android can all do it.</p>
+      <p>Three things are blocked. One puts my photos at risk, and the other two only cost time.</p>
 
-      <div class="split">
-        <div class="before"><b>Friday 9 October</b><ul>
-          <li>Sharing worked on the test server only.</li>
-          <li>The web app had no share screen.</li>
-          <li>The server passed 31 tests.</li>
-          <li>Invite emails were not tested.</li>
-        </ul></div>
-        <div class="after"><b>Friday 16 October</b><ul>
-          <li>Sharing works on the server, the web app and Android.</li>
-          <li>The server passes 38 tests.</li>
-          <li>Invite emails fail: the sender is not verified.</li>
-          <li>Sync paused for 2 hours on Tuesday. It is <a href="incident.html">explained and fixed</a>.</li>
-        </ul></div>
+      <div class="tiles">
+        <div class="tile stop"><span class="n">4</span><span class="l">nights in a row the backup failed</span></div>
+        <div class="tile wait"><span class="n">96%</span><span class="l">of the backup drive is full</span></div>
+        <div class="tile"><span class="n">38 GB</span><span class="l">of old test photos I can delete</span></div>
       </div>
-      <p class="take"><b>Take from this:</b> three things got better. The failing invite email is how we found the blocker, a week earlier than a launch day would have.</p>
+      <p class="take"><b>Take from this:</b> the fix is small, and every night it waits adds photos that have only one copy.</p>
 
-      <p class="remember"><b>Remember:</b> three things got better since Friday, and invite emails got worse.</p>
+      <div class="callout stop"><b>Photo-backup script: no new backup since Wednesday</b><p>The nightly copy stops when the drive is full. The last good backup is four days old, so photos taken since then have one copy.</p></div>
+      <div class="callout warn"><b>Household budget sheet: the import fails</b><p>The bank now writes dates as 18/10/2026, and the import script expects 2026-10-18. Nothing is lost, and the sheet is 44 days behind.</p></div>
+      <div class="callout warn"><b>Notes app: one part waits on Mara</b><p>Invite emails need two DNS records that only she can add. Version 2.4 still ships without them on 29 October.</p></div>
+
+      <details class="fold"><summary>Show the backup log</summary>
+        <pre><code>Wed 14 Oct  ok      31,204 photos copied
+Thu 15 Oct  FAILED  drive full, 96% used
+Fri 16 Oct  FAILED  drive full, 96% used
+Sat 17 Oct  FAILED  drive full, 96% used
+Sun 18 Oct  FAILED  drive full, 96% used</code></pre>
+      </details>
+
+      <p class="remember"><b>Remember:</b> only the photo backup puts data at risk, and it is the first thing to fix.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="blocker" data-keep="Two DNS records prove we own the sender address. Due by Wednesday.">
+    <section class="chapter" id="waits" data-keep="Fix the photo backup today. Decide the podcast hosting by 24 October.">
       <header>
-        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What blocks the invite emails?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>What waits on me, most valuable first?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> invite emails fail in testing because the email service does not trust our new sender.</p>
-
-      <p>The service wants proof that we own <code>notes-app.example</code>. The proof is two <dfn>DNS records</dfn>, small lines of text kept at the domain registrar. Only you have that login.</p>
-
-      <dl class="term">
-        <dt>DNS record</dt><dd>A line at your domain registrar that says who may use the domain, for example to send mail.</dd>
-      </dl>
-
-      <ol class="flow">
-        <li class="here"><b>Add records</b><span>You, at the registrar. About ten minutes.</span></li>
-        <li><b>Domain verified</b><span>Usually within a day.</span></li>
-        <li><b>Test invites</b><span>Ted, real inboxes, one day.</span></li>
-        <li><b>Invites send</b><span>A person with no account gets an email.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> your ten minutes start a chain of three more steps, and the chain needs the records by Wednesday.</p>
-
-      <div class="callout warn"><b>The deadline is Wednesday 21 October</b><p>After that the spare day is gone. A later date does not move the release, but it moves invite emails to a 2.4.1 update.</p></div>
-
-      <details class="fold"><summary>Show the two records</summary>
-        <pre><code>TXT    notes-app.example               v=spf1 include:mailer.example ~all
-CNAME  s1._domainkey.notes-app.example  s1.domainkey.mailer.example</code></pre>
-        <p>These are made-up values. The real ones come from the email service's settings page.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> two DNS records, ten minutes, and the deadline is Wednesday.</p>
-    </section>
-
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="next" data-keep="Six steps. You own two, Ted owns four. Builds go to the stores on 26 October.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What happens next?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> the records are due by Wednesday 21 October.</p>
+      <p class="from"><b>Before this:</b> only the photo backup puts data at risk, and the other two blocked things cost time.</p>
 
       <ol class="steps">
-        <li><b>Add the two DNS records.</b> You, Monday 19 October, ten minutes.</li>
-        <li><b>Fix the three iPhone bugs.</b> Ted, Monday and Tuesday.</li>
-        <li><b>Test invites with real inboxes.</b> Ted, Wednesday 21 October, once the records verify.</li>
-        <li><b>Run the full test pass.</b> Ted, Thursday 22 October. Friday 23 is the spare day.</li>
-        <li><b>Write the release notes and take screenshots.</b> You, Friday 23 October.</li>
-        <li><b>Submit both builds.</b> Ted, Monday 26 October. Release follows on Thursday 29 October, after review.</li>
+        <li><b>Free 38 GB for the photo backup.</b> Today, about an hour. Delete the old test photos or buy a bigger drive.</li>
+        <li><b>Decide the podcast hosting.</b> Before Saturday 24 October, about an hour. Keep the $9 plan or move to a free host.</li>
+        <li><b>Remind Mara about the two DNS records.</b> Monday, five minutes. The notes app waits on them.</li>
+        <li><b>Rewrite the budget import.</b> One evening, about two hours. It must read the bank's new date format.</li>
+        <li><b>Reroute two cycling routes.</b> One evening, about two hours. Both cross the closed bridge.</li>
       </ol>
-      <p class="take"><b>Take from this:</b> every step has one owner and one day, and the first one is yours.</p>
+      <p class="take"><b>Take from this:</b> the first three steps take about two hours and settle everything that has a date.</p>
 
-      <p class="remember"><b>Remember:</b> you have two steps, Ted has four, and the stores get the builds on 26 October.</p>
+      <p class="remember"><b>Remember:</b> fix the photo backup today, decide the podcast hosting by 24 October, and the rest can wait.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>The stores need the builds on 26 October, and one spare day protects the date.</li>
-        <li>Three small iPhone bugs, two days of work, and no note is at risk.</li>
-        <li>Three things got better since Friday, and invite emails got worse.</li>
-        <li>Two DNS records, ten minutes, and the deadline is Wednesday.</li>
-        <li>You have two steps, Ted has four, and the stores get the builds on 26 October.</li>
+        <li>Three projects wait on me. Two are urgent and one is not.</li>
+        <li>Three projects moved forward, one slid back, and two stood still.</li>
+        <li>Only the photo backup puts data at risk, and it is the first thing to fix.</li>
+        <li>Fix the photo backup today, decide the podcast hosting by 24 October, and the rest can wait.</li>
       </ol>
-    </section>
-
-    <section class="ask">
-      <h2>What I need from you</h2>
-      <p>Can you add the two DNS records on Monday 19 October?</p>
-      <div class="choices"><a href="#" data-rec>Yes, on Monday morning</a><a href="#">I need the registrar login first</a><a href="#">Ship 2.4 without invite emails</a></div>
-      <p class="nothing"><b>If you do nothing:</b> 2.4 still ships on 29 October without invite emails. People who already have the app see invites inside the app.</p>
     </section>
   </main>
 </div>

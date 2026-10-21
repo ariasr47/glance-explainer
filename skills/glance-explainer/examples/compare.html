@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="portfolio">
+<html lang="en" data-type="compare">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Where six side projects stand</title>
-<meta name="description" content="A Sunday check on six side projects: a notes app, a recipe site, a cycling-route map, a household budget sheet, a podcast feed and a photo-backup script. Which two need you this week, what moved, what is blocked and what waits. Example with made-up data.">
+<title>Three ways to store attachments</title>
+<meta name="description" content="Three places to keep a picture in a note, on the sync server, in a storage service or on the device only, measured on five criteria, with a recommendation and a question to answer.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,10 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#needs"><span class="dot"></span>What each one needs</a></li>
-      <li><a href="#moved"><span class="dot"></span>What moved</a></li>
-      <li><a href="#blocked"><span class="dot"></span>What is blocked</a></li>
-      <li><a href="#waits"><span class="dot"></span>What waits on me</a></li>
+      <li><a href="#see"><span class="dot"></span>Who can see the photo</a></li>
+      <li><a href="#sync"><span class="dot"></span>What a photo does to sync</a></li>
+      <li><a href="#cost"><span class="dot"></span>What the extra build buys</a></li>
+      <li><a href="#pick"><span class="dot"></span>The pick</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,186 +1425,219 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">A portfolio check, Sunday 18 October</p>
-    <h1>Where six side projects stand</h1>
-    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-18</span><span>For: the builder, in a Sunday review</span><span>Example with made-up data</span></div>
+    <p class="kicker">Where pictures in a note should live</p>
+    <h1>Three ways to store attachments</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-08</span><span>For: Mara</span><span>Example with made-up data</span></div>
 
-    <p class="answer">Two of my six side projects need me this week: the photo backup is failing, and the podcast hosting renews on 24 October.</p>
+    <p class="answer">Keep attachments in a storage service: the other person sees photos, text sync stays fast, and the price is 4 more build days than the server.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Two of six projects need me this week.</li>
-        <li>The photo backup is the only one putting data at risk.</li>
-        <li>The budget sheet has been stalled for 44 days.</li>
+        <li>On the device only, the other person sees a grey box.</li>
+        <li>On the sync server, one big photo can hold up text sync.</li>
+        <li>A storage service costs 4 more build days and $6 less a month.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Where do the six projects stand?</h2><span class="chip decide">2 need you this week</span></div>
-      <h3>Needs you</h3>
-      <ul class="status">
-        <li class="stop"><b>Photo-backup script</b><span>Failed 4 nights in a row. The drive is 96% full.</span></li>
-        <li class="decide"><b>Podcast feed</b><span>The hosting plan renews on 24 October. Keep it or move?</span></li>
-      </ul>
-      <h3>Moving</h3>
-      <ul class="status">
-        <li class="go"><b>Notes app</b><span>Version 2.4 is on track for 29 October.</span></li>
-        <li class="go"><b>Recipe site</b><span>Search works. 41 of 120 recipes are tagged.</span></li>
-        <li class="wait"><b>Cycling-route map</b><span>Autumn tiles are fresh. Two routes cross a closed bridge.</span></li>
-      </ul>
-      <h3>Stalled</h3>
-      <ul class="status">
-        <li class="stop"><b>Household budget sheet</b><span>The import has failed for 44 days, since the bank changed its export.</span></li>
-      </ul>
-      <p class="take"><b>Take:</b> two projects need me this week. Three are moving and one is stalled.</p>
+      <div class="glance-head"><h2 id="glance-h">Three places, five criteria</h2><span class="chip decide">Needs your ruling</span></div>
+      <div class="grid-wrap"><table class="grid">
+        <caption>Where a picture in a note could live</caption>
+        <thead><tr><th scope="col">Criterion</th><th scope="col" data-rec>In a storage service</th><th scope="col">On the sync server</th><th scope="col">On the device only</th></tr></thead>
+        <tbody>
+          <tr class="group"><th colspan="4" scope="colgroup">What people get</th></tr>
+          <tr><th scope="row">Other person can see it</th><td class="go">Yes, by a private link</td><td class="go">Yes, with the note</td><td class="stop">No, a grey box</td></tr>
+          <tr><th scope="row">Text sync stays fast</th><td class="go">The photo takes its own route</td><td class="wait">A big photo holds it up</td><td class="go">Nothing to upload</td></tr>
+          <tr><th scope="row">Survives a lost phone</th><td class="go">Yes, kept in three places</td><td class="go">Yes, backed up nightly</td><td class="stop">No, the photo goes too</td></tr>
+          <tr class="group"><th colspan="4" scope="colgroup">What it costs us</th></tr>
+          <tr><th scope="row">Extra cost a month, a year on</th><td class="go">$6, pay as used</td><td class="wait">$12, a bigger disk</td><td class="go">$0</td></tr>
+          <tr><th scope="row">Build time</th><td class="wait">6 days</td><td class="go">2 days</td><td class="go">1 day</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take:</b> the starred column has no red and one amber, which is 6 build days. The device-only column fails the two criteria that matter for sharing.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#needs"><b>What does each project need from me?</b><span>Two measures for all six: last touched, and what it waits on.</span></a></li>
-      <li><a href="#moved"><b>What moved since last Sunday?</b><span>Three moved forward, one slid back, two stood still.</span></a></li>
-      <li><a href="#blocked"><b>What is blocked, and why?</b><span>One thing puts data at risk. Two only cost time.</span></a></li>
-      <li><a href="#waits"><b>What waits on me, most valuable first?</b><span>Five steps, and the first two come before Saturday.</span></a></li>
+      <li><a href="#see"><b>Who can see the photo</b><span>Why device only is out.</span></a></li>
+      <li><a href="#sync"><b>What a photo does to sync</b><span>Why the sync server loses to a storage service.</span></a></li>
+      <li><a href="#cost"><b>What the extra build buys</b><span>The 6 days, and the money back.</span></a></li>
+      <li><a href="#pick"><b>The pick</b><span>My recommendation and your ruling.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="needs" data-keep="Three projects wait on me. Two are urgent and one is not.">
+    <section class="chapter" id="see" data-keep="A picture kept on one phone shows the other person a grey box.">
       <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does each project need from me?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>Which option lets the other person see a photo?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> two projects need me this week, three are moving and one is stalled.</p>
+      <p class="from"><b>Before this:</b> the grid compares three places for a picture on five criteria, and the starred one is my pick.</p>
 
-      <p>The six projects share two measures: when I last touched it, and what it waits on. Green is the last week, amber the last month, red longer.</p>
+      <p>Today a picture stays on the phone that took it. In 2.4, Sam opens Mara's notebook on another phone, so the picture has to leave Mara's phone.</p>
 
-      <div class="grid-wrap"><table class="grid">
-        <caption>Six projects, measured the same two ways</caption>
-        <thead><tr><th scope="col">Project</th><th scope="col">Last touched</th><th scope="col">Waits on</th></tr></thead>
-        <tbody>
-          <tr class="group"><th colspan="3" scope="colgroup">Needs me</th></tr>
-          <tr><th scope="row">Photo-backup script</th><td class="stop">5 months ago</td><td class="decide">Me: free space on the drive</td></tr>
-          <tr><th scope="row">Podcast feed</th><td class="wait">12 days ago</td><td class="decide">Me: keep or move the hosting</td></tr>
-          <tr class="group"><th colspan="3" scope="colgroup">Moving</th></tr>
-          <tr><th scope="row">Notes app</th><td class="go">2 days ago</td><td class="wait">Mara: two DNS records</td></tr>
-          <tr><th scope="row">Recipe site</th><td class="go">4 days ago</td><td class="go">Nothing</td></tr>
-          <tr><th scope="row">Cycling-route map</th><td class="go">1 day ago</td><td class="go">Nothing</td></tr>
-          <tr class="group"><th colspan="3" scope="colgroup">Stalled</th></tr>
-          <tr><th scope="row">Household budget sheet</th><td class="stop">44 days ago</td><td class="decide">Me: rewrite the import</td></tr>
-        </tbody>
-      </table></div>
-      <p class="take"><b>Take from this:</b> the three projects that wait on me are the same three that have gone quiet.</p>
+      <div class="frame-row" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Device only</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Lake trip</span>
+            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="height:3rem;background:var(--line)"></span><span class="mock-note">Photo is on Mara's phone</span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Sam sees a grey box.</figcaption></figure>
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Stored away</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Lake trip</span>
+            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="height:3rem;background:var(--here-tint);border:1.5px solid var(--here)"></span><span class="mock-note">Photo from Mara</span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Sam sees the photo.</figcaption></figure>
+      </div>
 
-      <details class="fold"><summary>Show what each project is</summary>
-        <ul>
-          <li><b>Notes app:</b> a phone app, a web app and a sync server, used by about 3,400 people a week.</li>
-          <li><b>Recipe site:</b> a static site of 120 family recipes.</li>
-          <li><b>Cycling-route map:</b> a web map of 18 local rides.</li>
-          <li><b>Household budget sheet:</b> a spreadsheet and a script that imports the bank's file.</li>
-          <li><b>Podcast feed:</b> 24 episodes on a hosted feed, $9 a month.</li>
-          <li><b>Photo-backup script:</b> a nightly copy of 31,204 photos to an external drive.</li>
-        </ul>
-      </details>
+      <p>A lost phone breaks the same way. The photo goes with the phone, so device only fails two of the five criteria.</p>
 
-      <p class="remember"><b>Remember:</b> three projects wait on me. Two are urgent and one is not.</p>
+      <p class="remember"><b>Remember:</b> a picture kept on one phone shows the other person a grey box, so device only is out.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="moved" data-keep="Three moved forward, one slid back, two stood still.">
+    <section class="chapter" id="sync" data-keep="On the sync server a photo and text share one line. A storage service gives the photo its own.">
       <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What moved since last Sunday?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What does a photo do to text sync?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> three projects wait on me, and two of them are urgent.</p>
+      <p class="from"><b>Before this:</b> a picture kept on one phone shows the other person a grey box, so device only is out.</p>
 
-      <p>Three projects moved forward and one slid backward. The podcast feed and the budget sheet did not change at all.</p>
+      <p>Two options are left. The difference shows on a weak signal. In my test, Mara adds a 4 MB photo and types one line of text straight after.</p>
 
-      <div class="split">
-        <div class="before"><b>Sunday 11 October</b><ul>
-          <li><b>Notes app:</b> sharing worked on the test server only.</li>
-          <li><b>Recipe site:</b> no search.</li>
-          <li><b>Cycling map:</b> last year's autumn tiles.</li>
-          <li><b>Photo backup:</b> passing every night.</li>
-        </ul></div>
-        <div class="after"><b>Sunday 18 October</b><ul>
-          <li><b>Notes app:</b> sharing works on the server, the web and Android.</li>
-          <li><b>Recipe site:</b> search works, with 41 of 120 recipes tagged.</li>
-          <li><b>Cycling map:</b> this year's tiles, but two routes cross a closed bridge.</li>
-          <li><b>Photo backup:</b> failing for four nights, with the drive 96% full.</li>
-        </ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> three projects improved, and the one that slid back is the one that matters most.</p>
+      <figure class="figure">
+        <svg viewBox="0 0 800 310" role="img" aria-labelledby="f-sync"><title id="f-sync">On the sync server, the photo and the text share one line, so the text arrives after 40 seconds. With a storage service, the text goes to the sync server and the photo goes to the storage service, so the text arrives after 2 seconds.</title>
+          <text class="d-text-b" x="20" y="26">Photo on the sync server</text>
+          <rect class="d-box" x="20" y="42" width="170" height="64" rx="10"/><text class="d-text-b" x="105" y="70" text-anchor="middle">Phone</text><text class="d-text-s" x="105" y="90" text-anchor="middle">photo, then text</text>
+          <text class="d-text-s" x="395" y="66" text-anchor="middle">one line, so the text waits for the photo</text>
+          <path class="d-line" d="M190 74 H588"/><path class="d-arrow" d="M588 68 L600 74 L588 80 Z"/>
+          <rect class="d-box-wait" x="600" y="42" width="180" height="64" rx="10"/><text class="d-text-b" x="690" y="70" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="90" text-anchor="middle">text after 40 seconds</text>
+          <text class="d-text-b" x="20" y="162">Photo in a storage service</text>
+          <rect class="d-box" x="20" y="178" width="170" height="104" rx="10"/><text class="d-text-b" x="105" y="224" text-anchor="middle">Phone</text><text class="d-text-s" x="105" y="244" text-anchor="middle">photo and text</text>
+          <text class="d-text-s" x="395" y="200" text-anchor="middle">the text goes at once</text>
+          <path class="d-line" d="M190 208 H588"/><path class="d-arrow" d="M588 202 L600 208 L588 214 Z"/>
+          <text class="d-text-s" x="395" y="258" text-anchor="middle">the photo takes its own route</text>
+          <path class="d-line" d="M190 266 H588"/><path class="d-arrow" d="M588 260 L600 266 L588 272 Z"/>
+          <rect class="d-box-go" x="600" y="178" width="180" height="52" rx="10"/><text class="d-text-b" x="690" y="200" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="219" text-anchor="middle">text after 2 seconds</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 300 440" role="img" aria-labelledby="f-sync-n"><title id="f-sync-n">On the sync server, the photo and the text share one line, so the text arrives after 40 seconds. With a storage service, the text goes to the sync server and the photo goes to the storage service, so the text arrives after 2 seconds.</title>
+          <text class="d-text-b" x="5" y="20">Photo on the sync server</text>
+          <rect class="d-box" x="5" y="32" width="290" height="46" rx="10"/><text class="d-text-b" x="150" y="52" text-anchor="middle">Phone</text><text class="d-text-s" x="150" y="68" text-anchor="middle">photo, then text</text>
+          <path class="d-line" d="M150 78 V112"/><path class="d-arrow" d="M144 112 L150 124 L156 112 Z"/>
+          <text class="d-text-s" x="162" y="100">one line</text>
+          <rect class="d-box-wait" x="5" y="124" width="290" height="54" rx="10"/><text class="d-text-b" x="150" y="148" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="166" text-anchor="middle">text after 40 seconds</text>
+          <text class="d-text-b" x="5" y="222">Photo in a storage service</text>
+          <rect class="d-box" x="5" y="234" width="290" height="46" rx="10"/><text class="d-text-b" x="150" y="254" text-anchor="middle">Phone</text><text class="d-text-s" x="150" y="270" text-anchor="middle">photo and text</text>
+          <path class="d-line" d="M75 280 V338"/><path class="d-arrow" d="M69 338 L75 350 L81 338 Z"/>
+          <text class="d-text-s" x="85" y="312">text</text>
+          <path class="d-line" d="M225 280 V338"/><path class="d-arrow" d="M219 338 L225 350 L231 338 Z"/>
+          <text class="d-text-s" x="235" y="312">photo</text>
+          <rect class="d-box-go" x="5" y="350" width="140" height="76" rx="10"/><text class="d-text-b" x="75" y="376" text-anchor="middle">Sync server</text><text class="d-text-s" x="75" y="396" text-anchor="middle">text after</text><text class="d-text-s" x="75" y="412" text-anchor="middle">2 seconds</text>
+          <rect class="d-box" x="155" y="350" width="140" height="76" rx="10"/><text class="d-text-b" x="225" y="376" text-anchor="middle">Storage service</text><text class="d-text-s" x="225" y="396" text-anchor="middle">keeps the</text><text class="d-text-s" x="225" y="412" text-anchor="middle">photo</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> on the sync server a photo and a line of text share one queue. A storage service gives the photo its own route.</figcaption>
+      </figure>
 
-      <p class="remember"><b>Remember:</b> three projects moved forward, one slid back, and two stood still.</p>
+      <details class="fold"><summary>Show how I measured it</summary>
+        <p>I ran both set-ups on a throttled connection, about 150 kilobits a second, with the 4 MB photo and one line of text. I timed the text from typing to arriving on the web app. I ran it 10 times, and the slowest run is the one quoted.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> on a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="blocked" data-keep="Only the photo backup puts data at risk. The other two cost time.">
+    <section class="chapter" id="cost" data-keep="The storage service takes 4 more build days and costs $6 less a month.">
       <header>
-        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What is blocked, and why?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What does the extra build buy?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> three projects moved forward, one slid back, and two stood still.</p>
+      <p class="from"><b>Before this:</b> on a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</p>
 
-      <p>Three things are blocked. One puts my photos at risk, and the other two only cost time.</p>
+      <p>A storage service is more work now and cheaper to run. We expect about 7,500 pictures a month, which is 90 GB in a year.</p>
 
       <div class="tiles">
-        <div class="tile stop"><span class="n">4</span><span class="l">nights in a row the backup failed</span></div>
-        <div class="tile wait"><span class="n">96%</span><span class="l">of the backup drive is full</span></div>
-        <div class="tile"><span class="n">38 GB</span><span class="l">of old test photos I can delete</span></div>
+        <div class="tile wait"><span class="n">6 days</span><span class="l">to build, against 2 for the server</span></div>
+        <div class="tile go"><span class="n">$6</span><span class="l">a month to run it, a year on</span></div>
+        <div class="tile"><span class="n">$12</span><span class="l">a month for the server's disk</span></div>
       </div>
-      <p class="take"><b>Take from this:</b> the fix is small, and every night it waits adds photos that have only one copy.</p>
+      <p class="take"><b>Take from this:</b> 4 extra days now buy faster sync and a bill that is $6 a month smaller.</p>
 
-      <div class="callout stop"><b>Photo-backup script: no new backup since Wednesday</b><p>The nightly copy stops when the drive is full. The last good backup is four days old, so photos taken since then have one copy.</p></div>
-      <div class="callout warn"><b>Household budget sheet: the import fails</b><p>The bank now writes dates as 18/10/2026, and the import script expects 2026-10-18. Nothing is lost, and the sheet is 44 days behind.</p></div>
-      <div class="callout warn"><b>Notes app: one part waits on Mara</b><p>Invite emails need two DNS records that only she can add. Version 2.4 still ships without them on 29 October.</p></div>
-
-      <details class="fold"><summary>Show the backup log</summary>
-        <pre><code>Wed 14 Oct  ok      31,204 photos copied
-Thu 15 Oct  FAILED  drive full, 96% used
-Fri 16 Oct  FAILED  drive full, 96% used
-Sat 17 Oct  FAILED  drive full, 96% used
-Sun 18 Oct  FAILED  drive full, 96% used</code></pre>
+      <details class="fold"><summary>Show what the 6 days hold</summary>
+        <ul>
+          <li>Set up the storage account: 1 day.</li>
+          <li>Private links, so only the two people see a picture: 2 days.</li>
+          <li>Upload retries on a weak signal: 2 days.</li>
+          <li>Delete the picture when its note is deleted: 1 day.</li>
+        </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> only the photo backup puts data at risk, and it is the first thing to fix.</p>
+      <p class="remember"><b>Remember:</b> a storage service takes 4 more build days and costs $6 a month less to run.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="waits" data-keep="Fix the photo backup today. Decide the podcast hosting by 24 October.">
+    <section class="chapter" id="pick" data-keep="My pick is the storage service. The ruling is yours.">
       <header>
-        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>What waits on me, most valuable first?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Which one do we pick?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> only the photo backup puts data at risk, and the other two blocked things cost time.</p>
+      <p class="from"><b>Before this:</b> a storage service takes 4 more build days and costs $6 a month less to run.</p>
 
-      <ol class="steps">
-        <li><b>Free 38 GB for the photo backup.</b> Today, about an hour. Delete the old test photos or buy a bigger drive.</li>
-        <li><b>Decide the podcast hosting.</b> Before Saturday 24 October, about an hour. Keep the $9 plan or move to a free host.</li>
-        <li><b>Remind Mara about the two DNS records.</b> Monday, five minutes. The notes app waits on them.</li>
-        <li><b>Rewrite the budget import.</b> One evening, about two hours. It must read the bank's new date format.</li>
-        <li><b>Reroute two cycling routes.</b> One evening, about two hours. Both cross the closed bridge.</li>
-      </ol>
-      <p class="take"><b>Take from this:</b> the first three steps take about two hours and settle everything that has a date.</p>
+      <p>The storage service has the fewest ambers and no red. Device only is cheap, but it hides photos from the person you share with.</p>
 
-      <p class="remember"><b>Remember:</b> fix the photo backup today, decide the podcast hosting by 24 October, and the rest can wait.</p>
+      <div class="decision">
+        <h3>Where should attachments live?</h3>
+        <p>Ted builds it either way. The price is days of build and the weeks after.</p>
+        <div class="options">
+          <div class="option" data-rec="My pick">
+            <h4>A storage service</h4>
+            <ul><li class="plus">The other person sees photos</li><li class="plus">Text sync stays fast</li><li class="minus">6 build days</li></ul>
+            <p class="cost">Cost: 4 more build days than the server.</p>
+          </div>
+          <div class="option">
+            <h4>The sync server</h4>
+            <ul><li class="plus">2 build days</li><li class="minus">A big photo can hold up text sync</li><li class="minus">$12 a month</li></ul>
+            <p class="cost">Cost: slower sync on a weak signal.</p>
+          </div>
+          <div class="option" data-warn="Hides photos from others">
+            <h4>The device only</h4>
+            <ul><li class="plus">1 build day, and $0</li><li class="minus">A grey box for the other person</li><li class="minus">A lost phone loses the photo</li></ul>
+            <p class="cost">Cost: sharing without photos.</p>
+          </div>
+        </div>
+        <p class="nothing"><b>If you do nothing:</b> pictures stay on the phone that took them, which is the device-only option.</p>
+      </div>
+      <p class="take"><b>Take from this:</b> the choice is between 6 build days and a slower, pricier sync server. Device only fails the sharing test.</p>
+
+      <details class="fold"><summary>Show what would change my pick</summary>
+        <p>If we expected under 10 GB of pictures a year, the sync server would build faster and cost almost nothing to run. At 90 GB a year, the disk bill and the sync delay both point the other way.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> my pick is the storage service, and the ruling is yours.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Three projects wait on me. Two are urgent and one is not.</li>
-        <li>Three projects moved forward, one slid back, and two stood still.</li>
-        <li>Only the photo backup puts data at risk, and it is the first thing to fix.</li>
-        <li>Fix the photo backup today, decide the podcast hosting by 24 October, and the rest can wait.</li>
+        <li>A picture kept on one phone shows the other person a grey box, so device only is out.</li>
+        <li>On a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</li>
+        <li>A storage service takes 4 more build days and costs $6 a month less to run.</li>
+        <li>My pick is the storage service, and the ruling is yours.</li>
       </ol>
+    </section>
+
+    <section class="ask">
+      <h2>What I need from you</h2>
+      <p>Where should attachments live in 2.4? Reply with one of these.</p>
+      <div class="choices"><a href="#" data-rec>A storage service</a><a href="#">The sync server</a><a href="#">The device only</a><a href="#">Ask me something first</a></div>
+      <p class="nothing"><b>If you do nothing:</b> pictures stay on the phone that took them, and shared notebooks show a grey box.</p>
     </section>
   </main>
 </div>

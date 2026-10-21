@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" data-type="decision">
+<html lang="en" data-type="gather">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="html-explainer 1.9.1">
 <meta name="color-scheme" content="light dark">
-<title>Three rulings for version 2.4</title>
-<meta name="description" content="Three rulings for sharing a notebook in the notes app's 2.4 release: whether the other person can edit, what happens when two edits clash, and how many shared notebooks a free account gets. Tap an answer for each.">
+<title>Roadmap grooming</title>
+<meta name="description" content="Groom the html-explainer roadmap: pick a goal for November, then keep or change a Now, Next, Later or Not now pick for twelve current items and seven new ideas.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1407,11 +1407,9 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#share"><span class="dot"></span>What sharing means</a></li>
-      <li><a href="#edit"><span class="dot"></span>Edit or view only</a></li>
-      <li><a href="#clash"><span class="dot"></span>When edits clash</a></li>
-      <li><a href="#limit"><span class="dot"></span>The free limit</a></li>
-      <li><a href="#after"><span class="dot"></span>After you rule</a></li>
+      <li><a href="#since"><span class="dot"></span>What happened</a></li>
+      <li><a href="#current"><span class="dot"></span>Today's items</a></li>
+      <li><a href="#new"><span class="dot"></span>New ideas</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,274 +1424,161 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">Ted needs three rulings from Mara</p>
-    <h1>Three rulings for version 2.4</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-02</span><span>For: Mara</span><span>Example with made-up data</span></div>
 
-    <p class="answer">For sharing in 2.4, I recommend edit access at launch, keeping both copies when two people clash, and a free limit of 3 shared notebooks.</p>
+    <p class="kicker">Roadmap grooming for glance-explainer</p>
+    <h1>Where should each roadmap item go?</h1>
+    <div class="meta"><span>About 6 minutes to read and answer</span><span>Written 2026-10-20</span><span>For: Rodrigo</span></div>
+
+    <p class="answer">Eight releases went to design, so the three Now items barely moved: pick November's goal, then check my bucket for each item.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Three rulings decide how sharing works in 2.4.</li>
-        <li>My pick is starred. If you skip one, my default ships.</li>
-        <li>My picks use 11 of my 14 build days.</li>
+        <li>Eight releases since 13 October, all design, examples and fixes.</li>
+        <li>Only the name is settled from the Now lane. The review is 12 December.</li>
+        <li>Every item already has my pick, marked ★. Change only what you disagree with.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Your three rulings</h2><span class="chip decide">Rule on the first one first</span></div>
-      <div class="rulings"></div>
-      <p class="take"><b>Take:</b> my pick is starred in each row, and the first ruling still waiting is the tinted one.</p>
+      <div class="glance-head"><h2 id="glance-h">Three questions, and the first one</h2><span class="chip here">Answer in any order</span></div>
+      <div class="qprogress"></div>
+      <fieldset class="answer-field" data-q="q1" data-kind="choice">
+        <legend>What should November mostly be for?</legend>
+        <p class="hint">Pick the one result you would most want to show at the 12 December review.</p>
+        <label data-rec="My pick"><input type="radio" name="q1" value="Load every time and stay right"> Load every time and stay right: trigger tests and a browser check</label>
+        <label><input type="radio" name="q1" value="Prove it helps"> Prove it helps: put pages in front of outside readers</label>
+        <label><input type="radio" name="q1" value="Reach people"> Reach people: settle the name, list it, record a demo</label>
+        <textarea id="q1-why" rows="2" aria-label="Why" placeholder="Why? (optional)"></textarea>
+      </fieldset>
+      <p class="take"><b>Take:</b> answer this one first. It decides which items you put in Now further down.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#share"><b>What sharing means</b><span>Four steps, and where each ruling bites.</span></a></li>
-      <li><a href="#edit"><b>Edit or view only</b><span>Ruling 1: can the other person write?</span></a></li>
-      <li><a href="#clash"><b>When edits clash</b><span>Ruling 2: whose words survive?</span></a></li>
-      <li><a href="#limit"><b>The free limit</b><span>Ruling 3: how many shared notebooks?</span></a></li>
-      <li><a href="#after"><b>After you rule</b><span>What I build, in which order.</span></a></li>
+      <li><a href="#since"><b>What happened since the roadmap was written?</b><span>Eight releases, all design. No question.</span></a></li>
+      <li><a href="#current"><b>Where should each current item go?</b><span>Twelve items with my picks. Question 2.</span></a></li>
+      <li><a href="#new"><b>Which new ideas belong on the roadmap?</b><span>Seven ideas from this week. Question 3.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="share" data-keep="Sharing has four steps. The last three each hide a ruling.">
+    <section class="chapter" id="since" data-keep="The design work is done for now, and the Now items are where they were on 13 October.">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>What does sharing a notebook mean?</h2></div>
+        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>What happened since the roadmap was written?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the answer lists three rulings, and each one shapes how sharing works in 2.4.</p>
+      <p class="from"><b>Before this:</b> the answer says the three Now items barely moved.</p>
 
-      <p>Sharing lets one other person open a notebook of yours on their own phone or in the web app. It takes four steps, and the last three each hide a ruling.</p>
+      <p>The roadmap went public on 13 October with three items in Now. Eight releases followed in eight days. Each one went to design, examples or a fix.</p>
 
-      <ol class="flow">
-        <li><b>Invite</b><span>You send a link from the notebook.</span></li>
-        <li><b>Open</b><span>They join. Ruling 1: can they write?</span></li>
-        <li><b>Write</b><span>Ruling 2: what if two edits clash?</span></li>
-        <li><b>Share more</b><span>Ruling 3: how many are free?</span></li>
+      <ol class="timeline">
+        <li class="go"><span class="when">13 October</span><span class="what">1.4.0 and 1.5.0: the roadmap, skills that install anywhere, the checker hook.</span></li>
+        <li class="go"><span class="when">14 October</span><span class="what">1.6.0 and 1.7.0: roadmap lanes, buckets, the field guide.</span></li>
+        <li class="go"><span class="when">15 October</span><span class="what">1.8.0 and 1.8.1: every page type redesigned. The dark switch moved into a menu.</span></li>
+        <li class="go"><span class="when">16 October</span><span class="what">1.9.0: a public example of every page type.</span></li>
+        <li class="here"><span class="when">20 October</span><span class="what">1.9.1: the dark switch is back in sight. Today.</span></li>
       </ol>
-      <p class="take"><b>Take from this:</b> the first step is settled. The other three each need an answer from you before I build them.</p>
 
-      <details class="fold"><summary>Show what is already settled</summary>
-        <ul>
-          <li>A notebook is shared with one other person. Groups wait for 2.5.</li>
-          <li>Both people need an account.</li>
-          <li>The owner can stop sharing at any time, and the notebook stays with the owner.</li>
-        </ul>
-      </details>
+      <ul class="status">
+        <li><b>Trigger reliably</b><span>Not started.</span></li>
+        <li><b>Test with outside readers</b><span>Not started.</span></li>
+        <li class="go"><b>Settle the name, then list</b><span>Name settled: glance-explainer. Listing not started.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the work went where pages looked worst, and the Now lane waited.</p>
 
-      <p class="remember"><b>Remember:</b> sharing has four steps, and the last three each hide a ruling.</p>
+      <p class="remember"><b>Remember:</b> the design work is done for now, and the Now items are where they were on 13 October.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="edit" data-keep="Editing takes 8 build days and view only takes 4. My pick is editing.">
+    <section class="chapter" id="current" data-keep="Now holds three items, so a new one in Now pushes one out.">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 2 minutes</p><h2>Should the other person be able to edit?</h2></div>
+        <div><p class="kicker">Chapter 2 of 3, about 2 minutes</p><h2>Where should each current item go?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> sharing has four steps, and the last three each hide a ruling.</p>
+      <p class="from"><b>Before this:</b> only the name is settled from the Now lane, and the review is on 12 December.</p>
 
-      <p>Picture a shopping list you share with Sam. The ruling decides who types the milk.</p>
+      <p>These are the twelve items on the roadmap today. I moved one up and six down, so Now still holds three.</p>
 
       <div class="split">
-        <div class="before"><b>View only</b><ul><li>Sam sees your list in the app.</li><li>To add milk, Sam texts you.</li><li>You type it in yourself.</li></ul></div>
-        <div class="after"><b>Edit</b><ul><li>Sam adds the milk in the app.</li><li>You see it a few seconds later.</li><li>Nobody types for anyone.</li></ul></div>
+        <div class="before"><b>Now today</b><ul><li>Trigger reliably</li><li>Test with outside readers</li><li>Settle the name, then list</li></ul></div>
+        <div class="after"><b>Now with my picks</b><ul><li>Trigger reliably</li><li>Outside readers, as a pilot of three</li><li>Browser check for every page</li></ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> with view only, shared notebooks stay one-person notebooks that someone else can read.</p>
+      <p class="take"><b>Take from this:</b> one swap. The browser check replaces the listing, because a broken page costs more than an unlisted one.</p>
 
-      <div class="decision">
-        <h3>Can the other person edit?</h3>
-        <p>Editing takes 8 build days. View only takes 4.</p>
-        <div class="options">
-          <div class="option" data-rec="My pick">
-            <h4>Let them edit</h4>
-            <ul><li class="plus">Lists and trip plans work</li><li class="plus">Nothing to ship twice</li><li class="minus">4 more days of build</li><li class="minus">Two people can clash</li></ul>
-            <p class="cost">Cost: 8 build days.</p>
-          </div>
-          <div class="option">
-            <h4>View only</h4>
-            <ul><li class="plus">Ships in 4 days</li><li class="plus">Nothing can clash</li><li class="minus">The other person cannot add a word</li><li class="minus">Editing waits for 2.5</li></ul>
-            <p class="cost">Cost: a headline feature that only reads.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> I build view only, the smaller job, and editing moves to 2.5.</p>
-      </div>
-
-      <fieldset class="answer-field" data-q="edit" data-kind="choice">
-        <legend>Can the other person edit a shared notebook at launch?</legend>
-        <label data-rec="My pick"><input type="radio" name="edit" value="Let them edit"> Let them edit</label>
-        <label><input type="radio" name="edit" value="View only"> View only</label>
+      <fieldset class="answer-field" data-q="q2" data-kind="buckets" data-buckets="Now|Next|Later|Not now">
+        <legend>Where should each item on today's roadmap go?</legend>
+        <p class="hint">Tap a bucket for each item. My pick is already set and marked ★, so change only what you disagree with.</p>
+        <ol>
+          <li data-id="trigger" data-rec="Now"><b>Trigger reliably</b><span>About two requests in three did not visibly load the skill.</span></li>
+          <li data-id="readers" data-rec="Now"><b>Test with outside readers</b><span>Shrink it to a pilot of three, so the review has results.</span></li>
+          <li data-id="render" data-rec="Now"><b>Browser check for every page</b><span>The dark switch hid for three releases and no check noticed.</span></li>
+          <li data-id="name" data-rec="Next"><b>List it</b><span>The name is settled. A listing pays off once the skill loads every time.</span></li>
+          <li data-id="publish" data-rec="Next"><b>Publish where Claude publishes</b><span>Claude Code can now publish a page as a private link.</span></li>
+          <li data-id="agents" data-rec="Later"><b>Tested installs in other agents</b><span>Nobody outside has asked for one yet.</span></li>
+          <li data-id="upload" data-rec="Later"><b>claude.ai upload</b><span>Small, and best made by a release script.</span></li>
+          <li data-id="demo" data-rec="Later"><b>A one-minute demo</b><span>Worth recording once a listing exists to point at.</span></li>
+          <li data-id="prci" data-rec="Later"><b>Pull request pages in CI</b><span>Unchanged: it waits for outside readers.</span></li>
+          <li data-id="themes" data-rec="Later"><b>Brand themes</b><span>Unchanged: it waits for a team to ask.</span></li>
+          <li data-id="langs" data-rec="Not now"><b>More languages</b><span>Nobody has asked for a third. A request brings it back.</span></li>
+          <li data-id="support" data-rec="Not now"><b>Commercial support</b><span>No team has asked. A request brings it back.</span></li>
+        </ol>
+        <textarea id="q2-why" rows="2" aria-label="Why" placeholder="Why these buckets? (optional)"></textarea>
       </fieldset>
 
-      <details class="fold"><summary>Show the beta numbers</summary>
-        <ul>
-          <li>40 testers used an early view-only build from 14 to 27 September.</li>
-          <li>31 of the 40 asked, in the feedback form, to edit a shared notebook.</li>
-          <li>25 shared at least one notebook, and they shared 65 in all.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> editing costs 4 more days than view only, and 31 of 40 beta testers asked for it.</p>
+      <p class="remember"><b>Remember:</b> Now holds three items, so a new one in Now pushes one out.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="clash" data-keep="If you let them edit, two saves can collide. Keeping both copies loses nothing.">
+    <section class="chapter" id="new" data-keep="Most new ideas protect pages that already exist.">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 2 minutes</p><h2>What happens when two people edit at once?</h2></div>
+        <div><p class="kicker">Chapter 3 of 3, about 2 minutes</p><h2>Which new ideas belong on the roadmap?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> editing costs 4 more days than view only, and 31 of 40 beta testers asked for it.</p>
+      <p class="from"><b>Before this:</b> my picks keep three items in Now: trigger tests, a reader pilot and a browser check.</p>
 
-      <div class="callout tip"><b>This depends on ruling 1</b><p>If you pick view only, nobody can clash. Skip this ruling and I will ignore it.</p></div>
+      <p>This week's work turned up seven ideas the roadmap does not hold. Each one comes from something that went wrong or took too long.</p>
 
-      <p>Ted and Mara both fix the same shopping list within one second. The sync server has to keep one version. It can keep the newest, or keep both.</p>
+      <ul class="findings">
+        <li data-strength="strong"><b>Old pages miss new fixes</b><span>Your Aster pages kept the hidden switch. A fix reaches an old page only when someone runs the upgrade on it.</span><small class="evidence">Seen 20 October</small></li>
+        <li data-strength="strong"><b>Releases take many hand steps</b><span>About fifteen, from the version number to the designs canvas.</span><small class="evidence">8 releases</small></li>
+        <li data-strength="moderate"><b>Pictures already exist</b><span>The designs canvas renders every page type at two widths, ready to compare.</span><small class="evidence">21 pictures</small></li>
+        <li data-strength="moderate"><b>Pages run long on a phone</b><span>Most examples are 9 to 15 phone screens. The playbook runs to 17.</span><small class="evidence">18 pages measured</small></li>
+        <li data-strength="weak"><b>Only ballots skip the paste</b><span>A published ballot can save picks without a copy. Other gather pages cannot yet.</span><small class="evidence">1 mode</small></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the strongest ideas fix what happened to your own pages this week.</p>
 
-      <figure class="figure">
-        <svg viewBox="0 0 800 290" role="img" aria-labelledby="f-clash"><title id="f-clash">Ted saves "Milk, eggs" and Mara saves "Milk, oat milk" within a second. The sync server gets both. With last write wins, one note remains and Ted's eggs are gone. With keep both copies, two notes remain and nothing is lost.</title>
-          <rect class="d-box" x="20" y="30" width="230" height="70" rx="10"/><text class="d-text-b" x="135" y="60" text-anchor="middle">Ted saves</text><text class="d-text-s" x="135" y="82" text-anchor="middle">Milk, eggs</text>
-          <rect class="d-box" x="20" y="190" width="230" height="70" rx="10"/><text class="d-text-b" x="135" y="220" text-anchor="middle">Mara saves</text><text class="d-text-s" x="135" y="242" text-anchor="middle">Milk, oat milk</text>
-          <path class="d-line" d="M250 65 H290 V140 H318"/><path class="d-arrow" d="M318 134 L330 140 L318 146 Z"/>
-          <path class="d-line" d="M250 225 H290 V160 H318"/><path class="d-arrow" d="M318 154 L330 160 L318 166 Z"/>
-          <rect class="d-box-here" x="330" y="105" width="190" height="90" rx="10"/><text class="d-text-b" x="425" y="140" text-anchor="middle">Sync server</text><text class="d-text-s" x="425" y="162" text-anchor="middle">gets both saves</text><text class="d-text-s" x="425" y="180" text-anchor="middle">within a second</text>
-          <path class="d-line" d="M520 140 H560 V65 H578"/><path class="d-arrow" d="M578 59 L590 65 L578 71 Z"/>
-          <path class="d-line" d="M520 160 H560 V225 H578"/><path class="d-arrow" d="M578 219 L590 225 L578 231 Z"/>
-          <rect class="d-box-stop" x="590" y="20" width="190" height="90" rx="10"/><text class="d-text-b" x="685" y="50" text-anchor="middle">Last write wins</text><text class="d-text-s" x="685" y="72" text-anchor="middle">One note: Milk, oat milk</text><text class="d-text-s" x="685" y="92" text-anchor="middle">Ted's eggs are gone</text>
-          <rect class="d-box-go" x="590" y="180" width="190" height="90" rx="10"/><text class="d-text-b" x="685" y="210" text-anchor="middle">Keep both copies</text><text class="d-text-s" x="685" y="232" text-anchor="middle">Two notes, one each</text><text class="d-text-s" x="685" y="252" text-anchor="middle">Nothing is lost</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 300 380" role="img" aria-labelledby="f-clash-n"><title id="f-clash-n">Ted saves "Milk, eggs" and Mara saves "Milk, oat milk" within a second. The sync server gets both. With last write wins, one note remains and Ted's eggs are gone. With keep both copies, two notes remain and nothing is lost.</title>
-          <rect class="d-box" x="5" y="8" width="140" height="62" rx="10"/><text class="d-text-b" x="75" y="35" text-anchor="middle">Ted saves</text><text class="d-text-s" x="75" y="55" text-anchor="middle">Milk, eggs</text>
-          <rect class="d-box" x="155" y="8" width="140" height="62" rx="10"/><text class="d-text-b" x="225" y="35" text-anchor="middle">Mara saves</text><text class="d-text-s" x="225" y="55" text-anchor="middle">Milk, oat milk</text>
-          <path class="d-line" d="M75 70 V96 H125 V108"/><path class="d-arrow" d="M119 108 L125 120 L131 108 Z"/>
-          <path class="d-line" d="M225 70 V96 H175 V108"/><path class="d-arrow" d="M169 108 L175 120 L181 108 Z"/>
-          <rect class="d-box-here" x="30" y="120" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="147" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="167" text-anchor="middle">gets both within a second</text>
-          <path class="d-line" d="M105 182 V208 H75 V220"/><path class="d-arrow" d="M69 220 L75 232 L81 220 Z"/>
-          <path class="d-line" d="M195 182 V208 H225 V220"/><path class="d-arrow" d="M219 220 L225 232 L231 220 Z"/>
-          <rect class="d-box-stop" x="5" y="232" width="140" height="138" rx="10"/><text class="d-text-b" x="75" y="260" text-anchor="middle">Last write wins</text><text class="d-text-s" x="75" y="286" text-anchor="middle">One note:</text><text class="d-text-s" x="75" y="304" text-anchor="middle">Milk, oat milk</text><text class="d-text-s" x="75" y="330" text-anchor="middle">Ted's eggs</text><text class="d-text-s" x="75" y="348" text-anchor="middle">are gone</text>
-          <rect class="d-box-go" x="155" y="232" width="140" height="138" rx="10"/><text class="d-text-b" x="225" y="260" text-anchor="middle">Keep both copies</text><text class="d-text-s" x="225" y="286" text-anchor="middle">Two notes,</text><text class="d-text-s" x="225" y="304" text-anchor="middle">one each</text><text class="d-text-s" x="225" y="330" text-anchor="middle">Nothing</text><text class="d-text-s" x="225" y="348" text-anchor="middle">is lost</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> last write wins loses words without telling anyone. Keeping both copies loses nothing and asks someone to tidy up.</figcaption>
-      </figure>
-
-      <div class="decision">
-        <h3>What happens when two edits clash?</h3>
-        <p>Keeping both copies takes 2 more build days than keeping the newest.</p>
-        <div class="options">
-          <div class="option" data-rec="My pick">
-            <h4>Keep both copies</h4>
-            <ul><li class="plus">Nobody loses words</li><li class="plus">The copy is named after its writer</li><li class="minus">Someone tidies up the copies</li></ul>
-            <p class="cost">Cost: 2 more build days.</p>
-          </div>
-          <div class="option" data-warn="Silently loses words">
-            <h4>Last write wins</h4>
-            <ul><li class="plus">Nothing to tidy up</li><li class="plus">No extra build</li><li class="minus">The earlier words vanish with no sign</li></ul>
-            <p class="cost">Cost: someone's words, unannounced.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> last write wins ships, because the sync server already works that way.</p>
-      </div>
-
-      <fieldset class="answer-field" data-q="clash" data-kind="choice">
-        <legend>When two people save the same note at once, what happens?</legend>
-        <label data-rec="My pick"><input type="radio" name="clash" value="Keep both copies"> Keep both copies</label>
-        <label><input type="radio" name="clash" value="Last write wins"> Last write wins</label>
+      <fieldset class="answer-field" data-q="q3" data-kind="buckets" data-buckets="Now|Next|Later|Not now">
+        <legend>Where should each new idea go on the roadmap?</legend>
+        <p class="hint">Tap a bucket for each idea. My pick is already set and marked ★. Not now leaves it off the roadmap.</p>
+        <ol>
+          <li data-id="nudge" data-rec="Next"><b>Keep old pages current</b><span>The hook flags a page from an older release, and one command upgrades a folder.</span></li>
+          <li data-id="release" data-rec="Next"><b>One-command release</b><span>One script bumps the version, upgrades every page, checks and redraws pictures.</span></li>
+          <li data-id="visual" data-rec="Next"><b>Compare pictures between releases</b><span>Render every example and show which ones changed.</span></li>
+          <li data-id="answers" data-rec="Later"><b>Answers come back without a paste</b><span>Any gather page published as a link saves answers for the author.</span></li>
+          <li data-id="length" data-rec="Later"><b>A phone length warning</b><span>The checker warns when a page grows past a set number of screens.</span></li>
+          <li data-id="a11y" data-rec="Later"><b>Accessibility audit</b><span>The browser check also tests contrast, labels and keyboard order.</span></li>
+          <li data-id="atlas" data-rec="Later"><b>Atlas pages upgrade too</b><span>The upgrade also replaces the styles old atlas pages carry inline.</span></li>
+        </ol>
+        <textarea id="q3-why" rows="2" aria-label="Why" placeholder="Why these buckets? (optional)"></textarea>
       </fieldset>
 
-      <details class="fold"><summary>Show how the server tells them apart</summary>
-        <p>The server stamps each save with the time it arrives. Last write wins keeps the newest stamp and drops the other. Keeping both copies keeps the newest as the note and saves the older text as a new note named after its writer.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> if the default ships, a clash silently loses someone's words.</p>
-    </section>
-
-    <!-- ============ 4 ============ -->
-    <section class="chapter" id="limit" data-keep="Four in five beta sharers stayed at three notebooks or fewer. A limit is easy to raise later.">
-      <header>
-        <div><p class="kicker">Chapter 4 of 5, about 2 minutes</p><h2>How many shared notebooks are free?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> if the default ships, a clash silently loses someone's words.</p>
-
-      <p>Every shared notebook costs a little to host. A limit keeps the cost predictable. No limit keeps things simple.</p>
-
-      <div class="tiles">
-        <div class="tile"><span class="n">2.6</span><span class="l">shared notebooks per beta sharer</span></div>
-        <div class="tile"><span class="n">4 in 5</span><span class="l">of beta sharers shared 3 or fewer</span></div>
-        <div class="tile"><span class="n">$0.40</span><span class="l">a month to host one notebook</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> a limit of 3 would have stopped one beta sharer in five, and capped what any one free account costs.</p>
-
-      <div class="decision">
-        <h3>How many shared notebooks are free?</h3>
-        <p>About 2,900 of our 3,400 weekly people are on the free tier.</p>
-        <div class="options">
-          <div class="option" data-rec="My pick">
-            <h4>A limit of 3</h4>
-            <ul><li class="plus">Hosting cost stays predictable</li><li class="plus">It is easy to raise later</li><li class="minus">Some people hit it in week one</li></ul>
-            <p class="cost">Cost: 1 build day for the upgrade prompt.</p>
-          </div>
-          <div class="option" data-warn="Hard to take back">
-            <h4>Unlimited</h4>
-            <ul><li class="plus">Nothing to explain</li><li class="plus">No extra build</li><li class="minus">Hosting cost grows with every notebook</li></ul>
-            <p class="cost">Cost: a limit added later feels like a loss.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> no limit ships, because nothing in the build enforces one.</p>
-      </div>
-
-      <fieldset class="answer-field" data-q="limit" data-kind="choice">
-        <legend>How many shared notebooks does a free account get?</legend>
-        <label data-rec="My pick"><input type="radio" name="limit" value="A limit of 3"> A limit of 3</label>
-        <label><input type="radio" name="limit" value="Unlimited"> Unlimited</label>
-      </fieldset>
-
-      <details class="fold"><summary>Show where the cost comes from</summary>
-        <p>The $0.40 averages the 65 beta notebooks: disk, sync traffic and backup. A free account with 40 shared notebooks would cost $16 a month and bring in nothing.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> a limit of 3 fits four in five sharers, and raising it later costs nothing.</p>
-    </section>
-
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="after" data-keep="Copy your three answers back. I build in a fixed order and show you a build on Friday 16 October.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What happens after you rule?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> a limit of 3 fits four in five sharers, and raising it later costs nothing.</p>
-
-      <p>With my picks, sharing takes 11 of my 14 build days. That leaves 3 days for fixes.</p>
-
-      <ol class="steps">
-        <li><b>Copy your answers back to me.</b> The bar at the bottom of this page does it.</li>
-        <li><b>I build in this order.</b> Invite and join, then editing, then the clash rule, then the limit.</li>
-        <li><b>You try a build on Friday 16 October.</b> It reaches your phone with invite, join and editing working.</li>
-      </ol>
-      <p class="take"><b>Take from this:</b> your answers decide what the first build holds, and nothing is built until they arrive.</p>
-
-      <p class="remember"><b>Remember:</b> copy your three answers back, and you try a build on 16 October.</p>
+      <p class="remember"><b>Remember:</b> most new ideas protect pages that already exist.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Sharing has four steps, and the last three each hide a ruling.</li>
-        <li>Editing costs 4 more days than view only, and 31 of 40 beta testers asked for it.</li>
-        <li>If the default ships, a clash silently loses someone's words.</li>
-        <li>A limit of 3 fits four in five sharers, and raising it later costs nothing.</li>
-        <li>Copy your three answers back, and you try a build on 16 October.</li>
+        <li>The design work is done for now, and the Now items are where they were on 13 October.</li>
+        <li>Now holds three items, so a new one in Now pushes one out.</li>
+        <li>Most new ideas protect pages that already exist.</li>
       </ol>
     </section>
 
-    <!-- The collect bar carries the three rulings back. It sits outside the chapters so one-chapter mode never hides it, and stays hidden until the first answer. -->
     <div class="collect" hidden>
       <input class="respondent" type="text" placeholder="Your name (optional)" aria-label="Your name">
       <span class="count"></span>

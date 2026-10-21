@@ -2,6 +2,18 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 2.0.0 (2026-10-20)
+
+The plugin is now **glance-explainer**: explainer pages for readers with ADHD or a short working memory. Two other projects already used the name html-explainer, one of them an older Claude skill that also makes HTML explainers. Pages look the same as in 1.9.1.
+
+### Changed
+- **New name everywhere.** The plugin, its marketplace, the GitHub repository (`ariasr47/glance-explainer`) and the core skill are all called glance-explainer. Slash commands are now `/glance-explainer:glance-explainer`, `/glance-explainer:explainer-gather` and `/glance-explainer:explainer-atlas`.
+- **New site address:** [ariasr47.github.io/glance-explainer](https://ariasr47.github.io/glance-explainer/). GitHub forwards links to the old repository, but not to the old site.
+- **New pages carry `glance-explainer 2.0.0`** in their generator mark. The checker, the upgrader and the hook read the old `html-explainer` mark too, so pages you already made still count.
+
+### If you installed html-explainer
+This release is 2.0.0 because the install name changed. Swap it once; the four commands are in [docs/install.md](docs/install.md#moving-from-html-explainer). Saying "html explainer" in a request still starts the skill.
+
 ## 1.9.1 (2026-10-20)
 
 ### Fixed

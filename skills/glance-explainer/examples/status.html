@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="incident">
+<html lang="en" data-type="status">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Sync paused on 13 October</title>
-<meta name="description" content="An incident report for a small notes app: sync paused for two hours on Tuesday 13 October. What broke, the timeline, the cause chain with its failing step, the follow-ups and what stops a repeat. Example with made-up data.">
+<title>Where version 2.4 stands</title>
+<meta name="description" content="Where version 2.4 of a small notes app stands in week 3 of 5: five parts, the timeline to 29 October, and the one blocker that needs ten minutes from you. Example with made-up data.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,11 +1407,11 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#broke"><span class="dot"></span>What broke</a></li>
-      <li><a href="#hours"><span class="dot"></span>Where the time went</a></li>
-      <li><a href="#cause"><span class="dot"></span>The cause chain</a></li>
-      <li><a href="#fixed"><span class="dot"></span>Fixed and still open</a></li>
-      <li><a href="#repeat"><span class="dot"></span>Stopping a repeat</a></li>
+      <li><a href="#date"><span class="dot"></span>Is the date safe?</a></li>
+      <li><a href="#phone"><span class="dot"></span>The phone app</a></li>
+      <li><a href="#changed"><span class="dot"></span>Since last Friday</a></li>
+      <li><a href="#blocker"><span class="dot"></span>The one blocker</a></li>
+      <li><a href="#next"><span class="dot"></span>What happens next</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,232 +1426,225 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">An incident report, resolved</p>
-    <h1>Sync paused for 2 hours on Tuesday 13 October</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-15</span><span>For: the whole team</span><span>Example with made-up data</span></div>
+    <p class="kicker">A status update, week 3 of 5</p>
+    <h1>Where version 2.4 stands</h1>
+    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-16</span><span>For: Mara</span><span>Example with made-up data</span></div>
 
-    <p class="answer">A database change locked the notes table and a restart loop kept it locked, so sync paused for two hours, and no note was lost.</p>
+    <p class="answer">Version 2.4 is on track for 29 October, with one spare day, if you add two DNS records on Monday.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Sync paused from 14:10 to 16:10. No note was lost.</li>
-        <li>A restart loop kept the notes table locked.</li>
-        <li>Migrations no longer run at start-up. Two follow-ups are open.</li>
+        <li>2.4 ships on 29 October with one spare day.</li>
+        <li>One part is blocked: invite emails.</li>
+        <li>Only you can unblock it, in ten minutes.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">What broke, who felt it, and when?</h2><span class="chip go">Fixed, 2 follow-ups open</span></div>
-      <div class="tiles">
-        <div class="tile"><span class="n">Sync</span><span class="l">stopped for the phone and web apps</span></div>
-        <div class="tile"><span class="n">190</span><span class="l">people were syncing when it stopped</span></div>
-        <div class="tile"><span class="n">2 h</span><span class="l">paused, 14:10 to 16:10</span></div>
-        <div class="tile go"><span class="n">0</span><span class="l">notes lost. 3 of 5 follow-ups done</span></div>
+      <div class="glance-head"><h2 id="glance-h">Where is 2.4 in week 3?</h2><span class="chip stop">1 blocker</span></div>
+      <div class="duo">
+        <div>
+          <h3>The five parts</h3>
+          <ul class="status">
+            <li class="go"><b>Sync server</b><span>Share, accept and remove work. 38 of 38 tests pass.</span></li>
+            <li class="go"><b>Web app</b><span>The share and accept screens are on the test site.</span></li>
+            <li class="wait"><b>Phone app</b><span>Android passes. The iPhone build has 3 open bugs.</span></li>
+            <li class="wait"><b>Release notes</b><span>Draft written. Screenshots wait for the iPhone fixes.</span></li>
+            <li class="stop"><b>Invite emails</b><span>Blocked until two DNS records are added.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>The five weeks</h3>
+          <ol class="timeline">
+            <li class="go"><span class="when">Week 1, from 28 Sep</span><span class="what">Sharing designed.</span></li>
+            <li class="go"><span class="when">Week 2, from 5 Oct</span><span class="what">Server and web app built.</span></li>
+            <li class="here"><span class="when">Week 3, from 12 Oct</span><span class="what">Phone app and invites. Today is Friday 16 Oct.</span></li>
+            <li><span class="when">Week 4, from 19 Oct</span><span class="what">Bug fixes, then both stores.</span></li>
+            <li><span class="when">Week 5, from 26 Oct</span><span class="what">Store review. Release on 29 Oct.</span></li>
+          </ol>
+        </div>
       </div>
-      <ol class="timeline">
-        <li class="go"><span class="when">14:05</span><span class="what">A deploy starts a change to the notes table.</span></li>
-        <li class="go"><span class="when">14:10</span><span class="what">Sync stops answering.</span></li>
-        <li class="go"><span class="when">15:20</span><span class="what">The team finds the cause.</span></li>
-        <li class="go"><span class="when">16:10</span><span class="what">Sync is normal again.</span></li>
-      </ol>
-      <p class="take"><b>Take:</b> sync was down for two hours, nobody lost a note, and the fix is already live.</p>
+      <div class="callout stop"><b>The one blocker: invite emails</b><p>The email service will not send from our new address until two DNS records are added. Only you have the registrar login. Without them, 2.4 still ships, but a person with no account gets no email.</p></div>
+      <p class="take"><b>Take:</b> nothing is late. One part is blocked, and you can unblock it in ten minutes.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#broke"><b>What broke, and who felt it?</b><span>Writing never stopped. Copying between devices did.</span></a></li>
-      <li><a href="#hours"><b>Where did the two hours go?</b><span>15 minutes to notice, 55 to find the cause, 50 to fix.</span></a></li>
-      <li><a href="#cause"><b>Why did one change take two hours?</b><span>Five links in a chain, and the one that failed.</span></a></li>
-      <li><a href="#fixed"><b>What is fixed, and what is still open?</b><span>Five follow-ups: three done, one under way, one to rule on.</span></a></li>
-      <li><a href="#repeat"><b>What stops it happening again?</b><span>Each follow-up guards a different weak point.</span></a></li>
+      <li><a href="#date"><b>Is 29 October still safe?</b><span>Four days of work, five days to do it in.</span></a></li>
+      <li><a href="#phone"><b>What is left on the phone app?</b><span>Three small iPhone bugs and what each costs.</span></a></li>
+      <li><a href="#changed"><b>What changed since last Friday?</b><span>Three things got better and one got worse.</span></a></li>
+      <li><a href="#blocker"><b>What blocks the invite emails?</b><span>Two DNS records, and the day they are due.</span></a></li>
+      <li><a href="#next"><b>What happens next?</b><span>Six steps with an owner and a day each.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="broke" data-keep="Writing never stopped. Copying between devices did, for two hours.">
+    <section class="chapter" id="date" data-keep="The stores need the builds on 26 October. One spare day protects the date.">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>What broke, and who felt it?</h2></div>
+        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Is 29 October still safe?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> sync paused from 14:10 to 16:10, and no note was lost.</p>
+      <p class="from"><b>Before this:</b> two parts are done, two are under way, and one is blocked.</p>
 
-      <p>The notes app keeps working without a connection. Reading and writing never stopped. What stopped was the part that copies changes between a person's devices.</p>
+      <p>The release date has held since week 1. The real deadline is earlier: both app stores need the builds on Monday 26 October, so they can review them before Thursday.</p>
 
-      <div class="split">
-        <div class="before"><b>14:10 to 16:10</b><ul>
-          <li>A banner said "Waiting to sync".</li>
-          <li>Notes could still be read and written.</li>
-          <li>Changes waited in a queue on each device.</li>
-          <li>A second device showed old notes.</li>
-        </ul></div>
-        <div class="after"><b>By 16:40</b><ul>
-          <li>Every queued change had arrived.</li>
-          <li>0 notes were lost.</li>
-          <li>0 notes were duplicated.</li>
-          <li>The banner went away on its own.</li>
-        </ul></div>
+      <div class="tiles">
+        <div class="tile"><span class="n">13</span><span class="l">days to the 29 October release</span></div>
+        <div class="tile"><span class="n">4</span><span class="l">working days of work left</span></div>
+        <div class="tile wait"><span class="n">1</span><span class="l">spare day before 26 October</span></div>
       </div>
-      <p class="take"><b>Take from this:</b> the cost was a two-hour delay, and the people who felt it most use two devices.</p>
+      <p class="take"><b>Take from this:</b> the plan fits with one spare day, so a slip of more than a day moves the release.</p>
 
-      <details class="fold"><summary>Show the numbers behind the tiles</summary>
+      <details class="fold"><summary>Show how the four days are used</summary>
         <ul>
-          <li>190 people had the app open at 14:10.</li>
-          <li>74 of them wrote at least one note during the pause.</li>
-          <li>412 changes waited in queues, and all 412 arrived by 16:40.</li>
-          <li>About 3,400 people use the app in a week, so this was about 6 in 100 of them.</li>
+          <li>Two days for the three iPhone bugs.</li>
+          <li>One day to test invite emails with real inboxes.</li>
+          <li>One day for the full test pass.</li>
+          <li>The release notes are Mara's work, so they run beside Ted's days and cost none.</li>
         </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> writing never stopped, so the cost was a two-hour delay, not lost notes.</p>
+      <p class="remember"><b>Remember:</b> the stores need the builds on 26 October, and one spare day protects the date.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="hours" data-keep="15 minutes to notice, 55 to find the cause, 50 to fix. Finding took longest.">
+    <section class="chapter" id="phone" data-keep="Three small iPhone bugs. Two days of work. No note is at risk.">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>Where did the two hours go?</h2></div>
+        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>What is left on the phone app?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the app kept working, so the cost was a two-hour delay.</p>
+      <p class="from"><b>Before this:</b> four working days of work are left, and the iPhone bugs take two of them.</p>
 
-      <p>The two hours fall into three parts. The alert reached the team 15 minutes after sync stopped. Finding the cause took 55 minutes. Shipping the fix took 50.</p>
+      <p>Three bugs are open, and all three are on the iPhone. None of them can lose a note. Each is small and known, and together they take two days.</p>
 
-      <div class="tiles">
-        <div class="tile wait"><span class="n">15 min</span><span class="l">before the alert reached the team</span></div>
-        <div class="tile stop"><span class="n">55 min</span><span class="l">to find the cause</span></div>
-        <div class="tile"><span class="n">50 min</span><span class="l">to ship the fix, 25 of them a deploy</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> almost half the time went on finding the cause, so a clearer alert saves the most.</p>
+      <ul class="status">
+        <li class="go"><b>Android build</b><span>All 14 sharing checks pass.</span></li>
+        <li class="wait"><b>Long titles</b><span>On a small iPhone a long notebook title hides the Share button. Half a day.</span></li>
+        <li class="wait"><b>Stale people list</b><span>Removing a person leaves their name on screen until you reopen the notebook. Half a day.</span></li>
+        <li class="wait"><b>Accept link</b><span>On an iPhone the link opens the browser, not the app. One day.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the accept link is the biggest bug at one day, and it is the one a new sharer would meet first.</p>
 
-      <p>The cause hid well. The logs showed time-outs, not a lock, and each restart cleared the one clue the database held.</p>
-
-      <details class="fold"><summary>Show the afternoon minute by minute</summary>
-        <pre><code>14:05  Deploy starts. The start-up script begins the index build.
-14:10  Sync stops answering. The health check restarts the server.
-14:22  Second restart. The build begins again. Restarts repeat every 12 minutes.
-14:25  The sync alert reaches the team.
-15:20  Cause found: every start re-runs the unfinished build.
-15:25  A deploy that skips migrations at start-up begins.
-15:50  That deploy finishes and the server starts clean.
-16:00  Saves work again. The retry backlog drains.
-16:10  Sync is normal.
-16:40  The last queued change arrives.</code></pre>
+      <details class="fold"><summary>Show the test counts</summary>
+        <pre><code>suite     passed  failed
+server        38       0
+web            9       0
+android       14       0
+iphone        11       3</code></pre>
+        <p>The three failing iPhone checks are the three bugs above, one each.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> finding the cause took 55 of the 120 minutes, so a clearer alert saves the most time.</p>
+      <p class="remember"><b>Remember:</b> three small iPhone bugs, two days of work, and no note is at risk.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="cause" data-keep="A nine-minute lock became two hours because every restart began the build again.">
+    <section class="chapter" id="changed" data-keep="Server, web and Android now share. Invite emails now fail.">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 2 minutes</p><h2>Why did one change take two hours?</h2></div>
+        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>What changed since last Friday?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> almost half the time went on finding a cause that the logs did not show.</p>
+      <p class="from"><b>Before this:</b> the iPhone bugs are small, known and two days of work.</p>
 
-      <p>One change set off four more, and the last one kept the others going. Read the chain from left to right. The red step turned minutes into hours.</p>
+      <p>Last Friday only the sync server could share a notebook. Today the server, the web app and Android can all do it.</p>
 
-      <dl class="term">
-        <dt>Migration</dt><dd>A change to the shape of the database, run as code.</dd>
-        <dt>Index</dt><dd>A lookup table that makes searches fast. Building one on a big table blocks saves.</dd>
-        <dt>Lock</dt><dd>A hold that makes other work wait while a change runs.</dd>
-      </dl>
+      <div class="split">
+        <div class="before"><b>Friday 9 October</b><ul>
+          <li>Sharing worked on the test server only.</li>
+          <li>The web app had no share screen.</li>
+          <li>The server passed 31 tests.</li>
+          <li>Invite emails were not tested.</li>
+        </ul></div>
+        <div class="after"><b>Friday 16 October</b><ul>
+          <li>Sharing works on the server, the web app and Android.</li>
+          <li>The server passes 38 tests.</li>
+          <li>Invite emails fail: the sender is not verified.</li>
+          <li>Sync paused for 2 hours on Tuesday. It is <a href="incident.html">explained and fixed</a>.</li>
+        </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> three things got better. The failing invite email is how we found the blocker, a week earlier than a launch day would have.</p>
 
-      <ol class="flow">
-        <li><b>Index added</b><span>A deploy adds it for sharing, on the live notes table.</span></li>
-        <li class="wait"><b>Table locks</b><span>The build blocks every save for about 9 minutes.</span></li>
-        <li class="wait"><b>Phones retry</b><span>Requests time out at 30 seconds, and 190 apps retry at once.</span></li>
-        <li><b>Server restarts</b><span>The health check sees no answer and restarts it.</span></li>
-        <li class="stop"><b>Build starts over</b><span>Each start re-runs the unfinished change, so the lock never clears.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> the build alone would have ended in nine minutes. The restart loop stretched it to two hours.</p>
-
-      <details class="fold"><summary>Show the numbers behind the chain</summary>
-        <ul>
-          <li>The rehearsal copy held 2,000 notes, and the build took about 1 second.</li>
-          <li>The live table held 410,000 notes, and the build needed about 9 minutes without a break.</li>
-          <li>The server restarted every 12 minutes, so the build never reached its end.</li>
-          <li>The server allows 50 connections. 190 retrying apps used them all.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> the restart loop, not the index, turned a nine-minute lock into two hours.</p>
+      <p class="remember"><b>Remember:</b> three things got better since Friday, and invite emails got worse.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="fixed" data-keep="Three follow-ups are done, one is under way, one needs a ruling.">
+    <section class="chapter" id="blocker" data-keep="Two DNS records prove we own the sender address. Due by Wednesday.">
       <header>
-        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What is fixed, and what is still open?</h2></div>
+        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What blocks the invite emails?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a restart loop turned a nine-minute lock into two hours.</p>
+      <p class="from"><b>Before this:</b> invite emails fail in testing because the email service does not trust our new sender.</p>
 
-      <p>The review produced five follow-ups. The one that stopped the outage is already done.</p>
+      <p>The service wants proof that we own <code>notes-app.example</code>. The proof is two <dfn>DNS records</dfn>, small lines of text kept at the domain registrar. Only you have that login.</p>
 
-      <ul class="status">
-        <li class="go"><b>Stop migrations at start-up</b><span>Done on Wednesday 14 October. Someone now starts each migration by hand, once.</span></li>
-        <li class="go"><b>Rehearse on a full-size copy</b><span>Done. The test copy holds 400,000 notes, so a slow change shows up before it ships.</span></li>
-        <li class="go"><b>Alert after 3 minutes</b><span>Done. The sync alert used to wait for 10 minutes of failures.</span></li>
-        <li class="wait"><b>Build indexes in the background</b><span>Under way. Ted is changing the build so saves keep working. Due Friday 23 October.</span></li>
-        <li class="decide"><b>Quiet hours for deploys</b><span>Needs a ruling from Mara: no deploys from 13:00 to 17:00 on weekdays?</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> the outage cannot repeat as it happened, and the two open items shrink the next one.</p>
+      <dl class="term">
+        <dt>DNS record</dt><dd>A line at your domain registrar that says who may use the domain, for example to send mail.</dd>
+      </dl>
 
-      <details class="fold"><summary>Show the change to the start-up script</summary>
-        <pre><code>- run-migrations &amp;&amp; start-server
-+ start-server
-# migrations now run only by hand:  npm run migrate</code></pre>
+      <ol class="flow">
+        <li class="here"><b>Add records</b><span>You, at the registrar. About ten minutes.</span></li>
+        <li><b>Domain verified</b><span>Usually within a day.</span></li>
+        <li><b>Test invites</b><span>Ted, real inboxes, one day.</span></li>
+        <li><b>Invites send</b><span>A person with no account gets an email.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> your ten minutes start a chain of three more steps, and the chain needs the records by Wednesday.</p>
+
+      <div class="callout warn"><b>The deadline is Wednesday 21 October</b><p>After that the spare day is gone. A later date does not move the release, but it moves invite emails to a 2.4.1 update.</p></div>
+
+      <details class="fold"><summary>Show the two records</summary>
+        <pre><code>TXT    notes-app.example               v=spf1 include:mailer.example ~all
+CNAME  s1._domainkey.notes-app.example  s1.domainkey.mailer.example</code></pre>
+        <p>These are made-up values. The real ones come from the email service's settings page.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> three follow-ups are done, one is under way, and one waits for Mara's ruling.</p>
+      <p class="remember"><b>Remember:</b> two DNS records, ten minutes, and the deadline is Wednesday.</p>
     </section>
 
     <!-- ============ 5 ============ -->
-    <section class="chapter" id="repeat" data-keep="Each follow-up guards a different weak point, so one slip cannot take sync down again.">
+    <section class="chapter" id="next" data-keep="Six steps. You own two, Ted owns four. Builds go to the stores on 26 October.">
       <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What stops it happening again?</h2></div>
+        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What happens next?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> three follow-ups are done, and two are still open.</p>
+      <p class="from"><b>Before this:</b> the records are due by Wednesday 21 October.</p>
 
-      <p>Each follow-up guards a different weak point. A slow change can still happen, but it can no longer stop sync for two hours.</p>
+      <ol class="steps">
+        <li><b>Add the two DNS records.</b> You, Monday 19 October, ten minutes.</li>
+        <li><b>Fix the three iPhone bugs.</b> Ted, Monday and Tuesday.</li>
+        <li><b>Test invites with real inboxes.</b> Ted, Wednesday 21 October, once the records verify.</li>
+        <li><b>Run the full test pass.</b> Ted, Thursday 22 October. Friday 23 is the spare day.</li>
+        <li><b>Write the release notes and take screenshots.</b> You, Friday 23 October.</li>
+        <li><b>Submit both builds.</b> Ted, Monday 26 October. Release follows on Thursday 29 October, after review.</li>
+      </ol>
+      <p class="take"><b>Take from this:</b> every step has one owner and one day, and the first one is yours.</p>
 
-      <div class="split">
-        <div class="before"><b>On 13 October</b><ul>
-          <li>The rehearsal copy held 2,000 notes.</li>
-          <li>The start-up script ran migrations.</li>
-          <li>The alert waited for 10 minutes of failures.</li>
-          <li>An index build blocked every save.</li>
-        </ul></div>
-        <div class="after"><b>From 14 October</b><ul>
-          <li>The rehearsal copy holds 400,000 notes.</li>
-          <li>A person starts a migration by hand, once.</li>
-          <li>The alert fires after 3 minutes.</li>
-          <li>Index builds will run in the background, due 23 October.</li>
-        </ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> four things changed since Tuesday, and a fifth, quiet hours for deploys, waits on a ruling.</p>
-
-      <p class="remember"><b>Remember:</b> each follow-up guards a different weak point, so one slip cannot take sync down for two hours again.</p>
+      <p class="remember"><b>Remember:</b> you have two steps, Ted has four, and the stores get the builds on 26 October.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Writing never stopped, so the cost was a two-hour delay, not lost notes.</li>
-        <li>Finding the cause took 55 of the 120 minutes, so a clearer alert saves the most time.</li>
-        <li>The restart loop, not the index, turned a nine-minute lock into two hours.</li>
-        <li>Three follow-ups are done, one is under way, and one waits for Mara's ruling.</li>
-        <li>Each follow-up guards a different weak point, so one slip cannot take sync down for two hours again.</li>
+        <li>The stores need the builds on 26 October, and one spare day protects the date.</li>
+        <li>Three small iPhone bugs, two days of work, and no note is at risk.</li>
+        <li>Three things got better since Friday, and invite emails got worse.</li>
+        <li>Two DNS records, ten minutes, and the deadline is Wednesday.</li>
+        <li>You have two steps, Ted has four, and the stores get the builds on 26 October.</li>
       </ol>
+    </section>
+
+    <section class="ask">
+      <h2>What I need from you</h2>
+      <p>Can you add the two DNS records on Monday 19 October?</p>
+      <div class="choices"><a href="#" data-rec>Yes, on Monday morning</a><a href="#">I need the registrar login first</a><a href="#">Ship 2.4 without invite emails</a></div>
+      <p class="nothing"><b>If you do nothing:</b> 2.4 still ships on 29 October without invite emails. People who already have the app see invites inside the app.</p>
     </section>
   </main>
 </div>

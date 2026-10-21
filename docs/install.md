@@ -1,6 +1,6 @@
-# Install html-explainer
+# Install glance-explainer
 
-The plugin is three skills: `html-explainer` writes the pages, `explainer-gather` adds pages that ask questions and collect answers, and `explainer-atlas` maps a codebase. Install all three together, because the other two use the core skill's template and checker.
+The plugin is three skills: `glance-explainer` writes the pages, `explainer-gather` adds pages that ask questions and collect answers, and `explainer-atlas` maps a codebase. Install all three together, because the other two use the core skill's template and checker.
 
 | Where you work | How to install | Tested |
 |---|---|---|
@@ -16,8 +16,8 @@ The plugin is three skills: `html-explainer` writes the pages, `explainer-gather
 Inside a Claude Code session:
 
 ```text
-/plugin marketplace add ariasr47/html-explainer-skill
-/plugin install html-explainer@html-explainer-skill
+/plugin marketplace add ariasr47/glance-explainer
+/plugin install glance-explainer@glance-explainer
 ```
 
 When asked for a scope, pick **user** to have it in every project. Restart Claude Code or run `/reload-plugins`.
@@ -25,17 +25,17 @@ When asked for a scope, pick **user** to have it in every project. Restart Claud
 From a shell instead:
 
 ```bash
-claude plugin marketplace add ariasr47/html-explainer-skill
-claude plugin install html-explainer@html-explainer-skill --scope user
+claude plugin marketplace add ariasr47/glance-explainer
+claude plugin install glance-explainer@glance-explainer --scope user
 ```
 
-To stay on one release, add the tag to the marketplace: `ariasr47/html-explainer-skill#v1.4.0`.
+To stay on one release, add the tag to the marketplace: `ariasr47/glance-explainer#v2.0.0`. Tags before v2.0.0 install the plugin under its old name.
 
 ### Check that it worked
 
-1. `/plugin` lists **html-explainer** under Installed.
-2. Type `/html-explainer:` and the three skills appear: `/html-explainer:html-explainer`, `/html-explainer:explainer-gather` and `/html-explainer:explainer-atlas`.
-3. Ask in plain words: *"Make an html explainer for this spec."* The agent writes the page, checks it, saves it under `docs/explainers/` and gives you the link.
+1. `/plugin` lists **glance-explainer** under Installed.
+2. Type `/glance-explainer:` and the three skills appear: `/glance-explainer:glance-explainer`, `/glance-explainer:explainer-gather` and `/glance-explainer:explainer-atlas`.
+3. Ask in plain words: *"Make a glance explainer for this spec."* The agent writes the page, checks it, saves it under `docs/explainers/` and gives you the link.
 
 ### Automatic checks
 
@@ -50,17 +50,30 @@ Claude Code only. The plugin adds three small hooks, so the page checker runs wi
 
 It needs `node` on the path, the same as the checker. To switch it off, set `"disableAllHooks": true` in your Claude Code settings. That also turns off every other hook you have, because Claude Code cannot disable one hook alone. Agents other than Claude Code do not get these hooks. Run the checker by hand instead.
 
+### Moving from html-explainer
+
+Before 2.0.0 the plugin was called html-explainer and lived at `ariasr47/html-explainer-skill`. If you installed it under that name, swap it once:
+
+```bash
+claude plugin uninstall html-explainer@html-explainer-skill
+claude plugin marketplace remove html-explainer-skill
+claude plugin marketplace add ariasr47/glance-explainer
+claude plugin install glance-explainer@glance-explainer --scope user
+```
+
+Restart Claude Code afterwards. The slash commands change from `/html-explainer:...` to `/glance-explainer:...`. Pages you already made keep working: the checker, the upgrader and the hook read both names.
+
 ### Update
 
 Third-party marketplaces do not update on their own unless you turn that on.
 
-- **Turn on auto-update:** `/plugin`, then Marketplaces, then html-explainer-skill, then Enable auto-update.
+- **Turn on auto-update:** `/plugin`, then Marketplaces, then glance-explainer, then Enable auto-update.
 - **Update now, in a session:** `/plugin`, then Marketplaces, then Update marketplace. Then run `/reload-plugins`.
 - **Update now, from a shell:**
 
   ```bash
-  claude plugin marketplace update html-explainer-skill
-  claude plugin update html-explainer@html-explainer-skill
+  claude plugin marketplace update glance-explainer
+  claude plugin update glance-explainer@glance-explainer
   ```
 
   Restart Claude Code afterwards.
@@ -69,9 +82,9 @@ Pages you made earlier keep the design they were made with until you upgrade the
 
 ### Upgrade pages you made earlier
 
-Every page made from release 1.5.0 on carries a mark in its `<head>`: `<meta name="generator" content="html-explainer 1.5.0">`. It says which release made the page. The upgrader brings an older page to the current design and keeps your words and pictures.
+Every page made from release 1.5.0 on carries a mark in its `<head>`, such as `<meta name="generator" content="glance-explainer 2.0.0">`. It says which release made the page. Pages made before 2.0.0 carry the plugin's old name, `html-explainer 1.9.1`, and still count. The upgrader brings an older page to the current design and keeps your words and pictures.
 
-Ask the agent: *"Upgrade docs/explainers/my-page.html to the current html-explainer design."* It runs the upgrader for you. To run it yourself, use the `scripts/upgrade.mjs` file in the `html-explainer` skill folder:
+Ask the agent: *"Upgrade docs/explainers/my-page.html to the current glance-explainer design."* It runs the upgrader for you. To run it yourself, use the `scripts/upgrade.mjs` file in the `glance-explainer` skill folder:
 
 ```bash
 node <skill folder>/scripts/upgrade.mjs docs/explainers/my-page.html --dry-run
@@ -91,7 +104,7 @@ An upgrade changes the design and the script. It does not add the new components
 ### Uninstall
 
 ```bash
-claude plugin uninstall html-explainer@html-explainer-skill
+claude plugin uninstall glance-explainer@glance-explainer
 ```
 
 ## A whole team
@@ -101,12 +114,12 @@ Add this to the repository's `.claude/settings.json` and commit it. Teammates wh
 ```json
 {
   "extraKnownMarketplaces": {
-    "html-explainer-skill": {
-      "source": { "source": "github", "repo": "ariasr47/html-explainer-skill" }
+    "glance-explainer": {
+      "source": { "source": "github", "repo": "ariasr47/glance-explainer" }
     }
   },
   "enabledPlugins": {
-    "html-explainer@html-explainer-skill": true
+    "glance-explainer@glance-explainer": true
   }
 }
 ```
@@ -114,19 +127,19 @@ Add this to the repository's `.claude/settings.json` and commit it. Teammates wh
 The same two commands with `--scope project` write these entries for you:
 
 ```bash
-claude plugin marketplace add ariasr47/html-explainer-skill --scope project
-claude plugin install html-explainer@html-explainer-skill --scope project
+claude plugin marketplace add ariasr47/glance-explainer --scope project
+claude plugin install glance-explainer@glance-explainer --scope project
 ```
 
 ## Other agents
 
-Each skill folder follows the [Agent Skills](https://agentskills.io) format, so agents that read `SKILL.md` files can load it. The `gh skill` install below was tested for 1.4.0: it places the three folders side by side and every file a skill names is found. Nobody has yet made a page with them inside Codex, Cursor, Gemini CLI or Copilot. If you try one, please [say how it went](https://github.com/ariasr47/html-explainer-skill/issues/new?template=feedback.yml).
+Each skill folder follows the [Agent Skills](https://agentskills.io) format, so agents that read `SKILL.md` files can load it. The `gh skill` install below was tested for 1.4.0: it places the three folders side by side and every file a skill names is found. Nobody has yet made a page with them inside Codex, Cursor, Gemini CLI or Copilot. If you try one, please [say how it went](https://github.com/ariasr47/glance-explainer/issues/new?template=feedback.yml).
 
 **With an installer.** Either of these installs the three skills:
 
 ```bash
-gh skill install ariasr47/html-explainer-skill --all --agent codex --scope user
-npx skills add ariasr47/html-explainer-skill -g
+gh skill install ariasr47/glance-explainer --all --agent codex --scope user
+npx skills add ariasr47/glance-explainer -g
 ```
 
 `gh skill` is part of the GitHub CLI (2.95 or newer, in preview). `--all` installs the three skills, and `--agent` takes values such as `codex`, `cursor`, `gemini-cli`, `github-copilot` and `opencode`. `npx skills` is the [skills CLI](https://github.com/vercel-labs/skills), not yet tested here; add `-a <agent>` to pick one agent.
@@ -145,7 +158,7 @@ Many of these agents also read `~/.agents/skills/`.
 
 ## When something goes wrong
 
-- **The skill does not start.** Name it in the request ("use the html-explainer skill") or call it directly with `/html-explainer:html-explainer <topic>`. In Claude Code, `/plugin` shows load errors under Errors.
+- **The skill does not start.** Name it in the request ("use the glance-explainer skill") or call it directly with `/glance-explainer:glance-explainer <topic>`. In Claude Code, `/plugin` shows load errors under Errors.
 - **Two copies of the skill.** The plugin and a copy in a skills folder (`~/.claude/skills/`) each register it. Keep one. Before 1.4.0 the README offered a git clone into `~/.claude/skills/html-explainer`; if you have that folder, delete it and use the plugin.
 - **Links inside a page do nothing in a preview pane.** Pages made with 1.4.0 or later scroll by script, so chapter links work inside embedded viewers. For an older page, [upgrade it](#upgrade-pages-you-made-earlier), open the file in a browser, or ask the agent to make the page again.
 - **No Node.** Pages still work, but the agent cannot run the checker, so nothing verifies them before you see them.
