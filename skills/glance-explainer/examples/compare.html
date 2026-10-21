@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="field-guide">
+<html lang="en" data-type="compare">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Field guide for a small notes app</title>
-<meta name="description" content="A field guide to the work behind a web product, shown on a small notes app: where each field fits, which four come first, and 30 entries to look up by family or by search.">
+<title>Three ways to store attachments</title>
+<meta name="description" content="Three places to keep a picture in a note, on the sync server, in a storage service or on the device only, measured on five criteria, with a recommendation and a question to answer.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,9 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#map"><span class="dot"></span>Where things fit</a></li>
-      <li><a href="#first"><span class="dot"></span>Start here</a></li>
-      <li><a href="#lookup"><span class="dot"></span>Look something up</a></li>
+      <li><a href="#see"><span class="dot"></span>Who can see the photo</a></li>
+      <li><a href="#sync"><span class="dot"></span>What a photo does to sync</a></li>
+      <li><a href="#cost"><span class="dot"></span>What the extra build buys</a></li>
+      <li><a href="#pick"><span class="dot"></span>The pick</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1424,341 +1425,219 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">A field guide: read once, then look things up</p>
-    <h1>Field guide for a small notes app</h1>
-    <div class="meta"><span>Skim in about 2 minutes, look things up anytime</span><span>Written 2026-10-14</span><span>For: a builder with one small app</span></div>
+    <p class="kicker">Where pictures in a note should live</p>
+    <h1>Three ways to store attachments</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-08</span><span>For: Mara</span><span>Example with made-up data</span></div>
 
-    <p class="answer">Building a notes app draws on 30 fields in six families. For a small team, 16 matter now and 14 can wait.</p>
+    <p class="answer">Keep attachments in a storage service: the other person sees photos, text sync stays fast, and the price is 4 more build days than the server.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Design decides it, engineers build it, shipping runs it.</li>
-        <li>Four fields fail quietly, so they come first.</li>
-        <li>Every other field is one search away.</li>
+        <li>On the device only, the other person sees a grey box.</li>
+        <li>On the sync server, one big photo can hold up text sync.</li>
+        <li>A storage service costs 4 more build days and $6 less a month.</li>
       </ol>
     </div>
 
+    <section class="glance" aria-labelledby="glance-h">
+      <div class="glance-head"><h2 id="glance-h">Three places, five criteria</h2><span class="chip decide">Needs your ruling</span></div>
+      <div class="grid-wrap"><table class="grid">
+        <caption>Where a picture in a note could live</caption>
+        <thead><tr><th scope="col">Criterion</th><th scope="col" data-rec>In a storage service</th><th scope="col">On the sync server</th><th scope="col">On the device only</th></tr></thead>
+        <tbody>
+          <tr class="group"><th colspan="4" scope="colgroup">What people get</th></tr>
+          <tr><th scope="row">Other person can see it</th><td class="go">Yes, by a private link</td><td class="go">Yes, with the note</td><td class="stop">No, a grey box</td></tr>
+          <tr><th scope="row">Text sync stays fast</th><td class="go">The photo takes its own route</td><td class="wait">A big photo holds it up</td><td class="go">Nothing to upload</td></tr>
+          <tr><th scope="row">Survives a lost phone</th><td class="go">Yes, kept in three places</td><td class="go">Yes, backed up nightly</td><td class="stop">No, the photo goes too</td></tr>
+          <tr class="group"><th colspan="4" scope="colgroup">What it costs us</th></tr>
+          <tr><th scope="row">Extra cost a month, a year on</th><td class="go">$6, pay as used</td><td class="wait">$12, a bigger disk</td><td class="go">$0</td></tr>
+          <tr><th scope="row">Build time</th><td class="wait">6 days</td><td class="go">2 days</td><td class="go">1 day</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take:</b> the starred column has no red and one amber, which is 6 build days. The device-only column fails the two criteria that matter for sharing.</p>
+    </section>
+
+    <ol class="map">
+      <li><a href="#see"><b>Who can see the photo</b><span>Why device only is out.</span></a></li>
+      <li><a href="#sync"><b>What a photo does to sync</b><span>Why the sync server loses to a storage service.</span></a></li>
+      <li><a href="#cost"><b>What the extra build buys</b><span>The 6 days, and the money back.</span></a></li>
+      <li><a href="#pick"><b>The pick</b><span>My recommendation and your ruling.</span></a></li>
+    </ol>
+
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="map" data-keep="Design decides, engineers build, shipping runs">
+    <section class="chapter" id="see" data-keep="A picture kept on one phone shows the other person a grey box.">
       <header>
-        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>Where does everything fit?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>Which option lets the other person see a photo?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-      <p>Work moves from left to right. Each family hands its work to the next. The bar under each family shows how much of it matters now.</p>
-      <div class="territory">
-        <div class="stage">
-          <h3>Decide</h3>
-          <a class="family" href="#fam-design"><b>Product and design</b><span>Decide what it is and how it feels</span></a>
-        </div>
-        <div class="stage" data-here>
-          <h3>Build</h3>
-          <a class="family" href="#fam-frontend"><b>Frontend engineering</b><span>Build what runs in the browser</span></a>
-          <a class="family" href="#fam-backend"><b>Backend and data</b><span>Build what runs on the server</span></a>
-        </div>
-        <div class="stage">
-          <h3>Protect and prove</h3>
-          <a class="family" href="#fam-security"><b>Security and privacy</b><span>Keep notes safe and private</span></a>
-        </div>
-        <div class="stage">
-          <h3>Ship and run</h3>
-          <a class="family" href="#fam-ship"><b>Shipping and running</b><span>Release it, watch it, recover it</span></a>
-        </div>
-        <div class="stage" data-across>
-          <h3>Owed by every family</h3>
-          <a class="family" href="#fam-quality"><b>Qualities everyone owes</b><span>Duties that no single family owns</span></a>
-        </div>
+
+      <p class="from"><b>Before this:</b> the grid compares three places for a picture on five criteria, and the starred one is my pick.</p>
+
+      <p>Today a picture stays on the phone that took it. In 2.4, Sam opens Mara's notebook on another phone, so the picture has to leave Mara's phone.</p>
+
+      <div class="frame-row" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Device only</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Lake trip</span>
+            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="height:3rem;background:var(--line)"></span><span class="mock-note">Photo is on Mara's phone</span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Sam sees a grey box.</figcaption></figure>
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Stored away</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Lake trip</span>
+            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="height:3rem;background:var(--here-tint);border:1.5px solid var(--here)"></span><span class="mock-note">Photo from Mara</span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Sam sees the photo.</figcaption></figure>
       </div>
-      <p class="take"><b>Take from this:</b> the notes app sits in Build. Most of Ship and run can wait, except backups.</p>
-      <p class="remember"><b>Remember:</b> design decides it, engineers build it, and shipping runs it.</p>
+
+      <p>A lost phone breaks the same way. The photo goes with the phone, so device only fails two of the five criteria.</p>
+
+      <p class="remember"><b>Remember:</b> a picture kept on one phone shows the other person a grey box, so device only is out.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="first" data-keep="Four fields fail quietly, so they come first">
+    <section class="chapter" id="sync" data-keep="On the sync server a photo and text share one line. A storage service gives the photo its own.">
       <header>
-        <div><p class="kicker">Chapter 2 of 3, about 1 minute</p><h2>Which four cannot wait?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What does a photo do to text sync?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-      <p class="from"><b>Before this:</b> design decides it, engineers build it, and shipping runs it.</p>
-      <p>For one builder, a mistake in these four is silent and hard to undo. Tap one to read its entry.</p>
-      <ol class="start-here">
-        <li><a href="#e-backups"><b>Backups and recovery</b></a><span>One lost database erases every note. Test a restore before launch.</span></li>
-        <li><a href="#e-access"><b>Access control</b></a><span>One wrong rule shows a stranger your notes, and nobody sees it happen.</span></li>
-        <li><a href="#e-privacy"><b>Privacy by design</b></a><span>Notes are personal. Keeping less data is the cheapest protection.</span></li>
-        <li><a href="#e-modelling"><b>Data modelling</b></a><span>A wrong shape is slow and costly to change once people have notes.</span></li>
-      </ol>
-      <p class="can-wait"><b>Can wait:</b> localization, cost tuning and error tracking. They pay off once real people use the app.</p>
-      <p class="take"><b>Take from this:</b> the fields that fail quietly and cost the most come first.</p>
-      <p class="remember"><b>Remember:</b> fields that fail quietly and cost the most come first.</p>
+
+      <p class="from"><b>Before this:</b> a picture kept on one phone shows the other person a grey box, so device only is out.</p>
+
+      <p>Two options are left. The difference shows on a weak signal. In my test, Mara adds a 4 MB photo and types one line of text straight after.</p>
+
+      <figure class="figure">
+        <svg viewBox="0 0 800 310" role="img" aria-labelledby="f-sync"><title id="f-sync">On the sync server, the photo and the text share one line, so the text arrives after 40 seconds. With a storage service, the text goes to the sync server and the photo goes to the storage service, so the text arrives after 2 seconds.</title>
+          <text class="d-text-b" x="20" y="26">Photo on the sync server</text>
+          <rect class="d-box" x="20" y="42" width="170" height="64" rx="10"/><text class="d-text-b" x="105" y="70" text-anchor="middle">Phone</text><text class="d-text-s" x="105" y="90" text-anchor="middle">photo, then text</text>
+          <text class="d-text-s" x="395" y="66" text-anchor="middle">one line, so the text waits for the photo</text>
+          <path class="d-line" d="M190 74 H588"/><path class="d-arrow" d="M588 68 L600 74 L588 80 Z"/>
+          <rect class="d-box-wait" x="600" y="42" width="180" height="64" rx="10"/><text class="d-text-b" x="690" y="70" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="90" text-anchor="middle">text after 40 seconds</text>
+          <text class="d-text-b" x="20" y="162">Photo in a storage service</text>
+          <rect class="d-box" x="20" y="178" width="170" height="104" rx="10"/><text class="d-text-b" x="105" y="224" text-anchor="middle">Phone</text><text class="d-text-s" x="105" y="244" text-anchor="middle">photo and text</text>
+          <text class="d-text-s" x="395" y="200" text-anchor="middle">the text goes at once</text>
+          <path class="d-line" d="M190 208 H588"/><path class="d-arrow" d="M588 202 L600 208 L588 214 Z"/>
+          <text class="d-text-s" x="395" y="258" text-anchor="middle">the photo takes its own route</text>
+          <path class="d-line" d="M190 266 H588"/><path class="d-arrow" d="M588 260 L600 266 L588 272 Z"/>
+          <rect class="d-box-go" x="600" y="178" width="180" height="52" rx="10"/><text class="d-text-b" x="690" y="200" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="219" text-anchor="middle">text after 2 seconds</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 300 440" role="img" aria-labelledby="f-sync-n"><title id="f-sync-n">On the sync server, the photo and the text share one line, so the text arrives after 40 seconds. With a storage service, the text goes to the sync server and the photo goes to the storage service, so the text arrives after 2 seconds.</title>
+          <text class="d-text-b" x="5" y="20">Photo on the sync server</text>
+          <rect class="d-box" x="5" y="32" width="290" height="46" rx="10"/><text class="d-text-b" x="150" y="52" text-anchor="middle">Phone</text><text class="d-text-s" x="150" y="68" text-anchor="middle">photo, then text</text>
+          <path class="d-line" d="M150 78 V112"/><path class="d-arrow" d="M144 112 L150 124 L156 112 Z"/>
+          <text class="d-text-s" x="162" y="100">one line</text>
+          <rect class="d-box-wait" x="5" y="124" width="290" height="54" rx="10"/><text class="d-text-b" x="150" y="148" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="166" text-anchor="middle">text after 40 seconds</text>
+          <text class="d-text-b" x="5" y="222">Photo in a storage service</text>
+          <rect class="d-box" x="5" y="234" width="290" height="46" rx="10"/><text class="d-text-b" x="150" y="254" text-anchor="middle">Phone</text><text class="d-text-s" x="150" y="270" text-anchor="middle">photo and text</text>
+          <path class="d-line" d="M75 280 V338"/><path class="d-arrow" d="M69 338 L75 350 L81 338 Z"/>
+          <text class="d-text-s" x="85" y="312">text</text>
+          <path class="d-line" d="M225 280 V338"/><path class="d-arrow" d="M219 338 L225 350 L231 338 Z"/>
+          <text class="d-text-s" x="235" y="312">photo</text>
+          <rect class="d-box-go" x="5" y="350" width="140" height="76" rx="10"/><text class="d-text-b" x="75" y="376" text-anchor="middle">Sync server</text><text class="d-text-s" x="75" y="396" text-anchor="middle">text after</text><text class="d-text-s" x="75" y="412" text-anchor="middle">2 seconds</text>
+          <rect class="d-box" x="155" y="350" width="140" height="76" rx="10"/><text class="d-text-b" x="225" y="376" text-anchor="middle">Storage service</text><text class="d-text-s" x="225" y="396" text-anchor="middle">keeps the</text><text class="d-text-s" x="225" y="412" text-anchor="middle">photo</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> on the sync server a photo and a line of text share one queue. A storage service gives the photo its own route.</figcaption>
+      </figure>
+
+      <details class="fold"><summary>Show how I measured it</summary>
+        <p>I ran both set-ups on a throttled connection, about 150 kilobits a second, with the 4 MB photo and one line of text. I timed the text from typing to arriving on the web app. I ran it 10 times, and the slowest run is the one quoted.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> on a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="lookup" data-keep="Search by name, definition or example">
+    <section class="chapter" id="cost" data-keep="The storage service takes 4 more build days and costs $6 less a month.">
       <header>
-        <div><p class="kicker">Chapter 3 of 3, about 1 minute</p><h2>Look something up</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What does the extra build buy?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-      <p class="from"><b>Before this:</b> fields that fail quietly and cost the most come first.</p>
-      <p>Search by name, definition or example. The filter starts on Now and always says how many entries it hides.</p>
-      <div class="index" data-rel-labels="Now|Before launch|Later">
-        <div class="guide-tools"></div>
-        <details class="family-index" id="fam-design">
-          <summary><h3>Product and design</h3></summary>
-          <h4 class="group">Understand</h4>
-          <div class="entry" id="e-research" data-rel="now">
-            <b class="name">User research</b>
-            <p class="def">Talking to real people to learn what they need, before and after building.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Five short calls with students showed that finding old notes is the main pain.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-strategy" data-rel="now">
-            <b class="name">Product strategy</b>
-            <p class="def">Choosing what to build, for whom, and what to leave out.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> The app is for people who keep personal notes, not for teams.</p>
-            </div>
-          </div>
-          <h4 class="group">Shape</h4>
-          <div class="entry" id="e-architecture" data-rel="now">
-            <b class="name">Information architecture</b>
-            <p class="def">How things are named, grouped and found.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Notes live in notebooks, and tags cut across notebooks.</p>
-              <p class="see"><b>See also:</b> <a href="#e-search">Search</a></p>
-            </div>
-          </div>
-          <div class="entry" id="e-interaction" data-rel="now">
-            <b class="name">Interaction design</b>
-            <p class="def">How a screen behaves when someone taps, types or makes a mistake.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Deleting a note shows an undo bar for ten seconds.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-content" data-rel="next">
-            <b class="name">Content design</b>
-            <p class="def">The words on screen: labels, messages and tone.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Error messages say what happened and what to do next.</p>
-            </div>
-          </div>
-        </details>
-        <details class="family-index" id="fam-frontend" open>
-          <summary><h3>Frontend engineering</h3></summary>
-          <h4 class="group">Shape</h4>
-          <div class="entry" id="e-ui" data-rel="now">
-            <b class="name">UI architecture</b>
-            <p class="def">How the interface is split into parts that can be reused and changed safely.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> The editor, the note list and the sidebar are separate components.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-state" data-rel="now">
-            <b class="name">State management</b>
-            <p class="def">Deciding where data lives on screen and keeping every view in step.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Renaming a note updates the list and the open editor at once.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-fetching" data-rel="now">
-            <b class="name">Data fetching</b>
-            <p class="def">How the browser asks the server for data and keeps answers for reuse.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> The note list loads first, and the full text loads when a note opens.</p>
-              <p class="see"><b>See also:</b> <a href="#e-api">API design</a></p>
-            </div>
-          </div>
-          <h4 class="group">Quality of the client</h4>
-          <div class="entry" id="e-frontend-perf" data-rel="next">
-            <b class="name">Frontend performance</b>
-            <p class="def">How fast a page loads and how smooth it feels to use.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> The editor loads after the list, so the first screen appears sooner.</p>
-              <p class="see"><b>See also:</b> <a href="#e-performance">Performance</a></p>
-            </div>
-          </div>
-          <div class="entry" id="e-frontend-tests" data-rel="next">
-            <b class="name">Frontend testing</b>
-            <p class="def">Automated checks that the screens work the way people expect.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> One test opens a note, edits it and checks that the change shows.</p>
-            </div>
-          </div>
-        </details>
-        <details class="family-index" id="fam-backend">
-          <summary><h3>Backend and data</h3></summary>
-          <div class="entry" id="e-api" data-rel="now">
-            <b class="name">API design</b>
-            <p class="def">The agreed way the browser and the server talk to each other.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Every request to change a note carries the note’s version number.</p>
-              <p class="see"><b>See also:</b> <a href="#e-fetching">Data fetching</a></p>
-            </div>
-          </div>
-          <div class="entry" id="e-modelling" data-rel="now">
-            <b class="name">Data modelling</b>
-            <p class="def">How information is shaped and stored so that it stays correct.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> A note belongs to one notebook and can have many tags.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-sync" data-rel="later">
-            <b class="name">Sync and conflicts</b>
-            <p class="def">Keeping copies on two devices the same, and deciding what happens when they disagree.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> If a phone and a laptop edit one note, the app keeps both versions.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-jobs" data-rel="next">
-            <b class="name">Background jobs</b>
-            <p class="def">Work the server does later, such as sending email or cleaning up.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> A nightly job removes notes that have been in the bin for 30 days.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-search" data-rel="next">
-            <b class="name">Search</b>
-            <p class="def">Finding words inside large amounts of text quickly.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Search covers titles and note text, and ignores capital letters.</p>
-              <p class="see"><b>See also:</b> <a href="#e-architecture">Information architecture</a></p>
-            </div>
-          </div>
-        </details>
-        <details class="family-index" id="fam-security">
-          <summary><h3>Security and privacy</h3></summary>
-          <div class="entry" id="e-signin" data-rel="now">
-            <b class="name">Sign-in</b>
-            <p class="def">Proving who someone is, with passwords, codes or passkeys.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> People sign in with an email link, so there is no password to forget.</p>
-              <p class="see"><b>See also:</b> <a href="#e-access">Access control</a></p>
-            </div>
-          </div>
-          <div class="entry" id="e-access" data-rel="now">
-            <b class="name">Access control</b>
-            <p class="def">Deciding who may see or change each thing.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> A shared notebook lets a guest read a note but not delete it.</p>
-              <p class="see"><b>See also:</b> <a href="#e-signin">Sign-in</a></p>
-            </div>
-          </div>
-          <div class="entry" id="e-encryption" data-rel="next">
-            <b class="name">Encryption</b>
-            <p class="def">Scrambling data so that only the right people can read it.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Notes are encrypted on the server, and the keys are kept somewhere else.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-privacy" data-rel="now">
-            <b class="name">Privacy by design</b>
-            <p class="def">Collecting as little personal data as possible and being clear about it.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> The app stores an email address and nothing else about a person.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-dependencies" data-rel="next">
-            <b class="name">Dependency hygiene</b>
-            <p class="def">Keeping the libraries the app relies on current and trusted.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> A weekly check lists outdated libraries and known security problems.</p>
-            </div>
-          </div>
-        </details>
-        <details class="family-index" id="fam-ship">
-          <summary><h3>Shipping and running</h3></summary>
-          <div class="entry" id="e-builds" data-rel="now">
-            <b class="name">Automated builds</b>
-            <p class="def">A script that tests and packages every change, so releases are repeatable.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Every change to the main branch runs the tests and builds the app.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-hosting" data-rel="next">
-            <b class="name">Hosting</b>
-            <p class="def">The computers and network that serve the app to people.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> One small server and one database serve the whole app.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-backups" data-rel="now">
-            <b class="name">Backups and recovery</b>
-            <p class="def">Copies of data kept apart from the original, and the practice of restoring them.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> A copy of the database is saved every night, and nobody has tried a restore yet.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-monitoring" data-rel="next">
-            <b class="name">Monitoring and alerts</b>
-            <p class="def">Watching the app while it runs and being told when it breaks.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Nothing watches the app yet, so the builder hears about problems from users.</p>
-              <p class="see"><b>See also:</b> <a href="#e-errors">Error tracking</a></p>
-            </div>
-          </div>
-          <div class="entry" id="e-errors" data-rel="later">
-            <b class="name">Error tracking</b>
-            <p class="def">Capturing the errors people hit, grouped so that the most common come first.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Failed saves are logged with the note text removed.</p>
-              <p class="see"><b>See also:</b> <a href="#e-monitoring">Monitoring and alerts</a></p>
-            </div>
-          </div>
-        </details>
-        <details class="family-index" id="fam-quality">
-          <summary><h3>Qualities everyone owes</h3></summary>
-          <div class="entry" id="e-accessibility" data-rel="now">
-            <b class="name">Accessibility</b>
-            <p class="def">Making the app usable by everyone, including people who use a keyboard or a screen reader.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Every button can be reached with the keyboard, and text meets contrast rules.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-performance" data-rel="next">
-            <b class="name">Performance</b>
-            <p class="def">How fast the whole experience feels, from tap to result.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Opening a note should take under half a second on a phone.</p>
-              <p class="see"><b>See also:</b> <a href="#e-frontend-perf">Frontend performance</a></p>
-            </div>
-          </div>
-          <div class="entry" id="e-docs" data-rel="now">
-            <b class="name">Documentation</b>
-            <p class="def">Written notes on how the app works and why choices were made.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> A short file explains how to run the app and where the data lives.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-cost" data-rel="later">
-            <b class="name">Cost</b>
-            <p class="def">What the app costs to run, and how that grows with use.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> Hosting costs about ten dollars a month for the first thousand people.</p>
-            </div>
-          </div>
-          <div class="entry" id="e-localization" data-rel="later">
-            <b class="name">Localization</b>
-            <p class="def">Supporting other languages, date formats and reading directions.</p>
-            <div class="entry-body">
-              <p class="where"><b>In the notes app:</b> The app is English only for now, with all text kept in one file.</p>
-            </div>
-          </div>
-        </details>
+
+      <p class="from"><b>Before this:</b> on a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</p>
+
+      <p>A storage service is more work now and cheaper to run. We expect about 7,500 pictures a month, which is 90 GB in a year.</p>
+
+      <div class="tiles">
+        <div class="tile wait"><span class="n">6 days</span><span class="l">to build, against 2 for the server</span></div>
+        <div class="tile go"><span class="n">$6</span><span class="l">a month to run it, a year on</span></div>
+        <div class="tile"><span class="n">$12</span><span class="l">a month for the server's disk</span></div>
       </div>
-      <p class="take"><b>Take from this:</b> every field is one search away, and each entry says where it shows up in the app.</p>
-      <p class="remember"><b>Remember:</b> any field is one search away.</p>
+      <p class="take"><b>Take from this:</b> 4 extra days now buy faster sync and a bill that is $6 a month smaller.</p>
+
+      <details class="fold"><summary>Show what the 6 days hold</summary>
+        <ul>
+          <li>Set up the storage account: 1 day.</li>
+          <li>Private links, so only the two people see a picture: 2 days.</li>
+          <li>Upload retries on a weak signal: 2 days.</li>
+          <li>Delete the picture when its note is deleted: 1 day.</li>
+        </ul>
+      </details>
+
+      <p class="remember"><b>Remember:</b> a storage service takes 4 more build days and costs $6 a month less to run.</p>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section class="chapter" id="pick" data-keep="My pick is the storage service. The ruling is yours.">
+      <header>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Which one do we pick?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> a storage service takes 4 more build days and costs $6 a month less to run.</p>
+
+      <p>The storage service has the fewest ambers and no red. Device only is cheap, but it hides photos from the person you share with.</p>
+
+      <div class="decision">
+        <h3>Where should attachments live?</h3>
+        <p>Ted builds it either way. The price is days of build and the weeks after.</p>
+        <div class="options">
+          <div class="option" data-rec="My pick">
+            <h4>A storage service</h4>
+            <ul><li class="plus">The other person sees photos</li><li class="plus">Text sync stays fast</li><li class="minus">6 build days</li></ul>
+            <p class="cost">Cost: 4 more build days than the server.</p>
+          </div>
+          <div class="option">
+            <h4>The sync server</h4>
+            <ul><li class="plus">2 build days</li><li class="minus">A big photo can hold up text sync</li><li class="minus">$12 a month</li></ul>
+            <p class="cost">Cost: slower sync on a weak signal.</p>
+          </div>
+          <div class="option" data-warn="Hides photos from others">
+            <h4>The device only</h4>
+            <ul><li class="plus">1 build day, and $0</li><li class="minus">A grey box for the other person</li><li class="minus">A lost phone loses the photo</li></ul>
+            <p class="cost">Cost: sharing without photos.</p>
+          </div>
+        </div>
+        <p class="nothing"><b>If you do nothing:</b> pictures stay on the phone that took them, which is the device-only option.</p>
+      </div>
+      <p class="take"><b>Take from this:</b> the choice is between 6 build days and a slower, pricier sync server. Device only fails the sharing test.</p>
+
+      <details class="fold"><summary>Show what would change my pick</summary>
+        <p>If we expected under 10 GB of pictures a year, the sync server would build faster and cost almost nothing to run. At 90 GB a year, the disk bill and the sync delay both point the other way.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> my pick is the storage service, and the ruling is yours.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Design decides it, engineers build it, and shipping runs it.</li>
-        <li>Fields that fail quietly and cost the most come first.</li>
-        <li>Any field is one search away.</li>
+        <li>A picture kept on one phone shows the other person a grey box, so device only is out.</li>
+        <li>On a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</li>
+        <li>A storage service takes 4 more build days and costs $6 a month less to run.</li>
+        <li>My pick is the storage service, and the ruling is yours.</li>
       </ol>
+    </section>
+
+    <section class="ask">
+      <h2>What I need from you</h2>
+      <p>Where should attachments live in 2.4? Reply with one of these.</p>
+      <div class="choices"><a href="#" data-rec>A storage service</a><a href="#">The sync server</a><a href="#">The device only</a><a href="#">Ask me something first</a></div>
+      <p class="nothing"><b>If you do nothing:</b> pictures stay on the phone that took them, and shared notebooks show a grey box.</p>
     </section>
   </main>
 </div>

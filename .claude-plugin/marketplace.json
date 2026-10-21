@@ -1,14 +1,14 @@
 {
-  "name": "html-explainer-skill",
+  "name": "glance-explainer",
   "owner": {
     "name": "Rodrigo Arias"
   },
-  "description": "The html-explainer plugin: single-file visual explanations in plain language, a gather skill that asks questions and collects answers, and an atlas skill for architecture references",
+  "description": "The glance-explainer plugin: explainer pages for readers with ADHD or a short working memory, a gather skill that asks questions and collects answers, and an atlas skill for architecture references",
   "plugins": [
     {
-      "name": "html-explainer",
+      "name": "glance-explainer",
       "source": "./",
-      "description": "Create single-file HTML explanations with plain language, meaningful visuals, and support for readers with ADHD or short working memory"
+      "description": "Explainer pages for readers with ADHD or a short working memory: one checked HTML file with the answer first and a picture in every chapter"
     }
   ]
 }

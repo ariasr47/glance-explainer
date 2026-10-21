@@ -1,21 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="explainer">
+<html lang="en" data-type="incident">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<!-- PAGE: set data-type on <html> (explainer, decision, status, spec, release, research, handover, portfolio, public, teach, incident, pr, runbook, compare, roadmap, tour, playbook, field-guide, gather or atlas) and lang (en or ja). types.md says which components each type needs. -->
-<!-- TITLE: 2 to 6 words, the subject, not "explainer" -->
-<title>Topic name here</title>
-<meta name="description" content="One sentence: what this page lets the reader decide or understand.">
+<title>Sync paused on 13 October</title>
+<meta name="description" content="An incident report for a small notes app: sync paused for two hours on Tuesday 13 October. What broke, the timeline, the cause chain with its failing step, the follow-ups and what stops a repeat. Example with made-up data.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,12 +1405,13 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="progress" aria-hidden="true"></div>
 
 <div class="page">
-  <!-- RAIL: chapter map that follows the reader. Keep to 3 to 7 chapters. -->
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#c1"><span class="dot"></span>Chapter title</a></li>
-      <li><a href="#c2"><span class="dot"></span>Chapter title</a></li>
-      <li><a href="#c3"><span class="dot"></span>Chapter title</a></li>
+      <li><a href="#broke"><span class="dot"></span>What broke</a></li>
+      <li><a href="#hours"><span class="dot"></span>Where the time went</a></li>
+      <li><a href="#cause"><span class="dot"></span>The cause chain</a></li>
+      <li><a href="#fixed"><span class="dot"></span>Fixed and still open</a></li>
+      <li><a href="#repeat"><span class="dot"></span>Stopping a repeat</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,123 +1425,234 @@ html:not(.js) .ballot-tray { display: none; }
   </nav>
 
   <main id="main">
-    <!-- FOCUS NAV: only visible in one-chapter-at-a-time mode. Leave as is. -->
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <!-- OPENING: the answer before anything else. -->
-    <p class="kicker">What this page is for, in a few words</p>
-    <h1>Topic name here</h1>
-    <div class="meta"><span>Reading time about N minutes</span><span>Written YYYY-MM-DD</span><span>For: who</span></div>
+    <p class="kicker">An incident report, resolved</p>
+    <h1>Sync paused for 2 hours on Tuesday 13 October</h1>
+    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-15</span><span>For: the whole team</span><span>Example with made-up data</span></div>
 
-    <p class="answer">The one-sentence answer or decision. If the reader reads nothing else, this is it.</p>
+    <p class="answer">A database change locked the notes table and a restart loop kept it locked, so sync paused for two hours, and no note was lost.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Fact one, under fifteen words.</li>
-        <li>Fact two.</li>
-        <li>Fact three. Never a fourth.</li>
+        <li>Sync paused from 14:10 to 16:10. No note was lost.</li>
+        <li>A restart loop kept the notes table locked.</li>
+        <li>Migrations no longer run at start-up. Two follow-ups are open.</li>
       </ol>
     </div>
 
+    <section class="glance" aria-labelledby="glance-h">
+      <div class="glance-head"><h2 id="glance-h">What broke, who felt it, and when?</h2><span class="chip go">Fixed, 2 follow-ups open</span></div>
+      <div class="tiles">
+        <div class="tile"><span class="n">Sync</span><span class="l">stopped for the phone and web apps</span></div>
+        <div class="tile"><span class="n">190</span><span class="l">people were syncing when it stopped</span></div>
+        <div class="tile"><span class="n">2 h</span><span class="l">paused, 14:10 to 16:10</span></div>
+        <div class="tile go"><span class="n">0</span><span class="l">notes lost. 3 of 5 follow-ups done</span></div>
+      </div>
+      <ol class="timeline">
+        <li class="go"><span class="when">14:05</span><span class="what">A deploy starts a change to the notes table.</span></li>
+        <li class="go"><span class="when">14:10</span><span class="what">Sync stops answering.</span></li>
+        <li class="go"><span class="when">15:20</span><span class="what">The team finds the cause.</span></li>
+        <li class="go"><span class="when">16:10</span><span class="what">Sync is normal again.</span></li>
+      </ol>
+      <p class="take"><b>Take:</b> sync was down for two hours, nobody lost a note, and the fix is already live.</p>
+    </section>
+
     <ol class="map">
-      <li><a href="#c1"><b>Chapter title</b><span>What you will get from it, one line.</span></a></li>
-      <li><a href="#c2"><b>Chapter title</b><span>What you will get from it, one line.</span></a></li>
+      <li><a href="#broke"><b>What broke, and who felt it?</b><span>Writing never stopped. Copying between devices did.</span></a></li>
+      <li><a href="#hours"><b>Where did the two hours go?</b><span>15 minutes to notice, 55 to find the cause, 50 to fix.</span></a></li>
+      <li><a href="#cause"><b>Why did one change take two hours?</b><span>Five links in a chain, and the one that failed.</span></a></li>
+      <li><a href="#fixed"><b>What is fixed, and what is still open?</b><span>Five follow-ups: three done, one under way, one to rule on.</span></a></li>
+      <li><a href="#repeat"><b>What stops it happening again?</b><span>Each follow-up guards a different weak point.</span></a></li>
     </ol>
 
-    <!-- CHAPTER: one idea. Restate what the reader needs from before. End with one thing to remember.
-         KICKER: "Chapter N of M, about T minute(s)". T is the reading-path words divided by 200, rounded up (Japanese: 第N章 / 全M章、約T分, characters divided by 500). Work it out by hand; no script does it.
-         READ ALOUD: the button stays in every chapter header; the script shows it only where the browser can speak. -->
-    <section class="chapter" id="c1" data-keep="One line the sticky bar shows while this chapter is on screen">
+    <!-- ============ 1 ============ -->
+    <section class="chapter" id="broke" data-keep="Writing never stopped. Copying between devices did, for two hours.">
       <header>
-        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>Chapter title as a plain sentence</h2></div>
+        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>What broke, and who felt it?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the one fact from earlier this chapter builds on.</p>
+      <p class="from"><b>Before this:</b> sync paused from 14:10 to 16:10, and no note was lost.</p>
 
-      <p>One idea per paragraph. Under forty words. Say it the way you would say it out loud.</p>
+      <p>The notes app keeps working without a connection. Reading and writing never stopped. What stopped was the part that copies changes between a person's devices.</p>
 
-      <figure class="figure">
-        <!-- SVG diagram goes here. Use the d-* classes so it renders in both themes. See diagrams.md.
-             On a phone this svg keeps 640 px and scrolls sideways. To show a phone its own drawing, add a second
-             <svg class="narrow" viewBox="0 0 360 ..."> laid out top to bottom; it replaces this one under 560 px. -->
-        <svg viewBox="0 0 800 160" role="img" aria-labelledby="f1-title"><title id="f1-title">Describe the diagram in one sentence</title>
-          <rect class="d-box" x="20" y="50" width="200" height="60" rx="10"/><text class="d-text-b" x="120" y="86" text-anchor="middle">Step one</text>
-          <path class="d-line" d="M220 80 H300"/><path class="d-arrow" d="M300 74 L312 80 L300 86 Z"/>
-          <rect class="d-box-here" x="312" y="50" width="200" height="60" rx="10"/><text class="d-text-b" x="412" y="86" text-anchor="middle">You are here</text>
-          <path class="d-line" d="M512 80 H592"/><path class="d-arrow" d="M592 74 L604 80 L592 86 Z"/>
-          <rect class="d-box-go" x="604" y="50" width="176" height="60" rx="10"/><text class="d-text-b" x="692" y="86" text-anchor="middle">Outcome</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the single conclusion the diagram exists to show.</figcaption>
-      </figure>
+      <div class="split">
+        <div class="before"><b>14:10 to 16:10</b><ul>
+          <li>A banner said "Waiting to sync".</li>
+          <li>Notes could still be read and written.</li>
+          <li>Changes waited in a queue on each device.</li>
+          <li>A second device showed old notes.</li>
+        </ul></div>
+        <div class="after"><b>By 16:40</b><ul>
+          <li>Every queued change had arrived.</li>
+          <li>0 notes were lost.</li>
+          <li>0 notes were duplicated.</li>
+          <li>The banner went away on its own.</li>
+        </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> the cost was a two-hour delay, and the people who felt it most use two devices.</p>
 
-      <details class="fold"><summary>Show the machinery</summary>
-        <p>Everything technical, exact names, numbers, and commands live here, out of the reading path.</p>
+      <details class="fold"><summary>Show the numbers behind the tiles</summary>
+        <ul>
+          <li>190 people had the app open at 14:10.</li>
+          <li>74 of them wrote at least one note during the pause.</li>
+          <li>412 changes waited in queues, and all 412 arrived by 16:40.</li>
+          <li>About 3,400 people use the app in a week, so this was about 6 in 100 of them.</li>
+        </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> one sentence. This is the only thing carried to the next chapter.</p>
+      <p class="remember"><b>Remember:</b> writing never stopped, so the cost was a two-hour delay, not lost notes.</p>
     </section>
 
-    <section class="chapter" id="c2" data-keep="Second chapter's one line">
+    <!-- ============ 2 ============ -->
+    <section class="chapter" id="hours" data-keep="15 minutes to notice, 55 to find the cause, 50 to fix. Finding took longest.">
       <header>
-        <div><p class="kicker">Chapter 2 of 3, about 1 minute</p><h2>Second chapter title</h2></div>
+        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>Where did the two hours go?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-      <p class="from"><b>Before this:</b> the remember-line from chapter 1, restated.</p>
-      <p>Body. A linear sequence needs no SVG; use the CSS flow.</p>
-      <ol class="flow">
-        <li class="go"><b>Done step</b><span>One line.</span></li>
-        <li class="here"><b>Current step</b><span>One line.</span></li>
-        <li><b>Next step</b><span>One line.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> what the picture above proves, in one line. Every chapter's picture gets one.</p>
-      <p class="remember"><b>Remember:</b> one sentence.</p>
-    </section>
 
-    <section class="chapter" id="c3" data-keep="Third chapter's one line">
-      <header>
-        <div><p class="kicker">Chapter 3 of 3, about 1 minute</p><h2>Third chapter title</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-      <p class="from"><b>Before this:</b> the remember-line from chapter 2, restated.</p>
-      <p>Body. When the reader must choose, the decision card lays the options side by side.</p>
-      <div class="decision">
-        <h3>The question, as a question?</h3>
-        <p>One line on why it matters.</p>
-        <div class="options">
-          <div class="option" data-rec="Recommended"><h4>Option A</h4><ul><li class="plus">Gain</li><li class="minus">Cost</li></ul></div>
-          <div class="option"><h4>Option B</h4><ul><li class="plus">Gain</li><li class="minus">Cost</li></ul></div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> what happens.</p>
+      <p class="from"><b>Before this:</b> the app kept working, so the cost was a two-hour delay.</p>
+
+      <p>The two hours fall into three parts. The alert reached the team 15 minutes after sync stopped. Finding the cause took 55 minutes. Shipping the fix took 50.</p>
+
+      <div class="tiles">
+        <div class="tile wait"><span class="n">15 min</span><span class="l">before the alert reached the team</span></div>
+        <div class="tile stop"><span class="n">55 min</span><span class="l">to find the cause</span></div>
+        <div class="tile"><span class="n">50 min</span><span class="l">to ship the fix, 25 of them a deploy</span></div>
       </div>
-      <p class="take"><b>Take from this:</b> the option you recommend, and the one reason that decides it.</p>
-      <p class="remember"><b>Remember:</b> one sentence.</p>
+      <p class="take"><b>Take from this:</b> almost half the time went on finding the cause, so a clearer alert saves the most.</p>
+
+      <p>The cause hid well. The logs showed time-outs, not a lock, and each restart cleared the one clue the database held.</p>
+
+      <details class="fold"><summary>Show the afternoon minute by minute</summary>
+        <pre><code>14:05  Deploy starts. The start-up script begins the index build.
+14:10  Sync stops answering. The health check restarts the server.
+14:22  Second restart. The build begins again. Restarts repeat every 12 minutes.
+14:25  The sync alert reaches the team.
+15:20  Cause found: every start re-runs the unfinished build.
+15:25  A deploy that skips migrations at start-up begins.
+15:50  That deploy finishes and the server starts clean.
+16:00  Saves work again. The retry backlog drains.
+16:10  Sync is normal.
+16:40  The last queued change arrives.</code></pre>
+      </details>
+
+      <p class="remember"><b>Remember:</b> finding the cause took 55 of the 120 minutes, so a clearer alert saves the most time.</p>
     </section>
 
-    <!-- CLOSING: recap and, when a decision is needed, the ask. -->
+    <!-- ============ 3 ============ -->
+    <section class="chapter" id="cause" data-keep="A nine-minute lock became two hours because every restart began the build again.">
+      <header>
+        <div><p class="kicker">Chapter 3 of 5, about 2 minutes</p><h2>Why did one change take two hours?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> almost half the time went on finding a cause that the logs did not show.</p>
+
+      <p>One change set off four more, and the last one kept the others going. Read the chain from left to right. The red step turned minutes into hours.</p>
+
+      <dl class="term">
+        <dt>Migration</dt><dd>A change to the shape of the database, run as code.</dd>
+        <dt>Index</dt><dd>A lookup table that makes searches fast. Building one on a big table blocks saves.</dd>
+        <dt>Lock</dt><dd>A hold that makes other work wait while a change runs.</dd>
+      </dl>
+
+      <ol class="flow">
+        <li><b>Index added</b><span>A deploy adds it for sharing, on the live notes table.</span></li>
+        <li class="wait"><b>Table locks</b><span>The build blocks every save for about 9 minutes.</span></li>
+        <li class="wait"><b>Phones retry</b><span>Requests time out at 30 seconds, and 190 apps retry at once.</span></li>
+        <li><b>Server restarts</b><span>The health check sees no answer and restarts it.</span></li>
+        <li class="stop"><b>Build starts over</b><span>Each start re-runs the unfinished change, so the lock never clears.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> the build alone would have ended in nine minutes. The restart loop stretched it to two hours.</p>
+
+      <details class="fold"><summary>Show the numbers behind the chain</summary>
+        <ul>
+          <li>The rehearsal copy held 2,000 notes, and the build took about 1 second.</li>
+          <li>The live table held 410,000 notes, and the build needed about 9 minutes without a break.</li>
+          <li>The server restarted every 12 minutes, so the build never reached its end.</li>
+          <li>The server allows 50 connections. 190 retrying apps used them all.</li>
+        </ul>
+      </details>
+
+      <p class="remember"><b>Remember:</b> the restart loop, not the index, turned a nine-minute lock into two hours.</p>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section class="chapter" id="fixed" data-keep="Three follow-ups are done, one is under way, one needs a ruling.">
+      <header>
+        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What is fixed, and what is still open?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> a restart loop turned a nine-minute lock into two hours.</p>
+
+      <p>The review produced five follow-ups. The one that stopped the outage is already done.</p>
+
+      <ul class="status">
+        <li class="go"><b>Stop migrations at start-up</b><span>Done on Wednesday 14 October. Someone now starts each migration by hand, once.</span></li>
+        <li class="go"><b>Rehearse on a full-size copy</b><span>Done. The test copy holds 400,000 notes, so a slow change shows up before it ships.</span></li>
+        <li class="go"><b>Alert after 3 minutes</b><span>Done. The sync alert used to wait for 10 minutes of failures.</span></li>
+        <li class="wait"><b>Build indexes in the background</b><span>Under way. Ted is changing the build so saves keep working. Due Friday 23 October.</span></li>
+        <li class="decide"><b>Quiet hours for deploys</b><span>Needs a ruling from Mara: no deploys from 13:00 to 17:00 on weekdays?</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the outage cannot repeat as it happened, and the two open items shrink the next one.</p>
+
+      <details class="fold"><summary>Show the change to the start-up script</summary>
+        <pre><code>- run-migrations &amp;&amp; start-server
++ start-server
+# migrations now run only by hand:  npm run migrate</code></pre>
+      </details>
+
+      <p class="remember"><b>Remember:</b> three follow-ups are done, one is under way, and one waits for Mara's ruling.</p>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section class="chapter" id="repeat" data-keep="Each follow-up guards a different weak point, so one slip cannot take sync down again.">
+      <header>
+        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What stops it happening again?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> three follow-ups are done, and two are still open.</p>
+
+      <p>Each follow-up guards a different weak point. A slow change can still happen, but it can no longer stop sync for two hours.</p>
+
+      <div class="split">
+        <div class="before"><b>On 13 October</b><ul>
+          <li>The rehearsal copy held 2,000 notes.</li>
+          <li>The start-up script ran migrations.</li>
+          <li>The alert waited for 10 minutes of failures.</li>
+          <li>An index build blocked every save.</li>
+        </ul></div>
+        <div class="after"><b>From 14 October</b><ul>
+          <li>The rehearsal copy holds 400,000 notes.</li>
+          <li>A person starts a migration by hand, once.</li>
+          <li>The alert fires after 3 minutes.</li>
+          <li>Index builds will run in the background, due 23 October.</li>
+        </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> four things changed since Tuesday, and a fifth, quiet hours for deploys, waits on a ruling.</p>
+
+      <p class="remember"><b>Remember:</b> each follow-up guards a different weak point, so one slip cannot take sync down for two hours again.</p>
+    </section>
+
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Remember-line from chapter 1.</li>
-        <li>Remember-line from chapter 2.</li>
-        <li>Remember-line from chapter 3.</li>
+        <li>Writing never stopped, so the cost was a two-hour delay, not lost notes.</li>
+        <li>Finding the cause took 55 of the 120 minutes, so a clearer alert saves the most time.</li>
+        <li>The restart loop, not the index, turned a nine-minute lock into two hours.</li>
+        <li>Three follow-ups are done, one is under way, and one waits for Mara's ruling.</li>
+        <li>Each follow-up guards a different weak point, so one slip cannot take sync down for two hours again.</li>
       </ol>
     </section>
-
-    <section class="ask">
-      <h2>What I need from you</h2>
-      <p>One question. Plain words.</p>
-      <div class="choices"><a href="#" data-rec>Option A</a><a href="#">Option B</a><a href="#">Ask me something first</a></div>
-      <p class="nothing"><b>If you do nothing:</b> what happens.</p>
-    </section>
-    <!-- OPTIONAL COMPONENTS: copy the markup from gallery.html.
-         .stepper (change over time, one picture), .views (several views of one thing), .minimap (where this chapter sits in the whole),
-         .answer-field and one .collect bar (gather pages and playbooks: put the bar here, outside the chapters, so one-chapter mode never hides it),
-         .phase-strip, .phases, .frame-row, .roles with .rules, .undo and .risks (playbook pages; the strip goes right after the keep box),
-         .territory with .stage and a.family, ol.start-here and .index with details.family-index and .entry (field-guide pages: three chapters, the index in the last one). -->
   </main>
 </div>
 

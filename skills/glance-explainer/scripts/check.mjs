@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// html-explainer checker. Zero dependencies. Usage: node check.mjs <file.html> [--json]
+// glance-explainer checker. Zero dependencies. Usage: node check.mjs <file.html> [--json]
 // Exit 0 when every hard rule passes, 1 otherwise. Warnings never fail the run.
 // <html lang="en|ja" data-type="..."> picks the limits (words or characters) and the extra rules for that page type.
 import { readFileSync, statSync } from 'node:fs';
@@ -74,13 +74,13 @@ const LIM = { para: ja ? 90 : 40, sent: ja ? 60 : 30, keep: ja ? 25 : 15, answer
 const ballot = type === 'gather' && /data-mode="ballot"/.test(htmlAttrs); // a ballot is a column of cards and a tray: no keep box, recap, chapters or rail
 if (!lang) fail('missing lang on <html>; set lang="en" or lang="ja"');
 if (!TYPES.includes(type)) fail(`unknown data-type "${type}"; use one of ${TYPES.join(', ')}`);
-// the generator mark (meta name="generator", content "html-explainer 1.8.0"), as [major, minor, patch]. null when it is missing or another tool's.
+// the generator mark (meta name="generator", content "glance-explainer 2.0.0", or "html-explainer 1.8.0" before the rename), as [major, minor, patch]. null when it is missing or another tool's.
 // A rule that only newer pages can meet reads it, so an older page is never judged by it.
 const generator = (() => {
   for (const m of html.matchAll(/<meta\b[^>]*>/gi)) {
     if (!/\sname\s*=\s*["']?generator\b/i.test(m[0])) continue;
     const c = /\scontent\s*=\s*(?:"([^"]*)"|'([^']*)')/i.exec(m[0]);
-    const v = /^html-explainer\s+(\d+)\.(\d+)\.(\d+)/i.exec((c?.[1] ?? c?.[2] ?? '').trim());
+    const v = /^(?:glance|html)-explainer\s+(\d+)\.(\d+)\.(\d+)/i.exec((c?.[1] ?? c?.[2] ?? '').trim());
     return v ? v.slice(1).map(Number) : null;
   }
   return null;

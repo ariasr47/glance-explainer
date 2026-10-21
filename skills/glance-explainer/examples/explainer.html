@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="release">
+<html lang="en" data-type="explainer">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>What shipped in 1.8.0 and 1.8.1</title>
-<meta name="description" content="What the 1.8.0 redesign and the 1.8.1 polish changed in the html-explainer plugin, in numbers, with a before and after for each theme and the steps to take now.">
+<title>Why every page opens with the answer</title>
+<meta name="description" content="The idea behind the glance-explainer plugin for someone deciding whether to try it: the answer comes first, three facts follow, and a checker enforces both.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,10 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#first"><span class="dot"></span>What the first screen shows now</a></li>
-      <li><a href="#calmer"><span class="dot"></span>What got calmer to read</a></li>
-      <li><a href="#polish"><span class="dot"></span>What 1.8.1 fixed</a></li>
-      <li><a href="#upgrade"><span class="dot"></span>What an upgrade does</a></li>
+      <li><a href="#why"><span class="dot"></span>Why the answer comes first</a></li>
+      <li><a href="#orient"><span class="dot"></span>What keeps a long page readable</a></li>
+      <li><a href="#honest"><span class="dot"></span>How the plugin keeps itself honest</a></li>
+      <li><a href="#try"><span class="dot"></span>Whether to try it</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,205 +1425,223 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">What shipped</p>
-    <h1>What shipped in 1.8.0 and 1.8.1</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-16</span><span>For: anyone who uses the plugin</span></div>
+    <p class="kicker">The idea behind the plugin</p>
+    <h1>Why every page opens with the answer</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: someone deciding whether to try it</span></div>
 
-    <p class="answer">Every page type now opens with its own picture, and an old page catches up with one upgrade command.</p>
+    <p class="answer">Every page opens with its one-sentence answer, so a reader who stops after the first screen has still got the point.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>The answer, three facts, then the page's own picture.</li>
-        <li>1.8.1 changed looks only: labels, callouts, flow steps.</li>
-        <li>An old page keeps its old look until you upgrade it.</li>
+        <li>The answer is one sentence, right under the title.</li>
+        <li>Three facts at most, then the page's own picture.</li>
+        <li>A checker enforces both before you see the page.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">What changed, and what to do</h2><span class="chip here">Both released 15 October 2026</span></div>
-      <div class="duo">
-        <div>
-          <h3>The numbers</h3>
-          <div class="tiles">
-            <div class="tile stop"><span class="n">19</span><span class="l">page types opened alike before 1.8.0</span></div>
-            <div class="tile go"><span class="n">9%</span><span class="l">median fall in phone height, 21 real pages</span></div>
-            <div class="tile"><span class="n">4</span><span class="l">pictures the page now draws for itself</span></div>
-            <div class="tile"><span class="n">1</span><span class="l">Reading tools button, replacing six</span></div>
-          </div>
-        </div>
-        <div>
-          <h3>What you do differently</h3>
-          <ol class="steps">
-            <li><b>Update the plugin.</b> Then restart Claude Code.</li>
-            <li><b>Preview an old page's upgrade.</b> A dry run changes nothing.</li>
-            <li><b>Upgrade the page.</b> Your words and pictures stay.</li>
-            <li><b>Make a page again</b> when you want the new parts.</li>
-          </ol>
-        </div>
-      </div>
-      <p class="take"><b>Take:</b> 1.8.0 changed how every page opens. The only work it asks of you is to update and upgrade.</p>
+      <div class="glance-head"><h2 id="glance-h">Where the answer sits</h2><span class="chip">Same content, two orders</span></div>
+      <figure class="figure">
+        <svg viewBox="0 0 800 286" role="img" aria-labelledby="f-order"><title id="f-order">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
+          <text class="d-text-b" x="20" y="22">A long page, answer last</text>
+          <text class="d-text-b" x="420" y="22">This plugin's page, answer first</text>
+          <path class="d-line-soft" d="M20 34 H380 V212 H20 Z"/>
+          <path class="d-line-soft" d="M420 34 H780 V212 H420 Z"/>
+          <text class="d-text-s" x="372" y="204" text-anchor="end">first screen</text>
+          <text class="d-text-s" x="772" y="204" text-anchor="end">first screen</text>
+          <rect class="d-box" x="36" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="71" text-anchor="middle">Background</text>
+          <rect class="d-box" x="36" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="119" text-anchor="middle">Method</text>
+          <rect class="d-box" x="36" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="167" text-anchor="middle">Results</text>
+          <rect class="d-box-wait" x="20" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="200" y="247" text-anchor="middle">The answer</text><text class="d-text-s" x="200" y="265" text-anchor="middle">out of sight on the first screen</text>
+          <rect class="d-box-go" x="436" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="71" text-anchor="middle">The answer</text>
+          <rect class="d-box" x="436" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="119" text-anchor="middle">Three facts to keep</text>
+          <rect class="d-box" x="436" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="167" text-anchor="middle">The page's own picture</text>
+          <rect class="d-box" x="420" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="600" y="247" text-anchor="middle">Chapters, one idea each</text><text class="d-text-s" x="600" y="265" text-anchor="middle">read only if you want more</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 280 270" role="img" aria-labelledby="f-order-n"><title id="f-order-n">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
+          <text class="d-text-b" x="2" y="16">Answer last</text>
+          <text class="d-text-b" x="148" y="16">Answer first</text>
+          <path class="d-line-soft" d="M2 26 H132 V194 H2 Z"/>
+          <path class="d-line-soft" d="M148 26 H278 V194 H148 Z"/>
+          <text class="d-text-s" x="126" y="187" text-anchor="end">first screen</text>
+          <text class="d-text-s" x="272" y="187" text-anchor="end">first screen</text>
+          <rect class="d-box" x="8" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="61" text-anchor="middle">Background</text>
+          <rect class="d-box" x="8" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="107" text-anchor="middle">Method</text>
+          <rect class="d-box" x="8" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="153" text-anchor="middle">Results</text>
+          <rect class="d-box-wait" x="2" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="67" y="230" text-anchor="middle">The answer</text><text class="d-text-s" x="67" y="249" text-anchor="middle">on the last screen</text>
+          <rect class="d-box-go" x="154" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="61" text-anchor="middle">The answer</text>
+          <rect class="d-box" x="154" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="102" text-anchor="middle">Three facts</text><text class="d-text-s" x="213" y="117" text-anchor="middle">to keep</text>
+          <rect class="d-box" x="154" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="148" text-anchor="middle">A picture</text><text class="d-text-s" x="213" y="163" text-anchor="middle">the page's own</text>
+          <rect class="d-box" x="148" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="213" y="230" text-anchor="middle">Chapters</text><text class="d-text-s" x="213" y="249" text-anchor="middle">one idea each</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> the same content in two orders. With the answer first, a reader who stops after one screen still has the point.</figcaption>
+      </figure>
     </section>
 
     <ol class="map">
-      <li><a href="#first"><b>What the first screen shows now</b><span>The answer as the headline, three facts as cards, then the page's own picture.</span></a></li>
-      <li><a href="#calmer"><b>What got calmer to read</b><span>One Reading tools button, a quieter chapter and calmer colour.</span></a></li>
-      <li><a href="#polish"><b>What 1.8.1 fixed</b><span>Small fixes to labels, callouts and flow steps, three hours later.</span></a></li>
-      <li><a href="#upgrade"><b>What an upgrade does</b><span>Four moves, and when to make a page again instead.</span></a></li>
+      <li><a href="#why"><b>Why the answer comes first</b><span>Pages are long, readers are tired, and the first screen decides.</span></a></li>
+      <li><a href="#orient"><b>What keeps a long page readable</b><span>Three facts, a restated line and a line to remember.</span></a></li>
+      <li><a href="#honest"><b>How the plugin keeps itself honest</b><span>A checker with hard limits, and a hook that runs it.</span></a></li>
+      <li><a href="#try"><b>Whether to try it</b><span>What is evidence, what is taste, and what is untested.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="first" data-keep="The answer is the headline. The page's own picture comes next.">
+    <section class="chapter" id="why" data-keep="The first screen decides whether a tired reader goes on.">
       <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does the first screen show now?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>Why does the answer come first?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> every page type now opens with its own picture, under the answer.</p>
+      <p class="from"><b>Before this:</b> the answer sits right under the title, so a reader who stops there still has the point.</p>
 
-      <p>A review of 21 real pages found that 19 types opened with the same first phone screen. A status report looked like a release note until the third screen.</p>
+      <p>Agents write more than anyone can read: long summaries, plans, diffs and status reports. A reader with a short working memory loses the thread as they scroll. They skim first and read second, if at all.</p>
 
-      <div class="split">
-        <div class="before"><b>Before, in 1.7.0</b>
-          <ul>
-            <li>The answer sat in a box with a thick bar down its side.</li>
-            <li>The three facts shared one yellow box.</li>
-            <li>Every type showed the same chapter map next.</li>
-          </ul></div>
-        <div class="after"><b>After, in 1.8.0</b>
-          <ul>
-            <li>The answer is the headline, with no box.</li>
-            <li>The three facts are three cards side by side.</li>
-            <li>A section called At a glance shows the type's own picture.</li>
-          </ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> the first screen now says what kind of page this is, before any chapter.</p>
+      <ol class="flow">
+        <li class="here"><b>The answer</b><span>Read one sentence, under the title.</span></li>
+        <li><b>Three facts</b><span>Check the yellow cards. Never a fourth.</span></li>
+        <li><b>The picture</b><span>Look at the page's own, such as a status board.</span></li>
+        <li><b>Stop or read on</b><span>Chapters are optional.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> every step is a place to stop. The answer and the three facts already carry the point.</p>
 
-      <p>A status page opens with its health board beside a timeline. A runbook opens with its steps as a checklist. A research page opens with its findings, ranked by trust.</p>
+      <p>A review of 21 real pages found that 19 types opened with the same first phone screen. Release 1.8.0 changed that, so the first screen now says what kind of page it is.</p>
 
-      <details class="fold"><summary>Show the new parts and the pictures a page draws itself</summary>
-        <ul>
-          <li><b>New parts:</b> <code>div.duo</code> for two columns, <code>div.cols</code> for state columns, <code>ul.findings</code> for findings ranked by trust, and <code>ol.layers</code> for a system in layers.</li>
-          <li><b>Drawn by the page:</b> <code>div.runbook-overview</code>, <code>div.filmstrip</code>, <code>div.rulings</code> and <code>div.qprogress</code>. Each is filled from parts already on the page.</li>
-          <li><b>Checker:</b> a page made by 1.8.0 or later with no glance gets a warning. Older pages are never warned.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> the answer is the headline, and the page's own picture comes next.</p>
+      <p class="remember"><b>Remember:</b> the first screen decides, so the answer and the three facts go there.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="calmer" data-keep="One tools button, one tinted strip per chapter, and colour only where it means something.">
+    <section class="chapter" id="orient" data-keep="Each chapter restates what it builds on and closes with one line to keep.">
       <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What got calmer to read?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What keeps a long page from losing you?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the first screen now shows the answer, three facts and the page's own picture.</p>
+      <p class="from"><b>Before this:</b> the first screen holds the answer, three facts and the page's own picture.</p>
 
-      <p>The other half of 1.8.0 removed things that competed for attention.</p>
+      <p>The keep box names the three facts to carry, and the page never asks for a fourth. Each chapter after it must stand alone, so a reader who lands in the middle loses nothing.</p>
 
       <div class="split">
-        <div class="before"><b>Before, in 1.7.0</b>
+        <div class="before"><b>Instead of writing</b>
           <ul>
-            <li>Six tool buttons sat in two rows.</li>
-            <li>Four look-alike bars framed every chapter.</li>
-            <li>The before side of a split was tinted red.</li>
-            <li>Tile numbers took the colour of their state.</li>
-            <li>A runbook's check and failure lines were green and red boxes.</li>
+            <li>"As mentioned above"</li>
+            <li>"See section 3"</li>
+            <li>"In conclusion"</li>
           </ul></div>
-        <div class="after"><b>After, in 1.8.0</b>
+        <div class="after"><b>The page does this</b>
           <ul>
-            <li>One Reading tools button holds all six.</li>
-            <li>Two bars a chapter, and only Remember is tinted.</li>
-            <li>Both sides are white, and the after side has a thin green rule.</li>
-            <li>Tile numbers are plain ink, with the state as a glyph and a word.</li>
-            <li>Check and failure lines are quiet lines with a glyph.</li>
+            <li>A "Before this" line restates the one fact the chapter builds on.</li>
+            <li>A link to the chapter, with its one fact restated.</li>
+            <li>A recap box that holds the remember lines.</li>
           </ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> colour is spent on meaning. Yellow stays the one large fill because it means keep this.</p>
+      <p class="take"><b>Take from this:</b> a reader can land on any chapter and find the one fact it builds on.</p>
 
-      <p class="remember"><b>Remember:</b> one Reading tools button, one tinted strip per chapter, and colour only where it means something.</p>
+      <p>Every chapter closes with one sentence to remember. The recap at the end is those sentences, copied. Nothing new appears there.</p>
+
+      <details class="fold"><summary>Show the order of a page</summary>
+        <ol>
+          <li>The answer, then the keep box.</li>
+          <li>At a glance, the page's own picture.</li>
+          <li>The chapter map, then three to seven chapters.</li>
+          <li>The recap, and the ask only when a decision is needed.</li>
+        </ol>
+      </details>
+
+      <p class="remember"><b>Remember:</b> every chapter restates what it builds on and closes with one line to keep.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="polish" data-keep="Five small fixes to the look, found by viewing real pages at both widths.">
+    <section class="chapter" id="honest" data-keep="Hard limits, enforced by a checker and by a hook.">
       <header>
-        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What did 1.8.1 fix three hours later?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>How does the plugin keep itself honest?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> 1.8.0 redrew the page, and 1.8.1 touched its look and labels only.</p>
+      <p class="from"><b>Before this:</b> each page promises one short answer, three facts at most and a picture per chapter.</p>
 
-      <p>The fixes came from a close look at the gallery, the examples and real pages at 390 and 1280 px, in both themes. The release changed no markup.</p>
+      <p>A checker script reads every page and fails it when a promise is broken. These are four of its limits.</p>
 
-      <div class="split">
-        <div class="before"><b>Before, in 1.8.0</b>
-          <ul>
-            <li>Labels in spaced capitals, such as the chapter kicker.</li>
-            <li>A tip, warning or stop was a full tint with a thick left bar.</li>
-            <li>A flow step's number sat over its text and squeezed it.</li>
-          </ul></div>
-        <div class="after"><b>After, in 1.8.1</b>
-          <ul>
-            <li>Sentence case: "Chapter 1 of 5, about 1 minute".</li>
-            <li>A white card with a hairline in its colour and a glyph before the title.</li>
-            <li>The number sits beside the title, and the line below uses the full width.</li>
-          </ul></div>
+      <div class="tiles">
+        <div class="tile"><span class="n">40</span><span class="l">words in the answer, at most, before the page fails</span></div>
+        <div class="tile"><span class="n">3</span><span class="l">facts the keep box may hold</span></div>
+        <div class="tile"><span class="n">4.5:1</span><span class="l">text contrast needed, in light and dark</span></div>
+        <div class="tile"><span class="n">9 px</span><span class="l">smallest diagram label on a phone</span></div>
       </div>
-      <p class="take"><b>Take from this:</b> each fix removes a little noise, and none changes what a page says.</p>
+      <p class="take"><b>Take from this:</b> these limits are hard. A page that breaks one fails, and the agent fixes it before you see the page.</p>
 
-      <p>Two more fixes finish the round. The mini-map scrolls on a phone instead of shrinking its labels to 7 px. The atlas's quiet snapshot line also works after the chapter map.</p>
+      <p>In Claude Code a hook runs the checker at the end of every turn that wrote a page. It sends each failure back to the agent, up to three times in a turn.</p>
 
-      <p class="remember"><b>Remember:</b> 1.8.1 changed looks and labels only. An upgrade brings the fix to an older page.</p>
+      <details class="fold"><summary>Show where each limit lives</summary>
+        <ul>
+          <li><code>skills/glance-explainer/scripts/check.mjs:73</code> sets the answer limit of 40 words, paragraphs of 40 words and keep facts of 15 words.</li>
+          <li><code>check.mjs:126</code> fails a keep box with more than 3 items.</li>
+          <li><code>check.mjs:184</code> sets the smallest phone label at 9 px.</li>
+          <li><code>check.mjs:258</code> fails any text pair under 4.5 to 1.</li>
+          <li><code>hooks/explainer-check.mjs:14</code> lets the hook block a turn at most 3 times.</li>
+        </ul>
+        <p>Line numbers are as of commit 6ffbbbc.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> the limits are hard, and a checker and a hook enforce them before you see a page.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="upgrade" data-keep="The upgrader swaps the style and script, then checks the page, and puts it back if it fails.">
+    <section class="chapter" id="try" data-keep="Part of it is evidence, part is taste, and no outside reader has tested it yet.">
       <header>
-        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>What happens when I upgrade a page?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Is it worth trying on your work?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> 1.8.1 changed looks only, and an old page keeps its old look until you upgrade it.</p>
+      <p class="from"><b>Before this:</b> a checker and a hook enforce the shape of every page.</p>
 
-      <p>An upgrade is safe to try. On 21 real pages brought up from 1.7.0, phone height fell by a median of 9%, and by up to 15% for a runbook. No markup changed.</p>
+      <p>The design guide sorts its own choices into three bins. You can see how much of it rests on evidence.</p>
 
-      <ol class="flow">
-        <li class="go"><b>Save a backup</b><span>The page is copied to a .bak file first.</span></li>
-        <li class="go"><b>Swap the code</b><span>The page's style and script become the current ones.</span></li>
-        <li class="here"><b>Check the page</b><span>The checker runs on the result.</span></li>
-        <li><b>Keep or restore</b><span>A page that passed before and fails now is put back.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> an upgrade changes the design and the script, and keeps your content byte for byte.</p>
+      <div class="cols">
+        <section class="col go"><h3>Backed by evidence</h3>
+          <ul>
+            <li><b>Short paragraphs</b><span>One topic each, as W3C COGA advises.</span></li>
+            <li><b>Visible progress</b><span>Done, current and pending are shown.</span></li>
+          </ul></section>
+        <section class="col wait"><h3>A design choice</h3>
+          <ul>
+            <li><b>Three facts</b><span>Kept because it is small and forces a choice.</span></li>
+            <li><b>Chapter length</b><span>A craft default. Its claims failed checking.</span></li>
+          </ul></section>
+        <section class="col stop"><h3>Refused, for lack of evidence</h3>
+          <ul>
+            <li><b>Bionic bolding</b><span>Eye tracking shows no gain.</span></li>
+            <li><b>Dyslexia fonts</b><span>No benefit over ordinary fonts.</span></li>
+          </ul></section>
+      </div>
+      <p class="take"><b>Take from this:</b> the page says which of its choices are evidence and which are taste.</p>
 
-      <div class="callout warn"><b>Make the page again for new parts</b>
-        <p>An upgrade does not add the new parts of a release, such as At a glance. Ask the agent to make the page again for those.</p></div>
+      <div class="callout warn"><b>Not yet tested on outside readers</b>
+        <p>The roadmap says every page so far was judged by its author. If plugin pages do not help outside readers more than a default page does, the roadmap shrinks to maintenance.</p></div>
 
-      <details class="fold"><summary>Show the exact commands</summary>
-        <pre><code>claude plugin marketplace update html-explainer-skill
-claude plugin update html-explainer@html-explainer-skill
-node &lt;skill folder&gt;/scripts/upgrade.mjs docs/explainers/my-page.html --dry-run
-node &lt;skill folder&gt;/scripts/upgrade.mjs docs/explainers/my-page.html</code></pre>
-        <p>Restart Claude Code after the update. Add <code>--force</code> only for a page with hand-edited styles. The backup keeps those edits.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> update, preview, upgrade, and make a page again when you want its new parts.</p>
+      <p class="remember"><b>Remember:</b> part of it is evidence, part is taste, and no outside reader has tested it yet.</p>
     </section>
 
     <!-- CLOSING -->
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>The answer is the headline, and the page's own picture comes next.</li>
-        <li>One Reading tools button, one tinted strip per chapter, and colour only where it means something.</li>
-        <li>1.8.1 changed looks and labels only. An upgrade brings the fix to an older page.</li>
-        <li>Update, preview, upgrade, and make a page again when you want its new parts.</li>
+        <li>The first screen decides, so the answer and the three facts go there.</li>
+        <li>Every chapter restates what it builds on and closes with one line to keep.</li>
+        <li>The limits are hard, and a checker and a hook enforce them before you see a page.</li>
+        <li>Part of it is evidence, part is taste, and no outside reader has tested it yet.</li>
       </ol>
+    </section>
+
+    <section class="ask">
+      <h2>What I need from you</h2>
+      <p>Where would you like to start?</p>
+      <div class="choices"><a href="https://ariasr47.github.io/glance-explainer/gallery.html" data-rec>Open the gallery</a><a href="https://github.com/ariasr47/glance-explainer/blob/main/docs/install.md">Read the install guide</a><a href="https://ariasr47.github.io/glance-explainer/roadmap.html">See the roadmap</a></div>
+      <p class="nothing"><b>If you do nothing:</b> nothing changes. Pages you already have stay as they are.</p>
     </section>
   </main>
 </div>

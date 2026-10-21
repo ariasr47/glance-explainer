@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="playbook">
+<html lang="en" data-type="portfolio">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Moving the team wiki</title>
-<meta name="description" content="A plan for moving a small team's wiki to a new host: six phases, what your team sees, who does what, the risky evening with its undo, the risks, and three decisions you can answer on the page.">
+<title>Where six side projects stand</title>
+<meta name="description" content="A Sunday check on six side projects: a notes app, a recipe site, a cycling-route map, a household budget sheet, a podcast feed and a photo-backup script. Which two need you this week, what moved, what is blocked and what waits. Example with made-up data.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,14 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#change"><span class="dot"></span>What changes</a></li>
-      <li><a href="#team"><span class="dot"></span>What your team sees</a></li>
-      <li><a href="#phases"><span class="dot"></span>The six phases</a></li>
-      <li><a href="#goes"><span class="dot"></span>What goes where</a></li>
-      <li><a href="#roles"><span class="dot"></span>Who does what</a></li>
-      <li><a href="#switch"><span class="dot"></span>Switch day</a></li>
-      <li><a href="#risks"><span class="dot"></span>What could go wrong</a></li>
-      <li><a href="#decide"><span class="dot"></span>Costs and decisions</a></li>
+      <li><a href="#needs"><span class="dot"></span>What each one needs</a></li>
+      <li><a href="#moved"><span class="dot"></span>What moved</a></li>
+      <li><a href="#blocked"><span class="dot"></span>What is blocked</a></li>
+      <li><a href="#waits"><span class="dot"></span>What waits on me</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1429,344 +1425,187 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
+    <p class="kicker">A portfolio check, Sunday 18 October</p>
+    <h1>Where six side projects stand</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-18</span><span>For: the builder, in a Sunday review</span><span>Example with made-up data</span></div>
 
-    <header class="hero">
-      <p class="kicker">A plan for one risky change</p>
-      <h1>Moving the team wiki to a new host</h1>
-      <div class="meta"><span>Reading time about 7 minutes</span><span>Written 2026-10-13</span><span>For: the wiki owner</span></div>
-      <figure class="thesis">
-        <svg viewBox="0 0 400 170" role="img" aria-labelledby="f-thesis"><title id="f-thesis">The wiki is copied from the old host to the new host, and a dashed line shows the way back for a month.</title>
-          <rect class="d-box" x="10" y="10" width="130" height="64" rx="10"/><text class="d-text-b" x="75" y="38" text-anchor="middle">Old host</text><text class="d-text" x="75" y="59" text-anchor="middle">the wiki today</text>
-          <text class="d-text" x="200" y="32" text-anchor="middle">copy first</text>
-          <path class="d-line" d="M140 42 H250"/><path class="d-arrow" d="M250 36 L262 42 L250 48 Z"/>
-          <rect class="d-box-go" x="262" y="10" width="128" height="64" rx="10"/><text class="d-text-b" x="326" y="38" text-anchor="middle">New host</text><text class="d-text" x="326" y="59" text-anchor="middle">the wiki after</text>
-          <path class="d-line-soft" d="M326 82 C326 136 75 136 75 96"/><path class="d-arrow" d="M69 96 L75 84 L81 96 Z"/>
-          <text class="d-text" x="200" y="160" text-anchor="middle">the way back, for a month</text>
-        </svg>
-      </figure>
-    </header>
-
-    <p class="answer">We copy the wiki to a new host, switch on one planned evening, and keep the old host for a month, so your team notices one new address.</p>
+    <p class="answer">Two of my six side projects need me this week: the photo backup is failing, and the podcast hosting renews on 24 October.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Six phases. Only two reach your team.</li>
-        <li>Nothing goes live without your yes.</li>
-        <li>Going back takes minutes, for a month.</li>
+        <li>Two of six projects need me this week.</li>
+        <li>The photo backup is the only one putting data at risk.</li>
+        <li>The budget sheet has been stalled for 44 days.</li>
       </ol>
     </div>
 
-    <ol class="phase-strip" aria-label="The six phases">
-      <li data-owner="you"><a href="#phase-1"><span class="seg-num">Phase 1</span><b>Decide what moves</b>
-        <span class="who" title="You">Y</span><small class="effort">a few days</small><span class="bar" style="--effort:2"></span></a></li>
-      <li data-owner="me"><a href="#phase-2"><span class="seg-num">Phase 2</span><b>Copy and rehearse</b>
-        <span class="who" title="Me">M</span><small class="effort">about a day</small><span class="bar" style="--effort:3"></span></a></li>
-      <li class="notice" data-owner="you"><a href="#phase-3"><span class="seg-num">Phase 3</span><b>Announce the date</b>
-        <span class="who" title="You">Y</span><small class="effort">ten minutes</small><span class="bar" style="--effort:1"></span>
-        <span class="notice-tag">Team notices</span></a></li>
-      <li class="notice" data-owner="both"><a href="#phase-4"><span class="seg-num">Phase 4</span><b>Switch day</b>
-        <span class="who" title="Both">Y+M</span><small class="effort">one evening</small><span class="bar" style="--effort:2"></span>
-        <span class="notice-tag">Team notices</span></a></li>
-      <li data-owner="me"><a href="#phase-5"><span class="seg-num">Phase 5</span><b>Watch and fix</b>
-        <span class="who" title="Me">M</span><small class="effort">a week</small><span class="bar" style="--effort:2"></span></a></li>
-      <li data-owner="you"><a href="#phase-6"><span class="seg-num">Phase 6</span><b>Retire the old host</b>
-        <span class="who" title="You">Y</span><small class="effort">an hour</small><span class="bar" style="--effort:1"></span></a></li>
+    <section class="glance" aria-labelledby="glance-h">
+      <div class="glance-head"><h2 id="glance-h">Where do the six projects stand?</h2><span class="chip decide">2 need you this week</span></div>
+      <h3>Needs you</h3>
+      <ul class="status">
+        <li class="stop"><b>Photo-backup script</b><span>Failed 4 nights in a row. The drive is 96% full.</span></li>
+        <li class="decide"><b>Podcast feed</b><span>The hosting plan renews on 24 October. Keep it or move?</span></li>
+      </ul>
+      <h3>Moving</h3>
+      <ul class="status">
+        <li class="go"><b>Notes app</b><span>Version 2.4 is on track for 29 October.</span></li>
+        <li class="go"><b>Recipe site</b><span>Search works. 41 of 120 recipes are tagged.</span></li>
+        <li class="wait"><b>Cycling-route map</b><span>Autumn tiles are fresh. Two routes cross a closed bridge.</span></li>
+      </ul>
+      <h3>Stalled</h3>
+      <ul class="status">
+        <li class="stop"><b>Household budget sheet</b><span>The import has failed for 44 days, since the bank changed its export.</span></li>
+      </ul>
+      <p class="take"><b>Take:</b> two projects need me this week. Three are moving and one is stalled.</p>
+    </section>
+
+    <ol class="map">
+      <li><a href="#needs"><b>What does each project need from me?</b><span>Two measures for all six: last touched, and what it waits on.</span></a></li>
+      <li><a href="#moved"><b>What moved since last Sunday?</b><span>Three moved forward, one slid back, two stood still.</span></a></li>
+      <li><a href="#blocked"><b>What is blocked, and why?</b><span>One thing puts data at risk. Two only cost time.</span></a></li>
+      <li><a href="#waits"><b>What waits on me, most valuable first?</b><span>Five steps, and the first two come before Saturday.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="change" data-keep="The address changes. The pages are copied, never moved.">
+    <section class="chapter" id="needs" data-keep="Three projects wait on me. Two are urgent and one is not.">
       <header>
-        <div><p class="kicker">Chapter 1 of 8, about 1 minute</p><h2>What changes, and what stays the same?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does each project need from me?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the answer says the wiki moves to a new host and your team notices one new address.</p>
+      <p class="from"><b>Before this:</b> two projects need me this week, three are moving and one is stalled.</p>
 
-      <p>Today one host does everything. After the move the new host does, and the old one stays on for a month in case we need to go back.</p>
+      <p>The six projects share two measures: when I last touched it, and what it waits on. Green is the last week, amber the last month, red longer.</p>
 
-      <figure class="figure">
-        <svg viewBox="0 0 800 330" role="img" aria-labelledby="f-change"><title id="f-change">Before, one address leads to the old host and its pages. After, a new address leads to the new host and a copy of the pages, and the old host stays on for a month as the way back.</title>
-          <text class="d-text-b" x="20" y="28">Before</text>
-          <rect class="d-box" x="20" y="44" width="220" height="64" rx="10"/><text class="d-text-b" x="130" y="72" text-anchor="middle">old-wiki.example</text><text class="d-text-s" x="130" y="92" text-anchor="middle">the address today</text>
-          <path class="d-line" d="M240 76 H290"/><path class="d-arrow" d="M290 70 L302 76 L290 82 Z"/>
-          <rect class="d-box" x="302" y="44" width="196" height="64" rx="10"/><text class="d-text-b" x="400" y="72" text-anchor="middle">Old host</text><text class="d-text-s" x="400" y="92" text-anchor="middle">runs the wiki</text>
-          <path class="d-line" d="M498 76 H548"/><path class="d-arrow" d="M548 70 L560 76 L548 82 Z"/>
-          <rect class="d-box" x="560" y="44" width="220" height="64" rx="10"/><text class="d-text-b" x="670" y="72" text-anchor="middle">Pages and files</text><text class="d-text-s" x="670" y="92" text-anchor="middle">all in one place</text>
-          <text class="d-text-b" x="20" y="150">After</text>
-          <rect class="d-box-here" x="20" y="166" width="220" height="64" rx="10"/><text class="d-text-b" x="130" y="194" text-anchor="middle">wiki.example.com</text><text class="d-text-s" x="130" y="214" text-anchor="middle">the new address</text>
-          <path class="d-line" d="M240 198 H290"/><path class="d-arrow" d="M290 192 L302 198 L290 204 Z"/>
-          <rect class="d-box-go" x="302" y="166" width="196" height="64" rx="10"/><text class="d-text-b" x="400" y="194" text-anchor="middle">New host</text><text class="d-text-s" x="400" y="214" text-anchor="middle">runs the wiki</text>
-          <path class="d-line" d="M498 198 H548"/><path class="d-arrow" d="M548 192 L560 198 L548 204 Z"/>
-          <rect class="d-box-go" x="560" y="166" width="220" height="64" rx="10"/><text class="d-text-b" x="670" y="194" text-anchor="middle">Pages and files</text><text class="d-text-s" x="670" y="214" text-anchor="middle">copied, not moved</text>
-          <path class="d-line-soft" d="M400 230 V250"/>
-          <rect class="d-line-soft" x="262" y="250" width="276" height="62" rx="10"/><text class="d-text-b" x="400" y="276" text-anchor="middle">Old host, kept for a month</text><text class="d-text-s" x="400" y="297" text-anchor="middle">forwards visitors, and is our way back</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the address and the host behind it change. Nothing is taken out of the old host, only copied.</figcaption>
-      </figure>
+      <div class="grid-wrap"><table class="grid">
+        <caption>Six projects, measured the same two ways</caption>
+        <thead><tr><th scope="col">Project</th><th scope="col">Last touched</th><th scope="col">Waits on</th></tr></thead>
+        <tbody>
+          <tr class="group"><th colspan="3" scope="colgroup">Needs me</th></tr>
+          <tr><th scope="row">Photo-backup script</th><td class="stop">5 months ago</td><td class="decide">Me: free space on the drive</td></tr>
+          <tr><th scope="row">Podcast feed</th><td class="wait">12 days ago</td><td class="decide">Me: keep or move the hosting</td></tr>
+          <tr class="group"><th colspan="3" scope="colgroup">Moving</th></tr>
+          <tr><th scope="row">Notes app</th><td class="go">2 days ago</td><td class="wait">Mara: two DNS records</td></tr>
+          <tr><th scope="row">Recipe site</th><td class="go">4 days ago</td><td class="go">Nothing</td></tr>
+          <tr><th scope="row">Cycling-route map</th><td class="go">1 day ago</td><td class="go">Nothing</td></tr>
+          <tr class="group"><th colspan="3" scope="colgroup">Stalled</th></tr>
+          <tr><th scope="row">Household budget sheet</th><td class="stop">44 days ago</td><td class="decide">Me: rewrite the import</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take from this:</b> the three projects that wait on me are the same three that have gone quiet.</p>
 
-      <p class="remember"><b>Remember:</b> we copy and never move, and the old host stays on for a month.</p>
+      <details class="fold"><summary>Show what each project is</summary>
+        <ul>
+          <li><b>Notes app:</b> a phone app, a web app and a sync server, used by about 3,400 people a week.</li>
+          <li><b>Recipe site:</b> a static site of 120 family recipes.</li>
+          <li><b>Cycling-route map:</b> a web map of 18 local rides.</li>
+          <li><b>Household budget sheet:</b> a spreadsheet and a script that imports the bank's file.</li>
+          <li><b>Podcast feed:</b> 24 episodes on a hosted feed, $9 a month.</li>
+          <li><b>Photo-backup script:</b> a nightly copy of 31,204 photos to an external drive.</li>
+        </ul>
+      </details>
+
+      <p class="remember"><b>Remember:</b> three projects wait on me. Two are urgent and one is not.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="team" data-keep="Your team sees a message, then a new address and one extra sign-in.">
+    <section class="chapter" id="moved" data-keep="Three moved forward, one slid back, two stood still.">
       <header>
-        <div><p class="kicker">Chapter 2 of 8, about 1 minute</p><h2>What does your team see?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What moved since last Sunday?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> we copy the pages and the address changes.</p>
+      <p class="from"><b>Before this:</b> three projects wait on me, and two of them are urgent.</p>
 
-      <p>Three moments reach your team. Everything else happens out of their sight.</p>
+      <p>Three projects moved forward and one slid backward. The podcast feed and the budget sheet did not change at all.</p>
 
-      <div class="frame-row">
-        <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">old-wiki.example/handbook</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Handbook</span>
-            <span class="mock-win"><span class="mock-row"><span>Onboarding</span></span><span class="mock-row"><span>Holiday policy</span></span><span class="mock-row"><span>Expenses</span></span></span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> until the date is announced, nothing looks different.</figcaption></figure>
-        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">team chat</span></div>
-          <div class="frame-screen">
-            <span class="mock-win"><span class="mock-title">From you, Friday</span>The wiki moves on Saturday evening. Your pages stay as they are. You will sign in once more.</span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> a day before, you send one message. I can draft it.</figcaption></figure>
-        <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">wiki.example.com/sign-in</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Sign in</span>
-            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="width:55%"></span><span class="mock-btn">Sign in</span></span>
-            <span class="mock-note">Then the same pages as before.</span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> from switch day, one new address and one extra sign-in.</figcaption></figure>
+      <div class="split">
+        <div class="before"><b>Sunday 11 October</b><ul>
+          <li><b>Notes app:</b> sharing worked on the test server only.</li>
+          <li><b>Recipe site:</b> no search.</li>
+          <li><b>Cycling map:</b> last year's autumn tiles.</li>
+          <li><b>Photo backup:</b> passing every night.</li>
+        </ul></div>
+        <div class="after"><b>Sunday 18 October</b><ul>
+          <li><b>Notes app:</b> sharing works on the server, the web and Android.</li>
+          <li><b>Recipe site:</b> search works, with 41 of 120 recipes tagged.</li>
+          <li><b>Cycling map:</b> this year's tiles, but two routes cross a closed bridge.</li>
+          <li><b>Photo backup:</b> failing for four nights, with the drive 96% full.</li>
+        </ul></div>
       </div>
+      <p class="take"><b>Take from this:</b> three projects improved, and the one that slid back is the one that matters most.</p>
 
-      <p class="remember"><b>Remember:</b> your team sees a message, then a new address, then one extra sign-in.</p>
+      <p class="remember"><b>Remember:</b> three projects moved forward, one slid back, and two stood still.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="phases" data-keep="Six phases in order. The last line of each says what your team notices.">
+    <section class="chapter" id="blocked" data-keep="Only the photo backup puts data at risk. The other two cost time.">
       <header>
-        <div><p class="kicker">Chapter 3 of 8, about 2 minutes</p><h2>What happens in each phase?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What is blocked, and why?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> your team sees a message, a new address and one extra sign-in.</p>
+      <p class="from"><b>Before this:</b> three projects moved forward, one slid back, and two stood still.</p>
 
-      <p>Each phase finishes before the next starts.</p>
+      <p>Three things are blocked. One puts my photos at risk, and the other two only cost time.</p>
 
-      <ol class="phases">
-        <li id="phase-1"><h3>Decide what moves</h3><span class="chip">You decide</span><span class="chip">A few days</span>
-          <ul><li>Pick what comes across: pages, files and comments.</li><li>Answer the three questions at the end of this page.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing.</p></li>
-        <li id="phase-2"><h3>Copy and rehearse</h3><span class="chip">I do the work</span><span class="chip">About a day</span>
-          <ul><li>Copy everything to the new host.</li><li>Rehearse the move on a spare copy, then take a fresh backup.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing. The old wiki still works.</p></li>
-        <li class="notice" id="phase-3"><h3>Announce the date</h3><span class="chip">You send it</span><span class="chip">Ten minutes</span>
-          <ul><li>One message with the date and the new address.</li></ul>
-          <p class="impact"><b>Team notices:</b> a message with the date and the new address.</p></li>
-        <li class="notice" id="phase-4"><h3>Switch day</h3><span class="chip">Both of us</span><span class="chip">One evening</span>
-          <ul><li>The wiki is read-only for about an hour.</li><li>The new address goes live, and the old one forwards to it.</li></ul>
-          <p class="impact"><b>Team notices:</b> the new address, and one extra sign-in.</p></li>
-        <li id="phase-5"><h3>Watch and fix</h3><span class="chip">I do the work</span><span class="chip">A week</span>
-          <ul><li>Watch for errors and broken links.</li><li>Fix what turns up the same day.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing new.</p></li>
-        <li id="phase-6"><h3>Retire the old host</h3><span class="chip">You decide</span><span class="chip">After a month</span>
-          <ul><li>Check that nobody still uses the old address.</li><li>Say yes, and I switch it off.</li></ul>
-          <p class="impact"><b>Team notices:</b> nothing.</p></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> four of the six phases happen out of your team's sight.</p>
+      <div class="tiles">
+        <div class="tile stop"><span class="n">4</span><span class="l">nights in a row the backup failed</span></div>
+        <div class="tile wait"><span class="n">96%</span><span class="l">of the backup drive is full</span></div>
+        <div class="tile"><span class="n">38 GB</span><span class="l">of old test photos I can delete</span></div>
+      </div>
+      <p class="take"><b>Take from this:</b> the fix is small, and every night it waits adds photos that have only one copy.</p>
 
-      <p class="remember"><b>Remember:</b> only phases 3 and 4 reach your team, and both are marked "Team notices".</p>
+      <div class="callout stop"><b>Photo-backup script: no new backup since Wednesday</b><p>The nightly copy stops when the drive is full. The last good backup is four days old, so photos taken since then have one copy.</p></div>
+      <div class="callout warn"><b>Household budget sheet: the import fails</b><p>The bank now writes dates as 18/10/2026, and the import script expects 2026-10-18. Nothing is lost, and the sheet is 44 days behind.</p></div>
+      <div class="callout warn"><b>Notes app: one part waits on Mara</b><p>Invite emails need two DNS records that only she can add. Version 2.4 still ships without them on 29 October.</p></div>
+
+      <details class="fold"><summary>Show the backup log</summary>
+        <pre><code>Wed 14 Oct  ok      31,204 photos copied
+Thu 15 Oct  FAILED  drive full, 96% used
+Fri 16 Oct  FAILED  drive full, 96% used
+Sat 17 Oct  FAILED  drive full, 96% used
+Sun 18 Oct  FAILED  drive full, 96% used</code></pre>
+      </details>
+
+      <p class="remember"><b>Remember:</b> only the photo backup puts data at risk, and it is the first thing to fix.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="goes" data-keep="Almost everything moves. Two things stay behind on purpose, and one is your call.">
+    <section class="chapter" id="waits" data-keep="Fix the photo backup today. Decide the podcast hosting by 24 October.">
       <header>
-        <div><p class="kicker">Chapter 4 of 8, about 1 minute</p><h2>What goes where?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>What waits on me, most valuable first?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> only phases 3 and 4 reach your team, and we copy rather than move.</p>
-
-      <div class="grid-wrap"><table class="grid">
-        <caption>Where each piece of the wiki ends up</caption>
-        <thead><tr><th scope="col">Piece</th><th scope="col">Old host</th><th scope="col">New host</th></tr></thead>
-        <tbody>
-          <tr class="group"><th colspan="3" scope="colgroup">Moves over</th></tr>
-          <tr><th scope="row">Pages and their history</th><td class="go">Kept, read-only</td><td class="go">Copied in full</td></tr>
-          <tr><th scope="row">Uploaded files and images</th><td class="go">Kept, read-only</td><td class="go">Copied in full</td></tr>
-          <tr class="group"><th colspan="3" scope="colgroup">Stays behind</th></tr>
-          <tr><th scope="row">Visitor statistics</th><td class="go">Kept</td><td class="stop">Not copied</td></tr>
-          <tr><th scope="row">Plugins nobody uses</th><td class="go">Kept</td><td class="stop">Left out</td></tr>
-          <tr class="group"><th colspan="3" scope="colgroup">Your call</th></tr>
-          <tr><th scope="row">Page comments</th><td class="go">Kept</td><td class="decide">Copy them?</td></tr>
-        </tbody>
-      </table></div>
-      <p class="take"><b>Take from this:</b> two pieces stay behind on purpose, and the old host keeps all of them.</p>
-
-      <p class="remember"><b>Remember:</b> the old host keeps everything, so a piece we leave out is never lost.</p>
-    </section>
-
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="roles" data-keep="You decide and send. I copy and check. The rules never bend.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 8, about 1 minute</p><h2>Who does what, and what never bends?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> six phases, with a part for each of us.</p>
-
-      <div class="roles">
-        <section class="role" data-who="you"><h3><span class="who" title="You">Y</span> You</h3><ul>
-          <li>Answer the three questions below.</li>
-          <li>Say yes before any step that touches the live wiki.</li>
-          <li>Send the message to your team.</li>
-          <li>Decide when the old host goes.</li>
-        </ul></section>
-        <section class="role" data-who="me"><h3><span class="who" title="Me">M</span> Me</h3><ul>
-          <li>Copy the wiki and rehearse the move.</li>
-          <li>Do each live step, after your yes.</li>
-          <li>Check the pages that matter, before and after.</li>
-          <li>Watch for errors for a week.</li>
-        </ul></section>
-      </div>
-      <ul class="rules">
-        <li><b>Nothing live without your yes.</b> Every step that changes the live wiki waits for you.</li>
-        <li><b>Copy, never move.</b> The old host keeps every page until you say it can go.</li>
-        <li><b>A backup before every switch.</b> A fresh one, checked that it opens.</li>
-        <li><b>Rehearse first.</b> Each live step runs on a spare copy with fake data.</li>
-      </ul>
-      <p class="take"><b>Take from this:</b> you decide and send, I copy and check.</p>
-
-      <p class="remember"><b>Remember:</b> you say yes to every live step, and the old host stays until you say it can go.</p>
-    </section>
-
-    <!-- ============ 6 ============ -->
-    <section class="chapter" id="switch" data-keep="Six steps in one evening, and the way back is a single step.">
-      <header>
-        <div><p class="kicker">Chapter 6 of 8, about 1 minute</p><h2>What happens on switch day, step by step?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> I do each live step, and only after your yes.</p>
+      <p class="from"><b>Before this:</b> only the photo backup puts data at risk, and the other two blocked things cost time.</p>
 
       <ol class="steps">
-        <li data-owner="you"><span class="who" title="You">Y</span> <b>Send the heads-up.</b> One message, a day before: the date and the new address.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Take a fresh backup.</b> I check that it opens.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Make the old wiki read-only.</b> Nobody can edit for about an hour.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Copy the last changes across.</b> Then I check the pages that matter.</li>
-        <li data-owner="both"><span class="who" title="Both">Y+M</span> <b>Point the new address at the new host.</b> You say yes first.</li>
-        <li data-owner="me"><span class="who" title="Me">M</span> <b>Forward the old address.</b> Visitors to the old address land on the new one.</li>
+        <li><b>Free 38 GB for the photo backup.</b> Today, about an hour. Delete the old test photos or buy a bigger drive.</li>
+        <li><b>Decide the podcast hosting.</b> Before Saturday 24 October, about an hour. Keep the $9 plan or move to a free host.</li>
+        <li><b>Remind Mara about the two DNS records.</b> Monday, five minutes. The notes app waits on them.</li>
+        <li><b>Rewrite the budget import.</b> One evening, about two hours. It must read the bank's new date format.</li>
+        <li><b>Reroute two cycling routes.</b> One evening, about two hours. Both cross the closed bridge.</li>
       </ol>
-      <div class="undo"><b>If something goes wrong:</b> point the new address back at the old host and turn the forwarding off. The old host still has every page, so the wiki is back within minutes.</div>
-      <p class="take"><b>Take from this:</b> one evening, six steps, and the way back is one step.</p>
+      <p class="take"><b>Take from this:</b> the first three steps take about two hours and settle everything that has a date.</p>
 
-      <p class="remember"><b>Remember:</b> on switch day the way back is one step, because the old host still has every page.</p>
-    </section>
-
-    <!-- ============ 7 ============ -->
-    <section class="chapter" id="risks" data-keep="One risk is high, and it is about afterwards, not about switch day.">
-      <header>
-        <div><p class="kicker">Chapter 7 of 8, about 1 minute</p><h2>What could go wrong?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> the way back on switch day is one step.</p>
-
-      <div class="risks">
-        <article class="risk" data-level="high"><h3>The old host gets forgotten</h3><span class="level">High</span>
-          <p>It still holds every page. Left alone, it turns into the weak spot.</p>
-          <p class="kept"><b>Kept small by:</b> a reminder to switch it off one month after switch day.</p></article>
-        <article class="risk" data-level="medium"><h3>Someone misses the message</h3><span class="level">Medium</span>
-          <p>They open the old address and wonder where the wiki went.</p>
-          <p class="kept"><b>Kept small by:</b> the old address forwards to the new one for a month.</p></article>
-        <article class="risk" data-level="medium"><h3>Sign-in breaks on the new host</h3><span class="level">Medium</span>
-          <p>People reach the wiki but cannot log in.</p>
-          <p class="kept"><b>Kept small by:</b> I test sign-in on the spare copy, and again right after the switch.</p></article>
-        <article class="risk" data-level="low"><h3>A page looks different</h3><span class="level">Low</span>
-          <p>A few pages use a feature the new host handles in its own way.</p>
-          <p class="kept"><b>Kept small by:</b> I check the twenty most-read pages before and after.</p></article>
-      </div>
-      <p class="take"><b>Take from this:</b> the one high risk is about the weeks after the move, so it has a date on the calendar.</p>
-
-      <p class="remember"><b>Remember:</b> the biggest risk is forgetting the old host, so it gets a reminder.</p>
-    </section>
-
-    <!-- ============ 8 ============ -->
-    <section class="chapter" id="decide" data-keep="Running both hosts for a month is the only extra cost. Three answers from you.">
-      <header>
-        <div><p class="kicker">Chapter 8 of 8, about 2 minutes</p><h2>What will it cost, and what do I need from you?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> one risk is high, and it has a reminder.</p>
-
-      <div class="tiles">
-        <div class="tile"><span class="n">$12</span><span class="l">a month for the new host</span></div>
-        <div class="tile wait"><span class="n">$8</span><span class="l">for the one extra month of the old host</span></div>
-        <div class="tile"><span class="n">2 h</span><span class="l">of your time, in all</span></div>
-        <div class="tile go"><span class="n">$0</span><span class="l">to copy the pages and files</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> running both hosts for one month is the only extra cost.</p>
-
-      <p>Three questions are left. Pick an answer for each. My choice is marked. The bar at the bottom copies your answers so you can paste them back to me.</p>
-
-      <fieldset class="answer-field" data-q="comments" data-kind="choice">
-        <legend>Should page comments come across?</legend>
-        <p class="hint">Comments are the discussion under pages. They are small, and some are useful.</p>
-        <label data-rec="Recommended"><input type="radio" name="comments" value="Copy them"> Copy them</label>
-        <label><input type="radio" name="comments" value="Leave them behind"> Leave them behind</label>
-      </fieldset>
-
-      <fieldset class="answer-field" data-q="evening" data-kind="choice">
-        <legend>Which evening should the switch happen?</legend>
-        <p class="hint">The wiki is read-only for about an hour. A quiet evening costs your team the least.</p>
-        <label data-rec="Recommended"><input type="radio" name="evening" value="Saturday evening"> Saturday evening</label>
-        <label><input type="radio" name="evening" value="Sunday evening"> Sunday evening</label>
-        <label><input type="radio" name="evening" value="A weekday evening"> A weekday evening</label>
-      </fieldset>
-
-      <fieldset class="answer-field" data-q="old-host" data-kind="choice">
-        <legend>How long do we keep the old host after the switch?</legend>
-        <p class="hint">It is our way back, and it costs $8 a month.</p>
-        <label data-rec="Recommended"><input type="radio" name="old-host" value="One month"> One month</label>
-        <label><input type="radio" name="old-host" value="Two weeks"> Two weeks</label>
-        <label><input type="radio" name="old-host" value="Three months"> Three months</label>
-      </fieldset>
-
-      <p class="remember"><b>Remember:</b> three answers from you, and the copy bar at the bottom sends them back to me.</p>
+      <p class="remember"><b>Remember:</b> fix the photo backup today, decide the podcast hosting by 24 October, and the rest can wait.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>We copy and never move, and the old host stays on for a month.</li>
-        <li>Your team sees a message, then a new address, then one extra sign-in.</li>
-        <li>Only phases 3 and 4 reach your team, and both are marked "Team notices".</li>
-        <li>The old host keeps everything, so a piece we leave out is never lost.</li>
-        <li>You say yes to every live step, and the old host stays until you say it can go.</li>
-        <li>On switch day the way back is one step, because the old host still has every page.</li>
-        <li>The biggest risk is forgetting the old host, so it gets a reminder.</li>
-        <li>Three answers from you, and the copy bar at the bottom sends them back to me.</li>
+        <li>Three projects wait on me. Two are urgent and one is not.</li>
+        <li>Three projects moved forward, one slid back, and two stood still.</li>
+        <li>Only the photo backup puts data at risk, and it is the first thing to fix.</li>
+        <li>Fix the photo backup today, decide the podcast hosting by 24 October, and the rest can wait.</li>
       </ol>
     </section>
-
-    <!-- The collect bar carries the decisions back. It sits outside the chapters so one-chapter mode never hides it, and stays hidden until the first answer. -->
-    <div class="collect" hidden>
-      <input class="respondent" type="text" placeholder="Your name (optional)" aria-label="Your name">
-      <span class="count"></span>
-      <button type="button" data-copy>Copy all answers</button>
-      <button type="button" data-download>Download .md</button>
-      <button type="button" data-json>Copy JSON</button>
-    </div>
   </main>
 </div>
 

@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="spec">
+<html lang="en" data-type="research">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Pin a note to the top</title>
-<meta name="description" content="A spec for pinning in the notes app: keep up to three notes at the top of a notebook. Before and after drawings, six checks and the risks, then approve or hold.">
+<title>Why new users stop after one note</title>
+<meta name="description" content="What six interviews, a week of usage numbers and a small beta say about why new users of the notes app stop after their first note, and how far to trust each finding.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,10 +1407,11 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#does"><span class="dot"></span>What pinning does</a></li>
-      <li><a href="#changes"><span class="dot"></span>What changes for you</a></li>
-      <li><a href="#checks"><span class="dot"></span>How we know it works</a></li>
-      <li><a href="#risks"><span class="dot"></span>What could go wrong</a></li>
+      <li><a href="#test"><span class="dot"></span>The first note is a test</a></li>
+      <li><a href="#return"><span class="dot"></span>Nothing calls people back</a></li>
+      <li><a href="#elsewhere"><span class="dot"></span>Their notes live elsewhere</a></li>
+      <li><a href="#sharing"><span class="dot"></span>Sharing may keep people</a></li>
+      <li><a href="#change"><span class="dot"></span>What this changes</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,205 +1426,209 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">A feature for Mara to approve</p>
-    <h1>Pin a note to the top</h1>
-    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-05</span><span>For: Mara</span><span>Example with made-up data</span></div>
+    <p class="kicker">Findings from six interviews, a week of numbers and a beta</p>
+    <h1>Why new users stop after one note</h1>
+    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-01</span><span>For: Mara and Ted</span><span>Example with made-up data</span></div>
 
-    <p class="answer">Pinning lets you keep up to three notes at the top of a notebook, it costs 2 build days, and I ask you to approve it for 2.4.</p>
+    <p class="answer">Half of the people who write a first note never write a second, because the first was only a test and nothing calls them back.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Up to 3 pinned notes stay on top of a notebook.</li>
-        <li>It costs 2 build days. 4 of 6 checks already pass.</li>
-        <li>In a shared notebook, your pins stay yours.</li>
+        <li>189 of 371 first-note writers never wrote a second.</li>
+        <li>One cause is strong, two are moderate, one is weak.</li>
+        <li>Sharing as a way to keep people is the weakest finding.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Pinning, before and after</h2><span class="chip decide">Needs your approval</span></div>
-      <div class="duo">
-        <div>
-          <h3>One notebook, two screens</h3>
-          <div class="frame-row" style="margin:0;grid-template-columns:repeat(2,minmax(0,1fr))">
-            <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Before</span></div>
-              <div class="frame-screen">
-                <span class="mock-title">Home</span>
-                <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Plumber number</span></span><span class="mock-row"><span>Wifi password</span></span></span>
-              </div>
-              <figcaption class="take" style="padding:.6rem .8rem"><b>Take:</b> the wifi password sank.</figcaption></figure>
-            <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">After</span></div>
-              <div class="frame-screen">
-                <span class="mock-title">Home</span>
-                <span class="mock-note">Pinned</span>
-                <span class="mock-win"><span class="mock-row"><span><b>Wifi password</b></span></span></span>
-                <span class="mock-note">Other notes</span>
-                <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Plumber number</span></span></span>
-              </div>
-              <figcaption class="take" style="padding:.6rem .8rem"><b>Take:</b> it stays on top.</figcaption></figure>
-          </div>
-        </div>
-        <div>
-          <h3>The verdict</h3>
-          <div class="tiles">
-            <div class="tile"><span class="n">Approve</span><span class="l">my pick</span></div>
-            <div class="tile"><span class="n">4 of 6</span><span class="l">checks already pass</span></div>
-          </div>
-          <p>It costs 2 build days. With my three sharing picks, 2.4 then uses 13 of my 14.</p>
-        </div>
-      </div>
-      <p class="take"><b>Take:</b> pinning changes one thing on one screen, and 4 of its 6 checks already pass.</p>
+      <div class="glance-head"><h2 id="glance-h">What we found, and how far to trust it</h2><span class="chip here">8 sources in all</span></div>
+      <ul class="findings">
+        <li data-strength="strong"><a href="#test">The first note is a test</a><span>Short throwaway notes stop twice as often.</span><small class="evidence">6 sources</small></li>
+        <li data-strength="moderate"><a href="#return">Nothing calls people back</a><span>The app says nothing after the first note.</span><small class="evidence">5 sources</small><small class="open">1 open</small></li>
+        <li data-strength="moderate"><a href="#elsewhere">Their notes live elsewhere</a><span>Three of six keep another app.</span><small class="evidence">4 sources</small><small class="open">1 open</small></li>
+        <li data-strength="weak"><a href="#sharing">Sharing may keep people</a><span>Sharers wrote twice as many notes in a small beta.</span><small class="evidence">3 sources</small><small class="open">2 open</small></li>
+      </ul>
+      <p class="take"><b>Take:</b> two causes rest on most of the sources. The weakest, that sharing keeps people, is the one the 2.4 headline bets on.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#does"><b>What pinning does</b><span>Hold a note, choose Pin to top, and it stays.</span></a></li>
-      <li><a href="#changes"><b>What changes for you</b><span>One screen, and what a shared notebook shows.</span></a></li>
-      <li><a href="#checks"><b>How we know it works</b><span>Six checks, four already passing.</span></a></li>
-      <li><a href="#risks"><b>What could go wrong</b><span>Three risks and what keeps each one small.</span></a></li>
+      <li><a href="#test"><b>The first note is a test</b><span>Strong: short notes stop twice as often.</span></a></li>
+      <li><a href="#return"><b>Nothing calls people back</b><span>Moderate: four in five never return.</span></a></li>
+      <li><a href="#elsewhere"><b>Their notes live elsewhere</b><span>Moderate: three of six keep another app.</span></a></li>
+      <li><a href="#sharing"><b>Sharing may keep people</b><span>Weak: a small beta and two interviews.</span></a></li>
+      <li><a href="#change"><b>What this changes</b><span>What we do now, and what stays open.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="does" data-keep="Pinning is two taps. Each notebook holds up to three pins.">
+    <section class="chapter" id="test" data-keep="Strong: most first notes are a test, and short test notes stop twice as often.">
       <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does pinning do?</h2></div>
+        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Is the first note a real note?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> pinning keeps up to three notes at the top of a notebook, so an old note you need often does not sink.</p>
+      <p class="from"><b>Before this:</b> half of the people who write a first note never write a second.</p>
 
-      <p>You pin a note with two taps. Each notebook holds up to three pins, and a fourth asks you to unpin one first.</p>
+      <p>In the week of 21 September, 371 new people wrote a first note, and 189 never wrote another. The first notes show why.</p>
 
-      <ol class="flow">
-        <li><b>Hold a note</b><span>Press and hold, or right-click on the web.</span></li>
-        <li><b>Pin to top</b><span>It is the first item in the menu.</span></li>
-        <li><b>Moves up</b><span>The note joins the pinned group.</span></li>
-        <li class="go"><b>Stays</b><span>Every device shows it there.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> the whole feature is one menu item and one group at the top of the list.</p>
+      <div class="tiles">
+        <div class="tile"><span class="n">58%</span><span class="l">of first notes had under 10 words</span></div>
+        <div class="tile"><span class="n">65%</span><span class="l">of those short-note writers stopped</span></div>
+        <div class="tile"><span class="n">31%</span><span class="l">of longer-note writers stopped</span></div>
+        <div class="tile"><span class="n">5 of 6</span><span class="l">interviewees called it a try-out</span></div>
+      </div>
+      <p class="take"><b>Take from this:</b> people who wrote only a few words stopped twice as often as people who wrote more.</p>
 
-      <details class="fold"><summary>Show the exact rules</summary>
+      <p><b>How far to trust it: strong.</b> Six of the eight sources agree, and the numbers back the interviews.</p>
+
+      <details class="fold"><summary>Show what people said</summary>
         <ul>
-          <li>The newest pin goes to the top of the pinned group.</li>
-          <li>The same menu item then reads Unpin.</li>
-          <li>Deleting a note also removes its pin.</li>
-          <li>A pin belongs to one notebook, because a note lives in one notebook.</li>
+          <li>"I typed 'test 123' to see if it saved. It did, so I was done." (P2, student)</li>
+          <li>"It was a throwaway line. I never planned to open it again." (P5, freelancer)</li>
+          <li>"I wanted to see what it looked like, not to start writing." (P6, retired nurse)</li>
         </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> pinning is two taps, and each notebook holds up to three pins.</p>
+      <p class="remember"><b>Remember:</b> the first note is usually a test, and short test notes stop twice as often.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="changes" data-keep="One screen changes: a pinned group above the notes. Your pins stay yours.">
+    <section class="chapter" id="return" data-keep="Moderate: the app is silent after note one, and four in five who stop never return.">
       <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What changes for you?</h2></div>
+        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>Does anything bring people back?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> pinning is two taps, and each notebook holds up to three pins.</p>
+      <p class="from"><b>Before this:</b> the first note is usually a test, and short test notes stop twice as often.</p>
 
-      <p>Only the note list changes. Sorting below the pinned group works as it does today.</p>
+      <p>After the first note, the app sends nothing. Four of the six interviewees said they forgot it was installed.</p>
 
-      <div class="split">
-        <div class="before"><b>Today</b><ul><li>Notes sort by last edited.</li><li>A note you need often sinks as you write new ones.</li></ul></div>
-        <div class="after"><b>With pinning</b><ul><li>Up to three notes stay on top.</li><li>Every other note sorts by last edited, as before.</li></ul></div>
-      </div>
+      <ol class="timeline">
+        <li><span class="when">Day 0</span><span class="what">189 people write one note and stop.</span></li>
+        <li><span class="when">Day 1</span><span class="what">The app sends no reminder and no email.</span></li>
+        <li><span class="when">Days 2 to 6</span><span class="what">151 of the 189 never open the app again.</span></li>
+        <li><span class="when">Day 7</span><span class="what">The other 38 open it once and leave.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> four in five of the people who stop never come back, and nothing asks them to.</p>
 
-      <div class="frame-row" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Hold a note</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Wifi password</span>
-            <span class="mock-win"><span class="mock-row"><span><b>Pin to top</b></span></span><span class="mock-row"><span>Move to notebook</span></span><span class="mock-row"><span>Delete</span></span></span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> Pin to top comes first.</figcaption></figure>
-        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Sam's screen</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Home, shared</span>
-            <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Wifi password</span></span></span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> Sam does not see your pin.</figcaption></figure>
-      </div>
+      <p><b>How far to trust it: moderate.</b> Four interviews and the numbers agree, but nobody has tested a reminder yet.</p>
 
-      <p class="remember"><b>Remember:</b> one screen changes, and a pin is yours alone even in a shared notebook.</p>
+      <details class="fold"><summary>Show what people said</summary>
+        <ul>
+          <li>"I forgot I even had it." (P4, freelancer)</li>
+          <li>"Nothing told me it was there. My phone is full of apps." (P1, student)</li>
+          <li>"A week later I found the icon and wondered what it was." (P6, retired nurse)</li>
+        </ul>
+      </details>
+
+      <p class="remember"><b>Remember:</b> after the first note the app says nothing, and four in five of the people who stop never return.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="checks" data-keep="Four checks pass on a prototype. Two edge cases are still to run.">
+    <section class="chapter" id="elsewhere" data-keep="Moderate: half the interviewees keep notes elsewhere. The numbers only hint at it.">
       <header>
-        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>How do we know it works?</h2></div>
+        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>Are their notes already somewhere else?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> one screen changes, and a pin is yours alone even in a shared notebook.</p>
+      <p class="from"><b>Before this:</b> after the first note the app says nothing, and four in five of the people who stop never return.</p>
 
-      <p>I built a rough prototype to test the parts that could lose a pin. Four checks pass and two are still to run.</p>
+      <p>Three of the six interviewees already keep their notes in another app or on paper. The week's numbers hint at the same thing, but less clearly.</p>
 
       <ul class="status">
-        <li class="go"><b>Pin and unpin</b><span>Works on Android and on an iPhone.</span></li>
-        <li class="go"><b>Pins survive a restart</b><span>No pin lost in 20 restarts.</span></li>
-        <li class="go"><b>Pins reach the web app</b><span>They show up within 3 seconds on Wi-Fi.</span></li>
-        <li class="go"><b>A fourth pin is refused</b><span>A message asks you to unpin one first.</span></li>
-        <li class="wait"><b>Two devices pin at once</b><span>Not run yet. It is my first job on day one.</span></li>
-        <li class="wait"><b>A notebook of 2,000 notes</b><span>Not run yet. The pinned group must not slow the list.</span></li>
+        <li class="go"><b>Interviews</b><span>3 of 6 said their notes live elsewhere, before we asked.</span></li>
+        <li class="wait"><b>Usage</b><span>61 of the 96 people who opened Import stopped, which is 64% against 51% overall.</span></li>
+        <li class="wait"><b>The reason</b><span>We know they opened Import. We do not know why they stopped.</span></li>
       </ul>
-      <p class="take"><b>Take from this:</b> the four checks that guard against a lost pin pass. The two left are edge cases.</p>
+      <p class="take"><b>Take from this:</b> the interviews say it clearly, the numbers only hint at it, and nobody has told us why Import failed.</p>
 
-      <details class="fold"><summary>Show how I tested</summary>
-        <p>I ran a throwaway build on my Android phone and on a borrowed iPhone, with a test notebook of 300 notes. I closed and reopened the app 20 times and counted the pins after each restart.</p>
+      <p><b>How far to trust it: moderate.</b> Three interviews and a 13-point gap, with no test of the cause.</p>
+
+      <details class="fold"><summary>Show what people said</summary>
+        <ul>
+          <li>"My phone's notes app is already on my home screen." (P5, freelancer)</li>
+          <li>"I would have to move two years of notes before this was any use." (P3, student)</li>
+          <li>"I use paper for lists, and one app was not going to change that." (P6, retired nurse)</li>
+        </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> four of six checks pass, and the two left are edge cases.</p>
+      <p class="remember"><b>Remember:</b> half the interviewees keep notes elsewhere, and people who open Import stop a little more often.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="risks" data-keep="The risk to fix is an old app erasing a pin. Pins live in their own list.">
+    <section class="chapter" id="sharing" data-keep="Weak: sharers wrote twice as many notes, but 40 volunteers cannot show sharing is the reason.">
       <header>
-        <div><p class="kicker">Chapter 4 of 4, about 2 minutes</p><h2>What could go wrong?</h2></div>
+        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>Does sharing keep people?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> four of six checks pass, and the two left are edge cases.</p>
+      <p class="from"><b>Before this:</b> half the interviewees keep notes elsewhere, and people who open Import stop a little more often.</p>
 
-      <div class="callout stop"><b>An older app could erase a pin</b>
-        <p>Version 2.3 saves a whole note at once, and it does not know pins exist.</p>
-        <p><b>Kept small by:</b> pins live in their own list, away from the note.</p></div>
-      <div class="callout warn"><b>Three pins can fill a small phone</b>
-        <p>On a 5.4 inch screen, three pinned rows push the other notes down.</p>
-        <p><b>Kept small by:</b> a pinned row shows one line, and I test on the smallest phone we support.</p></div>
-      <div class="callout warn"><b>Sam may wonder why a pin is missing</b>
-        <p>In a shared notebook, your pins stay yours, so Sam does not see them.</p>
-        <p><b>Kept small by:</b> the share sheet says so in one line.</p></div>
+      <p>In September, 40 testers used an early build with view-only sharing. Two interviewees also said a partner or a sister would keep them using the app.</p>
 
-      <p>The first risk is the only one that could lose something, so it decides where pins are stored.</p>
+      <div class="tiles">
+        <div class="tile"><span class="n">5.2</span><span class="l">notes in week one for the 18 who shared</span></div>
+        <div class="tile"><span class="n">2.3</span><span class="l">notes in week one for the 22 who did not</span></div>
+        <div class="tile wait"><span class="n">40</span><span class="l">testers, who all chose to join</span></div>
+        <div class="tile"><span class="n">2 of 6</span><span class="l">interviewees named someone to share with</span></div>
+      </div>
+      <p class="take"><b>Take from this:</b> sharers wrote more than twice as many notes, but 40 volunteers cannot say whether sharing was the reason.</p>
+
+      <p><b>How far to trust it: weak.</b> People who like the app may share more anyway. Nobody has tested it with new users.</p>
+
+      <details class="fold"><summary>Show how the beta was counted</summary>
+        <p>The beta ran from 14 to 27 September with 40 volunteers. A note counts if it was written in the tester's first 7 days. Two interviewees said: "If my partner used it, I'd have kept going" (P1, student) and "My sister and I share everything" (P4, freelancer).</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</p>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section class="chapter" id="change" data-keep="Act on the two solid causes now. Measure the weak one in 2.4.">
+      <header>
+        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What does this change?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</p>
+
+      <p>We act on the causes that rest on most of the sources. We measure the weak one before we bet on it.</p>
 
       <div class="split">
-        <div class="before"><b>A pin inside the note</b><ul><li>Version 2.3 saves the whole note.</li><li>It drops the pin, which it has never heard of.</li></ul></div>
-        <div class="after"><b>A pin in its own list</b><ul><li>Version 2.3 saves the note and leaves the list alone.</li><li>The pin stays.</li></ul></div>
+        <div class="before"><b>The plan before this</b><ul><li>2.4 is sharing and little else for a new user.</li><li>A new user hears nothing after the first note.</li><li>Success is counted in shared notebooks.</li></ul></div>
+        <div class="after"><b>The plan now</b><ul><li>Sharing stays the 2.4 headline.</li><li>A weekly digest email brings people back to their notes.</li><li>We count second notes, not only shared notebooks.</li></ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> a separate list costs no extra build time and removes the one risk that could lose a pin.</p>
+      <p class="take"><b>Take from this:</b> the two stronger findings change what we build, and the weak one changes only what we measure.</p>
 
-      <p class="remember"><b>Remember:</b> the risk worth fixing is an old app erasing a pin, so pins live in their own list.</p>
+      <p>Four questions stay open. Each one is a small test, not a debate.</p>
+      <ul>
+        <li>Would a reminder help, or annoy?</li>
+        <li>Why did people stop after opening Import?</li>
+        <li>Does sharing make people stay, or do keen people share?</li>
+        <li>Does a partner who joins stay too?</li>
+      </ul>
+
+      <details class="fold"><summary>Show how the interviews were run</summary>
+        <p>Six people, 20 minutes each, from 22 to 29 September. P1 to P3 are students, P4 and P5 are freelancers, and P6 is a retired nurse. Each wrote a first note in the app in the week before the interview.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> act on the two stronger findings now, and test the weak one in 2.4.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Pinning is two taps, and each notebook holds up to three pins.</li>
-        <li>One screen changes, and a pin is yours alone even in a shared notebook.</li>
-        <li>Four of six checks pass, and the two left are edge cases.</li>
-        <li>The risk worth fixing is an old app erasing a pin, so pins live in their own list.</li>
+        <li>The first note is usually a test, and short test notes stop twice as often.</li>
+        <li>After the first note the app says nothing, and four in five of the people who stop never return.</li>
+        <li>Half the interviewees keep notes elsewhere, and people who open Import stop a little more often.</li>
+        <li>Sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</li>
+        <li>Act on the two stronger findings now, and test the weak one in 2.4.</li>
       </ol>
-    </section>
-
-    <section class="ask">
-      <h2>What I need from you</h2>
-      <p>Do you approve pinning for 2.4? Reply with one of these.</p>
-      <div class="choices"><a href="#" data-rec>Approve, and I build it this week</a><a href="#">Hold until 2.5</a><a href="#">Ask me something first</a></div>
-      <p class="nothing"><b>If you do nothing:</b> pinning waits for 2.5, and I start on sharing alone.</p>
     </section>
   </main>
 </div>

@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="decision">
+<html lang="en" data-type="handover">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Three rulings for version 2.4</title>
-<meta name="description" content="Three rulings for sharing a notebook in the notes app's 2.4 release: whether the other person can edit, what happens when two edits clash, and how many shared notebooks a free account gets. Tap an answer for each.">
+<title>Handing over the sharing work</title>
+<meta name="description" content="A handover note for a small notes app: Ted hands the sharing work to a new contractor. What is verified, what is only claimed, what to do first, the work in flight, and the evidence in folds. Example with made-up data.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,11 +1407,11 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#share"><span class="dot"></span>What sharing means</a></li>
-      <li><a href="#edit"><span class="dot"></span>Edit or view only</a></li>
-      <li><a href="#clash"><span class="dot"></span>When edits clash</a></li>
-      <li><a href="#limit"><span class="dot"></span>The free limit</a></li>
-      <li><a href="#after"><span class="dot"></span>After you rule</a></li>
+      <li><a href="#state"><span class="dot"></span>Where it stands</a></li>
+      <li><a href="#flight"><span class="dot"></span>Work in flight</a></li>
+      <li><a href="#claims"><span class="dot"></span>Only claimed</a></li>
+      <li><a href="#first"><span class="dot"></span>What to do first</a></li>
+      <li><a href="#owns"><span class="dot"></span>Who owns what</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,281 +1426,221 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">Ted needs three rulings from Mara</p>
-    <h1>Three rulings for version 2.4</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-02</span><span>For: Mara</span><span>Example with made-up data</span></div>
+    <p class="kicker">A handover note from Ted</p>
+    <h1>Handing over the sharing work</h1>
+    <div class="meta"><span>Reading time about 6 minutes</span><span>Written 2026-10-23</span><span>For: Ines, the new contractor</span><span>Example with made-up data</span></div>
 
-    <p class="answer">For sharing in 2.4, I recommend edit access at launch, keeping both copies when two people clash, and a free limit of 3 shared notebooks.</p>
+    <p class="answer">Sharing is built and in store review, so on Monday re-run the tests, check the three unchecked claims, and switch it on Thursday 29 October.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Three rulings decide how sharing works in 2.4.</li>
-        <li>My pick is starred. If you skip one, my default ships.</li>
-        <li>My picks use 11 of my 14 build days.</li>
+        <li>Sharing is built, tested and in store review.</li>
+        <li>Three things are only claimed. Check them first.</li>
+        <li>You switch sharing on at release, on Thursday 29 October.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Your three rulings</h2><span class="chip decide">Rule on the first one first</span></div>
-      <div class="rulings"></div>
-      <p class="take"><b>Take:</b> my pick is starred in each row, and the first ruling still waiting is the tinted one.</p>
+      <div class="glance-head"><h2 id="glance-h">What can you trust, and what do you do first?</h2><span class="chip here">Snapshot, Friday 23 October, 10:40</span></div>
+      <div class="cols">
+        <section class="col go"><h3>Verified</h3><p>Checked today with a command or on screen.</p>
+          <ul>
+            <li><b>All sharing tests pass</b><span>75 of 75 across the server, web, Android and iPhone.</span></li>
+            <li><b>The three iPhone bugs are fixed</b><span>Each has a passing check, and I tapped through all three on a real phone.</span></li>
+            <li><b>The iPhone build is in review</b><span>App Store Connect has shown "In review" since 09:10.</span></li>
+          </ul></section>
+        <section class="col wait"><h3>Only claimed, check first</h3><p>A note says so. Nobody re-ran it.</p>
+          <ul>
+            <li><b>Android is approved</b><span>The Play Console email says so. I have not opened the console.</span></li>
+            <li><b>Invite emails reach iCloud</b><span>Mara said so on Wednesday. I tested Gmail and Outlook only.</span></li>
+            <li><b>The accept link works on iOS 16</b><span>My test phone runs iOS 18, so nobody has tried an older one.</span></li>
+          </ul></section>
+        <section class="col here"><h3>Do first</h3><p>Three steps, in order.</p>
+          <ol>
+            <li><b>Get access.</b><span>Ask Mara to add you to both store consoles and the server dashboard.</span></li>
+            <li><b>Re-run the tests.</b><span>One command. Expect 75 passes.</span></li>
+            <li><b>Check the three claims.</b><span>Open the console, send an iCloud invite, try an old iPhone.</span></li>
+          </ol></section>
+      </div>
+      <p class="take"><b>Take:</b> three things are proven and three are not. Your first three steps turn the three claims into facts.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#share"><b>What sharing means</b><span>Four steps, and where each ruling bites.</span></a></li>
-      <li><a href="#edit"><b>Edit or view only</b><span>Ruling 1: can the other person write?</span></a></li>
-      <li><a href="#clash"><b>When edits clash</b><span>Ruling 2: whose words survive?</span></a></li>
-      <li><a href="#limit"><b>The free limit</b><span>Ruling 3: how many shared notebooks?</span></a></li>
-      <li><a href="#after"><b>After you rule</b><span>What I build, in which order.</span></a></li>
+      <li><a href="#state"><b>Where does the sharing work stand?</b><span>Five pieces, two done and three with a claim attached.</span></a></li>
+      <li><a href="#flight"><b>What is in flight right now?</b><span>Store review, then one switch, then a watch.</span></a></li>
+      <li><a href="#claims"><b>Which three things are only claimed?</b><span>Who said it, and how to check it in minutes.</span></a></li>
+      <li><a href="#first"><b>What do you do first?</b><span>Six steps from Monday to release day.</span></a></li>
+      <li><a href="#owns"><b>Who owns what while I am away?</b><span>Your part, Mara's part and three rules.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="share" data-keep="Sharing has four steps. The last three each hide a ruling.">
+    <section class="chapter" id="state" data-keep="Everything is built. What is left is checking, switching on and watching.">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>What does sharing a notebook mean?</h2></div>
+        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Where does the sharing work stand?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the answer lists three rulings, and each one shapes how sharing works in 2.4.</p>
+      <p class="from"><b>Before this:</b> three things are verified, three are only claimed, and you start with the claims.</p>
 
-      <p>Sharing lets one other person open a notebook of yours on their own phone or in the web app. It takes four steps, and the last three each hide a ruling.</p>
+      <p>Sharing lives in five places. Two are done and checked. The other three are built, but each carries one claim that nobody has checked.</p>
 
-      <ol class="flow">
-        <li><b>Invite</b><span>You send a link from the notebook.</span></li>
-        <li><b>Open</b><span>They join. Ruling 1: can they write?</span></li>
-        <li><b>Write</b><span>Ruling 2: what if two edits clash?</span></li>
-        <li><b>Share more</b><span>Ruling 3: how many are free?</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> the first step is settled. The other three each need an answer from you before I build them.</p>
+      <ul class="status">
+        <li class="go"><b>Sync server</b><span>Share, accept and remove are deployed. The <code>sharing</code> flag is off in production.</span></li>
+        <li class="go"><b>Web app</b><span>The share and accept screens are done, behind the same flag.</span></li>
+        <li class="wait"><b>Android app</b><span>Done. A store email says approved, but nobody has checked the console.</span></li>
+        <li class="wait"><b>iPhone app</b><span>Bugs fixed and the build is in review. It works on iOS 18 and is untested on iOS 16.</span></li>
+        <li class="wait"><b>Invite emails</b><span>They reach Gmail and Outlook. iCloud is untested.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> everything is built. What is left is checking, switching on and watching.</p>
 
-      <details class="fold"><summary>Show what is already settled</summary>
-        <ul>
-          <li>A notebook is shared with one other person. Groups wait for 2.5.</li>
-          <li>Both people need an account.</li>
-          <li>The owner can stop sharing at any time, and the notebook stays with the owner.</li>
-        </ul>
+      <details class="fold"><summary>Show where the code lives</summary>
+        <pre><code>server/sharing/        share, accept and remove, and the flag check
+server/mail/invite.ts  the invite email
+web/src/share/         share and accept screens
+android/app/share/     share screen and accept link
+ios/Share/             share screen and accept link</code></pre>
       </details>
 
-      <p class="remember"><b>Remember:</b> sharing has four steps, and the last three each hide a ruling.</p>
+      <p class="remember"><b>Remember:</b> everything is built, and what is left is checking, switching on and watching.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="edit" data-keep="Editing takes 8 build days and view only takes 4. My pick is editing.">
+    <section class="chapter" id="flight" data-keep="Nothing ships until both stores approve. The sharing flag is the last switch.">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 2 minutes</p><h2>Should the other person be able to edit?</h2></div>
+        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>What is in flight right now?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> sharing has four steps, and the last three each hide a ruling.</p>
+      <p class="from"><b>Before this:</b> everything is built, and what is left is checking, switching on and watching.</p>
 
-      <p>Picture a shopping list you share with Sam. The ruling decides who types the milk.</p>
+      <p>Both builds are with the stores, and review usually takes one to three days. Nothing you do speeds it up. After that, one switch is left to flip.</p>
 
-      <div class="split">
-        <div class="before"><b>View only</b><ul><li>Sam sees your list in the app.</li><li>To add milk, Sam texts you.</li><li>You type it in yourself.</li></ul></div>
-        <div class="after"><b>Edit</b><ul><li>Sam adds the milk in the app.</li><li>You see it a few seconds later.</li><li>Nobody types for anyone.</li></ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> with view only, shared notebooks stay one-person notebooks that someone else can read.</p>
+      <ol class="flow">
+        <li class="here"><b>Review</b><span>iPhone is in review. Android may be done.</span></li>
+        <li><b>Approved</b><span>You confirm it in both consoles.</span></li>
+        <li><b>Flag on</b><span>You switch sharing on, Thursday 29 October.</span></li>
+        <li><b>Day one</b><span>You watch errors and invite emails.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> nothing ships until both stores approve, and the flag is the last switch anyone touches.</p>
 
-      <div class="decision">
-        <h3>Can the other person edit?</h3>
-        <p>Editing takes 8 build days. View only takes 4.</p>
-        <div class="options">
-          <div class="option" data-rec="My pick">
-            <h4>Let them edit</h4>
-            <ul><li class="plus">Lists and trip plans work</li><li class="plus">Nothing to ship twice</li><li class="minus">4 more days of build</li><li class="minus">Two people can clash</li></ul>
-            <p class="cost">Cost: 8 build days.</p>
-          </div>
-          <div class="option">
-            <h4>View only</h4>
-            <ul><li class="plus">Ships in 4 days</li><li class="plus">Nothing can clash</li><li class="minus">The other person cannot add a word</li><li class="minus">Editing waits for 2.5</li></ul>
-            <p class="cost">Cost: a headline feature that only reads.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> I build view only, the smaller job, and editing moves to 2.5.</p>
-      </div>
+      <div class="undo"><b>If something goes wrong:</b> switch the sharing flag off. The feature disappears from every app, and every shared notebook stays safe on the server.</div>
 
-      <fieldset class="answer-field" data-q="edit" data-kind="choice">
-        <legend>Can the other person edit a shared notebook at launch?</legend>
-        <label data-rec="My pick"><input type="radio" name="edit" value="Let them edit"> Let them edit</label>
-        <label><input type="radio" name="edit" value="View only"> View only</label>
-      </fieldset>
-
-      <details class="fold"><summary>Show the beta numbers</summary>
-        <ul>
-          <li>40 testers used an early view-only build from 14 to 27 September.</li>
-          <li>31 of the 40 asked, in the feedback form, to edit a shared notebook.</li>
-          <li>25 shared at least one notebook, and they shared 65 in all.</li>
-        </ul>
+      <details class="fold"><summary>Show the two flag commands</summary>
+        <pre><code>npm run flag -- sharing on     # switch sharing on in production
+npm run flag -- sharing off    # the way back</code></pre>
+        <p>Both run from the server folder, with the dashboard login Mara gives you.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> editing costs 4 more days than view only, and 31 of 40 beta testers asked for it.</p>
+      <p class="remember"><b>Remember:</b> nothing ships until both stores approve, and the sharing flag is the last switch.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="clash" data-keep="If you let them edit, two saves can collide. Keeping both copies loses nothing.">
+    <section class="chapter" id="claims" data-keep="Three claims, under half an hour in all. Each one removes a way release day can go wrong.">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 2 minutes</p><h2>What happens when two people edit at once?</h2></div>
+        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>Which three things are only claimed?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> editing costs 4 more days than view only, and 31 of 40 beta testers asked for it.</p>
+      <p class="from"><b>Before this:</b> nothing ships until both stores approve, and the flag is the last switch.</p>
 
-      <div class="callout tip"><b>This depends on ruling 1</b><p>If you pick view only, nobody can clash. Skip this ruling and I will ignore it.</p></div>
+      <p>I did not re-run these three. Each is quick, and a wrong one would surface on release day, when it costs the most.</p>
 
-      <p>Ted and Mara both fix the same shopping list within one second. The sync server has to keep one version. It can keep the newest, or keep both.</p>
+      <div class="grid-wrap"><table class="grid">
+        <caption>Three claims, who made them, and how to turn each into a fact</caption>
+        <thead><tr><th scope="col">Claim</th><th scope="col">Who said it</th><th scope="col">How to check it</th><th scope="col">Time</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Android is approved</th><td>The Play Console email</td><td>Open the console and read the status</td><td>2 min</td></tr>
+          <tr><th scope="row">Invites reach iCloud</th><td>Mara, on Wednesday</td><td>Send an invite to an iCloud address and open the email</td><td>5 min</td></tr>
+          <tr><th scope="row">Accept link on iOS 16</th><td>Nobody. My phone runs iOS 18</td><td>Open an accept link on an iPhone with iOS 16</td><td>20 min</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take from this:</b> the checks take 27 minutes together, and the slowest needs an old phone. Mara has one.</p>
 
-      <figure class="figure">
-        <svg viewBox="0 0 800 290" role="img" aria-labelledby="f-clash"><title id="f-clash">Ted saves "Milk, eggs" and Mara saves "Milk, oat milk" within a second. The sync server gets both. With last write wins, one note remains and Ted's eggs are gone. With keep both copies, two notes remain and nothing is lost.</title>
-          <rect class="d-box" x="20" y="30" width="230" height="70" rx="10"/><text class="d-text-b" x="135" y="60" text-anchor="middle">Ted saves</text><text class="d-text-s" x="135" y="82" text-anchor="middle">Milk, eggs</text>
-          <rect class="d-box" x="20" y="190" width="230" height="70" rx="10"/><text class="d-text-b" x="135" y="220" text-anchor="middle">Mara saves</text><text class="d-text-s" x="135" y="242" text-anchor="middle">Milk, oat milk</text>
-          <path class="d-line" d="M250 65 H290 V140 H318"/><path class="d-arrow" d="M318 134 L330 140 L318 146 Z"/>
-          <path class="d-line" d="M250 225 H290 V160 H318"/><path class="d-arrow" d="M318 154 L330 160 L318 166 Z"/>
-          <rect class="d-box-here" x="330" y="105" width="190" height="90" rx="10"/><text class="d-text-b" x="425" y="140" text-anchor="middle">Sync server</text><text class="d-text-s" x="425" y="162" text-anchor="middle">gets both saves</text><text class="d-text-s" x="425" y="180" text-anchor="middle">within a second</text>
-          <path class="d-line" d="M520 140 H560 V65 H578"/><path class="d-arrow" d="M578 59 L590 65 L578 71 Z"/>
-          <path class="d-line" d="M520 160 H560 V225 H578"/><path class="d-arrow" d="M578 219 L590 225 L578 231 Z"/>
-          <rect class="d-box-stop" x="590" y="20" width="190" height="90" rx="10"/><text class="d-text-b" x="685" y="50" text-anchor="middle">Last write wins</text><text class="d-text-s" x="685" y="72" text-anchor="middle">One note: Milk, oat milk</text><text class="d-text-s" x="685" y="92" text-anchor="middle">Ted's eggs are gone</text>
-          <rect class="d-box-go" x="590" y="180" width="190" height="90" rx="10"/><text class="d-text-b" x="685" y="210" text-anchor="middle">Keep both copies</text><text class="d-text-s" x="685" y="232" text-anchor="middle">Two notes, one each</text><text class="d-text-s" x="685" y="252" text-anchor="middle">Nothing is lost</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 300 380" role="img" aria-labelledby="f-clash-n"><title id="f-clash-n">Ted saves "Milk, eggs" and Mara saves "Milk, oat milk" within a second. The sync server gets both. With last write wins, one note remains and Ted's eggs are gone. With keep both copies, two notes remain and nothing is lost.</title>
-          <rect class="d-box" x="5" y="8" width="140" height="62" rx="10"/><text class="d-text-b" x="75" y="35" text-anchor="middle">Ted saves</text><text class="d-text-s" x="75" y="55" text-anchor="middle">Milk, eggs</text>
-          <rect class="d-box" x="155" y="8" width="140" height="62" rx="10"/><text class="d-text-b" x="225" y="35" text-anchor="middle">Mara saves</text><text class="d-text-s" x="225" y="55" text-anchor="middle">Milk, oat milk</text>
-          <path class="d-line" d="M75 70 V96 H125 V108"/><path class="d-arrow" d="M119 108 L125 120 L131 108 Z"/>
-          <path class="d-line" d="M225 70 V96 H175 V108"/><path class="d-arrow" d="M169 108 L175 120 L181 108 Z"/>
-          <rect class="d-box-here" x="30" y="120" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="147" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="167" text-anchor="middle">gets both within a second</text>
-          <path class="d-line" d="M105 182 V208 H75 V220"/><path class="d-arrow" d="M69 220 L75 232 L81 220 Z"/>
-          <path class="d-line" d="M195 182 V208 H225 V220"/><path class="d-arrow" d="M219 220 L225 232 L231 220 Z"/>
-          <rect class="d-box-stop" x="5" y="232" width="140" height="138" rx="10"/><text class="d-text-b" x="75" y="260" text-anchor="middle">Last write wins</text><text class="d-text-s" x="75" y="286" text-anchor="middle">One note:</text><text class="d-text-s" x="75" y="304" text-anchor="middle">Milk, oat milk</text><text class="d-text-s" x="75" y="330" text-anchor="middle">Ted's eggs</text><text class="d-text-s" x="75" y="348" text-anchor="middle">are gone</text>
-          <rect class="d-box-go" x="155" y="232" width="140" height="138" rx="10"/><text class="d-text-b" x="225" y="260" text-anchor="middle">Keep both copies</text><text class="d-text-s" x="225" y="286" text-anchor="middle">Two notes,</text><text class="d-text-s" x="225" y="304" text-anchor="middle">one each</text><text class="d-text-s" x="225" y="330" text-anchor="middle">Nothing</text><text class="d-text-s" x="225" y="348" text-anchor="middle">is lost</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> last write wins loses words without telling anyone. Keeping both copies loses nothing and asks someone to tidy up.</figcaption>
-      </figure>
-
-      <div class="decision">
-        <h3>What happens when two edits clash?</h3>
-        <p>Keeping both copies takes 2 more build days than keeping the newest.</p>
-        <div class="options">
-          <div class="option" data-rec="My pick">
-            <h4>Keep both copies</h4>
-            <ul><li class="plus">Nobody loses words</li><li class="plus">The copy is named after its writer</li><li class="minus">Someone tidies up the copies</li></ul>
-            <p class="cost">Cost: 2 more build days.</p>
-          </div>
-          <div class="option" data-warn="Silently loses words">
-            <h4>Last write wins</h4>
-            <ul><li class="plus">Nothing to tidy up</li><li class="plus">No extra build</li><li class="minus">The earlier words vanish with no sign</li></ul>
-            <p class="cost">Cost: someone's words, unannounced.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> last write wins ships, because the sync server already works that way.</p>
-      </div>
-
-      <fieldset class="answer-field" data-q="clash" data-kind="choice">
-        <legend>When two people save the same note at once, what happens?</legend>
-        <label data-rec="My pick"><input type="radio" name="clash" value="Keep both copies"> Keep both copies</label>
-        <label><input type="radio" name="clash" value="Last write wins"> Last write wins</label>
-      </fieldset>
-
-      <details class="fold"><summary>Show how the server tells them apart</summary>
-        <p>The server stamps each save with the time it arrives. Last write wins keeps the newest stamp and drops the other. Keeping both copies keeps the newest as the note and saves the older text as a new note named after its writer.</p>
+      <details class="fold"><summary>Show what I did check, with the commands</summary>
+        <pre><code>npm test -- sharing        # repo root, main at a41c9e2
+  server   38 passed
+  web       9 passed
+  android  14 passed
+  iphone   14 passed</code></pre>
+        <p>The iPhone build shows "In review" in App Store Connect. I saved a screenshot in the shared folder at 10:05 on 23 October.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> if the default ships, a clash silently loses someone's words.</p>
+      <p class="remember"><b>Remember:</b> three claims are unchecked, and all three take under half an hour.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="limit" data-keep="Four in five beta sharers stayed at three notebooks or fewer. A limit is easy to raise later.">
+    <section class="chapter" id="first" data-keep="Get access, run the tests, check the claims, and only then switch sharing on.">
       <header>
-        <div><p class="kicker">Chapter 4 of 5, about 2 minutes</p><h2>How many shared notebooks are free?</h2></div>
+        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What do you do first?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> if the default ships, a clash silently loses someone's words.</p>
+      <p class="from"><b>Before this:</b> three claims are unchecked, and all three take under half an hour.</p>
 
-      <p>Every shared notebook costs a little to host. A limit keeps the cost predictable. No limit keeps things simple.</p>
+      <ol class="steps">
+        <li><b>Get access on Monday 26 October.</b> Ask Mara to add you to both store consoles and the server dashboard.</li>
+        <li><b>Run the sharing tests.</b> One command from the repo root. Expect 75 passes and no failures.</li>
+        <li><b>Check the three claims.</b> The console, an iCloud invite and an iPhone with iOS 16.</li>
+        <li><b>Confirm both stores approve.</b> Wait if either still says "In review".</li>
+        <li><b>Switch sharing on at release.</b> Thursday 29 October, only after step 4 and after Mara says go.</li>
+        <li><b>Watch the first day.</b> Check accept errors and invite emails every two hours.</li>
+      </ol>
+      <p class="take"><b>Take from this:</b> the first three steps are checks and cost nothing. The flag only moves in step 5.</p>
 
-      <div class="tiles">
-        <div class="tile"><span class="n">2.6</span><span class="l">shared notebooks per beta sharer</span></div>
-        <div class="tile"><span class="n">4 in 5</span><span class="l">of beta sharers shared 3 or fewer</span></div>
-        <div class="tile"><span class="n">$0.40</span><span class="l">a month to host one notebook</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> a limit of 3 would have stopped one beta sharer in five, and capped what any one free account costs.</p>
-
-      <div class="decision">
-        <h3>How many shared notebooks are free?</h3>
-        <p>About 2,900 of our 3,400 weekly people are on the free tier.</p>
-        <div class="options">
-          <div class="option" data-rec="My pick">
-            <h4>A limit of 3</h4>
-            <ul><li class="plus">Hosting cost stays predictable</li><li class="plus">It is easy to raise later</li><li class="minus">Some people hit it in week one</li></ul>
-            <p class="cost">Cost: 1 build day for the upgrade prompt.</p>
-          </div>
-          <div class="option" data-warn="Hard to take back">
-            <h4>Unlimited</h4>
-            <ul><li class="plus">Nothing to explain</li><li class="plus">No extra build</li><li class="minus">Hosting cost grows with every notebook</li></ul>
-            <p class="cost">Cost: a limit added later feels like a loss.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> no limit ships, because nothing in the build enforces one.</p>
-      </div>
-
-      <fieldset class="answer-field" data-q="limit" data-kind="choice">
-        <legend>How many shared notebooks does a free account get?</legend>
-        <label data-rec="My pick"><input type="radio" name="limit" value="A limit of 3"> A limit of 3</label>
-        <label><input type="radio" name="limit" value="Unlimited"> Unlimited</label>
-      </fieldset>
-
-      <details class="fold"><summary>Show where the cost comes from</summary>
-        <p>The $0.40 averages the 65 beta notebooks: disk, sync traffic and backup. A free account with 40 shared notebooks would cost $16 a month and bring in nothing.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> a limit of 3 fits four in five sharers, and raising it later costs nothing.</p>
+      <p class="remember"><b>Remember:</b> get access, run the tests, check the three claims, and only then switch sharing on.</p>
     </section>
 
     <!-- ============ 5 ============ -->
-    <section class="chapter" id="after" data-keep="Copy your three answers back. I build in a fixed order and show you a build on Friday 16 October.">
+    <section class="chapter" id="owns" data-keep="You own the sharing work. Mara owns what ships. Two rules say to ask her first.">
       <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What happens after you rule?</h2></div>
+        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>Who owns what while I am away?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a limit of 3 fits four in five sharers, and raising it later costs nothing.</p>
+      <p class="from"><b>Before this:</b> you check, then switch sharing on, then watch.</p>
 
-      <p>With my picks, sharing takes 11 of my 14 build days. That leaves 3 days for fixes.</p>
+      <p>I am away from 26 October to 6 November and will not read messages. Mara is your contact for everything.</p>
 
-      <ol class="steps">
-        <li><b>Copy your answers back to me.</b> The bar at the bottom of this page does it.</li>
-        <li><b>I build in this order.</b> Invite and join, then editing, then the clash rule, then the limit.</li>
-        <li><b>You try a build on Friday 16 October.</b> It reaches your phone with invite, join and editing working.</li>
-      </ol>
-      <p class="take"><b>Take from this:</b> your answers decide what the first build holds, and nothing is built until they arrive.</p>
+      <div class="roles">
+        <section class="role" data-who="you"><h3><span class="who" title="You">Y</span> You</h3><ul>
+          <li>Own the sharing code in all five places.</li>
+          <li>Switch sharing on and watch day one.</li>
+          <li>Fix what turns up, smallest first.</li>
+          <li>Answer sharing questions in the support inbox.</li>
+        </ul></section>
+        <section class="role" data-who="me"><h3><span class="who" title="Mara">M</span> Mara</h3><ul>
+          <li>Decides what ships and when.</li>
+          <li>Holds the store logins and the registrar login.</li>
+          <li>Answers what sharing should do.</li>
+          <li>Says go before the flag moves.</li>
+        </ul></section>
+      </div>
+      <ul class="rules">
+        <li><b>Ask Mara before a production migration.</b> Since the 13 October incident each one runs by hand, once.</li>
+        <li><b>Ask Mara before resubmitting a build.</b> A resubmission restarts the review clock.</li>
+        <li><b>When in doubt, switch the flag off.</b> It hides the feature and keeps every shared notebook.</li>
+      </ul>
+      <p class="take"><b>Take from this:</b> your work is the sharing code and release day. Two of the three rules send you to Mara first.</p>
 
-      <p class="remember"><b>Remember:</b> copy your three answers back, and you try a build on 16 October.</p>
+      <p class="remember"><b>Remember:</b> you own the sharing work, Mara owns what ships, and two rules say to ask her first.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Sharing has four steps, and the last three each hide a ruling.</li>
-        <li>Editing costs 4 more days than view only, and 31 of 40 beta testers asked for it.</li>
-        <li>If the default ships, a clash silently loses someone's words.</li>
-        <li>A limit of 3 fits four in five sharers, and raising it later costs nothing.</li>
-        <li>Copy your three answers back, and you try a build on 16 October.</li>
+        <li>Everything is built, and what is left is checking, switching on and watching.</li>
+        <li>Nothing ships until both stores approve, and the sharing flag is the last switch.</li>
+        <li>Three claims are unchecked, and all three take under half an hour.</li>
+        <li>Get access, run the tests, check the three claims, and only then switch sharing on.</li>
+        <li>You own the sharing work, Mara owns what ships, and two rules say to ask her first.</li>
       </ol>
     </section>
-
-    <!-- The collect bar carries the three rulings back. It sits outside the chapters so one-chapter mode never hides it, and stays hidden until the first answer. -->
-    <div class="collect" hidden>
-      <input class="respondent" type="text" placeholder="Your name (optional)" aria-label="Your name">
-      <span class="count"></span>
-      <button type="button" data-copy>Copy all answers</button>
-      <button type="button" data-download>Download .md</button>
-      <button type="button" data-json>Copy JSON</button>
-    </div>
   </main>
 </div>
 

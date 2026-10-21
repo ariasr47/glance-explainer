@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="explainer">
+<html lang="en" data-type="teach">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Why every page opens with the answer</title>
-<meta name="description" content="The idea behind the html-explainer plugin for someone deciding whether to try it: the answer comes first, three facts follow, and a checker enforces both.">
+<title>How a note syncs</title>
+<meta name="description" content="A teaching page for a new engineer: the four layers a note passes through on its way from your phone to your other devices, the new words of each layer, and five steps to watch it happen. Example with made-up data.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,10 +1407,11 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#why"><span class="dot"></span>Why the answer comes first</a></li>
-      <li><a href="#orient"><span class="dot"></span>What keeps a long page readable</a></li>
-      <li><a href="#honest"><span class="dot"></span>How the plugin keeps itself honest</a></li>
-      <li><a href="#try"><span class="dot"></span>Whether to try it</a></li>
+      <li><a href="#phone"><span class="dot"></span>On the phone</a></li>
+      <li><a href="#server"><span class="dot"></span>On the server</a></li>
+      <li><a href="#devices"><span class="dot"></span>On other devices</a></li>
+      <li><a href="#clash"><span class="dot"></span>When edits clash</a></li>
+      <li><a href="#try"><span class="dot"></span>Watch it happen</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,223 +1426,341 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">The idea behind the plugin</p>
-    <h1>Why every page opens with the answer</h1>
-    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: someone deciding whether to try it</span></div>
 
-    <p class="answer">Every page opens with its one-sentence answer, so a reader who stops after the first screen has still got the point.</p>
+    <p class="kicker">A teaching page for a new engineer</p>
+    <h1>How a note travels between devices</h1>
+    <div class="meta"><span>Reading time about 6 minutes</span><span>Written 2026-10-16</span><span>For: a new engineer</span><span>Example with made-up data</span></div>
+
+    <p class="answer">A note saves on your phone first, then the server numbers it, and your other devices ask for what is newer.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>The answer is one sentence, right under the title.</li>
-        <li>Three facts at most, then the page's own picture.</li>
-        <li>A checker enforces both before you see the page.</li>
+        <li>A note saves on your phone before it is sent.</li>
+        <li>The server numbers every change, so the order is never in doubt.</li>
+        <li>Each device asks what is new since its last number.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Where the answer sits</h2><span class="chip">Same content, two orders</span></div>
-      <figure class="figure">
-        <svg viewBox="0 0 800 286" role="img" aria-labelledby="f-order"><title id="f-order">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
-          <text class="d-text-b" x="20" y="22">A long page, answer last</text>
-          <text class="d-text-b" x="420" y="22">This plugin's page, answer first</text>
-          <path class="d-line-soft" d="M20 34 H380 V212 H20 Z"/>
-          <path class="d-line-soft" d="M420 34 H780 V212 H420 Z"/>
-          <text class="d-text-s" x="372" y="204" text-anchor="end">first screen</text>
-          <text class="d-text-s" x="772" y="204" text-anchor="end">first screen</text>
-          <rect class="d-box" x="36" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="71" text-anchor="middle">Background</text>
-          <rect class="d-box" x="36" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="119" text-anchor="middle">Method</text>
-          <rect class="d-box" x="36" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="200" y="167" text-anchor="middle">Results</text>
-          <rect class="d-box-wait" x="20" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="200" y="247" text-anchor="middle">The answer</text><text class="d-text-s" x="200" y="265" text-anchor="middle">out of sight on the first screen</text>
-          <rect class="d-box-go" x="436" y="46" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="71" text-anchor="middle">The answer</text>
-          <rect class="d-box" x="436" y="94" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="119" text-anchor="middle">Three facts to keep</text>
-          <rect class="d-box" x="436" y="142" width="328" height="40" rx="10"/><text class="d-text-b" x="600" y="167" text-anchor="middle">The page's own picture</text>
-          <rect class="d-box" x="420" y="226" width="360" height="48" rx="10"/><text class="d-text-b" x="600" y="247" text-anchor="middle">Chapters, one idea each</text><text class="d-text-s" x="600" y="265" text-anchor="middle">read only if you want more</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 280 270" role="img" aria-labelledby="f-order-n"><title id="f-order-n">Two orders of the same content. In a long page the answer is the last box, below the first screen. In this plugin's page the answer is the first box, and the three facts and the picture fit on the first screen with it.</title>
-          <text class="d-text-b" x="2" y="16">Answer last</text>
-          <text class="d-text-b" x="148" y="16">Answer first</text>
-          <path class="d-line-soft" d="M2 26 H132 V194 H2 Z"/>
-          <path class="d-line-soft" d="M148 26 H278 V194 H148 Z"/>
-          <text class="d-text-s" x="126" y="187" text-anchor="end">first screen</text>
-          <text class="d-text-s" x="272" y="187" text-anchor="end">first screen</text>
-          <rect class="d-box" x="8" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="61" text-anchor="middle">Background</text>
-          <rect class="d-box" x="8" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="107" text-anchor="middle">Method</text>
-          <rect class="d-box" x="8" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="67" y="153" text-anchor="middle">Results</text>
-          <rect class="d-box-wait" x="2" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="67" y="230" text-anchor="middle">The answer</text><text class="d-text-s" x="67" y="249" text-anchor="middle">on the last screen</text>
-          <rect class="d-box-go" x="154" y="36" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="61" text-anchor="middle">The answer</text>
-          <rect class="d-box" x="154" y="82" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="102" text-anchor="middle">Three facts</text><text class="d-text-s" x="213" y="117" text-anchor="middle">to keep</text>
-          <rect class="d-box" x="154" y="128" width="118" height="40" rx="10"/><text class="d-text-b" x="213" y="148" text-anchor="middle">A picture</text><text class="d-text-s" x="213" y="163" text-anchor="middle">the page's own</text>
-          <rect class="d-box" x="148" y="208" width="130" height="52" rx="10"/><text class="d-text-b" x="213" y="230" text-anchor="middle">Chapters</text><text class="d-text-s" x="213" y="249" text-anchor="middle">one idea each</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the same content in two orders. With the answer first, a reader who stops after one screen still has the point.</figcaption>
-      </figure>
+      <div class="glance-head"><h2 id="glance-h">The four layers a note passes through</h2><span class="chip here">Easiest first</span></div>
+      <ol class="layers">
+        <li class="here"><b>On your phone</b><span>The note is saved on the phone before anything is sent.</span><span class="terms"><span>Local copy</span><span>Outbox</span></span></li>
+        <li><b>On the sync server</b><span>The server puts every change in one order.</span><span class="terms"><span>Change</span><span>Change number</span></span></li>
+        <li><b>On your other devices</b><span>A device asks for what is newer than the last change it saw.</span><span class="terms"><span>Cursor</span><span>Pull</span></span></li>
+        <li><b>When two devices disagree</b><span>The later change wins and the other text is replaced.</span><span class="terms"><span>Conflict</span><span>Last write wins</span></span></li>
+      </ol>
+      <p class="take"><b>Take:</b> a note passes through four layers, and each one adds only a few words. The chips are the words you learn there.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#why"><b>Why the answer comes first</b><span>Pages are long, readers are tired, and the first screen decides.</span></a></li>
-      <li><a href="#orient"><b>What keeps a long page readable</b><span>Three facts, a restated line and a line to remember.</span></a></li>
-      <li><a href="#honest"><b>How the plugin keeps itself honest</b><span>A checker with hard limits, and a hook that runs it.</span></a></li>
-      <li><a href="#try"><b>Whether to try it</b><span>What is evidence, what is taste, and what is untested.</span></a></li>
+      <li><a href="#phone"><b>Where does a note live first?</b><span>On the phone, saved before it is sent.</span></a></li>
+      <li><a href="#server"><b>What does the server do with a change?</b><span>It numbers the change, so the order is fixed.</span></a></li>
+      <li><a href="#devices"><b>How does another device find out?</b><span>It asks for everything after its cursor.</span></a></li>
+      <li><a href="#clash"><b>What if two devices edit the same note?</b><span>The later change wins.</span></a></li>
+      <li><a href="#try"><b>How can you watch it happen?</b><span>Five steps with a phone and a browser.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="why" data-keep="The first screen decides whether a tired reader goes on.">
+    <section class="chapter" id="phone" data-keep="A note is saved on the phone first and sent later.">
       <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>Why does the answer come first?</h2></div>
+        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Where does a note live first?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the answer sits right under the title, so a reader who stops there still has the point.</p>
+      <p class="from"><b>Before this:</b> the answer says a note saves on your phone first and travels after that.</p>
 
-      <p>Agents write more than anyone can read: long summaries, plans, diffs and status reports. A reader with a short working memory loses the thread as they scroll. They skim first and read second, if at all.</p>
+      <p>When you edit a note, the app does not wait for the network. It saves the edit to the <dfn>local copy</dfn> of your notes. The screen answers at once, and nothing is lost if the signal drops.</p>
 
-      <ol class="flow">
-        <li class="here"><b>The answer</b><span>Read one sentence, under the title.</span></li>
-        <li><b>Three facts</b><span>Check the yellow cards. Never a fourth.</span></li>
-        <li><b>The picture</b><span>Look at the page's own, such as a status board.</span></li>
-        <li><b>Stop or read on</b><span>Chapters are optional.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> every step is a place to stop. The answer and the three facts already carry the point.</p>
+      <p>Next the app adds the edit to the <dfn>outbox</dfn>. A background task sends the outbox in order whenever the phone is online. In a lift, the outbox waits.</p>
 
-      <p>A review of 21 real pages found that 19 types opened with the same first phone screen. Release 1.8.0 changed that, so the first screen now says what kind of page it is.</p>
+      <dl class="term">
+        <dt>Local copy</dt><dd>The notes stored on the phone itself. The app reads and writes this copy first.</dd>
+        <dt>Outbox</dt><dd>The edits the phone has saved but not yet sent. It empties as the server confirms each one.</dd>
+      </dl>
 
-      <p class="remember"><b>Remember:</b> the first screen decides, so the answer and the three facts go there.</p>
+      <figure class="figure">
+        <svg viewBox="0 0 800 190" role="img" aria-labelledby="f-phone"><title id="f-phone">You edit a note. The edit is saved to the local copy at once and added to the outbox. Later, when there is a connection, the outbox goes to the sync server.</title>
+          <rect class="d-box" x="10" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="92" y="62" text-anchor="middle">1. You edit</text><text class="d-text-s" x="92" y="84" text-anchor="middle">type in the app</text>
+          <path class="d-line" d="M175 68 H205"/><path class="d-arrow" d="M205 62 L217 68 L205 74 Z"/>
+          <rect class="d-box-here" x="217" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="300" y="62" text-anchor="middle">2. Local copy</text><text class="d-text-s" x="300" y="84" text-anchor="middle">saved at once</text>
+          <path class="d-line" d="M382 68 H412"/><path class="d-arrow" d="M412 62 L424 68 L412 74 Z"/>
+          <rect class="d-box-wait" x="424" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="507" y="62" text-anchor="middle">3. Outbox</text><text class="d-text-s" x="507" y="84" text-anchor="middle">edits waiting to go</text>
+          <path class="d-line-soft" d="M589 68 H619"/><path class="d-arrow" d="M619 62 L631 68 L619 74 Z"/>
+          <rect class="d-box" x="631" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="713" y="62" text-anchor="middle">4. Sync server</text><text class="d-text-s" x="713" y="84" text-anchor="middle">gets them when online</text>
+          <path class="d-line-soft" d="M10 140 H589"/><text class="d-text-s" x="300" y="166" text-anchor="middle">Steps 1 to 3 work with no connection</text>
+          <text class="d-text-s" x="713" y="140" text-anchor="middle">needs a connection</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 300 380" role="img" aria-labelledby="f-phone-n"><title id="f-phone-n">You edit a note. The edit is saved to the local copy at once and added to the outbox. Later, when there is a connection, the outbox goes to the sync server.</title>
+          <rect class="d-box" x="30" y="10" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="37" text-anchor="middle">1. You edit</text><text class="d-text-s" x="150" y="58" text-anchor="middle">type in the app</text>
+          <path class="d-line" d="M150 72 V90"/><path class="d-arrow" d="M144 88 L150 100 L156 88 Z"/>
+          <rect class="d-box-here" x="30" y="100" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="127" text-anchor="middle">2. Local copy</text><text class="d-text-s" x="150" y="148" text-anchor="middle">saved at once</text>
+          <path class="d-line" d="M150 162 V180"/><path class="d-arrow" d="M144 178 L150 190 L156 178 Z"/>
+          <rect class="d-box-wait" x="30" y="190" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="217" text-anchor="middle">3. Outbox</text><text class="d-text-s" x="150" y="238" text-anchor="middle">edits waiting to go</text>
+          <path class="d-line-soft" d="M150 252 V270"/><path class="d-arrow" d="M144 268 L150 280 L156 268 Z"/>
+          <rect class="d-box" x="30" y="280" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="307" text-anchor="middle">4. Sync server</text><text class="d-text-s" x="150" y="328" text-anchor="middle">gets them when online</text>
+          <text class="d-text-s" x="150" y="368" text-anchor="middle">Steps 1 to 3 work with no connection</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> saving and sending are two separate steps. The first is instant, and the second happens when it can.</figcaption>
+      </figure>
+
+      <div class="metaphor">
+        <div class="icon" aria-hidden="true">📮</div>
+        <p><b>The outbox is a tray of letters on your desk.</b> You write each letter now, and the post collects them later, in order. Where it stops: the app collects its own tray the moment there is a connection.</p>
+      </div>
+
+      <details class="fold"><summary>Show one outbox row</summary>
+        <p>Each edit is one row. The phone keeps it until the server confirms it.</p>
+<pre><code>outbox row 1
+  note id     n_7f3a
+  text        Milk, eggs
+  edited at   2026-10-16 09:12:04
+  tries       0</code></pre>
+      </details>
+
+      <p class="remember"><b>Remember:</b> a note saves on the phone at once, and its edit waits in the outbox until the network is back.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="orient" data-keep="Each chapter restates what it builds on and closes with one line to keep.">
+    <section class="chapter" id="server" data-keep="The server gives every change a number, so all devices agree on the order.">
       <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What keeps a long page from losing you?</h2></div>
+        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>What does the server do with a change?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the first screen holds the answer, three facts and the page's own picture.</p>
+      <p class="from"><b>Before this:</b> an edit sits in the phone's outbox until the phone is online.</p>
 
-      <p>The keep box names the three facts to carry, and the page never asks for a fourth. Each chapter after it must stand alone, so a reader who lands in the middle loses nothing.</p>
+      <p>The phone sends each edit to the <dfn>sync server</dfn> as a <dfn>change</dfn>. The server writes it down and gives it the next <dfn>change number</dfn> for your account: 41, then 42, then 43.</p>
 
-      <div class="split">
-        <div class="before"><b>Instead of writing</b>
-          <ul>
-            <li>"As mentioned above"</li>
-            <li>"See section 3"</li>
-            <li>"In conclusion"</li>
-          </ul></div>
-        <div class="after"><b>The page does this</b>
-          <ul>
-            <li>A "Before this" line restates the one fact the chapter builds on.</li>
-            <li>A link to the chapter, with its one fact restated.</li>
-            <li>A recap box that holds the remember lines.</li>
-          </ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> a reader can land on any chapter and find the one fact it builds on.</p>
+      <dl class="term">
+        <dt>Sync server</dt><dd>The one program, run by us, that every device of yours talks to.</dd>
+        <dt>Change</dt><dd>One saved edit, packed to send: the note's id, its new text and when you made it.</dd>
+        <dt>Change number</dt><dd>The server's running count of changes for your account. Change 42 always comes after change 41.</dd>
+      </dl>
 
-      <p>Every chapter closes with one sentence to remember. The recap at the end is those sentences, copied. Nothing new appears there.</p>
+      <p>Phones, tablets and the web app all feed the same list. The server never asks which device was first. The order of arrival is the order.</p>
 
-      <details class="fold"><summary>Show the order of a page</summary>
-        <ol>
-          <li>The answer, then the keep box.</li>
-          <li>At a glance, the page's own picture.</li>
-          <li>The chapter map, then three to seven chapters.</li>
-          <li>The recap, and the ask only when a decision is needed.</li>
-        </ol>
+      <figure class="figure">
+        <svg viewBox="0 0 800 240" role="img" aria-labelledby="f-server"><title id="f-server">A phone, a tablet and the web app send changes to the sync server. The server writes them into one change log and numbers them 41, 42 and 43 in the order they arrive.</title>
+          <text class="d-text-s" x="85" y="18" text-anchor="middle">Devices send</text><text class="d-text-s" x="675" y="18" text-anchor="middle">The server's change log</text>
+          <rect class="d-box" x="10" y="30" width="150" height="52" rx="10"/><text class="d-text-b" x="85" y="62" text-anchor="middle">Phone</text>
+          <rect class="d-box" x="10" y="100" width="150" height="52" rx="10"/><text class="d-text-b" x="85" y="132" text-anchor="middle">Tablet</text>
+          <rect class="d-box" x="10" y="170" width="150" height="52" rx="10"/><text class="d-text-b" x="85" y="202" text-anchor="middle">Web app</text>
+          <path class="d-line" d="M160 56 H288"/><path class="d-arrow" d="M288 50 L300 56 L288 62 Z"/>
+          <path class="d-line" d="M160 126 H288"/><path class="d-arrow" d="M288 120 L300 126 L288 132 Z"/>
+          <path class="d-line" d="M160 196 H288"/><path class="d-arrow" d="M288 190 L300 196 L288 202 Z"/>
+          <rect class="d-box-here" x="300" y="30" width="170" height="192" rx="10"/><text class="d-text-b" x="385" y="118" text-anchor="middle">Sync server</text><text class="d-text-s" x="385" y="140" text-anchor="middle">numbers each change</text><text class="d-text-s" x="385" y="158" text-anchor="middle">as it arrives</text>
+          <path class="d-line" d="M470 126 H548"/><path class="d-arrow" d="M548 120 L560 126 L548 132 Z"/>
+          <rect class="d-box" x="560" y="30" width="230" height="52" rx="10"/><text class="d-text-b" x="580" y="62">41</text><text class="d-text" x="616" y="62">Phone: Groceries</text>
+          <rect class="d-box" x="560" y="100" width="230" height="52" rx="10"/><text class="d-text-b" x="580" y="132">42</text><text class="d-text" x="616" y="132">Web app: Trip ideas</text>
+          <rect class="d-box" x="560" y="170" width="230" height="52" rx="10"/><text class="d-text-b" x="580" y="202">43</text><text class="d-text" x="616" y="202">Phone: Groceries</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 300 330" role="img" aria-labelledby="f-server-n"><title id="f-server-n">A phone, a tablet and the web app send changes to the sync server. The server writes them into one change log and numbers them 41, 42 and 43 in the order they arrive.</title>
+          <rect class="d-box" x="10" y="10" width="90" height="44" rx="10"/><text class="d-text-b" x="55" y="38" text-anchor="middle">Phone</text>
+          <rect class="d-box" x="105" y="10" width="90" height="44" rx="10"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Tablet</text>
+          <rect class="d-box" x="200" y="10" width="90" height="44" rx="10"/><text class="d-text-b" x="245" y="38" text-anchor="middle">Web app</text>
+          <path class="d-line" d="M55 54 V76"/><path class="d-arrow" d="M49 74 L55 86 L61 74 Z"/>
+          <path class="d-line" d="M150 54 V76"/><path class="d-arrow" d="M144 74 L150 86 L156 74 Z"/>
+          <path class="d-line" d="M245 54 V76"/><path class="d-arrow" d="M239 74 L245 86 L251 74 Z"/>
+          <rect class="d-box-here" x="10" y="86" width="280" height="56" rx="10"/><text class="d-text-b" x="150" y="111" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="130" text-anchor="middle">numbers each change as it arrives</text>
+          <path class="d-line" d="M150 142 V164"/><path class="d-arrow" d="M144 162 L150 174 L156 162 Z"/>
+          <rect class="d-box" x="10" y="174" width="280" height="38" rx="10"/><text class="d-text-b" x="26" y="198">41</text><text class="d-text" x="62" y="198">Phone: Groceries</text>
+          <rect class="d-box" x="10" y="220" width="280" height="38" rx="10"/><text class="d-text-b" x="26" y="244">42</text><text class="d-text" x="62" y="244">Web app: Trip ideas</text>
+          <rect class="d-box" x="10" y="266" width="280" height="38" rx="10"/><text class="d-text-b" x="26" y="290">43</text><text class="d-text" x="62" y="290">Phone: Groceries</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> one list with one order. No device has to guess which edit came first.</figcaption>
+      </figure>
+
+      <details class="fold"><summary>Show the request and the reply</summary>
+        <p>The phone posts one change. The server answers with the number it gave it.</p>
+<pre><code>POST /v1/changes
+{ "note": "n_7f3a", "text": "Milk, eggs", "edited": "09:12:04" }
+
+201 Created
+{ "change": 41 }</code></pre>
       </details>
 
-      <p class="remember"><b>Remember:</b> every chapter restates what it builds on and closes with one line to keep.</p>
+      <p class="remember"><b>Remember:</b> the server numbers each change as it arrives, and that number fixes the order.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="honest" data-keep="Hard limits, enforced by a checker and by a hook.">
+    <section class="chapter" id="devices" data-keep="A device never gets pushed to. It asks for everything after its cursor.">
       <header>
-        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>How does the plugin keep itself honest?</h2></div>
+        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>How does another device find out?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> each page promises one short answer, three facts at most and a picture per chapter.</p>
+      <p class="from"><b>Before this:</b> every change has a number, and the server keeps the changes in order.</p>
 
-      <p>A checker script reads every page and fails it when a promise is broken. These are four of its limits.</p>
+      <p>Your laptop does not wait to be told. It asks every 10 seconds, while the app is open: what is new since the last number I saw? That number is its <dfn>cursor</dfn>. The question is a <dfn>pull</dfn>.</p>
 
-      <div class="tiles">
-        <div class="tile"><span class="n">40</span><span class="l">words in the answer, at most, before the page fails</span></div>
-        <div class="tile"><span class="n">3</span><span class="l">facts the keep box may hold</span></div>
-        <div class="tile"><span class="n">4.5:1</span><span class="l">text contrast needed, in light and dark</span></div>
-        <div class="tile"><span class="n">9 px</span><span class="l">smallest diagram label on a phone</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> these limits are hard. A page that breaks one fails, and the agent fixes it before you see the page.</p>
+      <dl class="term">
+        <dt>Cursor</dt><dd>The last change number a device has applied. The device stores it.</dd>
+        <dt>Pull</dt><dd>A device asking the server for what is new. The server never pushes.</dd>
+      </dl>
 
-      <p>In Claude Code a hook runs the checker at the end of every turn that wrote a page. It sends each failure back to the agent, up to three times in a turn.</p>
+      <p>The server answers with every change after that number, in order. The device applies them one by one. Then it moves its cursor to the last number it received.</p>
 
-      <details class="fold"><summary>Show where each limit lives</summary>
-        <ul>
-          <li><code>skills/html-explainer/scripts/check.mjs:73</code> sets the answer limit of 40 words, paragraphs of 40 words and keep facts of 15 words.</li>
-          <li><code>check.mjs:126</code> fails a keep box with more than 3 items.</li>
-          <li><code>check.mjs:184</code> sets the smallest phone label at 9 px.</li>
-          <li><code>check.mjs:258</code> fails any text pair under 4.5 to 1.</li>
-          <li><code>hooks/explainer-check.mjs:14</code> lets the hook block a turn at most 3 times.</li>
-        </ul>
-        <p>Line numbers are as of commit 6ffbbbc.</p>
+      <figure class="figure">
+        <svg viewBox="0 0 800 240" role="img" aria-labelledby="f-devices"><title id="f-devices">The laptop's cursor is 41. It asks the server for anything after 41. The server answers with changes 42 and 43. The laptop applies them and its cursor becomes 43.</title>
+          <rect class="d-box" x="10" y="20" width="200" height="76" rx="10"/><text class="d-text-b" x="110" y="52" text-anchor="middle">Laptop</text><text class="d-text-s" x="110" y="74" text-anchor="middle">cursor: 41</text>
+          <rect class="d-box" x="590" y="20" width="200" height="76" rx="10"/><text class="d-text-b" x="690" y="52" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="74" text-anchor="middle">has changes up to 43</text>
+          <text class="d-text" x="400" y="38" text-anchor="middle">1. Anything after 41?</text>
+          <path class="d-line" d="M210 46 H578"/><path class="d-arrow" d="M578 40 L590 46 L578 52 Z"/>
+          <path class="d-line" d="M590 72 H222"/><path class="d-arrow" d="M222 66 L210 72 L222 78 Z"/>
+          <text class="d-text" x="400" y="94" text-anchor="middle">2. Yes: changes 42 and 43</text>
+          <path class="d-line" d="M110 96 V136"/><path class="d-arrow" d="M104 136 L110 148 L116 136 Z"/>
+          <rect class="d-box-go" x="10" y="148" width="200" height="76" rx="10"/><text class="d-text-b" x="110" y="180" text-anchor="middle">Laptop</text><text class="d-text-s" x="110" y="202" text-anchor="middle">cursor: 43</text>
+          <text class="d-text" x="232" y="192">3. It applies 42 and 43 in order, then remembers 43.</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 300 350" role="img" aria-labelledby="f-devices-n"><title id="f-devices-n">The laptop's cursor is 41. It asks the server for anything after 41. The server answers with changes 42 and 43. The laptop applies them and its cursor becomes 43.</title>
+          <rect class="d-box" x="10" y="10" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="37" text-anchor="middle">Laptop</text><text class="d-text-s" x="150" y="58" text-anchor="middle">cursor: 41</text>
+          <path class="d-line" d="M40 72 V96"/><path class="d-arrow" d="M34 94 L40 106 L46 94 Z"/><text class="d-text-s" x="58" y="94">1. Asks: anything after 41?</text>
+          <rect class="d-box" x="10" y="106" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="133" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="154" text-anchor="middle">has changes up to 43</text>
+          <path class="d-line" d="M40 168 V192"/><path class="d-arrow" d="M34 190 L40 202 L46 190 Z"/><text class="d-text-s" x="58" y="190">2. Answers: changes 42 and 43</text>
+          <rect class="d-box-go" x="10" y="202" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="229" text-anchor="middle">Laptop</text><text class="d-text-s" x="150" y="250" text-anchor="middle">cursor: 43</text>
+          <text class="d-text-s" x="150" y="296" text-anchor="middle">3. It applies 42 and 43 in order,</text><text class="d-text-s" x="150" y="316" text-anchor="middle">then remembers 43.</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> the device keeps its own place. Asking again with the same cursor gets the same answer.</figcaption>
+      </figure>
+
+      <details class="fold"><summary>Show the question and the answer</summary>
+        <p>The cursor travels in the address. The reply lists the changes and the newest number.</p>
+<pre><code>GET /v1/changes?after=41
+
+200 OK
+{ "latest": 43,
+  "changes": [
+    { "change": 42, "note": "n_2c91", "text": "Trip ideas" },
+    { "change": 43, "note": "n_7f3a", "text": "Milk, eggs" } ] }</code></pre>
       </details>
 
-      <p class="remember"><b>Remember:</b> the limits are hard, and a checker and a hook enforce them before you see a page.</p>
+      <p class="remember"><b>Remember:</b> a device is never pushed to, and it asks for everything after its cursor.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="try" data-keep="Part of it is evidence, part is taste, and no outside reader has tested it yet.">
+    <section class="chapter" id="clash" data-keep="When two edits clash, the one that reaches the server last wins.">
       <header>
-        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Is it worth trying on your work?</h2></div>
+        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What if two devices edit the same note?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a checker and a hook enforce the shape of every page.</p>
+      <p class="from"><b>Before this:</b> a device asks for the changes after its cursor and applies them in order.</p>
 
-      <p>The design guide sorts its own choices into three bins. You can see how much of it rests on evidence.</p>
+      <p>Sometimes two devices change the same note before either hears from the server. That is a <dfn>conflict</dfn>. Version 2.3 settles it with one rule: the higher change number wins.</p>
 
-      <div class="cols">
-        <section class="col go"><h3>Backed by evidence</h3>
-          <ul>
-            <li><b>Short paragraphs</b><span>One topic each, as W3C COGA advises.</span></li>
-            <li><b>Visible progress</b><span>Done, current and pending are shown.</span></li>
-          </ul></section>
-        <section class="col wait"><h3>A design choice</h3>
-          <ul>
-            <li><b>Three facts</b><span>Kept because it is small and forces a choice.</span></li>
-            <li><b>Chapter length</b><span>A craft default. Its claims failed checking.</span></li>
-          </ul></section>
-        <section class="col stop"><h3>Refused, for lack of evidence</h3>
-          <ul>
-            <li><b>Bionic bolding</b><span>Eye tracking shows no gain.</span></li>
-            <li><b>Dyslexia fonts</b><span>No benefit over ordinary fonts.</span></li>
-          </ul></section>
-      </div>
-      <p class="take"><b>Take from this:</b> the page says which of its choices are evidence and which are taste.</p>
+      <dl class="term">
+        <dt>Conflict</dt><dd>Two edits to the same note that neither device knew about.</dd>
+        <dt>Last write wins</dt><dd>The rule that the change with the higher number replaces the other change's text.</dd>
+      </dl>
 
-      <div class="callout warn"><b>Not yet tested on outside readers</b>
-        <p>The roadmap says every page so far was judged by its author. If plugin pages do not help outside readers more than a default page does, the roadmap shrinks to maintenance.</p></div>
+      <p>Later means later to arrive, not later typed. A laptop that typed at 09:10 and was offline reaches the server after a phone that typed at 09:12. The laptop's text wins.</p>
 
-      <p class="remember"><b>Remember:</b> part of it is evidence, part is taste, and no outside reader has tested it yet.</p>
+      <figure class="figure">
+        <svg viewBox="0 0 800 340" role="img" aria-labelledby="f-clash"><title id="f-clash">The note Groceries says Milk after change 40. The phone types Milk, eggs at 09:12 and sends it first as change 41. The laptop typed Milk, bread at 09:10 while offline and sends it second as change 42. The server keeps change 42, so the eggs are replaced.</title>
+          <rect class="d-box" x="275" y="10" width="250" height="56" rx="10"/><text class="d-text-b" x="400" y="34" text-anchor="middle">Groceries after change 40</text><text class="d-text-s" x="400" y="54" text-anchor="middle">Milk</text>
+          <path class="d-line" d="M400 66 V95 H190 V112"/><path class="d-arrow" d="M184 112 L190 124 L196 112 Z"/>
+          <path class="d-line" d="M400 95 H610 V112"/><path class="d-arrow" d="M604 112 L610 124 L616 112 Z"/>
+          <rect class="d-box" x="40" y="124" width="300" height="66" rx="10"/><text class="d-text-b" x="190" y="150" text-anchor="middle">Phone, typed 09:12</text><text class="d-text-s" x="190" y="172" text-anchor="middle">Milk, eggs. Sent first: change 41.</text>
+          <rect class="d-box" x="460" y="124" width="300" height="66" rx="10"/><text class="d-text-b" x="610" y="150" text-anchor="middle">Laptop, typed 09:10, offline</text><text class="d-text-s" x="610" y="172" text-anchor="middle">Milk, bread. Sent second: change 42.</text>
+          <path class="d-line" d="M190 190 V217 H400 V232"/><path class="d-line" d="M610 190 V217 H400"/><path class="d-arrow" d="M394 232 L400 244 L406 232 Z"/>
+          <rect class="d-box-wait" x="225" y="244" width="350" height="66" rx="10"/><text class="d-text-b" x="400" y="270" text-anchor="middle">Server keeps change 42</text><text class="d-text-s" x="400" y="292" text-anchor="middle">Milk, bread. The eggs are replaced.</text>
+          <text class="d-text-s" x="400" y="332" text-anchor="middle">The higher number wins, even though the laptop typed first.</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 300 370" role="img" aria-labelledby="f-clash-n"><title id="f-clash-n">The note Groceries says Milk after change 40. The phone types Milk, eggs at 09:12 and sends it first as change 41. The laptop typed Milk, bread at 09:10 while offline and sends it second as change 42. The server keeps change 42, so the eggs are replaced.</title>
+          <rect class="d-box" x="10" y="10" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="37" text-anchor="middle">Groceries after change 40</text><text class="d-text-s" x="150" y="58" text-anchor="middle">Milk</text>
+          <path class="d-line" d="M150 72 V92"/><path class="d-arrow" d="M144 90 L150 102 L156 90 Z"/>
+          <rect class="d-box" x="10" y="102" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="129" text-anchor="middle">Phone, typed 09:12</text><text class="d-text-s" x="150" y="150" text-anchor="middle">Milk, eggs. Arrives first: change 41.</text>
+          <path class="d-line" d="M150 164 V184"/><path class="d-arrow" d="M144 182 L150 194 L156 182 Z"/>
+          <rect class="d-box" x="10" y="194" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="221" text-anchor="middle">Laptop, typed 09:10, offline</text><text class="d-text-s" x="150" y="242" text-anchor="middle">Milk, bread. Arrives next: change 42.</text>
+          <path class="d-line" d="M150 256 V276"/><path class="d-arrow" d="M144 274 L150 286 L156 274 Z"/>
+          <rect class="d-box-wait" x="10" y="286" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="313" text-anchor="middle">Server keeps change 42</text><text class="d-text-s" x="150" y="334" text-anchor="middle">Milk, bread. The eggs are replaced.</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> the order of arrival decides, not the time on the clock. The loser's text is replaced.</figcaption>
+      </figure>
+
+      <div class="callout warn"><b>What this costs</b><p>In 2.3 the replaced text is not kept. A shared notebook could lose a teammate's words. Mara and Ted are deciding whether 2.4 keeps both copies.</p></div>
+
+      <p class="remember"><b>Remember:</b> when two edits clash, the one that reaches the server last wins, and the other text is replaced.</p>
     </section>
 
-    <!-- CLOSING -->
+    <!-- ============ 5 ============ -->
+    <section class="chapter" id="try" data-keep="The outbox count on the Sync details screen shows whether an edit has left the phone.">
+      <header>
+        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>How can you watch it happen?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> a note is saved, sent, numbered, pulled and, in a clash, replaced.</p>
+
+      <p>You need your phone and a browser, both signed in to the same test account. The steps take five minutes.</p>
+
+      <ol class="steps">
+        <li><b>Open the web app and the phone app.</b> Sign in to the same test account on both.</li>
+        <li><b>Turn on <dfn>airplane mode</dfn> on the phone.</b> The app keeps working.</li>
+        <li><b>Edit the note called Groceries.</b> Add "eggs" at the end.</li>
+        <li><b>Open More, then <dfn>Sync details</dfn>.</b> It shows one edit waiting to send.</li>
+        <li><b>Turn airplane mode off.</b> Within 10 seconds the count drops to 0 and the web app shows "eggs".</li>
+      </ol>
+
+      <dl class="term">
+        <dt>Airplane mode</dt><dd>A phone setting that turns off every connection, so the app is offline.</dd>
+        <dt>Sync details</dt><dd>The screen under More that shows the outbox count and the last change number the phone has seen.</dd>
+      </dl>
+
+      <figure class="figure">
+        <svg viewBox="0 0 800 250" role="img" aria-labelledby="f-try"><title id="f-try">The Sync details screen with airplane mode on shows 1 edit waiting to send. After airplane mode is turned off, the same screen shows 0 waiting and a newer change number.</title>
+          <rect class="d-box" x="60" y="10" width="300" height="220" rx="14"/><text class="d-text-b" x="210" y="42" text-anchor="middle">Sync details: offline</text>
+          <rect class="d-box-wait" x="76" y="62" width="268" height="40" rx="8"/><text class="d-text" x="90" y="88">Waiting to send</text><text class="d-text-b" x="330" y="88" text-anchor="end">1</text>
+          <text class="d-text" x="90" y="140">Last change seen</text><text class="d-text-b" x="330" y="140" text-anchor="end">4,182</text>
+          <text class="d-text" x="90" y="184">Last sync</text><text class="d-text-b" x="330" y="184" text-anchor="end">09:02</text>
+          <path class="d-line" d="M368 120 H428"/><path class="d-arrow" d="M428 114 L440 120 L428 126 Z"/>
+          <text class="d-text-s" x="400" y="144" text-anchor="middle">airplane</text><text class="d-text-s" x="400" y="162" text-anchor="middle">mode off</text>
+          <rect class="d-box" x="440" y="10" width="300" height="220" rx="14"/><text class="d-text-b" x="590" y="42" text-anchor="middle">Sync details: online</text>
+          <rect class="d-box-go" x="456" y="62" width="268" height="40" rx="8"/><text class="d-text" x="470" y="88">Waiting to send</text><text class="d-text-b" x="710" y="88" text-anchor="end">0</text>
+          <text class="d-text" x="470" y="140">Last change seen</text><text class="d-text-b" x="710" y="140" text-anchor="end">4,183</text>
+          <text class="d-text" x="470" y="184">Last sync</text><text class="d-text-b" x="710" y="184" text-anchor="end">09:05</text>
+        </svg>
+        <svg class="narrow" viewBox="0 0 300 350" role="img" aria-labelledby="f-try-n"><title id="f-try-n">The Sync details screen with airplane mode on shows 1 edit waiting to send. After airplane mode is turned off, the same screen shows 0 waiting and a newer change number.</title>
+          <rect class="d-box" x="10" y="10" width="280" height="140" rx="14"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Sync details: offline</text>
+          <rect class="d-box-wait" x="22" y="50" width="256" height="34" rx="8"/><text class="d-text" x="34" y="73">Waiting to send</text><text class="d-text-b" x="266" y="73" text-anchor="end">1</text>
+          <text class="d-text" x="34" y="108">Last change seen</text><text class="d-text-b" x="266" y="108" text-anchor="end">4,182</text>
+          <text class="d-text" x="34" y="136">Last sync</text><text class="d-text-b" x="266" y="136" text-anchor="end">09:02</text>
+          <path class="d-line" d="M40 150 V180"/><path class="d-arrow" d="M34 178 L40 190 L46 178 Z"/><text class="d-text-s" x="58" y="176">airplane mode off</text>
+          <rect class="d-box" x="10" y="190" width="280" height="140" rx="14"/><text class="d-text-b" x="150" y="218" text-anchor="middle">Sync details: online</text>
+          <rect class="d-box-go" x="22" y="230" width="256" height="34" rx="8"/><text class="d-text" x="34" y="253">Waiting to send</text><text class="d-text-b" x="266" y="253" text-anchor="end">0</text>
+          <text class="d-text" x="34" y="288">Last change seen</text><text class="d-text-b" x="266" y="288" text-anchor="end">4,183</text>
+          <text class="d-text" x="34" y="316">Last sync</text><text class="d-text-b" x="266" y="316" text-anchor="end">09:05</text>
+        </svg>
+        <figcaption class="take"><b>Take from this:</b> the outbox count is the proof. It reads 1 while the phone is offline and 0 once the server has the edit.</figcaption>
+      </figure>
+
+      <details class="fold"><summary>Try a clash on purpose</summary>
+        <p>Repeat the steps, with one change at step 3. Edit Groceries in the browser first, then on the phone.</p>
+        <ol class="steps">
+          <li><b>Keep airplane mode on.</b> Edit Groceries on the phone and add "eggs".</li>
+          <li><b>Edit Groceries in the browser.</b> Add "bread" and wait for it to save.</li>
+          <li><b>Turn airplane mode off.</b> The phone sends last, so the phone's text wins on both screens.</li>
+        </ol>
+      </details>
+
+      <p class="remember"><b>Remember:</b> the outbox count on the Sync details screen shows whether an edit has left the phone.</p>
+    </section>
+
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>The first screen decides, so the answer and the three facts go there.</li>
-        <li>Every chapter restates what it builds on and closes with one line to keep.</li>
-        <li>The limits are hard, and a checker and a hook enforce them before you see a page.</li>
-        <li>Part of it is evidence, part is taste, and no outside reader has tested it yet.</li>
+        <li>A note saves on the phone at once, and its edit waits in the outbox until the network is back.</li>
+        <li>The server numbers each change as it arrives, and that number fixes the order.</li>
+        <li>A device is never pushed to, and it asks for everything after its cursor.</li>
+        <li>When two edits clash, the one that reaches the server last wins, and the other text is replaced.</li>
+        <li>The outbox count on the Sync details screen shows whether an edit has left the phone.</li>
       </ol>
-    </section>
-
-    <section class="ask">
-      <h2>What I need from you</h2>
-      <p>Where would you like to start?</p>
-      <div class="choices"><a href="https://ariasr47.github.io/html-explainer-skill/gallery.html" data-rec>Open the gallery</a><a href="https://github.com/ariasr47/html-explainer-skill/blob/main/docs/install.md">Read the install guide</a><a href="https://ariasr47.github.io/html-explainer-skill/roadmap.html">See the roadmap</a></div>
-      <p class="nothing"><b>If you do nothing:</b> nothing changes. Pages you already have stay as they are.</p>
     </section>
   </main>
 </div>

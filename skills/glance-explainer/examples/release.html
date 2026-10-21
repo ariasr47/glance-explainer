@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="pr">
+<html lang="en" data-type="release">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Pull request 9: the 1.8.1 polish</title>
-<meta name="description" content="A reviewer's page for pull request 9 of the html-explainer plugin: what changed, where the 192 added lines go, what the checks prove, and where to look first.">
+<title>What shipped in 1.8.0 and 1.8.1</title>
+<meta name="description" content="What the 1.8.0 redesign and the 1.8.1 polish changed in the glance-explainer plugin, in numbers, with a before and after for each theme and the steps to take now.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,10 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#change"><span class="dot"></span>What changed and why</a></li>
-      <li><a href="#size"><span class="dot"></span>Where the 192 lines go</a></li>
-      <li><a href="#checks"><span class="dot"></span>What the checks prove</a></li>
-      <li><a href="#first"><span class="dot"></span>Where to look first</a></li>
+      <li><a href="#first"><span class="dot"></span>What the first screen shows now</a></li>
+      <li><a href="#calmer"><span class="dot"></span>What got calmer to read</a></li>
+      <li><a href="#polish"><span class="dot"></span>What 1.8.1 fixed</a></li>
+      <li><a href="#upgrade"><span class="dot"></span>What an upgrade does</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,202 +1425,204 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">A pull request, before you read the diff</p>
-    <h1>Pull request 9: the 1.8.1 polish</h1>
-    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: a reviewer</span><span><a href="https://github.com/ariasr47/html-explainer-skill/pull/9">Pull request 9 on GitHub</a></span></div>
+    <p class="kicker">What shipped</p>
+    <h1>What shipped in 1.8.0 and 1.8.1</h1>
+    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-16</span><span>For: anyone who uses the plugin</span></div>
 
-    <p class="answer">Pull request 9 polishes the look in 12 files, but 7 of them carry the same 24 lines, so one file, template.html, is the real change.</p>
+    <p class="answer">Every page type now opens with its own picture, and an old page catches up with one upgrade command.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>One commit, 12 files, 192 lines added and 99 removed.</li>
-        <li>Seven files hold the same 24 added lines. Read template.html.</li>
-        <li>The commands passed. Only a person can check the layout.</li>
+        <li>The answer, three facts, then the page's own picture.</li>
+        <li>1.8.1 changed looks only: labels, callouts, flow steps.</li>
+        <li>An old page keeps its old look until you upgrade it.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">How big is it, and was it checked?</h2><span class="chip">Merged 2026-10-15</span></div>
-      <div class="tiles">
-        <div class="tile"><span class="n">12</span><span class="l">files changed</span></div>
-        <div class="tile"><span class="n">+192</span><span class="l">lines added</span></div>
-        <div class="tile"><span class="n">−99</span><span class="l">lines removed</span></div>
+      <div class="glance-head"><h2 id="glance-h">What changed, and what to do</h2><span class="chip here">Both released 15 October 2026</span></div>
+      <div class="duo">
+        <div>
+          <h3>The numbers</h3>
+          <div class="tiles">
+            <div class="tile stop"><span class="n">19</span><span class="l">page types opened alike before 1.8.0</span></div>
+            <div class="tile go"><span class="n">9%</span><span class="l">median fall in phone height, 21 real pages</span></div>
+            <div class="tile"><span class="n">4</span><span class="l">pictures the page now draws for itself</span></div>
+            <div class="tile"><span class="n">1</span><span class="l">Reading tools button, replacing six</span></div>
+          </div>
+        </div>
+        <div>
+          <h3>What you do differently</h3>
+          <ol class="steps">
+            <li><b>Update the plugin.</b> Then restart Claude Code.</li>
+            <li><b>Preview an old page's upgrade.</b> A dry run changes nothing.</li>
+            <li><b>Upgrade the page.</b> Your words and pictures stay.</li>
+            <li><b>Make a page again</b> when you want the new parts.</li>
+          </ol>
+        </div>
       </div>
-      <ul class="status">
-        <li class="go"><b>Repository checks</b><span><code>node tools/check-repo.mjs</code> exits 0, with 18 checks ok.</span></li>
-        <li class="go"><b>Plugin manifest</b><span><code>claude plugin validate --strict .</code> exits 0.</span></li>
-        <li class="go"><b>CI, check job</b><span>The same <code>node tools/check-repo.mjs</code> on Node 18 passed in 10 seconds.</span></li>
-        <li class="wait"><b>Layout in a browser</b><span>No command to re-run. The pull request says 390 and 1280 px were looked at, in both themes.</span></li>
-      </ul>
-      <p class="take"><b>Take:</b> every command exits 0. The browser check is the author's word, so repeat it for any page you care about.</p>
+      <p class="take"><b>Take:</b> 1.8.0 changed how every page opens. The only work it asks of you is to update and upgrade.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#change"><b>What changed and why</b><span>Five look changes, before and after.</span></a></li>
-      <li><a href="#size"><b>Where the 192 lines go</b><span>Most of the diff is one change, copied.</span></a></li>
-      <li><a href="#checks"><b>What the checks prove</b><span>What a command vouches for, and what it cannot see.</span></a></li>
-      <li><a href="#first"><b>Where to look first</b><span>What to read, what to skim and what to skip.</span></a></li>
+      <li><a href="#first"><b>What the first screen shows now</b><span>The answer as the headline, three facts as cards, then the page's own picture.</span></a></li>
+      <li><a href="#calmer"><b>What got calmer to read</b><span>One Reading tools button, a quieter chapter and calmer colour.</span></a></li>
+      <li><a href="#polish"><b>What 1.8.1 fixed</b><span>Small fixes to labels, callouts and flow steps, three hours later.</span></a></li>
+      <li><a href="#upgrade"><b>What an upgrade does</b><span>Four moves, and when to make a page again instead.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="change" data-keep="Five look changes, all in the template's style, plus one script line.">
+    <section class="chapter" id="first" data-keep="The answer is the headline. The page's own picture comes next.">
       <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What changed, and why?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does the first screen show now?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> 12 files changed, and seven of them carry the same lines.</p>
+      <p class="from"><b>Before this:</b> every page type now opens with its own picture, under the answer.</p>
 
-      <p>The pull request follows a close look at the gallery, the examples and real upgraded pages at 390 and 1280 px, in both themes. It polishes release 1.8.0.</p>
+      <p>A review of 21 real pages found that 19 types opened with the same first phone screen. A status report looked like a release note until the third screen.</p>
+
+      <div class="split">
+        <div class="before"><b>Before, in 1.7.0</b>
+          <ul>
+            <li>The answer sat in a box with a thick bar down its side.</li>
+            <li>The three facts shared one yellow box.</li>
+            <li>Every type showed the same chapter map next.</li>
+          </ul></div>
+        <div class="after"><b>After, in 1.8.0</b>
+          <ul>
+            <li>The answer is the headline, with no box.</li>
+            <li>The three facts are three cards side by side.</li>
+            <li>A section called At a glance shows the type's own picture.</li>
+          </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> the first screen now says what kind of page this is, before any chapter.</p>
+
+      <p>A status page opens with its health board beside a timeline. A runbook opens with its steps as a checklist. A research page opens with its findings, ranked by trust.</p>
+
+      <details class="fold"><summary>Show the new parts and the pictures a page draws itself</summary>
+        <ul>
+          <li><b>New parts:</b> <code>div.duo</code> for two columns, <code>div.cols</code> for state columns, <code>ul.findings</code> for findings ranked by trust, and <code>ol.layers</code> for a system in layers.</li>
+          <li><b>Drawn by the page:</b> <code>div.runbook-overview</code>, <code>div.filmstrip</code>, <code>div.rulings</code> and <code>div.qprogress</code>. Each is filled from parts already on the page.</li>
+          <li><b>Checker:</b> a page made by 1.8.0 or later with no glance gets a warning. Older pages are never warned.</li>
+        </ul>
+      </details>
+
+      <p class="remember"><b>Remember:</b> the answer is the headline, and the page's own picture comes next.</p>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="chapter" id="calmer" data-keep="One tools button, one tinted strip per chapter, and colour only where it means something.">
+      <header>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What got calmer to read?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> the first screen now shows the answer, three facts and the page's own picture.</p>
+
+      <p>The other half of 1.8.0 removed things that competed for attention.</p>
+
+      <div class="split">
+        <div class="before"><b>Before, in 1.7.0</b>
+          <ul>
+            <li>Six tool buttons sat in two rows.</li>
+            <li>Four look-alike bars framed every chapter.</li>
+            <li>The before side of a split was tinted red.</li>
+            <li>Tile numbers took the colour of their state.</li>
+            <li>A runbook's check and failure lines were green and red boxes.</li>
+          </ul></div>
+        <div class="after"><b>After, in 1.8.0</b>
+          <ul>
+            <li>One Reading tools button holds all six.</li>
+            <li>Two bars a chapter, and only Remember is tinted.</li>
+            <li>Both sides are white, and the after side has a thin green rule.</li>
+            <li>Tile numbers are plain ink, with the state as a glyph and a word.</li>
+            <li>Check and failure lines are quiet lines with a glyph.</li>
+          </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> colour is spent on meaning. Yellow stays the one large fill because it means keep this.</p>
+
+      <p class="remember"><b>Remember:</b> one Reading tools button, one tinted strip per chapter, and colour only where it means something.</p>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="chapter" id="polish" data-keep="Five small fixes to the look, found by viewing real pages at both widths.">
+      <header>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What did 1.8.1 fix three hours later?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> 1.8.0 redrew the page, and 1.8.1 touched its look and labels only.</p>
+
+      <p>The fixes came from a close look at the gallery, the examples and real pages at 390 and 1280 px, in both themes. The release changed no markup.</p>
 
       <div class="split">
         <div class="before"><b>Before, in 1.8.0</b>
           <ul>
-            <li>The keep label and the chapter kicker were capitals with letter spacing.</li>
-            <li>A callout had a 5 px left bar and a full tint.</li>
-            <li>A flow step's number sat over its text.</li>
-            <li>The mini-map shrank to fit a phone, down to 7 px labels.</li>
-            <li>The rail line showed the summary first, with no limit.</li>
+            <li>Labels in spaced capitals, such as the chapter kicker.</li>
+            <li>A tip, warning or stop was a full tint with a thick left bar.</li>
+            <li>A flow step's number sat over its text and squeezed it.</li>
           </ul></div>
         <div class="after"><b>After, in 1.8.1</b>
           <ul>
-            <li>Both are sentence case and a little larger.</li>
-            <li>A callout is a white card with a hairline and a glyph before its title.</li>
-            <li>The number sits beside a bold title, and the line below runs full width.</li>
-            <li>Under 560 px the mini-map keeps its size and scrolls.</li>
-            <li>The rail line shows minutes first and stops at two lines.</li>
+            <li>Sentence case: "Chapter 1 of 5, about 1 minute".</li>
+            <li>A white card with a hairline in its colour and a glyph before the title.</li>
+            <li>The number sits beside the title, and the line below uses the full width.</li>
           </ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> every change is in the template's style, plus one line of its script. No page content changes.</p>
+      <p class="take"><b>Take from this:</b> each fix removes a little noise, and none changes what a page says.</p>
 
-      <p class="remember"><b>Remember:</b> five look changes in the template's style block, plus one script line.</p>
-    </section>
+      <p>Two more fixes finish the round. The mini-map scrolls on a phone instead of shrinking its labels to 7 px. The atlas's quiet snapshot line also works after the chapter map.</p>
 
-    <!-- ============ 2 ============ -->
-    <section class="chapter" id="size" data-keep="Seven files hold the same 24 added lines. The other five files hold 24 more.">
-      <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>Where do the 192 added lines go?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> 12 files changed, with 192 lines added and 99 removed.</p>
-
-      <p>Seven files hold the same 24 added lines and the same 13 removed lines. One is template.html. The other six carry a copy of its style and script: the gallery, three examples and two site pages.</p>
-
-      <figure class="figure">
-        <svg viewBox="0 0 800 224" role="img" aria-labelledby="f-lines"><title id="f-lines">Added lines by file group: template.html 24, six pages that carry a copy 144, five other files 24.</title>
-          <text class="d-text-b" x="20" y="42">template.html</text><text class="d-text-s" x="20" y="62">the source of the change</text>
-          <rect class="d-box-here" x="330" y="24" width="70" height="44" rx="8"/><text class="d-text-b" x="412" y="52">24</text>
-          <text class="d-text-b" x="20" y="116">Six pages with a copy</text><text class="d-text-s" x="20" y="136">24 added lines in each</text>
-          <rect class="d-box" x="330" y="98" width="420" height="44" rx="8"/><text class="d-text-b" x="762" y="126">144</text>
-          <text class="d-text-b" x="20" y="190">Five other files</text><text class="d-text-s" x="20" y="210">CHANGELOG, atlas.css and three more</text>
-          <rect class="d-box" x="330" y="172" width="70" height="44" rx="8"/><text class="d-text-b" x="412" y="200">24</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 320 252" role="img" aria-labelledby="f-lines-n"><title id="f-lines-n">Added lines by file group: template.html 24, six pages that carry a copy 144, five other files 24.</title>
-          <text class="d-text-b" x="10" y="18">template.html</text><text class="d-text-s" x="10" y="36">the source of the change</text>
-          <rect class="d-box-here" x="10" y="44" width="42" height="30" rx="7"/><text class="d-text-b" x="60" y="65">24</text>
-          <text class="d-text-b" x="10" y="102">Six pages with a copy</text><text class="d-text-s" x="10" y="120">24 added lines in each</text>
-          <rect class="d-box" x="10" y="128" width="250" height="30" rx="7"/><text class="d-text-b" x="268" y="149">144</text>
-          <text class="d-text-b" x="10" y="186">Five other files</text><text class="d-text-s" x="10" y="204">CHANGELOG, atlas.css and three more</text>
-          <rect class="d-box" x="10" y="212" width="42" height="30" rx="7"/><text class="d-text-b" x="60" y="233">24</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> 168 of the 192 added lines are the same 24 lines, so reading one file covers almost all of it.</figcaption>
-      </figure>
-
-      <details class="fold"><summary>Show the diff stat for every file</summary>
-        <pre><code>.claude-plugin/plugin.json                        |  2 +-
-CHANGELOG.md                                      | 15 +++++++++
-docs/index.html                                   | 37 +++++++++++++++--------
-docs/roadmap.html                                 | 37 +++++++++++++++--------
-skills/explainer-atlas/assets/atlas.css           | 10 +++---
-skills/explainer-gather/examples/ballot.html      | 37 +++++++++++++++--------
-skills/html-explainer/assets/gallery.html         | 37 +++++++++++++++--------
-skills/html-explainer/assets/template.html        | 37 +++++++++++++++--------
-skills/html-explainer/examples/field-guide.html   | 37 +++++++++++++++--------
-skills/html-explainer/examples/playbook.html      | 37 +++++++++++++++--------
-skills/html-explainer/references/design-system.md |  4 +--
-skills/html-explainer/scripts/upgrade.mjs         |  1 +
-12 files changed, 192 insertions(+), 99 deletions(-)</code></pre>
-        <p>This is the output of <code>git show --stat 04cb440</code>. Each of the seven pages shows 24 added and 13 removed lines.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> 7 of 12 files hold the same 24 added lines, so the real change is one file.</p>
-    </section>
-
-    <!-- ============ 3 ============ -->
-    <section class="chapter" id="checks" data-keep="Commands vouch for the files and their copies. A person must look at the layout.">
-      <header>
-        <div><p class="kicker">Chapter 3 of 4, about 2 minutes</p><h2>What do the checks prove, and what can they not see?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> the commands exit 0, and the browser check has no command to re-run.</p>
-
-      <p>The repository check runs six kinds of test. None of them looks at a screen, and CI's site job is skipped on pull requests.</p>
-
-      <ul class="status">
-        <li class="go"><b>Pages</b><span>All 7 shipped pages pass the page checker.</span></li>
-        <li class="go"><b>Copies</b><span>The gallery and both site pages hold the template's style and script, byte for byte.</span></li>
-        <li class="go"><b>Paths and manifests</b><span>35 paths named in skill files exist. The manifests agree, and the template's mark reads 1.8.1.</span></li>
-        <li class="go"><b>Hooks and merge tool</b><span>hooks.json runs 3 commands that exist. merge.html ranks a fixed sample correctly.</span></li>
-        <li class="wait"><b>Layout</b><span>Sideways scroll and split words need a person at 390 and 1280 px, in both themes.</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> a command vouches for the files and their copies. Only a person vouches for how a page looks.</p>
-
-      <div class="callout warn"><b>Claimed, not re-run here</b>
-        <p>The pull request says it opened the gallery, three upgraded pages and an old atlas page at both widths and in both themes. It reports no console errors and no sideways scroll.</p></div>
-
-      <details class="fold"><summary>Show how to re-run the commands at this commit</summary>
-        <pre><code>git worktree add --detach ../pr9-check 04cb440
-cd ../pr9-check
-node tools/check-repo.mjs
-claude plugin validate --strict .</code></pre>
-        <p>Both commands exit 0 at commit 04cb440. When you are done, run <code>git worktree remove ../pr9-check</code> from the main checkout.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> commands vouch for the files and their copies, and a person must look at the layout.</p>
+      <p class="remember"><b>Remember:</b> 1.8.1 changed looks and labels only. An upgrade brings the fix to an older page.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="first" data-keep="Read template.html, skim three small files, skip the six copies.">
+    <section class="chapter" id="upgrade" data-keep="The upgrader swaps the style and script, then checks the page, and puts it back if it fails.">
       <header>
-        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Where should I look first, and what can I skip?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>What happens when I upgrade a page?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> seven of the 12 files hold the same 24 lines, and no command sees the layout.</p>
+      <p class="from"><b>Before this:</b> 1.8.1 changed looks only, and an old page keeps its old look until you upgrade it.</p>
 
-      <ol class="steps">
-        <li><b>Read the template's diff.</b> It is 24 lines added and 13 removed in <code>template.html</code>. This is the whole idea.</li>
-        <li><b>Skim three small files.</b> plugin.json moves 1.8.0 to 1.8.1 on line 4. upgrade.mjs adds one hash line. CHANGELOG.md adds 15 lines.</li>
-        <li><b>Glance at atlas.css and design-system.md.</b> The atlas's quiet snapshot line also applies after the chapter map. The design doc's two rows match the new look.</li>
-        <li><b>Skip the six copies.</b> They repeat the first step. The fold below shows how to prove it.</li>
+      <p>An upgrade is safe to try. On 21 real pages brought up from 1.7.0, phone height fell by a median of 9%, and by up to 15% for a runbook. No markup changed.</p>
+
+      <ol class="flow">
+        <li class="go"><b>Save a backup</b><span>The page is copied to a .bak file first.</span></li>
+        <li class="go"><b>Swap the code</b><span>The page's style and script become the current ones.</span></li>
+        <li class="here"><b>Check the page</b><span>The checker runs on the result.</span></li>
+        <li><b>Keep or restore</b><span>A page that passed before and fails now is put back.</span></li>
       </ol>
-      <p class="take"><b>Take from this:</b> six files are worth a look, and the template's 37 changed lines are the ones to read.</p>
+      <p class="take"><b>Take from this:</b> an upgrade changes the design and the script, and keeps your content byte for byte.</p>
 
-      <details class="fold"><summary>Show how to confirm the seven files changed alike</summary>
-        <pre><code>for f in skills/html-explainer/assets/template.html skills/html-explainer/assets/gallery.html skills/html-explainer/examples/playbook.html skills/html-explainer/examples/field-guide.html skills/explainer-gather/examples/ballot.html docs/index.html docs/roadmap.html; do
-  git diff -U0 04cb440~1 04cb440 -- "$f" | grep '^[+-]' | grep -v '^+++\|^---' | sort | md5sum
-done</code></pre>
-        <p>Seven identical hashes mean the seven files changed in the same way. The repository check already proves this for the gallery and the two site pages.</p>
+      <div class="callout warn"><b>Make the page again for new parts</b>
+        <p>An upgrade does not add the new parts of a release, such as At a glance. Ask the agent to make the page again for those.</p></div>
+
+      <details class="fold"><summary>Show the exact commands</summary>
+        <pre><code>claude plugin marketplace update glance-explainer
+claude plugin update glance-explainer@glance-explainer
+node &lt;skill folder&gt;/scripts/upgrade.mjs docs/explainers/my-page.html --dry-run
+node &lt;skill folder&gt;/scripts/upgrade.mjs docs/explainers/my-page.html</code></pre>
+        <p>Restart Claude Code after the update. Add <code>--force</code> only for a page with hand-edited styles. The backup keeps those edits.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> read template.html first, skim three small files, and skip the six copies.</p>
+      <p class="remember"><b>Remember:</b> update, preview, upgrade, and make a page again when you want its new parts.</p>
     </section>
 
     <!-- CLOSING -->
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Five look changes in the template's style block, plus one script line.</li>
-        <li>7 of 12 files hold the same 24 added lines, so the real change is one file.</li>
-        <li>Commands vouch for the files and their copies, and a person must look at the layout.</li>
-        <li>Read template.html first, skim three small files, and skip the six copies.</li>
+        <li>The answer is the headline, and the page's own picture comes next.</li>
+        <li>One Reading tools button, one tinted strip per chapter, and colour only where it means something.</li>
+        <li>1.8.1 changed looks and labels only. An upgrade brings the fix to an older page.</li>
+        <li>Update, preview, upgrade, and make a page again when you want its new parts.</li>
       </ol>
     </section>
   </main>

@@ -1,11 +1,11 @@
 ---
-name: html-explainer
-description: Use when asked for an "html explainer", a visual explainer, a page that explains something "in simple plain english", "with lots of visuals and diagrams", or "for someone with ADHD / short working memory"; also when a spec, decision, status update, architecture, or release needs to be understood and approved by a reader who cannot hold a long document in their head.
+name: glance-explainer
+description: Use when asked for a "glance explainer" or an "html explainer", a visual explainer, a page that explains something "in simple plain english", "with lots of visuals and diagrams", or "for someone with ADHD / short working memory"; also when a spec, decision, status update, architecture, or release needs to be understood and approved by a reader who cannot hold a long document in their head.
 license: MIT
 argument-hint: "[topic or file to explain]"
 ---
 
-# HTML explainer
+# Glance explainer
 
 A single-file HTML page that lets a reader with a short working memory understand one thing and, if needed, decide. Colour has meaning and nothing moves on its own.
 

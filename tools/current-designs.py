@@ -9,7 +9,7 @@ from playwright.sync_api import sync_playwright
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-E, G = 'skills/html-explainer/examples/', 'skills/explainer-gather/examples/'
+E, G = 'skills/glance-explainer/examples/', 'skills/explainer-gather/examples/'
 KINDS = {  # kind: page, in the canvas order (by the job the reader has)
     'decision': E + 'decision.html', 'ballot': G + 'ballot.html', 'compare': E + 'compare.html', 'spec': E + 'spec.html',
     'playbook': E + 'playbook.html', 'status': E + 'status.html', 'portfolio': E + 'portfolio.html', 'roadmap': 'docs/roadmap.html',

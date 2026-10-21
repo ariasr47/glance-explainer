@@ -20,14 +20,14 @@ const ok = (msg) => console.log(`ok    ${msg}`);
 const bad = (msg) => { problems.push(msg); console.log(`FAIL  ${msg}`); };
 
 // 1. pages
-const checker = at('skills/html-explainer/scripts/check.mjs');
+const checker = at('skills/glance-explainer/scripts/check.mjs');
 // every example page under skills/*/examples ships and is published on the site, so each one is checked
 const htmlUnder = (d) => (existsSync(at(d)) ? readdirSync(at(d), { recursive: true }).map(String).filter((n) => n.endsWith('.html')).map((n) => `${d}/${n.replace(/\\/g, '/')}`) : []);
 const examples = readdirSync(at('skills')).flatMap((s) => htmlUnder(`skills/${s}/examples`)).sort();
 const sitePages = ['docs/index.html', 'docs/roadmap.html', 'docs/examples.html'];
 const pages = [
-  'skills/html-explainer/assets/template.html',
-  'skills/html-explainer/assets/gallery.html',
+  'skills/glance-explainer/assets/template.html',
+  'skills/glance-explainer/assets/gallery.html',
   ...examples,
   ...sitePages,
 ].filter((p) => existsSync(at(p)));
@@ -38,8 +38,8 @@ for (const page of pages) {
 
 // 2. gallery in sync with the template
 const block = (s, tag) => { const a = s.indexOf(`<${tag}>`); return a < 0 ? null : s.slice(a, s.indexOf(`</${tag}>`, a)); };
-const tpl = readFileSync(at('skills/html-explainer/assets/template.html'), 'utf8');
-const gal = readFileSync(at('skills/html-explainer/assets/gallery.html'), 'utf8');
+const tpl = readFileSync(at('skills/glance-explainer/assets/template.html'), 'utf8');
+const gal = readFileSync(at('skills/glance-explainer/assets/gallery.html'), 'utf8');
 for (const tag of ['style', 'script']) {
   if (block(tpl, tag) && block(tpl, tag) === block(gal, tag)) ok(`gallery <${tag}> matches the template`);
   else bad(`gallery <${tag}> differs from the template; paste the template's block into the gallery`);
@@ -74,9 +74,9 @@ try {
   for (const s of plugin.skills || []) if (!existsSync(at(s, 'SKILL.md'))) bad(`plugin.json skill ${s} has no SKILL.md`);
   ok(`manifests: ${plugin.name} ${plugin.version}`);
   // the template's generator mark is the version stamp that upgrade.mjs reads, so it moves with the plugin version
-  const mark = /<meta name="generator" content="html-explainer ([^"]*)">/.exec(tpl)?.[1];
-  if (mark === plugin.version) ok(`template generator mark: html-explainer ${mark}`);
-  else bad(`template generator mark is ${mark ? `"html-explainer ${mark}"` : 'missing'} but plugin.json version is ${plugin.version}; bump both together`);
+  const mark = /<meta name="generator" content="glance-explainer ([^"]*)">/.exec(tpl)?.[1];
+  if (mark === plugin.version) ok(`template generator mark: glance-explainer ${mark}`);
+  else bad(`template generator mark is ${mark ? `"glance-explainer ${mark}"` : 'missing'} but plugin.json version is ${plugin.version}; bump both together`);
 } catch (e) { bad(`manifests do not parse: ${e.message}`); }
 
 // 5. hooks: the file parses and every script it runs exists, so a moved script cannot turn the hooks into silent no-ops

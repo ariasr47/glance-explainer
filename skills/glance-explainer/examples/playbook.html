@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="explainer">
+<html lang="en" data-type="playbook">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>How an explainer is built</title>
-<meta name="description" content="The visual system behind every explainer, demonstrated with itself: answer first, three facts to keep, a picture per chapter, colour with one meaning.">
+<title>Moving the team wiki</title>
+<meta name="description" content="A plan for moving a small team's wiki to a new host: six phases, what your team sees, who does what, the risky evening with its undo, the risks, and three decisions you can answer on the page.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,13 +1407,14 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#memory"><span class="dot"></span>Memory is the limit</a></li>
-      <li><a href="#colour"><span class="dot"></span>Colour means one thing</a></li>
-      <li><a href="#diagrams"><span class="dot"></span>Show the relationship</a></li>
-      <li><a href="#decide"><span class="dot"></span>When you must decide</a></li>
-      <li><a href="#standing"><span class="dot"></span>Where things stand</a></li>
-      <li><a href="#words"><span class="dot"></span>Words and machinery</a></li>
-      <li><a href="#gather"><span class="dot"></span>Ask and collect</a></li>
+      <li><a href="#change"><span class="dot"></span>What changes</a></li>
+      <li><a href="#team"><span class="dot"></span>What your team sees</a></li>
+      <li><a href="#phases"><span class="dot"></span>The six phases</a></li>
+      <li><a href="#goes"><span class="dot"></span>What goes where</a></li>
+      <li><a href="#roles"><span class="dot"></span>Who does what</a></li>
+      <li><a href="#switch"><span class="dot"></span>Switch day</a></li>
+      <li><a href="#risks"><span class="dot"></span>What could go wrong</a></li>
+      <li><a href="#decide"><span class="dot"></span>Costs and decisions</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1428,1058 +1429,337 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">The visual system behind every explainer, shown with itself</p>
-    <h1>How an explainer is built</h1>
-    <div class="meta"><span>Reading time about 10 minutes</span><span>Version 1.0, 2026-10-07</span><span>For: anyone writing or reading one</span></div>
 
-    <p class="answer">An explainer is a page you can skim in a minute and still get the point: the answer comes first, colour has one meaning, every chapter has a picture, and the page remembers so you do not have to.</p>
+    <header class="hero">
+      <p class="kicker">A plan for one risky change</p>
+      <h1>Moving the team wiki to a new host</h1>
+      <div class="meta"><span>Reading time about 7 minutes</span><span>Written 2026-10-13</span><span>For: the wiki owner</span></div>
+      <figure class="thesis">
+        <svg viewBox="0 0 400 170" role="img" aria-labelledby="f-thesis"><title id="f-thesis">The wiki is copied from the old host to the new host, and a dashed line shows the way back for a month.</title>
+          <rect class="d-box" x="10" y="10" width="130" height="64" rx="10"/><text class="d-text-b" x="75" y="38" text-anchor="middle">Old host</text><text class="d-text" x="75" y="59" text-anchor="middle">the wiki today</text>
+          <text class="d-text" x="200" y="32" text-anchor="middle">copy first</text>
+          <path class="d-line" d="M140 42 H250"/><path class="d-arrow" d="M250 36 L262 42 L250 48 Z"/>
+          <rect class="d-box-go" x="262" y="10" width="128" height="64" rx="10"/><text class="d-text-b" x="326" y="38" text-anchor="middle">New host</text><text class="d-text" x="326" y="59" text-anchor="middle">the wiki after</text>
+          <path class="d-line-soft" d="M326 82 C326 136 75 136 75 96"/><path class="d-arrow" d="M69 96 L75 84 L81 96 Z"/>
+          <text class="d-text" x="200" y="160" text-anchor="middle">the way back, for a month</text>
+        </svg>
+      </figure>
+    </header>
+
+    <p class="answer">We copy the wiki to a new host, switch on one planned evening, and keep the old host for a month, so your team notices one new address.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Yellow means "this is what you keep".</li>
-        <li>Every chapter stands on its own.</li>
-        <li>Skim mode shows the story in pictures; one-chapter mode shows one thing at a time.</li>
+        <li>Six phases. Only two reach your team.</li>
+        <li>Nothing goes live without your yes.</li>
+        <li>Going back takes minutes, for a month.</li>
       </ol>
     </div>
 
-    <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">What the first screen holds</h2><span class="chip here">Four steps, in this order</span></div>
-      <ol class="flow">
-        <li class="go"><b>The opening</b><span>An answer, then three facts.</span></li>
-        <li class="here"><b>At a glance</b><span>The page's own picture.</span></li>
-        <li><b>The chapters</b><span>One idea each.</span></li>
-        <li><b>Recap and ask</b><span>What to carry, and what to pick.</span></li>
-      </ol>
-      <p class="take"><b>Take:</b> the picture comes before the chapters, so the first screen already says what kind of page this is.</p>
-    </section>
-
-    <ol class="map">
-      <li><a href="#memory"><b>Memory is the limit</b><span>Why the page restates things and never asks for a fourth fact.</span></a></li>
-      <li><a href="#colour"><b>Colour means one thing</b><span>Six colours, six meanings, no decoration.</span></a></li>
-      <li><a href="#diagrams"><b>Show the relationship</b><span>When a picture replaces a paragraph, and which picture.</span></a></li>
-      <li><a href="#decide"><b>When you must decide</b><span>How a decision is laid out so choosing takes a minute.</span></a></li>
-      <li><a href="#standing"><b>Where things stand</b><span>Timelines, status boards, grids, lanes and the few numbers that matter.</span></a></li>
-      <li><a href="#words"><b>Words and machinery</b><span>Plain words in the reading path, exact details in folds.</span></a></li>
-      <li><a href="#gather"><b>Ask and collect</b><span>Questions you answer on the page, saved on your device.</span></a></li>
+    <ol class="phase-strip" aria-label="The six phases">
+      <li data-owner="you"><a href="#phase-1"><span class="seg-num">Phase 1</span><b>Decide what moves</b>
+        <span class="who" title="You">Y</span><small class="effort">a few days</small><span class="bar" style="--effort:2"></span></a></li>
+      <li data-owner="me"><a href="#phase-2"><span class="seg-num">Phase 2</span><b>Copy and rehearse</b>
+        <span class="who" title="Me">M</span><small class="effort">about a day</small><span class="bar" style="--effort:3"></span></a></li>
+      <li class="notice" data-owner="you"><a href="#phase-3"><span class="seg-num">Phase 3</span><b>Announce the date</b>
+        <span class="who" title="You">Y</span><small class="effort">ten minutes</small><span class="bar" style="--effort:1"></span>
+        <span class="notice-tag">Team notices</span></a></li>
+      <li class="notice" data-owner="both"><a href="#phase-4"><span class="seg-num">Phase 4</span><b>Switch day</b>
+        <span class="who" title="Both">Y+M</span><small class="effort">one evening</small><span class="bar" style="--effort:2"></span>
+        <span class="notice-tag">Team notices</span></a></li>
+      <li data-owner="me"><a href="#phase-5"><span class="seg-num">Phase 5</span><b>Watch and fix</b>
+        <span class="who" title="Me">M</span><small class="effort">a week</small><span class="bar" style="--effort:2"></span></a></li>
+      <li data-owner="you"><a href="#phase-6"><span class="seg-num">Phase 6</span><b>Retire the old host</b>
+        <span class="who" title="You">Y</span><small class="effort">an hour</small><span class="bar" style="--effort:1"></span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="memory" data-keep="You can hold about three things. The page holds the rest.">
+    <section class="chapter" id="change" data-keep="The address changes. The pages are copied, never moved.">
       <header>
-        <div><p class="kicker">Chapter 1 of 7, about 2 minutes</p><h2>Your working memory is the limit, so the page carries the load</h2></div>
+        <div><p class="kicker">Chapter 1 of 8, about 1 minute</p><h2>What changes, and what stays the same?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <figure class="minimap" data-lit="memory">
-        <svg viewBox="0 0 700 64" role="img" aria-labelledby="mm-memory"><title id="mm-memory">Page map: you are in chapter 1 of 7, Memory</title>
-          <g data-node="memory"><rect class="d-box" x="4" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="50" y="38" text-anchor="middle">Memory</text></g>
-          <g data-node="colour"><rect class="d-box" x="104" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Colour</text></g>
-          <g data-node="diagrams"><rect class="d-box" x="204" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="250" y="38" text-anchor="middle">Pictures</text></g>
-          <g data-node="decide"><rect class="d-box" x="304" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="350" y="38" text-anchor="middle">Decide</text></g>
-          <g data-node="standing"><rect class="d-box" x="404" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="450" y="38" text-anchor="middle">Standing</text></g>
-          <g data-node="words"><rect class="d-box" x="504" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="550" y="38" text-anchor="middle">Words</text></g>
-          <g data-node="gather"><rect class="d-box" x="604" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="650" y="38" text-anchor="middle">Ask</text></g>
+      <p class="from"><b>Before this:</b> the answer says the wiki moves to a new host and your team notices one new address.</p>
+
+      <p>Today one host does everything. After the move the new host does, and the old one stays on for a month in case we need to go back.</p>
+
+      <figure class="figure">
+        <svg viewBox="0 0 800 330" role="img" aria-labelledby="f-change"><title id="f-change">Before, one address leads to the old host and its pages. After, a new address leads to the new host and a copy of the pages, and the old host stays on for a month as the way back.</title>
+          <text class="d-text-b" x="20" y="28">Before</text>
+          <rect class="d-box" x="20" y="44" width="220" height="64" rx="10"/><text class="d-text-b" x="130" y="72" text-anchor="middle">old-wiki.example</text><text class="d-text-s" x="130" y="92" text-anchor="middle">the address today</text>
+          <path class="d-line" d="M240 76 H290"/><path class="d-arrow" d="M290 70 L302 76 L290 82 Z"/>
+          <rect class="d-box" x="302" y="44" width="196" height="64" rx="10"/><text class="d-text-b" x="400" y="72" text-anchor="middle">Old host</text><text class="d-text-s" x="400" y="92" text-anchor="middle">runs the wiki</text>
+          <path class="d-line" d="M498 76 H548"/><path class="d-arrow" d="M548 70 L560 76 L548 82 Z"/>
+          <rect class="d-box" x="560" y="44" width="220" height="64" rx="10"/><text class="d-text-b" x="670" y="72" text-anchor="middle">Pages and files</text><text class="d-text-s" x="670" y="92" text-anchor="middle">all in one place</text>
+          <text class="d-text-b" x="20" y="150">After</text>
+          <rect class="d-box-here" x="20" y="166" width="220" height="64" rx="10"/><text class="d-text-b" x="130" y="194" text-anchor="middle">wiki.example.com</text><text class="d-text-s" x="130" y="214" text-anchor="middle">the new address</text>
+          <path class="d-line" d="M240 198 H290"/><path class="d-arrow" d="M290 192 L302 198 L290 204 Z"/>
+          <rect class="d-box-go" x="302" y="166" width="196" height="64" rx="10"/><text class="d-text-b" x="400" y="194" text-anchor="middle">New host</text><text class="d-text-s" x="400" y="214" text-anchor="middle">runs the wiki</text>
+          <path class="d-line" d="M498 198 H548"/><path class="d-arrow" d="M548 192 L560 198 L548 204 Z"/>
+          <rect class="d-box-go" x="560" y="166" width="220" height="64" rx="10"/><text class="d-text-b" x="670" y="194" text-anchor="middle">Pages and files</text><text class="d-text-s" x="670" y="214" text-anchor="middle">copied, not moved</text>
+          <path class="d-line-soft" d="M400 230 V250"/>
+          <rect class="d-line-soft" x="262" y="250" width="276" height="62" rx="10"/><text class="d-text-b" x="400" y="276" text-anchor="middle">Old host, kept for a month</text><text class="d-text-s" x="400" y="297" text-anchor="middle">forwards visitors, and is our way back</text>
         </svg>
+        <figcaption class="take"><b>Take from this:</b> the address and the host behind it change. Nothing is taken out of the old host, only copied.</figcaption>
       </figure>
 
-      <p class="from"><b>Before this:</b> the answer at the top said the page remembers things so you do not have to. This chapter shows how.</p>
-
-      <p>Reading a long document means holding earlier facts while you take in new ones. With a short working memory, the earlier facts fall out as you scroll. Then you scroll back, lose your place, and give up.</p>
-
-      <ol class="flow">
-        <li class="stop"><b>Read a fact</b><span>Section one says X.</span></li>
-        <li class="stop"><b>Scroll</b><span>Three screens of new stuff.</span></li>
-        <li class="stop"><b>Forget X</b><span>Section four needs it.</span></li>
-        <li class="stop"><b>Scroll back</b><span>Lose your place. Stop.</span></li>
-      </ol>
-
-      <p>An explainer breaks that loop by restating context exactly where it is needed. Four devices do this, and the ones that hold something for you are yellow, so you learn them once.</p>
-
-      <ol class="flow">
-        <li class="go"><b>Keep cards</b><span>Three facts, at the top.</span></li>
-        <li class="go"><b>Before this</b><span>Each chapter restates its one input.</span></li>
-        <li class="go"><b>Remember line</b><span>Each chapter ends with one sentence.</span></li>
-        <li class="go"><b>Recap</b><span>The remember lines, collected.</span></li>
-      </ol>
-
-      <div class="metaphor">
-        <div class="icon" aria-hidden="true">🗒️</div>
-        <p><b>It is like reading with sticky notes already on the page.</b> Someone stuck a note on every section saying what you need from earlier. You never flip back. Where it stops: here the notes are not optional.</p>
-      </div>
-
-      <details class="fold"><summary>Why three, and why yellow</summary>
-        <p>Working memory research puts the practical span at three to four items for most adults, lower under stress or with ADHD. Three is the safe number. One colour for all memory devices means one association to learn instead of four.</p>
-      </details>
-
-      <details class="fold"><summary>Show the reading controls</summary>
-        <ul>
-          <li><b>Reading tools</b> opens one small panel. On a wide screen its button sits in the rail, under the count of chapters read. On a phone it sits at the end of the line under the title. Escape closes it.</li>
-          <li><b>Read aloud</b> is the speaker in a chapter's header. It reads that chapter, one block at a time, and appears when your browser can speak.</li>
-          <li><b>Done</b> is the check beside it. The rail shows each chapter you have read and counts them.</li>
-          <li><b>Reading ruler</b> keeps the block under your pointer clear and fades the rest of the chapter.</li>
-          <li><b>Text size</b> has three steps: A−, A and A+, and a large step beyond that.</li>
-          <li><b>Keys</b> lists the shortcuts: J and K change chapter, F, S, D and R switch the modes.</li>
-          <li>When you come back, the page offers to continue where you stopped. When every chapter is done, it says so.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> anything yellow is something the page is holding for you; you can stop holding it.</p>
+      <p class="remember"><b>Remember:</b> we copy and never move, and the old host stays on for a month.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="colour" data-keep="Six colours. Each means exactly one thing, everywhere.">
+    <section class="chapter" id="team" data-keep="Your team sees a message, then a new address and one extra sign-in.">
       <header>
-        <div><p class="kicker">Chapter 2 of 7, about 2 minutes</p><h2>Colour means one thing, and never decorates</h2></div>
+        <div><p class="kicker">Chapter 2 of 8, about 1 minute</p><h2>What does your team see?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <figure class="minimap" data-lit="colour">
-        <svg viewBox="0 0 700 64" role="img" aria-labelledby="mm-colour"><title id="mm-colour">Page map: you are in chapter 2 of 7, Colour</title>
-          <g data-node="memory"><rect class="d-box" x="4" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="50" y="38" text-anchor="middle">Memory</text></g>
-          <g data-node="colour"><rect class="d-box" x="104" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Colour</text></g>
-          <g data-node="diagrams"><rect class="d-box" x="204" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="250" y="38" text-anchor="middle">Pictures</text></g>
-          <g data-node="decide"><rect class="d-box" x="304" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="350" y="38" text-anchor="middle">Decide</text></g>
-          <g data-node="standing"><rect class="d-box" x="404" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="450" y="38" text-anchor="middle">Standing</text></g>
-          <g data-node="words"><rect class="d-box" x="504" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="550" y="38" text-anchor="middle">Words</text></g>
-          <g data-node="gather"><rect class="d-box" x="604" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="650" y="38" text-anchor="middle">Ask</text></g>
-        </svg>
-      </figure>
+      <p class="from"><b>Before this:</b> we copy the pages and the address changes.</p>
 
-      <p class="from"><b>Before this:</b> yellow is the page holding something for you. Five more colours carry meaning the same way.</p>
+      <p>Three moments reach your team. Everything else happens out of their sight.</p>
 
-      <p>Attention goes to the brightest thing on screen. If bright colour is spent on decoration, attention is spent on nothing. So the page is calm fog and navy, and colour appears only when it says something.</p>
+      <div class="frame-row">
+        <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">old-wiki.example/handbook</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Handbook</span>
+            <span class="mock-win"><span class="mock-row"><span>Onboarding</span></span><span class="mock-row"><span>Holiday policy</span></span><span class="mock-row"><span>Expenses</span></span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> until the date is announced, nothing looks different.</figcaption></figure>
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">team chat</span></div>
+          <div class="frame-screen">
+            <span class="mock-win"><span class="mock-title">From you, Friday</span>The wiki moves on Saturday evening. Your pages stay as they are. You will sign in once more.</span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> a day before, you send one message. I can draft it.</figcaption></figure>
+        <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">wiki.example.com/sign-in</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Sign in</span>
+            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="width:55%"></span><span class="mock-btn">Sign in</span></span>
+            <span class="mock-note">Then the same pages as before.</span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> from switch day, one new address and one extra sign-in.</figcaption></figure>
+      </div>
 
-      <ul class="status">
-        <li class="go"><b>Green</b><span>Done, safe, yes, recommended.</span></li>
-        <li class="wait"><b>Amber</b><span>In progress, caution, needs a check before you rely on it.</span></li>
-        <li class="stop"><b>Red</b><span>Blocked, risk, no.</span></li>
-        <li class="decide"><b>Purple</b><span>You must choose. The page cannot go on without you.</span></li>
-        <li class="here"><b>Cobalt</b><span>You are here: the rule above the answer, the current chapter, links, the current step.</span></li>
-        <li class="memory"><b>Yellow</b><span>Held for you: keep cards, remember lines.</span></li>
-      </ul>
-
-      <p>Each dot also carries a symbol, so colour never works alone.</p>
-
-      <p>Callouts use the same three meaning colours, and only when they change what you should do next.</p>
-
-      <div class="callout tip"><b>Tip</b><p>A tip is something that makes the next step easier. If it does not change what you do, it is not a tip and it is not on the page.</p></div>
-      <div class="callout warn"><b>Check before relying on this</b><p>Amber marks a thing that is probably fine but has not been verified. The page says what would verify it.</p></div>
-      <div class="callout stop"><b>Do not do this</b><p>Red marks a step that breaks something. It says what breaks and what to do instead.</p></div>
-
-      <details class="fold" open><summary>Strength without colour: a table of findings</summary>
-        <p>A research page says how sure it is in words and three bars, never in a colour. Only the weak row gets a tint, because that is the one to look at.</p>
-        <ul class="findings">
-          <li data-strength="strong"><a href="#decide">Notes reach the server quickly</a><span>Saves land in under a second, even on a weak signal.</span><small class="evidence">8 sources</small></li>
-          <li data-strength="moderate"><a href="#standing">Two devices rarely clash</a><span>Clashes showed up on 3 of 40 test days.</span><small class="evidence">5 sources</small><small class="open">1 open</small></li>
-          <li data-strength="weak"><b>Storage cost stays small</b><span>The prices are quoted, but the plan tier is a guess.</span><small class="evidence">3 sources</small><small class="open">2 open</small></li>
-          <li data-strength="strong"><b>Notes survive a restart</b><span>Every test run kept its unsynced notes.</span><small class="evidence">6 sources</small></li>
-        </ul>
-        <p class="take"><b>Take from this:</b> three findings stand firm. The weak one, storage cost, is the one the choice turns on.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> if a colour shows up, it is telling you something; if nothing is coloured, nothing needs you.</p>
+      <p class="remember"><b>Remember:</b> your team sees a message, then a new address, then one extra sign-in.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="diagrams" data-keep="A picture replaces a paragraph. It never repeats one.">
+    <section class="chapter" id="phases" data-keep="Six phases in order. The last line of each says what your team notices.">
       <header>
-        <div><p class="kicker">Chapter 3 of 7, about 2 minutes</p><h2>Show the relationship instead of describing it</h2></div>
+        <div><p class="kicker">Chapter 3 of 8, about 2 minutes</p><h2>What happens in each phase?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <figure class="minimap" data-lit="diagrams">
-        <svg viewBox="0 0 700 64" role="img" aria-labelledby="mm-diagrams"><title id="mm-diagrams">Page map: you are in chapter 3 of 7, Pictures</title>
-          <g data-node="memory"><rect class="d-box" x="4" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="50" y="38" text-anchor="middle">Memory</text></g>
-          <g data-node="colour"><rect class="d-box" x="104" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Colour</text></g>
-          <g data-node="diagrams"><rect class="d-box" x="204" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="250" y="38" text-anchor="middle">Pictures</text></g>
-          <g data-node="decide"><rect class="d-box" x="304" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="350" y="38" text-anchor="middle">Decide</text></g>
-          <g data-node="standing"><rect class="d-box" x="404" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="450" y="38" text-anchor="middle">Standing</text></g>
-          <g data-node="words"><rect class="d-box" x="504" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="550" y="38" text-anchor="middle">Words</text></g>
-          <g data-node="gather"><rect class="d-box" x="604" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="650" y="38" text-anchor="middle">Ask</text></g>
-        </svg>
-      </figure>
+      <p class="from"><b>Before this:</b> your team sees a message, a new address and one extra sign-in.</p>
 
-      <p class="from"><b>Before this:</b> colour is used only for meaning. Diagrams use the same six colours, and the same rule.</p>
+      <p>Each phase finishes before the next starts.</p>
 
-      <p>A paragraph that describes a branch makes you hold both branches in your head. A diagram puts them on the screen side by side. That is the whole reason to draw one.</p>
-
-      <figure class="figure stepper" data-step="1">
-        <svg viewBox="0 0 800 300" role="img" aria-labelledby="fig-branch"><title id="fig-branch">A request either stops at a gate or goes through, drawn as a branch</title>
-          <rect class="d-box" x="20" y="120" width="200" height="60" rx="10"/><text class="d-text-b" x="120" y="156" text-anchor="middle">Request arrives</text>
-          <path class="d-line" d="M220 150 H290"/><path class="d-arrow" d="M290 144 L302 150 L290 156 Z"/>
-          <rect class="d-box-decide" x="302" y="120" width="200" height="60" rx="10"/><text class="d-text-b" x="402" y="156" text-anchor="middle">Allowed?</text>
-          <g data-steps="1,2">
-            <path class="d-line" d="M502 150 H540 V60 H570"/><path class="d-arrow" d="M570 54 L582 60 L570 66 Z"/>
-            <text class="d-text-s" x="545" y="100" text-anchor="middle">no</text>
-            <rect class="d-box-stop" x="582" y="30" width="200" height="60" rx="10"/><text class="d-text-b" x="682" y="66" text-anchor="middle">Clear message, stop</text>
-          </g>
-          <g data-steps="1,3">
-            <path class="d-line" d="M502 150 H540 V240 H570"/><path class="d-arrow" d="M570 234 L582 240 L570 246 Z"/>
-            <text class="d-text-s" x="545" y="200" text-anchor="middle">yes</text>
-            <rect class="d-box-go" x="582" y="210" width="200" height="60" rx="10"/><text class="d-text-b" x="682" y="246" text-anchor="middle">Goes through</text>
-          </g>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b>
-          <span data-step-text="1">there are only two outcomes, and the reader sees both at once instead of holding one while reading about the other.</span>
-          <span data-step-text="2">No: the request stops at the gate with a clear message.</span>
-          <span data-step-text="3">Yes: the request goes through.</span>
-        </figcaption>
-        <div class="stepper-nav"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-      </figure>
-
-      <p>Most relationships do not need a drawn diagram. A sequence is a flow. Two states of one thing are a split.</p>
-
-      <div class="split">
-        <div class="before"><b>Before: a paragraph</b><ul><li>"After validation the request is either rejected with a message or forwarded, unless…"</li><li>Reader holds two paths.</li><li>Reader rereads.</li></ul></div>
-        <div class="after"><b>After: the diagram above</b><ul><li>Both paths visible.</li><li>One caption states the point.</li><li>Paragraph deleted.</li></ul></div>
-      </div>
-
-      <p>A product walkthrough is the same idea with real screens. Each step is one screenshot, one numbered pin, and one line.</p>
-
-      <ol class="tour">
-        <li><figure class="shot"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDAwIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY2ZjgiLz4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0NCIgZmlsbD0iIzFmMmEzNyIvPjx0ZXh0IHg9IjIwIiB5PSIyOCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WYXVsdDwvdGV4dD4KPGNpcmNsZSBjeD0iNjA0IiBjeT0iMjIiIHI9IjExIiBmaWxsPSIjNWI2YjdiIi8+CjxyZWN0IHk9IjQ0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjM1NiIgZmlsbD0iI2ZmZiIvPjxsaW5lIHgxPSIxNTAiIHkxPSI0NCIgeDI9IjE1MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZDZkZGU0Ii8+CjxyZWN0IHg9IjEwIiB5PSI1OCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNlM2ViZmIiLz48dGV4dCB4PSIyNCIgeT0iODAiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzI0NTdkNiI+QWNjb3VudHM8L3RleHQ+Cjx0ZXh0IHg9IjI0IiB5PSIxMTYiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+VHJhbnNmZXJzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNDgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+UmVwb3J0czwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSI4NiIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTYyMjJlIj5BY2NvdW50czwvdGV4dD4KPHJlY3QgeD0iMTcyIiB5PSIxMDQiIHdpZHRoPSI0NDgiIGhlaWdodD0iNDgiIHJ4PSI4IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNkNmRkZTQiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxjaXJjbGUgY3g9IjE5OCIgY3k9IjEyOCIgcj0iOSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjI0IiB5PSIxMzMiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE2MjIyZSI+SG91c2Vob2xkPC90ZXh0Pgo8dGV4dCB4PSI2MDQiIHk9IjEzMyIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjMTYyMjJlIiB0ZXh0LWFuY2hvcj0iZW5kIj4kNCwyMTAuNTU8L3RleHQ+PHJlY3QgeD0iMTcyIiB5PSIxNjQiIHdpZHRoPSI0NDgiIGhlaWdodD0iNDgiIHJ4PSI4IiBmaWxsPSIjZjNmN2ZmIiBzdHJva2U9IiMyNDU3ZDYiIHN0cm9rZS13aWR0aD0iMyIvPgo8Y2lyY2xlIGN4PSIxOTgiIGN5PSIxODgiIHI9IjkiIGZpbGw9IiMyNDU3ZDYiIHN0cm9rZT0iIzI0NTdkNiIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjx0ZXh0IHg9IjIyNCIgeT0iMTkzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiMxNjIyMmUiPlNhdmluZ3M8L3RleHQ+Cjx0ZXh0IHg9IjYwNCIgeT0iMTkzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiIHRleHQtYW5jaG9yPSJlbmQiPiQxMiw4MDAuMDA8L3RleHQ+PHJlY3QgeD0iMTcyIiB5PSIyMjQiIHdpZHRoPSI0NDgiIGhlaWdodD0iNDgiIHJ4PSI4IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNkNmRkZTQiIHN0cm9rZS13aWR0aD0iMS41Ii8+CjxjaXJjbGUgY3g9IjE5OCIgY3k9IjI0OCIgcj0iOSIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjIiLz4KPHRleHQgeD0iMjI0IiB5PSIyNTMiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjYwMCIgZmlsbD0iIzE2MjIyZSI+VHJhdmVsIGZ1bmQ8L3RleHQ+Cjx0ZXh0IHg9IjYwNCIgeT0iMjUzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiIHRleHQtYW5jaG9yPSJlbmQiPiQ5NjAuMjA8L3RleHQ+CjxyZWN0IHg9IjE3MiIgeT0iMzAwIiB3aWR0aD0iMTMyIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzI0NTdkNiIvPjx0ZXh0IHg9IjIzOCIgeT0iMzI1IiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiIHRleHQtYW5jaG9yPSJtaWRkbGUiPk9wZW4gYWNjb3VudDwvdGV4dD48L3N2Zz4=" alt="The Vault accounts list with the Savings account picked"><span class="pin" style="--x:25%;--y:47%">1</span></figure>
-          <h3>Pick an account</h3><p>The list shows every account you can open. The picked row is the one the next screen works on.</p></li>
-        <li><figure class="shot"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDAwIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY2ZjgiLz4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0NCIgZmlsbD0iIzFmMmEzNyIvPjx0ZXh0IHg9IjIwIiB5PSIyOCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WYXVsdDwvdGV4dD4KPGNpcmNsZSBjeD0iNjA0IiBjeT0iMjIiIHI9IjExIiBmaWxsPSIjNWI2YjdiIi8+CjxyZWN0IHk9IjQ0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjM1NiIgZmlsbD0iI2ZmZiIvPjxsaW5lIHgxPSIxNTAiIHkxPSI0NCIgeDI9IjE1MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZDZkZGU0Ii8+CjxyZWN0IHg9IjEwIiB5PSI1OCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNlM2ViZmIiLz48dGV4dCB4PSIyNCIgeT0iODAiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzI0NTdkNiI+QWNjb3VudHM8L3RleHQ+Cjx0ZXh0IHg9IjI0IiB5PSIxMTYiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+VHJhbnNmZXJzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNDgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+UmVwb3J0czwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSI4NiIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTYyMjJlIj5Nb3ZlIG1vbmV5IGZyb20gU2F2aW5nczwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+VG88L3RleHQ+CjxyZWN0IHg9IjE3MiIgeT0iMTM2IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQyIiByeD0iOCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjE4OCIgeT0iMTYzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiPkhvdXNlaG9sZDwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIyMTIiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+QW1vdW50PC90ZXh0Pgo8cmVjdCB4PSIxNzIiIHk9IjIyMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0MiIgcng9IjgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzI0NTdkNiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMTg4IiB5PSIyNDciIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzE2MjIyZSI+JDI1MC4wMDwvdGV4dD4KPHJlY3QgeD0iMTcyIiB5PSIyOTYiIHdpZHRoPSIxMTAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMjQ1N2Q2Ii8+PHRleHQgeD0iMjI3IiB5PSIzMjEiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UmV2aWV3PC90ZXh0Pgo8dGV4dCB4PSIyOTYiIHk9IjMyMSIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNGE1YTZhIj5DYW5jZWw8L3RleHQ+PC9zdmc+" alt="The transfer form with 250 dollars typed into the amount field"><span class="pin" style="--x:74%;--y:60%">2</span></figure>
-          <h3>Type the amount</h3><p>Only the amount is yours to fill in. The destination is already chosen.</p></li>
-        <li><figure class="shot"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NDAgNDAwIj4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0MDAiIGZpbGw9IiNmNGY2ZjgiLz4KPHJlY3Qgd2lkdGg9IjY0MCIgaGVpZ2h0PSI0NCIgZmlsbD0iIzFmMmEzNyIvPjx0ZXh0IHg9IjIwIiB5PSIyOCIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE3IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WYXVsdDwvdGV4dD4KPGNpcmNsZSBjeD0iNjA0IiBjeT0iMjIiIHI9IjExIiBmaWxsPSIjNWI2YjdiIi8+CjxyZWN0IHk9IjQ0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjM1NiIgZmlsbD0iI2ZmZiIvPjxsaW5lIHgxPSIxNTAiIHkxPSI0NCIgeDI9IjE1MCIgeTI9IjQwMCIgc3Ryb2tlPSIjZDZkZGU0Ii8+CjxyZWN0IHg9IjEwIiB5PSI1OCIgd2lkdGg9IjEzMCIgaGVpZ2h0PSIzNCIgcng9IjYiIGZpbGw9IiNlM2ViZmIiLz48dGV4dCB4PSIyNCIgeT0iODAiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iIzI0NTdkNiI+QWNjb3VudHM8L3RleHQ+Cjx0ZXh0IHg9IjI0IiB5PSIxMTYiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+VHJhbnNmZXJzPC90ZXh0Pjx0ZXh0IHg9IjI0IiB5PSIxNDgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzRhNWE2YSI+UmVwb3J0czwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSI4NiIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMTYyMjJlIj5Nb3ZlIG1vbmV5IGZyb20gU2F2aW5nczwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIxMjgiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+VG88L3RleHQ+CjxyZWN0IHg9IjE3MiIgeT0iMTM2IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQyIiByeD0iOCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjYWViYmM4IiBzdHJva2Utd2lkdGg9IjEuNSIvPjx0ZXh0IHg9IjE4OCIgeT0iMTYzIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMxNjIyMmUiPkhvdXNlaG9sZDwvdGV4dD4KPHRleHQgeD0iMTcyIiB5PSIyMTIiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMyIgZmlsbD0iIzRhNWE2YSI+QW1vdW50PC90ZXh0Pgo8cmVjdCB4PSIxNzIiIHk9IjIyMCIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0MiIgcng9IjgiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzI0NTdkNiIgc3Ryb2tlLXdpZHRoPSIzIi8+PHRleHQgeD0iMTg4IiB5PSIyNDciIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzE2MjIyZSI+JDI1MC4wMDwvdGV4dD4KPHJlY3QgeD0iMTcyIiB5PSIyOTYiIHdpZHRoPSIxMTAiIGhlaWdodD0iNDAiIHJ4PSI4IiBmaWxsPSIjMjQ1N2Q2Ii8+PHRleHQgeD0iMjI3IiB5PSIzMjEiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgSGVsdmV0aWNhLCBBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+UmV2aWV3PC90ZXh0Pgo8dGV4dCB4PSIyOTYiIHk9IjMyMSIgZm9udC1mYW1pbHk9IlNlZ29lIFVJLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1IiBmaWxsPSIjNGE1YTZhIj5DYW5jZWw8L3RleHQ+PC9zdmc+" alt="The same transfer form, with the Review button ready under the amount"><span class="pin" style="--x:35%;--y:79%">3</span></figure>
-          <h3>Review the transfer</h3><p>One last look at the amount and the destination. Then you send it.</p></li>
+      <ol class="phases">
+        <li id="phase-1"><h3>Decide what moves</h3><span class="chip">You decide</span><span class="chip">A few days</span>
+          <ul><li>Pick what comes across: pages, files and comments.</li><li>Answer the three questions at the end of this page.</li></ul>
+          <p class="impact"><b>Team notices:</b> nothing.</p></li>
+        <li id="phase-2"><h3>Copy and rehearse</h3><span class="chip">I do the work</span><span class="chip">About a day</span>
+          <ul><li>Copy everything to the new host.</li><li>Rehearse the move on a spare copy, then take a fresh backup.</li></ul>
+          <p class="impact"><b>Team notices:</b> nothing. The old wiki still works.</p></li>
+        <li class="notice" id="phase-3"><h3>Announce the date</h3><span class="chip">You send it</span><span class="chip">Ten minutes</span>
+          <ul><li>One message with the date and the new address.</li></ul>
+          <p class="impact"><b>Team notices:</b> a message with the date and the new address.</p></li>
+        <li class="notice" id="phase-4"><h3>Switch day</h3><span class="chip">Both of us</span><span class="chip">One evening</span>
+          <ul><li>The wiki is read-only for about an hour.</li><li>The new address goes live, and the old one forwards to it.</li></ul>
+          <p class="impact"><b>Team notices:</b> the new address, and one extra sign-in.</p></li>
+        <li id="phase-5"><h3>Watch and fix</h3><span class="chip">I do the work</span><span class="chip">A week</span>
+          <ul><li>Watch for errors and broken links.</li><li>Fix what turns up the same day.</li></ul>
+          <p class="impact"><b>Team notices:</b> nothing new.</p></li>
+        <li id="phase-6"><h3>Retire the old host</h3><span class="chip">You decide</span><span class="chip">After a month</span>
+          <ul><li>Check that nobody still uses the old address.</li><li>Say yes, and I switch it off.</li></ul>
+          <p class="impact"><b>Team notices:</b> nothing.</p></li>
       </ol>
-      <p class="take"><b>Take from this:</b> a tour shows the real screen first, then says in one line where to look.</p>
+      <p class="take"><b>Take from this:</b> four of the six phases happen out of your team's sight.</p>
 
-      <details class="fold" open><summary>The filmstrip: every step of a tour on one screen</summary>
-        <p>A tour page opens with its steps as thumbnails. The page builds the strip from the steps above, so nothing is typed twice.</p>
-        <section class="glance" aria-labelledby="g-film-h">
-          <div class="glance-head"><h3 id="g-film-h">The tour in three screens</h3><span class="chip">Moving money between accounts</span></div>
-          <div class="filmstrip"></div>
-          <p class="take"><b>Take:</b> pick an account, type an amount, then review it. Tap a screen to jump to its step.</p>
-        </section>
-      </details>
-
-      <details class="fold" open><summary>Mock screens: what the people affected will see</summary>
-        <p>A plan for a risky change shows each audience what it will notice. A frame is a small browser window, or a phone, holding a plain mockup and one take-away line. A row lays out two to four of them, and stacks them on a phone.</p>
-        <div class="frame-row">
-          <figure class="frame"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">example.com/sign-in</span></div>
-            <div class="frame-screen">
-              <span class="mock-title">Sign in</span>
-              <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="width:55%"></span><span class="mock-btn">Sign in</span></span>
-            </div>
-            <figcaption class="take"><b>Take from this:</b> from switch day, people sign in once more.</figcaption></figure>
-          <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">team chat</span></div>
-            <div class="frame-screen">
-              <span class="mock-win"><span class="mock-title">From you, Friday</span>The site moves on Saturday evening. You will sign in once more.</span>
-            </div>
-            <figcaption class="take"><b>Take from this:</b> a day before, one message tells people.</figcaption></figure>
-        </div>
-      </details>
-
-      <details class="fold" open><summary>A hero with a thesis drawing</summary>
-        <p>A playbook may open with a small drawing of the outcome beside its title, and under it on a phone.</p>
-        <header class="hero">
-          <p class="kicker">A plan for one risky change</p>
-          <h4>Moving the team wiki to a new host</h4>
-          <div class="meta"><span>Written 2026-10-13</span><span>For: the wiki owner</span></div>
-          <figure class="thesis">
-            <svg viewBox="0 0 400 170" role="img" aria-labelledby="f-thesis-demo"><title id="f-thesis-demo">The wiki is copied from the old host to the new host, and a dashed line shows the way back for a month.</title>
-              <rect class="d-box" x="10" y="10" width="130" height="64" rx="10"/><text class="d-text-b" x="75" y="38" text-anchor="middle">Old host</text><text class="d-text" x="75" y="59" text-anchor="middle">the wiki today</text>
-              <text class="d-text" x="200" y="32" text-anchor="middle">copy first</text>
-              <path class="d-line" d="M140 42 H250"/><path class="d-arrow" d="M250 36 L262 42 L250 48 Z"/>
-              <rect class="d-box-go" x="262" y="10" width="128" height="64" rx="10"/><text class="d-text-b" x="326" y="38" text-anchor="middle">New host</text><text class="d-text" x="326" y="59" text-anchor="middle">the wiki after</text>
-              <path class="d-line-soft" d="M326 82 C326 136 75 136 75 96"/><path class="d-arrow" d="M69 96 L75 84 L81 96 Z"/>
-              <text class="d-text" x="200" y="160" text-anchor="middle">the way back, for a month</text>
-            </svg>
-          </figure>
-        </header>
-      </details>
-
-      <details class="fold"><summary>The rules for a drawn diagram</summary>
-        <ul>
-          <li>Seven boxes at most. Left to right, then top to bottom.</li>
-          <li>Labels under four words. Details in the caption.</li>
-          <li>One "you are here" box at most. No crossing lines.</li>
-          <li>Colour classes, never hard-coded fills, so dark mode works.</li>
-          <li>A caption that says the one thing to take from it. No caption, no diagram.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> when you see a diagram, read its caption first; the caption is the point, the drawing is the proof.</p>
+      <p class="remember"><b>Remember:</b> only phases 3 and 4 reach your team, and both are marked "Team notices".</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="decide" data-keep="One question, few options, the recommended one marked, and what happens if you do nothing.">
+    <section class="chapter" id="goes" data-keep="Almost everything moves. Two things stay behind on purpose, and one is your call.">
       <header>
-        <div><p class="kicker">Chapter 4 of 7, about 2 minutes</p><h2>When you must decide, the page lays the choice out for you</h2></div>
+        <div><p class="kicker">Chapter 4 of 8, about 1 minute</p><h2>What goes where?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <figure class="minimap" data-lit="decide">
-        <svg viewBox="0 0 700 64" role="img" aria-labelledby="mm-decide"><title id="mm-decide">Page map: you are in chapter 4 of 7, Decide</title>
-          <g data-node="memory"><rect class="d-box" x="4" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="50" y="38" text-anchor="middle">Memory</text></g>
-          <g data-node="colour"><rect class="d-box" x="104" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Colour</text></g>
-          <g data-node="diagrams"><rect class="d-box" x="204" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="250" y="38" text-anchor="middle">Pictures</text></g>
-          <g data-node="decide"><rect class="d-box" x="304" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="350" y="38" text-anchor="middle">Decide</text></g>
-          <g data-node="standing"><rect class="d-box" x="404" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="450" y="38" text-anchor="middle">Standing</text></g>
-          <g data-node="words"><rect class="d-box" x="504" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="550" y="38" text-anchor="middle">Words</text></g>
-          <g data-node="gather"><rect class="d-box" x="604" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="650" y="38" text-anchor="middle">Ask</text></g>
-        </svg>
-      </figure>
+      <p class="from"><b>Before this:</b> only phases 3 and 4 reach your team, and we copy rather than move.</p>
 
-      <p class="from"><b>Before this:</b> purple means "you must choose". This chapter shows what a purple card contains.</p>
+      <div class="grid-wrap"><table class="grid">
+        <caption>Where each piece of the wiki ends up</caption>
+        <thead><tr><th scope="col">Piece</th><th scope="col">Old host</th><th scope="col">New host</th></tr></thead>
+        <tbody>
+          <tr class="group"><th colspan="3" scope="colgroup">Moves over</th></tr>
+          <tr><th scope="row">Pages and their history</th><td class="go">Kept, read-only</td><td class="go">Copied in full</td></tr>
+          <tr><th scope="row">Uploaded files and images</th><td class="go">Kept, read-only</td><td class="go">Copied in full</td></tr>
+          <tr class="group"><th colspan="3" scope="colgroup">Stays behind</th></tr>
+          <tr><th scope="row">Visitor statistics</th><td class="go">Kept</td><td class="stop">Not copied</td></tr>
+          <tr><th scope="row">Plugins nobody uses</th><td class="go">Kept</td><td class="stop">Left out</td></tr>
+          <tr class="group"><th colspan="3" scope="colgroup">Your call</th></tr>
+          <tr><th scope="row">Page comments</th><td class="go">Kept</td><td class="decide">Copy them?</td></tr>
+        </tbody>
+      </table></div>
+      <p class="take"><b>Take from this:</b> two pieces stay behind on purpose, and the old host keeps all of them.</p>
 
-      <p>A decision buried in prose costs a reread per option. A decision card puts the options side by side, marks the one the writer recommends, and says what happens if you decide nothing. You can choose in a minute.</p>
-
-      <div class="decision">
-        <h3>Should the explainer load web fonts?</h3>
-        <p>The page must read well offline. Fonts change how it reads online.</p>
-        <div class="options">
-          <div class="option" data-rec="Recommended">
-            <h4>Load them, fall back quietly</h4>
-            <ul><li class="plus">Best reading experience online</li><li class="plus">Offline still reads well on system fonts</li><li class="minus">One request to Google Fonts</li></ul>
-            <p class="cost">Cost: none to the reader.</p>
-          </div>
-          <div class="option">
-            <h4>System fonts only</h4>
-            <ul><li class="plus">Zero network</li><li class="minus">Reading-optimised faces lost</li><li class="minus">Looks different on every machine</li></ul>
-            <p class="cost">Cost: a worse read for most people.</p>
-          </div>
-          <div class="option" data-warn="Heavy pages">
-            <h4>Embed the font files</h4>
-            <ul><li class="plus">Identical everywhere</li><li class="minus">Adds about 300 KB per page</li><li class="minus">Licence bookkeeping</li></ul>
-            <p class="cost">Cost: every explainer gets heavy.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> the template already loads them with a fallback. Nothing breaks.</p>
-      </div>
-
-      <fieldset class="answer-field" data-q="demo-fonts" data-kind="choice">
-        <legend>Should the explainer load web fonts?</legend>
-        <label data-rec="Recommended"><input type="radio" name="demo-fonts" value="Load them, fall back quietly"> Load them, fall back quietly</label>
-        <label><input type="radio" name="demo-fonts" value="System fonts only"> System fonts only</label>
-        <label><input type="radio" name="demo-fonts" value="Embed the font files"> Embed the font files</label>
-      </fieldset>
-      <p>A decision page can end in tap-to-answer fields. Each card is followed by its field, and one collect bar sits after the recap. A chip such as ⚠ Heavy pages names a cost in words.</p>
-
-      <p>When the decision leads to action, the actions are a ladder. Each rung is one verb and one line.</p>
-
-      <ol class="steps">
-        <li><b>Read the answer.</b> If you agree, you can stop here.</li>
-        <li><b>Open the decision card.</b> Compare the option columns.</li>
-        <li><b>Pick.</b> Use the buttons in the ask at the end of the page.</li>
-      </ol>
-
-      <p>When each rung is a command, a runbook adds what a person needs at the keyboard: how to know it worked, and what to do if it did not.</p>
-
-      <ol class="runbook">
-        <li id="rb-1"><b>Check the page.</b>
-          <pre class="cmd"><code>node scripts/check.mjs docs/explainers/2026-10-13-checkout.html</code></pre>
-          <p class="check"><b>Check:</b> the first line says <code>PASS</code> and the exit code is 0.</p>
-          <p class="fail"><b>If it fails:</b> fix every line that starts with FAIL, then run the checker again.</p></li>
-        <li id="rb-2"><b>Tag the release.</b>
-          <pre class="cmd"><code>git tag -a v1.2.0 -m "html-explainer 1.2.0"</code></pre>
-          <p class="check"><b>Check:</b> <code>git ls-remote --tags origin</code> lists v1.2.0.</p>
-          <p class="fail"><b>If it fails:</b> the tag exists already; delete it locally and tag again.</p></li>
-        <li id="rb-3"><b>Update the installed copy.</b>
-          <pre class="cmd"><code>claude plugin update html-explainer@html-explainer-skill</code></pre>
-          <p class="check"><b>Check:</b> the plugin list shows version 1.2.0.</p>
-          <p class="fail"><b>If it fails:</b> restart Claude Code and run the command again.</p></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> every step ends in a check the reader can run, and a way out if the check fails.</p>
-
-      <details class="fold" open><summary>The overview that ticks itself</summary>
-        <p>A runbook opens with every step as one row, grouped by chapter. Tick a row and its step ticks too. The first step still open is marked Next.</p>
-        <section class="glance" aria-labelledby="g-ro-h">
-          <div class="glance-head"><h3 id="g-ro-h">The five steps, in order</h3><span class="chip">Publish the wiki page</span></div>
-          <div class="runbook-overview"></div>
-          <p class="take"><b>Take:</b> the page builds this list from the steps themselves, and remembers what you ticked.</p>
-        </section>
-      </details>
-
-      <details class="fold" open><summary>Rulings: the board that opens a decision page</summary>
-        <p>A decision page opens with one row per card: the question, the recommended option and where it stands. The board builds itself from the cards and their answer fields. Tap an answer to watch it change.</p>
-        <section class="glance" aria-labelledby="g-rulings-h">
-          <div class="glance-head"><h3 id="g-rulings-h">Your three rulings</h3><span class="chip decide">Rule on the first one first</span></div>
-          <div class="rulings"></div>
-          <p class="take"><b>Take:</b> the first ruling still waiting gets the one tint. Nothing else on the board is coloured.</p>
-        </section>
-        <div class="decision">
-          <h3>Should notes sync over mobile data?</h3>
-          <p>A phone plan can charge for the data a sync uses.</p>
-          <div class="options">
-            <div class="option" data-rec="Recommended"><h4>Text only on mobile data</h4><ul><li class="plus">Notes stay current</li><li class="minus">Pictures wait for Wi-Fi</li></ul></div>
-            <div class="option"><h4>Wi-Fi only</h4><ul><li class="plus">No data is used</li><li class="minus">A note can be hours old</li></ul></div>
-          </div>
-          <p class="nothing"><b>If you do nothing:</b> sync stays on Wi-Fi only.</p>
-        </div>
-        <fieldset class="answer-field" data-q="demo-sync" data-kind="choice">
-          <legend>Should notes sync over mobile data?</legend>
-          <label data-rec="Recommended"><input type="radio" name="demo-sync" value="Text only on mobile data"> Text only on mobile data</label>
-          <label><input type="radio" name="demo-sync" value="Wi-Fi only"> Wi-Fi only</label>
-        </fieldset>
-        <div class="decision">
-          <h3>Which export format comes first?</h3>
-          <p>People ask for both. Building one well takes a week.</p>
-          <div class="options">
-            <div class="option" data-rec="Recommended"><h4>Markdown files</h4><ul><li class="plus">Opens in any editor</li><li class="minus">No page layout</li></ul></div>
-            <div class="option"><h4>PDF</h4><ul><li class="plus">Looks the same everywhere</li><li class="minus">Hard to edit again</li></ul></div>
-          </div>
-          <p class="nothing"><b>If you do nothing:</b> export waits until the next planning round.</p>
-        </div>
-        <fieldset class="answer-field" data-q="demo-export" data-kind="choice">
-          <legend>Which export format comes first?</legend>
-          <label data-rec="Recommended"><input type="radio" name="demo-export" value="Markdown files"> Markdown files</label>
-          <label><input type="radio" name="demo-export" value="PDF"> PDF</label>
-        </fieldset>
-      </details>
-
-      <p class="remember"><b>Remember:</b> a purple card always tells you the recommended option and what happens if you ignore it.</p>
+      <p class="remember"><b>Remember:</b> the old host keeps everything, so a piece we leave out is never lost.</p>
     </section>
 
     <!-- ============ 5 ============ -->
-    <section class="chapter" id="standing" data-keep="Timeline for when, status board for how things are, tiles for the few numbers, a grid to compare, lanes to plan.">
+    <section class="chapter" id="roles" data-keep="You decide and send. I copy and check. The rules never bend.">
       <header>
-        <div><p class="kicker">Chapter 5 of 7, about 2 minutes</p><h2>Where things stand and what comes next, in five shapes</h2></div>
+        <div><p class="kicker">Chapter 5 of 8, about 1 minute</p><h2>Who does what, and what never bends?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <figure class="minimap" data-lit="standing">
-        <svg viewBox="0 0 700 64" role="img" aria-labelledby="mm-standing"><title id="mm-standing">Page map: you are in chapter 5 of 7, Standing</title>
-          <g data-node="memory"><rect class="d-box" x="4" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="50" y="38" text-anchor="middle">Memory</text></g>
-          <g data-node="colour"><rect class="d-box" x="104" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Colour</text></g>
-          <g data-node="diagrams"><rect class="d-box" x="204" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="250" y="38" text-anchor="middle">Pictures</text></g>
-          <g data-node="decide"><rect class="d-box" x="304" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="350" y="38" text-anchor="middle">Decide</text></g>
-          <g data-node="standing"><rect class="d-box" x="404" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="450" y="38" text-anchor="middle">Standing</text></g>
-          <g data-node="words"><rect class="d-box" x="504" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="550" y="38" text-anchor="middle">Words</text></g>
-          <g data-node="gather"><rect class="d-box" x="604" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="650" y="38" text-anchor="middle">Ask</text></g>
-        </svg>
-      </figure>
+      <p class="from"><b>Before this:</b> six phases, with a part for each of us.</p>
 
-      <p class="from"><b>Before this:</b> colour has one meaning. Status shapes reuse green, amber, red and cobalt and add nothing new.</p>
-
-      <p>"Where are we" questions have three answers: where we are in time, how each piece is doing, and the few numbers that decide what happens next. Each has its own shape.</p>
-
-      <ol class="timeline">
-        <li class="go"><span class="when">August</span><span class="what">Thirteen explainers written by hand, no shared system.</span></li>
-        <li class="go"><span class="when">Early September</span><span class="what">Feedback: too much text, not enough visuals.</span></li>
-        <li class="here"><span class="when">Today</span><span class="what">This system, version 1.0.</span></li>
-        <li><span class="when">Next</span><span class="what">Every new explainer starts from the template.</span></li>
-      </ol>
-
-      <ul class="status">
-        <li class="go"><b>Template</b><span>Complete, passes its own checker.</span></li>
-        <li class="go"><b>Checker</b><span>Runs on Node, no dependencies.</span></li>
-        <li class="wait"><b>Gallery</b><span>This page. Reviewed at phone width and in dark mode.</span></li>
-        <li class="decide"><b>Public repo</b><span>Waiting for you to say where it lives.</span></li>
+      <div class="roles">
+        <section class="role" data-who="you"><h3><span class="who" title="You">Y</span> You</h3><ul>
+          <li>Answer the three questions below.</li>
+          <li>Say yes before any step that touches the live wiki.</li>
+          <li>Send the message to your team.</li>
+          <li>Decide when the old host goes.</li>
+        </ul></section>
+        <section class="role" data-who="me"><h3><span class="who" title="Me">M</span> Me</h3><ul>
+          <li>Copy the wiki and rehearse the move.</li>
+          <li>Do each live step, after your yes.</li>
+          <li>Check the pages that matter, before and after.</li>
+          <li>Watch for errors for a week.</li>
+        </ul></section>
+      </div>
+      <ul class="rules">
+        <li><b>Nothing live without your yes.</b> Every step that changes the live wiki waits for you.</li>
+        <li><b>Copy, never move.</b> The old host keeps every page until you say it can go.</li>
+        <li><b>A backup before every switch.</b> A fresh one, checked that it opens.</li>
+        <li><b>Rehearse first.</b> Each live step runs on a spare copy with fake data.</li>
       </ul>
+      <p class="take"><b>Take from this:</b> you decide and send, I copy and check.</p>
 
-      <div class="tiles">
-        <div class="tile stop"><span class="n">9 of 13</span><span class="l">past explainers had no diagram at all</span></div>
-        <div class="tile stop"><span class="n">1 of 13</span><span class="l">opened with the answer</span></div>
-        <div class="tile go"><span class="n">3</span><span class="l">facts a page may ask you to keep</span></div>
-      </div>
-
-      <p>Two more shapes answer "which one?" and "in what order?". A grid sets options against the same criteria. Lanes sort work into now, next and later, and each lane says how sure it is.</p>
-
-      <div class="grid-wrap"><table class="grid">
-        <caption>Three ways to install the explainer on a new machine</caption>
-        <thead><tr><th scope="col">Criterion</th><th scope="col" data-rec>Plugin from GitHub</th><th scope="col">Folder link</th><th scope="col">Copy by hand</th></tr></thead>
-        <tbody>
-          <tr class="group"><th colspan="4" scope="colgroup">Keeping it current</th></tr>
-          <tr><th scope="row">Picks up updates</th><td class="go">One command</td><td class="wait">After a git pull</td><td class="stop">Never</td></tr>
-          <tr><th scope="row">Works on a second machine</th><td class="go">Same command</td><td class="stop">Breaks if the path differs</td><td class="wait">Copy again</td></tr>
-          <tr class="group"><th colspan="4" scope="colgroup">Setting it up</th></tr>
-          <tr><th scope="row">Needs admin rights</th><td class="go">No</td><td class="wait">Sometimes, on Windows</td><td class="go">No</td></tr>
-          <tr><th scope="row">Which version you run</th><td class="decide">You pick: latest or pinned</td><td class="go">Whatever is checked out</td><td class="wait">Whatever you copied</td></tr>
-        </tbody>
-      </table></div>
-      <p class="take"><b>Take from this:</b> the plugin wins on three of four criteria, and the fourth is your call.</p>
-
-      <p class="asof">A plan, not a promise. Items move as we learn.</p>
-      <div class="lanes">
-        <section class="lane" data-lane="now"><h3>Now <span class="lane-count">3 of 5</span></h3>
-          <p class="lane-note">Next 4 weeks. Committed. Top item first.</p><ul>
-          <li id="g-trigger" class="here"><b>The skill starts when asked</b><span>Sharper descriptions, tested on the phrases people type.</span></li>
-          <li id="g-name" class="decide"><b>Pick the final name</b><span>A rename after listing loses every install.</span></li>
-          <li id="g-readers"><b>Test pages with outside readers</b><span>Five to ten readers, one topic shown three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, the review needs it.</small></li>
-        </ul></section>
-        <section class="lane" data-lane="next"><h3>Next <span class="lane-count">4 of 5</span></h3>
-          <p class="lane-note">1 to 3 months. Likely. Not in order.</p><ul>
-          <li id="g-list" class="wait"><b>List in Anthropic's directory</b><span>Submitted from the claude.ai account.</span><small class="after">After: <a href="#g-name">Pick the final name</a>, <a href="#g-trigger">The skill starts when asked</a></small><small class="outside">Outside: Anthropic reviews each listing.</small></li>
-          <li><b>Browser layout check</b><span>Catches sideways scroll and words split in two.</span></li>
-          <li><b>Tested installs in other agents</b><span>Codex, Gemini CLI, Cursor and Copilot.</span></li>
-          <li data-conf="exploring"><b>Publish pages as Claude artifacts</b><span>Offer an artifact link next to the file.</span><small class="conf">Exploring: depends on the platform</small></li>
-        </ul></section>
-        <section class="lane" data-lane="later"><h3>Later <span class="lane-count">3 of 5</span></h3>
-          <p class="lane-note">3 months or more. Exploring. Not in order.</p><ul>
-          <li class="wait"><b>Pull request pages in CI</b><span>A page for every pull request.</span><small class="after">After: <a href="#g-readers">Test pages with outside readers</a></small></li>
-          <li class="wait"><b>Brand themes</b><span>Your colours, the same contrast rules.</span><small class="after">After: <a href="#g-readers">Test pages with outside readers</a></small></li>
-          <li class="stop"><b>Motion companion</b><span>Animated walkthroughs of a page.</span><small class="outside">Outside: it needs a hook or an API in Claude Code.</small></li>
-        </ul></section>
-      </div>
-      <p class="take"><b>Take from this:</b> each lane says how sure it is, each card says its state in a word, and the count on a card is worked out from the After links.</p>
-
-      <details class="fold shipped"><summary><span>Shipped in 1.5.0: 3 items</span><a href="https://github.com/ariasr47/html-explainer-skill/blob/main/CHANGELOG.md">Changelog</a></summary>
-        <ul><li>Pages check themselves</li><li>Upgrade old pages</li><li>Answer by tapping</li></ul>
-      </details>
-      <details class="fold parked"><summary><span>Parked on purpose: 3 items, each with what would bring it back</span></summary>
-        <div class="parked-shelf">
-          <div><b>New page types</b><span><b>Why:</b> Seventeen cover every request so far.</span><span><b>Back when:</b> An outside user's content fits none.</span></div>
-          <div><b>A paid tier</b><span><b>Why:</b> Everything useful is a public file.</span><span><b>Back when:</b> Teams ask for more than a file.</span></div>
-          <div><b>A score on every card</b><span><b>Why:</b> A number looks exact when the guess is not.</span><span><b>Back when:</b> Outside readers ask for one.</span></div>
-        </div>
-      </details>
-
-      <details class="fold" open><summary>A roadmap's backlog: the ranked top, the cut line, the themes and the parked shelf</summary>
-        <div>
-          <p>The top five are ranked and numbered. Under the cut line nothing is ranked or promised. A theme folds away and shows its count and its top idea.</p>
-          <ol class="backlog-top">
-            <li id="b-trigger" class="here"><b>The skill starts when asked</b><span>Sharper descriptions, tested on real phrases.</span></li>
-            <li id="b-name" class="decide"><b>Pick the final name</b><span>A rename after listing loses every install.</span></li>
-            <li id="b-readers"><b>Test pages with outside readers</b><span>Five to ten readers, one topic shown three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, for the review.</small></li>
-            <li><b>Lane notes and one set of status words</b><span>Every lane states its horizon and confidence.</span></li>
-            <li><b>Count what each one unblocks</b><span>The page counts it, so nobody traces links.</span></li>
-          </ol>
-          <div class="cutline" role="separator">Cut line. Below is not ranked and not promised.</div>
-          <details class="theme" open><summary><b>Reach</b><span class="count">3 ideas</span><span class="top">Top: List in Anthropic's directory</span></summary><ul>
-            <li><b>List in Anthropic's directory.</b> <small class="after">After: <a href="#b-name">the name</a></small></li>
-            <li><b>Upload zips for claude.ai.</b> <small class="after">After: <a href="#b-name">the name</a></small></li>
-            <li><b>Tested installs in other agents.</b></li>
-          </ul></details>
-          <details class="theme"><summary><b>Reading</b><span class="count">2 ideas</span><span class="top">Top: Mark only the exceptions</span></summary><ul>
-            <li><b>Mark only the exceptions.</b></li>
-            <li><b>Shipped and parked fold away.</b></li>
-          </ul></details>
-          <details class="theme"><summary><b>Asking</b><span class="count">2 ideas</span><span class="top">Top: Repair the rank control</span></summary><ul>
-            <li><b>Repair the rank control.</b></li>
-            <li><b>One combined ranking.</b></li>
-          </ul></details>
-          <div class="parked-shelf">
-            <div><b>Arrow graphs of dependencies</b><span><b>Why:</b> They fail on a phone past about ten items.</span><span><b>Back when:</b> A layout reads well at 390 px.</span></div>
-            <div><b>Faded cards for low confidence</b><span><b>Why:</b> Faded text fails contrast and reads as less important.</span><span><b>Back when:</b> A faded card keeps 4.5 to 1 contrast.</span></div>
-          </div>
-        </div>
-        <p class="take"><b>Take from this:</b> the line between ranked and unranked is drawn, and what is parked says why.</p>
-      </details>
-
-      <details class="fold" open><summary>A playbook: the whole plan in one row, then each phase</summary>
-        <p>A playbook gathers these shapes into one plan for one decision-maker. Its strip shows every phase in a row. Each segment links to its phase, names the owner in a letter badge, shows how much work it is as a bar, and marks the phases the audience will notice. The grid above groups its rows with a quiet band in the same way.</p>
-
-        <ol class="phase-strip" aria-label="Three phases">
-          <li data-owner="you"><a href="#phase-1"><span class="seg-num">Phase 1</span><b>Decide what moves</b>
-            <span class="who" title="You">Y</span><small class="effort">a few days</small><span class="bar" style="--effort:2"></span></a></li>
-          <li class="notice" data-owner="both"><a href="#phase-2"><span class="seg-num">Phase 2</span><b>Switch day</b>
-            <span class="who" title="Both">Y+M</span><small class="effort">one evening</small><span class="bar" style="--effort:1"></span>
-            <span class="notice-tag">Team notices</span></a></li>
-          <li data-owner="me"><a href="#phase-3"><span class="seg-num">Phase 3</span><b>Watch and fix</b>
-            <span class="who" title="Me">M</span><small class="effort">a week</small><span class="bar" style="--effort:3"></span></a></li>
-        </ol>
-
-        <ol class="phases">
-          <li id="phase-1"><h3>Decide what moves</h3><span class="chip">You decide</span><span class="chip">A few days</span>
-            <ul><li>Pick what comes across.</li></ul>
-            <p class="impact"><b>Team notices:</b> nothing.</p></li>
-          <li class="notice" id="phase-2"><h3>Switch day</h3><span class="chip">Both of us</span><span class="chip">One evening</span>
-            <ul><li>The new address goes live.</li></ul>
-            <p class="impact"><b>Team notices:</b> the new address, and one extra sign-in.</p></li>
-          <li id="phase-3"><h3>Watch and fix</h3><span class="chip">I do the work</span><span class="chip">A week</span>
-            <ul><li>Watch for errors and fix them the same day.</li></ul>
-            <p class="impact"><b>Team notices:</b> nothing new.</p></li>
-        </ol>
-        <p class="take"><b>Take from this:</b> every phase says what the audience notices, and the two they notice are outlined.</p>
-      </details>
-
-      <details class="fold" open><summary>A playbook: who does what, the risky moment, and the risks</summary>
-        <p>Roles say who does what, and rules say what never bends. The undo box is the way back from the one risky moment. Each risk has a level, in words and a glyph, and what keeps it small.</p>
-
-        <div class="roles">
-          <section class="role" data-who="you"><h3><span class="who" title="You">Y</span> You</h3><ul><li>Say yes before each live step.</li><li>Tell the people affected.</li></ul></section>
-          <section class="role" data-who="me"><h3><span class="who" title="Me">M</span> Me</h3><ul><li>Do the work and rehearse it.</li><li>Check before and after.</li></ul></section>
-        </div>
-        <ul class="rules">
-          <li><b>Nothing live without your yes.</b> Every live step waits for you.</li>
-          <li><b>Copy, never move.</b> The old version stays until you say it can go.</li>
-        </ul>
-
-        <div class="undo"><b>If something goes wrong:</b> point the address back at the old version. It is back within minutes.</div>
-
-        <div class="risks">
-          <article class="risk" data-level="high"><h3>The old version gets forgotten</h3><span class="level">High</span>
-            <p>It still holds everything. Left alone, it turns into the weak spot.</p>
-            <p class="kept"><b>Kept small by:</b> a reminder to switch it off after a month.</p></article>
-          <article class="risk" data-level="medium"><h3>Someone misses the message</h3><span class="level">Medium</span>
-            <p>They open the old address and wonder where it went.</p>
-            <p class="kept"><b>Kept small by:</b> the old address forwards to the new one.</p></article>
-          <article class="risk" data-level="low"><h3>A page looks different</h3><span class="level">Low</span>
-            <p>A few pages use a feature that works in its own way.</p>
-            <p class="kept"><b>Kept small by:</b> checking the most-read pages before and after.</p></article>
-        </div>
-        <p class="take"><b>Take from this:</b> a playbook shows the risky moment with its way back, and each risk with what keeps it small.</p>
-      </details>
-
-      <details class="fold" open><summary>A field guide: where things fit, what to do first, and an index to look things up in</summary>
-        <p>A field guide is a reference to read once and come back to. The map places each family in a stage and shows how much of it matters now. The list says what cannot wait. The index holds every entry as one line that opens to show an example.</p>
-
-        <div class="territory">
-          <div class="stage"><h3>Decide</h3>
-            <a class="family" href="#g-fam-design"><b>Product and design</b><span>Decide what it is and how it feels</span></a></div>
-          <div class="stage" data-here><h3>Build</h3>
-            <a class="family" href="#g-fam-front"><b>Frontend engineering</b><span>Build what runs in the browser</span></a>
-            <a class="family" href="#g-fam-back"><b>Backend and data</b><span>Build what runs on the server</span></a></div>
-        </div>
-        <p class="take"><b>Take from this:</b> the counts, the bars and the key are worked out from the entries below, so they cannot drift. The stage you are in says so.</p>
-
-        <ol class="start-here">
-          <li><a href="#g-e-model"><b>Data modelling</b></a><span>A wrong shape is slow and costly to change once people have notes.</span></li>
-          <li><a href="#g-e-research"><b>User research</b></a><span>Five short calls decide what is worth building.</span></li>
-        </ol>
-        <p class="can-wait"><b>Can wait:</b> sync and conflicts. They matter once people use two devices.</p>
-
-        <div class="index" data-rel-labels="Now|Before launch|Later">
-          <div class="guide-tools"></div>
-          <details class="family-index" id="g-fam-design"><summary><h3>Product and design</h3></summary>
-            <div class="entry" id="g-e-research" data-rel="now"><b class="name">User research</b><p class="def">Talking to real people to learn what they need.</p>
-              <div class="entry-body"><p class="where"><b>In the notes app:</b> Five short calls with students showed that finding old notes is the main pain.</p></div></div>
-            <div class="entry" id="g-e-content" data-rel="next"><b class="name">Content design</b><p class="def">The words on screen: labels, messages and tone.</p>
-              <div class="entry-body"><p class="where"><b>In the notes app:</b> Error messages say what happened and what to do next.</p></div></div>
-          </details>
-          <details class="family-index" id="g-fam-front" open><summary><h3>Frontend engineering</h3></summary>
-            <div class="entry" id="g-e-ui" data-rel="now"><b class="name">UI architecture</b><p class="def">How the interface is split into parts that can be reused.</p>
-              <div class="entry-body"><p class="where"><b>In the notes app:</b> The editor, the note list and the sidebar are separate components.</p><p class="see"><b>See also:</b> <a href="#g-e-tests">Frontend testing</a></p></div></div>
-            <div class="entry" id="g-e-tests" data-rel="next"><b class="name">Frontend testing</b><p class="def">Automated checks that the screens work as people expect.</p>
-              <div class="entry-body"><p class="where"><b>In the notes app:</b> One test opens a note, edits it and checks that the change shows.</p></div></div>
-          </details>
-          <details class="family-index" id="g-fam-back"><summary><h3>Backend and data</h3></summary>
-            <div class="entry" id="g-e-model" data-rel="now"><b class="name">Data modelling</b><p class="def">How information is shaped and stored so that it stays correct.</p>
-              <div class="entry-body"><p class="where"><b>In the notes app:</b> A note belongs to one notebook and can have many tags.</p></div></div>
-            <div class="entry" id="g-e-sync" data-rel="later"><b class="name">Sync and conflicts</b><p class="def">Keeping two devices the same when both change.</p>
-              <div class="entry-body"><p class="where"><b>In the notes app:</b> If a phone and a laptop edit one note, the app keeps both versions.</p></div></div>
-          </details>
-        </div>
-        <p class="take"><b>Take from this:</b> the filter starts on Now and always says how many entries it hides. A link to an entry opens it, even when the filter or a search would hide it.</p>
-      </details>
-
-      <details class="fold" open><summary>Two pictures side by side: how it is going, and when</summary>
-        <p>A status page puts its health rows beside a short timeline. On a phone they stack.</p>
-        <section class="glance" aria-labelledby="g-duo-h">
-          <div class="glance-head"><h3 id="g-duo-h">Where is the wiki move?</h3><span class="chip decide">1 part waits on you</span></div>
-          <div class="duo">
-            <div>
-              <h3>The parts</h3>
-              <ul class="status">
-                <li class="go"><b>Page copy</b><span>All 214 pages are copied and checked.</span></li>
-                <li class="go"><b>Links</b><span>Every internal link still opens.</span></li>
-                <li class="wait"><b>Search</b><span>Reindexing. Results lag by a day.</span></li>
-                <li class="decide"><b>Old address</b><span>Waiting for you to say when it redirects.</span></li>
-              </ul>
-            </div>
-            <div>
-              <h3>The last two weeks</h3>
-              <ol class="timeline">
-                <li class="go"><span class="when">Two weeks ago</span><span class="what">Pages exported from the old host.</span></li>
-                <li class="go"><span class="when">Last week</span><span class="what">New host live for the team only.</span></li>
-                <li class="here"><span class="when">Today</span><span class="what">Search is reindexing.</span></li>
-                <li><span class="when">Next</span><span class="what">The old address redirects.</span></li>
-              </ol>
-            </div>
-          </div>
-          <p class="take"><b>Take:</b> every part is fine except the one only you can decide.</p>
-        </section>
-      </details>
-
-      <details class="fold" open><summary>Three columns: what to trust, what to check, what to do</summary>
-        <p>A handover sorts what it knows by how it was checked. Each column is one state, with its own glyph and word.</p>
-        <section class="glance" aria-labelledby="g-cols-h">
-          <div class="glance-head"><h3 id="g-cols-h">What can you trust, and what do you do first?</h3><span class="chip here">Snapshot at 09:30</span></div>
-          <div class="cols">
-            <section class="col go"><h3>Verified</h3><p>Checked today with a command.</p>
-              <ul><li><b>Release 1.8.0 is merged</b><span>Main holds the merge commit.</span></li><li><b>The gallery opens</b><span>Seen at 390 and 1280 pixels.</span></li></ul></section>
-            <section class="col wait"><h3>Only claimed, check first</h3><p>A note says so. Nobody re-ran it.</p>
-              <ul><li><b>The checker passes</b><span>Exit 0, says the pull request.</span></li><li><b>Old pages still open</b><span>Reported by the reviewer.</span></li></ul></section>
-            <section class="col here"><h3>Do first</h3><p>Three steps, in order.</p>
-              <ol><li><b>Re-check this page against git.</b><span>Expect more commits than listed.</span></li><li><b>Run the checker.</b><span>Then read the exit code.</span></li><li><b>Tag the release.</b><span>Then update the install.</span></li></ol></section>
-          </div>
-          <p class="take"><b>Take:</b> only the first column was checked today. Re-run a claimed row before you build on it.</p>
-        </section>
-      </details>
-
-      <p class="remember"><b>Remember:</b> the cobalt dot on a timeline is today; the colour of a status dot is the whole status.</p>
+      <p class="remember"><b>Remember:</b> you say yes to every live step, and the old host stays until you say it can go.</p>
     </section>
 
     <!-- ============ 6 ============ -->
-    <section class="chapter" id="words" data-keep="Plain words in the reading path. Exact names, commands and numbers in folds.">
+    <section class="chapter" id="switch" data-keep="Six steps in one evening, and the way back is a single step.">
       <header>
-        <div><p class="kicker">Chapter 6 of 7, about 2 minutes</p><h2>Plain words on the path, machinery in the folds</h2></div>
+        <div><p class="kicker">Chapter 6 of 8, about 1 minute</p><h2>What happens on switch day, step by step?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <figure class="minimap" data-lit="words">
-        <svg viewBox="0 0 700 64" role="img" aria-labelledby="mm-words"><title id="mm-words">Page map: you are in chapter 6 of 7, Words</title>
-          <g data-node="memory"><rect class="d-box" x="4" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="50" y="38" text-anchor="middle">Memory</text></g>
-          <g data-node="colour"><rect class="d-box" x="104" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Colour</text></g>
-          <g data-node="diagrams"><rect class="d-box" x="204" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="250" y="38" text-anchor="middle">Pictures</text></g>
-          <g data-node="decide"><rect class="d-box" x="304" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="350" y="38" text-anchor="middle">Decide</text></g>
-          <g data-node="standing"><rect class="d-box" x="404" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="450" y="38" text-anchor="middle">Standing</text></g>
-          <g data-node="words"><rect class="d-box" x="504" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="550" y="38" text-anchor="middle">Words</text></g>
-          <g data-node="gather"><rect class="d-box" x="604" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="650" y="38" text-anchor="middle">Ask</text></g>
-        </svg>
-      </figure>
+      <p class="from"><b>Before this:</b> I do each live step, and only after your yes.</p>
 
-      <p class="from"><b>Before this:</b> every device so far reduces what you must hold. Words are the last place that load hides.</p>
+      <ol class="steps">
+        <li data-owner="you"><span class="who" title="You">Y</span> <b>Send the heads-up.</b> One message, a day before: the date and the new address.</li>
+        <li data-owner="me"><span class="who" title="Me">M</span> <b>Take a fresh backup.</b> I check that it opens.</li>
+        <li data-owner="me"><span class="who" title="Me">M</span> <b>Make the old wiki read-only.</b> Nobody can edit for about an hour.</li>
+        <li data-owner="me"><span class="who" title="Me">M</span> <b>Copy the last changes across.</b> Then I check the pages that matter.</li>
+        <li data-owner="both"><span class="who" title="Both">Y+M</span> <b>Point the new address at the new host.</b> You say yes first.</li>
+        <li data-owner="me"><span class="who" title="Me">M</span> <b>Forward the old address.</b> Visitors to the old address land on the new one.</li>
+      </ol>
+      <div class="undo"><b>If something goes wrong:</b> point the new address back at the old host and turn the forwarding off. The old host still has every page, so the wiki is back within minutes.</div>
+      <p class="take"><b>Take from this:</b> one evening, six steps, and the way back is one step.</p>
 
-      <p>The reading path is written the way you would say it out loud: short sentences, one idea each, the verb near the front. A technical word gets a plain definition the first time it appears, like <dfn>idempotent</dfn> below.</p>
-
-      <dl class="term">
-        <dt>Idempotent</dt><dd>Safe to run twice. The second run changes nothing.</dd>
-        <dt>Reading path</dt><dd>Everything you see with all the folds closed.</dd>
-        <dt>Fold</dt><dd>A closed box you can open for exact details.</dd>
-      </dl>
-
-      <p>Everything exact lives in a fold: commands, file paths, hashes, tables. The page must make sense with every fold closed, so opening one is always optional.</p>
-
-      <p>One fact, at three depths.</p>
-
-      <div class="views">
-        <div class="views-tabs" role="tablist">
-          <button type="button" role="tab" data-view-tab="plain" aria-selected="true">Plain</button>
-          <button type="button" role="tab" data-view-tab="exact" aria-selected="false">Exact</button>
-          <button type="button" role="tab" data-view-tab="code" aria-selected="false">Code</button>
-        </div>
-        <div class="view" data-view-panel="plain"><p>The page remembers what you typed.</p></div>
-        <div class="view" data-view-panel="exact" hidden><p>Each answer is stored in this browser, under the page address.</p></div>
-        <div class="view" data-view-panel="code" hidden><p><code>localStorage["explainer:/page:answers"]</code></p></div>
-      </div>
-
-      <details class="fold"><summary>Show the checker command</summary>
-        <pre><code>node &lt;plugin folder&gt;/skills/html-explainer/scripts/check.mjs docs/explainers/2026-10-07-topic.html</code></pre>
-        <p>Exit code 0 means every hard rule passed. It fails a page for a missing answer, a chapter without a visual, a paragraph over forty words, an external script, or an SVG without a title.</p>
-      </details>
-
-      <div class="split">
-        <div class="before"><b>Before</b><ul><li>"Session tokens expire after 3600 s and are subsequently invalidated server-side."</li></ul></div>
-        <div class="after"><b>After</b><ul><li>"The server forgets who you are after an hour."</li><li>Exact number in a fold.</li></ul></div>
-      </div>
-
-      <p>When the reader is a customer, the same rule becomes a promise: what it does for you, in your words. The proof sits in a fold, one piece for each promise.</p>
-
-      <ul class="promises">
-        <li data-evidence="server/app/retention.py:14"><b>Deleted automatically.</b> Your file is removed within 24 hours.</li>
-        <li data-evidence="docs/privacy.md:22"><b>Never sold.</b> Nobody outside the company sees what you upload.</li>
-        <li data-evidence="https://status.example.com/uptime"><b>Open every day.</b> The service was up 99.9 percent of the last 90 days.</li>
-      </ul>
-      <details class="fold"><summary>How we know</summary>
-        <ul>
-          <li><code>server/app/retention.py:14</code> deletes every upload after 24 hours.</li>
-          <li><code>docs/privacy.md:22</code> states that uploads are never shared or sold.</li>
-          <li><code>https://status.example.com/uptime</code> publishes the daily uptime record.</li>
-        </ul>
-      </details>
-
-      <details class="fold" open><summary>Layers, easiest first, with the new words of each</summary>
-        <p>A teaching page shows its subject as layers. Each layer lists the words it brings. One layer says where you are.</p>
-        <ol class="layers">
-          <li class="here"><b>What the page is</b><span>One file you open in a browser.</span><span class="terms"><span>Reading path</span><span>Fold</span></span></li>
-          <li><b>How it stays readable</b><span>Short blocks, one idea each, and a line that says the point.</span><span class="terms"><span>Keep box</span><span>Take</span><span>Remember</span></span></li>
-          <li><b>How it carries your place</b><span>The rail, the progress bar and the Done boxes.</span><span class="terms"><span>Rail</span><span>Done box</span></span></li>
-          <li><b>How it asks you things</b><span>Fields that save on this device until you copy them.</span><span class="terms"><span>Answer field</span><span>Collect bar</span></span></li>
-        </ol>
-        <p class="take"><b>Take from this:</b> each layer builds on the one before it. The chips are its new words.</p>
-      </details>
-
-      <details class="fold"><summary>Show the steps to publish the page</summary>
-        <p>The exact commands live here, out of the reading path. They number on from the steps in chapter 4.</p>
-        <ol class="runbook" start="4">
-          <li id="rb-4"><b>Open the pull request.</b>
-            <pre class="cmd"><code>gh pr create --fill</code></pre>
-            <p class="check"><b>Check:</b> the command prints a pull request address.</p>
-            <p class="fail"><b>If it fails:</b> run <code>git push -u origin HEAD</code> first, then try again.</p></li>
-          <li id="rb-5"><b>Merge it.</b>
-            <pre class="cmd"><code>gh pr merge --merge --delete-branch</code></pre>
-            <p class="check"><b>Check:</b> <code>git branch -r</code> lists only main.</p>
-            <p class="fail"><b>If it fails:</b> pull main into your branch, fix the conflicts and push again.</p></li>
-        </ol>
-      </details>
-
-      <p class="remember"><b>Remember:</b> if you hit a hard word or a wall of detail in the reading path, the page is wrong, not you.</p>
+      <p class="remember"><b>Remember:</b> on switch day the way back is one step, because the old host still has every page.</p>
     </section>
 
     <!-- ============ 7 ============ -->
-    <section class="chapter" id="gather" data-keep="Each question is a field. Your answers stay on this device until you copy them.">
+    <section class="chapter" id="risks" data-keep="One risk is high, and it is about afterwards, not about switch day.">
       <header>
-        <div><p class="kicker">Chapter 7 of 7, about 1 minute</p><h2>Questions get answered on the page, and the answers stay with you</h2></div>
+        <div><p class="kicker">Chapter 7 of 8, about 1 minute</p><h2>What could go wrong?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <figure class="minimap" data-lit="gather">
-        <svg viewBox="0 0 700 64" role="img" aria-labelledby="mm-gather"><title id="mm-gather">Page map: you are in chapter 7 of 7, Ask</title>
-          <g data-node="memory"><rect class="d-box" x="4" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="50" y="38" text-anchor="middle">Memory</text></g>
-          <g data-node="colour"><rect class="d-box" x="104" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Colour</text></g>
-          <g data-node="diagrams"><rect class="d-box" x="204" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="250" y="38" text-anchor="middle">Pictures</text></g>
-          <g data-node="decide"><rect class="d-box" x="304" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="350" y="38" text-anchor="middle">Decide</text></g>
-          <g data-node="standing"><rect class="d-box" x="404" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="450" y="38" text-anchor="middle">Standing</text></g>
-          <g data-node="words"><rect class="d-box" x="504" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="550" y="38" text-anchor="middle">Words</text></g>
-          <g data-node="gather"><rect class="d-box" x="604" y="10" width="92" height="44" rx="8"/><text class="d-text-b" x="650" y="38" text-anchor="middle">Ask</text></g>
-        </svg>
-      </figure>
+      <p class="from"><b>Before this:</b> the way back on switch day is one step.</p>
 
-      <p class="from"><b>Before this:</b> purple means you must choose. A question field is where you do it.</p>
-
-      <p>Some pages ask you things. Answer, and the page saves it on this device. A bar at the bottom then offers to copy or download.</p>
-
-      <div class="answer-field" data-q="demo-text">
-        <label for="demo-text">What would make this page easier for you to read?</label>
-        <p class="hint">One sentence is enough.</p>
-        <textarea id="demo-text" rows="3"></textarea>
+      <div class="risks">
+        <article class="risk" data-level="high"><h3>The old host gets forgotten</h3><span class="level">High</span>
+          <p>It still holds every page. Left alone, it turns into the weak spot.</p>
+          <p class="kept"><b>Kept small by:</b> a reminder to switch it off one month after switch day.</p></article>
+        <article class="risk" data-level="medium"><h3>Someone misses the message</h3><span class="level">Medium</span>
+          <p>They open the old address and wonder where the wiki went.</p>
+          <p class="kept"><b>Kept small by:</b> the old address forwards to the new one for a month.</p></article>
+        <article class="risk" data-level="medium"><h3>Sign-in breaks on the new host</h3><span class="level">Medium</span>
+          <p>People reach the wiki but cannot log in.</p>
+          <p class="kept"><b>Kept small by:</b> I test sign-in on the spare copy, and again right after the switch.</p></article>
+        <article class="risk" data-level="low"><h3>A page looks different</h3><span class="level">Low</span>
+          <p>A few pages use a feature the new host handles in its own way.</p>
+          <p class="kept"><b>Kept small by:</b> I check the twenty most-read pages before and after.</p></article>
       </div>
+      <p class="take"><b>Take from this:</b> the one high risk is about the weeks after the move, so it has a date on the calendar.</p>
 
-      <fieldset class="answer-field" data-q="demo-choice" data-kind="choice">
-        <legend>Should every new page start from this system?</legend>
-        <label data-rec="Recommended"><input type="radio" name="demo-choice" value="Yes"> Yes</label>
-        <label><input type="radio" name="demo-choice" value="Not yet"> Not yet</label>
-        <textarea id="demo-choice-why" rows="2" aria-label="Why"></textarea>
+      <p class="remember"><b>Remember:</b> the biggest risk is forgetting the old host, so it gets a reminder.</p>
+    </section>
+
+    <!-- ============ 8 ============ -->
+    <section class="chapter" id="decide" data-keep="Running both hosts for a month is the only extra cost. Three answers from you.">
+      <header>
+        <div><p class="kicker">Chapter 8 of 8, about 2 minutes</p><h2>What will it cost, and what do I need from you?</h2></div>
+        <button type="button" class="read-aloud" data-read>Read aloud</button>
+        <label><input type="checkbox" data-done> Done</label>
+      </header>
+
+      <p class="from"><b>Before this:</b> one risk is high, and it has a reminder.</p>
+
+      <div class="tiles">
+        <div class="tile"><span class="n">$12</span><span class="l">a month for the new host</span></div>
+        <div class="tile wait"><span class="n">$8</span><span class="l">for the one extra month of the old host</span></div>
+        <div class="tile"><span class="n">2 h</span><span class="l">of your time, in all</span></div>
+        <div class="tile go"><span class="n">$0</span><span class="l">to copy the pages and files</span></div>
+      </div>
+      <p class="take"><b>Take from this:</b> running both hosts for one month is the only extra cost.</p>
+
+      <p>Three questions are left. Pick an answer for each. My choice is marked. The bar at the bottom copies your answers so you can paste them back to me.</p>
+
+      <fieldset class="answer-field" data-q="comments" data-kind="choice">
+        <legend>Should page comments come across?</legend>
+        <p class="hint">Comments are the discussion under pages. They are small, and some are useful.</p>
+        <label data-rec="Recommended"><input type="radio" name="comments" value="Copy them"> Copy them</label>
+        <label><input type="radio" name="comments" value="Leave them behind"> Leave them behind</label>
       </fieldset>
 
-      <p>When the writer has a favourite, its option wears a star chip with the writer's own words: "Recommended", or "My pick" when one person is speaking to another. A playbook or a decision page ends with its decisions this way.</p>
-
-      <fieldset class="answer-field" data-q="demo-pick" data-kind="choice">
+      <fieldset class="answer-field" data-q="evening" data-kind="choice">
         <legend>Which evening should the switch happen?</legend>
-        <p class="hint">A quiet evening costs your team the least.</p>
-        <label data-rec="My pick"><input type="radio" name="demo-pick" value="Saturday evening"> Saturday evening</label>
-        <label><input type="radio" name="demo-pick" value="Sunday evening"> Sunday evening</label>
-        <label><input type="radio" name="demo-pick" value="A weekday evening"> A weekday evening</label>
+        <p class="hint">The wiki is read-only for about an hour. A quiet evening costs your team the least.</p>
+        <label data-rec="Recommended"><input type="radio" name="evening" value="Saturday evening"> Saturday evening</label>
+        <label><input type="radio" name="evening" value="Sunday evening"> Sunday evening</label>
+        <label><input type="radio" name="evening" value="A weekday evening"> A weekday evening</label>
       </fieldset>
 
-      <ol class="flow">
-        <li class="go"><b>Explain and ask</b><span>Author</span></li>
-        <li class="here"><b>Type</b><span>You</span></li>
-        <li><b>Copy</b><span>You</span></li>
-        <li><b>Merge</b><span>Author</span></li>
-      </ol>
+      <fieldset class="answer-field" data-q="old-host" data-kind="choice">
+        <legend>How long do we keep the old host after the switch?</legend>
+        <p class="hint">It is our way back, and it costs $8 a month.</p>
+        <label data-rec="Recommended"><input type="radio" name="old-host" value="One month"> One month</label>
+        <label><input type="radio" name="old-host" value="Two weeks"> Two weeks</label>
+        <label><input type="radio" name="old-host" value="Three months"> Three months</label>
+      </fieldset>
 
-      <details class="fold" open><summary>Buckets and ranking: sort the items, then put the top ones in order</summary>
-        <p>A buckets field gives each item one row of labelled buttons. The writer's pick is already set and marked ★, so the reader changes only what they disagree with. The first bucket then gets an order.</p>
-
-        <fieldset class="answer-field" data-q="demo-buckets" data-kind="buckets" data-buckets="Now|Next|Later|Not now">
-          <legend>Which of these should we build first?</legend>
-          <p class="hint">Tap a bucket for each item. My pick is set and marked ★.</p>
-          <ol>
-            <li data-id="search" data-rec="Now"><b>Fix the slow search</b><span>Search takes four seconds on a phone.</span></li>
-            <li data-id="dark" data-rec="Now"><b>Add a dark theme</b><span>The page follows the phone's setting.</span></li>
-            <li data-id="pdf" data-rec="Now"><b>Save as PDF</b><span>One button saves the page for printing.</span></li>
-            <li data-id="offline" data-rec="Next"><b>Work offline</b><span>The page opens with no network.</span></li>
-            <li data-id="teams" data-rec="Next"><b>Share with a team</b><span>Several people keep one set of answers.</span></li>
-            <li data-id="logo" data-rec="Later"><b>Change the logo</b><span>A new logo on the sign-in page.</span></li>
-          </ol>
-          <textarea id="demo-buckets-why" rows="2" aria-label="Why" placeholder="Why these buckets? (optional)"></textarea>
-        </fieldset>
-
-        <p>A plain rank field is the same control without the buckets. Moving an item, or tapping "This order is right", makes the order an answer.</p>
-
-        <fieldset class="answer-field" data-q="demo-rank" data-kind="rank">
-          <legend>Put these in order, most important first.</legend>
-          <p class="hint">Use the arrows, or send an item to the top.</p>
-          <ol>
-            <li data-id="speed"><span>Speed</span></li>
-            <li data-id="cost"><span>Cost</span></li>
-            <li data-id="safety"><span>Safety</span></li>
-          </ol>
-          <textarea id="demo-rank-why" rows="2" aria-label="Why" placeholder="Why this order? (optional)"></textarea>
-        </fieldset>
-      </details>
-
-      <details class="fold" open><summary>Ballot: pictured or text options, one copy</summary>
-        <p>When one person must rule on several open decisions, a ballot page shows each as a card. Every option is a picture, or a label and one line when there is nothing to draw. One tap picks it, and one button copies every pick.</p>
-
-        <figure class="figure">
-          <div class="ballot-still" role="img" aria-label="Two ballot cards above the tray. The first has two pictured options, the second one picked. The second has two options in words, and one carries a warning chip, Gone for good. The tray reads 1 of 4 picked and has Pick all, Review picks and Copy picks buttons." inert>
-          <article class="ballot-card picked" data-q="demo" data-short="Saving">
-            <header><span class="num">1</span><h3>When should a note save?</h3><span class="state">Your pick: B</span></header>
-            <div class="ballot-opts" role="radiogroup" aria-label="Options">
-              <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
-                <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span></span><span class="mock-note">Saved</span></span>
-                <span class="name"><b>A</b> As you type</span>
-                <span class="effect">Every pause saves.</span>
-              </button>
-              <button type="button" class="ballot-opt" role="radio" aria-checked="true" data-k="B">
-                <span class="vis" aria-hidden="true"><span class="mock-win"><span class="mock-line" style="width:90%"></span><span class="mock-line" style="width:65%"></span></span><span class="mock-note">Unsaved</span></span>
-                <span class="name"><b>B</b> On close</span>
-                <span class="effect">Closing saves.</span>
-              </button>
-            </div>
-            <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
-          </article>
-          <article class="ballot-card" data-q="demo-text" data-short="Deleting">
-            <header><span class="num">2</span><h3>What happens when someone deletes a note?</h3><span class="state">Not picked</span></header>
-            <div class="ballot-opts" role="radiogroup" aria-label="Options">
-              <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended">
-                <span class="name"><b>A</b> Trash for 30 days</span>
-                <span class="detail">It can be restored.</span>
-              </button>
-              <button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-warn="Gone for good">
-                <span class="name"><b>B</b> Delete at once</span>
-                <span class="detail">Undo stays up for 10 seconds.</span>
-              </button>
-            </div>
-            <p class="skip"><b>If you skip this:</b> A, the ★ option.</p>
-          </article>
-          <div class="ballot-tray">
-            <div class="ballot-bar">
-              <p class="ballot-tally">1 of 4 picked</p>
-              <ol class="ballot-pips"><li><span class="ballot-pip on"><span>1</span></span></li><li><span class="ballot-pip"><span>2</span></span></li><li><span class="ballot-pip"><span>3</span></span></li><li><span class="ballot-pip"><span>4</span></span></li></ol>
-              <div class="ballot-actions"><button type="button" data-copy>Copy picks</button></div>
-            </div>
-            <div class="ballot-tools">
-              <button type="button" data-pick-rec>Pick all ★</button>
-              <details class="ballot-review"><summary>Review picks</summary></details>
-            </div>
-          </div>
-        </div>
-          <figcaption class="take"><b>Take from this:</b> a card shows each option as a picture, or in words when there is nothing to draw, and marks the ★ default. A chip names a cost. The tray counts the picks, fills every ★ and copies them.</figcaption>
-        </figure>
-      </details>
-
-      <details class="fold"><summary>Show the markup for a ballot page</summary>
-        <p>Set <code>data-mode="ballot"</code> beside <code>data-type="gather"</code> on the html element. There is no rail, keep cards or recap: a column of cards and one tray. Every option needs a picture in <code>.vis</code> or, with no picture, a <code>.detail</code> line. Each single-choice card needs exactly one <code>data-rec</code>. The finished example is <code>skills/explainer-gather/examples/ballot.html</code>.</p>
-        <pre><code>&lt;p class="ballot-source"&gt;Rules on: the plan name, the date, the commit&lt;/p&gt;  &lt;!-- optional, under the h1 --&gt;
-&lt;p class="answer"&gt;4 decisions. Anything you skip goes with ★.&lt;/p&gt;
-&lt;ol class="ballot-steps"&gt;&lt;li&gt;&lt;span&gt;&lt;b&gt;Compare&lt;/b&gt; the pictures.&lt;/span&gt;&lt;/li&gt; … the third step shows &lt;span class="ballot-keycap"&gt;Copy picks&lt;/span&gt;&lt;/ol&gt;
-
-&lt;section class="ballot-group" aria-labelledby="g1"&gt;&lt;h2 id="g1"&gt;Shapes the build&lt;/h2&gt;&lt;p&gt;One line on why these come first.&lt;/p&gt;
-  &lt;article class="ballot-card" id="card-q1" data-q="q1" data-short="When a note saves"&gt;
-    &lt;header&gt;&lt;span class="num" aria-hidden="true"&gt;1&lt;/span&gt;&lt;h3 id="q-q1"&gt;When should a note save?&lt;/h3&gt;
-      &lt;p class="why"&gt;One line on why it matters.&lt;/p&gt;&lt;span class="state"&gt;Not picked&lt;/span&gt;&lt;/header&gt;
-    &lt;div class="ballot-opts" role="radiogroup" aria-labelledby="q-q1"&gt;
-      &lt;button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="A" data-rec="Recommended"&gt;
-        &lt;span class="vis" aria-hidden="true"&gt;&lt;!-- a mockup in spans (see .mock-*), or an img --&gt;&lt;/span&gt;
-        &lt;span class="name"&gt;&lt;b&gt;A&lt;/b&gt; As you type&lt;/span&gt;
-        &lt;span class="effect"&gt;One line on what happens.&lt;/span&gt;
-      &lt;/button&gt;
-      &lt;!-- B, C: the same; only one option carries data-rec. Put the recommended option first. --&gt;
-      &lt;!-- a text option: no .vis, one plain .detail line; data-warn adds a chip that names the cost --&gt;
-      &lt;button type="button" class="ballot-opt" role="radio" aria-checked="false" data-k="B" data-warn="Can't undo"&gt;
-        &lt;span class="name"&gt;&lt;b&gt;B&lt;/b&gt; Delete at once&lt;/span&gt;
-        &lt;span class="detail"&gt;One plain line on what happens.&lt;/span&gt;
-      &lt;/button&gt;
-    &lt;/div&gt;
-    &lt;p class="skip"&gt;&lt;b&gt;If you skip this:&lt;/b&gt; A, the ★ option.&lt;/p&gt;
-  &lt;/article&gt;
-&lt;/section&gt;
-
-&lt;!-- multi-select card: data-kind="multi"; each option is a div with its own toggle, then one Ship none --&gt;
-&lt;div class="ballot-opts" role="group" aria-labelledby="q-q4"&gt;
-  &lt;div class="ballot-opt" data-k="A" data-rec="Recommended"&gt;&lt;span class="vis" aria-hidden="true"&gt;…&lt;/span&gt;&lt;span class="name"&gt;&lt;b&gt;A&lt;/b&gt; Word count&lt;/span&gt;&lt;span class="effect"&gt;…&lt;/span&gt;
-    &lt;button type="button" class="ballot-ship" aria-pressed="false"&gt;Ship this&lt;/button&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="ballot-none"&gt;&lt;button type="button" data-none aria-pressed="false"&gt;Ship none&lt;/button&gt;&lt;/div&gt;
-
-&lt;!-- reference cards: &lt;section class="ballot-group"&gt;&lt;h2&gt;Already decided&lt;/h2&gt;&lt;p&gt;…&lt;/p&gt;&lt;div class="ballot-dones"&gt;&lt;article class="ballot-done"&gt;&lt;h3&gt;…&lt;/h3&gt;&lt;p&gt;…&lt;/p&gt;&lt;/article&gt;&lt;/div&gt;&lt;/section&gt; --&gt;
-
-&lt;!-- the tray, last in main. The script fills the jump dots and the review rows; Copy picks is the only primary button. --&gt;
-&lt;div class="ballot-tray" role="region" aria-label="Your picks"&gt;
-  &lt;div class="ballot-bar"&gt;&lt;p class="ballot-tally"&gt;0 of 4 picked&lt;/p&gt;&lt;ol class="ballot-pips" aria-label="Jump to a decision"&gt;&lt;/ol&gt;
-    &lt;div class="ballot-actions"&gt;&lt;button type="button" data-copy&gt;Copy picks&lt;/button&gt;&lt;/div&gt;&lt;/div&gt;
-  &lt;div class="ballot-tools"&gt;&lt;button type="button" data-pick-rec&gt;Pick all ★&lt;/button&gt;
-    &lt;details class="ballot-review"&gt;&lt;summary&gt;Review picks&lt;/summary&gt;&lt;ol class="ballot-rows"&gt;&lt;/ol&gt;
-      &lt;label class="ballot-note"&gt;&lt;span&gt;Anything else?&lt;/span&gt;&lt;input type="text" maxlength="300" autocomplete="off"&gt;&lt;/label&gt;&lt;/details&gt;&lt;/div&gt;
-  &lt;div class="ballot-meta"&gt;&lt;p class="ballot-status" aria-live="polite"&gt;Tap an option on any card. Your picks collect here.&lt;/p&gt;
-    &lt;span class="ballot-save"&gt;Saved in this browser&lt;/span&gt;&lt;button type="button" data-json&gt;Copy JSON&lt;/button&gt;&lt;/div&gt;
-  &lt;div class="ballot-fallback" hidden&gt;&lt;label for="ballot-fallback-text"&gt;The text is selected. Press Ctrl+C (⌘C on a Mac), then paste it into the chat.&lt;/label&gt;
-    &lt;textarea id="ballot-fallback-text" readonly&gt;&lt;/textarea&gt;&lt;button type="button" data-close&gt;Close&lt;/button&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-      </details>
-
-      <details class="fold"><summary>Show the markup for the other kinds</summary>
-        <p>The default kind is text. Set data-kind for the rest. Every field needs a stable data-q.</p>
-        <pre><code>&lt;!-- multi: checkboxes, several answers; the textarea is an optional reason --&gt;
-&lt;fieldset class="answer-field" data-q="q3" data-kind="multi"&gt;
-  &lt;legend&gt;Which parts need work?&lt;/legend&gt;
-  &lt;label&gt;&lt;input type="checkbox" value="Intro"&gt; Intro&lt;/label&gt;
-  &lt;label&gt;&lt;input type="checkbox" value="Method"&gt; Method&lt;/label&gt;
-  &lt;textarea id="q3-why" rows="2" aria-label="Why"&gt;&lt;/textarea&gt;
-&lt;/fieldset&gt;
-
-&lt;!-- scale: radios 1 to 5 --&gt;
-&lt;fieldset class="answer-field" data-q="q4" data-kind="scale"&gt;
-  &lt;legend&gt;How clear is this page?&lt;/legend&gt;
-  &lt;p class="hint"&gt;1 is unclear, 5 is clear.&lt;/p&gt;
-  &lt;label&gt;&lt;input type="radio" name="q4" value="1"&gt; 1&lt;/label&gt;
-  &lt;label&gt;&lt;input type="radio" name="q4" value="2"&gt; 2&lt;/label&gt;
-  &lt;label&gt;&lt;input type="radio" name="q4" value="3"&gt; 3&lt;/label&gt;
-  &lt;label&gt;&lt;input type="radio" name="q4" value="4"&gt; 4&lt;/label&gt;
-  &lt;label&gt;&lt;input type="radio" name="q4" value="5"&gt; 5&lt;/label&gt;
-&lt;/fieldset&gt;
-
-&lt;!-- rank: the reader moves items, the order is the answer. Every item has a data-id and one span. The script adds
-     Move up, Move down, Move to top, "This order is right" and the spoken status. The optional textarea is the reason. --&gt;
-&lt;fieldset class="answer-field" data-q="q5" data-kind="rank"&gt;
-  &lt;legend&gt;Put these in order, most important first.&lt;/legend&gt;
-  &lt;ol&gt;
-    &lt;li data-id="speed"&gt;&lt;span&gt;Speed&lt;/span&gt;&lt;/li&gt;
-    &lt;li data-id="cost"&gt;&lt;span&gt;Cost&lt;/span&gt;&lt;/li&gt;
-    &lt;li data-id="safety"&gt;&lt;span&gt;Safety&lt;/span&gt;&lt;/li&gt;
-  &lt;/ol&gt;
-  &lt;textarea id="q5-why" rows="2" aria-label="Why"&gt;&lt;/textarea&gt;
-&lt;/fieldset&gt;
-
-&lt;!-- buckets: 2 to 5 labels in data-buckets, split by |. Every item has a unique data-id and a data-rec that names one of the
-     labels (the writer's pick, marked ★). Each item is a b (the title) and a span (one line). Up to 15 items. --&gt;
-&lt;fieldset class="answer-field" data-q="q7" data-kind="buckets" data-buckets="Now|Next|Later|Not now"&gt;
-  &lt;legend&gt;Which of these should we build first?&lt;/legend&gt;
-  &lt;p class="hint"&gt;Tap a bucket for each item. My pick is set and marked ★.&lt;/p&gt;
-  &lt;ol&gt;
-    &lt;li data-id="search" data-rec="Now"&gt;&lt;b&gt;Fix the slow search&lt;/b&gt;&lt;span&gt;Search takes four seconds on a phone.&lt;/span&gt;&lt;/li&gt;
-    &lt;li data-id="logo" data-rec="Later"&gt;&lt;b&gt;Change the logo&lt;/b&gt;&lt;span&gt;A new logo on the sign-in page.&lt;/span&gt;&lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/fieldset&gt;
-
-&lt;!-- confirm: understood, agree or concern, plus a comment --&gt;
-&lt;fieldset class="answer-field" data-q="q6" data-kind="confirm"&gt;
-  &lt;legend&gt;Is this chapter clear and acceptable?&lt;/legend&gt;
-  &lt;label&gt;&lt;input type="radio" name="q6" value="understood"&gt; Understood&lt;/label&gt;
-  &lt;label&gt;&lt;input type="radio" name="q6" value="agree"&gt; Agree&lt;/label&gt;
-  &lt;label&gt;&lt;input type="radio" name="q6" value="concern"&gt; Concern&lt;/label&gt;
-  &lt;textarea id="q6-why" rows="2" aria-label="Comment"&gt;&lt;/textarea&gt;
-&lt;/fieldset&gt;</code></pre>
-      </details>
-
-      <details class="fold" open><summary>The progress row of a questionnaire</summary>
-        <p>A questionnaire's first screen shows one dot per question. A dot links to its question and fills in once you answer it.</p>
-        <section class="glance" aria-labelledby="g-qp-h">
-          <div class="glance-head"><h3 id="g-qp-h">The questions on this page</h3><span class="chip">About five minutes</span></div>
-          <div class="qprogress"></div>
-          <p class="take"><b>Take:</b> answer in any order. The count and the dots keep up with you.</p>
-        </section>
-      </details>
-
-      <p class="remember"><b>Remember:</b> your answers stay on your device until you copy or download them.</p>
+      <p class="remember"><b>Remember:</b> three answers from you, and the copy bar at the bottom sends them back to me.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Anything yellow is something the page is holding for you; you can stop holding it.</li>
-        <li>If a colour shows up, it is telling you something; if nothing is coloured, nothing needs you.</li>
-        <li>Read a diagram's caption first; the caption is the point, the drawing is the proof.</li>
-        <li>A purple card always tells you the recommended option and what happens if you ignore it.</li>
-        <li>The cobalt dot on a timeline is today; the colour of a status dot is the whole status.</li>
-        <li>If you hit a hard word or a wall of detail in the reading path, the page is wrong, not you.</li>
-        <li>Your answers stay on your device until you copy or download them.</li>
+        <li>We copy and never move, and the old host stays on for a month.</li>
+        <li>Your team sees a message, then a new address, then one extra sign-in.</li>
+        <li>Only phases 3 and 4 reach your team, and both are marked "Team notices".</li>
+        <li>The old host keeps everything, so a piece we leave out is never lost.</li>
+        <li>You say yes to every live step, and the old host stays until you say it can go.</li>
+        <li>On switch day the way back is one step, because the old host still has every page.</li>
+        <li>The biggest risk is forgetting the old host, so it gets a reminder.</li>
+        <li>Three answers from you, and the copy bar at the bottom sends them back to me.</li>
       </ol>
     </section>
 
-    <section class="ask">
-      <h2>What I need from you</h2>
-      <p>Should every new explainer start from this system?</p>
-      <div class="choices"><a href="#memory" data-rec>Yes, adopt it</a><a href="#colour">Adopt it with changes</a><a href="#diagrams">Show me one on a real topic first</a></div>
-      <p class="nothing"><b>If you do nothing:</b> the skill is installed and will be used the next time you ask for an html explainer.</p>
-    </section>
-
-    <!-- The collect bar of a gather page sits here, outside the chapters, so one-chapter mode never hides it. It stays hidden until a field has an answer. -->
+    <!-- The collect bar carries the decisions back. It sits outside the chapters so one-chapter mode never hides it, and stays hidden until the first answer. -->
     <div class="collect" hidden>
       <input class="respondent" type="text" placeholder="Your name (optional)" aria-label="Your name">
       <span class="count"></span>

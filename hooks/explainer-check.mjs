@@ -1,10 +1,10 @@
 #!/usr/bin/env node
-// html-explainer hook for Claude Code. One script, three modes, read from the hook's JSON on stdin:
+// glance-explainer hook for Claude Code. One script, three modes, read from the hook's JSON on stdin:
 //   turn    UserPromptSubmit  record when this turn started
 //   track   PostToolUse       remember explainer pages that Write, Edit or MultiEdit saved
 //   stop    Stop              run the page checker on every page this turn touched; exit 2 on a FAIL so the agent fixes it
 // A hook must never break a session: any error inside this script exits 0, and nothing here touches the network.
-// State lives in os.tmpdir()/html-explainer-hooks/<session_id>.json. Zero dependencies, Node 18 or newer.
+// State lives in os.tmpdir()/glance-explainer-hooks/<session_id>.json. Zero dependencies, Node 18 or newer.
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, renameSync, rmdirSync, unlinkSync, writeSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve, dirname } from 'node:path';
@@ -12,8 +12,8 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const MAX_BLOCKS = 3; // Stop blocks at most this many times per turn, then lets the agent finish
-const STATE_DIR = join(tmpdir(), 'html-explainer-hooks');
-const CHECKER = resolve(dirname(fileURLToPath(import.meta.url)), '../skills/html-explainer/scripts/check.mjs');
+const STATE_DIR = join(tmpdir(), 'glance-explainer-hooks');
+const CHECKER = resolve(dirname(fileURLToPath(import.meta.url)), '../skills/glance-explainer/scripts/check.mjs');
 const WIN = process.platform === 'win32';
 
 const finish = (code, text) => {
@@ -46,7 +46,7 @@ const absolute = (p, cwd) => {
 const keyOf = (p) => (WIN ? p.toLowerCase() : p);
 const isHtml = (p) => /\.html$/i.test(p);
 
-// an explainer page: <html data-type="..."> and the answer bar or a ballot card (rule shared with skills/html-explainer/scripts/upgrade.mjs)
+// an explainer page: <html data-type="..."> and the answer bar or a ballot card (rule shared with skills/glance-explainer/scripts/upgrade.mjs)
 const looksLikeExplainer = (file) => {
   try {
     if (statSync(file).size > 8 * 1024 * 1024) return false;
@@ -64,7 +64,7 @@ const newer = (a, b) => { const x = parts(a), y = parts(b); for (let i = 0; i < 
 const madeByNewer = (file) => {
   if (!MINE) return false;
   try {
-    const m = /<meta\s+name="generator"\s+content="html-explainer\s+(\d+\.\d+\.\d+)"/i.exec(readFileSync(file, 'utf8'));
+    const m = /<meta\s+name="generator"\s+content="(?:glance|html)-explainer\s+(\d+\.\d+\.\d+)"/i.exec(readFileSync(file, 'utf8'));
     return !!m && newer(m[1], MINE);
   } catch { return false; }
 };
@@ -162,7 +162,7 @@ const modes = {
 
     const lines = [];
     for (const { file, fails } of failing) {
-      lines.push(`html-explainer checker: ${file}`);
+      lines.push(`glance-explainer checker: ${file}`);
       for (const f of fails.slice(0, 15)) lines.push(`  FAIL  ${f}`);
       if (fails.length > 15) lines.push(`  ... and ${fails.length - 15} more FAIL lines`);
     }

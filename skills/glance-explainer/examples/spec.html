@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="status">
+<html lang="en" data-type="spec">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Where version 2.4 stands</title>
-<meta name="description" content="Where version 2.4 of a small notes app stands in week 3 of 5: five parts, the timeline to 29 October, and the one blocker that needs ten minutes from you. Example with made-up data.">
+<title>Pin a note to the top</title>
+<meta name="description" content="A spec for pinning in the notes app: keep up to three notes at the top of a notebook. Before and after drawings, six checks and the risks, then approve or hold.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,11 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#date"><span class="dot"></span>Is the date safe?</a></li>
-      <li><a href="#phone"><span class="dot"></span>The phone app</a></li>
-      <li><a href="#changed"><span class="dot"></span>Since last Friday</a></li>
-      <li><a href="#blocker"><span class="dot"></span>The one blocker</a></li>
-      <li><a href="#next"><span class="dot"></span>What happens next</a></li>
+      <li><a href="#does"><span class="dot"></span>What pinning does</a></li>
+      <li><a href="#changes"><span class="dot"></span>What changes for you</a></li>
+      <li><a href="#checks"><span class="dot"></span>How we know it works</a></li>
+      <li><a href="#risks"><span class="dot"></span>What could go wrong</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,225 +1425,205 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">A status update, week 3 of 5</p>
-    <h1>Where version 2.4 stands</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-16</span><span>For: Mara</span><span>Example with made-up data</span></div>
+    <p class="kicker">A feature for Mara to approve</p>
+    <h1>Pin a note to the top</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-05</span><span>For: Mara</span><span>Example with made-up data</span></div>
 
-    <p class="answer">Version 2.4 is on track for 29 October, with one spare day, if you add two DNS records on Monday.</p>
+    <p class="answer">Pinning lets you keep up to three notes at the top of a notebook, it costs 2 build days, and I ask you to approve it for 2.4.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>2.4 ships on 29 October with one spare day.</li>
-        <li>One part is blocked: invite emails.</li>
-        <li>Only you can unblock it, in ten minutes.</li>
+        <li>Up to 3 pinned notes stay on top of a notebook.</li>
+        <li>It costs 2 build days. 4 of 6 checks already pass.</li>
+        <li>In a shared notebook, your pins stay yours.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Where is 2.4 in week 3?</h2><span class="chip stop">1 blocker</span></div>
+      <div class="glance-head"><h2 id="glance-h">Pinning, before and after</h2><span class="chip decide">Needs your approval</span></div>
       <div class="duo">
         <div>
-          <h3>The five parts</h3>
-          <ul class="status">
-            <li class="go"><b>Sync server</b><span>Share, accept and remove work. 38 of 38 tests pass.</span></li>
-            <li class="go"><b>Web app</b><span>The share and accept screens are on the test site.</span></li>
-            <li class="wait"><b>Phone app</b><span>Android passes. The iPhone build has 3 open bugs.</span></li>
-            <li class="wait"><b>Release notes</b><span>Draft written. Screenshots wait for the iPhone fixes.</span></li>
-            <li class="stop"><b>Invite emails</b><span>Blocked until two DNS records are added.</span></li>
-          </ul>
+          <h3>One notebook, two screens</h3>
+          <div class="frame-row" style="margin:0;grid-template-columns:repeat(2,minmax(0,1fr))">
+            <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Before</span></div>
+              <div class="frame-screen">
+                <span class="mock-title">Home</span>
+                <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Plumber number</span></span><span class="mock-row"><span>Wifi password</span></span></span>
+              </div>
+              <figcaption class="take" style="padding:.6rem .8rem"><b>Take:</b> the wifi password sank.</figcaption></figure>
+            <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">After</span></div>
+              <div class="frame-screen">
+                <span class="mock-title">Home</span>
+                <span class="mock-note">Pinned</span>
+                <span class="mock-win"><span class="mock-row"><span><b>Wifi password</b></span></span></span>
+                <span class="mock-note">Other notes</span>
+                <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Plumber number</span></span></span>
+              </div>
+              <figcaption class="take" style="padding:.6rem .8rem"><b>Take:</b> it stays on top.</figcaption></figure>
+          </div>
         </div>
         <div>
-          <h3>The five weeks</h3>
-          <ol class="timeline">
-            <li class="go"><span class="when">Week 1, from 28 Sep</span><span class="what">Sharing designed.</span></li>
-            <li class="go"><span class="when">Week 2, from 5 Oct</span><span class="what">Server and web app built.</span></li>
-            <li class="here"><span class="when">Week 3, from 12 Oct</span><span class="what">Phone app and invites. Today is Friday 16 Oct.</span></li>
-            <li><span class="when">Week 4, from 19 Oct</span><span class="what">Bug fixes, then both stores.</span></li>
-            <li><span class="when">Week 5, from 26 Oct</span><span class="what">Store review. Release on 29 Oct.</span></li>
-          </ol>
+          <h3>The verdict</h3>
+          <div class="tiles">
+            <div class="tile"><span class="n">Approve</span><span class="l">my pick</span></div>
+            <div class="tile"><span class="n">4 of 6</span><span class="l">checks already pass</span></div>
+          </div>
+          <p>It costs 2 build days. With my three sharing picks, 2.4 then uses 13 of my 14.</p>
         </div>
       </div>
-      <div class="callout stop"><b>The one blocker: invite emails</b><p>The email service will not send from our new address until two DNS records are added. Only you have the registrar login. Without them, 2.4 still ships, but a person with no account gets no email.</p></div>
-      <p class="take"><b>Take:</b> nothing is late. One part is blocked, and you can unblock it in ten minutes.</p>
+      <p class="take"><b>Take:</b> pinning changes one thing on one screen, and 4 of its 6 checks already pass.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#date"><b>Is 29 October still safe?</b><span>Four days of work, five days to do it in.</span></a></li>
-      <li><a href="#phone"><b>What is left on the phone app?</b><span>Three small iPhone bugs and what each costs.</span></a></li>
-      <li><a href="#changed"><b>What changed since last Friday?</b><span>Three things got better and one got worse.</span></a></li>
-      <li><a href="#blocker"><b>What blocks the invite emails?</b><span>Two DNS records, and the day they are due.</span></a></li>
-      <li><a href="#next"><b>What happens next?</b><span>Six steps with an owner and a day each.</span></a></li>
+      <li><a href="#does"><b>What pinning does</b><span>Hold a note, choose Pin to top, and it stays.</span></a></li>
+      <li><a href="#changes"><b>What changes for you</b><span>One screen, and what a shared notebook shows.</span></a></li>
+      <li><a href="#checks"><b>How we know it works</b><span>Six checks, four already passing.</span></a></li>
+      <li><a href="#risks"><b>What could go wrong</b><span>Three risks and what keeps each one small.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="date" data-keep="The stores need the builds on 26 October. One spare day protects the date.">
+    <section class="chapter" id="does" data-keep="Pinning is two taps. Each notebook holds up to three pins.">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Is 29 October still safe?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What does pinning do?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> two parts are done, two are under way, and one is blocked.</p>
+      <p class="from"><b>Before this:</b> pinning keeps up to three notes at the top of a notebook, so an old note you need often does not sink.</p>
 
-      <p>The release date has held since week 1. The real deadline is earlier: both app stores need the builds on Monday 26 October, so they can review them before Thursday.</p>
+      <p>You pin a note with two taps. Each notebook holds up to three pins, and a fourth asks you to unpin one first.</p>
 
-      <div class="tiles">
-        <div class="tile"><span class="n">13</span><span class="l">days to the 29 October release</span></div>
-        <div class="tile"><span class="n">4</span><span class="l">working days of work left</span></div>
-        <div class="tile wait"><span class="n">1</span><span class="l">spare day before 26 October</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> the plan fits with one spare day, so a slip of more than a day moves the release.</p>
+      <ol class="flow">
+        <li><b>Hold a note</b><span>Press and hold, or right-click on the web.</span></li>
+        <li><b>Pin to top</b><span>It is the first item in the menu.</span></li>
+        <li><b>Moves up</b><span>The note joins the pinned group.</span></li>
+        <li class="go"><b>Stays</b><span>Every device shows it there.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> the whole feature is one menu item and one group at the top of the list.</p>
 
-      <details class="fold"><summary>Show how the four days are used</summary>
+      <details class="fold"><summary>Show the exact rules</summary>
         <ul>
-          <li>Two days for the three iPhone bugs.</li>
-          <li>One day to test invite emails with real inboxes.</li>
-          <li>One day for the full test pass.</li>
-          <li>The release notes are Mara's work, so they run beside Ted's days and cost none.</li>
+          <li>The newest pin goes to the top of the pinned group.</li>
+          <li>The same menu item then reads Unpin.</li>
+          <li>Deleting a note also removes its pin.</li>
+          <li>A pin belongs to one notebook, because a note lives in one notebook.</li>
         </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> the stores need the builds on 26 October, and one spare day protects the date.</p>
+      <p class="remember"><b>Remember:</b> pinning is two taps, and each notebook holds up to three pins.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="phone" data-keep="Three small iPhone bugs. Two days of work. No note is at risk.">
+    <section class="chapter" id="changes" data-keep="One screen changes: a pinned group above the notes. Your pins stay yours.">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>What is left on the phone app?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What changes for you?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> four working days of work are left, and the iPhone bugs take two of them.</p>
+      <p class="from"><b>Before this:</b> pinning is two taps, and each notebook holds up to three pins.</p>
 
-      <p>Three bugs are open, and all three are on the iPhone. None of them can lose a note. Each is small and known, and together they take two days.</p>
+      <p>Only the note list changes. Sorting below the pinned group works as it does today.</p>
 
-      <ul class="status">
-        <li class="go"><b>Android build</b><span>All 14 sharing checks pass.</span></li>
-        <li class="wait"><b>Long titles</b><span>On a small iPhone a long notebook title hides the Share button. Half a day.</span></li>
-        <li class="wait"><b>Stale people list</b><span>Removing a person leaves their name on screen until you reopen the notebook. Half a day.</span></li>
-        <li class="wait"><b>Accept link</b><span>On an iPhone the link opens the browser, not the app. One day.</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> the accept link is the biggest bug at one day, and it is the one a new sharer would meet first.</p>
+      <div class="split">
+        <div class="before"><b>Today</b><ul><li>Notes sort by last edited.</li><li>A note you need often sinks as you write new ones.</li></ul></div>
+        <div class="after"><b>With pinning</b><ul><li>Up to three notes stay on top.</li><li>Every other note sorts by last edited, as before.</li></ul></div>
+      </div>
 
-      <details class="fold"><summary>Show the test counts</summary>
-        <pre><code>suite     passed  failed
-server        38       0
-web            9       0
-android       14       0
-iphone        11       3</code></pre>
-        <p>The three failing iPhone checks are the three bugs above, one each.</p>
-      </details>
+      <div class="frame-row" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Hold a note</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Wifi password</span>
+            <span class="mock-win"><span class="mock-row"><span><b>Pin to top</b></span></span><span class="mock-row"><span>Move to notebook</span></span><span class="mock-row"><span>Delete</span></span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Pin to top comes first.</figcaption></figure>
+        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Sam's screen</span></div>
+          <div class="frame-screen">
+            <span class="mock-title">Home, shared</span>
+            <span class="mock-win"><span class="mock-row"><span>Paint colours</span></span><span class="mock-row"><span>Gift ideas</span></span><span class="mock-row"><span>Wifi password</span></span></span>
+          </div>
+          <figcaption class="take"><b>Take from this:</b> Sam does not see your pin.</figcaption></figure>
+      </div>
 
-      <p class="remember"><b>Remember:</b> three small iPhone bugs, two days of work, and no note is at risk.</p>
+      <p class="remember"><b>Remember:</b> one screen changes, and a pin is yours alone even in a shared notebook.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="changed" data-keep="Server, web and Android now share. Invite emails now fail.">
+    <section class="chapter" id="checks" data-keep="Four checks pass on a prototype. Two edge cases are still to run.">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>What changed since last Friday?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>How do we know it works?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the iPhone bugs are small, known and two days of work.</p>
+      <p class="from"><b>Before this:</b> one screen changes, and a pin is yours alone even in a shared notebook.</p>
 
-      <p>Last Friday only the sync server could share a notebook. Today the server, the web app and Android can all do it.</p>
+      <p>I built a rough prototype to test the parts that could lose a pin. Four checks pass and two are still to run.</p>
 
-      <div class="split">
-        <div class="before"><b>Friday 9 October</b><ul>
-          <li>Sharing worked on the test server only.</li>
-          <li>The web app had no share screen.</li>
-          <li>The server passed 31 tests.</li>
-          <li>Invite emails were not tested.</li>
-        </ul></div>
-        <div class="after"><b>Friday 16 October</b><ul>
-          <li>Sharing works on the server, the web app and Android.</li>
-          <li>The server passes 38 tests.</li>
-          <li>Invite emails fail: the sender is not verified.</li>
-          <li>Sync paused for 2 hours on Tuesday. It is <a href="incident.html">explained and fixed</a>.</li>
-        </ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> three things got better. The failing invite email is how we found the blocker, a week earlier than a launch day would have.</p>
+      <ul class="status">
+        <li class="go"><b>Pin and unpin</b><span>Works on Android and on an iPhone.</span></li>
+        <li class="go"><b>Pins survive a restart</b><span>No pin lost in 20 restarts.</span></li>
+        <li class="go"><b>Pins reach the web app</b><span>They show up within 3 seconds on Wi-Fi.</span></li>
+        <li class="go"><b>A fourth pin is refused</b><span>A message asks you to unpin one first.</span></li>
+        <li class="wait"><b>Two devices pin at once</b><span>Not run yet. It is my first job on day one.</span></li>
+        <li class="wait"><b>A notebook of 2,000 notes</b><span>Not run yet. The pinned group must not slow the list.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the four checks that guard against a lost pin pass. The two left are edge cases.</p>
 
-      <p class="remember"><b>Remember:</b> three things got better since Friday, and invite emails got worse.</p>
+      <details class="fold"><summary>Show how I tested</summary>
+        <p>I ran a throwaway build on my Android phone and on a borrowed iPhone, with a test notebook of 300 notes. I closed and reopened the app 20 times and counted the pins after each restart.</p>
+      </details>
+
+      <p class="remember"><b>Remember:</b> four of six checks pass, and the two left are edge cases.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="blocker" data-keep="Two DNS records prove we own the sender address. Due by Wednesday.">
+    <section class="chapter" id="risks" data-keep="The risk to fix is an old app erasing a pin. Pins live in their own list.">
       <header>
-        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What blocks the invite emails?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 2 minutes</p><h2>What could go wrong?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> invite emails fail in testing because the email service does not trust our new sender.</p>
+      <p class="from"><b>Before this:</b> four of six checks pass, and the two left are edge cases.</p>
 
-      <p>The service wants proof that we own <code>notes-app.example</code>. The proof is two <dfn>DNS records</dfn>, small lines of text kept at the domain registrar. Only you have that login.</p>
+      <div class="callout stop"><b>An older app could erase a pin</b>
+        <p>Version 2.3 saves a whole note at once, and it does not know pins exist.</p>
+        <p><b>Kept small by:</b> pins live in their own list, away from the note.</p></div>
+      <div class="callout warn"><b>Three pins can fill a small phone</b>
+        <p>On a 5.4 inch screen, three pinned rows push the other notes down.</p>
+        <p><b>Kept small by:</b> a pinned row shows one line, and I test on the smallest phone we support.</p></div>
+      <div class="callout warn"><b>Sam may wonder why a pin is missing</b>
+        <p>In a shared notebook, your pins stay yours, so Sam does not see them.</p>
+        <p><b>Kept small by:</b> the share sheet says so in one line.</p></div>
 
-      <dl class="term">
-        <dt>DNS record</dt><dd>A line at your domain registrar that says who may use the domain, for example to send mail.</dd>
-      </dl>
+      <p>The first risk is the only one that could lose something, so it decides where pins are stored.</p>
 
-      <ol class="flow">
-        <li class="here"><b>Add records</b><span>You, at the registrar. About ten minutes.</span></li>
-        <li><b>Domain verified</b><span>Usually within a day.</span></li>
-        <li><b>Test invites</b><span>Ted, real inboxes, one day.</span></li>
-        <li><b>Invites send</b><span>A person with no account gets an email.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> your ten minutes start a chain of three more steps, and the chain needs the records by Wednesday.</p>
+      <div class="split">
+        <div class="before"><b>A pin inside the note</b><ul><li>Version 2.3 saves the whole note.</li><li>It drops the pin, which it has never heard of.</li></ul></div>
+        <div class="after"><b>A pin in its own list</b><ul><li>Version 2.3 saves the note and leaves the list alone.</li><li>The pin stays.</li></ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> a separate list costs no extra build time and removes the one risk that could lose a pin.</p>
 
-      <div class="callout warn"><b>The deadline is Wednesday 21 October</b><p>After that the spare day is gone. A later date does not move the release, but it moves invite emails to a 2.4.1 update.</p></div>
-
-      <details class="fold"><summary>Show the two records</summary>
-        <pre><code>TXT    notes-app.example               v=spf1 include:mailer.example ~all
-CNAME  s1._domainkey.notes-app.example  s1.domainkey.mailer.example</code></pre>
-        <p>These are made-up values. The real ones come from the email service's settings page.</p>
-      </details>
-
-      <p class="remember"><b>Remember:</b> two DNS records, ten minutes, and the deadline is Wednesday.</p>
-    </section>
-
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="next" data-keep="Six steps. You own two, Ted owns four. Builds go to the stores on 26 October.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What happens next?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> the records are due by Wednesday 21 October.</p>
-
-      <ol class="steps">
-        <li><b>Add the two DNS records.</b> You, Monday 19 October, ten minutes.</li>
-        <li><b>Fix the three iPhone bugs.</b> Ted, Monday and Tuesday.</li>
-        <li><b>Test invites with real inboxes.</b> Ted, Wednesday 21 October, once the records verify.</li>
-        <li><b>Run the full test pass.</b> Ted, Thursday 22 October. Friday 23 is the spare day.</li>
-        <li><b>Write the release notes and take screenshots.</b> You, Friday 23 October.</li>
-        <li><b>Submit both builds.</b> Ted, Monday 26 October. Release follows on Thursday 29 October, after review.</li>
-      </ol>
-      <p class="take"><b>Take from this:</b> every step has one owner and one day, and the first one is yours.</p>
-
-      <p class="remember"><b>Remember:</b> you have two steps, Ted has four, and the stores get the builds on 26 October.</p>
+      <p class="remember"><b>Remember:</b> the risk worth fixing is an old app erasing a pin, so pins live in their own list.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>The stores need the builds on 26 October, and one spare day protects the date.</li>
-        <li>Three small iPhone bugs, two days of work, and no note is at risk.</li>
-        <li>Three things got better since Friday, and invite emails got worse.</li>
-        <li>Two DNS records, ten minutes, and the deadline is Wednesday.</li>
-        <li>You have two steps, Ted has four, and the stores get the builds on 26 October.</li>
+        <li>Pinning is two taps, and each notebook holds up to three pins.</li>
+        <li>One screen changes, and a pin is yours alone even in a shared notebook.</li>
+        <li>Four of six checks pass, and the two left are edge cases.</li>
+        <li>The risk worth fixing is an old app erasing a pin, so pins live in their own list.</li>
       </ol>
     </section>
 
     <section class="ask">
       <h2>What I need from you</h2>
-      <p>Can you add the two DNS records on Monday 19 October?</p>
-      <div class="choices"><a href="#" data-rec>Yes, on Monday morning</a><a href="#">I need the registrar login first</a><a href="#">Ship 2.4 without invite emails</a></div>
-      <p class="nothing"><b>If you do nothing:</b> 2.4 still ships on 29 October without invite emails. People who already have the app see invites inside the app.</p>
+      <p>Do you approve pinning for 2.4? Reply with one of these.</p>
+      <div class="choices"><a href="#" data-rec>Approve, and I build it this week</a><a href="#">Hold until 2.5</a><a href="#">Ask me something first</a></div>
+      <p class="nothing"><b>If you do nothing:</b> pinning waits for 2.5, and I start on sharing alone.</p>
     </section>
   </main>
 </div>

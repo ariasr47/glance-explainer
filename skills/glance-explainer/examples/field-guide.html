@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="incident">
+<html lang="en" data-type="field-guide">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Sync paused on 13 October</title>
-<meta name="description" content="An incident report for a small notes app: sync paused for two hours on Tuesday 13 October. What broke, the timeline, the cause chain with its failing step, the follow-ups and what stops a repeat. Example with made-up data.">
+<title>Field guide for a small notes app</title>
+<meta name="description" content="A field guide to the work behind a web product, shown on a small notes app: where each field fits, which four come first, and 30 entries to look up by family or by search.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,11 +1407,9 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#broke"><span class="dot"></span>What broke</a></li>
-      <li><a href="#hours"><span class="dot"></span>Where the time went</a></li>
-      <li><a href="#cause"><span class="dot"></span>The cause chain</a></li>
-      <li><a href="#fixed"><span class="dot"></span>Fixed and still open</a></li>
-      <li><a href="#repeat"><span class="dot"></span>Stopping a repeat</a></li>
+      <li><a href="#map"><span class="dot"></span>Where things fit</a></li>
+      <li><a href="#first"><span class="dot"></span>Start here</a></li>
+      <li><a href="#lookup"><span class="dot"></span>Look something up</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,231 +1424,340 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">An incident report, resolved</p>
-    <h1>Sync paused for 2 hours on Tuesday 13 October</h1>
-    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-15</span><span>For: the whole team</span><span>Example with made-up data</span></div>
+    <p class="kicker">A field guide: read once, then look things up</p>
+    <h1>Field guide for a small notes app</h1>
+    <div class="meta"><span>Skim in about 2 minutes, look things up anytime</span><span>Written 2026-10-14</span><span>For: a builder with one small app</span></div>
 
-    <p class="answer">A database change locked the notes table and a restart loop kept it locked, so sync paused for two hours, and no note was lost.</p>
+    <p class="answer">Building a notes app draws on 30 fields in six families. For a small team, 16 matter now and 14 can wait.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Sync paused from 14:10 to 16:10. No note was lost.</li>
-        <li>A restart loop kept the notes table locked.</li>
-        <li>Migrations no longer run at start-up. Two follow-ups are open.</li>
+        <li>Design decides it, engineers build it, shipping runs it.</li>
+        <li>Four fields fail quietly, so they come first.</li>
+        <li>Every other field is one search away.</li>
       </ol>
     </div>
 
-    <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">What broke, who felt it, and when?</h2><span class="chip go">Fixed, 2 follow-ups open</span></div>
-      <div class="tiles">
-        <div class="tile"><span class="n">Sync</span><span class="l">stopped for the phone and web apps</span></div>
-        <div class="tile"><span class="n">190</span><span class="l">people were syncing when it stopped</span></div>
-        <div class="tile"><span class="n">2 h</span><span class="l">paused, 14:10 to 16:10</span></div>
-        <div class="tile go"><span class="n">0</span><span class="l">notes lost. 3 of 5 follow-ups done</span></div>
-      </div>
-      <ol class="timeline">
-        <li class="go"><span class="when">14:05</span><span class="what">A deploy starts a change to the notes table.</span></li>
-        <li class="go"><span class="when">14:10</span><span class="what">Sync stops answering.</span></li>
-        <li class="go"><span class="when">15:20</span><span class="what">The team finds the cause.</span></li>
-        <li class="go"><span class="when">16:10</span><span class="what">Sync is normal again.</span></li>
-      </ol>
-      <p class="take"><b>Take:</b> sync was down for two hours, nobody lost a note, and the fix is already live.</p>
-    </section>
-
-    <ol class="map">
-      <li><a href="#broke"><b>What broke, and who felt it?</b><span>Writing never stopped. Copying between devices did.</span></a></li>
-      <li><a href="#hours"><b>Where did the two hours go?</b><span>15 minutes to notice, 55 to find the cause, 50 to fix.</span></a></li>
-      <li><a href="#cause"><b>Why did one change take two hours?</b><span>Five links in a chain, and the one that failed.</span></a></li>
-      <li><a href="#fixed"><b>What is fixed, and what is still open?</b><span>Five follow-ups: three done, one under way, one to rule on.</span></a></li>
-      <li><a href="#repeat"><b>What stops it happening again?</b><span>Each follow-up guards a different weak point.</span></a></li>
-    </ol>
-
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="broke" data-keep="Writing never stopped. Copying between devices did, for two hours.">
+    <section class="chapter" id="map" data-keep="Design decides, engineers build, shipping runs">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>What broke, and who felt it?</h2></div>
+        <div><p class="kicker">Chapter 1 of 3, about 1 minute</p><h2>Where does everything fit?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> sync paused from 14:10 to 16:10, and no note was lost.</p>
-
-      <p>The notes app keeps working without a connection. Reading and writing never stopped. What stopped was the part that copies changes between a person's devices.</p>
-
-      <div class="split">
-        <div class="before"><b>14:10 to 16:10</b><ul>
-          <li>A banner said "Waiting to sync".</li>
-          <li>Notes could still be read and written.</li>
-          <li>Changes waited in a queue on each device.</li>
-          <li>A second device showed old notes.</li>
-        </ul></div>
-        <div class="after"><b>By 16:40</b><ul>
-          <li>Every queued change had arrived.</li>
-          <li>0 notes were lost.</li>
-          <li>0 notes were duplicated.</li>
-          <li>The banner went away on its own.</li>
-        </ul></div>
+      <p>Work moves from left to right. Each family hands its work to the next. The bar under each family shows how much of it matters now.</p>
+      <div class="territory">
+        <div class="stage">
+          <h3>Decide</h3>
+          <a class="family" href="#fam-design"><b>Product and design</b><span>Decide what it is and how it feels</span></a>
+        </div>
+        <div class="stage" data-here>
+          <h3>Build</h3>
+          <a class="family" href="#fam-frontend"><b>Frontend engineering</b><span>Build what runs in the browser</span></a>
+          <a class="family" href="#fam-backend"><b>Backend and data</b><span>Build what runs on the server</span></a>
+        </div>
+        <div class="stage">
+          <h3>Protect and prove</h3>
+          <a class="family" href="#fam-security"><b>Security and privacy</b><span>Keep notes safe and private</span></a>
+        </div>
+        <div class="stage">
+          <h3>Ship and run</h3>
+          <a class="family" href="#fam-ship"><b>Shipping and running</b><span>Release it, watch it, recover it</span></a>
+        </div>
+        <div class="stage" data-across>
+          <h3>Owed by every family</h3>
+          <a class="family" href="#fam-quality"><b>Qualities everyone owes</b><span>Duties that no single family owns</span></a>
+        </div>
       </div>
-      <p class="take"><b>Take from this:</b> the cost was a two-hour delay, and the people who felt it most use two devices.</p>
-
-      <details class="fold"><summary>Show the numbers behind the tiles</summary>
-        <ul>
-          <li>190 people had the app open at 14:10.</li>
-          <li>74 of them wrote at least one note during the pause.</li>
-          <li>412 changes waited in queues, and all 412 arrived by 16:40.</li>
-          <li>About 3,400 people use the app in a week, so this was about 6 in 100 of them.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> writing never stopped, so the cost was a two-hour delay, not lost notes.</p>
+      <p class="take"><b>Take from this:</b> the notes app sits in Build. Most of Ship and run can wait, except backups.</p>
+      <p class="remember"><b>Remember:</b> design decides it, engineers build it, and shipping runs it.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="hours" data-keep="15 minutes to notice, 55 to find the cause, 50 to fix. Finding took longest.">
+    <section class="chapter" id="first" data-keep="Four fields fail quietly, so they come first">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>Where did the two hours go?</h2></div>
+        <div><p class="kicker">Chapter 2 of 3, about 1 minute</p><h2>Which four cannot wait?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> the app kept working, so the cost was a two-hour delay.</p>
-
-      <p>The two hours fall into three parts. The alert reached the team 15 minutes after sync stopped. Finding the cause took 55 minutes. Shipping the fix took 50.</p>
-
-      <div class="tiles">
-        <div class="tile wait"><span class="n">15 min</span><span class="l">before the alert reached the team</span></div>
-        <div class="tile stop"><span class="n">55 min</span><span class="l">to find the cause</span></div>
-        <div class="tile"><span class="n">50 min</span><span class="l">to ship the fix, 25 of them a deploy</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> almost half the time went on finding the cause, so a clearer alert saves the most.</p>
-
-      <p>The cause hid well. The logs showed time-outs, not a lock, and each restart cleared the one clue the database held.</p>
-
-      <details class="fold"><summary>Show the afternoon minute by minute</summary>
-        <pre><code>14:05  Deploy starts. The start-up script begins the index build.
-14:10  Sync stops answering. The health check restarts the server.
-14:22  Second restart. The build begins again. Restarts repeat every 12 minutes.
-14:25  The sync alert reaches the team.
-15:20  Cause found: every start re-runs the unfinished build.
-15:25  A deploy that skips migrations at start-up begins.
-15:50  That deploy finishes and the server starts clean.
-16:00  Saves work again. The retry backlog drains.
-16:10  Sync is normal.
-16:40  The last queued change arrives.</code></pre>
-      </details>
-
-      <p class="remember"><b>Remember:</b> finding the cause took 55 of the 120 minutes, so a clearer alert saves the most time.</p>
+      <p class="from"><b>Before this:</b> design decides it, engineers build it, and shipping runs it.</p>
+      <p>For one builder, a mistake in these four is silent and hard to undo. Tap one to read its entry.</p>
+      <ol class="start-here">
+        <li><a href="#e-backups"><b>Backups and recovery</b></a><span>One lost database erases every note. Test a restore before launch.</span></li>
+        <li><a href="#e-access"><b>Access control</b></a><span>One wrong rule shows a stranger your notes, and nobody sees it happen.</span></li>
+        <li><a href="#e-privacy"><b>Privacy by design</b></a><span>Notes are personal. Keeping less data is the cheapest protection.</span></li>
+        <li><a href="#e-modelling"><b>Data modelling</b></a><span>A wrong shape is slow and costly to change once people have notes.</span></li>
+      </ol>
+      <p class="can-wait"><b>Can wait:</b> localization, cost tuning and error tracking. They pay off once real people use the app.</p>
+      <p class="take"><b>Take from this:</b> the fields that fail quietly and cost the most come first.</p>
+      <p class="remember"><b>Remember:</b> fields that fail quietly and cost the most come first.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="cause" data-keep="A nine-minute lock became two hours because every restart began the build again.">
+    <section class="chapter" id="lookup" data-keep="Search by name, definition or example">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 2 minutes</p><h2>Why did one change take two hours?</h2></div>
+        <div><p class="kicker">Chapter 3 of 3, about 1 minute</p><h2>Look something up</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
-
-      <p class="from"><b>Before this:</b> almost half the time went on finding a cause that the logs did not show.</p>
-
-      <p>One change set off four more, and the last one kept the others going. Read the chain from left to right. The red step turned minutes into hours.</p>
-
-      <dl class="term">
-        <dt>Migration</dt><dd>A change to the shape of the database, run as code.</dd>
-        <dt>Index</dt><dd>A lookup table that makes searches fast. Building one on a big table blocks saves.</dd>
-        <dt>Lock</dt><dd>A hold that makes other work wait while a change runs.</dd>
-      </dl>
-
-      <ol class="flow">
-        <li><b>Index added</b><span>A deploy adds it for sharing, on the live notes table.</span></li>
-        <li class="wait"><b>Table locks</b><span>The build blocks every save for about 9 minutes.</span></li>
-        <li class="wait"><b>Phones retry</b><span>Requests time out at 30 seconds, and 190 apps retry at once.</span></li>
-        <li><b>Server restarts</b><span>The health check sees no answer and restarts it.</span></li>
-        <li class="stop"><b>Build starts over</b><span>Each start re-runs the unfinished change, so the lock never clears.</span></li>
-      </ol>
-      <p class="take"><b>Take from this:</b> the build alone would have ended in nine minutes. The restart loop stretched it to two hours.</p>
-
-      <details class="fold"><summary>Show the numbers behind the chain</summary>
-        <ul>
-          <li>The rehearsal copy held 2,000 notes, and the build took about 1 second.</li>
-          <li>The live table held 410,000 notes, and the build needed about 9 minutes without a break.</li>
-          <li>The server restarted every 12 minutes, so the build never reached its end.</li>
-          <li>The server allows 50 connections. 190 retrying apps used them all.</li>
-        </ul>
-      </details>
-
-      <p class="remember"><b>Remember:</b> the restart loop, not the index, turned a nine-minute lock into two hours.</p>
-    </section>
-
-    <!-- ============ 4 ============ -->
-    <section class="chapter" id="fixed" data-keep="Three follow-ups are done, one is under way, one needs a ruling.">
-      <header>
-        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What is fixed, and what is still open?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> a restart loop turned a nine-minute lock into two hours.</p>
-
-      <p>The review produced five follow-ups. The one that stopped the outage is already done.</p>
-
-      <ul class="status">
-        <li class="go"><b>Stop migrations at start-up</b><span>Done on Wednesday 14 October. Someone now starts each migration by hand, once.</span></li>
-        <li class="go"><b>Rehearse on a full-size copy</b><span>Done. The test copy holds 400,000 notes, so a slow change shows up before it ships.</span></li>
-        <li class="go"><b>Alert after 3 minutes</b><span>Done. The sync alert used to wait for 10 minutes of failures.</span></li>
-        <li class="wait"><b>Build indexes in the background</b><span>Under way. Ted is changing the build so saves keep working. Due Friday 23 October.</span></li>
-        <li class="decide"><b>Quiet hours for deploys</b><span>Needs a ruling from Mara: no deploys from 13:00 to 17:00 on weekdays?</span></li>
-      </ul>
-      <p class="take"><b>Take from this:</b> the outage cannot repeat as it happened, and the two open items shrink the next one.</p>
-
-      <details class="fold"><summary>Show the change to the start-up script</summary>
-        <pre><code>- run-migrations &amp;&amp; start-server
-+ start-server
-# migrations now run only by hand:  npm run migrate</code></pre>
-      </details>
-
-      <p class="remember"><b>Remember:</b> three follow-ups are done, one is under way, and one waits for Mara's ruling.</p>
-    </section>
-
-    <!-- ============ 5 ============ -->
-    <section class="chapter" id="repeat" data-keep="Each follow-up guards a different weak point, so one slip cannot take sync down again.">
-      <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What stops it happening again?</h2></div>
-        <button type="button" class="read-aloud" data-read>Read aloud</button>
-        <label><input type="checkbox" data-done> Done</label>
-      </header>
-
-      <p class="from"><b>Before this:</b> three follow-ups are done, and two are still open.</p>
-
-      <p>Each follow-up guards a different weak point. A slow change can still happen, but it can no longer stop sync for two hours.</p>
-
-      <div class="split">
-        <div class="before"><b>On 13 October</b><ul>
-          <li>The rehearsal copy held 2,000 notes.</li>
-          <li>The start-up script ran migrations.</li>
-          <li>The alert waited for 10 minutes of failures.</li>
-          <li>An index build blocked every save.</li>
-        </ul></div>
-        <div class="after"><b>From 14 October</b><ul>
-          <li>The rehearsal copy holds 400,000 notes.</li>
-          <li>A person starts a migration by hand, once.</li>
-          <li>The alert fires after 3 minutes.</li>
-          <li>Index builds will run in the background, due 23 October.</li>
-        </ul></div>
+      <p class="from"><b>Before this:</b> fields that fail quietly and cost the most come first.</p>
+      <p>Search by name, definition or example. The filter starts on Now and always says how many entries it hides.</p>
+      <div class="index" data-rel-labels="Now|Before launch|Later">
+        <div class="guide-tools"></div>
+        <details class="family-index" id="fam-design">
+          <summary><h3>Product and design</h3></summary>
+          <h4 class="group">Understand</h4>
+          <div class="entry" id="e-research" data-rel="now">
+            <b class="name">User research</b>
+            <p class="def">Talking to real people to learn what they need, before and after building.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Five short calls with students showed that finding old notes is the main pain.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-strategy" data-rel="now">
+            <b class="name">Product strategy</b>
+            <p class="def">Choosing what to build, for whom, and what to leave out.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app is for people who keep personal notes, not for teams.</p>
+            </div>
+          </div>
+          <h4 class="group">Shape</h4>
+          <div class="entry" id="e-architecture" data-rel="now">
+            <b class="name">Information architecture</b>
+            <p class="def">How things are named, grouped and found.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Notes live in notebooks, and tags cut across notebooks.</p>
+              <p class="see"><b>See also:</b> <a href="#e-search">Search</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-interaction" data-rel="now">
+            <b class="name">Interaction design</b>
+            <p class="def">How a screen behaves when someone taps, types or makes a mistake.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Deleting a note shows an undo bar for ten seconds.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-content" data-rel="next">
+            <b class="name">Content design</b>
+            <p class="def">The words on screen: labels, messages and tone.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Error messages say what happened and what to do next.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-frontend" open>
+          <summary><h3>Frontend engineering</h3></summary>
+          <h4 class="group">Shape</h4>
+          <div class="entry" id="e-ui" data-rel="now">
+            <b class="name">UI architecture</b>
+            <p class="def">How the interface is split into parts that can be reused and changed safely.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The editor, the note list and the sidebar are separate components.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-state" data-rel="now">
+            <b class="name">State management</b>
+            <p class="def">Deciding where data lives on screen and keeping every view in step.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Renaming a note updates the list and the open editor at once.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-fetching" data-rel="now">
+            <b class="name">Data fetching</b>
+            <p class="def">How the browser asks the server for data and keeps answers for reuse.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The note list loads first, and the full text loads when a note opens.</p>
+              <p class="see"><b>See also:</b> <a href="#e-api">API design</a></p>
+            </div>
+          </div>
+          <h4 class="group">Quality of the client</h4>
+          <div class="entry" id="e-frontend-perf" data-rel="next">
+            <b class="name">Frontend performance</b>
+            <p class="def">How fast a page loads and how smooth it feels to use.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The editor loads after the list, so the first screen appears sooner.</p>
+              <p class="see"><b>See also:</b> <a href="#e-performance">Performance</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-frontend-tests" data-rel="next">
+            <b class="name">Frontend testing</b>
+            <p class="def">Automated checks that the screens work the way people expect.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> One test opens a note, edits it and checks that the change shows.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-backend">
+          <summary><h3>Backend and data</h3></summary>
+          <div class="entry" id="e-api" data-rel="now">
+            <b class="name">API design</b>
+            <p class="def">The agreed way the browser and the server talk to each other.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every request to change a note carries the note’s version number.</p>
+              <p class="see"><b>See also:</b> <a href="#e-fetching">Data fetching</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-modelling" data-rel="now">
+            <b class="name">Data modelling</b>
+            <p class="def">How information is shaped and stored so that it stays correct.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A note belongs to one notebook and can have many tags.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-sync" data-rel="later">
+            <b class="name">Sync and conflicts</b>
+            <p class="def">Keeping copies on two devices the same, and deciding what happens when they disagree.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> If a phone and a laptop edit one note, the app keeps both versions.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-jobs" data-rel="next">
+            <b class="name">Background jobs</b>
+            <p class="def">Work the server does later, such as sending email or cleaning up.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A nightly job removes notes that have been in the bin for 30 days.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-search" data-rel="next">
+            <b class="name">Search</b>
+            <p class="def">Finding words inside large amounts of text quickly.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Search covers titles and note text, and ignores capital letters.</p>
+              <p class="see"><b>See also:</b> <a href="#e-architecture">Information architecture</a></p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-security">
+          <summary><h3>Security and privacy</h3></summary>
+          <div class="entry" id="e-signin" data-rel="now">
+            <b class="name">Sign-in</b>
+            <p class="def">Proving who someone is, with passwords, codes or passkeys.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> People sign in with an email link, so there is no password to forget.</p>
+              <p class="see"><b>See also:</b> <a href="#e-access">Access control</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-access" data-rel="now">
+            <b class="name">Access control</b>
+            <p class="def">Deciding who may see or change each thing.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A shared notebook lets a guest read a note but not delete it.</p>
+              <p class="see"><b>See also:</b> <a href="#e-signin">Sign-in</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-encryption" data-rel="next">
+            <b class="name">Encryption</b>
+            <p class="def">Scrambling data so that only the right people can read it.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Notes are encrypted on the server, and the keys are kept somewhere else.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-privacy" data-rel="now">
+            <b class="name">Privacy by design</b>
+            <p class="def">Collecting as little personal data as possible and being clear about it.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app stores an email address and nothing else about a person.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-dependencies" data-rel="next">
+            <b class="name">Dependency hygiene</b>
+            <p class="def">Keeping the libraries the app relies on current and trusted.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A weekly check lists outdated libraries and known security problems.</p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-ship">
+          <summary><h3>Shipping and running</h3></summary>
+          <div class="entry" id="e-builds" data-rel="now">
+            <b class="name">Automated builds</b>
+            <p class="def">A script that tests and packages every change, so releases are repeatable.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every change to the main branch runs the tests and builds the app.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-hosting" data-rel="next">
+            <b class="name">Hosting</b>
+            <p class="def">The computers and network that serve the app to people.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> One small server and one database serve the whole app.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-backups" data-rel="now">
+            <b class="name">Backups and recovery</b>
+            <p class="def">Copies of data kept apart from the original, and the practice of restoring them.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A copy of the database is saved every night, and nobody has tried a restore yet.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-monitoring" data-rel="next">
+            <b class="name">Monitoring and alerts</b>
+            <p class="def">Watching the app while it runs and being told when it breaks.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Nothing watches the app yet, so the builder hears about problems from users.</p>
+              <p class="see"><b>See also:</b> <a href="#e-errors">Error tracking</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-errors" data-rel="later">
+            <b class="name">Error tracking</b>
+            <p class="def">Capturing the errors people hit, grouped so that the most common come first.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Failed saves are logged with the note text removed.</p>
+              <p class="see"><b>See also:</b> <a href="#e-monitoring">Monitoring and alerts</a></p>
+            </div>
+          </div>
+        </details>
+        <details class="family-index" id="fam-quality">
+          <summary><h3>Qualities everyone owes</h3></summary>
+          <div class="entry" id="e-accessibility" data-rel="now">
+            <b class="name">Accessibility</b>
+            <p class="def">Making the app usable by everyone, including people who use a keyboard or a screen reader.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Every button can be reached with the keyboard, and text meets contrast rules.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-performance" data-rel="next">
+            <b class="name">Performance</b>
+            <p class="def">How fast the whole experience feels, from tap to result.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Opening a note should take under half a second on a phone.</p>
+              <p class="see"><b>See also:</b> <a href="#e-frontend-perf">Frontend performance</a></p>
+            </div>
+          </div>
+          <div class="entry" id="e-docs" data-rel="now">
+            <b class="name">Documentation</b>
+            <p class="def">Written notes on how the app works and why choices were made.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> A short file explains how to run the app and where the data lives.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-cost" data-rel="later">
+            <b class="name">Cost</b>
+            <p class="def">What the app costs to run, and how that grows with use.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> Hosting costs about ten dollars a month for the first thousand people.</p>
+            </div>
+          </div>
+          <div class="entry" id="e-localization" data-rel="later">
+            <b class="name">Localization</b>
+            <p class="def">Supporting other languages, date formats and reading directions.</p>
+            <div class="entry-body">
+              <p class="where"><b>In the notes app:</b> The app is English only for now, with all text kept in one file.</p>
+            </div>
+          </div>
+        </details>
       </div>
-      <p class="take"><b>Take from this:</b> four things changed since Tuesday, and a fifth, quiet hours for deploys, waits on a ruling.</p>
-
-      <p class="remember"><b>Remember:</b> each follow-up guards a different weak point, so one slip cannot take sync down for two hours again.</p>
+      <p class="take"><b>Take from this:</b> every field is one search away, and each entry says where it shows up in the app.</p>
+      <p class="remember"><b>Remember:</b> any field is one search away.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Writing never stopped, so the cost was a two-hour delay, not lost notes.</li>
-        <li>Finding the cause took 55 of the 120 minutes, so a clearer alert saves the most time.</li>
-        <li>The restart loop, not the index, turned a nine-minute lock into two hours.</li>
-        <li>Three follow-ups are done, one is under way, and one waits for Mara's ruling.</li>
-        <li>Each follow-up guards a different weak point, so one slip cannot take sync down for two hours again.</li>
+        <li>Design decides it, engineers build it, and shipping runs it.</li>
+        <li>Fields that fail quietly and cost the most come first.</li>
+        <li>Any field is one search away.</li>
       </ol>
     </section>
   </main>

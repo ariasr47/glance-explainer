@@ -1,5 +1,5 @@
 {
-  "description": "Runs the html-explainer page checker on the explainer pages a turn wrote, and asks the agent to fix any FAIL before it finishes.",
+  "description": "Runs the glance-explainer page checker on the explainer pages a turn wrote, and asks the agent to fix any FAIL before it finishes.",
   "hooks": {
     "UserPromptSubmit": [
       {

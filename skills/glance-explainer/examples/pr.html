@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="compare">
+<html lang="en" data-type="pr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>Three ways to store attachments</title>
-<meta name="description" content="Three places to keep a picture in a note, on the sync server, in a storage service or on the device only, measured on five criteria, with a recommendation and a question to answer.">
+<title>Pull request 9: the 1.8.1 polish</title>
+<meta name="description" content="A reviewer's page for pull request 9 of the glance-explainer plugin: what changed, where the 192 added lines go, what the checks prove, and where to look first.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,10 +1407,10 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#see"><span class="dot"></span>Who can see the photo</a></li>
-      <li><a href="#sync"><span class="dot"></span>What a photo does to sync</a></li>
-      <li><a href="#cost"><span class="dot"></span>What the extra build buys</a></li>
-      <li><a href="#pick"><span class="dot"></span>The pick</a></li>
+      <li><a href="#change"><span class="dot"></span>What changed and why</a></li>
+      <li><a href="#size"><span class="dot"></span>Where the 192 lines go</a></li>
+      <li><a href="#checks"><span class="dot"></span>What the checks prove</a></li>
+      <li><a href="#first"><span class="dot"></span>Where to look first</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1425,219 +1425,203 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">Where pictures in a note should live</p>
-    <h1>Three ways to store attachments</h1>
-    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-08</span><span>For: Mara</span><span>Example with made-up data</span></div>
+    <p class="kicker">A pull request, before you read the diff</p>
+    <h1>Pull request 9: the 1.8.1 polish</h1>
+    <div class="meta"><span>Reading time about 4 minutes</span><span>Written 2026-10-16</span><span>For: a reviewer</span><span><a href="https://github.com/ariasr47/glance-explainer/pull/9">Pull request 9 on GitHub</a></span></div>
 
-    <p class="answer">Keep attachments in a storage service: the other person sees photos, text sync stays fast, and the price is 4 more build days than the server.</p>
+    <p class="answer">Pull request 9 polishes the look in 12 files, but 7 of them carry the same 24 lines, so one file, template.html, is the real change.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>On the device only, the other person sees a grey box.</li>
-        <li>On the sync server, one big photo can hold up text sync.</li>
-        <li>A storage service costs 4 more build days and $6 less a month.</li>
+        <li>One commit, 12 files, 192 lines added and 99 removed.</li>
+        <li>Seven files hold the same 24 added lines. Read template.html.</li>
+        <li>The commands passed. Only a person can check the layout.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">Three places, five criteria</h2><span class="chip decide">Needs your ruling</span></div>
-      <div class="grid-wrap"><table class="grid">
-        <caption>Where a picture in a note could live</caption>
-        <thead><tr><th scope="col">Criterion</th><th scope="col" data-rec>In a storage service</th><th scope="col">On the sync server</th><th scope="col">On the device only</th></tr></thead>
-        <tbody>
-          <tr class="group"><th colspan="4" scope="colgroup">What people get</th></tr>
-          <tr><th scope="row">Other person can see it</th><td class="go">Yes, by a private link</td><td class="go">Yes, with the note</td><td class="stop">No, a grey box</td></tr>
-          <tr><th scope="row">Text sync stays fast</th><td class="go">The photo takes its own route</td><td class="wait">A big photo holds it up</td><td class="go">Nothing to upload</td></tr>
-          <tr><th scope="row">Survives a lost phone</th><td class="go">Yes, kept in three places</td><td class="go">Yes, backed up nightly</td><td class="stop">No, the photo goes too</td></tr>
-          <tr class="group"><th colspan="4" scope="colgroup">What it costs us</th></tr>
-          <tr><th scope="row">Extra cost a month, a year on</th><td class="go">$6, pay as used</td><td class="wait">$12, a bigger disk</td><td class="go">$0</td></tr>
-          <tr><th scope="row">Build time</th><td class="wait">6 days</td><td class="go">2 days</td><td class="go">1 day</td></tr>
-        </tbody>
-      </table></div>
-      <p class="take"><b>Take:</b> the starred column has no red and one amber, which is 6 build days. The device-only column fails the two criteria that matter for sharing.</p>
+      <div class="glance-head"><h2 id="glance-h">How big is it, and was it checked?</h2><span class="chip">Merged 2026-10-15</span></div>
+      <div class="tiles">
+        <div class="tile"><span class="n">12</span><span class="l">files changed</span></div>
+        <div class="tile"><span class="n">+192</span><span class="l">lines added</span></div>
+        <div class="tile"><span class="n">−99</span><span class="l">lines removed</span></div>
+      </div>
+      <ul class="status">
+        <li class="go"><b>Repository checks</b><span><code>node tools/check-repo.mjs</code> exits 0, with 18 checks ok.</span></li>
+        <li class="go"><b>Plugin manifest</b><span><code>claude plugin validate --strict .</code> exits 0.</span></li>
+        <li class="go"><b>CI, check job</b><span>The same <code>node tools/check-repo.mjs</code> on Node 18 passed in 10 seconds.</span></li>
+        <li class="wait"><b>Layout in a browser</b><span>No command to re-run. The pull request says 390 and 1280 px were looked at, in both themes.</span></li>
+      </ul>
+      <p class="take"><b>Take:</b> every command exits 0. The browser check is the author's word, so repeat it for any page you care about.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#see"><b>Who can see the photo</b><span>Why device only is out.</span></a></li>
-      <li><a href="#sync"><b>What a photo does to sync</b><span>Why the sync server loses to a storage service.</span></a></li>
-      <li><a href="#cost"><b>What the extra build buys</b><span>The 6 days, and the money back.</span></a></li>
-      <li><a href="#pick"><b>The pick</b><span>My recommendation and your ruling.</span></a></li>
+      <li><a href="#change"><b>What changed and why</b><span>Five look changes, before and after.</span></a></li>
+      <li><a href="#size"><b>Where the 192 lines go</b><span>Most of the diff is one change, copied.</span></a></li>
+      <li><a href="#checks"><b>What the checks prove</b><span>What a command vouches for, and what it cannot see.</span></a></li>
+      <li><a href="#first"><b>Where to look first</b><span>What to read, what to skim and what to skip.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="see" data-keep="A picture kept on one phone shows the other person a grey box.">
+    <section class="chapter" id="change" data-keep="Five look changes, all in the template's style, plus one script line.">
       <header>
-        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>Which option lets the other person see a photo?</h2></div>
+        <div><p class="kicker">Chapter 1 of 4, about 1 minute</p><h2>What changed, and why?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the grid compares three places for a picture on five criteria, and the starred one is my pick.</p>
+      <p class="from"><b>Before this:</b> 12 files changed, and seven of them carry the same lines.</p>
 
-      <p>Today a picture stays on the phone that took it. In 2.4, Sam opens Mara's notebook on another phone, so the picture has to leave Mara's phone.</p>
+      <p>The pull request follows a close look at the gallery, the examples and real upgraded pages at 390 and 1280 px, in both themes. It polishes release 1.8.0.</p>
 
-      <div class="frame-row" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Device only</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Lake trip</span>
-            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="height:3rem;background:var(--line)"></span><span class="mock-note">Photo is on Mara's phone</span></span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> Sam sees a grey box.</figcaption></figure>
-        <figure class="frame phone"><div class="frame-bar"><span class="dots" aria-hidden="true"></span><span class="url">Stored away</span></div>
-          <div class="frame-screen">
-            <span class="mock-title">Lake trip</span>
-            <span class="mock-win"><span class="mock-line" style="width:70%"></span><span class="mock-line" style="height:3rem;background:var(--here-tint);border:1.5px solid var(--here)"></span><span class="mock-note">Photo from Mara</span></span>
-          </div>
-          <figcaption class="take"><b>Take from this:</b> Sam sees the photo.</figcaption></figure>
+      <div class="split">
+        <div class="before"><b>Before, in 1.8.0</b>
+          <ul>
+            <li>The keep label and the chapter kicker were capitals with letter spacing.</li>
+            <li>A callout had a 5 px left bar and a full tint.</li>
+            <li>A flow step's number sat over its text.</li>
+            <li>The mini-map shrank to fit a phone, down to 7 px labels.</li>
+            <li>The rail line showed the summary first, with no limit.</li>
+          </ul></div>
+        <div class="after"><b>After, in 1.8.1</b>
+          <ul>
+            <li>Both are sentence case and a little larger.</li>
+            <li>A callout is a white card with a hairline and a glyph before its title.</li>
+            <li>The number sits beside a bold title, and the line below runs full width.</li>
+            <li>Under 560 px the mini-map keeps its size and scrolls.</li>
+            <li>The rail line shows minutes first and stops at two lines.</li>
+          </ul></div>
       </div>
+      <p class="take"><b>Take from this:</b> every change is in the template's style, plus one line of its script. No page content changes.</p>
 
-      <p>A lost phone breaks the same way. The photo goes with the phone, so device only fails two of the five criteria.</p>
-
-      <p class="remember"><b>Remember:</b> a picture kept on one phone shows the other person a grey box, so device only is out.</p>
+      <p class="remember"><b>Remember:</b> five look changes in the template's style block, plus one script line.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="sync" data-keep="On the sync server a photo and text share one line. A storage service gives the photo its own.">
+    <section class="chapter" id="size" data-keep="Seven files hold the same 24 added lines. The other five files hold 24 more.">
       <header>
-        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What does a photo do to text sync?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>Where do the 192 added lines go?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a picture kept on one phone shows the other person a grey box, so device only is out.</p>
+      <p class="from"><b>Before this:</b> 12 files changed, with 192 lines added and 99 removed.</p>
 
-      <p>Two options are left. The difference shows on a weak signal. In my test, Mara adds a 4 MB photo and types one line of text straight after.</p>
+      <p>Seven files hold the same 24 added lines and the same 13 removed lines. One is template.html. The other six carry a copy of its style and script: the gallery, three examples and two site pages.</p>
 
       <figure class="figure">
-        <svg viewBox="0 0 800 310" role="img" aria-labelledby="f-sync"><title id="f-sync">On the sync server, the photo and the text share one line, so the text arrives after 40 seconds. With a storage service, the text goes to the sync server and the photo goes to the storage service, so the text arrives after 2 seconds.</title>
-          <text class="d-text-b" x="20" y="26">Photo on the sync server</text>
-          <rect class="d-box" x="20" y="42" width="170" height="64" rx="10"/><text class="d-text-b" x="105" y="70" text-anchor="middle">Phone</text><text class="d-text-s" x="105" y="90" text-anchor="middle">photo, then text</text>
-          <text class="d-text-s" x="395" y="66" text-anchor="middle">one line, so the text waits for the photo</text>
-          <path class="d-line" d="M190 74 H588"/><path class="d-arrow" d="M588 68 L600 74 L588 80 Z"/>
-          <rect class="d-box-wait" x="600" y="42" width="180" height="64" rx="10"/><text class="d-text-b" x="690" y="70" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="90" text-anchor="middle">text after 40 seconds</text>
-          <text class="d-text-b" x="20" y="162">Photo in a storage service</text>
-          <rect class="d-box" x="20" y="178" width="170" height="104" rx="10"/><text class="d-text-b" x="105" y="224" text-anchor="middle">Phone</text><text class="d-text-s" x="105" y="244" text-anchor="middle">photo and text</text>
-          <text class="d-text-s" x="395" y="200" text-anchor="middle">the text goes at once</text>
-          <path class="d-line" d="M190 208 H588"/><path class="d-arrow" d="M588 202 L600 208 L588 214 Z"/>
-          <text class="d-text-s" x="395" y="258" text-anchor="middle">the photo takes its own route</text>
-          <path class="d-line" d="M190 266 H588"/><path class="d-arrow" d="M588 260 L600 266 L588 272 Z"/>
-          <rect class="d-box-go" x="600" y="178" width="180" height="52" rx="10"/><text class="d-text-b" x="690" y="200" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="219" text-anchor="middle">text after 2 seconds</text>
+        <svg viewBox="0 0 800 224" role="img" aria-labelledby="f-lines"><title id="f-lines">Added lines by file group: template.html 24, six pages that carry a copy 144, five other files 24.</title>
+          <text class="d-text-b" x="20" y="42">template.html</text><text class="d-text-s" x="20" y="62">the source of the change</text>
+          <rect class="d-box-here" x="330" y="24" width="70" height="44" rx="8"/><text class="d-text-b" x="412" y="52">24</text>
+          <text class="d-text-b" x="20" y="116">Six pages with a copy</text><text class="d-text-s" x="20" y="136">24 added lines in each</text>
+          <rect class="d-box" x="330" y="98" width="420" height="44" rx="8"/><text class="d-text-b" x="762" y="126">144</text>
+          <text class="d-text-b" x="20" y="190">Five other files</text><text class="d-text-s" x="20" y="210">CHANGELOG, atlas.css and three more</text>
+          <rect class="d-box" x="330" y="172" width="70" height="44" rx="8"/><text class="d-text-b" x="412" y="200">24</text>
         </svg>
-        <svg class="narrow" viewBox="0 0 300 440" role="img" aria-labelledby="f-sync-n"><title id="f-sync-n">On the sync server, the photo and the text share one line, so the text arrives after 40 seconds. With a storage service, the text goes to the sync server and the photo goes to the storage service, so the text arrives after 2 seconds.</title>
-          <text class="d-text-b" x="5" y="20">Photo on the sync server</text>
-          <rect class="d-box" x="5" y="32" width="290" height="46" rx="10"/><text class="d-text-b" x="150" y="52" text-anchor="middle">Phone</text><text class="d-text-s" x="150" y="68" text-anchor="middle">photo, then text</text>
-          <path class="d-line" d="M150 78 V112"/><path class="d-arrow" d="M144 112 L150 124 L156 112 Z"/>
-          <text class="d-text-s" x="162" y="100">one line</text>
-          <rect class="d-box-wait" x="5" y="124" width="290" height="54" rx="10"/><text class="d-text-b" x="150" y="148" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="166" text-anchor="middle">text after 40 seconds</text>
-          <text class="d-text-b" x="5" y="222">Photo in a storage service</text>
-          <rect class="d-box" x="5" y="234" width="290" height="46" rx="10"/><text class="d-text-b" x="150" y="254" text-anchor="middle">Phone</text><text class="d-text-s" x="150" y="270" text-anchor="middle">photo and text</text>
-          <path class="d-line" d="M75 280 V338"/><path class="d-arrow" d="M69 338 L75 350 L81 338 Z"/>
-          <text class="d-text-s" x="85" y="312">text</text>
-          <path class="d-line" d="M225 280 V338"/><path class="d-arrow" d="M219 338 L225 350 L231 338 Z"/>
-          <text class="d-text-s" x="235" y="312">photo</text>
-          <rect class="d-box-go" x="5" y="350" width="140" height="76" rx="10"/><text class="d-text-b" x="75" y="376" text-anchor="middle">Sync server</text><text class="d-text-s" x="75" y="396" text-anchor="middle">text after</text><text class="d-text-s" x="75" y="412" text-anchor="middle">2 seconds</text>
-          <rect class="d-box" x="155" y="350" width="140" height="76" rx="10"/><text class="d-text-b" x="225" y="376" text-anchor="middle">Storage service</text><text class="d-text-s" x="225" y="396" text-anchor="middle">keeps the</text><text class="d-text-s" x="225" y="412" text-anchor="middle">photo</text>
+        <svg class="narrow" viewBox="0 0 320 252" role="img" aria-labelledby="f-lines-n"><title id="f-lines-n">Added lines by file group: template.html 24, six pages that carry a copy 144, five other files 24.</title>
+          <text class="d-text-b" x="10" y="18">template.html</text><text class="d-text-s" x="10" y="36">the source of the change</text>
+          <rect class="d-box-here" x="10" y="44" width="42" height="30" rx="7"/><text class="d-text-b" x="60" y="65">24</text>
+          <text class="d-text-b" x="10" y="102">Six pages with a copy</text><text class="d-text-s" x="10" y="120">24 added lines in each</text>
+          <rect class="d-box" x="10" y="128" width="250" height="30" rx="7"/><text class="d-text-b" x="268" y="149">144</text>
+          <text class="d-text-b" x="10" y="186">Five other files</text><text class="d-text-s" x="10" y="204">CHANGELOG, atlas.css and three more</text>
+          <rect class="d-box" x="10" y="212" width="42" height="30" rx="7"/><text class="d-text-b" x="60" y="233">24</text>
         </svg>
-        <figcaption class="take"><b>Take from this:</b> on the sync server a photo and a line of text share one queue. A storage service gives the photo its own route.</figcaption>
+        <figcaption class="take"><b>Take from this:</b> 168 of the 192 added lines are the same 24 lines, so reading one file covers almost all of it.</figcaption>
       </figure>
 
-      <details class="fold"><summary>Show how I measured it</summary>
-        <p>I ran both set-ups on a throttled connection, about 150 kilobits a second, with the 4 MB photo and one line of text. I timed the text from typing to arriving on the web app. I ran it 10 times, and the slowest run is the one quoted.</p>
+      <details class="fold"><summary>Show the diff stat for every file</summary>
+        <pre><code>.claude-plugin/plugin.json                        |  2 +-
+CHANGELOG.md                                      | 15 +++++++++
+docs/index.html                                   | 37 +++++++++++++++--------
+docs/roadmap.html                                 | 37 +++++++++++++++--------
+skills/explainer-atlas/assets/atlas.css           | 10 +++---
+skills/explainer-gather/examples/ballot.html      | 37 +++++++++++++++--------
+skills/glance-explainer/assets/gallery.html         | 37 +++++++++++++++--------
+skills/glance-explainer/assets/template.html        | 37 +++++++++++++++--------
+skills/glance-explainer/examples/field-guide.html   | 37 +++++++++++++++--------
+skills/glance-explainer/examples/playbook.html      | 37 +++++++++++++++--------
+skills/glance-explainer/references/design-system.md |  4 +--
+skills/glance-explainer/scripts/upgrade.mjs         |  1 +
+12 files changed, 192 insertions(+), 99 deletions(-)</code></pre>
+        <p>This is the output of <code>git show --stat 04cb440</code>. Each of the seven pages shows 24 added and 13 removed lines.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> on a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</p>
+      <p class="remember"><b>Remember:</b> 7 of 12 files hold the same 24 added lines, so the real change is one file.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="cost" data-keep="The storage service takes 4 more build days and costs $6 less a month.">
+    <section class="chapter" id="checks" data-keep="Commands vouch for the files and their copies. A person must look at the layout.">
       <header>
-        <div><p class="kicker">Chapter 3 of 4, about 1 minute</p><h2>What does the extra build buy?</h2></div>
+        <div><p class="kicker">Chapter 3 of 4, about 2 minutes</p><h2>What do the checks prove, and what can they not see?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> on a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</p>
+      <p class="from"><b>Before this:</b> the commands exit 0, and the browser check has no command to re-run.</p>
 
-      <p>A storage service is more work now and cheaper to run. We expect about 7,500 pictures a month, which is 90 GB in a year.</p>
+      <p>The repository check runs six kinds of test. None of them looks at a screen, and CI's site job is skipped on pull requests.</p>
 
-      <div class="tiles">
-        <div class="tile wait"><span class="n">6 days</span><span class="l">to build, against 2 for the server</span></div>
-        <div class="tile go"><span class="n">$6</span><span class="l">a month to run it, a year on</span></div>
-        <div class="tile"><span class="n">$12</span><span class="l">a month for the server's disk</span></div>
-      </div>
-      <p class="take"><b>Take from this:</b> 4 extra days now buy faster sync and a bill that is $6 a month smaller.</p>
+      <ul class="status">
+        <li class="go"><b>Pages</b><span>All 7 shipped pages pass the page checker.</span></li>
+        <li class="go"><b>Copies</b><span>The gallery and both site pages hold the template's style and script, byte for byte.</span></li>
+        <li class="go"><b>Paths and manifests</b><span>35 paths named in skill files exist. The manifests agree, and the template's mark reads 1.8.1.</span></li>
+        <li class="go"><b>Hooks and merge tool</b><span>hooks.json runs 3 commands that exist. merge.html ranks a fixed sample correctly.</span></li>
+        <li class="wait"><b>Layout</b><span>Sideways scroll and split words need a person at 390 and 1280 px, in both themes.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> a command vouches for the files and their copies. Only a person vouches for how a page looks.</p>
 
-      <details class="fold"><summary>Show what the 6 days hold</summary>
-        <ul>
-          <li>Set up the storage account: 1 day.</li>
-          <li>Private links, so only the two people see a picture: 2 days.</li>
-          <li>Upload retries on a weak signal: 2 days.</li>
-          <li>Delete the picture when its note is deleted: 1 day.</li>
-        </ul>
+      <div class="callout warn"><b>Claimed, not re-run here</b>
+        <p>The pull request says it opened the gallery, three upgraded pages and an old atlas page at both widths and in both themes. It reports no console errors and no sideways scroll.</p></div>
+
+      <details class="fold"><summary>Show how to re-run the commands at this commit</summary>
+        <pre><code>git worktree add --detach ../pr9-check 04cb440
+cd ../pr9-check
+node tools/check-repo.mjs
+claude plugin validate --strict .</code></pre>
+        <p>Both commands exit 0 at commit 04cb440. When you are done, run <code>git worktree remove ../pr9-check</code> from the main checkout.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> a storage service takes 4 more build days and costs $6 a month less to run.</p>
+      <p class="remember"><b>Remember:</b> commands vouch for the files and their copies, and a person must look at the layout.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="pick" data-keep="My pick is the storage service. The ruling is yours.">
+    <section class="chapter" id="first" data-keep="Read template.html, skim three small files, skip the six copies.">
       <header>
-        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Which one do we pick?</h2></div>
+        <div><p class="kicker">Chapter 4 of 4, about 1 minute</p><h2>Where should I look first, and what can I skip?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a storage service takes 4 more build days and costs $6 a month less to run.</p>
+      <p class="from"><b>Before this:</b> seven of the 12 files hold the same 24 lines, and no command sees the layout.</p>
 
-      <p>The storage service has the fewest ambers and no red. Device only is cheap, but it hides photos from the person you share with.</p>
+      <ol class="steps">
+        <li><b>Read the template's diff.</b> It is 24 lines added and 13 removed in <code>template.html</code>. This is the whole idea.</li>
+        <li><b>Skim three small files.</b> plugin.json moves 1.8.0 to 1.8.1 on line 4. upgrade.mjs adds one hash line. CHANGELOG.md adds 15 lines.</li>
+        <li><b>Glance at atlas.css and design-system.md.</b> The atlas's quiet snapshot line also applies after the chapter map. The design doc's two rows match the new look.</li>
+        <li><b>Skip the six copies.</b> They repeat the first step. The fold below shows how to prove it.</li>
+      </ol>
+      <p class="take"><b>Take from this:</b> six files are worth a look, and the template's 37 changed lines are the ones to read.</p>
 
-      <div class="decision">
-        <h3>Where should attachments live?</h3>
-        <p>Ted builds it either way. The price is days of build and the weeks after.</p>
-        <div class="options">
-          <div class="option" data-rec="My pick">
-            <h4>A storage service</h4>
-            <ul><li class="plus">The other person sees photos</li><li class="plus">Text sync stays fast</li><li class="minus">6 build days</li></ul>
-            <p class="cost">Cost: 4 more build days than the server.</p>
-          </div>
-          <div class="option">
-            <h4>The sync server</h4>
-            <ul><li class="plus">2 build days</li><li class="minus">A big photo can hold up text sync</li><li class="minus">$12 a month</li></ul>
-            <p class="cost">Cost: slower sync on a weak signal.</p>
-          </div>
-          <div class="option" data-warn="Hides photos from others">
-            <h4>The device only</h4>
-            <ul><li class="plus">1 build day, and $0</li><li class="minus">A grey box for the other person</li><li class="minus">A lost phone loses the photo</li></ul>
-            <p class="cost">Cost: sharing without photos.</p>
-          </div>
-        </div>
-        <p class="nothing"><b>If you do nothing:</b> pictures stay on the phone that took them, which is the device-only option.</p>
-      </div>
-      <p class="take"><b>Take from this:</b> the choice is between 6 build days and a slower, pricier sync server. Device only fails the sharing test.</p>
-
-      <details class="fold"><summary>Show what would change my pick</summary>
-        <p>If we expected under 10 GB of pictures a year, the sync server would build faster and cost almost nothing to run. At 90 GB a year, the disk bill and the sync delay both point the other way.</p>
+      <details class="fold"><summary>Show how to confirm the seven files changed alike</summary>
+        <pre><code>for f in skills/glance-explainer/assets/template.html skills/glance-explainer/assets/gallery.html skills/glance-explainer/examples/playbook.html skills/glance-explainer/examples/field-guide.html skills/explainer-gather/examples/ballot.html docs/index.html docs/roadmap.html; do
+  git diff -U0 04cb440~1 04cb440 -- "$f" | grep '^[+-]' | grep -v '^+++\|^---' | sort | md5sum
+done</code></pre>
+        <p>Seven identical hashes mean the seven files changed in the same way. The repository check already proves this for the gallery and the two site pages.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> my pick is the storage service, and the ruling is yours.</p>
+      <p class="remember"><b>Remember:</b> read template.html first, skim three small files, and skip the six copies.</p>
     </section>
 
+    <!-- CLOSING -->
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>A picture kept on one phone shows the other person a grey box, so device only is out.</li>
-        <li>On a weak signal a photo can hold up text sync for 40 seconds on the server, and for 2 in a storage service.</li>
-        <li>A storage service takes 4 more build days and costs $6 a month less to run.</li>
-        <li>My pick is the storage service, and the ruling is yours.</li>
+        <li>Five look changes in the template's style block, plus one script line.</li>
+        <li>7 of 12 files hold the same 24 added lines, so the real change is one file.</li>
+        <li>Commands vouch for the files and their copies, and a person must look at the layout.</li>
+        <li>Read template.html first, skim three small files, and skip the six copies.</li>
       </ol>
-    </section>
-
-    <section class="ask">
-      <h2>What I need from you</h2>
-      <p>Where should attachments live in 2.4? Reply with one of these.</p>
-      <div class="choices"><a href="#" data-rec>A storage service</a><a href="#">The sync server</a><a href="#">The device only</a><a href="#">Ask me something first</a></div>
-      <p class="nothing"><b>If you do nothing:</b> pictures stay on the phone that took them, and shared notebooks show a grey box.</p>
     </section>
   </main>
 </div>

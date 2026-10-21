@@ -1,18 +1,18 @@
 <div align="center">
 
-# html-explainer
+# glance-explainer
 
-**Pages you can decide from.**
+**Explainer pages for readers with ADHD or a short working memory.**
 
 A Claude Code plugin that turns what your agent did into one page you can read in minutes:<br>
 the answer first, a picture in every chapter, one question when you must decide, and checked before it reaches you.
 
-[![CI](https://github.com/ariasr47/html-explainer-skill/actions/workflows/ci.yml/badge.svg)](https://github.com/ariasr47/html-explainer-skill/actions/workflows/ci.yml)
-[![Version](https://img.shields.io/github/v/tag/ariasr47/html-explainer-skill?label=version&color=2457d6)](CHANGELOG.md)
+[![CI](https://github.com/ariasr47/glance-explainer/actions/workflows/ci.yml/badge.svg)](https://github.com/ariasr47/glance-explainer/actions/workflows/ci.yml)
+[![Version](https://img.shields.io/github/v/tag/ariasr47/glance-explainer?label=version&color=2457d6)](CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-2457d6)](LICENSE)
 [![Agent Skills](https://img.shields.io/badge/Agent%20Skills-compatible-2457d6)](https://agentskills.io)
 
-**[See live examples](https://ariasr47.github.io/html-explainer-skill/)** · [Install](#install) · [What it makes](#what-it-makes) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
+**[See live examples](https://ariasr47.github.io/glance-explainer/)** · [Install](#install) · [What it makes](#what-it-makes) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/hero-dark.png">
@@ -42,30 +42,32 @@ Every page this plugin makes has the same shape:
 
 ## See it
 
-Every kind of page the plugin makes has a working example. Open one, tap its answers, switch it to dark, or read it on your phone. All of them are on the [examples page](https://ariasr47.github.io/html-explainer-skill/examples.html), grouped by the job you have.
+Every kind of page the plugin makes has a working example. Open one, tap its answers, switch it to dark, or read it on your phone. All of them are on the [examples page](https://ariasr47.github.io/glance-explainer/examples.html), grouped by the job you have.
 
 <table>
-<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/decision.html"><img src="docs/images/examples/decision.webp" alt="Decision example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/decision.html">Decision</a></b><br>Three rulings, answered by tapping</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/ballot.html"><img src="docs/images/examples/ballot.webp" alt="Ballot example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/ballot.html">Ballot</a></b><br>Four decisions on one phone screen</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/compare.html"><img src="docs/images/examples/compare.webp" alt="Compare example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/compare.html">Compare</a></b><br>Three options against five criteria</td></tr>
-<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/spec.html"><img src="docs/images/examples/spec.webp" alt="Spec example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/spec.html">Spec</a></b><br>Approve or hold one feature</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/playbook.html"><img src="docs/images/examples/playbook.webp" alt="Playbook example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/playbook.html">Playbook</a></b><br>A plan for one risky change</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/status.html"><img src="docs/images/examples/status.webp" alt="Status example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/status.html">Status</a></b><br>Where a release stands, and its blocker</td></tr>
-<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/portfolio.html"><img src="docs/images/examples/portfolio.webp" alt="Portfolio example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/portfolio.html">Portfolio</a></b><br>Six projects, the urgent ones first</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/roadmap.html"><img src="docs/images/examples/roadmap.webp" alt="Roadmap example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/roadmap.html">Roadmap</a></b><br>This plugin's now, next and later</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/release.html"><img src="docs/images/examples/release.webp" alt="Release example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/release.html">Release</a></b><br>What shipped in 1.8.0 and 1.8.1</td></tr>
-<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/incident.html"><img src="docs/images/examples/incident.webp" alt="Incident example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/incident.html">Incident</a></b><br>What broke, why, and what stops a repeat</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/handover.html"><img src="docs/images/examples/handover.webp" alt="Handover example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/handover.html">Handover</a></b><br>Work in flight, claims kept apart</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/explainer.html"><img src="docs/images/examples/explainer.webp" alt="Explainer example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/explainer.html">Explainer</a></b><br>Why every page opens with the answer</td></tr>
-<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/teach.html"><img src="docs/images/examples/teach.webp" alt="Teach example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/teach.html">Teach</a></b><br>A system in layers, for a newcomer</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/tour.html"><img src="docs/images/examples/tour.webp" alt="Tour example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/tour.html">Tour</a></b><br>How to read a page, on real screens</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/research.html"><img src="docs/images/examples/research.webp" alt="Research example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/research.html">Research</a></b><br>Findings and how sure each one is</td></tr>
-<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/field-guide.html"><img src="docs/images/examples/field-guide.webp" alt="Field guide example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/field-guide.html">Field guide</a></b><br>A reference to look things up in</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/atlas/index.html"><img src="docs/images/examples/atlas.webp" alt="Atlas example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/atlas/index.html">Atlas</a></b><br>How this repository fits together</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/runbook.html"><img src="docs/images/examples/runbook.webp" alt="Runbook example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/runbook.html">Runbook</a></b><br>A release in 11 checked steps</td></tr>
-<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/pr.html"><img src="docs/images/examples/pr.webp" alt="Pull request example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/pr.html">Pull request</a></b><br>A change, before you read the diff</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/examples/questionnaire.html"><img src="docs/images/examples/questionnaire.webp" alt="Questionnaire example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/examples/questionnaire.html">Questionnaire</a></b><br>Six questions, answers in one paste</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/html-explainer-skill/"><img src="docs/images/examples/public.webp" alt="Public example" width="260"></a><br><b><a href="https://ariasr47.github.io/html-explainer-skill/">Public</a></b><br>The site home: promises, with proof</td></tr>
+<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/decision.html"><img src="docs/images/examples/decision.webp" alt="Decision example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/decision.html">Decision</a></b><br>Three rulings, answered by tapping</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/ballot.html"><img src="docs/images/examples/ballot.webp" alt="Ballot example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/ballot.html">Ballot</a></b><br>Four decisions on one phone screen</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/compare.html"><img src="docs/images/examples/compare.webp" alt="Compare example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/compare.html">Compare</a></b><br>Three options against five criteria</td></tr>
+<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/spec.html"><img src="docs/images/examples/spec.webp" alt="Spec example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/spec.html">Spec</a></b><br>Approve or hold one feature</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/playbook.html"><img src="docs/images/examples/playbook.webp" alt="Playbook example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/playbook.html">Playbook</a></b><br>A plan for one risky change</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/status.html"><img src="docs/images/examples/status.webp" alt="Status example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/status.html">Status</a></b><br>Where a release stands, and its blocker</td></tr>
+<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/portfolio.html"><img src="docs/images/examples/portfolio.webp" alt="Portfolio example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/portfolio.html">Portfolio</a></b><br>Six projects, the urgent ones first</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/roadmap.html"><img src="docs/images/examples/roadmap.webp" alt="Roadmap example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/roadmap.html">Roadmap</a></b><br>This plugin's now, next and later</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/release.html"><img src="docs/images/examples/release.webp" alt="Release example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/release.html">Release</a></b><br>What shipped in 1.8.0 and 1.8.1</td></tr>
+<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/incident.html"><img src="docs/images/examples/incident.webp" alt="Incident example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/incident.html">Incident</a></b><br>What broke, why, and what stops a repeat</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/handover.html"><img src="docs/images/examples/handover.webp" alt="Handover example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/handover.html">Handover</a></b><br>Work in flight, claims kept apart</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/explainer.html"><img src="docs/images/examples/explainer.webp" alt="Explainer example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/explainer.html">Explainer</a></b><br>Why every page opens with the answer</td></tr>
+<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/teach.html"><img src="docs/images/examples/teach.webp" alt="Teach example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/teach.html">Teach</a></b><br>A system in layers, for a newcomer</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/tour.html"><img src="docs/images/examples/tour.webp" alt="Tour example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/tour.html">Tour</a></b><br>How to read a page, on real screens</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/research.html"><img src="docs/images/examples/research.webp" alt="Research example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/research.html">Research</a></b><br>Findings and how sure each one is</td></tr>
+<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/field-guide.html"><img src="docs/images/examples/field-guide.webp" alt="Field guide example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/field-guide.html">Field guide</a></b><br>A reference to look things up in</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/atlas/index.html"><img src="docs/images/examples/atlas.webp" alt="Atlas example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/atlas/index.html">Atlas</a></b><br>How this repository fits together</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/runbook.html"><img src="docs/images/examples/runbook.webp" alt="Runbook example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/runbook.html">Runbook</a></b><br>A release in 11 checked steps</td></tr>
+<tr><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/pr.html"><img src="docs/images/examples/pr.webp" alt="Pull request example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/pr.html">Pull request</a></b><br>A change, before you read the diff</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/examples/questionnaire.html"><img src="docs/images/examples/questionnaire.webp" alt="Questionnaire example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/examples/questionnaire.html">Questionnaire</a></b><br>Six questions, answers in one paste</td><td width="33%" valign="top"><a href="https://ariasr47.github.io/glance-explainer/"><img src="docs/images/examples/public.webp" alt="Public example" width="260"></a><br><b><a href="https://ariasr47.github.io/glance-explainer/">Public</a></b><br>The site home: promises, with proof</td></tr>
 </table>
 
-Examples about the notes app use made-up data. The plugin's own pages (release, pull request, runbook, explainer, tour, atlas, roadmap) use real facts from this repository. Every page passes the plugin's checker. The [gallery](https://ariasr47.github.io/html-explainer-skill/gallery.html) shows each building block on its own.
+Examples about the notes app use made-up data. The plugin's own pages (release, pull request, runbook, explainer, tour, atlas, roadmap) use real facts from this repository. Every page passes the plugin's checker. The [gallery](https://ariasr47.github.io/glance-explainer/gallery.html) shows each building block on its own.
 
 ## Install
 
 In Claude Code:
 
 ```text
-/plugin marketplace add ariasr47/html-explainer-skill
-/plugin install html-explainer@html-explainer-skill
+/plugin marketplace add ariasr47/glance-explainer
+/plugin install glance-explainer@glance-explainer
 ```
 
-Restart Claude Code, then ask: *"Make an html explainer for this spec."*
+Restart Claude Code, then ask: *"Make a glance explainer for this spec."*
+
+Installed it before 2.0.0, when it was called html-explainer? [Move over in four commands](docs/install.md#moving-from-html-explainer).
 
 Node 18 or newer runs the checker; nothing else installs. **[The install guide](docs/install.md)** covers installing from a shell, setting it up for a whole team, updating, other agents such as Codex, Cursor, Gemini CLI and Copilot, and what to do when a skill does not start.
 
@@ -75,9 +77,9 @@ Ask in plain words. The agent picks the page type, writes the page from the temp
 
 | When you need to | Ask it like this | Page types |
 |---|---|---|
-| Decide | "Make an html explainer for the three decisions you need from me." | decision, compare |
-| Know where things stand | "Explain where we are with the project as an html explainer." | status, release, incident, pr, portfolio |
-| Approve a plan | "Turn this spec into an html explainer I can approve." | spec, roadmap, research, playbook |
+| Decide | "Make a glance explainer for the three decisions you need from me." | decision, compare |
+| Know where things stand | "Explain where we are with the project as a glance explainer." | status, release, incident, pr, portfolio |
+| Approve a plan | "Turn this spec into a glance explainer I can approve." | spec, roadmap, research, playbook |
 | Hand over or teach | "Write a handover page for whoever picks this up." | handover, teach, tour |
 | Look things up | "Make a field guide to this field that I can search later." | field-guide |
 | Follow a procedure | "Make a runbook page for the release steps." | runbook |
@@ -85,9 +87,9 @@ Ask in plain words. The agent picks the page type, writes the page from the temp
 | Ask a group | "Make a page that asks my team these questions and collects their answers." | gather (11 modes, including ballot) |
 | Map a codebase | "Write a backend architecture atlas for this repository." | atlas |
 
-To call a skill directly, type `/html-explainer:html-explainer <topic>`, `/html-explainer:explainer-gather <topic>` or `/html-explainer:explainer-atlas <layer>`.
+To call a skill directly, type `/glance-explainer:glance-explainer <topic>`, `/glance-explainer:explainer-gather <topic>` or `/glance-explainer:explainer-atlas <layer>`.
 
-To bring a page made with an older release up to the current design, ask: *"Upgrade this page to the current html-explainer design."* The agent runs `upgrade.mjs`, which keeps your content and saves a backup.
+To bring a page made with an older release up to the current design, ask: *"Upgrade this page to the current glance-explainer design."* The agent runs `upgrade.mjs`, which keeps your content and saves a backup.
 
 ## What it makes
 
@@ -114,7 +116,7 @@ To bring a page made with an older release up to the current design, ask: *"Upgr
 | playbook | You rule on a plan for one risky, multi-step change. |
 | field-guide | You need to get oriented in a whole field once, then look things up. |
 
-Full definitions: [`skills/html-explainer/references/types.md`](skills/html-explainer/references/types.md).
+Full definitions: [`skills/glance-explainer/references/types.md`](skills/glance-explainer/references/types.md).
 </details>
 
 <details>
@@ -132,18 +134,18 @@ A folder with `index.html`, `atlas.css` and `atlas.js` that maps one layer of a 
 <details>
 <summary><b>Japanese pages</b></summary>
 
-With `<html lang="ja">` the template switches to BIZ UDPGothic, a looser line height, strict line breaking and no italics, and the checker counts characters instead of words. [`translate.mjs`](skills/html-explainer/scripts/translate.mjs) turns a finished English page into a Japanese one with the same layout and question ids, so answers in both languages merge.
+With `<html lang="ja">` the template switches to BIZ UDPGothic, a looser line height, strict line breaking and no italics, and the checker counts characters instead of words. [`translate.mjs`](skills/glance-explainer/scripts/translate.mjs) turns a finished English page into a Japanese one with the same layout and question ids, so answers in both languages merge.
 </details>
 
 ## Design in one paragraph
 
-Cool fog paper, deep navy ink, one cobalt for "you are here", four meaning colours (green done, amber caution, red blocked, purple your choice), and yellow for anything you are asked to remember. Colour is never the only signal. Lexend for headings, Atkinson Hyperlegible Next for body text, 18 px base, 62-character lines, left aligned. Dark mode follows your system. The full system is in [`references/design-system.md`](skills/html-explainer/references/design-system.md).
+Cool fog paper, deep navy ink, one cobalt for "you are here", four meaning colours (green done, amber caution, red blocked, purple your choice), and yellow for anything you are asked to remember. Colour is never the only signal. Lexend for headings, Atkinson Hyperlegible Next for body text, 18 px base, 62-character lines, left aligned. Dark mode follows your system. The full system is in [`references/design-system.md`](skills/glance-explainer/references/design-system.md).
 
 ## What is in the repository
 
 | Path | What it holds |
 |---|---|
-| [`skills/html-explainer/`](skills/html-explainer/) | The core skill: template, gallery, checker, page types and writing rules |
+| [`skills/glance-explainer/`](skills/glance-explainer/) | The core skill: template, gallery, checker, page types and writing rules |
 | [`skills/explainer-gather/`](skills/explainer-gather/) | Pages that ask and collect, the merge tool and the ballot example |
 | [`skills/explainer-atlas/`](skills/explainer-atlas/) | Architecture atlases and the anchor checker |
 | [`docs/`](docs/) | The public site, the install guide, screenshots and planning history |
@@ -156,7 +158,7 @@ Each skill folder is self-contained in the [Agent Skills](https://agentskills.io
 
 Next: the skill starts reliably when asked, pages get tested with outside readers, and the plugin gets its final name and a directory listing. See [ROADMAP.md](ROADMAP.md).
 
-If you try a page, [say how it went](https://github.com/ariasr47/html-explainer-skill/issues/new?template=feedback.yml), especially if you or your reader has ADHD. That feedback decides what gets built.
+If you try a page, [say how it went](https://github.com/ariasr47/glance-explainer/issues/new?template=feedback.yml), especially if you or your reader has ADHD. That feedback decides what gets built.
 
 ## Licence
 

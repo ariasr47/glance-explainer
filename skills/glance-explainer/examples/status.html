@@ -1,19 +1,19 @@
 <!doctype html>
-<html lang="en" data-type="teach">
+<html lang="en" data-type="status">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="html-explainer 1.9.1">
+<meta name="generator" content="glance-explainer 2.0.0">
 <meta name="color-scheme" content="light dark">
-<title>How a note syncs</title>
-<meta name="description" content="A teaching page for a new engineer: the four layers a note passes through on its way from your phone to your other devices, the new words of each layer, and five steps to watch it happen. Example with made-up data.">
+<title>Where version 2.4 stands</title>
+<meta name="description" content="Where version 2.4 of a small notes app stands in week 3 of 5: five parts, the timeline to 29 October, and the one blocker that needs ten minutes from you. Example with made-up data.">
 <link rel="icon" href="data:,">
 <!-- Fonts are optional. The page is fully readable on the system stack if this link fails or the file is opened offline. -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;500;700&family=Atkinson+Hyperlegible+Mono:wght@400;600&family=BIZ+UDPGothic:wght@400;700&family=BIZ+UDGothic&display=swap">
 <style>
 /* =====================================================================
-   html-explainer design system  ·  v1.0
+   glance-explainer design system  ·  v1.0
    Single-file, no build step, no external scripts. Fonts degrade to the
    system stack. Works from file://, in an artifact, printed, and on a phone.
    Colour has meaning. Nothing moves unless the reader moved it.
@@ -1407,11 +1407,11 @@ html:not(.js) .ballot-tray { display: none; }
 <div class="page">
   <nav class="rail" aria-label="Chapters">
     <ol>
-      <li><a href="#phone"><span class="dot"></span>On the phone</a></li>
-      <li><a href="#server"><span class="dot"></span>On the server</a></li>
-      <li><a href="#devices"><span class="dot"></span>On other devices</a></li>
-      <li><a href="#clash"><span class="dot"></span>When edits clash</a></li>
-      <li><a href="#try"><span class="dot"></span>Watch it happen</a></li>
+      <li><a href="#date"><span class="dot"></span>Is the date safe?</a></li>
+      <li><a href="#phone"><span class="dot"></span>The phone app</a></li>
+      <li><a href="#changed"><span class="dot"></span>Since last Friday</a></li>
+      <li><a href="#blocker"><span class="dot"></span>The one blocker</a></li>
+      <li><a href="#next"><span class="dot"></span>What happens next</a></li>
       <li><a href="#recap"><span class="dot"></span>Recap</a></li>
     </ol>
     <div class="tools">
@@ -1426,341 +1426,225 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
+    <p class="kicker">A status update, week 3 of 5</p>
+    <h1>Where version 2.4 stands</h1>
+    <div class="meta"><span>Reading time about 5 minutes</span><span>Written 2026-10-16</span><span>For: Mara</span><span>Example with made-up data</span></div>
 
-    <p class="kicker">A teaching page for a new engineer</p>
-    <h1>How a note travels between devices</h1>
-    <div class="meta"><span>Reading time about 6 minutes</span><span>Written 2026-10-16</span><span>For: a new engineer</span><span>Example with made-up data</span></div>
-
-    <p class="answer">A note saves on your phone first, then the server numbers it, and your other devices ask for what is newer.</p>
+    <p class="answer">Version 2.4 is on track for 29 October, with one spare day, if you add two DNS records on Monday.</p>
 
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>A note saves on your phone before it is sent.</li>
-        <li>The server numbers every change, so the order is never in doubt.</li>
-        <li>Each device asks what is new since its last number.</li>
+        <li>2.4 ships on 29 October with one spare day.</li>
+        <li>One part is blocked: invite emails.</li>
+        <li>Only you can unblock it, in ten minutes.</li>
       </ol>
     </div>
 
     <section class="glance" aria-labelledby="glance-h">
-      <div class="glance-head"><h2 id="glance-h">The four layers a note passes through</h2><span class="chip here">Easiest first</span></div>
-      <ol class="layers">
-        <li class="here"><b>On your phone</b><span>The note is saved on the phone before anything is sent.</span><span class="terms"><span>Local copy</span><span>Outbox</span></span></li>
-        <li><b>On the sync server</b><span>The server puts every change in one order.</span><span class="terms"><span>Change</span><span>Change number</span></span></li>
-        <li><b>On your other devices</b><span>A device asks for what is newer than the last change it saw.</span><span class="terms"><span>Cursor</span><span>Pull</span></span></li>
-        <li><b>When two devices disagree</b><span>The later change wins and the other text is replaced.</span><span class="terms"><span>Conflict</span><span>Last write wins</span></span></li>
-      </ol>
-      <p class="take"><b>Take:</b> a note passes through four layers, and each one adds only a few words. The chips are the words you learn there.</p>
+      <div class="glance-head"><h2 id="glance-h">Where is 2.4 in week 3?</h2><span class="chip stop">1 blocker</span></div>
+      <div class="duo">
+        <div>
+          <h3>The five parts</h3>
+          <ul class="status">
+            <li class="go"><b>Sync server</b><span>Share, accept and remove work. 38 of 38 tests pass.</span></li>
+            <li class="go"><b>Web app</b><span>The share and accept screens are on the test site.</span></li>
+            <li class="wait"><b>Phone app</b><span>Android passes. The iPhone build has 3 open bugs.</span></li>
+            <li class="wait"><b>Release notes</b><span>Draft written. Screenshots wait for the iPhone fixes.</span></li>
+            <li class="stop"><b>Invite emails</b><span>Blocked until two DNS records are added.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>The five weeks</h3>
+          <ol class="timeline">
+            <li class="go"><span class="when">Week 1, from 28 Sep</span><span class="what">Sharing designed.</span></li>
+            <li class="go"><span class="when">Week 2, from 5 Oct</span><span class="what">Server and web app built.</span></li>
+            <li class="here"><span class="when">Week 3, from 12 Oct</span><span class="what">Phone app and invites. Today is Friday 16 Oct.</span></li>
+            <li><span class="when">Week 4, from 19 Oct</span><span class="what">Bug fixes, then both stores.</span></li>
+            <li><span class="when">Week 5, from 26 Oct</span><span class="what">Store review. Release on 29 Oct.</span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="callout stop"><b>The one blocker: invite emails</b><p>The email service will not send from our new address until two DNS records are added. Only you have the registrar login. Without them, 2.4 still ships, but a person with no account gets no email.</p></div>
+      <p class="take"><b>Take:</b> nothing is late. One part is blocked, and you can unblock it in ten minutes.</p>
     </section>
 
     <ol class="map">
-      <li><a href="#phone"><b>Where does a note live first?</b><span>On the phone, saved before it is sent.</span></a></li>
-      <li><a href="#server"><b>What does the server do with a change?</b><span>It numbers the change, so the order is fixed.</span></a></li>
-      <li><a href="#devices"><b>How does another device find out?</b><span>It asks for everything after its cursor.</span></a></li>
-      <li><a href="#clash"><b>What if two devices edit the same note?</b><span>The later change wins.</span></a></li>
-      <li><a href="#try"><b>How can you watch it happen?</b><span>Five steps with a phone and a browser.</span></a></li>
+      <li><a href="#date"><b>Is 29 October still safe?</b><span>Four days of work, five days to do it in.</span></a></li>
+      <li><a href="#phone"><b>What is left on the phone app?</b><span>Three small iPhone bugs and what each costs.</span></a></li>
+      <li><a href="#changed"><b>What changed since last Friday?</b><span>Three things got better and one got worse.</span></a></li>
+      <li><a href="#blocker"><b>What blocks the invite emails?</b><span>Two DNS records, and the day they are due.</span></a></li>
+      <li><a href="#next"><b>What happens next?</b><span>Six steps with an owner and a day each.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
-    <section class="chapter" id="phone" data-keep="A note is saved on the phone first and sent later.">
+    <section class="chapter" id="date" data-keep="The stores need the builds on 26 October. One spare day protects the date.">
       <header>
-        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Where does a note live first?</h2></div>
+        <div><p class="kicker">Chapter 1 of 5, about 1 minute</p><h2>Is 29 October still safe?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the answer says a note saves on your phone first and travels after that.</p>
+      <p class="from"><b>Before this:</b> two parts are done, two are under way, and one is blocked.</p>
 
-      <p>When you edit a note, the app does not wait for the network. It saves the edit to the <dfn>local copy</dfn> of your notes. The screen answers at once, and nothing is lost if the signal drops.</p>
+      <p>The release date has held since week 1. The real deadline is earlier: both app stores need the builds on Monday 26 October, so they can review them before Thursday.</p>
 
-      <p>Next the app adds the edit to the <dfn>outbox</dfn>. A background task sends the outbox in order whenever the phone is online. In a lift, the outbox waits.</p>
-
-      <dl class="term">
-        <dt>Local copy</dt><dd>The notes stored on the phone itself. The app reads and writes this copy first.</dd>
-        <dt>Outbox</dt><dd>The edits the phone has saved but not yet sent. It empties as the server confirms each one.</dd>
-      </dl>
-
-      <figure class="figure">
-        <svg viewBox="0 0 800 190" role="img" aria-labelledby="f-phone"><title id="f-phone">You edit a note. The edit is saved to the local copy at once and added to the outbox. Later, when there is a connection, the outbox goes to the sync server.</title>
-          <rect class="d-box" x="10" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="92" y="62" text-anchor="middle">1. You edit</text><text class="d-text-s" x="92" y="84" text-anchor="middle">type in the app</text>
-          <path class="d-line" d="M175 68 H205"/><path class="d-arrow" d="M205 62 L217 68 L205 74 Z"/>
-          <rect class="d-box-here" x="217" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="300" y="62" text-anchor="middle">2. Local copy</text><text class="d-text-s" x="300" y="84" text-anchor="middle">saved at once</text>
-          <path class="d-line" d="M382 68 H412"/><path class="d-arrow" d="M412 62 L424 68 L412 74 Z"/>
-          <rect class="d-box-wait" x="424" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="507" y="62" text-anchor="middle">3. Outbox</text><text class="d-text-s" x="507" y="84" text-anchor="middle">edits waiting to go</text>
-          <path class="d-line-soft" d="M589 68 H619"/><path class="d-arrow" d="M619 62 L631 68 L619 74 Z"/>
-          <rect class="d-box" x="631" y="30" width="165" height="76" rx="10"/><text class="d-text-b" x="713" y="62" text-anchor="middle">4. Sync server</text><text class="d-text-s" x="713" y="84" text-anchor="middle">gets them when online</text>
-          <path class="d-line-soft" d="M10 140 H589"/><text class="d-text-s" x="300" y="166" text-anchor="middle">Steps 1 to 3 work with no connection</text>
-          <text class="d-text-s" x="713" y="140" text-anchor="middle">needs a connection</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 300 380" role="img" aria-labelledby="f-phone-n"><title id="f-phone-n">You edit a note. The edit is saved to the local copy at once and added to the outbox. Later, when there is a connection, the outbox goes to the sync server.</title>
-          <rect class="d-box" x="30" y="10" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="37" text-anchor="middle">1. You edit</text><text class="d-text-s" x="150" y="58" text-anchor="middle">type in the app</text>
-          <path class="d-line" d="M150 72 V90"/><path class="d-arrow" d="M144 88 L150 100 L156 88 Z"/>
-          <rect class="d-box-here" x="30" y="100" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="127" text-anchor="middle">2. Local copy</text><text class="d-text-s" x="150" y="148" text-anchor="middle">saved at once</text>
-          <path class="d-line" d="M150 162 V180"/><path class="d-arrow" d="M144 178 L150 190 L156 178 Z"/>
-          <rect class="d-box-wait" x="30" y="190" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="217" text-anchor="middle">3. Outbox</text><text class="d-text-s" x="150" y="238" text-anchor="middle">edits waiting to go</text>
-          <path class="d-line-soft" d="M150 252 V270"/><path class="d-arrow" d="M144 268 L150 280 L156 268 Z"/>
-          <rect class="d-box" x="30" y="280" width="240" height="62" rx="10"/><text class="d-text-b" x="150" y="307" text-anchor="middle">4. Sync server</text><text class="d-text-s" x="150" y="328" text-anchor="middle">gets them when online</text>
-          <text class="d-text-s" x="150" y="368" text-anchor="middle">Steps 1 to 3 work with no connection</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> saving and sending are two separate steps. The first is instant, and the second happens when it can.</figcaption>
-      </figure>
-
-      <div class="metaphor">
-        <div class="icon" aria-hidden="true">📮</div>
-        <p><b>The outbox is a tray of letters on your desk.</b> You write each letter now, and the post collects them later, in order. Where it stops: the app collects its own tray the moment there is a connection.</p>
+      <div class="tiles">
+        <div class="tile"><span class="n">13</span><span class="l">days to the 29 October release</span></div>
+        <div class="tile"><span class="n">4</span><span class="l">working days of work left</span></div>
+        <div class="tile wait"><span class="n">1</span><span class="l">spare day before 26 October</span></div>
       </div>
+      <p class="take"><b>Take from this:</b> the plan fits with one spare day, so a slip of more than a day moves the release.</p>
 
-      <details class="fold"><summary>Show one outbox row</summary>
-        <p>Each edit is one row. The phone keeps it until the server confirms it.</p>
-<pre><code>outbox row 1
-  note id     n_7f3a
-  text        Milk, eggs
-  edited at   2026-10-16 09:12:04
-  tries       0</code></pre>
+      <details class="fold"><summary>Show how the four days are used</summary>
+        <ul>
+          <li>Two days for the three iPhone bugs.</li>
+          <li>One day to test invite emails with real inboxes.</li>
+          <li>One day for the full test pass.</li>
+          <li>The release notes are Mara's work, so they run beside Ted's days and cost none.</li>
+        </ul>
       </details>
 
-      <p class="remember"><b>Remember:</b> a note saves on the phone at once, and its edit waits in the outbox until the network is back.</p>
+      <p class="remember"><b>Remember:</b> the stores need the builds on 26 October, and one spare day protects the date.</p>
     </section>
 
     <!-- ============ 2 ============ -->
-    <section class="chapter" id="server" data-keep="The server gives every change a number, so all devices agree on the order.">
+    <section class="chapter" id="phone" data-keep="Three small iPhone bugs. Two days of work. No note is at risk.">
       <header>
-        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>What does the server do with a change?</h2></div>
+        <div><p class="kicker">Chapter 2 of 5, about 1 minute</p><h2>What is left on the phone app?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> an edit sits in the phone's outbox until the phone is online.</p>
+      <p class="from"><b>Before this:</b> four working days of work are left, and the iPhone bugs take two of them.</p>
 
-      <p>The phone sends each edit to the <dfn>sync server</dfn> as a <dfn>change</dfn>. The server writes it down and gives it the next <dfn>change number</dfn> for your account: 41, then 42, then 43.</p>
+      <p>Three bugs are open, and all three are on the iPhone. None of them can lose a note. Each is small and known, and together they take two days.</p>
 
-      <dl class="term">
-        <dt>Sync server</dt><dd>The one program, run by us, that every device of yours talks to.</dd>
-        <dt>Change</dt><dd>One saved edit, packed to send: the note's id, its new text and when you made it.</dd>
-        <dt>Change number</dt><dd>The server's running count of changes for your account. Change 42 always comes after change 41.</dd>
-      </dl>
+      <ul class="status">
+        <li class="go"><b>Android build</b><span>All 14 sharing checks pass.</span></li>
+        <li class="wait"><b>Long titles</b><span>On a small iPhone a long notebook title hides the Share button. Half a day.</span></li>
+        <li class="wait"><b>Stale people list</b><span>Removing a person leaves their name on screen until you reopen the notebook. Half a day.</span></li>
+        <li class="wait"><b>Accept link</b><span>On an iPhone the link opens the browser, not the app. One day.</span></li>
+      </ul>
+      <p class="take"><b>Take from this:</b> the accept link is the biggest bug at one day, and it is the one a new sharer would meet first.</p>
 
-      <p>Phones, tablets and the web app all feed the same list. The server never asks which device was first. The order of arrival is the order.</p>
-
-      <figure class="figure">
-        <svg viewBox="0 0 800 240" role="img" aria-labelledby="f-server"><title id="f-server">A phone, a tablet and the web app send changes to the sync server. The server writes them into one change log and numbers them 41, 42 and 43 in the order they arrive.</title>
-          <text class="d-text-s" x="85" y="18" text-anchor="middle">Devices send</text><text class="d-text-s" x="675" y="18" text-anchor="middle">The server's change log</text>
-          <rect class="d-box" x="10" y="30" width="150" height="52" rx="10"/><text class="d-text-b" x="85" y="62" text-anchor="middle">Phone</text>
-          <rect class="d-box" x="10" y="100" width="150" height="52" rx="10"/><text class="d-text-b" x="85" y="132" text-anchor="middle">Tablet</text>
-          <rect class="d-box" x="10" y="170" width="150" height="52" rx="10"/><text class="d-text-b" x="85" y="202" text-anchor="middle">Web app</text>
-          <path class="d-line" d="M160 56 H288"/><path class="d-arrow" d="M288 50 L300 56 L288 62 Z"/>
-          <path class="d-line" d="M160 126 H288"/><path class="d-arrow" d="M288 120 L300 126 L288 132 Z"/>
-          <path class="d-line" d="M160 196 H288"/><path class="d-arrow" d="M288 190 L300 196 L288 202 Z"/>
-          <rect class="d-box-here" x="300" y="30" width="170" height="192" rx="10"/><text class="d-text-b" x="385" y="118" text-anchor="middle">Sync server</text><text class="d-text-s" x="385" y="140" text-anchor="middle">numbers each change</text><text class="d-text-s" x="385" y="158" text-anchor="middle">as it arrives</text>
-          <path class="d-line" d="M470 126 H548"/><path class="d-arrow" d="M548 120 L560 126 L548 132 Z"/>
-          <rect class="d-box" x="560" y="30" width="230" height="52" rx="10"/><text class="d-text-b" x="580" y="62">41</text><text class="d-text" x="616" y="62">Phone: Groceries</text>
-          <rect class="d-box" x="560" y="100" width="230" height="52" rx="10"/><text class="d-text-b" x="580" y="132">42</text><text class="d-text" x="616" y="132">Web app: Trip ideas</text>
-          <rect class="d-box" x="560" y="170" width="230" height="52" rx="10"/><text class="d-text-b" x="580" y="202">43</text><text class="d-text" x="616" y="202">Phone: Groceries</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 300 330" role="img" aria-labelledby="f-server-n"><title id="f-server-n">A phone, a tablet and the web app send changes to the sync server. The server writes them into one change log and numbers them 41, 42 and 43 in the order they arrive.</title>
-          <rect class="d-box" x="10" y="10" width="90" height="44" rx="10"/><text class="d-text-b" x="55" y="38" text-anchor="middle">Phone</text>
-          <rect class="d-box" x="105" y="10" width="90" height="44" rx="10"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Tablet</text>
-          <rect class="d-box" x="200" y="10" width="90" height="44" rx="10"/><text class="d-text-b" x="245" y="38" text-anchor="middle">Web app</text>
-          <path class="d-line" d="M55 54 V76"/><path class="d-arrow" d="M49 74 L55 86 L61 74 Z"/>
-          <path class="d-line" d="M150 54 V76"/><path class="d-arrow" d="M144 74 L150 86 L156 74 Z"/>
-          <path class="d-line" d="M245 54 V76"/><path class="d-arrow" d="M239 74 L245 86 L251 74 Z"/>
-          <rect class="d-box-here" x="10" y="86" width="280" height="56" rx="10"/><text class="d-text-b" x="150" y="111" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="130" text-anchor="middle">numbers each change as it arrives</text>
-          <path class="d-line" d="M150 142 V164"/><path class="d-arrow" d="M144 162 L150 174 L156 162 Z"/>
-          <rect class="d-box" x="10" y="174" width="280" height="38" rx="10"/><text class="d-text-b" x="26" y="198">41</text><text class="d-text" x="62" y="198">Phone: Groceries</text>
-          <rect class="d-box" x="10" y="220" width="280" height="38" rx="10"/><text class="d-text-b" x="26" y="244">42</text><text class="d-text" x="62" y="244">Web app: Trip ideas</text>
-          <rect class="d-box" x="10" y="266" width="280" height="38" rx="10"/><text class="d-text-b" x="26" y="290">43</text><text class="d-text" x="62" y="290">Phone: Groceries</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> one list with one order. No device has to guess which edit came first.</figcaption>
-      </figure>
-
-      <details class="fold"><summary>Show the request and the reply</summary>
-        <p>The phone posts one change. The server answers with the number it gave it.</p>
-<pre><code>POST /v1/changes
-{ "note": "n_7f3a", "text": "Milk, eggs", "edited": "09:12:04" }
-
-201 Created
-{ "change": 41 }</code></pre>
+      <details class="fold"><summary>Show the test counts</summary>
+        <pre><code>suite     passed  failed
+server        38       0
+web            9       0
+android       14       0
+iphone        11       3</code></pre>
+        <p>The three failing iPhone checks are the three bugs above, one each.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> the server numbers each change as it arrives, and that number fixes the order.</p>
+      <p class="remember"><b>Remember:</b> three small iPhone bugs, two days of work, and no note is at risk.</p>
     </section>
 
     <!-- ============ 3 ============ -->
-    <section class="chapter" id="devices" data-keep="A device never gets pushed to. It asks for everything after its cursor.">
+    <section class="chapter" id="changed" data-keep="Server, web and Android now share. Invite emails now fail.">
       <header>
-        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>How does another device find out?</h2></div>
+        <div><p class="kicker">Chapter 3 of 5, about 1 minute</p><h2>What changed since last Friday?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> every change has a number, and the server keeps the changes in order.</p>
+      <p class="from"><b>Before this:</b> the iPhone bugs are small, known and two days of work.</p>
 
-      <p>Your laptop does not wait to be told. It asks every 10 seconds, while the app is open: what is new since the last number I saw? That number is its <dfn>cursor</dfn>. The question is a <dfn>pull</dfn>.</p>
+      <p>Last Friday only the sync server could share a notebook. Today the server, the web app and Android can all do it.</p>
 
-      <dl class="term">
-        <dt>Cursor</dt><dd>The last change number a device has applied. The device stores it.</dd>
-        <dt>Pull</dt><dd>A device asking the server for what is new. The server never pushes.</dd>
-      </dl>
+      <div class="split">
+        <div class="before"><b>Friday 9 October</b><ul>
+          <li>Sharing worked on the test server only.</li>
+          <li>The web app had no share screen.</li>
+          <li>The server passed 31 tests.</li>
+          <li>Invite emails were not tested.</li>
+        </ul></div>
+        <div class="after"><b>Friday 16 October</b><ul>
+          <li>Sharing works on the server, the web app and Android.</li>
+          <li>The server passes 38 tests.</li>
+          <li>Invite emails fail: the sender is not verified.</li>
+          <li>Sync paused for 2 hours on Tuesday. It is <a href="incident.html">explained and fixed</a>.</li>
+        </ul></div>
+      </div>
+      <p class="take"><b>Take from this:</b> three things got better. The failing invite email is how we found the blocker, a week earlier than a launch day would have.</p>
 
-      <p>The server answers with every change after that number, in order. The device applies them one by one. Then it moves its cursor to the last number it received.</p>
-
-      <figure class="figure">
-        <svg viewBox="0 0 800 240" role="img" aria-labelledby="f-devices"><title id="f-devices">The laptop's cursor is 41. It asks the server for anything after 41. The server answers with changes 42 and 43. The laptop applies them and its cursor becomes 43.</title>
-          <rect class="d-box" x="10" y="20" width="200" height="76" rx="10"/><text class="d-text-b" x="110" y="52" text-anchor="middle">Laptop</text><text class="d-text-s" x="110" y="74" text-anchor="middle">cursor: 41</text>
-          <rect class="d-box" x="590" y="20" width="200" height="76" rx="10"/><text class="d-text-b" x="690" y="52" text-anchor="middle">Sync server</text><text class="d-text-s" x="690" y="74" text-anchor="middle">has changes up to 43</text>
-          <text class="d-text" x="400" y="38" text-anchor="middle">1. Anything after 41?</text>
-          <path class="d-line" d="M210 46 H578"/><path class="d-arrow" d="M578 40 L590 46 L578 52 Z"/>
-          <path class="d-line" d="M590 72 H222"/><path class="d-arrow" d="M222 66 L210 72 L222 78 Z"/>
-          <text class="d-text" x="400" y="94" text-anchor="middle">2. Yes: changes 42 and 43</text>
-          <path class="d-line" d="M110 96 V136"/><path class="d-arrow" d="M104 136 L110 148 L116 136 Z"/>
-          <rect class="d-box-go" x="10" y="148" width="200" height="76" rx="10"/><text class="d-text-b" x="110" y="180" text-anchor="middle">Laptop</text><text class="d-text-s" x="110" y="202" text-anchor="middle">cursor: 43</text>
-          <text class="d-text" x="232" y="192">3. It applies 42 and 43 in order, then remembers 43.</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 300 350" role="img" aria-labelledby="f-devices-n"><title id="f-devices-n">The laptop's cursor is 41. It asks the server for anything after 41. The server answers with changes 42 and 43. The laptop applies them and its cursor becomes 43.</title>
-          <rect class="d-box" x="10" y="10" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="37" text-anchor="middle">Laptop</text><text class="d-text-s" x="150" y="58" text-anchor="middle">cursor: 41</text>
-          <path class="d-line" d="M40 72 V96"/><path class="d-arrow" d="M34 94 L40 106 L46 94 Z"/><text class="d-text-s" x="58" y="94">1. Asks: anything after 41?</text>
-          <rect class="d-box" x="10" y="106" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="133" text-anchor="middle">Sync server</text><text class="d-text-s" x="150" y="154" text-anchor="middle">has changes up to 43</text>
-          <path class="d-line" d="M40 168 V192"/><path class="d-arrow" d="M34 190 L40 202 L46 190 Z"/><text class="d-text-s" x="58" y="190">2. Answers: changes 42 and 43</text>
-          <rect class="d-box-go" x="10" y="202" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="229" text-anchor="middle">Laptop</text><text class="d-text-s" x="150" y="250" text-anchor="middle">cursor: 43</text>
-          <text class="d-text-s" x="150" y="296" text-anchor="middle">3. It applies 42 and 43 in order,</text><text class="d-text-s" x="150" y="316" text-anchor="middle">then remembers 43.</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the device keeps its own place. Asking again with the same cursor gets the same answer.</figcaption>
-      </figure>
-
-      <details class="fold"><summary>Show the question and the answer</summary>
-        <p>The cursor travels in the address. The reply lists the changes and the newest number.</p>
-<pre><code>GET /v1/changes?after=41
-
-200 OK
-{ "latest": 43,
-  "changes": [
-    { "change": 42, "note": "n_2c91", "text": "Trip ideas" },
-    { "change": 43, "note": "n_7f3a", "text": "Milk, eggs" } ] }</code></pre>
-      </details>
-
-      <p class="remember"><b>Remember:</b> a device is never pushed to, and it asks for everything after its cursor.</p>
+      <p class="remember"><b>Remember:</b> three things got better since Friday, and invite emails got worse.</p>
     </section>
 
     <!-- ============ 4 ============ -->
-    <section class="chapter" id="clash" data-keep="When two edits clash, the one that reaches the server last wins.">
+    <section class="chapter" id="blocker" data-keep="Two DNS records prove we own the sender address. Due by Wednesday.">
       <header>
-        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What if two devices edit the same note?</h2></div>
+        <div><p class="kicker">Chapter 4 of 5, about 1 minute</p><h2>What blocks the invite emails?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a device asks for the changes after its cursor and applies them in order.</p>
+      <p class="from"><b>Before this:</b> invite emails fail in testing because the email service does not trust our new sender.</p>
 
-      <p>Sometimes two devices change the same note before either hears from the server. That is a <dfn>conflict</dfn>. Version 2.3 settles it with one rule: the higher change number wins.</p>
+      <p>The service wants proof that we own <code>notes-app.example</code>. The proof is two <dfn>DNS records</dfn>, small lines of text kept at the domain registrar. Only you have that login.</p>
 
       <dl class="term">
-        <dt>Conflict</dt><dd>Two edits to the same note that neither device knew about.</dd>
-        <dt>Last write wins</dt><dd>The rule that the change with the higher number replaces the other change's text.</dd>
+        <dt>DNS record</dt><dd>A line at your domain registrar that says who may use the domain, for example to send mail.</dd>
       </dl>
 
-      <p>Later means later to arrive, not later typed. A laptop that typed at 09:10 and was offline reaches the server after a phone that typed at 09:12. The laptop's text wins.</p>
+      <ol class="flow">
+        <li class="here"><b>Add records</b><span>You, at the registrar. About ten minutes.</span></li>
+        <li><b>Domain verified</b><span>Usually within a day.</span></li>
+        <li><b>Test invites</b><span>Ted, real inboxes, one day.</span></li>
+        <li><b>Invites send</b><span>A person with no account gets an email.</span></li>
+      </ol>
+      <p class="take"><b>Take from this:</b> your ten minutes start a chain of three more steps, and the chain needs the records by Wednesday.</p>
 
-      <figure class="figure">
-        <svg viewBox="0 0 800 340" role="img" aria-labelledby="f-clash"><title id="f-clash">The note Groceries says Milk after change 40. The phone types Milk, eggs at 09:12 and sends it first as change 41. The laptop typed Milk, bread at 09:10 while offline and sends it second as change 42. The server keeps change 42, so the eggs are replaced.</title>
-          <rect class="d-box" x="275" y="10" width="250" height="56" rx="10"/><text class="d-text-b" x="400" y="34" text-anchor="middle">Groceries after change 40</text><text class="d-text-s" x="400" y="54" text-anchor="middle">Milk</text>
-          <path class="d-line" d="M400 66 V95 H190 V112"/><path class="d-arrow" d="M184 112 L190 124 L196 112 Z"/>
-          <path class="d-line" d="M400 95 H610 V112"/><path class="d-arrow" d="M604 112 L610 124 L616 112 Z"/>
-          <rect class="d-box" x="40" y="124" width="300" height="66" rx="10"/><text class="d-text-b" x="190" y="150" text-anchor="middle">Phone, typed 09:12</text><text class="d-text-s" x="190" y="172" text-anchor="middle">Milk, eggs. Sent first: change 41.</text>
-          <rect class="d-box" x="460" y="124" width="300" height="66" rx="10"/><text class="d-text-b" x="610" y="150" text-anchor="middle">Laptop, typed 09:10, offline</text><text class="d-text-s" x="610" y="172" text-anchor="middle">Milk, bread. Sent second: change 42.</text>
-          <path class="d-line" d="M190 190 V217 H400 V232"/><path class="d-line" d="M610 190 V217 H400"/><path class="d-arrow" d="M394 232 L400 244 L406 232 Z"/>
-          <rect class="d-box-wait" x="225" y="244" width="350" height="66" rx="10"/><text class="d-text-b" x="400" y="270" text-anchor="middle">Server keeps change 42</text><text class="d-text-s" x="400" y="292" text-anchor="middle">Milk, bread. The eggs are replaced.</text>
-          <text class="d-text-s" x="400" y="332" text-anchor="middle">The higher number wins, even though the laptop typed first.</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 300 370" role="img" aria-labelledby="f-clash-n"><title id="f-clash-n">The note Groceries says Milk after change 40. The phone types Milk, eggs at 09:12 and sends it first as change 41. The laptop typed Milk, bread at 09:10 while offline and sends it second as change 42. The server keeps change 42, so the eggs are replaced.</title>
-          <rect class="d-box" x="10" y="10" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="37" text-anchor="middle">Groceries after change 40</text><text class="d-text-s" x="150" y="58" text-anchor="middle">Milk</text>
-          <path class="d-line" d="M150 72 V92"/><path class="d-arrow" d="M144 90 L150 102 L156 90 Z"/>
-          <rect class="d-box" x="10" y="102" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="129" text-anchor="middle">Phone, typed 09:12</text><text class="d-text-s" x="150" y="150" text-anchor="middle">Milk, eggs. Arrives first: change 41.</text>
-          <path class="d-line" d="M150 164 V184"/><path class="d-arrow" d="M144 182 L150 194 L156 182 Z"/>
-          <rect class="d-box" x="10" y="194" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="221" text-anchor="middle">Laptop, typed 09:10, offline</text><text class="d-text-s" x="150" y="242" text-anchor="middle">Milk, bread. Arrives next: change 42.</text>
-          <path class="d-line" d="M150 256 V276"/><path class="d-arrow" d="M144 274 L150 286 L156 274 Z"/>
-          <rect class="d-box-wait" x="10" y="286" width="280" height="62" rx="10"/><text class="d-text-b" x="150" y="313" text-anchor="middle">Server keeps change 42</text><text class="d-text-s" x="150" y="334" text-anchor="middle">Milk, bread. The eggs are replaced.</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the order of arrival decides, not the time on the clock. The loser's text is replaced.</figcaption>
-      </figure>
+      <div class="callout warn"><b>The deadline is Wednesday 21 October</b><p>After that the spare day is gone. A later date does not move the release, but it moves invite emails to a 2.4.1 update.</p></div>
 
-      <div class="callout warn"><b>What this costs</b><p>In 2.3 the replaced text is not kept. A shared notebook could lose a teammate's words. Mara and Ted are deciding whether 2.4 keeps both copies.</p></div>
+      <details class="fold"><summary>Show the two records</summary>
+        <pre><code>TXT    notes-app.example               v=spf1 include:mailer.example ~all
+CNAME  s1._domainkey.notes-app.example  s1.domainkey.mailer.example</code></pre>
+        <p>These are made-up values. The real ones come from the email service's settings page.</p>
+      </details>
 
-      <p class="remember"><b>Remember:</b> when two edits clash, the one that reaches the server last wins, and the other text is replaced.</p>
+      <p class="remember"><b>Remember:</b> two DNS records, ten minutes, and the deadline is Wednesday.</p>
     </section>
 
     <!-- ============ 5 ============ -->
-    <section class="chapter" id="try" data-keep="The outbox count on the Sync details screen shows whether an edit has left the phone.">
+    <section class="chapter" id="next" data-keep="Six steps. You own two, Ted owns four. Builds go to the stores on 26 October.">
       <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>How can you watch it happen?</h2></div>
+        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What happens next?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> a note is saved, sent, numbered, pulled and, in a clash, replaced.</p>
-
-      <p>You need your phone and a browser, both signed in to the same test account. The steps take five minutes.</p>
+      <p class="from"><b>Before this:</b> the records are due by Wednesday 21 October.</p>
 
       <ol class="steps">
-        <li><b>Open the web app and the phone app.</b> Sign in to the same test account on both.</li>
-        <li><b>Turn on <dfn>airplane mode</dfn> on the phone.</b> The app keeps working.</li>
-        <li><b>Edit the note called Groceries.</b> Add "eggs" at the end.</li>
-        <li><b>Open More, then <dfn>Sync details</dfn>.</b> It shows one edit waiting to send.</li>
-        <li><b>Turn airplane mode off.</b> Within 10 seconds the count drops to 0 and the web app shows "eggs".</li>
+        <li><b>Add the two DNS records.</b> You, Monday 19 October, ten minutes.</li>
+        <li><b>Fix the three iPhone bugs.</b> Ted, Monday and Tuesday.</li>
+        <li><b>Test invites with real inboxes.</b> Ted, Wednesday 21 October, once the records verify.</li>
+        <li><b>Run the full test pass.</b> Ted, Thursday 22 October. Friday 23 is the spare day.</li>
+        <li><b>Write the release notes and take screenshots.</b> You, Friday 23 October.</li>
+        <li><b>Submit both builds.</b> Ted, Monday 26 October. Release follows on Thursday 29 October, after review.</li>
       </ol>
+      <p class="take"><b>Take from this:</b> every step has one owner and one day, and the first one is yours.</p>
 
-      <dl class="term">
-        <dt>Airplane mode</dt><dd>A phone setting that turns off every connection, so the app is offline.</dd>
-        <dt>Sync details</dt><dd>The screen under More that shows the outbox count and the last change number the phone has seen.</dd>
-      </dl>
-
-      <figure class="figure">
-        <svg viewBox="0 0 800 250" role="img" aria-labelledby="f-try"><title id="f-try">The Sync details screen with airplane mode on shows 1 edit waiting to send. After airplane mode is turned off, the same screen shows 0 waiting and a newer change number.</title>
-          <rect class="d-box" x="60" y="10" width="300" height="220" rx="14"/><text class="d-text-b" x="210" y="42" text-anchor="middle">Sync details: offline</text>
-          <rect class="d-box-wait" x="76" y="62" width="268" height="40" rx="8"/><text class="d-text" x="90" y="88">Waiting to send</text><text class="d-text-b" x="330" y="88" text-anchor="end">1</text>
-          <text class="d-text" x="90" y="140">Last change seen</text><text class="d-text-b" x="330" y="140" text-anchor="end">4,182</text>
-          <text class="d-text" x="90" y="184">Last sync</text><text class="d-text-b" x="330" y="184" text-anchor="end">09:02</text>
-          <path class="d-line" d="M368 120 H428"/><path class="d-arrow" d="M428 114 L440 120 L428 126 Z"/>
-          <text class="d-text-s" x="400" y="144" text-anchor="middle">airplane</text><text class="d-text-s" x="400" y="162" text-anchor="middle">mode off</text>
-          <rect class="d-box" x="440" y="10" width="300" height="220" rx="14"/><text class="d-text-b" x="590" y="42" text-anchor="middle">Sync details: online</text>
-          <rect class="d-box-go" x="456" y="62" width="268" height="40" rx="8"/><text class="d-text" x="470" y="88">Waiting to send</text><text class="d-text-b" x="710" y="88" text-anchor="end">0</text>
-          <text class="d-text" x="470" y="140">Last change seen</text><text class="d-text-b" x="710" y="140" text-anchor="end">4,183</text>
-          <text class="d-text" x="470" y="184">Last sync</text><text class="d-text-b" x="710" y="184" text-anchor="end">09:05</text>
-        </svg>
-        <svg class="narrow" viewBox="0 0 300 350" role="img" aria-labelledby="f-try-n"><title id="f-try-n">The Sync details screen with airplane mode on shows 1 edit waiting to send. After airplane mode is turned off, the same screen shows 0 waiting and a newer change number.</title>
-          <rect class="d-box" x="10" y="10" width="280" height="140" rx="14"/><text class="d-text-b" x="150" y="38" text-anchor="middle">Sync details: offline</text>
-          <rect class="d-box-wait" x="22" y="50" width="256" height="34" rx="8"/><text class="d-text" x="34" y="73">Waiting to send</text><text class="d-text-b" x="266" y="73" text-anchor="end">1</text>
-          <text class="d-text" x="34" y="108">Last change seen</text><text class="d-text-b" x="266" y="108" text-anchor="end">4,182</text>
-          <text class="d-text" x="34" y="136">Last sync</text><text class="d-text-b" x="266" y="136" text-anchor="end">09:02</text>
-          <path class="d-line" d="M40 150 V180"/><path class="d-arrow" d="M34 178 L40 190 L46 178 Z"/><text class="d-text-s" x="58" y="176">airplane mode off</text>
-          <rect class="d-box" x="10" y="190" width="280" height="140" rx="14"/><text class="d-text-b" x="150" y="218" text-anchor="middle">Sync details: online</text>
-          <rect class="d-box-go" x="22" y="230" width="256" height="34" rx="8"/><text class="d-text" x="34" y="253">Waiting to send</text><text class="d-text-b" x="266" y="253" text-anchor="end">0</text>
-          <text class="d-text" x="34" y="288">Last change seen</text><text class="d-text-b" x="266" y="288" text-anchor="end">4,183</text>
-          <text class="d-text" x="34" y="316">Last sync</text><text class="d-text-b" x="266" y="316" text-anchor="end">09:05</text>
-        </svg>
-        <figcaption class="take"><b>Take from this:</b> the outbox count is the proof. It reads 1 while the phone is offline and 0 once the server has the edit.</figcaption>
-      </figure>
-
-      <details class="fold"><summary>Try a clash on purpose</summary>
-        <p>Repeat the steps, with one change at step 3. Edit Groceries in the browser first, then on the phone.</p>
-        <ol class="steps">
-          <li><b>Keep airplane mode on.</b> Edit Groceries on the phone and add "eggs".</li>
-          <li><b>Edit Groceries in the browser.</b> Add "bread" and wait for it to save.</li>
-          <li><b>Turn airplane mode off.</b> The phone sends last, so the phone's text wins on both screens.</li>
-        </ol>
-      </details>
-
-      <p class="remember"><b>Remember:</b> the outbox count on the Sync details screen shows whether an edit has left the phone.</p>
+      <p class="remember"><b>Remember:</b> you have two steps, Ted has four, and the stores get the builds on 26 October.</p>
     </section>
 
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>A note saves on the phone at once, and its edit waits in the outbox until the network is back.</li>
-        <li>The server numbers each change as it arrives, and that number fixes the order.</li>
-        <li>A device is never pushed to, and it asks for everything after its cursor.</li>
-        <li>When two edits clash, the one that reaches the server last wins, and the other text is replaced.</li>
-        <li>The outbox count on the Sync details screen shows whether an edit has left the phone.</li>
+        <li>The stores need the builds on 26 October, and one spare day protects the date.</li>
+        <li>Three small iPhone bugs, two days of work, and no note is at risk.</li>
+        <li>Three things got better since Friday, and invite emails got worse.</li>
+        <li>Two DNS records, ten minutes, and the deadline is Wednesday.</li>
+        <li>You have two steps, Ted has four, and the stores get the builds on 26 October.</li>
       </ol>
+    </section>
+
+    <section class="ask">
+      <h2>What I need from you</h2>
+      <p>Can you add the two DNS records on Monday 19 October?</p>
+      <div class="choices"><a href="#" data-rec>Yes, on Monday morning</a><a href="#">I need the registrar login first</a><a href="#">Ship 2.4 without invite emails</a></div>
+      <p class="nothing"><b>If you do nothing:</b> 2.4 still ships on 29 October without invite emails. People who already have the app see invites inside the app.</p>
     </section>
   </main>
 </div>

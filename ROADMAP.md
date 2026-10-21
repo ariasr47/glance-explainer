@@ -1,10 +1,10 @@
 # Roadmap
 
-What comes next and why, as of 20 October 2026. The plugin is free and MIT licensed, and it will stay that way. To ask for something, [open an issue](https://github.com/ariasr47/html-explainer-skill/issues/new/choose). A request from someone who has used a page moves an item up faster than anything else.
+What comes next and why, as of 20 October 2026. The plugin is free and MIT licensed, and it will stay that way. To ask for something, [open an issue](https://github.com/ariasr47/glance-explainer/issues/new/choose). A request from someone who has used a page moves an item up faster than anything else.
 
 **Focus.** Decision pages for readers who can't hold a long document, checked before they ship. Work that makes pages more trustworthy, easier to install or easier to read comes before new page types.
 
-A rendered version of this roadmap, made with the plugin, is at [ariasr47.github.io/html-explainer-skill/roadmap.html](https://ariasr47.github.io/html-explainer-skill/roadmap.html).
+A rendered version of this roadmap, made with the plugin, is at [ariasr47.github.io/glance-explainer/roadmap.html](https://ariasr47.github.io/glance-explainer/roadmap.html).
 
 ## Now: October and November 2026
 
@@ -14,7 +14,7 @@ None of these has started yet. October went to the page redesign (1.8.0 and 1.8.
 |---|---|---|
 | 1 | **Trigger reliably.** Sharper skill descriptions and a trigger test suite built with `claude plugin eval`, covering the phrases people actually type. | In the author's own sessions about two requests in three did not visibly load the skill. |
 | 2 | **Test with outside readers.** Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later. | Every page so far was judged by its author. This test decides what comes next. |
-| 3 | **Settle the name, then list.** Pick the final plugin name, then submit to Anthropic's plugin directory and the agent-skills registries. | Renaming a listed plugin orphans every install, so the name comes first. |
+| 3 | **List it.** Submit to Anthropic's plugin directory and the agent-skills registries. | The name was settled on 20 October: glance-explainer, in 2.0.0. |
 
 ## Next: December 2026
 
@@ -45,7 +45,9 @@ On 12 December 2026 this roadmap is reviewed against outside feedback and the re
 
 ## Recently shipped
 
-- **1.9.0:** a working public example of every kind of page, an [examples page](https://ariasr47.github.io/html-explainer-skill/examples.html) on the site and a thumbnail grid in the README.
+- **2.0.0:** a new name, glance-explainer, because two other projects already used html-explainer. Pages look the same; old pages still count.
+- **1.9.1:** the dark or light switch is a button in sight on every page again, ballots included.
+- **1.9.0:** a working public example of every kind of page, an [examples page](https://ariasr47.github.io/glance-explainer/examples.html) on the site and a thumbnail grid in the README.
 - **1.8.1:** a polish round on the redesign: sentence-case labels, calmer callouts, roomier flow steps and a mini-map that scrolls on a phone.
 - **1.8.0:** every page type redesigned around its own picture: the answer as the headline, an At a glance section on the first screen, the rail as the chapter map, one Reading tools button and a calmer chapter. Old pages get the look through `upgrade.mjs`.
 - **1.7.0:** the field-guide page type, a reference with a territory map, a start-here list and a searchable index. The automatic check now skips pages made by a newer release.
