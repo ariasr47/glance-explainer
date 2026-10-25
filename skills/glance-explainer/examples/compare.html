@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.0.0">
+<meta name="generator" content="glance-explainer 2.1.0">
 <meta name="color-scheme" content="light dark">
 <title>Three ways to store attachments</title>
 <meta name="description" content="Three places to keep a picture in a note, on the sync server, in a storage service or on the device only, measured on five criteria, with a recommendation and a question to answer.">
@@ -120,28 +120,40 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 [hidden] { display: none !important; }
 
 /* ---------- 2b. Japanese: lang="ja" swaps the faces, spacing and breaking, and the few words CSS writes ---------- */
+/* BIZ UDPGothic is Morisawa's universal-design face: open counters and clear kana, made for readability. It ships with
+   Windows 10 (October 2020) and later, and loads from Google Fonts elsewhere; Hiragino covers Apple devices offline,
+   Noto Sans CJK JP covers Android and Linux. Yu Gothic comes last, at Medium, because its Regular is too thin on Windows. */
 :lang(ja) {
-  --font-head: "BIZ UDPGothic", "Yu Gothic UI", "Yu Gothic", "Hiragino Sans", "Meiryo", "Noto Sans JP", sans-serif;
-  --font-body: "BIZ UDPGothic", "Yu Gothic", "Hiragino Sans", "Meiryo", "Noto Sans JP", sans-serif;
-  --font-code: "BIZ UDGothic", "Cascadia Code", Consolas, monospace;
-  --measure: 36em;
+  --font-head: "BIZ UDPGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic UI", "Meiryo", sans-serif;
+  --font-body: "BIZ UDPGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Noto Sans CJK JP", "Yu Gothic Medium", "Yu Gothic", "Meiryo", sans-serif;
+  --font-code: "BIZ UDGothic", "Cascadia Code", Consolas, "Osaka-Mono", monospace;
+  --measure: 36em;  /* about 36 characters a line; Japanese reads best between 30 and 40 */
   line-height: 1.75; letter-spacing: .03em; line-break: strict; hyphens: none;
   word-break: auto-phrase;  /* break between phrases, so a narrow button never splits ダウン / ロード */
+  overflow-wrap: break-word;  /* not the body's "anywhere", which lets a narrow column split バージ / ョン */
+  text-spacing-trim: trim-start;  /* a 「 or （ that opens a line sits flush, and 」、 pairs close up */
+  text-autospace: ideograph-alpha;  /* a hair of space between Japanese and Latin letters (JSON の); digits stay tight (3件) */
+  hanging-punctuation: allow-end;  /* 、 and 。 may hang past the line end instead of pushing a word down (Safari) */
+  font-kerning: normal;
 }
-:lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(ja) h4 { letter-spacing: 0; line-height: 1.35; }
+:lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(ja) h4 { font-weight: 700; letter-spacing: .02em; line-height: 1.4; font-feature-settings: "palt"; }
+:lang(ja) .answer, :lang(ja) .kicker, :lang(ja) .keep li { font-feature-settings: "palt"; }
+:lang(ja) .rl-head, :lang(ja) .rl-k { letter-spacing: .04em; }
+:lang(ja) q { quotes: "「" "」" "『" "』"; }
+:lang(ja) rt { font-size: .5em; letter-spacing: 0; }
 :lang(ja) em, :lang(ja) i { font-style: normal; font-weight: 700; }
 :lang(ja) .answer { line-height: 1.5; }
 :lang(ja) .ask .choices > *[data-rec]::after { content: "★ おすすめ"; }
 :lang(ja) .tile.go::after { content: "✓ 良好"; }
 :lang(ja) .tile.wait::after { content: "! 注意"; }
 :lang(ja) .tile.stop::after { content: "✕ 問題あり"; }
-:lang(ja) .timeline li.here .when::before { content: "現在地 · "; }
+:lang(ja) .timeline li.here .when::before { content: "現在地："; }
 /* roadmap card states: the words are set once in 9c (--st-word), so Japanese swaps the variable and nothing else */
 :lang(ja) .lane li, :lang(ja) .backlog-top > li { --st-word: "予定"; }
 :lang(ja) .lane li.here, :lang(ja) .backlog-top > li.here { --st-word: "進行中"; }
-:lang(ja) .lane li.wait, :lang(ja) .backlog-top > li.wait { --st-word: "他の完了待ち"; }
-:lang(ja) .lane li.decide, :lang(ja) .backlog-top > li.decide { --st-word: "あなたの判断が必要"; }
-:lang(ja) .lane li.stop, :lang(ja) .backlog-top > li.stop { --st-word: "停止中"; }
+:lang(ja) .lane li.wait, :lang(ja) .backlog-top > li.wait { --st-word: "ほかの項目待ち"; }
+:lang(ja) .lane li.decide, :lang(ja) .backlog-top > li.decide { --st-word: "判断待ち"; }
+:lang(ja) .lane li.stop, :lang(ja) .backlog-top > li.stop { --st-word: "ブロック中"; }
 :lang(ja) .lane li.go, :lang(ja) .backlog-top > li.go { --st-word: "完了"; }
 :lang(ja) .lane li.is-target::after, :lang(ja) .backlog-top > li.is-target::after, :lang(ja) .entry.is-target::after { content: "↓ ここへ移動しました"; }
 :lang(ja) .stage[data-here] > h3::after { content: "● 現在地"; }
@@ -157,7 +169,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   --ico-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   --ico-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 15 6-6 6 6'/%3E%3C/svg%3E");
   --ico-sliders: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'/%3E%3C/svg%3E");
-  --ico-theme: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 3a9 9 0 0 1 0 18z' fill='%23000'/%3E%3C/svg%3E");
+  --ico-moon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.5 14.1A8.5 8.5 0 1 1 9.9 3.5a6.6 6.6 0 0 0 10.6 10.6z'/%3E%3C/svg%3E");
+  --ico-sun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4'/%3E%3C/svg%3E");
 }
 .progress { position: fixed; inset: 0 0 auto 0; height: 4px; background: var(--here); transform: scaleX(0); transform-origin: left; z-index: 60; }
 .page { width: min(100% - 2rem, var(--wide)); margin: 0 auto; padding: 1.5rem 0 6rem; }
@@ -173,7 +186,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
    line under the list and the Reading tools button. A link that is not a chapter (the recap, the ask) shows no number. */
 .rail { font-size: .833rem; line-height: 1.35; }
 .rail::before { content: "In this page"; display: block; margin: 0 .5rem .6rem; color: var(--ink-faint); font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
-:lang(ja) .rail::before { content: "このページ"; letter-spacing: .05em; }
+:lang(ja) .rail::before { content: "目次"; letter-spacing: .05em; }
 .rail ol { list-style: none; display: flex; flex-direction: column; gap: 2px; margin: 0 0 1rem; padding: 0; max-width: none; counter-reset: rail; }
 .rail li { margin: 0; }
 .rail a { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: .65rem; align-items: start; padding: .5rem; border-radius: var(--r-comp); color: var(--ink-soft); text-decoration: none; counter-increment: rail; }
@@ -203,10 +216,17 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .tools-toggle[aria-expanded="true"] { box-shadow: 0 0 0 1px var(--here); }
 /* dark or light is the one tool people look for at once, so it stays visible as an icon button beside Reading tools (it also stays on the D key) */
 .tools-bar { display: inline-flex; align-items: center; gap: .5rem; }
-.tools .theme-quick, .tools-bar .theme-quick { flex: none; display: grid; place-items: center; width: 44px; min-height: 44px; height: 44px; padding: 0; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--ink); font-size: 0; line-height: 0; cursor: pointer; }
-.tools-bar .theme-quick::before { content: ""; width: 20px; height: 20px; margin: 0; background: currentColor; -webkit-mask: var(--ico-theme) center / contain no-repeat; mask: var(--ico-theme) center / contain no-repeat; }
+.tools .theme-quick, .tools-bar .theme-quick { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 44px; min-height: 44px; height: 44px; padding: 0; border: 1px solid var(--line-strong); border-radius: 50%; background: var(--card); color: var(--ink); font-size: 0; line-height: 0; cursor: pointer; }
+/* the icon names where a tap takes you: a moon on a light page, a sun on a dark one */
+.tools-bar .theme-quick::before { content: ""; flex: none; width: 20px; height: 20px; margin: 0; background: currentColor; -webkit-mask: var(--ico-moon) center / contain no-repeat; mask: var(--ico-moon) center / contain no-repeat; }
+:root[data-theme="dark"] .tools-bar .theme-quick::before { -webkit-mask-image: var(--ico-sun); mask-image: var(--ico-sun); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tools-bar .theme-quick::before { -webkit-mask-image: var(--ico-sun); mask-image: var(--ico-sun); } }
 .tools-bar .theme-quick::after { content: none; }
-.tools-bar .theme-quick:hover { border-color: var(--here); }
+.tools-bar .theme-quick:hover { border-color: var(--here); background: var(--here-tint); }
+/* a page with no meta line (a ballot) keeps the switch in its top corner, out of the reading line */
+main:has(> .tools-bar.corner) { position: relative; }
+.tools-bar.corner { position: absolute; top: -.6rem; right: 0; }  /* centred on the kicker line, clear of the title below */
+main:has(> .tools-bar.corner) > .kicker { padding-right: 3.5rem; }
 .tools { display: none; }
 html.js .tools:not([hidden]) { display: flex; flex-direction: column; gap: 2px; margin: .5rem 0 0; padding: .4rem; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 14px; }  /* in the rail it sits in the flow, so no shadow (the rail scrolls and would clip it) */
 .tools button { position: relative; display: flex; align-items: center; gap: 0; width: 100%; min-height: 44px; padding: 0 .55rem 0 .5rem; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font: 500 .833rem/1.2 var(--font-body); text-align: left; }
@@ -903,9 +923,9 @@ div.duo > :is(ul, ol, div, section, figure, aside) { margin-top: 0; margin-botto
 .findings li[data-strength="strong"]::after { content: "Strong"; }
 .findings li[data-strength="moderate"]::after { content: "Moderate"; }
 .findings li[data-strength="weak"]::after { content: "Weak"; }
-:lang(ja) .findings li[data-strength="strong"]::after { content: "強い"; }
-:lang(ja) .findings li[data-strength="moderate"]::after { content: "中程度"; }
-:lang(ja) .findings li[data-strength="weak"]::after { content: "弱い"; }
+:lang(ja) .findings li[data-strength="strong"]::after { content: "確度 高"; }
+:lang(ja) .findings li[data-strength="moderate"]::after { content: "確度 中"; }
+:lang(ja) .findings li[data-strength="weak"]::after { content: "確度 低"; }
 .findings small { font-size: var(--size-s); line-height: 1.3; color: var(--ink-soft); white-space: nowrap; }
 .findings small.evidence { grid-area: e; color: var(--ink); }
 .findings small.open { grid-area: o; }
@@ -1672,16 +1692,16 @@ const T = {
         bkGroup: 'Bucket for {item}', bkRec: '{b}, recommended', bkMoved: '{item} moved to {b}', bkOk: 'These picks are right', bkTitle: 'Order your {b} items', bkHint: 'Only {b} gets an order. First item on top.',
         bkEmpty: 'Nothing is in {b}. Tap {b} on an item above to add it here.', bkSame: 'All {m} match ★', bkDiff: '{n} of {m} changed from ★', bkOrder: 'Same buckets as ★, new order',
         bkAll: 'all ★ (recommended)', bkSome: '{n} changed from ★', bkNew: 'same buckets as ★, new order' },
-  ja: { of: '{m}章中 第{n}章', step: '{n} / {m}', ans: '{m}問中 {n}問 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
-        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を完了',
-        pickN: '{m}問中{n}問 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '含める：{k}', shipNone: 'どれも含めない',
-        pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '含める {k}', pickNone: '含めない', pickUse: '未選択（★を採用）',
+  ja: { of: '第{n}章 / 全{m}章', step: '{n} / {m}', ans: '{n} / {m} 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
+        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を読みました',
+        pickN: '{n} / {m} 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '{k} を入れる', shipNone: 'どれも入れない',
+        pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '{k} を入れる', pickNone: 'どれも入れない', pickUse: '未選択（★を採用）',
         savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
         pickIdle: '各カードの選択肢をタップしてください。選択はここに集まります。', pickLeft: '残り{n}問。飛ばした項目は★の選択肢になります。', pickAll: '{m}問すべて選択済み。コピーしてチャットに貼り付けてください。',
         pickDone: '{p} を選択。{m}問中{n}問完了。', pickClear: '{p} の選択を解除しました。', pickMsg: 'コピーしました。チャットに貼り付けてください。', pickBlocked: 'このウィンドウではコピーできません。下のボックスを使ってください。',
-        skipped: '★（飛ばした）', allRec: '{title}：すべて★（おすすめ）', noteLine: 'メモ：{t}', recDone: '{n}問を★にしました。{m}問中{p}問完了。', recNone: '1つだけ選ぶ項目は、すべて選択済みです。',
-        rankUp: '{item}を上へ移動', rankDown: '{item}を下へ移動', rankTop: '{item}を一番上へ移動', rankOk: 'この順番でよい', rankMoved: '{item}を{m}件中{n}番目に移動しました', rankStay: '{item}はすでに{m}件中{n}番目です',
-        bkGroup: '{item}の振り分け', bkRec: '{b}（おすすめ）', bkMoved: '{item}を「{b}」に移動しました', bkOk: 'この振り分けでよい', bkTitle: '「{b}」の項目を並べる', bkHint: '順番をつけるのは「{b}」だけです。一番上が最優先です。',
+        skipped: '★（スキップ）', allRec: '{title}：すべて★（おすすめ）', noteLine: 'メモ：{t}', recDone: '{n}問を★にしました。{m}問中{p}問完了。', recNone: '1つだけ選ぶ項目は、すべて選択済みです。',
+        rankUp: '{item}を上へ移動', rankDown: '{item}を下へ移動', rankTop: '{item}を一番上へ移動', rankOk: 'この順番で確定', rankMoved: '{item}を{m}件中{n}番目に移動しました', rankStay: '{item}はすでに{m}件中{n}番目です',
+        bkGroup: '{item}の振り分け', bkRec: '{b}（おすすめ）', bkMoved: '{item}を「{b}」に移動しました', bkOk: 'この振り分けで確定', bkTitle: '「{b}」の項目を並べる', bkHint: '順番をつけるのは「{b}」だけです。一番上が最優先です。',
         bkEmpty: '「{b}」に項目がありません。上の項目で「{b}」を押すと、ここに入ります。', bkSame: '{m}件すべて★のままです', bkDiff: '{m}件中{n}件を★から変更', bkOrder: '振り分けは★のまま、順番を変更',
         bkAll: 'すべて★（おすすめ）', bkSome: '★から{n}件変更', bkNew: '振り分けは★のまま、順番を変更' }
 };
@@ -1692,15 +1712,21 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light' }); Object.assign(T.ja, { theme: 'ダーク / ライト' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする' });
+const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+/* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
+function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
 if (!tt) {
-  tt = make('button', 'theme-quick', esc(L.theme)); tt.type = 'button'; tt.setAttribute('data-theme-toggle', ''); tt.setAttribute('aria-label', L.theme); tt.title = L.theme;
-  const bar = make('div', 'tools-bar', ''), spot = $('.meta') || $('main h1') || $('h1');
+  tt = make('button', 'theme-quick', ''); tt.type = 'button'; tt.setAttribute('data-theme-toggle', '');
+  const bar = make('div', 'tools-bar', ''), meta = $('.meta'), main = $('main');
   bar.append(tt);
-  if (spot?.matches('.meta')) spot.append(bar); else spot?.after(bar);
+  if (meta) meta.append(bar); else if (main) { bar.classList.add('corner'); main.prepend(bar); }
 }
 if (store.get('explainer:theme')) root.dataset.theme = store.get('explainer:theme');
-on(tt, 'click', () => store.set('explainer:theme', root.dataset.theme = (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark' ? 'light' : 'dark'));
+on(tt, 'click', () => { store.set('explainer:theme', root.dataset.theme = darkNow() ? 'light' : 'dark'); themeName(); });
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', themeName);
+themeName();
 root.dataset.size = store.get('explainer:size') || '';
 
 /* skim, ruler and one-chapter modes: on or off on <body>; the ruler is remembered */
@@ -1734,7 +1760,7 @@ if (parts.length) {
   });
 }
 /* roadmap: each lane is named by its h3, and a card says how many others wait on it. "Unblocks N" is counted from the small.after links, so it cannot drift. */
-Object.assign(T.en, { unblocks: 'Unblocks {n}', back: 'Back to: {t}' }); Object.assign(T.ja, { unblocks: '後続{n}件', back: '戻る：{t}' });
+Object.assign(T.en, { unblocks: 'Unblocks {n}', back: 'Back to: {t}' }); Object.assign(T.ja, { unblocks: '{n}件の前提', back: '戻る：{t}' });
 qa('.lane').forEach((l, i) => { const h = $('h3', l); if (h && !l.hasAttribute('aria-labelledby')) l.setAttribute('aria-labelledby', h.id = h.id || 'lane-' + i); });
 qa('.cutline[role="separator"]:not([aria-label])').forEach(c => c.setAttribute('aria-label', txt(c)));
 const waiting = {};  /* blocker id -> the cards that list it */
@@ -1748,8 +1774,8 @@ qa('.lane li[id], .backlog-top > li[id]').forEach(li => {
    worked out from the entries, so none can drift. Without this the tiles show a name and a line, and every entry reads open. */
 Object.assign(T.en, { fgRel: ['Now', 'Next', 'Later'], fgAll: 'All', fgSearch: 'Search the guide', fgHint: 'Name, definition or example', fgGroup: 'Show fields that matter', fgShow: 'Showing {n} of {m} fields', fgOnly: ', {l} only', fgFor: ', matching "{q}"', fgEnd: '.',
   fgNone: 'Nothing here matches.', fgHid: '{n} hidden by the filter', fgHidQ: '{n} hidden by the filter or search', fgLink: 'Copy link to this field', fgLinked: 'Link copied', fgKey: 'The bar under each family:', fgN: '{n} {l}', fgJoin: ', ' });
-Object.assign(T.ja, { fgRel: ['今', '次', 'その後'], fgAll: 'すべて', fgSearch: 'ガイドを検索', fgHint: '名前、説明、例', fgGroup: '表示する項目', fgShow: '{m}件中{n}件を表示', fgOnly: '（{l}のみ）', fgFor: '、「{q}」に一致', fgEnd: '。',
-  fgNone: '一致するものはありません。', fgHid: 'フィルターで{n}件を非表示', fgHidQ: 'フィルターまたは検索で{n}件を非表示', fgLink: 'この項目へのリンクをコピー', fgLinked: 'リンクをコピーしました', fgKey: '各ファミリーの下のバー：', fgN: '{l}{n}件', fgJoin: '、' });
+Object.assign(T.ja, { fgRel: ['今すぐ', '次に', 'あとで'], fgAll: 'すべて', fgSearch: 'ガイドを検索', fgHint: '名前、説明、例', fgGroup: '表示する分野', fgShow: '{m}件中{n}件を表示', fgOnly: '（{l}のみ）', fgFor: '、「{q}」に一致', fgEnd: '。',
+  fgNone: '一致するものはありません。', fgHid: 'フィルターで{n}件を非表示', fgHidQ: 'フィルターまたは検索で{n}件を非表示', fgLink: 'この項目へのリンクをコピー', fgLinked: 'リンクをコピーしました', fgKey: '各領域の下のバー：', fgN: '{l}{n}件', fgJoin: '、' });
 let fgReveal = () => false;  /* a jump to an entry or a family opens it; the link handler below calls this first */
 {
   const REL = ['now', 'next', 'later'], GLYPH = ['●', '◐', '○'], fgx = $('.index'), fgFams = qa('details.family-index'), fgEntries = qa('.entry', fgx || d);
@@ -1908,7 +1934,7 @@ finish();
    The tool buttons sit in one panel behind one button: in the rail on a wide screen, at the end of the meta line below 1100 px. Escape and a
    click outside close it. Without script the panel never shows, because nothing in it would work. */
 Object.assign(T.en, { tools: 'Reading tools', sizeDn: 'Smaller text', sizeNo: 'Normal text size', sizeUp: 'Larger text', railOf: '{n} of {m} read', min: '{n} min' });
-Object.assign(T.ja, { tools: '読み方の設定', sizeDn: '文字を小さく', sizeNo: '標準の文字サイズ', sizeUp: '文字を大きく', railOf: '{m}章中{n}章 読了', min: '約{n}分' });
+Object.assign(T.ja, { tools: '読みやすさ', sizeDn: '文字を小さく', sizeNo: '標準の文字サイズ', sizeUp: '文字を大きく', railOf: '{m}章中{n}章 読了', min: '約{n}分' });
 const rail = $('.rail'), railList = $('ol', rail), railLinks = rail ? qa('a[href^="#"]', rail) : [], panel = $('.tools');
 let railBar = null;
 railLinks.forEach(a => {
@@ -1936,7 +1962,7 @@ if (panel) {
   /* dark or light leaves the panel and sits beside the toggle as an icon button, so it is never more than one tap away */
   const bar = make('div', 'tools-bar', ''), quick = $('button[data-theme-toggle]', panel);
   bar.append(toggle);
-  if (quick) { const name = txt(quick); quick.classList.add('theme-quick'); quick.setAttribute('aria-label', name); quick.title = name; bar.append(quick); }
+  if (quick) { quick.classList.add('theme-quick'); quick.textContent = ''; bar.append(quick); themeName(); }
   /* text size is three segments: smaller, normal, larger. The steps run small, normal, large (20 px), extra large (22 px). */
   const sz = $('button[data-size]', panel), steps = ['sm', '', 'lg', 'xl'];
   if (sz) {
@@ -2035,8 +2061,8 @@ rd.forEach(b => {
 
 /* keys: J K change chapter, F S D R switch modes, ? lists them */
 const kb = $('[data-keys]');
-const dlg = kb && make('dialog', 'keys', '<h2>' + L.keys + '</h2><dl>' + [['J', L.next], ['K', L.prev], ['F', fb], ['S', sk], ['D', tt], ['R', ru], ['?', kb]]
-  .map(([k, b]) => b ? '<dt><kbd>' + k + '</kbd></dt><dd>' + esc(b.textContent ? txt(b) : b) + '</dd>' : '').join('') + '</dl><form method="dialog"><button>' + L.close + '</button></form>');
+const dlg = kb && make('dialog', 'keys', '<h2>' + L.keys + '</h2><dl>' + [['J', L.next], ['K', L.prev], ['F', fb], ['S', sk], ['D', tt && L.theme], ['R', ru], ['?', kb]]
+  .map(([k, b]) => b ? '<dt><kbd>' + k + '</kbd></dt><dd>' + esc(b.nodeType ? txt(b) || b.getAttribute('aria-label') || '' : b) + '</dd>' : '').join('') + '</dl><form method="dialog"><button>' + L.close + '</button></form>');
 [['F', fb], ['S', sk], ['D', tt], ['R', ru], ['?', kb]].forEach(([k, b]) => { if (b?.closest('.tools')) { b.dataset.key = k; b.setAttribute('aria-keyshortcuts', k); } });  /* CSS prints it on the right of the row */
 if (dlg) { body.append(dlg); on(dlg, 'click', e => { if (e.target === dlg) dlg.close(); }); on(kb, 'click', () => dlg.showModal()); }
 on(d, 'keydown', e => {
@@ -2404,8 +2430,8 @@ Object.assign(T.en, { roLabel: 'Steps, in order', roDone: 'Done: {t}', roNext: '
   filmLabel: 'Tour screens, scrolls sideways', rlLabel: 'Your rulings', rlQ: 'The question', rlRec: 'We recommend', rlState: 'State', rlNeed: 'Needs your ruling', rlNone: 'No pick yet', rlAns: 'Answered', rlCount: '{n} of {m} ruled',
   qpLabel: 'Your questions', qpDot: 'Question {n}: {t}', qpYes: 'answered', qpNo: 'not answered' });
 Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext: '次', roCount: '{m}件中{n}件 完了', stepDone: '完了',
-  filmLabel: 'ツアーの画面（横にスクロール）', rlLabel: 'あなたの判断', rlQ: '判断すること', rlRec: 'おすすめ', rlState: '状態', rlNeed: 'あなたの判断が必要', rlNone: 'おすすめなし', rlAns: '回答済み', rlCount: '{m}件中{n}件 判断済み',
-  qpLabel: '質問', qpDot: '質問{n}：{t}', qpYes: '回答済み', qpNo: '未回答' });
+  filmLabel: 'ツアーの画面（横にスクロール）', rlLabel: '判断の一覧', rlQ: '判断すること', rlRec: 'おすすめ', rlState: '状態', rlNeed: '判断が必要です', rlNone: '未選択', rlAns: '回答済み', rlCount: '{m}件中{n}件 判断済み',
+  qpLabel: '質問の一覧', qpDot: '質問{n}：{t}', qpYes: '回答済み', qpNo: '未回答' });
 {
   const refresh = [], safe = f => { try { f(); } catch (e) {} };
   const link = (cls, id) => { const a = d.createElement('a'); a.className = cls; a.setAttribute('href', '#' + id); return a; };

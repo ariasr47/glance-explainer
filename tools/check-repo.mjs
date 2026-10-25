@@ -24,7 +24,7 @@ const checker = at('skills/glance-explainer/scripts/check.mjs');
 // every example page under skills/*/examples ships and is published on the site, so each one is checked
 const htmlUnder = (d) => (existsSync(at(d)) ? readdirSync(at(d), { recursive: true }).map(String).filter((n) => n.endsWith('.html')).map((n) => `${d}/${n.replace(/\\/g, '/')}`) : []);
 const examples = readdirSync(at('skills')).flatMap((s) => htmlUnder(`skills/${s}/examples`)).sort();
-const sitePages = ['docs/index.html', 'docs/roadmap.html', 'docs/examples.html'];
+const sitePages = ['docs/index.html', 'docs/roadmap.html', 'docs/examples.html', 'docs/index.ja.html', 'docs/roadmap.ja.html'];
 const pages = [
   'skills/glance-explainer/assets/template.html',
   'skills/glance-explainer/assets/gallery.html',

@@ -56,6 +56,8 @@ Every kind of page the plugin makes has a working example. Open one, tap its ans
 
 Examples about the notes app use made-up data. The plugin's own pages (release, pull request, runbook, explainer, tour, atlas, roadmap) use real facts from this repository. Every page passes the plugin's checker. The [gallery](https://ariasr47.github.io/glance-explainer/gallery.html) shows each building block on its own.
 
+Every example also comes in Japanese (日本語版), written to read natively rather than word for word. The links are at the end of the [examples page](https://ariasr47.github.io/glance-explainer/examples.html#recap).
+
 ## Install
 
 In Claude Code:

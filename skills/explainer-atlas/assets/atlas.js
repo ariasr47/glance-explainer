@@ -35,8 +35,8 @@
   const d = document, body = d.body;
   const ja = /^ja/i.test(d.documentElement.lang);
   const S = ja ? {
-    close: '閉じる', none: '一致なし', hits: n => n + ' 件',
-    layer: 'レイヤー', layers: 'レイヤーで図を絞り込む', all: 'すべて', shown: (n, t) => t + ' 件中 ' + n + ' 件', nopart: '一致する部品なし',
+    close: '閉じる', none: '一致なし', hits: n => n + '件',
+    layer: 'レイヤー', layers: 'レイヤーで図を絞り込む', all: 'すべて', shown: (n, t) => t + '件中' + n + '件', nopart: '一致する部品なし',
     pick: '図の部品を選ぶと、説明とソースの場所が出ます。', selected: '選択中',
     map: '構成図。狭い画面では横にスクロールします', steps: '手順。狭い画面では横にスクロールします',
   } : {

@@ -70,7 +70,7 @@ Write native Japanese, not a word-for-word copy. The checker counts characters, 
 - **Emphasis.** Bold, or 「」 around a term at first use. Never italics: Japanese has none, and the checker fails them.
 - **Digits and dates.** Half-width digits (3, 1,250). Dates as 2026年10月7日, not 2026-10-07.
 - **Reading time.** 500 characters a minute, rounded up: 第2章 / 全6章、約1分.
-- **Fixed strings.** Interface text comes from `../assets/i18n/ui.ja.json`. A glossary term marked `keep` stays in English.
+- **Fixed strings.** Interface text comes from `../assets/i18n/ui.ja.json`. Leave those items untranslated so the file fills them in; never type your own word for one, or pages drift apart. A glossary term marked `keep` stays in English.
 - **Ids and layout never change.** `data-q` ids, element ids, classes and chapter order match in both files, so answers merge across languages by question id. Translate text only.
 - **Split sentences.** Inline tags cut one sentence into several items. Translate the pieces so they join into one sentence.
 
@@ -80,5 +80,88 @@ Write native Japanese, not a word-for-word copy. The checker counts characters, 
 | Executives | Shorter. Headings may end in a noun. |
 | Engineers | Established terms may stay in English. |
 | Public, customers | Easy Japanese (やさしい日本語): short sentences, common words, furigana only here. |
+
+### Standard labels
+
+Use these on every Japanese page, so a reader meets the same words each time. `ui.ja.json` fills most of them in.
+
+| English | Japanese | Not this |
+|---|---|---|
+| Keep in your head (only these) | 押さえておくのはこれだけ | 覚えておくこと（これだけ） |
+| Before this: | おさらい： | 前提： |
+| Take from this: / Take: | つまり： | ここが要点： |
+| Remember: | この章のポイント： | 覚える： |
+| Recap | まとめ | |
+| What I need from you | お願いしたいこと | |
+| If you do nothing: | 何もしなければ： | 何もしない場合： |
+| Recommended, ★ | おすすめ | 推奨 |
+| Reading time about 5 minutes | 約5分で読めます | 読了目安 約5分 |
+| Chapter 2 of 6, about 1 minute | 第2章 / 全6章、約1分 | |
+| Done (a chapter checkbox) | 読んだ | 完了 |
+| Now / Next / Later (lanes, buckets) | 今すぐ / 次に / あとで | 今 / 次へ / その後 |
+| Not now | 今はやらない | |
+| After: (waits on) | 前提： | |
+
+### Sound native, not translated
+
+- **Drop the subject.** Japanese leaves out あなた and 私 when context carries them. "I recommend A" is 「おすすめはAです」, not 「私はAを推奨します」.
+- **Headings are questions a person asks,** in plain form: 「なぜ必要なのか」「メモはいつ保存するか」, or 「なぜ必要なの？」 on a friendly public page. Not a noun label such as 「理由」, and not 「〜ますか？」 on every heading. A question the reader answers on the page (a field's legend, a ballot card) stays polite: 「いつ保存しますか？」. The chapter map and the rail repeat the heading in the same form.
+- **Short verbs.** 「できます」, not 「することができます」. 「〜します」, not 「〜を行います」.
+- **Kanji words over katakana** when a common one exists: 「確認」 not 「チェック」, 「手順」 not 「ステップ」. Keep katakana that Japanese readers use daily: リリース, ブラウザ, ダウンロード.
+- **No literal idioms.** "Keep in your head", "the ball is in your court" and "at a glance" get a Japanese way of saying the same thing, not a word-for-word copy.
+- **Numbers carry counters.** 3件, 2章, 5分, 4週間. Ranges use 〜: 1〜3か月.
+- **No calques.** 「ログインを持つ」 is 「ログインできる」; 「上限を持つ」 is 「上限がある」; 「10回行い」 is 「10回試し」. Do not add a 「ため」 or 「ので」 the English does not state.
+- **Keep every clause when shortening.** The answer bar aims for 52 characters or fewer; cut words, never a fact the English states.
+- **Fixed words keep their kana:** ひと晩, ひとつ目. People count as 2人, not 二人.
+- **Brackets.** 「」 for a term or a quoted label, full-width （） in Japanese prose, half-width () only around code.
+
+### Characters, numbers and names
+
+- **Full-width punctuation** in Japanese text: 、。「」『』（）：！？〜. Never an ASCII comma, period or colon after Japanese. A label ends in a full-width colon: 「おさらい：」.
+- **Half-width letters and digits**, never full-width: 3件, JSON, 2.4. Commas in thousands: 1,250.
+- **Space beside Latin text.** One half-width space between Japanese and a Latin word or code: 「JSON をコピー」「Claude に保存」. No space between a digit and its counter or unit: 3件, 30日, 5分, 128文字. A Latin unit joins its number, then one space before Japanese: 「4MB の写真」「9px に」.
+- **Dates and times.** 2026年10月13日, or 10月13日（月） when the weekday matters. Times as 14:00. Ranges with 〜: 10月13日〜17日.
+- **Words, not word counts.** Japanese counts characters, so "128 words" becomes 「128文字」 and "word count" 「文字数」.
+- **People.** Write a made-up English name in katakana with さん in prose: 「マーラさん」. A real person keeps the spelling they use.
+- **Katakana spelling.** One spelling per term on a page. This plugin writes ユーザー, サーバー, ブラウザ, フォルダ, メモ.
+- **Ellipsis and dashes.** 「……」 (two three-dot characters) and 「――」, never ... or a single dash.
+- **Code stays code.** File names, commands, ids and keys are left as written, inside `<code>`.
+
+### Terms
+
+| English | Japanese |
+|---|---|
+| explainer page | 説明ページ |
+| decision, ruling | 判断 |
+| recommend, recommended | おすすめ |
+| blocker, blocked | ブロック要因, ブロック中 |
+| release | リリース |
+| ship (a feature) | リリースに入れる |
+| rollback | ロールバック, 切り戻し |
+| owner | 担当者 |
+| stakeholder | 関係者 |
+| respondent | 回答者 |
+| handover | 引き継ぎ |
+| incident | 障害 |
+| runbook | 手順書 |
+| release notes | リリースノート |
+| roadmap | ロードマップ |
+| parked | 保留 |
+| pull request | プルリクエスト |
+| the answer (the page's one sentence) | 結論 |
+| at a glance | ひと目でわかる |
+| reading ruler | 読んでいる行を強調 |
+| answer bar | 結論バー |
+| keep box | 要点ボックス |
+| checker | チェッカー |
+| web app (beside a phone app) | ブラウザ版 |
+| accept (an invite) | 参加 |
+| bug | 不具合 |
+| domain registrar | ドメイン管理会社 |
+| the page's picture | 図 |
+| user | ユーザー |
+| chapter map | 目次 |
+
+Page types, when a page names one: 判断 (decision), 選択カード (ballot), 比較 (compare), 仕様 (spec), 実行計画 (playbook), 状況報告 (status), プロジェクト一覧 (portfolio), ロードマップ (roadmap), リリースノート (release), 障害報告 (incident), 引き継ぎ (handover), 解説 (explainer), 学習 (teach), 画面ツアー (tour), 調査 (research), フィールドガイド (field guide), アトラス (atlas), 手順書 (runbook), プルリクエスト (pr), アンケート (questionnaire), 公開ページ (public).
 
 Afterwards run `node ../scripts/translate.mjs check`. It lists what is still in English.

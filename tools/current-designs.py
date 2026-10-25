@@ -1,8 +1,9 @@
 """Render the "Current designs" boards of the designs canvas: one image per kind of page, from the shipped examples.
-usage: py -3 tools/current-designs.py <out dir>
+usage: py -3 tools/current-designs.py <out dir> [--ja]
 Each image is the page at 1280 px (its first 2000 px) beside the same page at 390 px (its first two screens), light theme,
 saved as <out>/current-<kind>.webp at 1718 x 2044. Needs Python with Playwright (Chrome) and Pillow; run it after a release,
 then upload the images to the canvas and point each Current board at its new image. See docs/dev/design/README.md.
+With --ja it renders each page's Japanese twin (<page>.ja.html) as current-<kind>-ja.webp, for the Japanese designs page.
 """
 import sys, pathlib
 from playwright.sync_api import sync_playwright
@@ -31,6 +32,7 @@ def grab(br, page, width, height, clip_h, tmp):
 
 def main():
     out = pathlib.Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
+    ja = '--ja' in sys.argv[2:]
     tmp = out / '_grab.png'
     try:
         font = ImageFont.truetype('C:/Windows/Fonts/segoeuib.ttf', 22)
@@ -39,17 +41,18 @@ def main():
     with sync_playwright() as pw:
         br = pw.chromium.launch(channel='chrome')
         for kind, rel in KINDS.items():
+            if ja: rel = rel[:-len('.html')] + '.ja.html'
             desk = grab(br, ROOT / rel, 1280, 900, 2000, tmp)
             phone = grab(br, ROOT / rel, 390, 844, 1688, tmp)
             top = 44
             im = Image.new('RGB', (1280 + 48 + 390, top + 2000), '#ffffff')
             d = ImageDraw.Draw(im)
-            d.text((0, 8), 'Desktop, 1280 px, first 2000 px', fill='#4a5a6a', font=font)
+            d.text((0, 8), 'Desktop, 1280 px, first 2000 px' + (', Japanese' if ja else ''), fill='#4a5a6a', font=font)
             d.text((1280 + 48, 8), 'Phone, first two screens', fill='#4a5a6a', font=font)
             im.paste(desk, (0, top))
             im.paste(phone, (1280 + 48, top))
             d.rectangle([1280 + 47, top - 1, 1280 + 48 + 390, top + phone.height], outline='#aebbc8')
-            im.save(out / f'current-{kind}.webp', 'WEBP', quality=82)
+            im.save(out / f'current-{kind}{"-ja" if ja else ""}.webp', 'WEBP', quality=82)
             print(kind, flush=True)
         br.close()
     tmp.unlink(missing_ok=True)
