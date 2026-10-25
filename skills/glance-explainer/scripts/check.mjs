@@ -235,6 +235,10 @@ if (ja) {
   if (/font-style\s*[:=]\s*["']?\s*italic/i.test(html.replace(/<style[\s\S]*?<\/style>/gi, ''))) fail('font-style: italic outside <style>; Japanese is never italic');
   const gf = links.find((l) => /fonts\.googleapis\.com/.test(l));
   if (gf && !/BIZ(?:\+|%20)UDPGothic/.test(gf)) fail('lang="ja" but the Google Fonts link lacks BIZ+UDPGothic');
+  // labels a native reader flagged as translated-sounding; the standard ones are in writing.md, "Standard labels"
+  const stiff = { '覚えておくこと（これだけ）': '押さえておくのはこれだけ', '覚える：': 'この章のポイント：', 'ここが要点：': 'つまり：', '読了目安': '約N分で読めます', '何もしない場合：': '何もしなければ：' };
+  const page = html.replace(/<(style|script)[\s\S]*?<\/\1>/gi, '');
+  for (const [old, use] of Object.entries(stiff)) if (page.includes(old)) warn(`Japanese label 「${old}」 reads as translated; use 「${use}」`);
 }
 
 // ---- contrast, computed from the token blocks in each theme (WCAG 2: text needs 4.5)

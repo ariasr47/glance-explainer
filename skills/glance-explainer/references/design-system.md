@@ -70,16 +70,19 @@ A `:lang(ja)` block in the template swaps the type system when `<html lang="ja">
 
 | Rule | English page | Japanese page |
 |---|---|---|
-| Body face | Atkinson Hyperlegible Next | BIZ UDPGothic (a universal-design face built for legibility, on Google Fonts), falling back to Yu Gothic, Hiragino Sans, Meiryo, Noto Sans JP |
-| Heading face | Lexend | BIZ UDPGothic bold; one family for all Japanese text |
+| Body face | Atkinson Hyperlegible Next | BIZ UDPGothic, Morisawa's universal-design face built for legibility. It ships with Windows 10 (October 2020) and later and loads from Google Fonts elsewhere. Fallbacks: Hiragino Sans (Apple), Noto Sans JP or Noto Sans CJK JP (Android, Linux), Yu Gothic Medium, Meiryo |
+| Heading face | Lexend | BIZ UDPGothic bold (700, the face has no 600); one family for all Japanese text |
 | Code face | Atkinson Hyperlegible Mono | BIZ UDGothic, the monospaced sibling |
-| Line height | 1.6 body, 1.15 headings | 1.75 body, 1.35 headings |
-| Measure | 62 characters | about 36 em (35 to 40 full-width characters) |
-| Letter spacing | none, headings -0.01 em | 0.03 em body, 0 headings |
+| Line height | 1.6 body, 1.15 headings | 1.75 body, 1.4 headings, 1.5 answer bar |
+| Measure | 62 characters | about 36 em (30 to 40 full-width characters) |
+| Letter spacing | none, headings -0.01 em | 0.03 em body; 0.02 em headings with proportional kana (`palt`) |
 | Emphasis | bold, no italics by rule | bold or 「 」; italics forbidden, Japanese has none |
-| Line breaking | `text-wrap: pretty`, manual hyphens | `line-break: strict`, no hyphenation, `text-wrap: pretty` |
-| Numbers and dates | 1,250; 2026-10-07 | half-width digits throughout; 2026年10月7日 |
-| Interface strings | Skim mode, One chapter at a time, Done, Remember, Recap, What I need from you | ざっと読む, 1章ずつ, 完了, 覚えておく, まとめ, お願いしたいこと, from `i18n/ui.ja.json` |
+| Line breaking | `text-wrap: pretty`, manual hyphens | `line-break: strict` (no small kana or 。 at a line start), `word-break: auto-phrase` (breaks between phrases), no hyphenation |
+| Punctuation | straight quotes, ASCII colon | full-width 、。「」（）：！？; `text-spacing-trim` closes up 」、 and sets an opening 「 flush; 、。 may hang at the line end |
+| Japanese beside Latin | n/a | a half-width space around a Latin word or code (JSON をコピー); none before a counter (3件, 30日); `text-autospace: ideograph-alpha` adds a hair space beside Latin letters where the browser supports it, never beside digits |
+| Numbers and dates | 1,250; 2026-10-07 | half-width digits throughout; 2026年10月7日, 10月7日（火）, 14:00 |
+| Quotations | “ ” | 「 」, and 『 』 inside them or for a title; `<q>` draws them |
+| Interface strings | Skim mode, One chapter at a time, Done, Remember, Recap, What I need from you | ざっと読む, 1章ずつ表示, 読んだ, この章のポイント, まとめ, お願いしたいこと, from `i18n/ui.ja.json` |
 
 Offline, the system fonts above are good on Windows and macOS, so the fallback is not a degradation. The Google Fonts link must carry BIZ UDPGothic when `lang="ja"`, and the checker fails a Japanese page without it.
 

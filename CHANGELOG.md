@@ -2,6 +2,24 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 2.1.0 (2026-10-24)
+
+A polish round on the dark or light switch, and Japanese that reads as if it were written in Japanese.
+
+### Changed
+- **The dark or light switch says what it does.** It shows a moon on a light page and a sun on a dark one, sits centred in its circle, and is named "Switch to dark" or "Switch to light" for screen readers. Before, a half-filled circle sat slightly off centre.
+- **A ballot keeps the switch in its top corner,** beside the kicker, instead of on a line of its own under the title.
+- **Natural Japanese labels.** A native reader found the Japanese labels translated-sounding. 「覚えておくこと（これだけ）」 is now 「押さえておくのはこれだけ」, 「覚える：」 is 「この章のポイント：」, 「前提：」 before a restated fact is 「おさらい：」, and the reading time reads 「約5分で読めます」. Roadmap lanes and buckets read 今すぐ / 次に / あとで / 今はやらない, and status words such as ブロック中 and 判断待ち replace stiffer ones that addressed the reader as あなた.
+- **Japanese typography:** phrase-aware line breaks, closed-up punctuation (「」、。), a hair space between Japanese and Latin letters where the browser supports it (digits stay tight), proportional kana in headings, and a fuller font stack (BIZ UDPGothic, then Hiragino, Noto Sans JP, Yu Gothic Medium).
+
+### Added
+- **A Japanese version of every example,** beside each English one as `<name>.ja.html`, and linked from the examples page.
+- **Japanese writing rules** in `writing.md`: the standard labels, how to sound native, punctuation, numbers, dates, names and a term list.
+- **The checker warns** when a Japanese page uses one of the labels that read as translated.
+
+### Fixed
+- `translate.mjs` now translates a ballot card's short name (`data-short`), which the tray and the copied picks show, and drops the English spaces around inline tags when both sides are Japanese.
+
 ## 2.0.0 (2026-10-20)
 
 The plugin is now **glance-explainer**: explainer pages for readers with ADHD or a short working memory. Two other projects already used the name html-explainer, one of them an older Claude skill that also makes HTML explainers. Pages look the same as in 1.9.1.

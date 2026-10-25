@@ -23,8 +23,9 @@ const RAW = new Set(['script', 'style']);               // contents are code, ne
 const CODE = new Set(['code', 'pre', 'kbd', 'samp']);   // listed with kind "code" so the translator can leave them
 // Attributes that hold text a reader sees. data-rec and data-warn are drawn by CSS (attr()), data-keep feeds the sticky bar,
 // data-buckets is the "A|B|C" list of a buckets field (translate every label, and the same word in each item's data-rec),
-// data-rel-labels is the field guide's "Now|Before launch|Later" (translate all three, in that order).
-const ATTRS = new Set(['title', 'aria-label', 'placeholder', 'alt', 'data-rec', 'data-warn', 'data-keep', 'data-buckets', 'data-rel-labels']);
+// data-rel-labels is the field guide's "Now|Before launch|Later" (translate all three, in that order), and data-short is a
+// ballot card's short name, shown in the tray's review list and in the copied picks.
+const ATTRS = new Set(['title', 'aria-label', 'placeholder', 'alt', 'data-rec', 'data-warn', 'data-keep', 'data-buckets', 'data-rel-labels', 'data-short']);
 const ATTR = /([^\s"'<>\/=]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/dg;
 
 const die = (m) => { console.error('translate: ' + m); process.exit(1); };
@@ -167,6 +168,7 @@ function apply([file, stringsFile], flags) {
   // Interface strings are English keys, so they only apply when the page really changes language.
   const swap = flags.ui && (cur?.value ?? 'en') !== lang ? swapper(json(flags.ui)) : null;
   let changed = 0, swapped = 0, drift = 0;
+  const out = [];                                         // the final text of each item, then the edits in a second pass
   items.forEach((it, n) => {
     const r = byIndex.get(n);
     if (!r) die(`${stringsFile} has no entry with "i": ${n}`);
@@ -181,8 +183,30 @@ function apply([file, stringsFile], flags) {
       const s = swap(it.text);
       if (s !== undefined && s !== it.text) { t = s; swapped++; }
     }
+    out[n] = t;
+  });
+  // Japanese and Chinese put no space between words, so the space an English source keeps around an inline tag
+  // ("<b>Compare</b> the pictures") would show as a gap. Drop it where both sides are CJK text, or where the
+  // translation starts or ends with full-width punctuation. A space next to Latin text or code ("<b>A</b> 入力",
+  // "<code>check.mjs</code> を実行") stays, so code items count as neighbours too.
+  const cjk = /^(ja|zh)\b/i.test(lang), wide = /[　-ヿ㐀-鿿豈-﫿＀-￯]/, punct = /[　-〿！-／：-＠]/;
+  const texts = items.map((it, n) => (it.kind === 'text' || it.kind === 'code' ? n : -1)).filter((n) => n >= 0);
+  items.forEach((it, n) => {
+    const t = out[n], k = texts.indexOf(n);
+    let a = it.a, b = it.b, pre = '', post = '';
+    if (cjk && it.kind === 'text' && t !== it.text) {
+      const pk = k > 0 ? texts[k - 1] : -1, nk = k < texts.length - 1 ? texts[k + 1] : -1;
+      const prev = pk >= 0 ? out[pk].slice(-1) : '', next = nk >= 0 ? out[nk][0] : '';
+      if (wide.test(t[0]) && (wide.test(prev) || punct.test(t[0]))) a = 0;
+      if (wide.test(t.slice(-1)) && (wide.test(next) || punct.test(t.slice(-1)))) b = it.tok.s.length;
+      // and the other way: Japanese written straight against code or a Latin word gets one half-width space
+      // ("<code>x</code>を" becomes "<code>x</code> を"); a digit keeps its counter tight (3件)
+      const latin = (n, ch) => n >= 0 && (items[n].kind === 'code' || /[A-Za-z]/.test(ch));
+      if (wide.test(t[0]) && !punct.test(t[0]) && it.a === 0 && latin(pk, prev)) pre = ' ';
+      if (wide.test(t.slice(-1)) && !punct.test(t.slice(-1)) && it.b === it.tok.s.length && latin(nk, next)) post = ' ';
+    }
     if (t === it.text) return;                           // unchanged: the source bytes stay as they were
-    edit(it.tok, it.a, it.b, it.kind === 'attr' ? `${it.raw}="${esc(t).replace(/"/g, '&quot;')}"` : esc(t));
+    edit(it.tok, a, b, it.kind === 'attr' ? `${it.raw}="${esc(t).replace(/"/g, '&quot;')}"` : pre + esc(t) + post);
     changed++;
   });
   if (!h) console.error('translate: warning: no <html> tag, lang not set');
