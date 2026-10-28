@@ -51,10 +51,10 @@ Example, a branch:
     <path class="d-line" d="M220 150 H290"/><path class="d-arrow" d="M290 144 L302 150 L290 156 Z"/>
     <rect class="d-box-decide" x="302" y="120" width="200" height="60" rx="10"/><text class="d-text-b" x="402" y="156" text-anchor="middle">Right-to-left?</text>
     <path class="d-line" d="M502 150 H540 V60 H570"/><path class="d-arrow" d="M570 54 L582 60 L570 66 Z"/>
-    <text class="d-text-s" x="545" y="100" text-anchor="middle">yes</text>
+    <text class="d-text-s" x="550" y="100" text-anchor="start">yes</text>
     <rect class="d-box-stop" x="582" y="30" width="200" height="60" rx="10"/><text class="d-text-b" x="682" y="66" text-anchor="middle">Not supported yet</text>
     <path class="d-line" d="M502 150 H540 V240 H570"/><path class="d-arrow" d="M570 234 L582 240 L570 246 Z"/>
-    <text class="d-text-s" x="545" y="200" text-anchor="middle">no</text>
+    <text class="d-text-s" x="550" y="200" text-anchor="start">no</text>
     <rect class="d-box-go" x="582" y="210" width="200" height="60" rx="10"/><text class="d-text-b" x="682" y="246" text-anchor="middle">Translate</text>
   </svg>
   <figcaption class="take"><b>Take from this:</b> right-to-left files stop at the gate with a clear message, everything else goes through unchanged.</figcaption>

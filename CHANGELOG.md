@@ -2,6 +2,37 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 2.2.0 (2026-10-28)
+
+Fixes from an audit: agents built 23 fresh pages with 2.1.0 (one of every type, plus two in Japanese) and three reviewers checked every screenshot. All 23 passed the checker, and the reviewers still found problems the checker cannot see. This release fixes the ones a desktop reader meets, and keeps phones from breaking.
+
+### Changed
+- **The ask works.** Its choices looked like buttons and did nothing. A tap now marks the choice and copies "question + choice" to paste into the chat, and says so under the choices.
+- **A decision is asked once.** A `.decision` card followed by its tap field used to show the same question and options twice. The card's options are now the radios: tap the option card itself. The field keeps only its reason box.
+- **One colour for ★ recommended:** purple, the colour of "you choose", on decision cards, the ask, answer fields, grid headers and ballot options. Before, some were green.
+- **Reading tools stays in view** on a laptop screen shorter than about 900 px: opening it scrolls the rail so the panel shows.
+- **Flows of five or six steps** sit in rows of three, so no step is left alone at the end of a row with a connector pointing at nothing.
+- **Tiles** take `data-word="On track"` to replace the fixed state word and keep the glyph, and a lone tile no longer stretches across the column.
+- **The recap is yellow**, as the design system says: the colour of what the page asks you to hold.
+- **The rail heading** is in sentence case, and "You are here" drops its middle dot.
+- **Tour screenshots** sit on a mat, so a picture of a page never passes for the page.
+- **On a phone:** a ★ answer label puts its chip on its own line instead of squeezing the text to one word per line; every timeline runs down the page as one line; the answer bar no longer covers the recap.
+- **Field guide:** relevance labels keep their capitals ("before Christmas"), and `data-noun="practice|practices"` names the entries instead of the fixed word "fields".
+- **Japanese:** progress strings lose their stray spaces (「5章中0章を読了」), and the copied answers read 「タイトル：名前の回答」.
+
+### Added
+- **`scripts/assemble.mjs`.** Write a page's body, and it builds the page from the template: the rail, the chapter map when the body has none, and every reading time. `--refresh` fixes the rail and the minutes after an edit. Every audit agent had written its own version.
+- **A glance stub in the template,** and a meta-line note for pages with made-up data.
+- **The checker** counts the parked shelf, the backlog, the cut line and rank, buckets and scale fields as a chapter's picture. It also warns when a kicker's minutes are wrong.
+
+### Guidance
+- The skill's step 6 is a desktop look at the page with a short list of what the checker cannot see, plus one phone look for pages sent to other people.
+- A chapter never repeats the glance; a roadmap's glance is its lanes and a field guide's is its territory.
+- Status puts its blocker first; spec risks use `div.risks`; compare cells that state a fact take no state.
+- The explainer glance may be a flow.
+- Teach chapters need a term box only where a new word appears.
+- The answer limit is now stated as the checker applies it, and headings are questions.
+
 ## 2.1.0 (2026-10-24)
 
 A polish round on the dark or light switch, and Japanese that reads as if it were written in Japanese.

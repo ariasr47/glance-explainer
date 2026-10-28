@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.1.0">
+<meta name="generator" content="glance-explainer 2.2.0">
 <meta name="color-scheme" content="light dark">
 <title>Moving the team wiki</title>
 <meta name="description" content="A plan for moving a small team's wiki to a new host: six phases, what your team sees, who does what, the risky evening with its undo, the risks, and three decisions you can answer on the page.">
@@ -185,8 +185,8 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 /* The rail is the chapter map. The script adds a small line to each link (the chapter's one line and its minutes), a progress
    line under the list and the Reading tools button. A link that is not a chapter (the recap, the ask) shows no number. */
 .rail { font-size: .833rem; line-height: 1.35; }
-.rail::before { content: "In this page"; display: block; margin: 0 .5rem .6rem; color: var(--ink-faint); font: 600 .694rem/1.2 var(--font-head); letter-spacing: .09em; text-transform: uppercase; }
-:lang(ja) .rail::before { content: "目次"; letter-spacing: .05em; }
+.rail::before { content: "In this page"; display: block; margin: 0 .5rem .6rem; color: var(--ink-faint); font: 600 .778rem/1.2 var(--font-head); }
+:lang(ja) .rail::before { content: "目次"; }
 .rail ol { list-style: none; display: flex; flex-direction: column; gap: 2px; margin: 0 0 1rem; padding: 0; max-width: none; counter-reset: rail; }
 .rail li { margin: 0; }
 .rail a { display: grid; grid-template-columns: 26px minmax(0, 1fr); column-gap: .65rem; align-items: start; padding: .5rem; border-radius: var(--r-comp); color: var(--ink-soft); text-decoration: none; counter-increment: rail; }
@@ -372,6 +372,8 @@ html[data-type="public"] .chapter > header label { display: none; }
 .flow li.wait b::after { content: "!"; color: var(--wait); }
 .flow li.stop b::after { content: "✕"; color: var(--stop); }
 @media (min-width: 700px) {
+  .flow:has(> li:nth-child(5)):not(:has(> li:nth-child(7))) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .flow:has(> li:nth-child(5)):not(:has(> li:nth-child(7))) > li:nth-child(3)::after { display: none; }
   .flow li:not(:last-child)::after { content: ""; position: absolute; right: -.75rem; top: 50%; width: .75rem; height: 2px; background: var(--line-strong); }
 }
 
@@ -391,6 +393,15 @@ html[data-type="public"] .chapter > header label { display: none; }
 .option { position: relative; display: flex; flex-direction: column; padding: 1rem 1.1rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
 /* the recommendation is the decide colour: a border, a tint, and a star chip inside the card at the top, in the page's own word */
 .option[data-rec] { border-color: var(--decide); background: var(--decide-tint); }
+.decision.paired .option { cursor: pointer; }
+.decision.paired .option:hover { border-color: var(--here); }
+.decision.paired .option:focus-visible { outline: 3px solid var(--here); outline-offset: 2px; }
+.decision.paired .option[aria-checked="true"] { border-color: var(--here); box-shadow: 0 0 0 2px var(--here); }
+.decision.paired .option[aria-checked="true"] h4::after { content: " ✓"; color: var(--here); }
+.decision.paired .pick-hint { margin: .5rem 0 0; color: var(--ink-soft); font-size: var(--size-s); }
+.answer-field.paired > :is(legend, label, .hint) { display: none; }  /* :is() lifts this above the field's own label rule */
+.answer-field.paired { margin: .5rem 0 1rem; padding: 0; border: 0; background: none; }
+.answer-field.paired:not(:has(textarea)) { display: none; }  /* nothing left to show: the card is the question and the control */
 .option[data-rec]::after { content: "★ " attr(data-rec); order: -1; align-self: flex-start; margin: 0 0 .6rem; padding: .1rem .7rem; background: var(--decide); color: var(--on-decide); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); line-height: 1.5; }
 /* a consequence chip: the cost in words ("Can't undo"), amber with a ⚠ glyph, so it never leans on colour alone */
 .option[data-warn]::before { content: "⚠ " attr(data-warn); position: absolute; top: -.8rem; left: .9rem; z-index: 1; padding: .15rem .65rem; background: var(--wait); color: var(--on-wait); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
@@ -426,7 +437,7 @@ html[data-type="public"] .chapter > header label { display: none; }
 .timeline li.go::before { content: "✓"; background: var(--go); border-color: var(--go); color: var(--on-go); }
 .timeline li.here::before { background: var(--here); border-color: var(--here); box-shadow: 0 0 0 5px var(--here-tint); }
 .timeline li.here .when { color: var(--here); }
-.timeline li.here .when::before { content: "You are here · "; font-weight: 700; }
+.timeline li.here .when::before { content: "You are here: "; font-weight: 700; }
 .timeline .when { display: block; font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); margin-bottom: .2rem; }
 .timeline .what { font-size: var(--size-s); color: var(--ink-soft); }
 
@@ -446,6 +457,8 @@ html[data-type="public"] .chapter > header label { display: none; }
 .tile.go::after { content: "✓ Good"; color: var(--go); }
 .tile.wait::after { content: "! Watch"; color: var(--wait); }
 .tile.stop::after { content: "✕ Problem"; color: var(--stop); }
+.tile.go[data-word]::after { content: "✓ " attr(data-word); } .tile.wait[data-word]::after { content: "! " attr(data-word); } .tile.stop[data-word]::after { content: "✕ " attr(data-word); }
+.tiles > .tile:only-child { max-width: 22rem; }
 
 /* ---------- 9b. Grid: options against criteria (compare, portfolio) ---------- */
 .grid-wrap { container-type: inline-size; margin: 1rem 0 1.5rem; overflow-x: auto; border: 1.5px solid var(--line); border-radius: var(--r-comp); background: var(--card); }
@@ -464,8 +477,8 @@ html[data-type="public"] .chapter > header label { display: none; }
 .grid td.stop { background: var(--stop-tint); }     .grid td.stop::before { content: "✕"; background: var(--stop); color: var(--on-stop); }
 .grid td.decide { background: var(--decide-tint); } .grid td.decide::before { content: "?"; background: var(--decide); color: var(--on-decide); }
 /* the recommended option: a star before its name, and a green foot on the header */
-.grid thead th[data-rec] { background: var(--go-tint); box-shadow: inset 0 -3px 0 var(--go); }
-.grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--go); }
+.grid thead th[data-rec] { background: var(--decide-tint); box-shadow: inset 0 -3px 0 var(--decide); }
+.grid thead th[data-rec]::before { content: "★"; margin-right: .4rem; color: var(--decide); }
 /* a group row is a quiet band that names the rows under it ("Goes to both"); it is not a criterion */
 .grid tbody tr.group th { min-width: 0; padding: .4rem 1rem; border-left: 0; background: var(--well); color: var(--ink-soft); font: 600 var(--size-xs)/1.3 var(--font-head); }
 @media (max-width: 560px) {  /* the grid scrolls sideways inside its wrap; the criterion column stays in view */
@@ -594,8 +607,8 @@ pre.cmd > button.stop::before { content: "✕ "; color: var(--stop); }
 /* ---------- 9e. Tour: real screenshots with numbered pins ---------- */
 .tour { list-style: none; margin: 1rem 0 1.5rem; padding: 0; display: grid; gap: 1.75rem; counter-reset: tour; max-width: none; }
 .tour > li { counter-increment: tour; margin: 0; }
-.shot { position: relative; margin: 0 0 .75rem; }
-.shot img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); }
+.shot { position: relative; margin: .5rem .5rem 1.25rem; }
+.shot img { display: block; width: 100%; height: auto; border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: 0 0 0 .5rem var(--well), 0 0 0 calc(.5rem + 1px) var(--line); }
 .pin { position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%); width: 1.9rem; height: 1.9rem; display: grid; place-items: center; border: 3px solid var(--card); border-radius: 50%; outline: 2px solid var(--here); background: var(--here); color: var(--on-here); font-family: var(--font-head); font-weight: 700; font-size: var(--size-s); line-height: 1; }
 @media (max-width: 560px) { .pin { width: 1.4rem; height: 1.4rem; border-width: 2px; font-size: var(--size-xs); } }  /* a phone shrinks the screenshot, so the pin shrinks with it */
 .tour > li > h3 { display: flex; gap: .6rem; align-items: center; margin: 0 0 .25rem; font-size: var(--size-1); }
@@ -880,6 +893,15 @@ div.duo > :is(ul, ol, div, section, figure, aside) { margin-top: 0; margin-botto
 .duo .timeline li::before { top: .12rem; }
 .duo .timeline li::after { left: calc(.55rem - 1.5px); right: auto; top: 1.3rem; bottom: -.1rem; width: 3px; height: auto; }
 .duo .timeline li:last-child::after { display: none; }
+/* on a phone every timeline runs down the page the same way, so its points read as one line, not as separate bars */
+@media (max-width: 560px) {
+  .timeline { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .timeline li { padding: 0 0 1rem 2rem; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li::before { top: .12rem; }
+  .timeline li::after { left: calc(.55rem - 1.5px); right: auto; top: 1.3rem; bottom: -.1rem; width: 3px; height: auto; }
+  .timeline li:last-child::after { display: none; }
+}
 @media (max-width: 759px) { .duo { grid-template-columns: minmax(0, 1fr); } }
 
 /* columns: what to trust, what to check, what to do. Each column is one state: a glyph and a word in the head, a 3 px rule on top. */
@@ -1079,7 +1101,7 @@ details.fold > :nth-child(2) { padding-top: 1rem; }
 details.fold > :last-child { padding-bottom: 1rem; }
 
 /* ---------- 11. Closing: recap and the ask ---------- */
-.recap { margin: 0 0 1.5rem; padding: 0 .25rem; max-width: none; }
+.recap { margin: 0 0 1.5rem; padding: 1rem 1.25rem 1.1rem; max-width: none; background: var(--memory); border: 1px solid var(--memory-line); border-radius: var(--r-comp); }
 .recap h2 { margin-bottom: .6rem; font-size: 1.333rem; }
 .recap ol { margin: 0; padding-left: 1.4rem; font-size: .917rem; }
 .ask { margin: 0 0 2rem; padding: 1.25rem 1.5rem; border: 2.5px solid var(--decide); border-radius: var(--r-chapter); background: var(--card); }
@@ -1087,6 +1109,9 @@ details.fold > :last-child { padding-bottom: 1rem; }
 .ask .choices { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1rem 0 .5rem; }
 .ask .choices > * { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .15rem .6rem; min-height: 44px; padding: .55rem 1.1rem; text-align: left; border-radius: var(--r-comp); border: 1.5px solid var(--line-strong); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; text-decoration: none; }
 .ask .choices > *[data-rec] { border-color: var(--decide); background: var(--decide-tint); }
+.ask .choices > [aria-pressed="true"] { border-color: var(--here); box-shadow: 0 0 0 2px var(--here); }
+.ask .choices > [aria-pressed="true"]::before { content: "✓"; color: var(--here); font-weight: 700; }
+.ask .ask-say { margin: .4rem 0 0; color: var(--ink-soft); font-size: var(--size-s); }
 .ask .choices > *[data-rec]::after { content: "★ Recommended"; flex: none; white-space: nowrap; padding: .1rem .7rem; border-radius: var(--r-chip); background: var(--decide); color: var(--on-decide); font: 600 var(--size-xs)/1.5 var(--font-head); }
 
 /* ---------- 12. Skim mode ---------- */
@@ -1128,6 +1153,11 @@ body[data-focus="on"] .focus-nav { display: flex; }
 .answer-field > legend + * { clear: both; }
 .answer-field > label:not(:first-child) { display: flex; align-items: center; gap: .6rem; margin: .4rem 0; padding: .55rem .8rem; border: 1.5px solid var(--line); border-radius: var(--r-comp); cursor: pointer; }
 .answer-field > label:not(:first-child):has(:checked) { border-color: var(--here); background: var(--here-tint); }
+.answer-field input[type="radio"], .answer-field input[type="checkbox"] { accent-color: var(--here); }
+@media (max-width: 560px) {
+  .answer-field > label[data-rec]:not(:first-child) { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: .6rem; row-gap: .35rem; }
+  .answer-field > label[data-rec]::after { grid-column: 2; justify-self: start; }
+}
 .answer-field[data-kind="scale"] > label:not(:first-child), .answer-field[data-kind="confirm"] > label:not(:first-child) { display: inline-flex; margin-right: .5rem; }
 .answer-field input[type="radio"], .answer-field input[type="checkbox"] { flex: none; width: 1.25rem; height: 1.25rem; margin: 0; accent-color: var(--here); }
 .answer-field textarea { display: block; width: 100%; min-height: 4.5rem; margin: .5rem 0 0; padding: .65rem .8rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; line-height: 1.5; resize: vertical; }
@@ -1164,8 +1194,9 @@ body[data-focus="on"] .focus-nav { display: flex; }
 .rank-box > .hint { margin: .1rem 0 0; }
 .rank-box > .rank-empty { margin: .6rem 0 0; font-size: var(--size-s); max-width: none; }
 /* the recommended option wears a ★ chip with the attribute's own words ("Recommended", "My pick"); the star is the only glyph CSS writes */
-.answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
+.answer-field > label[data-rec]::after { content: "★ " attr(data-rec); flex: none; padding: .05rem .65rem; border-radius: var(--r-chip); background: var(--decide); color: var(--on-decide); font: 600 var(--size-xs)/1.5 var(--font-head); white-space: nowrap; }
 .collect { position: fixed; left: 0; right: 0; bottom: max(.75rem, env(safe-area-inset-bottom)); z-index: 45; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; width: min(100% - 1.5rem, 46rem); margin: 0 auto; padding: .6rem .9rem; background: var(--card); border: 1.5px solid var(--line-strong); border-radius: var(--r-comp); box-shadow: var(--shadow-float); }
+@media (max-width: 560px) { body:has(.collect:not([hidden])) .page { padding-bottom: 11rem; } }  /* the two-row bar never covers the recap */
 .collect .respondent { flex: 1 1 8rem; min-width: 0; padding: .45rem .7rem; border: 1.5px solid var(--line-strong); border-radius: 8px; background: var(--paper); color: var(--ink); font: inherit; font-size: var(--size-s); }
 .collect .count { color: var(--ink-soft); font-size: var(--size-s); white-space: nowrap; }
 .collect button { padding: .5rem .9rem; border: 2px solid var(--here); border-radius: var(--r-comp); background: var(--card); color: var(--ink); font-family: var(--font-head); font-weight: 600; font-size: var(--size-s); }
@@ -1277,7 +1308,7 @@ html:not(.js) .ballot-tray { display: none; }
 /* the picked mark hangs from the top right corner. It is drawn on .name (which is not positioned, so the corner is the option's) to leave ::after free for the consequence chip */
 .ballot-opt[aria-checked="true"] .name::after, .ballot-opt.on .name::after { content: "✓"; position: absolute; top: -.8rem; right: .8rem; display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--here); color: var(--on-here); font: 700 var(--size-s)/1 var(--font-head); }
 .ballot-opt[data-warn]::after { content: "⚠ " attr(data-warn); align-self: end; justify-self: start; max-width: 100%; padding: .1rem .65rem; border-radius: var(--r-comp); background: var(--wait); color: var(--on-wait); font: 600 var(--size-xs)/1.4 var(--font-head); }  /* a consequence chip: the cost in words, amber, with a ⚠, so it never leans on colour alone; the last row of its option, under the toggle on a multi card */
-.ballot-opt[data-rec]::before { content: "★ " attr(data-rec); position: absolute; top: -.8rem; left: .8rem; z-index: 1; padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--go); color: var(--on-go); font: 600 var(--size-xs) var(--font-head); }
+.ballot-opt[data-rec]::before { content: "★ " attr(data-rec); position: absolute; top: -.8rem; left: .8rem; z-index: 1; padding: .1rem .65rem; border-radius: var(--r-chip); background: var(--decide); color: var(--on-decide); font: 600 var(--size-xs) var(--font-head); }
 .ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] { border-color: var(--line); }
 .ballot-card:not([data-kind="multi"]).picked .ballot-opt[aria-checked="false"] .vis { opacity: .6; }  /* a faded picture; the words stay at full contrast */
 .ballot-opt .vis { display: block; min-height: 6.5rem; padding: .7rem; background: var(--well); border: 1px solid var(--line); border-radius: 8px; color: var(--ink); font-size: var(--size-xs); line-height: 1.35; overflow: hidden; overflow-wrap: break-word; }
@@ -1820,7 +1851,7 @@ const T = {
         bkGroup: 'Bucket for {item}', bkRec: '{b}, recommended', bkMoved: '{item} moved to {b}', bkOk: 'These picks are right', bkTitle: 'Order your {b} items', bkHint: 'Only {b} gets an order. First item on top.',
         bkEmpty: 'Nothing is in {b}. Tap {b} on an item above to add it here.', bkSame: 'All {m} match ★', bkDiff: '{n} of {m} changed from ★', bkOrder: 'Same buckets as ★, new order',
         bkAll: 'all ★ (recommended)', bkSome: '{n} changed from ★', bkNew: 'same buckets as ★, new order' },
-  ja: { of: '第{n}章 / 全{m}章', step: '{n} / {m}', ans: '{n} / {m} 回答済み', head: '{name} の回答（{date}）', anon: '匿名', none: '未回答',
+  ja: { of: '第{n}章 / 全{m}章', step: '{n} / {m}', ans: '{n} / {m} 回答済み', head: '{name}の回答（{date}）', anon: '匿名', none: '未回答',
         read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を読みました',
         pickN: '{n} / {m} 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '{k} を入れる', shipNone: 'どれも入れない',
         pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '{k} を入れる', pickNone: 'どれも入れない', pickUse: '未選択（★を採用）',
@@ -1840,8 +1871,8 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light' });
-Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Tap an option to pick it.' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をタップして選びます。' });
 const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 /* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
 function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
@@ -1900,16 +1931,17 @@ qa('.lane li[id], .backlog-top > li[id]').forEach(li => {
 
 /* field guide: the map's counts and bars, the index's search and filter, rows that open, and the way a jump opens what it lands on. Every count is
    worked out from the entries, so none can drift. Without this the tiles show a name and a line, and every entry reads open. */
-Object.assign(T.en, { fgRel: ['Now', 'Next', 'Later'], fgAll: 'All', fgSearch: 'Search the guide', fgHint: 'Name, definition or example', fgGroup: 'Show fields that matter', fgShow: 'Showing {n} of {m} fields', fgOnly: ', {l} only', fgFor: ', matching "{q}"', fgEnd: '.',
-  fgNone: 'Nothing here matches.', fgHid: '{n} hidden by the filter', fgHidQ: '{n} hidden by the filter or search', fgLink: 'Copy link to this field', fgLinked: 'Link copied', fgKey: 'The bar under each family:', fgN: '{n} {l}', fgJoin: ', ' });
+Object.assign(T.en, { fgRel: ['Now', 'Next', 'Later'], fgAll: 'All', fgSearch: 'Search the guide', fgHint: 'Name, definition or example', fgGroup: 'Show {w} that matter', fgShow: 'Showing {n} of {m} {w}', fgOnly: ', {l} only', fgFor: ', matching "{q}"', fgEnd: '.',
+  fgNone: 'Nothing here matches.', fgHid: '{n} hidden by the filter', fgHidQ: '{n} hidden by the filter or search', fgLink: 'Copy link to this {one}', fgLinked: 'Link copied', fgKey: 'The bar under each family:', fgN: '{n} {l}', fgJoin: ', ' });
 Object.assign(T.ja, { fgRel: ['今すぐ', '次に', 'あとで'], fgAll: 'すべて', fgSearch: 'ガイドを検索', fgHint: '名前、説明、例', fgGroup: '表示する分野', fgShow: '{m}件中{n}件を表示', fgOnly: '（{l}のみ）', fgFor: '、「{q}」に一致', fgEnd: '。',
   fgNone: '一致するものはありません。', fgHid: 'フィルターで{n}件を非表示', fgHidQ: 'フィルターまたは検索で{n}件を非表示', fgLink: 'この項目へのリンクをコピー', fgLinked: 'リンクをコピーしました', fgKey: '各領域の下のバー：', fgN: '{l}{n}件', fgJoin: '、' });
 let fgReveal = () => false;  /* a jump to an entry or a family opens it; the link handler below calls this first */
 {
   const REL = ['now', 'next', 'later'], GLYPH = ['●', '◐', '○'], fgx = $('.index'), fgFams = qa('details.family-index'), fgEntries = qa('.entry', fgx || d);
   const labels = (fgx?.dataset.relLabels || '').split('|').map(s => s.trim()).filter(Boolean), relName = r => labels[REL.indexOf(r)] || L.fgRel[REL.indexOf(r)] || r;
+  const [one, w] = (fgx?.dataset.noun || 'field|fields').split('|');  /* what an entry is called: data-noun="practice|practices" */
   const fgTally = el => { const c = { now: 0, next: 0, later: 0 }; qa('.entry', el).forEach(e => { if (e.dataset.rel in c) c[e.dataset.rel]++; }); return c; };
-  const said = c => REL.filter(r => c[r]).map(r => fmt(L.fgN, { n: c[r], l: relName(r).toLowerCase() })).join(L.fgJoin);
+  const said = c => REL.filter(r => c[r]).map(r => fmt(L.fgN, { n: c[r], l: relName(r).replace(/^[A-Z](?![A-Z])/, c => c.toLowerCase()) })).join(L.fgJoin);
   const setOpen = (e, o) => { e.classList.toggle('is-open', o); $('.entry-row', e)?.setAttribute('aria-expanded', o); };
   /* the map: each tile gets a three-part bar and its counts, both read off the family it links to, and the whole map gets a key in the index's own words */
   const terr = $('.territory');
@@ -1924,7 +1956,7 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
     let tools = $('.guide-tools', fgx); if (!tools) fgx.prepend(tools = make('div', 'guide-tools', ''));
     tools.innerHTML = '<label class="guide-search"><span></span><input type="search" autocomplete="off" spellcheck="false"></label><div class="guide-filters" role="group"></div><div class="guide-status" role="status" aria-live="polite"></div>';
     const box = $('input', tools), group = $('.guide-filters', tools), say = $('.guide-status', tools), picks = REL.concat('all');
-    $('.guide-search span', tools).textContent = L.fgSearch; box.placeholder = L.fgHint; group.setAttribute('aria-label', L.fgGroup);
+    $('.guide-search span', tools).textContent = L.fgSearch; box.placeholder = L.fgHint; group.setAttribute('aria-label', fmt(L.fgGroup, { w }));
     const btns = picks.map(r => { const b = make('button', '', ''); b.type = 'button'; b.dataset.filter = r; group.append(b); return b; });
     /* a row per entry: the name, the relevance word and the definition become one button that opens the rest; the copy-link button joins the body */
     fgEntries.forEach(e => {
@@ -1933,8 +1965,8 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       row.type = 'button'; row.setAttribute('aria-expanded', 'false');
       row.append(name, rel); if (def) { row.append(make('span', 'def', def.innerHTML)); def.remove(); }
       e.prepend(row);
-      const cl = make('button', 'copy-link', esc(L.fgLink)); cl.type = 'button'; body.append(cl);
-      new MutationObserver(() => { cl.textContent = cl.classList.contains('go') ? L.fgLinked : L.fgLink; }).observe(cl, { attributes: true, attributeFilter: ['class'] });
+      const cl = make('button', 'copy-link', esc(fmt(L.fgLink, { one }))); cl.type = 'button'; body.append(cl);
+      new MutationObserver(() => { cl.textContent = cl.classList.contains('go') ? L.fgLinked : fmt(L.fgLink, { one }); }).observe(cl, { attributes: true, attributeFilter: ['class'] });
     });
     /* each family header carries the same derived counts as its tile, and says how many entries the filter or search is hiding */
     fgFams.forEach(f => {
@@ -1968,7 +2000,7 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       if (q && !searching) { searching = true; fgFams.forEach(f => was.set(f, f.open)); }
       if (q) fgFams.forEach(f => { f.open = !!qa('.entry:not(.is-out)', f).length; });
       else if (searching) { searching = false; fgFams.forEach(f => { f.open = was.get(f); }); }
-      say.textContent = fmt(L.fgShow, { n, m: fgEntries.length }) + (filter === 'all' ? '' : fmt(L.fgOnly, { l: relName(filter) })) + (q ? fmt(L.fgFor, { q }) : '') + L.fgEnd;
+      say.textContent = fmt(L.fgShow, { n, m: fgEntries.length, w }) + (filter === 'all' ? '' : fmt(L.fgOnly, { l: relName(filter) })) + (q ? fmt(L.fgFor, { q }) : '') + L.fgEnd;
     };
     on(box, 'input', apply); on(box, 'search', apply);
     on(group, 'click', e => { const b = e.target.closest?.('button'); if (b) { filter = b.dataset.filter; apply(); } });
@@ -2062,7 +2094,7 @@ finish();
    The tool buttons sit in one panel behind one button: in the rail on a wide screen, at the end of the meta line below 1100 px. Escape and a
    click outside close it. Without script the panel never shows, because nothing in it would work. */
 Object.assign(T.en, { tools: 'Reading tools', sizeDn: 'Smaller text', sizeNo: 'Normal text size', sizeUp: 'Larger text', railOf: '{n} of {m} read', min: '{n} min' });
-Object.assign(T.ja, { tools: '読みやすさ', sizeDn: '文字を小さく', sizeNo: '標準の文字サイズ', sizeUp: '文字を大きく', railOf: '{m}章中{n}章 読了', min: '約{n}分' });
+Object.assign(T.ja, { tools: '読みやすさ', sizeDn: '文字を小さく', sizeNo: '標準の文字サイズ', sizeUp: '文字を大きく', railOf: '{m}章中{n}章を読了', min: '約{n}分' });
 const rail = $('.rail'), railList = $('ol', rail), railLinks = rail ? qa('a[href^="#"]', rail) : [], panel = $('.tools');
 let railBar = null;
 railLinks.forEach(a => {
@@ -2112,7 +2144,10 @@ if (panel) {
     if (host) { host.after(bar); bar.after(panel); }
     else { const spot = $('.meta') || $('main h1'); if (spot?.matches('.meta')) spot.append(bar, panel); else spot?.after(bar, panel); }
   };
-  const show = o => { panel.hidden = !o; toggle.setAttribute('aria-expanded', o); };
+  const show = o => {
+    panel.hidden = !o; toggle.setAttribute('aria-expanded', o);
+    if (o && rail?.contains(panel)) { const over = panel.getBoundingClientRect().bottom - innerHeight + 16; if (over > 0) rail.scrollTop += over; }  /* a short laptop screen: the panel opens below the chapter list */
+  };
   on(toggle, 'click', () => show(panel.hidden));
   on(d, 'click', e => { if (!panel.hidden && !e.target.closest?.('.tools, .tools-bar, dialog')) show(false); });
   on(d, 'keydown', e => { if (e.key === 'Escape' && !panel.hidden && !dlg?.open) { show(false); toggle.focus(); } });
@@ -2527,7 +2562,7 @@ const pack = () => {
   });
   return o;
 };
-const markdown = o => '# ' + o.title + ': ' + fmt(L.head, o) + ' (' + o.lang + ')\n'
+const markdown = o => '# ' + o.title + L.mdJoin + fmt(L.head, o) + ' (' + o.lang + ')\n'  /* merge.html reads this line by position: keep the ISO date and the (lang) */
   + o.answers.map(x => '\n## [' + x.q + '] ' + x.question + '\n' + x.answer + '\n').join('')
   + (o.unanswered.length ? '\n## ' + L.none + '\n' + o.unanswered.map(x => '[' + x.q + '] ' + x.question + '\n').join('') : '');
 const flash = (b, ok) => { b.classList.add(ok ? 'go' : 'stop'); setTimeout(() => b.classList.remove('go', 'stop'), 1600); };
@@ -2557,8 +2592,8 @@ on(bar, 'click', e => {
 Object.assign(T.en, { roLabel: 'Steps, in order', roDone: 'Done: {t}', roNext: 'Next', roCount: '{n} of {m} done', stepDone: 'Done',
   filmLabel: 'Tour screens, scrolls sideways', rlLabel: 'Your rulings', rlQ: 'The question', rlRec: 'We recommend', rlState: 'State', rlNeed: 'Needs your ruling', rlNone: 'No pick yet', rlAns: 'Answered', rlCount: '{n} of {m} ruled',
   qpLabel: 'Your questions', qpDot: 'Question {n}: {t}', qpYes: 'answered', qpNo: 'not answered' });
-Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext: '次', roCount: '{m}件中{n}件 完了', stepDone: '完了',
-  filmLabel: 'ツアーの画面（横にスクロール）', rlLabel: '判断の一覧', rlQ: '判断すること', rlRec: 'おすすめ', rlState: '状態', rlNeed: '判断が必要です', rlNone: '未選択', rlAns: '回答済み', rlCount: '{m}件中{n}件 判断済み',
+Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext: '次', roCount: '{m}件中{n}件が完了', stepDone: '完了',
+  filmLabel: 'ツアーの画面（横にスクロール）', rlLabel: '判断の一覧', rlQ: '判断すること', rlRec: 'おすすめ', rlState: '状態', rlNeed: '判断が必要です', rlNone: '未選択', rlAns: '回答済み', rlCount: '{m}件中{n}件を判断済み',
   qpLabel: '質問の一覧', qpDot: '質問{n}：{t}', qpYes: '回答済み', qpNo: '未回答' });
 {
   const refresh = [], safe = f => { try { f(); } catch (e) {} };
@@ -2639,6 +2674,39 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
       g.append(row); host.append(g);
     }));
   });
+
+  /* the ask: a tap picks a choice and copies a one-line reply ("Question: choice") to paste into the chat */
+  safe(() => qa('.ask').forEach(ask => {
+    const cs = qa('.choices > *', ask); if (!cs.length) return;
+    const qp = $('.choices', ask).previousElementSibling, q = txt(qp?.matches('p') ? qp : $('h2', ask) || ask), say = make('p', 'ask-say', '');  /* the question is the line above the choices */ say.setAttribute('aria-live', 'polite'); $('.choices', ask).after(say);
+    cs.forEach(c => {
+      c.setAttribute('role', 'button'); c.setAttribute('aria-pressed', 'false');
+      if (!c.matches('a[href], button')) { c.tabIndex = 0; on(c, 'keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); } }); }
+      on(c, 'click', e => {
+        e.preventDefault(); cs.forEach(x => x.setAttribute('aria-pressed', x === c));
+        const line = q + (/[?？]$/.test(q) ? ' ' : L.askJoin) + txt(c), done = m => { say.textContent = m; }, no = () => done(fmt(L.askReply, { t: line }));
+        try { navigator.clipboard?.writeText ? navigator.clipboard.writeText(line).then(() => done(L.askCopied), no) : no(); } catch (er) { no(); }
+      });
+    });
+  }));
+
+  /* a decision card and the tap field after it ask once: the card's options become the radios, in order, and the field keeps only its reason box */
+  safe(() => qa('.decision').forEach(dec => {
+    let f = null;
+    for (let x = dec.nextElementSibling; x && !x.matches('.decision'); x = x.nextElementSibling) if (x.matches('.answer-field[data-kind="choice"]')) { f = x; break; }
+    const opts = qa('.options > .option', dec), rs = f ? qa(':scope > label input[type="radio"]', f) : [];
+    if (!opts.length || opts.length !== rs.length) return;
+    dec.classList.add('paired'); f.classList.add('paired');
+    const group = $('.options', dec); group.setAttribute('role', 'radiogroup'); group.setAttribute('aria-label', txt($('h3', dec) || $('legend', f) || dec));
+    group.after(make('p', 'pick-hint', esc(L.decPick)));
+    const sync = () => opts.forEach((o, i) => o.setAttribute('aria-checked', rs[i].checked));
+    opts.forEach((o, i) => {
+      o.setAttribute('role', 'radio'); o.tabIndex = 0;
+      on(o, 'click', e => { if (e.target.closest('a, button, summary, input, textarea')) return; rs[i].checked = true; ['input', 'change'].forEach(t => rs[i].dispatchEvent(new Event(t, { bubbles: true }))); sync(); });
+      on(o, 'keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); } });
+    });
+    on(f, 'change', sync); sync();
+  }));
 
   /* decision: a row per .decision card. It waits as "Needs your ruling" until the answer field after the card has an answer, then names the choice. */
   safe(() => {

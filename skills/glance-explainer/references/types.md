@@ -2,7 +2,7 @@
 
 Set the type on `<html data-type="...">`. Every type keeps the core contract (answer bar, keep box, at a glance, chapter map, chapters, recap). Each entry adds only what that type needs. A page with no type is a plain `explainer`.
 
-**At a glance.** Each entry names the picture its page opens with. It goes in a `section.glance` straight after the keep box and before the chapter map. The section holds a `div.glance-head` (an `h2` and an optional `span.chip`), the picture, and a `p.take` (or the picture's own `figcaption.take`). It is not a chapter, so it has no kicker, no read-aloud and no Done. The chapter that explains the glance picture builds on it and does not repeat it. A roadmap, a playbook and a field guide have none, because their lanes, phase strip and territory already open the page.
+**At a glance.** Each entry names the picture its page opens with. It goes in a `section.glance` straight after the keep box and before the chapter map. The section holds a `div.glance-head` (an `h2` and an optional `span.chip`), the picture, and a `p.take` (or the picture's own `figcaption.take`). It is not a chapter, so it has no kicker, no read-aloud and no Done. The chapter that explains the glance picture builds on it and does not repeat it: a chapter adds what the glance leaves out (the evidence, the steps, the commands, the detail). When a type's chapter list names a part the glance already shows, merge the two. A playbook has no glance, because its phase strip opens the page. A roadmap's glance is its lanes and a field guide's glance is its territory (since 2.2.0; before, they sat in chapter 1, below the first screen, and older pages still pass).
 
 Some glance pictures are **derived**. You write an empty placeholder and the take line, and the script fills the placeholder from parts already on the page, so nothing is typed twice. Without script the placeholder stays empty and the glance still shows its take line.
 
@@ -17,7 +17,7 @@ The reader needs to understand one thing, and no more specific type fits. This i
 Three to seven chapters, one idea each, in the order the reader needs them. Add an ask only when a decision is needed.
 
 ### Required components
-**At a glance:** the one figure that carries the idea (`figure.figure` with its `figcaption.take`).
+**At a glance:** the one picture that carries the idea, including the part the answer is about: an `ol.flow` for a straight sequence, a `figure.figure` with its `figcaption.take` only when the idea branches or nests.
 
 ### Checker rules
 The core rules only. No extra rules.
@@ -39,7 +39,7 @@ One chapter per option or ruling, each with a split or a small diagram. Then the
 A `.decision` card for each ruling, one option marked recommended, and a line saying what happens if the reader does nothing. The page ends in one of two ways.
 
 - **A typed reply.** A closing `section.ask`.
-- **Taps.** Each chapter's `.decision` card is followed by its own `fieldset.answer-field[data-kind="choice"]`. The recommended option's label carries `data-rec="Recommended"`, which shows a ★ chip. One `.collect` bar sits after the recap, outside the chapters, so one-chapter mode never hides it. The reader taps an option per ruling, then copies every answer back.
+- **Taps.** Each chapter's `.decision` card is followed by its own `fieldset.answer-field[data-kind="choice"]`, with one radio per `.option`, in the same order, and the card's question as its legend. The script then makes the card's options the radios and hides the field's legend and labels, so the question is asked once and the reader taps the option card itself; the field's reason box stays. The recommended option's label carries `data-rec="Recommended"`, which shows a ★ chip. One `.collect` bar sits after the recap, outside the chapters, so one-chapter mode never hides it. The reader taps an option per ruling, then copies every answer back.
 
 An option may carry `data-warn="Can't undo"`, a chip that names its cost in words.
 
@@ -58,7 +58,7 @@ The reader needs to know where things stand and what comes next.
 A timeline chapter, a status board chapter, a "since last time" list, and a next-steps chapter. Add an ask only if something is blocked on the reader.
 
 ### Required components
-**At a glance:** a `div.duo` with `ul.status` beside `ol.timeline` (one `li.here`), and the one blocker as a `div.callout` under it.
+**At a glance:** the one blocker as a `div.callout` straight under the glance head, then a `div.duo` with `ul.status` beside `ol.timeline` (one `li.here`). The blocker comes first because it is the reason the reader is here.
 
 `ol.timeline` with one `li.here`, `ul.status` for the health of each item, a short list of what changed since last time, `ol.steps` for what happens next.
 
@@ -79,7 +79,7 @@ What it does (a flow). What changes for you (a split, plus a wireframe when a sc
 ### Required components
 **At a glance:** a `div.duo` with the before and after `figure.frame` drawings beside a verdict: approve or hold, and the check count.
 
-`ol.flow`, `div.split`, `ul.status` for the checks, a `div.callout` for each risk, `section.ask`.
+`ol.flow`, `div.split`, `ul.status` for the checks, a `div.risks` of `article.risk` for the risks (a `p.kept` names each safeguard; a callout is not a picture and fails the checker), `section.ask`.
 
 ### Checker rules
 At least one `.split` and one `.status`.
@@ -153,7 +153,7 @@ The reader owns several projects and needs to see all of them at once: what move
 A status board with one row per project. What moved since last time. What is blocked and why, one callout each. What waits on the reader, most valuable first. Add an ask only when one decision unblocks several projects.
 
 ### Required components
-**At a glance:** `ul.status` grouped under `h3` headings, most urgent first: Needs you, Moving, Stalled.
+**At a glance:** `ul.status` grouped under `h3` headings, most urgent first: Needs you, Moving, Stalled, and Healthy or Not started when a project fits neither.
 
 `ul.status` with one row per project: the dot is the health, the first words say what changed. `ol.steps` for what waits on the reader. A `table.grid` helps when the projects share the same few measures.
 
@@ -188,15 +188,15 @@ What happens to the invoice you upload.
 A newcomer must learn one system well enough to work with it.
 
 ### Chapter composition
-One chapter per layer or step of the system, the easiest first. Each defines its new words in a term box and shows its idea in a figure. Finish with a short chapter of steps the newcomer can try.
+One chapter per layer or step of the system, the easiest first. Each shows its idea in a picture, and defines a new word in a term box where it first appears. Finish with a short chapter of steps the newcomer can try.
 
 ### Required components
 **At a glance:** `ol.layers`, easiest first. Each `li` has a `b` name, a `span` line and a `span.terms` of `span` chips for the layer's new words. Exactly one `li.here` marks where the newcomer is, and CSS prints "You are here" on it.
 
-`dl.term` in every chapter, under the first use of a new word. `figure.figure` in every chapter. `p.from` restating what the last chapter gave.
+`dl.term` under the first use of each new word (a chapter with no new word needs none). A picture in every chapter: `ol.flow` for a sequence, a `figure.figure` for a branch or a layer diagram. `p.from` restating what the last chapter gave.
 
 ### Checker rules
-At least one `dl.term`. A warning for each chapter without a `dl.term`, and for each chapter without a `figure.figure`. An `ol.layers` fails unless it has exactly one `li.here`.
+At least one `dl.term`. An `ol.layers` fails unless it has exactly one `li.here`.
 
 ### Example topic
 How an order travels through the shop, for someone on their first day.
@@ -269,7 +269,7 @@ The grid first: options across, criteria down. Then one chapter for each criteri
 ### Required components
 **At a glance:** the `table.grid` itself. It opens the page, so the first chapter is the first criterion that decides, not the grid again.
 
-`table.grid` inside a `div.grid-wrap`, with a `caption`, a `th[scope="col"]` for each option, `data-rec` on the recommended option's header, a `th[scope="row"]` for each criterion, and a state class (`go`, `wait`, `stop` or `decide`) on each cell, with a few words beside the glyph. A `p.take` straight after the grid says what it shows. On a phone the grid scrolls sideways and the criterion column stays in view.
+`table.grid` inside a `div.grid-wrap`, with a `caption`, a `th[scope="col"]` for each option, `data-rec` on the recommended option's header, a `th[scope="row"]` for each criterion, and a state class (`go`, `wait`, `stop` or `decide`) on each cell that judges the option, with a few words beside the glyph. A cell that only states a fact, such as a price or a name, takes no state, so colour never grades what is not a judgement. A `p.take` straight after the grid says what it shows. On a phone the grid scrolls sideways and the criterion column stays in view.
 
 ### Checker rules
 At least one `table.grid`. It fails for a grid with fewer than two option columns or fewer than three body rows.
@@ -283,10 +283,10 @@ Three ways to store uploaded files.
 The reader needs to know what is under way now, what is next, what is later, and what depends on what.
 
 ### Chapter composition
-The lanes. What unblocks the most. What is left off the roadmap on purpose, parked with the reason and what would restore it. A long list of ideas may take one more chapter, "What else waits?" (the backlog view below), and the page stays at seven chapters or fewer.
+What is under way now and why. What unblocks the most, when items wait on each other (when everything waits on something outside the roadmap, say what and when instead). What is left off the roadmap on purpose, parked with the reason and what would restore it (`div.parked-shelf`). A long list of ideas may take one more chapter, "What else waits?" (the backlog view below), and the page stays at seven chapters or fewer.
 
 ### Required components
-**At a glance:** none. The lanes already open the page.
+**At a glance:** the `.lanes` themselves, in the `section.glance` after the keep box, so they open the page. Parked items live in one place: the parked chapter, or the `details.fold.parked` under the lanes when there is no such chapter.
 
 `.lanes` holding exactly three `.lane`, with `data-lane` set to `now`, `next` and `later`. Each lane has an `h3`, a `p.lane-note` and a `ul` of items. Under the answer bar sits `p.asof`: "A plan, not a promise. Items move as we learn."
 
@@ -367,14 +367,14 @@ The reader needs to get oriented in a whole field of work once, then come back t
 ### Chapter composition
 Three chapters, in this order, each with its kicker, a question heading, a visual and a remember line.
 
-1. "Where does everything fit?" holds the territory map.
+1. "Where does everything fit?" explains how to read the territory map above it (since 2.2.0 the territory is the glance).
 2. "Which ones cannot wait?" holds the start-here list.
 3. "Look something up" holds the index.
 
 The recap closes it. There is no `section.ask`, because a guide asks nothing. The chapter map is optional, because the rail and the territory already navigate. The reading path is the answer bar, the keep box, the map and the start-here list. The index sits outside it, so the usual word limits do not count it.
 
 ### Required components
-**At a glance:** none. The territory already opens the page.
+**At a glance:** the `div.territory`, in the `section.glance` after the keep box, so it opens the page; chapter 1 then explains how to read it instead of holding it. `data-here` is optional: a reference often has no place where the reader is.
 
 `div.territory` holds `div.stage` blocks, each with an `h3` naming the stage. One stage carries `data-here`, and CSS prints "You are here" on it, the way a lane prints its state word. Families no stage owns go in a `div.stage[data-across]` band. A stage holds `a.family[href="#fam-<id>"]` tiles, each with a bold name in `b` and a one-line `span`. The tiles carry no digits. The script reads the entries of the family a tile links to and adds a three-part bar (solid for the first relevance, hatched for the second, grey for the third), the counts in words ("11 now, 1 before launch, 1 later") and a key under the map, all in the index's own labels. Without script a tile shows its name and line.
 

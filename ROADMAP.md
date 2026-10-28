@@ -18,7 +18,7 @@ None of these has started yet. October went to the page redesign (1.8.0 and 1.8.
 
 ## Next: December 2026
 
-- **Optional browser check.** `check.mjs --render` opens the page in a local Chrome at phone and desktop widths and reports sideways scroll, words split across lines and clipped commands. It runs only when Playwright is installed. *Why:* the 1.3.0 layout defects were invisible to the static checker.
+- **Optional browser check.** `check.mjs --render` opens the page in a local Chrome at phone and desktop widths and reports sideways scroll, words split across lines and clipped commands. It runs only when Playwright is installed. *Why:* the 1.3.0 layout defects were invisible to the static checker. *Evidence (28 October):* an audit built 23 fresh pages; all passed the checker, and reviewers still found 30-odd problems only a browser shows. Its render script is the prototype.
 - **Tested installs in other agents.** Codex, Gemini CLI, Cursor and Copilot, each with a recorded install and one finished page. Add a Codex plugin manifest and a Gemini extension if those routes keep the folders intact.
 - **claude.ai upload.** A zip per skill attached to each GitHub release, with skill descriptions short enough for the upload form.
 - **Publish where Claude publishes.** When the agent can publish a page as a Claude artifact, it offers that link next to the file.
@@ -38,6 +38,7 @@ None of these has started yet. October went to the page redesign (1.8.0 and 1.8.
 | New page types | Seventeen types plus gather and atlas cover every request seen so far. The field guide was added on 14 October 2026 because a real page fought the explainer contract. More types would spread the checker thin before outsiders have tried the current ones. | An outside user brings content that no current type can hold. |
 | Motion companion (animated walkthroughs) | Parked on 9 October 2026. It needs a Claude Code hook or API to drive it. | A supported hook or API that can render motion from a page. |
 | A hosted service or paid tier | Pages work offline as single files, and everything that makes them useful is in public files. | Teams asking for something that cannot be a file. |
+| A phone-first layout (first-screen budget, stacked grids, compact header) | Parked on 28 October 2026. Pages are mostly opened as files on a desktop; phones only have to not break, and ballots and questionnaires keep their phone checks. | Evidence that readers open pages on phones, for example pages shared as links becoming the main way they travel. |
 
 ## Review
 
@@ -45,6 +46,8 @@ On 12 December 2026 this roadmap is reviewed against outside feedback and the re
 
 ## Recently shipped
 
+- **2.2.0:** fixes from a 23-page build audit: the ask and decisions answer with one tap, one colour for ★, Reading tools stays in view, flows and tiles sit evenly, and `assemble.mjs` builds a page from its body.
+- **2.1.0:** a sun or moon dark switch, natural Japanese labels and typography, and a Japanese version of every example.
 - **2.0.0:** a new name, glance-explainer, because two other projects already used html-explainer. Pages look the same; old pages still count.
 - **1.9.1:** the dark or light switch is a button in sight on every page again, ballots included.
 - **1.9.0:** a working public example of every kind of page, an [examples page](https://ariasr47.github.io/glance-explainer/examples.html) on the site and a thumbnail grid in the README.

@@ -135,7 +135,9 @@ const chapters = [...html.matchAll(/<section class="chapter"[^>]*id="([^"]+)"[^>
 info.chapters = chapters.length;
 const maxChapters = type === 'atlas' ? 12 : type === 'playbook' ? 10 : 7; // the atlas menu offers twelve chapters; a playbook has more parts than an explainer
 if (!ballot && (chapters.length < 3 || chapters.length > maxChapters)) fail(`found ${chapters.length} chapters; 3 to ${maxChapters} expected`);
-const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo|territory|start-here|index|duo|cols|findings|layers|runbook-overview|filmstrip|rulings|qprogress|journey)\b/;
+const visual = /class="[^"]*\b(figure|flow|split|timeline|status|decision|tiles|steps|metaphor|sysmap|trace|matrix|stepper|views|minimap|grid|lanes|runbook|tour|promises|phase-strip|phases|frame|roles|risks|undo|territory|start-here|index|duo|cols|findings|layers|runbook-overview|filmstrip|rulings|qprogress|journey|parked-shelf|backlog-top|cutline)\b/;
+// a rank, buckets or scale field is a picture the reader works on, so it counts as the chapter's visual
+const workedVisual = /data-kind="(?:rank|buckets|scale)"/;
 const sentences = (s) => strip(s).split(ja ? /(?<=[。！？])/ : /(?<=[.!?])\s+/);
 // a field guide's index is the part the reader looks things up in, not the part they read: it stays out of the reading-path count and the paragraph limits
 const cutIndex = (s) => {
@@ -154,7 +156,11 @@ chapters.forEach(([, id, body], i) => {
   if (!/<h2\b/.test(body)) fail(`chapter #${id} has no h2`);
   if (!hasClass('p', 'remember').test(body)) fail(`chapter #${id} has no p.remember`);
   if (i > 0 && !hasClass('p', 'from').test(body)) warn(`chapter #${id} has no p.from carry-forward`);
-  if (!visual.test(body)) fail(`chapter #${id} has no visual component`);
+  if (!visual.test(body) && !workedVisual.test(body)) fail(`chapter #${id} has no visual component`);
+  // the kicker's minutes are the chapter's own reading time at RATE a minute, rounded up (assemble.mjs writes them)
+  const said = (ja ? /約\s*(\d+)\s*分/ : /about (\d+) minutes?/i).exec(strip(find('kicker', 'p', body)[0]?.inner || ''));
+  const mins = Math.max(1, Math.ceil(w / RATE));
+  if (said && +said[1] !== mins) warn(`chapter #${id}: the kicker says ${said[1]} min, the chapter reads in ${mins}; run assemble.mjs --refresh`);
   if (type !== 'atlas' && !/class="(?:[^"]*\s)?take(?:\s[^"]*)?"/.test(body)) warn(`chapter #${id} has no .take; under its picture, say in one line what it proves`);
   if (w > LIM.chapter) warn(`chapter #${id} reading path is ${w} ${unit}; aim under ${LIM.chapter}`);
   for (const p of readingPath.matchAll(/<p(?![\w-])(?![^>]*class="(?:answer|take|remember|from|nothing)")[^>]*>([\s\S]*?)<\/p>/g)) {
@@ -376,10 +382,8 @@ if (type === 'public') {
   }
 }
 if (type === 'teach') need(num('term', 'dl'), 'needs at least one dl.term');
-if (type === 'teach') for (const [id, body] of typeChapters) {
-  if (!find('term', 'dl', body).length) warn(`data-type="teach": chapter #${id} has no dl.term; define the new words where they first appear`);
-  if (!find('figure', 'figure', body).length) warn(`data-type="teach": chapter #${id} has no figure.figure; teach with a picture`);
-}
+// 2.2.0: a teach chapter needs a picture (the general rule) and a term box only where a new word appears, so no per-chapter warnings:
+// they pushed builders to draw SVG for plain sequences and to invent terms
 if (type === 'incident') {
   const longest = Math.max(0, ...find('timeline').map((t) => kids(t.inner, 'li').length));
   if (find('timeline').length && longest < 3) warn(`data-type="incident": the timeline has ${longest} item(s); tell what happened in order, 3 or more`);
