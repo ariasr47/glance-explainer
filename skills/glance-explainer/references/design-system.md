@@ -32,10 +32,10 @@ All tokens live in `:root` in `template.html`. Change them there, nowhere else.
 | Token | Meaning | Where it appears |
 |---|---|---|
 | `--here` cobalt | You are here, the answer, structure, links | the rule above the answer, rail current, map numbers, step numbers, timeline current, `d-box-here` |
-| `--go` green | Done, safe, yes, recommended | status rows, flow steps, recommended stamp, the top rule of the after card |
+| `--go` green | Done, safe, yes | status rows, flow steps, the top rule of the after card |
 | `--wait` amber | In progress, caution, needs a check | status rows, callout.warn, flow steps |
 | `--stop` red | Blocked, risk, no | status rows, callout.stop, the ✕ on a runbook failure |
-| `--decide` purple | The reader must choose | decision card, the recommended option, the ask, status rows |
+| `--decide` purple | The reader must choose, and the ★ recommended mark everywhere (decision options, the ask, answer fields, grid headers, ballot options) | decision card, the recommended option, the ask, status rows |
 | `--memory` yellow | Offloaded working memory | keep cards, remember strip, recap |
 
 Each has a `-tint` for fills. Never use a meaning colour for decoration, and never introduce a seventh colour. If two things need to be told apart and neither carries one of these meanings, use position, a border, or a label, not a new colour.
@@ -153,7 +153,7 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Status board | `ul.status` | Health of several items | One dot colour per row, one line each |
 | Timeline | `ol.timeline` | Position in time | Exactly one `li.here` |
 | Steps | `ol.steps` | Ordered actions | Bold verb first, one line, detail in a fold |
-| Tiles | `div.tiles` | Numbers that change the decision | Label says what the number means. The number is plain ink, and any state shows as a glyph and a word under it. The number never wraps and shrinks to fit its tile, so keep it short: `$24k`, not `$24,000+` |
+| Tiles | `div.tiles` | Numbers that change the decision | Label says what the number means. A state (`go`, `wait`, `stop`) is for health only; a cost, a count or a rule takes none. `data-word="On track"` replaces the state word and keeps its glyph. A lone tile stays card-sized. The number is plain ink, and any state shows as a glyph and a word under it. The number never wraps and shrinks to fit its tile, so keep it short: `$24k`, not `$24,000+` |
 | Grid | `table.grid` in `div.grid-wrap` | Options measured against the same criteria | `caption`, a column per option, a row per criterion. A cell state (`td.go .wait .stop .decide`) is a tint and a glyph. `th[data-rec]` carries a ★. `tr.group` with a `th[colspan][scope="colgroup"]` is a quiet band that names the rows under it; it is not a criterion. On a phone it scrolls sideways and the criterion column stays. A `p.take` follows |
 | Lanes | `div.lanes` with three `section.lane` | What is now, next and later, and what waits on what | Exactly three lanes (`data-lane`), stacked under 760 px. Each has an `h3`, a `p.lane-note` and its items. An item takes a state class and its glyph. A `li.wait` links to what it waits on in `small.after`, or names an outside blocker in `small.outside`. At most 5 live items a lane |
 | Lane note | `p.lane-note` | What a lane means | One line after the `h3`: horizon, confidence, order. "Next 4 weeks. Committed. Top item first." A `span.lane-count` in the `h3` may show the budget, "3 of 5" |
@@ -197,7 +197,7 @@ Each component encodes one kind of information. Use it only for that. Full marku
 | Finish state | `.finished` chip + `body[data-finished]` | Every chapter is done | Set when all Done boxes are ticked; the recap dot in the rail turns green; no confetti, no motion |
 | Text size | Reading tools segments | The reader's own type size | Three segments (A−, A, A+): normal, 20 px, 22 px; remembered |
 | Recap | `section.recap` | The remember lines, collected | Nothing new |
-| The ask | `section.ask` | One question with 2 to 4 choices | Recommendation marked, "if you do nothing" stated |
+| The ask | `section.ask` | One question with 2 to 4 choices | Recommendation marked, "if you do nothing" stated. The line above the choices is the question. A tap marks a choice and copies "question: choice" for the reader to paste into the chat, and says so under the choices |
 | Answer field | `.answer-field` | A question the reader answers | A full-sentence question, a stable `data-q`, a `.hint` saying what a good answer holds. On a choice, `label[data-rec]` marks the recommended option with a ★ chip that shows the attribute's words ("Recommended", "My pick") |
 | Buckets field | `fieldset.answer-field[data-kind="buckets"]` with `data-buckets="Now\|Next\|Later\|Not now"`, an `ol` of `li[data-id][data-rec]` (a `b` title and a `span` line), and the script's `.bucket-row` and `.rank-box` | Sorting items into 2 to 5 labelled buckets, then ordering the first | `data-buckets` holds 2 to 5 distinct labels with no colon. Every item has a unique `data-id` and a `data-rec` that names one bucket (the writer's pick, preset and marked ★). Up to 15 items. One row of 44 px bucket buttons per item (`aria-pressed`, a ✓ on the pressed one), a one-line summary ("All 6 match ★" or "2 of 6 changed from ★"), then the first bucket's items in a bordered box with the rank controls. Without script it reads as a list. The copies carry `Now 1: item`, one line per other item, and a JSON `buckets` object of ids |
 | Rank controls | `fieldset.answer-field[data-kind="rank"]` with `ol > li[data-id]`; the script adds `.rank-moves`, `button[data-rank-ok]` and `.rank-say` | Putting items in order | Move up, Move down and Move to top at 44 px, each named for its item. The ends stay focusable and say "already". A polite status says "Speed moved to 2 of 3". "This order is right" makes the untouched order an answer. The reason textarea is copied in both copies, and the JSON copy carries `items` with ids |

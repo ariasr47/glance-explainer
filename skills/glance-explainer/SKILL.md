@@ -17,7 +17,7 @@ One `.html` file from `assets/template.html`, in this order:
 
 1. **Answer bar**: the whole page in one sentence. It is the page's headline.
 2. **Keep box**: at most three facts to carry, shown as three cards side by side.
-3. **At a glance**: the type's own picture, on the first screen, with its take line. A roadmap, playbook or field guide has none, because its lanes, phase strip or territory already open the page.
+3. **At a glance**: the type's own picture, on the first screen, with its take line. A roadmap's glance is its lanes and a field guide's is its territory; a playbook has none, because its phase strip opens the page. No chapter repeats the glance.
 4. **Chapter map**: 3 to 7 chapters, one line each.
 5. **Chapters**: one idea each. Each opens by restating the fact it builds on, has a visual component, puts machinery in a fold, and closes with one remember line.
 6. **Recap**: the remember lines.
@@ -35,10 +35,11 @@ One `.html` file from `assets/template.html`, in this order:
 
 1. **Write the answer line first**, then the three keep facts. Then pick the glance picture from the type's entry in `references/types.md`, and last the chapter headings. If any will not come, reread the source.
 2. **Pick each chapter's visual from the relationship it holds** (sequence, branch, before and after, time, choice, health, parts) using `references/diagrams.md`. Prefer CSS components; draw an SVG only for branches or nesting.
-3. **Copy the template, fill it, delete what you do not need.** Keep the tokens, base CSS and script. `references/design-system.md` explains the components; `assets/gallery.html` shows them.
+3. **Write the body, then assemble it.** Write what goes inside `<main>` (kicker, `h1`, meta, answer, keep box, glance, chapters, recap, ask or collect bar) in a body file, copying components from `assets/gallery.html` (`references/design-system.md` explains them), then run `node scripts/assemble.mjs body.html page.html --type <type> [--lang ja]`. It puts the body into `assets/template.html` and writes the rail, the chapter map when the body has none, and every reading time. After editing a finished page, `node scripts/assemble.mjs --refresh page.html` fixes the rail and the minutes. When the facts are invented, the meta line ends with "Example with made-up data".
 4. **Write the prose last** under `references/writing.md`: paragraphs under forty words, one idea per sentence.
 5. **Check:** `node scripts/check.mjs <page.html>`. Fix every FAIL.
-6. **Deliver:** save as `docs/explainers/YYYY-MM-DD-<topic>.html` in a repo, open it once in a browser, reply with the answer line and the link.
+6. **Look at it:** open the page in a browser at desktop width (1280 px) and check what the checker cannot see: the glance on the first screen, no flow or tile row with one card left alone, every grid column visible, chips and labels on one line, the ask and any decision answerable by tapping. A page sent to someone who may read it on a phone (a ballot, a questionnaire, a public page) also gets one look at 390 px.
+7. **Deliver:** save as `docs/explainers/YYYY-MM-DD-<topic>.html` in a repo, reply with the answer line and the link.
 
 ## Quick reference
 

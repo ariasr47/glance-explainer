@@ -14,7 +14,7 @@ The reader can hold about three things at once and loses them the moment they sc
 ## Titles and headings
 
 - Sentence case everywhere: "How you ask for visuals", not "How You Ask For Visuals". Capitals are for names.
-- The page title names the subject in 2 to 8 words. Chapter headings are sentences a person would say, and they state the chapter's point, not its topic: "The ask took five shapes" beats "Request patterns".
+- The page title names the subject in 2 to 8 words. Chapter headings are the question the chapter answers, the way a person would ask it ("Why does this need you at all?"), not a topic label ("Rationale"). The rail and the chapter map may shorten a heading with `data-rail`, but keep it a question or a plain phrase of the same thing.
 - Derived numbers are fine when they are plain arithmetic on stated facts (20 asks plus 11 earlier asks is 31). Say what was added when the parts matter.
 
 ## Sentences
@@ -26,7 +26,8 @@ The reader can hold about three things at once and loses them the moment they sc
 - Concrete beats abstract. Name the file, the person, the number, the button. Avoid "the system", "various", "appropriate", "leverage".
 - No hedging stacks. One qualifier at most per sentence.
 - No em dashes and no semicolons. Each one hides a second idea; give it its own sentence. No middle dots between labels ("A · Adopt"); write "A. Adopt" or just "Adopt".
-- The answer bar is one sentence under thirty words. If it needs a second clause, the second clause is a keep-box line.
+- The answer bar is one sentence under thirty words (the checker warns at 30 and fails at 40). If it needs a second clause, the second clause is a keep-box line.
+- When the facts are made up (an example, a demo, a rehearsal), the meta line says so in its last span: "Example with made-up data". Never present invented numbers as real.
 
 ## Jargon
 
@@ -101,6 +102,7 @@ Use these on every Japanese page, so a reader meets the same words each time. `u
 | Now / Next / Later (lanes, buckets) | 今すぐ / 次に / あとで | 今 / 次へ / その後 |
 | Not now | 今はやらない | |
 | After: (waits on) | 前提： | |
+| Example with made-up data | 架空のデータによる例 | |
 
 ### Sound native, not translated
 
@@ -125,6 +127,7 @@ Use these on every Japanese page, so a reader meets the same words each time. `u
 - **People.** Write a made-up English name in katakana with さん in prose: 「マーラさん」. A real person keeps the spelling they use.
 - **Katakana spelling.** One spelling per term on a page. This plugin writes ユーザー, サーバー, ブラウザ, フォルダ, メモ.
 - **Ellipsis and dashes.** 「……」 (two three-dot characters) and 「――」, never ... or a single dash.
+- **Never shorten a term into another everyday word.** バーコードリーダー stays whole: 「リーダー」 alone reads as a team leader. In prose, 「止まっている」 often reads better than 「ブロック中」.
 - **Code stays code.** File names, commands, ids and keys are left as written, inside `<code>`.
 
 ### Terms
