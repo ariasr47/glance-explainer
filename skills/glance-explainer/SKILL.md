@@ -1,6 +1,6 @@
 ---
 name: glance-explainer
-description: Use when asked for a "glance explainer" or an "html explainer", a visual explainer, a page that explains something "in simple plain english", "with lots of visuals and diagrams", or "for someone with ADHD / short working memory"; also when a spec, decision, status update, architecture, or release needs to be understood and approved by a reader who cannot hold a long document in their head.
+description: Makes a one-page HTML explainer that a busy reader can take in at a glance and act on: the answer first, three facts to keep, a picture per chapter, checked before it ships. Use whenever the result should be a page someone reads, skims or approves rather than a chat reply or a long document: a spec or plan to approve, a decision with options, a status or progress update, an incident write-up, release notes, a pull request review, a comparison, research findings, a handover to the next session or person, a roadmap, a runbook, an onboarding or teaching walkthrough, a product tour, a field guide, or a page for customers. Also when asked for a "glance explainer", an "html explainer", a visual explainer, a page "in plain English with diagrams", or something for a reader with ADHD or a short working memory; and for Japanese requests such as 説明ページ, わかりやすいHTMLページ or ひと目でわかるページ. Not for marketing or landing pages, READMEs, or answers that belong in the chat.
 license: MIT
 argument-hint: "[topic or file to explain]"
 ---

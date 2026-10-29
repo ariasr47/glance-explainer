@@ -1,7 +1,7 @@
 {
   "name": "glance-explainer",
   "description": "Explainer pages for readers with ADHD or a short working memory: one checked HTML file with the answer first and a picture in every chapter",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "author": {
     "name": "Rodrigo Arias",
     "url": "https://github.com/ariasr47"

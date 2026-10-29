@@ -1,6 +1,6 @@
 ---
 name: explainer-gather
-description: Use when asked to "ask and collect", gather requirements, write a questionnaire, get answers from coworkers, collect feedback, review and annotate a draft, poll a decision, prioritise items, capture interview notes, pilot a survey, collect reactions to a readout, or get rulings back from the owner on several open decisions (a ballot).
+description: Makes an explainer page that also asks questions and brings the answers back: a questionnaire or survey, gathering requirements, feedback or review on a draft, a poll, interview notes, reactions to a readout, prioritising a list into now, next and later (or ranking it), or a ballot where one owner rules on several open decisions by tapping. Use whenever answers, picks, rankings or rulings are needed from other people, a team or the user, and should come back in a form that can be copied and merged. Also for Japanese requests such as アンケート, 意見を集める or 優先順位をつけてもらう.
 license: MIT
 argument-hint: "[topic, and who will answer]"
 ---
