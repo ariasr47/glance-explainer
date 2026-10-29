@@ -59,6 +59,16 @@ claude --plugin-dir /path/to/glance-explainer
 
 If you also have the marketplace version installed, disable it for that session or you will have two plugins with the same name.
 
+## Checking that the skills load
+
+`evals/trigger/` holds one case per request: a prompt and a grader that checks which skill loaded (or that none did). Run it after changing a skill's `description`:
+
+```bash
+claude plugin eval . --runs 3 --ablation none --no-publish -j 4 --threshold 0
+```
+
+It costs about $7 a run at the default model. Add a case whenever a real request fails to load the skill.
+
 ## Changing the design
 
 - All tokens, component CSS and the reader script live in `skills/glance-explainer/assets/template.html`. The gallery carries a byte-identical copy of the template's `<style>` and `<script>` blocks so it stays a single file. After changing the template, paste both blocks into the gallery. `tools/check-repo.mjs` fails until they match.

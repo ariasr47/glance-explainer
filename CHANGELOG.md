@@ -2,6 +2,17 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 2.2.1 (2026-10-29)
+
+The skills now load for the requests people actually make. Pages look the same as in 2.2.0.
+
+### Changed
+- **Sharper skill descriptions.** The core skill now names every kind of page it makes, including handovers, roadmaps, runbooks, release notes and onboarding walkthroughs, and says what it is not for: landing pages, READMEs, and answers that belong in the chat. Gather and atlas name their jobs the same way. All three list Japanese request words.
+- **Measured with a trigger suite**, `evals/trigger/`: 24 requests, each run 3 times with `claude plugin eval`.
+  - **Should load the right skill** (19 requests, 57 runs): 47 before, 57 after. The misses before were handover, roadmap and release-notes requests, which never loaded the skill, and runbook requests, which loaded it 2 times in 3.
+  - **Should load none of the plugin's skills** (5 requests, 15 runs): 15 before and after.
+- **Limit:** each run is a clean session with only this plugin installed. In a real session with many other skills, loading can still be lower; the suite does not measure that.
+
 ## 2.2.0 (2026-10-28)
 
 Fixes from an audit: agents built 23 fresh pages with 2.1.0 (one of every type, plus two in Japanese) and three reviewers checked every screenshot. All 23 passed the checker, and the reviewers still found problems the checker cannot see. This release fixes the ones a desktop reader meets, and keeps phones from breaking.

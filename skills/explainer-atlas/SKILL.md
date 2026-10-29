@@ -1,6 +1,6 @@
 ---
 name: explainer-atlas
-description: Use when asked for an architecture atlas, a system map, a backend or frontend reference, how a system fits together, or onboarding to a codebase.
+description: Makes an architecture atlas of a codebase: a clickable system map, how a request travels through it, which parts may call which, and every claim anchored to a file and line. Use when asked for an architecture map or atlas, a system overview, a backend or frontend reference, how the parts of a repository fit together, or onboarding a new contributor to a codebase. Also for Japanese requests such as アーキテクチャ図 or システム構成の説明.
 license: MIT
 ---
 

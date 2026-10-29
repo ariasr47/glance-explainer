@@ -12,7 +12,7 @@ None of these has started yet. October went to the page redesign (1.8.0 and 1.8.
 
 | # | Item | Why |
 |---|---|---|
-| 1 | **Trigger reliably.** Sharper skill descriptions and a trigger test suite built with `claude plugin eval`, covering the phrases people actually type. | In the author's own sessions about two requests in three did not visibly load the skill. |
+| 1 | **Trigger reliably.** Done in 2.2.1 for clean sessions: sharper descriptions took the trigger suite (`evals/trigger/`, 24 requests × 3 runs) from 47 to 57 of 57 right loads, with no false loads. Still open: requests in long sessions with many other skills. | In the author's own sessions about two requests in three did not visibly load the skill. |
 | 2 | **Test with outside readers.** Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later. | Every page so far was judged by its author. This test decides what comes next. |
 | 3 | **List it.** Submit to Anthropic's plugin directory and the agent-skills registries. | The name was settled on 20 October: glance-explainer, in 2.0.0. |
 
