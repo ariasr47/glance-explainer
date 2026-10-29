@@ -1,6 +1,6 @@
 # Roadmap
 
-What comes next and why, as of 20 October 2026. The plugin is free and MIT licensed, and it will stay that way. To ask for something, [open an issue](https://github.com/ariasr47/glance-explainer/issues/new/choose). A request from someone who has used a page moves an item up faster than anything else.
+What comes next and why, as of 29 October 2026. The plugin is free and MIT licensed, and it will stay that way. To ask for something, [open an issue](https://github.com/ariasr47/glance-explainer/issues/new/choose). A request from someone who has used a page moves an item up faster than anything else.
 
 **Focus.** Decision pages for readers who can't hold a long document, checked before they ship. Work that makes pages more trustworthy, easier to install or easier to read comes before new page types.
 
@@ -8,13 +8,13 @@ A rendered version of this roadmap, made with the plugin, is at [ariasr47.github
 
 ## Now: October and November 2026
 
-None of these has started yet. October went to the page redesign (1.8.0 and 1.8.1) and a public example of every kind of page (1.9.0). The 12 December review date stands.
+Item 1 shipped in 2.2.1 on 29 October, and item 3 is ready to submit. October also went to the page redesign (1.8.0 and 1.8.1), a public example of every kind of page (1.9.0), Japanese (2.1.0) and a 23-page build audit (2.2.0). The 12 December review date stands.
 
 | # | Item | Why |
 |---|---|---|
 | 1 | **Trigger reliably.** Done in 2.2.1 for clean sessions: sharper descriptions took the trigger suite (`evals/trigger/`, 24 requests × 3 runs) from 47 to 57 of 57 right loads, with no false loads. Still open: requests in long sessions with many other skills. | In the author's own sessions about two requests in three did not visibly load the skill. |
 | 2 | **Test with outside readers.** Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later. | Every page so far was judged by its author. This test decides what comes next. |
-| 3 | **List it.** Submit to Anthropic's plugin directory and the agent-skills registries. | The name was settled on 20 October: glance-explainer, in 2.0.0. |
+| 3 | **List it.** Ready on 29 October: the repository meets Anthropic's directory rules, and the submission goes in from the author's claude.ai account ([steps](docs/dev/listing/2026-10-29-directory-submission.md)). Community registries such as claude-plugins.dev index public plugins on their own. | The name was settled on 20 October: glance-explainer, in 2.0.0. |
 
 ## Next: December 2026
 
@@ -46,6 +46,7 @@ On 12 December 2026 this roadmap is reviewed against outside feedback and the re
 
 ## Recently shipped
 
+- **2.2.1:** sharper skill descriptions, so the skills load for the requests people make: 57 of 57 test runs, up from 47.
 - **2.2.0:** fixes from a 23-page build audit: the ask and decisions answer with one tap, one colour for ★, Reading tools stays in view, flows and tiles sit evenly, and `assemble.mjs` builds a page from its body.
 - **2.1.0:** a sun or moon dark switch, natural Japanese labels and typography, and a Japanese version of every example.
 - **2.0.0:** a new name, glance-explainer, because two other projects already used html-explainer. Pages look the same; old pages still count.
