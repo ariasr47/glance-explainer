@@ -1476,7 +1476,7 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>前へ</button><span class="where"></span><button type="button" data-next>次へ</button></div>
-    <p class="kicker">ロードマップ（2026年10月20日時点）</p>
+    <p class="kicker">ロードマップ（2026年10月29日時点）</p>
     <h1>glance-explainer の、これからの予定</h1>
     <div class="meta"><span>約4分で読めます</span><span><a href="index.ja.html">サイトのトップへ戻る</a></span></div>
 
@@ -1493,13 +1493,13 @@ html:not(.js) .ballot-tray { display: none; }
     </div>
 
     <ol class="map">
-      <li><a href="#c1"><b>今すぐ・次に・あとで</b><span>3つの区分に分けた12項目と、何が何を待っているか。</span></a></li>
+      <li><a href="#c1"><b>今すぐ・次に・あとで</b><span>3つの区分に分けた11項目と、何が何を待っているか。</span></a></li>
       <li><a href="#c2"><b>いちばん多くを動かすもの</b><span>外部読者テストと、自動検査。</span></a></li>
       <li><a href="#c3"><b>あえて外したもの</b><span>保留中の3件と、それぞれの再開の条件。</span></a></li>
       <li><a href="#c4"><b>12月の見直し</b><span>2026年12月12日に、結果がどちらでも起きること。</span></a></li>
     </ol>
 
-    <section class="chapter" id="c1" data-keep="現在の12項目を3つの区分に。うち5件はほかの項目待ち">
+    <section class="chapter" id="c1" data-keep="現在の11項目を3つの区分に。うち4件はほかの項目待ち">
       <header>
         <div><p class="kicker">第1章 / 全4章、約2分</p><h2>今すぐ・次に・あとで、何をやるのか</h2></div>
         <button type="button" class="read-aloud" data-read>読み上げ</button>
@@ -1510,10 +1510,9 @@ html:not(.js) .ballot-tray { display: none; }
 
       <div class="lanes">
         <section class="lane" data-lane="now"><h3>今すぐ</h3>
-          <p class="lane-note">11月まで。確定。上から順に進めます。未着手。</p><ul>
-          <li id="r-trigger"><b>確実に起動させる</b><span>説明文を的確にし、起動のテストも加えます。</span></li>
+          <p class="lane-note">11月まで。確定。上から順に進めます。</p><ul>
           <li id="r-test"><b>外部読者テスト</b><span>5〜10人が、同じ文章を3通りで読みます。</span><small class="when"><b>期日固定：</b> 12月⁠12日の見直しに必要。</small></li>
-          <li id="r-name" class="wait"><b>掲載を申請する</b><span>名前は glance-explainer に決定。レジストリへ申請します。</span><small class="after">前提：<a href="#r-trigger">確実に起動させる</a></small></li>
+          <li id="r-name"><b>掲載を申請する</b><span>Anthropic のディレクトリへの申請準備は完了。コミュニティの一覧には自動で載ります。</span></li>
         </ul></section>
         <section class="lane" data-lane="next"><h3>次に</h3>
           <p class="lane-note">1〜3か月。見込み。順不同。</p><ul>
@@ -1531,10 +1530,10 @@ html:not(.js) .ballot-tray { display: none; }
           <li class="wait"><b>商用サポート</b><span>導入チームから要望があれば提供します。</span><small class="after">前提：<a href="#r-test">外部読者テスト</a></small></li>
         </ul></section>
       </div>
-      <p class="take"><b>つまり：</b> 5件はほかの項目待ちで、うち3件は外部読者テスト待ちです。</p>
+      <p class="take"><b>つまり：</b> 4件はほかの項目待ちで、うち3件は外部読者テスト待ちです。</p>
 
-      <details class="fold shipped"><summary><span>1.6.0〜2.0.0 でリリース済み：6件</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">変更履歴</a></summary>
-        <ul><li>名前を glance-explainer に変更。ほかのプラグインと名前が重ならなくなりました（2.0.0）</li><li>ダーク / ライトの切り替えを、全ページの目立つ場所に（1.9.1）</li><li>全種類のページの公開例と、<a href="examples.html">実例ページ</a>を追加（1.9.0）</li><li>全種類のページを、それぞれ専用の絵を軸に作り直し（1.8.0、1.8.1 で仕上げ）</li><li>フィールドガイドのページ種類を追加（1.7.0）</li><li>意味がひと目でわかるロードマップの区分と、筋の通った優先順位づけ（1.6.0）</li></ul>
+      <details class="fold shipped"><summary><span>1.6.0〜2.2.1 でリリース済み：9件</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">変更履歴</a></summary>
+        <ul><li>頼めばスキルが確実に起動するように。テストでは57回中57回、以前は47回（2.2.1）</li><li>23ページを作って点検し、見つかった問題を修正。回答はワンタップ、★は1色に（2.2.0）</li><li>ダークモードの切り替えを太陽と月のアイコンに。自然な日本語と、全実例の日本語版も（2.1.0）</li><li>名前を glance-explainer に変更。ほかのプラグインと名前が重ならなくなりました（2.0.0）</li><li>ダーク / ライトの切り替えを、全ページの目立つ場所に（1.9.1）</li><li>全種類のページの公開例と、<a href="examples.html">実例ページ</a>を追加（1.9.0）</li><li>全種類のページを、それぞれ専用の絵を軸に作り直し（1.8.0、1.8.1 で仕上げ）</li><li>フィールドガイドのページ種類を追加（1.7.0）</li><li>意味がひと目でわかるロードマップの区分と、筋の通った優先順位づけ（1.6.0）</li></ul>
         <p>それ以前の 1.5.0 では、全ページの自動検査、古いページのアップグレード、タップで答える機能を加えました。1.4.0 では、スキルごとに独立したフォルダに分け、このロードマップと公開サイト、変更のたびの自動検査を加えました。</p>
       </details>
 
@@ -1548,8 +1547,8 @@ html:not(.js) .ballot-tray { display: none; }
 
       <details class="fold"><summary>項目の詳細と理由を見る</summary>
         <p><b>古いページをアップグレードする。</b>スクリプトが、古いページのスタイルと閲覧用のスクリプトを、現在のテンプレートのものに入れ替えます。各ページにデザインのコピーが入っているため、1.2 で作ったページには、1.2 のスマートフォン向けの不具合が残ります。</p>
-        <p><b>確実に起動させる。</b>テストは <code>claude plugin eval</code> で作り、人が実際に入力する言い回しをカバーします。作者の利用では、依頼の約3回に2回、スキルが読み込まれた様子がありませんでした。</p>
-        <p><b>掲載を申請する。</b>名前は10月20日に glance-explainer に決まりました（2.0.0）。申請先は、Anthropic のプラグインディレクトリと、エージェントスキルのレジストリです。</p>
+        <p><b>確実に起動させる。</b>2.2.1 で完了。<code>claude plugin eval</code> で作った24件の依頼のテストで、スキルの説明文を的確にした結果、正しく読み込まれた回数が57回中47回から57回になりました。残る課題は、ほかのスキルが多い長いセッションです。</p>
+        <p><b>掲載を申請する。</b>名前は10月20日に glance-explainer に決まりました（2.0.0）。Anthropic のディレクトリへは、開発者ポータルから申請します。claude-plugins.dev などのコミュニティのレジストリは、公開されたプラグインを自動で取り込みます。</p>
         <p><b>ブラウザ表示の確認（任意）。</b> <code>check.mjs --render</code> は、手元の Chrome でページを開き、スマートフォンとパソコンの幅で表示を確かめます。Playwright が入っているときだけ動きます。1.3.0 のレイアウトの不具合は、静的なチェッカーでは見えませんでした。</p>
         <p><b>ほかのエージェントでの動作確認。</b>エージェントごとに、インストールの記録と完成ページを1つ用意します。フォルダ構成が崩れない場合は、Codex のプラグインマニフェストと Gemini の拡張機能も加えます。</p>
         <p><b>CI でのプルリクエストページ。</b> GitHub Action が、プルリクエストごとに <code>pr</code> ページを作り、コメントでリンクを知らせます。</p>
@@ -1561,7 +1560,7 @@ html:not(.js) .ballot-tray { display: none; }
         <p>外部読者テストと自動検査の理由は、<a href="#c2">第2章</a>にあります。</p>
       </details>
 
-      <p class="remember"><b>この章のポイント：</b> 12項目が3つの区分に分かれ、5件はほかの項目待ちです。</p>
+      <p class="remember"><b>この章のポイント：</b> 11項目が3つの区分に分かれ、4件はほかの項目待ちです。</p>
     </section>
 
     <section class="chapter" id="c2" data-keep="外部読者テストと自動検査が先">
@@ -1571,7 +1570,7 @@ html:not(.js) .ballot-tray { display: none; }
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b> 12項目が3つの区分に分かれ、5件はほかの項目待ちです。</p>
+      <p class="from"><b>おさらい：</b> 11項目が3つの区分に分かれ、4件はほかの項目待ちです。</p>
 
       <p>外部読者テストが、いちばん多くの項目を動かします。これまでのページは、どれも作者自身が評価したものです。このテストで、次にやることが決まります。</p>
       <p>ADHD の人を含む5〜10人が、同じ内容を3通りで読みます。プラグインのページ、Claude 標準のページ、Markdown です。測るのは、正しく判断するまでの時間と、1日後の記憶です。</p>
@@ -1659,7 +1658,7 @@ html:not(.js) .ballot-tray { display: none; }
     <section class="recap" id="recap">
       <h2>まとめ</h2>
       <ol>
-        <li>12項目が3つの区分に分かれ、5件はほかの項目待ちです。</li>
+        <li>11項目が3つの区分に分かれ、4件はほかの項目待ちです。</li>
         <li>次にやることは外部読者テストで決まり、フックのおかげで検査は飛ばせません。</li>
         <li>保留は3件で、どれも再開の条件を示しています。</li>
         <li>2026年12月12日の見直しで、「あとで」を残すか、ロードマップを保守だけに縮めるかが決まります。</li>

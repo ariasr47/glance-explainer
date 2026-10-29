@@ -158,9 +158,17 @@ Each skill folder is self-contained in the [Agent Skills](https://agentskills.io
 
 ## Roadmap and feedback
 
-Next: the skill starts reliably when asked, pages get tested with outside readers, and the plugin gets its final name and a directory listing. See [ROADMAP.md](ROADMAP.md).
+Next: pages get tested with outside readers, and the plugin gets a directory listing. See [ROADMAP.md](ROADMAP.md).
 
 If you try a page, [say how it went](https://github.com/ariasr47/glance-explainer/issues/new?template=feedback.yml), especially if you or your reader has ADHD. That feedback decides what gets built.
+
+## What it runs, sends and fetches
+
+Nothing in the plugin sends data anywhere, and none of its scripts use the network.
+
+- **The skills** run their own Node scripts on your machine, from the skill folders. `check.mjs` checks a page, `upgrade.mjs` brings an older page to the current design, `translate.mjs` and `assemble.mjs` build pages, and the atlas skill's `anchors.mjs` reads the repository with `git` to confirm each file and line anchor. They read and write only the pages and files the task names.
+- **The hook** runs `hooks/explainer-check.mjs` with Node in Claude Code and Cowork; chat on claude.ai ignores it. When you send a prompt it notes the time. After a Write or Edit it notes any explainer page saved. When the turn ends it runs the checker on those pages and asks the agent to fix any failure. It keeps one small state file per session in the system's temporary folder, reads `git status` to find pages, and never touches the network.
+- **The pages** are single HTML files that load no scripts from elsewhere. Opened online, they load fonts from Google Fonts (`fonts.googleapis.com` and `fonts.gstatic.com`), which sees the reader's IP address as with any web font; offline they use system fonts. A page remembers the reader's settings, reading place, picks and draft answers in that browser's own storage. Answers leave the browser only when the reader copies them.
 
 ## Licence
 

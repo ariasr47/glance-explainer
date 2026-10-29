@@ -1476,7 +1476,7 @@ html:not(.js) .ballot-tray { display: none; }
 
   <main id="main">
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
-    <p class="kicker">Roadmap as of 20 October 2026</p>
+    <p class="kicker">Roadmap as of 29 October 2026</p>
     <h1>What comes next for glance-explainer</h1>
     <div class="meta"><span>Reading time about 5 minutes</span><span><a href="index.html">Back to the site home</a></span></div>
 
@@ -1493,13 +1493,13 @@ html:not(.js) .ballot-tray { display: none; }
     </div>
 
     <ol class="map">
-      <li><a href="#c1"><b>Now, next and later</b><span>Twelve live items in three lanes, and what waits on what.</span></a></li>
+      <li><a href="#c1"><b>Now, next and later</b><span>Eleven live items in three lanes, and what waits on what.</span></a></li>
       <li><a href="#c2"><b>What unblocks the most</b><span>The outside-reader test and the automatic check.</span></a></li>
       <li><a href="#c3"><b>What is left off</b><span>Three things parked, each with the way back.</span></a></li>
       <li><a href="#c4"><b>The December review</b><span>What happens on 12 December 2026, either way.</span></a></li>
     </ol>
 
-    <section class="chapter" id="c1" data-keep="Twelve live items in three lanes, five wait on another">
+    <section class="chapter" id="c1" data-keep="Eleven live items in three lanes, four wait on another">
       <header>
         <div><p class="kicker">Chapter 1 of 4, about 2 minutes</p><h2>What is under way, next and later?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
@@ -1510,10 +1510,9 @@ html:not(.js) .ballot-tray { display: none; }
 
       <div class="lanes">
         <section class="lane" data-lane="now"><h3>Now</h3>
-          <p class="lane-note">Through November. Committed. Top item first. Not started yet.</p><ul>
-          <li id="r-trigger"><b>Trigger reliably</b><span>Sharper skill descriptions and trigger tests.</span></li>
+          <p class="lane-note">Through November. Committed. Top item first.</p><ul>
           <li id="r-test"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, the review needs it.</small></li>
-          <li id="r-name" class="wait"><b>List it</b><span>The name is settled: glance-explainer. Submit to registries.</span><small class="after">After: <a href="#r-trigger">Trigger reliably</a></small></li>
+          <li id="r-name"><b>List it</b><span>Ready for Anthropic's directory. Community lists find it on their own.</span></li>
         </ul></section>
         <section class="lane" data-lane="next"><h3>Next</h3>
           <p class="lane-note">1 to 3 months. Likely. Not in order.</p><ul>
@@ -1531,10 +1530,10 @@ html:not(.js) .ballot-tray { display: none; }
           <li class="wait"><b>Commercial support</b><span>For teams that adopt it, if a team asks.</span><small class="after">After: <a href="#r-test">Test with outside readers</a></small></li>
         </ul></section>
       </div>
-      <p class="take"><b>Take from this:</b> five items wait on another, and three wait on the outside-reader test.</p>
+      <p class="take"><b>Take from this:</b> four items wait on another, and three of them wait on the outside-reader test.</p>
 
-      <details class="fold shipped"><summary><span>Shipped in 1.6.0 to 2.0.0: 6 items</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">Changelog</a></summary>
-        <ul><li>A new name, glance-explainer, so the plugin no longer shares one (2.0.0)</li><li>A dark or light switch in sight on every page (1.9.1)</li><li>A public example of every kind of page, and an <a href="examples.html">examples page</a> (1.9.0)</li><li>Every page type redesigned around its own picture (1.8.0, polished in 1.8.1)</li><li>The field-guide page type (1.7.0)</li><li>Roadmap lanes that say what they mean, and prioritising that adds up (1.6.0)</li></ul>
+      <details class="fold shipped"><summary><span>Shipped in 1.6.0 to 2.2.1: 9 items</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">Changelog</a></summary>
+        <ul><li>The skills load when asked: 57 of 57 test runs, up from 47 (2.2.1)</li><li>Fixes from a 23-page build audit: one-tap answers, one colour for ★ (2.2.0)</li><li>A sun or moon dark switch, natural Japanese, and a Japanese version of every example (2.1.0)</li><li>A new name, glance-explainer, so the plugin no longer shares one (2.0.0)</li><li>A dark or light switch in sight on every page (1.9.1)</li><li>A public example of every kind of page, and an <a href="examples.html">examples page</a> (1.9.0)</li><li>Every page type redesigned around its own picture (1.8.0, polished in 1.8.1)</li><li>The field-guide page type (1.7.0)</li><li>Roadmap lanes that say what they mean, and prioritising that adds up (1.6.0)</li></ul>
         <p>Before that, 1.5.0 checked every page automatically, upgraded old pages and added answers by tapping. 1.4.0 moved each skill into a self-contained folder, and added this roadmap, a public site and an automatic check on every change.</p>
       </details>
 
@@ -1548,8 +1547,8 @@ html:not(.js) .ballot-tray { display: none; }
 
       <details class="fold"><summary>Show the detail and the reasons behind the items</summary>
         <p><b>Upgrade old pages.</b> A script swaps an older page's styles and reader script for the current template's. Each page carries its own copy of the design, so a page made under 1.2 keeps 1.2's phone bugs.</p>
-        <p><b>Trigger reliably.</b> The tests are built with <code>claude plugin eval</code> and cover the phrases people actually type. In the author's own sessions about two requests in three did not visibly load the skill.</p>
-        <p><b>List it.</b> The name was settled on 20 October as glance-explainer, in 2.0.0. The listing goes to Anthropic's plugin directory and the agent-skills registries.</p>
+        <p><b>Trigger reliably.</b> Done in 2.2.1. A suite of 24 requests, built with <code>claude plugin eval</code>, went from 47 to 57 of 57 right loads with sharper skill descriptions. Still open: long sessions with many other skills.</p>
+        <p><b>List it.</b> The name was settled on 20 October as glance-explainer, in 2.0.0. The plugin goes to Anthropic's directory through its developer portal. Community registries such as claude-plugins.dev index public plugins on their own.</p>
         <p><b>Optional browser check.</b> <code>check.mjs --render</code> opens the page in a local Chrome at phone and desktop widths. It runs only when Playwright is installed. The 1.3.0 layout defects were invisible to the static checker.</p>
         <p><b>Tested installs in other agents.</b> Each agent gets a recorded install and one finished page. A Codex plugin manifest and a Gemini extension are added if those routes keep the folders intact.</p>
         <p><b>Pull request pages in CI.</b> The GitHub Action writes a <code>pr</code> page for each pull request and links it in a comment.</p>
@@ -1561,7 +1560,7 @@ html:not(.js) .ballot-tray { display: none; }
         <p>The reasons for the outside-reader test and the automatic check are in <a href="#c2">chapter 2</a>.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> twelve live items sit in three lanes, and five of them wait on another.</p>
+      <p class="remember"><b>Remember:</b> eleven live items sit in three lanes, and four of them wait on another.</p>
     </section>
 
     <section class="chapter" id="c2" data-keep="The reader test and the automatic check come first">
@@ -1571,7 +1570,7 @@ html:not(.js) .ballot-tray { display: none; }
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> twelve live items sit in three lanes, and five of them wait on another.</p>
+      <p class="from"><b>Before this:</b> eleven live items sit in three lanes, and four of them wait on another.</p>
 
       <p>The outside-reader test unblocks the most. Every page so far was judged by its author, and this test decides what comes next.</p>
       <p>Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later.</p>
@@ -1659,7 +1658,7 @@ html:not(.js) .ballot-tray { display: none; }
     <section class="recap" id="recap">
       <h2>Recap</h2>
       <ol>
-        <li>Twelve live items sit in three lanes, and five of them wait on another.</li>
+        <li>Eleven live items sit in three lanes, and four of them wait on another.</li>
         <li>The outside-reader test decides what comes next, and a hook makes the check impossible to skip.</li>
         <li>Three things are parked, and each names what would bring it back.</li>
         <li>On 12 December 2026 the review either keeps Later or shrinks the roadmap to maintenance.</li>
