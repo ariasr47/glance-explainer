@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.2.1">
+<meta name="generator" content="glance-explainer 2.3.0">
 <meta name="color-scheme" content="light dark">
 <title>Why new users stop after one note</title>
 <meta name="description" content="What six interviews, a week of usage numbers and a small beta say about why new users of the notes app stop after their first note, and how far to trust each finding.">
@@ -27,6 +27,7 @@
   --well: #e8edf2;           /* inset surface for diagrams and code */
   --line: #d3dce4;           /* hairline borders */
   --line-strong: #aebbc8;
+  --control-line: #6f7f90;   /* the edge of a text box: 3:1 against the card and the paper (--line-strong is for hairlines) */
   /* text */
   --ink: #16222e;            /* body text, deep navy, never pure black */
   --ink-soft: #4a5a6a;       /* secondary text */
@@ -65,7 +66,7 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a;
+    --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a; --control-line: #728193;
     --ink: #e8eef4; --ink-soft: #a9b6c3; --ink-faint: #7d8b99;
     --here: #7ea2ff; --here-tint: #1c2a4a;
     --go: #4ccf93; --go-tint: #123326; --wait: #f0b455; --wait-tint: #3a2a0f;
@@ -76,7 +77,7 @@
   }
 }
 :root[data-theme="dark"] {
-  --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a;
+  --paper: #0e151c; --card: #161f29; --well: #1d2833; --line: #2a3642; --line-strong: #3d4b5a; --control-line: #728193;
   --ink: #e8eef4; --ink-soft: #a9b6c3; --ink-faint: #7d8b99;
   --here: #7ea2ff; --here-tint: #1c2a4a;
   --go: #4ccf93; --go-tint: #123326; --wait: #f0b455; --wait-tint: #3a2a0f;
@@ -132,7 +133,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
   word-break: auto-phrase;  /* break between phrases, so a narrow button never splits ダウン / ロード */
   overflow-wrap: break-word;  /* not the body's "anywhere", which lets a narrow column split バージ / ョン */
   text-spacing-trim: trim-start;  /* a 「 or （ that opens a line sits flush, and 」、 pairs close up */
-  text-autospace: ideograph-alpha;  /* a hair of space between Japanese and Latin letters (JSON の); digits stay tight (3件) */
+  text-autospace: ideograph-alpha;  /* Safari only; Chrome does not accept this value and ignores the line. The space beside Latin letters (JSON の) is a typed half-width space in the markup, and it works everywhere. */
   hanging-punctuation: allow-end;  /* 、 and 。 may hang past the line end instead of pushing a word down (Safari) */
   font-kerning: normal;
 }
@@ -404,7 +405,7 @@ html[data-type="public"] .chapter > header label { display: none; }
 .answer-field.paired:not(:has(textarea)) { display: none; }  /* nothing left to show: the card is the question and the control */
 .option[data-rec]::after { content: "★ " attr(data-rec); order: -1; align-self: flex-start; margin: 0 0 .6rem; padding: .1rem .7rem; background: var(--decide); color: var(--on-decide); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); line-height: 1.5; }
 /* a consequence chip: the cost in words ("Can't undo"), amber with a ⚠ glyph, so it never leans on colour alone */
-.option[data-warn]::before { content: "⚠ " attr(data-warn); position: absolute; top: -.8rem; left: .9rem; z-index: 1; padding: .15rem .65rem; background: var(--wait); color: var(--on-wait); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
+.option[data-warn]::before { content: "⚠ " attr(data-warn); order: -1; align-self: flex-start; max-width: 100%; margin: 0 0 .6rem; padding: .15rem .65rem; line-height: 1.5; background: var(--wait); color: var(--on-wait); border-radius: var(--r-chip); font-family: var(--font-head); font-weight: 600; font-size: var(--size-xs); }
 .option h4 { margin: 0 0 .5rem; }
 .option ul { list-style: none; padding: 0; margin: 0; font-size: var(--size-s); }
 .option li { padding-left: 1.4rem; position: relative; }
@@ -1436,9 +1437,56 @@ html:not(.js) .ballot-tray { display: none; }
 .ballot-still .ballot-card { margin-bottom: .75rem; }
 .ballot-still .ballot-tray { position: static; width: auto; margin: 0; box-shadow: none; }
 
+/* ---------- 12d. Fixed bars, text boxes, Japanese setting, Windows High Contrast ---------- */
+/* a focused control is never left under the collect bar or the ballot tray: the script sets --bar-h to the height of the bar that is showing */
+html { scroll-padding-bottom: var(--bar-h, 0px); }
+/* on a short window the bar would eat the page, so it joins the page after the last chapter instead of floating over it */
+@media (max-height: 600px) {
+  .collect, .ballot-tray { position: static; max-height: none; overflow: visible; margin: 1.5rem auto 0; box-shadow: none; }
+  body:has(.collect:not([hidden])) .page, html[data-mode="ballot"] .page { padding-bottom: 4rem; }
+}
+/* the ballot tray starts as one row (tally, dots, Copy picks) and one status line; the rest comes with the first pick */
+.ballot-tray[data-empty] :is(.ballot-tools, .ballot-save, [data-json]) { display: none; }
+.ballot-tray[data-empty] .ballot-status { position: absolute; width: 1px; height: 1px; min-height: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }  /* still the live region; the three steps above already say what to do */
+/* placeholder text and text-box edges meet 4.5:1 and 3:1 */
+::placeholder { color: var(--ink-soft); opacity: 1; }
+.answer-field textarea, .collect .respondent, .guide-search input, .ballot-note input, .ballot-fallback textarea { border-color: var(--control-line); }
+/* Japanese: the answer line and the glance headings keep the .02em of the Japanese block; small text gets room between lines */
+:lang(ja) .answer, :lang(ja) .glance-head :is(h2, h3) { letter-spacing: .02em; }
+:lang(ja) :is(.keep li, .take, .remember, .from, .cost, .option li) { line-height: 1.65; }
+:lang(ja) .rl-head { font-size: .722rem; }
+/* Windows High Contrast: the system replaces every colour, so a mask-drawn icon (a background painted through a shape) and a bar drawn by a fill
+   would turn into the page colour and vanish. Each takes a system colour; a chosen or current state also gets an outline, because a changed
+   border colour or a shadow is not kept. */
+@media (forced-colors: active) {
+  .tools-toggle::before, .tools-bar .theme-quick::before, .read-aloud::before, .chapter > header label::before,
+  .from::before, .remember::before, details.fold:not(.shipped, .parked) > summary::before { background-color: CanvasText; forced-color-adjust: none; }
+  .progress, .rail-progress .bar b { background-color: Highlight; forced-color-adjust: none; }
+  .rail-progress .bar { border: 1px solid CanvasText; background: Canvas; }
+  :focus-visible { outline: 3px solid Highlight; }
+  .chapter > header label:has(input:checked), .decision.paired .option[aria-checked="true"], .ask .choices > [aria-pressed="true"],
+  .ballot-opt[aria-checked="true"], .ballot-opt.on, .ballot-ship[aria-pressed="true"], .rail a[aria-current="true"] { outline: 3px solid Highlight; outline-offset: -3px; }
+  .rail a[aria-current="true"] .dot, .ballot-card.picked .num, .ballot-card.picked .state, .ballot-pip.on::before, .tools .sizes button[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; border-color: Highlight; color: HighlightText; }
+  .ballot-pip.on { forced-color-adjust: none; color: HighlightText; }
+}
+
 /* ---------- 13. Print ---------- */
 @media print {
-  :root { --paper: #fff; --card: #fff; }
+  /* paper is white: print the light tokens whatever the screen was showing, so a reader in dark mode gets dark text, not pale text on white */
+  :root, :root[data-theme="dark"], :root:not([data-theme="light"]) {
+    color-scheme: light;
+    --paper: #ffffff; --card: #ffffff; --well: #e8edf2; --line: #d3dce4; --line-strong: #aebbc8; --control-line: #6f7f90;
+    --ink: #16222e; --ink-soft: #4a5a6a; --ink-faint: #5f6f7f;
+    --here: #2457d6; --here-tint: #e3ebfb; --go: #14784f; --go-tint: #dff3ea; --wait: #9c5d00; --wait-tint: #fdf0d8;
+    --stop: #c43a4b; --stop-tint: #fbe3e6; --decide: #6d4ed8; --decide-tint: #ece6fb; --memory: #fff4c2; --memory-line: #e3c45a;
+    --on-here: #ffffff; --on-go: #ffffff; --on-wait: #ffffff; --on-stop: #ffffff; --on-decide: #ffffff; --on-soft: #ffffff;
+  }
+  /* the tints that carry a meaning (keep, remember, a state, a recommendation, a warning) print with their colour even when "Background graphics" is off */
+  .recap, .remember, .keep li, .option[data-rec], .option[data-rec]::after, .option[data-warn]::before, .status li::before, .tile, .callout, .risk .level, .chip, .rel,
+  .ballot-opt, .d-box, [class^="d-box"], .lane li, .timeline li::before { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .pick-hint { display: none; }
+  /* a closed fold prints its text: the script opens every details before printing, and the browsers that hide a closed one by content-visibility are told not to */
+  details::details-content { content-visibility: visible; display: block; }
   html, html[data-size] { font-size: 11pt; }
   .page { display: block; width: auto; padding: 0; }
   .rail, .progress, .skip, .tools, .tools-toggle, .tools-bar, .chapter > header label, .read-aloud, .collect, .resume, .stepper-nav, .views-tabs { display: none !important; }
@@ -1488,7 +1536,7 @@ html:not(.js) .ballot-tray { display: none; }
       <ol>
         <li>189 of 371 first-note writers never wrote a second.</li>
         <li>One cause is strong, two are moderate, one is weak.</li>
-        <li>Sharing as a way to keep people is the weakest finding.</li>
+        <li>The 2.4 headline, sharing, bets on the weakest finding.</li>
       </ol>
     </div>
 
@@ -1500,7 +1548,7 @@ html:not(.js) .ballot-tray { display: none; }
         <li data-strength="moderate"><a href="#elsewhere">Their notes live elsewhere</a><span>Three of six keep another app.</span><small class="evidence">4 sources</small><small class="open">1 open</small></li>
         <li data-strength="weak"><a href="#sharing">Sharing may keep people</a><span>Sharers wrote twice as many notes in a small beta.</span><small class="evidence">3 sources</small><small class="open">2 open</small></li>
       </ul>
-      <p class="take"><b>Take:</b> two causes rest on most of the sources. The weakest, that sharing keeps people, is the one the 2.4 headline bets on.</p>
+      <p class="take"><b>Take:</b> two causes rest on most of the sources. The weakest, that sharing keeps people, is the one the headline of the next release, 2.4, bets on.</p>
     </section>
 
     <ol class="map">
@@ -1639,7 +1687,7 @@ html:not(.js) .ballot-tray { display: none; }
     </section>
 
     <!-- ============ 5 ============ -->
-    <section class="chapter" id="change" data-keep="Act on the two solid causes now. Measure the weak one in 2.4.">
+    <section class="chapter" id="change" data-keep="Act on the two solid causes now. Keep the sharing bet, but measure it in 2.4.">
       <header>
         <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>What does this change?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
@@ -1648,13 +1696,13 @@ html:not(.js) .ballot-tray { display: none; }
 
       <p class="from"><b>Before this:</b> sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</p>
 
-      <p>We act on the causes that rest on most of the sources. We measure the weak one before we bet on it.</p>
+      <p>We act on the causes that rest on most of the sources. The weak one still carries the 2.4 headline, so we keep it and measure it.</p>
 
       <div class="split">
         <div class="before"><b>The plan before this</b><ul><li>2.4 is sharing and little else for a new user.</li><li>A new user hears nothing after the first note.</li><li>Success is counted in shared notebooks.</li></ul></div>
-        <div class="after"><b>The plan now</b><ul><li>Sharing stays the 2.4 headline.</li><li>A weekly digest email brings people back to their notes.</li><li>We count second notes, not only shared notebooks.</li></ul></div>
+        <div class="after"><b>The plan now</b><ul><li>Sharing stays the 2.4 headline, a weak bet.</li><li>A weekly digest email brings people back to their notes.</li><li>We count second notes, not only shared notebooks.</li></ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> the two stronger findings change what we build, and the weak one changes only what we measure.</p>
+      <p class="take"><b>Take from this:</b> the two stronger findings change what we build, and the weak one stays the headline, measured.</p>
 
       <p>Four questions stay open. Each one is a small test, not a debate.</p>
       <ul>
@@ -1668,7 +1716,7 @@ html:not(.js) .ballot-tray { display: none; }
         <p>Six people, 20 minutes each, from 22 to 29 September. P1 to P3 are students, P4 and P5 are freelancers, and P6 is a retired nurse. Each wrote a first note in the app in the week before the interview.</p>
       </details>
 
-      <p class="remember"><b>Remember:</b> act on the two stronger findings now, and test the weak one in 2.4.</p>
+      <p class="remember"><b>Remember:</b> act on the two stronger findings now, keep the sharing bet, and measure it in 2.4.</p>
     </section>
 
     <section class="recap" id="recap">
@@ -1678,7 +1726,7 @@ html:not(.js) .ballot-tray { display: none; }
         <li>After the first note the app says nothing, and four in five of the people who stop never return.</li>
         <li>Half the interviewees keep notes elsewhere, and people who open Import stop a little more often.</li>
         <li>Sharers wrote twice as many notes, but 40 volunteers cannot prove sharing is the reason.</li>
-        <li>Act on the two stronger findings now, and test the weak one in 2.4.</li>
+        <li>Act on the two stronger findings now, keep the sharing bet, and measure it in 2.4.</li>
       </ol>
     </section>
   </main>
@@ -1702,8 +1750,8 @@ root.classList.add('js');
 
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
 const T = {
-  en: { of: '{n} of {m}', step: '{n} of {m}', ans: '{n} of {m} answered', head: 'answers from {name} on {date}', anon: 'anonymous', none: 'Not answered',
-        read: 'Read aloud', stop: 'Stop', cont: 'Continue from', go: 'Go', no: 'Dismiss', keys: 'Keys', next: 'Next chapter', prev: 'Previous chapter', close: 'Close', fin: 'All chapters done',
+  en: { of: 'Chapter {n} of {c}', step: '{n} of {m}', ans: '{n} of {m} answered', head: 'answers from {name} on {date}', anon: 'anonymous', none: 'Not answered',
+        read: 'Read aloud', stop: 'Stop', cont: 'Continue from', go: 'Go', no: 'Dismiss', keys: 'Keys', next: 'Next chapter', prev: 'Previous chapter', close: 'Close', fin: 'All chapters done', copyFail: 'Could not copy. Select the text and copy it yourself.', saved: 'Downloaded', ansBar: 'Your answers',
         pickN: '{n} of {m} picked', pickCopied: 'Copied', pickNot: 'Not picked', pickYour: 'Your pick: {k}', shipSome: 'Ship {k}', shipNone: 'Ship none',
         pickHead: '{title}: my picks ({n} of {m})', pickShip: 'ship {k}', pickNone: 'ship none', pickUse: 'Not picked (use ★)',
         savedDb: 'Saved for Claude', savedLocal: 'Saved in this browser', savedNone: 'Not saved; Copy picks still works',
@@ -1714,8 +1762,8 @@ const T = {
         bkGroup: 'Bucket for {item}', bkRec: '{b}, recommended', bkMoved: '{item} moved to {b}', bkOk: 'These picks are right', bkTitle: 'Order your {b} items', bkHint: 'Only {b} gets an order. First item on top.',
         bkEmpty: 'Nothing is in {b}. Tap {b} on an item above to add it here.', bkSame: 'All {m} match ★', bkDiff: '{n} of {m} changed from ★', bkOrder: 'Same buckets as ★, new order',
         bkAll: 'all ★ (recommended)', bkSome: '{n} changed from ★', bkNew: 'same buckets as ★, new order' },
-  ja: { of: '第{n}章 / 全{m}章', step: '{n} / {m}', ans: '{n} / {m} 回答済み', head: '{name}の回答（{date}）', anon: '匿名', none: '未回答',
-        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を読みました',
+  ja: { of: '第{n}章 / 全{c}章', step: '{n} / {m}', ans: '{n} / {m} 回答済み', head: '{name}の回答（{date}）', anon: '匿名', none: '未回答',
+        read: '読み上げ', stop: '停止', cont: '続きから：', go: '移動', no: '閉じる', keys: 'キー操作', next: '次の章', prev: '前の章', close: '閉じる', fin: 'すべての章を読みました', copyFail: 'コピーできませんでした。テキストを選択して、手動でコピーしてください。', saved: 'ダウンロードしました', ansBar: 'あなたの回答',
         pickN: '{n} / {m} 選択済み', pickCopied: 'コピーしました', pickNot: '未選択', pickYour: '選択：{k}', shipSome: '{k} を入れる', shipNone: 'どれも入れない',
         pickHead: '{title}：選択結果（{m}問中{n}問）', pickShip: '{k} を入れる', pickNone: 'どれも入れない', pickUse: '未選択（★を採用）',
         savedDb: 'Claude に保存済み', savedLocal: 'このブラウザに保存済み', savedNone: '保存できません。「選択をコピー」は使えます',
@@ -1752,28 +1800,37 @@ themeName();
 root.dataset.size = store.get('explainer:size') || '';
 
 /* skim, ruler and one-chapter modes: on or off on <body>; the ruler is remembered */
-const flip = (btn, attr, k, then) => {
+const flip = (btn, attr, k, then, before) => {
   if (!btn) return;
-  const set = s => { body.setAttribute(attr, s ? 'on' : 'off'); btn.setAttribute('aria-pressed', s); then?.(s); };
+  const set = s => { const at = s && before ? before() : 0; body.setAttribute(attr, s ? 'on' : 'off'); btn.setAttribute('aria-pressed', s); then?.(s, at); };
   if (k && store.get(k) === 'on') set(true);
   on(btn, 'click', () => { const s = body.getAttribute(attr) !== 'on'; set(s); k && store.set(k, s ? 'on' : 'off'); });
 };
 const parts = qa('.chapter, .recap, .ask'), nav = $('.focus-nav'), [pv, nx] = ['prev', 'next'].map(k => $('[data-' + k + ']', nav));
 let idx = 0, current;
 const focused = () => body.dataset.focus === 'on';
-const showPart = i => {
+parts.forEach((p, n) => { if (!p.id) { let id = p.classList.contains('ask') ? 'ask' : 'part-' + (n + 1); while (byId(id)) id += '-x'; p.id = id; } });  /* each part has an address, so Back can step to it */
+const chapters = qa('.chapter');  /* the counter counts chapters only; the recap and the ask show their heading without a number */
+const showPart = (i, push = true) => {
   idx = Math.max(0, Math.min(parts.length - 1, i));
   parts.forEach((p, n) => p.toggleAttribute('data-active', n === idx));
   if (nav) {
     pv.disabled = idx === 0; nx.disabled = idx === parts.length - 1;
-    const h = $('h2', parts[idx]); $('.where', nav).textContent = fmt(L.of, { n: idx + 1, m: parts.length }) + (h ? ': ' + h.textContent : '');
+    const h = $('h2', parts[idx]), c = chapters.indexOf(parts[idx]);
+    $('.where', nav).textContent = (c >= 0 ? fmt(L.of, { n: c + 1, c: chapters.length }) + (h ? ': ' : '') : '') + (h ? h.textContent : '');
   }
-  if (focused()) scrollTo(0, nav ? nav.getBoundingClientRect().top + scrollY - 8 : 0);
+  if (focused()) {
+    /* a chapter change is a history entry, so Back steps to the chapter before and not out of the page */
+    const id = parts[idx].id; if (push && id && location.hash !== '#' + id) { try { history.pushState(null, '', '#' + id); } catch {} }
+    scrollTo(0, nav ? nav.getBoundingClientRect().top + scrollY - 8 : 0);
+  }
 };
 const jump = e => { const n = parts.indexOf(e); if (n >= 0) focused() ? showPart(n) : e.scrollIntoView(); };
 flip(sk, 'data-skim'); flip(ru, 'data-ruler', 'explainer:ruler');
 if (parts.length) {
-  flip(fb, 'data-focus', 0, s => { if (s) showPart(Math.max(0, parts.findIndex(p => p.getBoundingClientRect().bottom > 120))); });
+  /* the reader's chapter is measured before the mode hides the others; measured after, every box is empty and the page would open on chapter 1 */
+  flip(fb, 'data-focus', 0, (s, at) => { if (s) showPart(at); },
+    () => { const n = parts.findIndex(p => p.getBoundingClientRect().bottom > 120); return n < 0 ? Math.max(0, parts.indexOf(current)) : n; });
   on(pv, 'click', () => showPart(idx - 1)); on(nx, 'click', () => showPart(idx + 1));
   on(d, 'click', e => {  /* a link to something inside a chapter (a playbook phase) opens that chapter, then scrolls to the thing */
     const a = focused() && e.target.closest?.('.rail a[href^="#"], .map a[href^="#"], .phase-strip a[href^="#"]');
@@ -1782,7 +1839,7 @@ if (parts.length) {
   });
 }
 /* roadmap: each lane is named by its h3, and a card says how many others wait on it. "Unblocks N" is counted from the small.after links, so it cannot drift. */
-Object.assign(T.en, { unblocks: 'Unblocks {n}', back: 'Back to: {t}' }); Object.assign(T.ja, { unblocks: '{n}件の前提', back: '戻る：{t}' });
+Object.assign(T.en, { unblocks: 'Unblocks {n}', back: 'Back to: {t}' }); Object.assign(T.ja, { unblocks: '後続{n}件', back: '戻る：{t}' });
 qa('.lane').forEach((l, i) => { const h = $('h3', l); if (h && !l.hasAttribute('aria-labelledby')) l.setAttribute('aria-labelledby', h.id = h.id || 'lane-' + i); });
 qa('.cutline[role="separator"]:not([aria-label])').forEach(c => c.setAttribute('aria-label', txt(c)));
 const waiting = {};  /* blocker id -> the cards that list it */
@@ -1895,7 +1952,9 @@ on(d, 'click', e => {
   if (a && a.getAttribute('href') === '#') return e.preventDefault();  /* a bare "#" (the ask's choices) goes nowhere; in a viewer it would reload the frame and blank the page */
   let t = null; try { t = a ? byId(decodeURIComponent(a.getAttribute('href').slice(1))) : null; } catch {}
   if (!t) return;
-  e.preventDefault(); fgReveal(t); t.scrollIntoView();  /* a field guide opens what it lands on first, so there is something to scroll to */
+  e.preventDefault(); fgReveal(t);  /* a field guide opens what it lands on first, so there is something to scroll to */
+  { const part = t.closest('.chapter, .recap, .ask'); if (focused() && parts.includes(part)) showPart(parts.indexOf(part)); }  /* a link to another chapter shows that chapter in one-chapter mode */
+  t.scrollIntoView();
   /* the landing is a static class on the target, one at a time. A jump to a list item from inside another titled item also gets one link back. */
   const cards = '.lane li, .backlog-top > li, details.theme li, .entry';  /* the roadmap's items and the guide's entries: each is titled by its first b */
   const from = a.closest(cards + ', [id]:not(main)'), name = from && from !== t && $('b, h3, h2', from);  /* read before the old back link goes, in case that is the link just clicked */
@@ -1905,13 +1964,15 @@ on(d, 'click', e => {
     from.id = from.id || 'jump-' + qa(cards).indexOf(from);
     const back = d.createElement('a'); back.className = 'jump-back'; back.href = '#' + from.id; back.textContent = fmt(L.back, { t: txt(name) }); t.append(back);
   }
-  try { history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
+  try { if (location.hash !== '#' + t.id) history.pushState(null, '', '#' + t.id); } catch {}  /* refused in a srcdoc frame; the scroll already happened */
 });
 /* a page opened on a link shows its landing too, and so does Back to an earlier link. A hidden entry is opened first and scrolled to, because the browser could not. */
 const land = () => {
   try {
     const t = byId(decodeURIComponent(location.hash.slice(1))); if (!t) return;
-    const opened = fgReveal(t); qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
+    const opened = fgReveal(t), part = t.closest('.chapter, .recap, .ask');
+    if (focused() && parts.includes(part)) { showPart(parts.indexOf(part), false); if (t !== part) t.scrollIntoView(); }  /* Back, or a link from outside, opens the chapter the hash names */
+    qa('.is-target').forEach(x => x.classList.remove('is-target')); qa('a.jump-back').forEach(x => x.remove());
     t.classList.add('is-target'); if (opened) t.scrollIntoView();
   } catch {}
 };
@@ -1928,17 +1989,32 @@ if (last && head && last !== $('.chapter')) {
   const [go, x] = qa('button', rc); go.dataset.resume = x.dataset.resumeDismiss = '';
   on(go, 'click', () => { rc.remove(); jump(last); }); on(x, 'click', () => rc.remove());
   head.after(rc);
+  /* a browser that restored the scroll position has already put the reader there: no offer to go where they are */
+  const here = () => { const r = last.getBoundingClientRect(); if (r.top < innerHeight * .65 && r.bottom > innerHeight * .35) rc.remove(); };
+  on(window, 'load', () => setTimeout(here, 50));
 }
 
 /* current chapter in the rail, remembered for resume */
 const links = qa('.rail a[href^="#"]'), targets = links.map(a => byId(a.getAttribute('href').slice(1))).filter(Boolean);
 if (window.IntersectionObserver && targets.length) {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) current = e.target; });
+  const mark = () => {
     links.forEach(a => a.setAttribute('aria-current', !!current && a.getAttribute('href') === '#' + current.id));
     if (current) store.set(key + ':last', current.id);
+  };
+  const atEnd = () => scrollY + innerHeight >= root.scrollHeight - 2;
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) current = e.target; });
+    if (atEnd() && !focused()) current = targets[targets.length - 1];  /* the very bottom is the last part, whatever crossed the band last */
+    mark();
   }, { rootMargin: '-35% 0px -55% 0px', threshold: 0 });
   targets.forEach(t => io.observe(t));
+  /* a short last part (the recap) never reaches the band: at the very bottom of the page the last target is the current one */
+  let bottomed = false;
+  addEventListener('scroll', () => {
+    const end = atEnd();
+    if (end && !bottomed && !focused()) { current = targets[targets.length - 1]; mark(); }
+    bottomed = end;
+  }, { passive: true });
 }
 
 /* done boxes, remembered per page; all checked sets the finish state */
@@ -2002,15 +2078,14 @@ if (panel) {
     };
     sz.replaceWith(row); paint();
   }
+  const fit = () => { if (!panel.hidden && rail?.contains(panel)) { const over = panel.getBoundingClientRect().bottom - innerHeight + 16; if (over > 0) rail.scrollTop += over; } };  /* a short laptop screen: the panel opens below the chapter list */
   const place = () => {
     const host = wide.matches && railList ? railBar || railList : null;
     if (host) { host.after(bar); bar.after(panel); }
     else { const spot = $('.meta') || $('main h1'); if (spot?.matches('.meta')) spot.append(bar, panel); else spot?.after(bar, panel); }
+    fit();  /* the window grew with the panel open: the rows at the bottom must not be cut off */
   };
-  const show = o => {
-    panel.hidden = !o; toggle.setAttribute('aria-expanded', o);
-    if (o && rail?.contains(panel)) { const over = panel.getBoundingClientRect().bottom - innerHeight + 16; if (over > 0) rail.scrollTop += over; }  /* a short laptop screen: the panel opens below the chapter list */
-  };
+  const show = o => { panel.hidden = !o; toggle.setAttribute('aria-expanded', o); fit(); };
   on(toggle, 'click', () => show(panel.hidden));
   on(d, 'click', e => { if (!panel.hidden && !e.target.closest?.('.tools, .tools-bar, dialog')) show(false); });
   on(d, 'keydown', e => { if (e.key === 'Escape' && !panel.hidden && !dlg?.open) { show(false); toggle.focus(); } });
@@ -2087,10 +2162,10 @@ rd.forEach(b => {
 
 /* keys: J K change chapter, F S D R switch modes, ? lists them */
 const kb = $('[data-keys]');
-const dlg = kb && make('dialog', 'keys', '<h2>' + L.keys + '</h2><dl>' + [['J', L.next], ['K', L.prev], ['F', fb], ['S', sk], ['D', tt && L.theme], ['R', ru], ['?', kb]]
+const dlg = kb && make('dialog', 'keys', '<h2 id="keys-title">' + L.keys + '</h2><dl>' + [['J', L.next], ['K', L.prev], ['F', fb], ['S', sk], ['D', tt && L.theme], ['R', ru], ['?', kb]]
   .map(([k, b]) => b ? '<dt><kbd>' + k + '</kbd></dt><dd>' + esc(b.nodeType ? txt(b) || b.getAttribute('aria-label') || '' : b) + '</dd>' : '').join('') + '</dl><form method="dialog"><button>' + L.close + '</button></form>');
 [['F', fb], ['S', sk], ['D', tt], ['R', ru], ['?', kb]].forEach(([k, b]) => { if (b?.closest('.tools')) { b.dataset.key = k; b.setAttribute('aria-keyshortcuts', k); } });  /* CSS prints it on the right of the row */
-if (dlg) { body.append(dlg); on(dlg, 'click', e => { if (e.target === dlg) dlg.close(); }); on(kb, 'click', () => dlg.showModal()); }
+if (dlg) { dlg.setAttribute('aria-labelledby', 'keys-title'); body.append(dlg); on(dlg, 'click', e => { if (e.target === dlg) dlg.close(); }); on(kb, 'click', () => dlg.showModal()); }
 on(d, 'keydown', e => {
   const k = (e.key || '').toLowerCase(), t = e.target;
   if (e.ctrlKey || e.metaKey || e.altKey || t.isContentEditable || /^(input|textarea|select)$/i.test(t.tagName || '') || t.closest?.('dialog[open]') || dlg?.open) return;
@@ -2140,7 +2215,7 @@ if (root.dataset.mode === 'ballot') {
       pips[i].classList.toggle('on', got); pips[i].setAttribute('aria-label', numOf(c, i) + '. ' + (c.dataset.short || '') + ': ' + stateOf(c, v));
     });
     if (tally) tally.textContent = fmt(L.pickN, { n, m: total });
-    tray?.toggleAttribute('data-complete', n === total);
+    tray?.toggleAttribute('data-complete', n === total); tray?.toggleAttribute('data-empty', n === 0);  /* compact until the first pick, so the first card's options are not under it */
     if (rowList) {  /* review: one row per card, its short name and the pick, or ★ when the card is skipped */
       const html = cards.map((c, i) => {
         const v = picks[c.dataset.q], got = v !== undefined;
@@ -2277,6 +2352,9 @@ if (root.dataset.mode === 'ballot') {
 
 /* gather: answers are saved on this device; the collect bar copies or downloads them */
 const fields = qa('.answer-field'), bar = $('.collect'), cnt = $('.count', bar), who = $('.respondent', bar), ak = key + ':answers';
+if (bar) { bar.setAttribute('role', 'region'); bar.setAttribute('aria-label', L.ansBar); cnt?.setAttribute('aria-live', 'polite'); }
+const said = make('div', 'visually-hidden', ''); said.setAttribute('role', 'status'); said.setAttribute('aria-live', 'polite'); body.append(said);  /* copy and download results are spoken, not only drawn */
+const tell = m => { said.textContent = ''; setTimeout(() => { said.textContent = m; }, 30); setTimeout(() => { said.textContent = ''; }, 5000); };
 let kept = {}; try { kept = JSON.parse(store.get(ak)) || {}; } catch (e) {}
 const lab = i => { const l = i.closest('label'); return l ? txt(l) : i.value; };
 const item = li => { const c = li.cloneNode(true); qa('button, .bucket-row', c).forEach(b => b.remove()); return txt(c); };
@@ -2428,7 +2506,7 @@ const pack = () => {
 const markdown = o => '# ' + o.title + L.mdJoin + fmt(L.head, o) + ' (' + o.lang + ')\n'  /* merge.html reads this line by position: keep the ISO date and the (lang) */
   + o.answers.map(x => '\n## [' + x.q + '] ' + x.question + '\n' + x.answer + '\n').join('')
   + (o.unanswered.length ? '\n## ' + L.none + '\n' + o.unanswered.map(x => '[' + x.q + '] ' + x.question + '\n').join('') : '');
-const flash = (b, ok) => { b.classList.add(ok ? 'go' : 'stop'); setTimeout(() => b.classList.remove('go', 'stop'), 1600); };
+const flash = (b, ok) => { b.classList.add(ok ? 'go' : 'stop'); setTimeout(() => b.classList.remove('go', 'stop'), 1600); tell(ok ? ('download' in b.dataset ? L.saved : L.copied) : L.copyFail); };
 const copy = (s, b) => {
   const legacy = () => {
     const t = d.createElement('textarea'); let ok = false; t.value = s; t.style.cssText = 'position:fixed;opacity:0'; body.append(t); t.select();
@@ -2448,6 +2526,30 @@ on(bar, 'click', e => {
     body.append(a); a.click(); a.remove(); flash(b, true);
   }
 });
+
+/* fixed bars: scroll-padding follows the height of whichever bar is showing, so a focused control is never left under it (WCAG 2.4.11). A bar that is not fixed (a short window) adds nothing. */
+{
+  const bars = qa('.collect, .ballot-tray'); let h = 0;
+  /* the browser leaves a focused control where it is while any of it shows, even if the bar covers the rest; scrollIntoView honours scroll-padding, so it brings the control clear */
+  const clear = () => {
+    const a = d.activeElement; if (!h || !a || a === body || a.closest('.collect, .ballot-tray')) return;
+    const r = a.getBoundingClientRect(); if (r.bottom > innerHeight - h && r.top < innerHeight) a.scrollIntoView({ block: 'nearest' });
+  };
+  const measure = () => {
+    const was = h;
+    h = Math.max(0, ...bars.map(b => { if (b.hidden) return 0; const c = getComputedStyle(b); return c.position === 'fixed' && c.display !== 'none' ? innerHeight - b.getBoundingClientRect().top : 0; }));
+    root.style.setProperty('--bar-h', h ? Math.ceil(h + 16) + 'px' : '0px');
+    if (h > was) clear();  /* a bar that grew (the first pick) may now cover what has focus */
+  };
+  if (bars.length) { if (window.ResizeObserver) { const ro = new ResizeObserver(measure); bars.forEach(b => ro.observe(b)); } addEventListener('resize', measure); on(d, 'focusin', clear); measure(); }
+}
+
+/* print: every fold shows its text on paper. beforeprint covers File > Print, the media query covers print preview. The field guide's families do the same for themselves. */
+{
+  const shutD = new Map(), openD = () => { if (!shutD.size) qa('details:not(.family-index)').forEach(x => { shutD.set(x, x.open); x.open = true; }); }, backD = () => { shutD.forEach((o, x) => { x.open = o; }); shutD.clear(); };
+  on(window, 'beforeprint', openD); on(window, 'afterprint', backD);
+  matchMedia('print').addEventListener?.('change', m => (m.matches ? openD : backD)());
+}
 
 /* at a glance: the four derived pictures. A page writes an empty placeholder (div.runbook-overview, div.filmstrip, div.rulings, div.qprogress)
    and these fill it from parts already on the page, so nothing is typed twice. Each runs on its own, so one that cannot build changes nothing.
@@ -2541,13 +2643,23 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
   /* the ask: a tap picks a choice and copies a one-line reply ("Question: choice") to paste into the chat */
   safe(() => qa('.ask').forEach(ask => {
     const cs = qa('.choices > *', ask); if (!cs.length) return;
-    const qp = $('.choices', ask).previousElementSibling, q = txt(qp?.matches('p') ? qp : $('h2', ask) || ask), say = make('p', 'ask-say', '');  /* the question is the line above the choices */ say.setAttribute('aria-live', 'polite'); $('.choices', ask).after(say);
+    const say = make('p', 'ask-say', '');
+    /* the question is the first paragraph that asks one (or the legend), cut at its question mark: the "Reply with one of these" that follows is an instruction, and it stays out of the copy */
+    const qp = qa('p:not(.nothing)', ask).find(p => /[?？]/.test(txt(p))) || $('legend', ask) || $('.choices', ask).previousElementSibling;
+    let q = txt(qp?.matches('p, legend') ? qp : $('h2', ask) || ask);
+    const cut = q.match(/^.*?[?？]/);
+    if (cut) q = cut[0];
+    else {  /* no question mark: the first sentence, without its full stop and, in Japanese, without the "reply with" clause after the last 、 */
+      q = (q.match(/^.*?(?:[.!](?=\s|$)|[。！])/) || [q])[0].replace(/[.。!！]+$/, '');
+      if (/^ja/i.test(root.lang) && q.includes('、')) q = q.slice(0, q.lastIndexOf('、'));
+    }
+    say.setAttribute('aria-live', 'polite'); $('.choices', ask).after(say);
     cs.forEach(c => {
       c.setAttribute('role', 'button'); c.setAttribute('aria-pressed', 'false');
       if (!c.matches('a[href], button')) { c.tabIndex = 0; on(c, 'keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); c.click(); } }); }
       on(c, 'click', e => {
         e.preventDefault(); cs.forEach(x => x.setAttribute('aria-pressed', x === c));
-        const line = q + (/[?？]$/.test(q) ? ' ' : L.askJoin) + txt(c), done = m => { say.textContent = m; }, no = () => done(fmt(L.askReply, { t: line }));
+        const line = q + (/[?？!！]$/.test(q) ? ' ' : L.askJoin) + txt(c), done = m => { say.textContent = m; }, no = () => done(fmt(L.askReply, { t: line }));
         try { navigator.clipboard?.writeText ? navigator.clipboard.writeText(line).then(() => done(L.askCopied), no) : no(); } catch (er) { no(); }
       });
     });

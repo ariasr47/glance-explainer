@@ -187,7 +187,7 @@ function apply([file, stringsFile], flags) {
   });
   // Japanese and Chinese put no space between words, so the space an English source keeps around an inline tag
   // ("<b>Compare</b> the pictures") would show as a gap. Drop it where both sides are CJK text, or where the
-  // translation starts or ends with full-width punctuation. A space next to Latin text or code ("<b>A</b> 入力",
+  // translation starts or ends with full-width punctuation, or the text beside it does ("つまり：</b> 1つ目" loses its space). A space next to Latin text or code ("<b>A</b> 入力",
   // "<code>check.mjs</code> を実行") stays, so code items count as neighbours too.
   const cjk = /^(ja|zh)\b/i.test(lang), wide = /[　-ヿ㐀-鿿豈-﫿＀-￯]/, punct = /[　-〿！-／：-＠]/;
   const texts = items.map((it, n) => (it.kind === 'text' || it.kind === 'code' ? n : -1)).filter((n) => n >= 0);
@@ -197,8 +197,8 @@ function apply([file, stringsFile], flags) {
     if (cjk && it.kind === 'text' && t !== it.text) {
       const pk = k > 0 ? texts[k - 1] : -1, nk = k < texts.length - 1 ? texts[k + 1] : -1;
       const prev = pk >= 0 ? out[pk].slice(-1) : '', next = nk >= 0 ? out[nk][0] : '';
-      if (wide.test(t[0]) && (wide.test(prev) || punct.test(t[0]))) a = 0;
-      if (wide.test(t.slice(-1)) && (wide.test(next) || punct.test(t.slice(-1)))) b = it.tok.s.length;
+      if ((wide.test(t[0]) && (wide.test(prev) || punct.test(t[0]))) || punct.test(prev)) a = 0;  // a full-width colon or stop already carries its own blank, so the next text (a digit, a Latin word, code) follows it with no space
+      if ((wide.test(t.slice(-1)) && (wide.test(next) || punct.test(t.slice(-1)))) || punct.test(next)) b = it.tok.s.length;
       // and the other way: Japanese written straight against code or a Latin word gets one half-width space
       // ("<code>x</code>を" becomes "<code>x</code> を"); a digit keeps its counter tight (3件)
       const latin = (n, ch) => n >= 0 && (items[n].kind === 'code' || /[A-Za-z]/.test(ch));

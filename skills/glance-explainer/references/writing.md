@@ -5,8 +5,8 @@ The reader can hold about three things at once and loses them the moment they sc
 ## The contract of every page
 
 1. **Answer first.** The `.answer` line is the whole page in one sentence, and it is the page's headline. Write it before anything else. If you cannot write it, you do not understand the topic yet.
-2. **Three facts to keep.** The `.keep` box holds at most three lines under fifteen words each. These are the only things the page asks the reader to carry.
-3. **The glance shows the type's own picture.** A `section.glance` sits after the keep box. It holds one picture and one `.take` line that says what the picture shows. The chapter that explains the picture builds on it and does not repeat it. A roadmap, a playbook and a field guide have none.
+2. **Three facts to keep.** The `.keep` box holds at most three lines under fifteen words each. These are the only things the page asks the reader to carry. A keep fact adds something: it never restates a clause of the answer line (the checker warns when a keep line shares more than 60% of its content words with the answer).
+3. **The glance shows the type's own picture.** A `section.glance` sits after the keep box. It holds one picture and one `.take` line that says what the picture shows. The chapter that explains the picture builds on it and does not repeat it. A roadmap's glance is its lanes, a field guide's is its territory, and a playbook has none, because its phase strip opens the page.
 4. **Chapters are self-contained.** A chapter opens with `.from` (the one fact it builds on, restated, never "as we saw above") and closes with `.remember` (one sentence). A reader who lands mid-page loses nothing.
 5. **Recap = the remember lines.** The closing `.recap` list is the chapters' remember lines, copied. Nothing new appears at the end.
 6. **The ask is one question.** If a decision is needed, `.ask` holds one question, two to four choices, the recommendation marked, and what happens if the reader does nothing.
@@ -114,6 +114,11 @@ Use these on every Japanese page, so a reader meets the same words each time. `u
 - **Numbers carry counters.** 3件, 2章, 5分, 4週間. Ranges use 〜: 1〜3か月.
 - **No calques.** 「ログインを持つ」 is 「ログインできる」; 「上限を持つ」 is 「上限がある」; 「10回行い」 is 「10回試し」. Do not add a 「ため」 or 「ので」 the English does not state.
 - **Keep every clause when shortening.** The answer bar aims for 52 characters or fewer; cut words, never a fact the English states.
+- **No space after a full-width colon.** Write `<b>つまり：</b>1つ目の…` and `<b>確認：</b><code>git status</code> を…`. 、 and 。 never have a space after them either.
+- **One progress format.** Progress is 「{m}件中{n}件」 (counter, 中, counter), never `n / m` and never a spaced slash.
+- **One counter per object on a page.** 件 for list entries and decisions, 問 for questions, 章 for chapters, 個 for things. つ only in prose before a noun: 「3つの判断」.
+- **One word for a state in one component.** Pick one of 判断済み or 回答済み for a whole table. A chapter read is 「読んだ」 on the checkbox, the rail and the finish message alike. A runbook step or roadmap item that is complete stays 「完了」.
+- **ほか** in kana, **その他** in kanji.
 - **Fixed words keep their kana:** ひと晩, ひとつ目. People count as 2人, not 二人.
 - **Brackets.** 「」 for a term or a quoted label, full-width （） in Japanese prose, half-width () only around code.
 

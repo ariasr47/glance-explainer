@@ -125,6 +125,16 @@ if (!ballot) { // the explainer spine; a ballot page has none of it
     const items = (keep[1].match(/<li\b/g) || []).length; info.keepItems = items;
     if (items < 1 || items > 3) fail(`keep box has ${items} items; 1 to 3 allowed`);
     for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) if (size(li[1]) > LIM.keep) warn(`keep item over ${LIM.keep} ${unit}: "${strip(li[1]).slice(0, 60)}"`);
+    // a keep fact adds something: it never restates the answer line (English only; Japanese has no spaces to split on)
+    if (!ja && answer) {
+      const STOP = new Set('a an and are as at be but by can do does for from has have how if in into is it its no not of on one or so than that the their then there these they this to was we what when which who will with you your'.split(' '));
+      const content = (t) => (strip(t).toLowerCase().match(/[a-z0-9]+/g) || []).filter((w) => !STOP.has(w)).map((w) => w.replace(/(ing|ed|es|s)$/, ''));
+      const said = new Set(content(answer[1]));
+      for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) {
+        const ws = content(li[1]);
+        if (ws.length >= 3 && ws.filter((w) => said.has(w)).length / ws.length > 0.6) warn(`keep item restates the answer line (${Math.round(100 * ws.filter((w) => said.has(w)).length / ws.length)}% of its content words): "${strip(li[1]).slice(0, 60)}"; a keep fact must add something`);
+      }
+    }
   }
   if (!count(hasClass('section', 'recap'))) fail('missing section.recap');
 }
@@ -173,6 +183,16 @@ chapters.forEach(([, id, body], i) => {
 // but it is no chapter, so they never join a chapter's own count. The script fills a derived picture's empty placeholder later, so those words are not counted.
 const glances = find('glance', 'section');
 for (const g of glances) totalWords += size(unfold(g.inner).replace(/<svg[\s\S]*?<\/svg>/g, ''));
+// the page's reading time is the sum of its chapter minutes (the kickers), so the meta and the chapters never disagree
+{
+  const KMIN = ja ? /約\s*(\d+)\s*分/ : /about (\d+) minutes?/i;
+  const mins = chapters.map(([, , body]) => (KMIN.exec(strip(find('kicker', 'p', body)[0]?.inner || '')) || [])[1]).filter(Boolean).map(Number);
+  const meta = (ja ? /約\s*(\d+)\s*分で読めます/ : /Reading time about\s+(\d+)\s+minutes?/i).exec(strip(html));
+  if (meta && mins.length && mins.length === chapters.length) {
+    const sum = mins.reduce((a, b) => a + b, 0);
+    if (+meta[1] !== sum) warn(`the meta says ${meta[1]} min, the chapter kickers add up to ${sum}; the page time is the sum of the chapter minutes (run assemble.mjs --refresh)`);
+  }
+}
 info.readingPathWords = totalWords; info.readingMinutes = Math.ceil(totalWords / RATE);
 if (totalWords > LIM.path) warn(`reading path is ${totalWords} ${unit} across chapters; aim under ${LIM.path}`);
 

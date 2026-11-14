@@ -21,11 +21,11 @@ One `.html` file from `assets/template.html`, in this order:
 4. **Chapter map**: 3 to 7 chapters, one line each.
 5. **Chapters**: one idea each. Each opens by restating the fact it builds on, has a visual component, puts machinery in a fold, and closes with one remember line.
 6. **Recap**: the remember lines.
-7. **The ask**, only when a decision is needed: one question, 2 to 4 choices, the recommendation marked, and what happens if the reader does nothing.
+7. **The ask**, only when a decision is needed: one question, 2 to 4 choices, the recommendation marked, and what happens if the reader does nothing (skipping means the ★ option).
 
 ## Page identity and conventions
 
-- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook` or `field-guide`, each defined in `references/types.md`. A playbook may run to 10 chapters.
+- Start with `<html lang="en" data-type="explainer">`. `lang` is `en` or `ja`. `data-type` is `explainer` (default), `decision`, `status`, `spec`, `release`, `research`, `handover`, `portfolio`, `public`, `teach`, `incident`, `pr`, `runbook`, `compare`, `roadmap`, `tour`, `playbook` or `field-guide`, each defined in `references/types.md`, which opens with a "Choosing the type" table. A playbook may run to 10 chapters.
 - Pages that collect answers (`gather`) or map a system (`atlas`) add rules. Also read `../explainer-gather/SKILL.md` or `../explainer-atlas/SKILL.md`.
 - Chapter kicker: "Chapter 2 of 6, about 1 minute" (200 words a minute, rounded up). Japanese: "第2章 / 全6章、約1分" (500 characters a minute).
 - Headings ask the question the chapter answers: "What changes for you?", not "Impact".

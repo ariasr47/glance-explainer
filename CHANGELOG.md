@@ -2,6 +2,39 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 2.3.0 (2026-11-14)
+
+Fixes from a deep review of every shipped page by nine reviewers (205 findings). This release takes the ones that were plainly wrong and needed no design decision. Run `upgrade.mjs` on an older page to get the reader-tool fixes.
+
+### Fixed
+- **One chapter at a time** opens on the chapter you are reading (it always jumped to chapter 1), puts each chapter in the address bar so Back steps between chapters, makes links to another chapter work, and counts only real chapters ("Chapter 2 of 4"; the recap and the ask show no number).
+- **Bottom bars** (the answers bar and the ballot tray) no longer hide the control you tab to: the page scrolls it clear, the bar sits in the page on short windows, and the ballot tray starts as one row until the first pick.
+- **Windows High Contrast:** icons, the Read aloud and Done buttons, progress bars, focus rings and chosen states stay visible.
+- **Printing:** closed folds print their text, and printing from dark mode gives dark text on white.
+- **A warning chip** on an option no longer covers the option's title.
+- **The ask** copies only its question and your pick, never the instruction sentence.
+- **Reading time:** the page's time is now the sum of its chapter times, so the header and the chapter labels agree. Most pages read a minute or two longer than before; the old number undercounted.
+- **Accessibility:** placeholders and text-box borders meet contrast, copy and download results are announced to screen readers, and the Keys dialog has a name. The rail marks the recap at the end of the page, and the Reading tools panel fits after the window grows.
+- **Japanese:** the roadmap's "Unblocks N" chip read as "N prerequisites" and now reads 後続N件; `translate.mjs` no longer leaves a space after a full-width colon (73 removed from the shipped pages); the answer line lost negative letter-spacing meant for English; small cards have looser line height (1.65).
+
+### Changed in the examples
+- **Decision:** follows the ballot's rule. Skip a ruling and the ★ option ships, and the keep box and each "If you do nothing" line say so. Before, the keep box implied the ★ shipped while each ruling shipped the other option.
+- **Status:** the answer, keep box and ask now agree that 2.4 ships on its date either way and the DNS records decide only invite emails; the page is dated "as of" with the next update.
+- **Incident, research, teach, field guide, atlas:** facts that contradicted each other are repaired (a restart loop that could never finish its build, a plan that ignored its own evidence ratings, a change numbered 41 and 43, counts that did not add up, a table that showed two owners where the text said one).
+- **Roadmap and field guide** open with their lanes and territory map in the At a glance section, as the guide has asked since 2.2.0.
+- **Questionnaire (Japanese):** the hint names the real button.
+
+### Guidance and checks
+- **Choosing the type:** a table at the top of the page-type guide, with "use instead when" notes for types that are easy to confuse (decision, compare, ballot, playbook, spec; status, portfolio, handover, release, incident; explainer, teach, tour, field guide, atlas).
+- **One skip rule** on every page that asks: if the reader skips a choice, the ★ option happens, and the "If you do nothing" line names it.
+- **The checker warns** when a keep fact restates the answer line (10 of the shipped examples still do; rewriting them is the next release's work) and when the page's reading time differs from its chapter minutes.
+- **The repository check fails** when an example of a type that needs an At a glance picture has none, so examples cannot drift behind the guide again.
+- **Japanese writing rules:** no space after a full-width colon, one progress format, one counter per object, one word per state.
+- **The evidence section** of the design system now says how strong each claim is, and corrects three claims.
+
+### Known
+- On the ballot's first screen at 1280 × 800 the option pictures show and can be tapped, but their names still sit under the tray.
+
 ## 2.2.1 (2026-10-29)
 
 The skills now load for the requests people actually make. Pages look the same as in 2.2.0.
