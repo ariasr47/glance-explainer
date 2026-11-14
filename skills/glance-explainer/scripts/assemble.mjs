@@ -17,8 +17,8 @@
 // An atlas also needs its atlas.css and atlas.js links; this script does not add them.
 // Reading time: a chapter's reading path is its html with the folds closed, a field guide's index cut and the svg drawings gone, counted in words
 // (characters when <html lang="ja">) and divided by 200 (500) a minute, rounded up, never below 1. The kicker reads "Chapter 2 of 6, about 1 minute"
-// (plural above 1) or 「第2章 / 全6章、約1分」. The page's reading time adds every chapter's path and the glance, then does the same sum:
-// "Reading time about 5 minutes" or 「約5分で読めます」. A kicker or a meta with no reading time in it is left alone, and a note says so.
+// (plural above 1) or 「第2章 / 全6章、約1分」. The page's reading time is the SUM of the chapter minutes the kickers show, so a reader who adds them up gets the
+// number in the meta: "Reading time about 5 minutes" or 「約5分で読めます」 (check.mjs warns when the two differ). A kicker or a meta with no reading time in it is left alone, and a note says so.
 // The second form, --refresh, works on a finished page and rebuilds only the rail list and the reading minutes, in place. The map and the
 // rest stay as they are. A rail label stays as the page has it (a hand-shortened one survives) unless the chapter has a data-rail;
 // a chapter the rail does not know yet gets its h2. For pages edited by hand.
@@ -144,7 +144,8 @@ function renew(raw, { fresh, map, name, skip = 0 }) {
   let total = 0;
   for (const c of chapters) { const body = text(c.a, c.b); c.w = size(noSvg(unfold(type === 'field-guide' ? cutIndex(body) : body))); total += c.w; }
   for (const g of elems(m, 'glance', 'section')) total += size(noSvg(unfold(text(g.a, g.b))));
-  const pageMinutes = minutesOf(total);
+  // the page's time is the sum of the minutes the chapter kickers show, so a reader who adds the rail gets the number in the meta (a page with no chapter falls back to its whole path)
+  const pageMinutes = chapters.length ? chapters.reduce((n, c) => n + minutesOf(c.w), 0) : minutesOf(total);
 
   // ---- rail
   const nav = elems(m, 'rail', 'nav')[0], recap = elems(m, 'recap', 'section').find((e) => (attr(e.attrs, 'id') || '').trim());
@@ -219,7 +220,7 @@ function renew(raw, { fresh, map, name, skip = 0 }) {
       changed.push(`meta ${hit[1]} to ${pageMinutes} min`);
       edits.push({ a: meta.a + hit.index, b: meta.a + hit.index + hit[0].length, s: metaText(pageMinutes) });
     }
-    log.push(`minutes: ${total} ${unit} on the reading path = about ${pageMinutes}; ` + (changed.length ? `changed ${changed.join('; ')}` : 'every kicker and the meta already right'));
+    log.push(`minutes: ${total} ${unit} on the reading path; the page time ${pageMinutes} is the sum of the chapter minutes; ` + (changed.length ? `changed ${changed.join('; ')}` : 'every kicker and the meta already right'));
   }
   return { html: applyEdits(raw, edits), log, notes };
 }

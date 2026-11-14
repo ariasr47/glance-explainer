@@ -46,6 +46,7 @@ On 12 December 2026 this roadmap is reviewed against outside feedback and the re
 
 ## Recently shipped
 
+- **2.3.0:** fixes from a nine-reviewer deep review: one chapter at a time, bottom bars, Windows High Contrast, print, the decision skip rule, six example pages, and a guide to choosing the page type.
 - **2.2.1:** sharper skill descriptions, so the skills load for the requests people make: 57 of 57 test runs, up from 47.
 - **2.2.0:** fixes from a 23-page build audit: the ask and decisions answer with one tap, one colour for ★, Reading tools stays in view, flows and tiles sit evenly, and `assemble.mjs` builds a page from its body.
 - **2.1.0:** a sun or moon dark switch, natural Japanese labels and typography, and a Japanese version of every example.

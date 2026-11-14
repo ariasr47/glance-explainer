@@ -267,23 +267,25 @@ The page spends its boldness on memory offloading: the yellow keep cards at the 
 
 ## What the evidence says
 
-A verified research pass (September 2026, sources fetched and each claim adversarially checked) sorted the system's choices into three bins.
+A verified research pass (September 2026, sources fetched and each claim adversarially checked) sorted the system's choices into bins. Each line ends with a strength word: strong, moderate, weak or none.
 
 **Backed by evidence**
 
-- Short single-topic paragraphs, a visible completed / current / pending state for a multi-step read, and a cue that restores context after attention is lost. W3C COGA "Making Content Usable" says all three. This is why the chapter rail, the done checkboxes, and the "Before this" line exist.
-- Labels on the thing they name, never in a separate legend. Mayer and Moreno's spatial contiguity effect, corroborated by a later meta-analysis. This is why diagram text lives inside boxes and on arrows.
-- A measure of 50 to 75 characters is the craft consensus (the page uses 62). Later empirical work questions how much it matters; treat it as convention, not law.
-- Reader-controlled pacing. A small 2026 pilot found attention-adaptive chunking beat a static page, but only as a bundle and with eleven participants. A static file cannot adapt, so the page offers reader-controlled approximations: skim mode and one-chapter-at-a-time mode, plus the reader tools in the component vocabulary.
+- Short single-topic paragraphs and a visible completed / current / pending state for a multi-step read. W3C COGA "Making Content Usable" names both (moderate). This is why the chapter rail and the done checkboxes exist.
+- The three-fact cap. Working-memory capacity is about four chunks (Cowan 2001, strong), and lower on average in ADHD (moderate), so the direction is supported. The exact number three is a choice.
+- Labels on the thing they name, never in a separate legend. Mayer and Moreno's spatial contiguity effect, corroborated by a later meta-analysis. This is why diagram text lives inside boxes and on arrows (strong).
+- A measure of 50 to 75 characters is the craft consensus (the page uses 62). Later empirical work questions how much it matters; treat it as convention, not law (weak).
+- Reader-controlled pacing. A small 2026 pilot found attention-adaptive chunking beat a static page, but only as a bundle and with eleven participants (weak). A static file cannot adapt, so the page offers reader-controlled approximations: skim mode and one-chapter-at-a-time mode, plus the reader tools in the component vocabulary.
 
 **Refuted, so the system will not add them**
 
-- Bionic-style bolding of word beginnings. Peer-reviewed eye tracking shows no speed gain, no change in eye movements, and no "auto-completion" effect. Multiple studies converge on a null.
-- Dyslexia-specific typefaces such as OpenDyslexic. No reading-speed or fixation benefit over ordinary fonts. General-legibility faces with distinct letterforms are the better bet, which is what Atkinson Hyperlegible Next is.
+- Bionic-style bolding of word beginnings. The one large reading test I could verify showed no benefit, and expert critique agrees. I did not find peer-reviewed eye tracking either way (weak, so it stays out).
+- Dyslexia-specific typefaces such as OpenDyslexic. No reading-speed or fixation benefit over ordinary fonts (moderate). General-legibility faces with distinct letterforms are the better bet, which is what Atkinson Hyperlegible Next is.
 
 **Design choices, not evidence**
 
-- The three-fact cap on the keep box. The popular "working memory holds three to four items" figure did not survive verification as stated. Three is kept because it is small, memorable, and forces the writer to choose. Do not cite it as science.
+- The "Before this" line. It is a reasoned choice. Resumption cues help in lab studies (Monk 2008, moderate), but COGA names step orientation, not this line (none).
+- The exact count of three keep facts. See the cap above: the direction is supported, the number is kept because it is small, memorable, and forces the writer to choose.
 - Chapter length, the effect of a current-section map on comprehension, and an 80-character line limit attributed to WCAG all failed verification. The chapter rules stay as craft defaults.
 
 ## What this system refuses

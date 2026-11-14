@@ -38,6 +38,7 @@ const KNOWN = {
   '8fcaf88c539f8dcd': '2.0.0',
   '6e594f2a1a6a6f87': '2.1.0',
   'feaa8ed4807f46c3': '2.2.0',
+  '9b704fc250702b6c': '2.3.0',
 };
 
 const here = (p) => fileURLToPath(new URL(p, import.meta.url));

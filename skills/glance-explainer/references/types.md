@@ -8,6 +8,38 @@ Some glance pictures are **derived**. You write an empty placeholder and the tak
 
 The checker warns when a page made by 1.8.0 or later has no `section.glance`, and when any glance has no take line. A page made by an older release is never warned. A ballot has no glance either.
 
+## Choosing the type
+
+Match the request to a row. If two rows fit, read the "use instead when" lines under the table.
+
+| The reader's request | Type |
+|---|---|
+| Understand one thing | `explainer` |
+| Approve one plan or feature before it is built | `spec` |
+| Rule on several open questions | `decision` (typed reply or taps), or a `gather` ballot when the owner only taps |
+| Choose between options measured on the same criteria | `compare` |
+| Approve a risky, multi-step change and its way back | `playbook` |
+| See where things stand | `status` (one project), `portfolio` (many) |
+| Hand work to the next session or person | `handover` |
+| Say what shipped | `release`; for a customer, `public` |
+| Explain what broke | `incident` |
+| Review a pull request | `pr` |
+| Follow a procedure step by step | `runbook` |
+| Show what is under way, next and later | `roadmap` |
+| Teach a newcomer one system | `teach` |
+| Show a product on its real screens | `tour` |
+| Look things up later, in a whole field | `field-guide` |
+| See how a codebase fits together | `explainer-atlas` skill |
+| Report findings and how far to trust them | `research` |
+
+**Use instead when**
+
+- **decision, compare, ballot, playbook, spec.** A `spec` has one thing to approve. A `decision` has several rulings, each with its own options. A `compare` has one choice, and every option is scored on the same criteria. A ballot is a `decision` for one owner who only taps (5 to 15 rulings, no chapters). A `playbook` is a plan for a risky change, with phases and a way back, and it ends in decisions.
+- **status, portfolio, handover, release, incident.** `status` is one project now. `portfolio` is many projects at once. `handover` is for the next owner and lists what to do first. `release` looks back at what shipped. `incident` looks back at what broke.
+- **explainer, teach, tour, field-guide, atlas.** An `explainer` is one idea, read once. `teach` is a system the reader must learn to work with. A `tour` walks real screens. A `field-guide` is a reference of short entries, read once and then looked up. An `atlas` maps a codebase, with every claim tied to a file.
+
+**The skip rule.** If the reader skips a choice, the ★ option is what happens. Every "If you do nothing" line names it. This holds on every type that asks: `decision`, `spec`, `playbook`, the ask, and the ballot.
+
 ## explainer
 
 ### When
@@ -36,7 +68,7 @@ One chapter per option or ruling, each with a split or a small diagram. Then the
 ### Required components
 **At a glance:** `div.rulings`, derived. One row per `.decision`: its question, the recommended option with a ★, and "Needs your ruling" until the reader answers. Write an empty `div.rulings` and a `p.take`.
 
-A `.decision` card for each ruling, one option marked recommended, and a line saying what happens if the reader does nothing. The page ends in one of two ways.
+A `.decision` card for each ruling, one option marked recommended, and a line saying what happens if the reader does nothing. That line names the ★ option, because skipping a ruling means the ★ option happens. The page ends in one of two ways.
 
 - **A typed reply.** A closing `section.ask`.
 - **Taps.** Each chapter's `.decision` card is followed by its own `fieldset.answer-field[data-kind="choice"]`, with one radio per `.option`, in the same order, and the card's question as its legend. The script then makes the card's options the radios and hides the field's legend and labels, so the question is asked once and the reader taps the option card itself; the field's reason box stays. The recommended option's label carries `data-rec="Recommended"`, which shows a ★ chip. One `.collect` bar sits after the recap, outside the chapters, so one-chapter mode never hides it. The reader taps an option per ruling, then copies every answer back.

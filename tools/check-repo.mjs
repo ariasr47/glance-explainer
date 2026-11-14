@@ -7,6 +7,7 @@
 // 4. The plugin and marketplace manifests parse and agree on the plugin name, and the template's generator mark matches the plugin version.
 // 5. hooks/hooks.json parses and the scripts it runs exist.
 // 6. merge.html's combine() gives the right order, Kendall's W and contested flag on a fixture.
+// 7. Every shipped example whose type needs an at-a-glance picture has a section.glance (every type in types.md except playbook), so an example cannot drift from the guide.
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { dirname, join, relative, resolve } from 'node:path';
@@ -102,6 +103,19 @@ try {
   if (got === 'order ACBDFE, W 0.679 (strong, named true), contested F') ok(`merge.html combine(): ${got}`);
   else bad(`merge.html combine() is wrong on the 4-reader fixture: got ${got}; expected order ACBDFE, W 0.679 (strong, named true), contested F`);
 } catch (e) { bad(`merge.html combine() could not run: ${e.message}`); }
+
+// 7. examples drift: types.md gives every type except a playbook a section.glance, so every shipped example of those types must have one
+// (gather and atlas pages follow their own skills: a ballot has no glance)
+const NO_GLANCE = new Set(['playbook', 'gather', 'atlas']);
+let glanced = 0;
+for (const page of [...sitePages, ...examples].filter((p) => existsSync(at(p)))) {
+  const s = readFileSync(at(page), 'utf8');
+  const type = (/<html\b[^>]*\sdata-type="([^"]*)"/i.exec(s) || [, 'explainer'])[1].trim();
+  if (NO_GLANCE.has(type)) continue;
+  glanced++;
+  if (!/<section\b[^>]*\sclass="(?:[^"]*\s)?glance(?:\s[^"]*)?"/i.test(s)) bad(`${page} (data-type="${type}") has no section.glance; types.md gives every type except playbook an at-a-glance picture`);
+}
+ok(`${glanced} example pages checked for a section.glance`);
 
 console.log(problems.length ? `\n${problems.length} problem(s)` : '\nall checks passed');
 process.exit(problems.length ? 1 : 0);
