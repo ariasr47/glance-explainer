@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.3.0">
+<meta name="generator" content="glance-explainer 2.4.0">
 <meta name="color-scheme" content="light dark">
 <title>プラグインのロードマップ（2026年10月）</title>
 <meta name="description" content="glance-explainer プラグインの今後の予定です。今すぐ・次に・あとでの各項目、何が何を待っているか、あえて保留にしているものをまとめています。">
@@ -199,6 +199,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .rail a small { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 2px; color: var(--ink-faint); font-size: .722rem; font-weight: 400; line-height: 1.35; }  /* two lines at most, minutes first, so a long line never hides them */
 .rail a:hover small { color: var(--ink-soft); }
+.rail:has(.tools:not([hidden])) a small { display: none; }  /* while Reading tools is open the rail drops its small lines, so the panel fits under the chapter list and the first chapter stays in view */
 /* where you are: a white card with a hairline ring and a filled circle. Read: a check in a go circle, which wins over the number. */
 .rail a[aria-current="true"] { background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 700; }
 .rail a[aria-current="true"] .dot { background: var(--here); border-color: var(--here); color: var(--on-here); }
@@ -1128,9 +1129,11 @@ body[data-skim="on"] .chapter .from { display: none; }
 /* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
    and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
-body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop, [data-depends]),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
 body[data-skim="on"] .chapter .remember { display: block; }
+/* a dependency ("this depends on ruling 1") decides whether the chapter matters at all, so skim keeps it: any callout marked data-depends, and the tip in a chapter that holds a decision */
+body[data-skim="on"] .chapter:has(.decision) .callout.tip { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -1526,7 +1529,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>前へ</button><span class="where"></span><button type="button" data-next>次へ</button></div>
     <p class="kicker">ロードマップ（2026年10月29日時点）</p>
     <h1>glance-explainer の、これからの予定</h1>
-    <div class="meta"><span>約5分で読めます</span><span><a href="index.ja.html">サイトのトップへ戻る</a></span></div>
+    <div class="meta"><span>約4分で読めます</span><span><a href="index.ja.html">サイトのトップへ戻る</a></span></div>
 
     <p class="answer">全種類のページに確認済みの公開例がそろったので、次は外部の読者でテストし、新しい種類は要望が出るまで待ちます。</p>
     <p class="asof">計画であって、約束ではありません。状況に応じて項目は変わります。</p>
@@ -1535,8 +1538,8 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <strong>押さえておくのはこれだけ</strong>
       <ol>
         <li>重点：長い文書が苦手な人向けの、確認済みの判断ページ</li>
-        <li>次に何をするかは、外部読者テストで決まる。</li>
-        <li>無料・MIT ライセンスのまま。要望は <a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Issue</a> へ。</li>
+        <li>12月12日の見直しで、「あとで」を残すか決める。</li>
+        <li>項目の要望は <a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Issue</a> で。</li>
       </ol>
     </div>
 
@@ -1545,14 +1548,14 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <div class="lanes">
         <section class="lane" data-lane="now"><h3>今すぐ</h3>
           <p class="lane-note">12月12日まで。確定。上から順に進めます。</p><ul>
-          <li id="r-test"><b>外部読者テスト</b><span>5〜10人が、同じ文章を3通りで読みます。</span><small class="when"><b>期日固定：</b>12月⁠12日の見直しに必要。</small></li>
-          <li id="r-name" class="here"><b>掲載を申請する</b><span>Anthropic のディレクトリへの申請準備は完了。コミュニティの一覧には自動で載ります。</span></li>
+          <li id="r-test" class="wait"><b>外部読者テスト</b><span>5〜10人が、同じ文章を3通りで読みます。</span><small class="when"><b>期日固定：</b>12月⁠12日の見直しに必要。</small><small class="outside">外部の読者の参加待ち</small></li>
+          <li id="r-name" class="here"><b>Anthropic のディレクトリに掲載する</b><span>申請の準備は完了。作者のアカウントから出します。コミュニティの一覧には自動で載ります。</span></li>
         </ul></section>
         <section class="lane" data-lane="next"><h3>次に</h3>
           <p class="lane-note">1〜3か月。見込み。順不同。</p><ul>
           <li><b>ブラウザ表示の確認（任意）</b><span>横スクロール、語の折り返し、コマンドの見切れを報告します。</span></li>
           <li><b>ほかのエージェントでの動作確認 </b><span>Codex、Gemini CLI、Cursor、Copilot。</span></li>
-          <li class="wait"><b>claude.ai へのアップロード </b><span>GitHub のリリースごとに、スキル別の zip を付けます。</span><small class="after">前提：<a href="#r-name">掲載を申請する </a></small></li>
+          <li class="wait"><b>claude.ai へのアップロード </b><span>GitHub のリリースごとに、スキル別の zip を付けます。</span><small class="after">前提：<a href="#r-name">ディレクトリへの掲載</a></small></li>
           <li data-conf="exploring"><b>Claude の公開機能で公開する</b><span>可能なら、アーティファクトのリンクを案内します。</span><small class="conf">検討中：Claude の対応待ち</small></li>
           <li><b>1分のデモ動画</b><span>ギャラリーから録画します。</span></li>
         </ul></section>
@@ -1569,8 +1572,8 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
 
     <ol class="map">
       <li><a href="#c1"><b>今すぐ・次に・あとで</b><span>3つの区分に分けた11項目と、何が何を待っているか。</span></a></li>
-      <li><a href="#c2"><b>いちばん多くを動かすもの</b><span>外部読者テストと、自動検査。</span></a></li>
-      <li><a href="#c3"><b>あえて外したもの</b><span>保留中の3件と、それぞれの再開の条件。</span></a></li>
+      <li><a href="#c2"><b>いちばん多くを動かすもの</b><span>外部読者テストと、それを待つ3項目。</span></a></li>
+      <li><a href="#c3"><b>あえて外したもの</b><span>保留中の4件と、それぞれの再開の条件。</span></a></li>
       <li><a href="#c4"><b>12月の見直し</b><span>2026年12月12日に、結果がどちらでも起きること。</span></a></li>
     </ol>
 
@@ -1586,27 +1589,19 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <div class="tiles">
         <div class="tile"><span class="n">2</span><span class="l">件が「今すぐ」。うち1件は進行中</span></div>
         <div class="tile"><span class="n">4</span><span class="l">件はほかの項目待ち</span></div>
-        <div class="tile"><span class="n">3</span><span class="l">件は保留。どれも再開の条件つき</span></div>
+        <div class="tile"><span class="n">4</span><span class="l">件は保留。第3章に一覧があります</span></div>
       </div>
       <p class="take"><b>つまり：</b>「今すぐ」は2件だけで、うち外部読者テストが、「あとで」の3件を止めています。</p>
 
-      <details class="fold shipped"><summary><span>1.6.0〜2.2.1 でリリース済み：9件</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">変更履歴</a></summary>
-        <ul><li>頼めばスキルが確実に起動するように。テストでは57回中57回、以前は47回（2.2.1）</li><li>23ページを作って点検し、見つかった問題を修正。回答はワンタップ、★は1色に（2.2.0）</li><li>ダークモードの切り替えを太陽と月のアイコンに。自然な日本語と、全実例の日本語版も（2.1.0）</li><li>名前を glance-explainer に変更。ほかのプラグインと名前が重ならなくなりました（2.0.0）</li><li>ダーク / ライトの切り替えを、全ページの目立つ場所に（1.9.1）</li><li>全種類のページの公開例と、<a href="examples.html">実例ページ</a>を追加（1.9.0）</li><li>全種類のページを、それぞれ専用の絵を軸に作り直し（1.8.0、1.8.1 で仕上げ）</li><li>フィールドガイドのページ種類を追加（1.7.0）</li><li>意味がひと目でわかるロードマップの区分と、筋の通った優先順位づけ（1.6.0）</li></ul>
+      <details class="fold shipped"><summary><span>1.6.0〜2.4.0 でリリース済み：11件</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">変更履歴</a></summary>
+        <ul><li>同じことは1回だけ書くように。各ページ種類に、足りなかった部分を追加（2.4.0）</li><li>9人のレビューで見つかった問題を修正。1章ずつ表示、画面下のバー、印刷など（2.3.0）</li><li>頼めばスキルが確実に起動するように。テストでは57回中57回、以前は47回（2.2.1）</li><li>23ページを作って点検し、見つかった問題を修正。回答はワンタップ、★は1色に（2.2.0）</li><li>ダークモードの切り替えを太陽と月のアイコンに。自然な日本語と、全実例の日本語版も（2.1.0）</li><li>名前を glance-explainer に変更。ほかのプラグインと名前が重ならなくなりました（2.0.0）</li><li>ダーク / ライトの切り替えを、全ページの目立つ場所に（1.9.1）</li><li>全種類のページの公開例と、<a href="examples.html">実例ページ</a>を追加（1.9.0）</li><li>全種類のページを、それぞれ専用の絵を軸に作り直し（1.8.0、1.8.1 で仕上げ）</li><li>フィールドガイドのページ種類を追加（1.7.0）</li><li>意味がひと目でわかるロードマップの区分と、筋の通った優先順位づけ（1.6.0）</li></ul>
         <p>それ以前の 1.5.0 では、全ページの自動検査、古いページのアップグレード、タップで答える機能を加えました。1.4.0 では、スキルごとに独立したフォルダに分け、このロードマップと公開サイト、変更のたびの自動検査を加えました。</p>
-      </details>
-
-      <details class="fold parked"><summary><span>意図して保留：3件（それぞれ再開の条件つき）</span></summary>
-        <div class="parked-shelf">
-          <div><b>新しい種類のページ</b><span><b>理由：</b>17種類で、これまでの依頼はすべてカバーできています。</span><span><b>再開の条件：</b>外部のユーザーの内容が、どの種類にも当てはまらないとき。</span></div>
-          <div><b>アニメーション版</b><span><b>理由：</b>まだ動かす手段がありません。</span><span><b>再開の条件：</b>Claude Code に、そのためのフックか API が加わったとき。</span></div>
-          <div><b>ホスト型サービスや有料プラン</b><span><b>理由：</b>役に立つものはすべて、公開ファイルです。</span><span><b>再開の条件：</b>チームから、ファイル以上のものを求められたとき。</span></div>
-        </div>
       </details>
 
       <details class="fold"><summary>項目の詳細と理由を見る</summary>
         <p><b>古いページをアップグレードする。</b>スクリプトが、古いページのスタイルと閲覧用のスクリプトを、現在のテンプレートのものに入れ替えます。各ページにデザインのコピーが入っているため、1.2 で作ったページには、1.2 のスマートフォン向けの不具合が残ります。</p>
         <p><b>確実に起動させる。</b>2.2.1 で完了。<code>claude plugin eval</code> で作った24件の依頼のテストで、スキルの説明文を的確にした結果、正しく読み込まれた回数が57回中47回から57回になりました。残る課題は、ほかのスキルが多い長いセッションです。</p>
-        <p><b>掲載を申請する。</b>名前は10月20日に glance-explainer に決まりました（2.0.0）。Anthropic のディレクトリへは、開発者ポータルから申請します。claude-plugins.dev などのコミュニティのレジストリは、公開されたプラグインを自動で取り込みます。</p>
+        <p><b>Anthropic のディレクトリに掲載する。</b>名前は10月20日に glance-explainer に決まりました（2.0.0）。Anthropic のディレクトリへは、開発者ポータルから申請します。claude-plugins.dev などのコミュニティのレジストリは、公開されたプラグインを自動で取り込みます。</p>
         <p><b>ブラウザ表示の確認（任意）。</b> <code>check.mjs --render</code> は、手元の Chrome でページを開き、スマートフォンとパソコンの幅で表示を確かめます。Playwright が入っているときだけ動きます。1.3.0 のレイアウトの不具合は、静的なチェッカーでは見えませんでした。</p>
         <p><b>ほかのエージェントでの動作確認。</b>エージェントごとに、インストールの記録と完成ページを1つ用意します。フォルダ構成が崩れない場合は、Codex のプラグインマニフェストと Gemini の拡張機能も加えます。</p>
         <p><b>CI でのプルリクエストページ。</b> GitHub Action が、プルリクエストごとに <code>pr</code> ページを作り、コメントでリンクを知らせます。</p>
@@ -1615,20 +1610,20 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <p><b>1分のデモ動画。</b>ギャラリーから録画し、ざっと読む、1章ずつ表示、読み上げ、選択カードでの回答の流れを見せます。</p>
         <p><b>claude.ai へのアップロード。</b>スキルの説明文を、アップロードフォームに収まる長さにしてあります。</p>
         <p><b>Claude の公開機能で公開する。</b>エージェントがページを Claude のアーティファクトとして公開できるときは、ファイルと並べてそのリンクも案内します。</p>
-        <p>外部読者テストと自動検査の理由は、<a href="#c2">第2章</a>にあります。</p>
+        <p>外部読者テストの理由は、<a href="#c2">第2章</a>にあります。</p>
       </details>
 
       <p class="remember"><b>この章のポイント：</b>11項目が3つの区分に分かれ、4件はほかの項目待ちです。</p>
     </section>
 
-    <section class="chapter" id="c2" data-keep="外部読者テストと自動検査が先">
+    <section class="chapter" id="c2" data-keep="外部読者テストがいちばん多くを動かす">
       <header>
-        <div><p class="kicker">第2章 / 全4章、約2分</p><h2>何がいちばん多くの項目を動かすのか</h2></div>
+        <div><p class="kicker">第2章 / 全4章、約1分</p><h2>何がいちばん多くの項目を動かすのか</h2></div>
         <button type="button" class="read-aloud" data-read>読み上げ</button>
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>11項目が3つの区分に分かれ、4件はほかの項目待ちです。</p>
+      <p class="from"><b>おさらい：</b>4件がほかの項目待ちでした。次は、どれがいちばん多くを止めているかを見ます。</p>
 
       <p>外部読者テストが、いちばん多くの項目を動かします。これまでのページは、どれも作者自身が評価したものです。このテストで、次にやることが決まります。</p>
       <p>ADHD の人を含む5〜10人が、同じ内容を3通りで読みます。プラグインのページ、Claude 標準のページ、Markdown です。測るのは、正しく判断するまでの時間と、1日後の記憶です。</p>
@@ -1652,43 +1647,36 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
           <rect class="d-box-wait" x="60" y="198" width="280" height="60" rx="10"/><text class="d-text-b" x="200" y="225" text-anchor="middle"> ブランドテーマ</text><text class="d-text-s" x="200" y="245" text-anchor="middle">色と書体のトークン</text>
           <rect class="d-box-wait" x="60" y="278" width="280" height="60" rx="10"/><text class="d-text-b" x="200" y="305" text-anchor="middle">商用サポート</text><text class="d-text-s" x="200" y="325" text-anchor="middle">チームから要望があれば</text>
         </svg>
-        <figcaption class="take"><b>つまり：</b>「あとで」の3項目はすべて外部読者テスト待ちで、効果が確かめられたときだけ残ります。</figcaption>
+        <figcaption class="take"><b>つまり：</b>結果がよければ「あとで」の3項目が残り、変わらなければ外れます。</figcaption>
       </figure>
 
-      <p>自動検査は、1.5.0 で最初にリリースしました。それまでは、スキルがチェッカーの実行をエージェントに指示するだけで、指示は飛ばされることがありました。</p>
-
-      <div class="split">
-        <div class="before"><b>1.5.0 より前</b><ul><li>スキルが、チェッカーを実行するようエージェントに指示する。</li><li>指示は飛ばされることがある。</li></ul></div>
-        <div class="after"><b>フックを使うと</b><ul><li>ページを書いたターンの終わりに、プラグインのフックがチェッカーを実行する。</li><li>不合格があれば、ページを見る前にエージェントへ差し戻される。</li></ul></div>
-      </div>
-      <p class="take"><b>つまり：</b>フックは飛ばせないので、どのページも表示前に必ずチェッカーを通ります。</p>
-
-      <p class="remember"><b>この章のポイント：</b>次にやることは外部読者テストで決まり、フックのおかげで検査は飛ばせません。</p>
+      <p class="remember"><b>この章のポイント：</b>次にやることは外部読者テストで決まり、「あとで」の3項目がそれを待っています。</p>
     </section>
 
-    <section class="chapter" id="c3" data-keep="意図して保留にしているものが3つあります">
+    <section class="chapter" id="c3" data-keep="意図して保留にしているものが4つあります">
       <header>
         <div><p class="kicker">第3章 / 全4章、約1分</p><h2>あえて外したものは何か</h2></div>
         <button type="button" class="read-aloud" data-read>読み上げ</button>
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>次にやることは外部読者テストで決まり、フックのおかげで検査は飛ばせません。</p>
+      <p class="from"><b>おさらい：</b>テストが先でした。次は、あえて外したものを見ます。</p>
 
-      <p>ページの信頼性、インストールのしやすさ、読みやすさを高める作業が、新しい種類のページより先です。あえて保留にしているものが3つあります。</p>
+      <p>新しい種類より、信頼性と読みやすさが先です。保留は4つあります。</p>
 
       <div class="grid-wrap"><table class="grid">
         <caption>予定なし：保留の理由と、再開の条件</caption>
         <thead><tr><th scope="col">項目</th><th scope="col">保留の理由</th><th scope="col">再開の条件</th></tr></thead>
         <tbody>
-          <tr><th scope="row">新しい種類のページ</th><td class="stop">17種類に gather と atlas を加えれば、これまでの依頼はすべて満たせます。外部の人が今の種類を試す前に増やすと、検査の目が行き届かなくなります。</td><td>どの種類にも収まらない内容を、外部のユーザーが持ち込んだとき。</td></tr>
-          <tr><th scope="row">アニメーション版</th><td class="stop">アニメーション付きの解説。2026年10月9日に保留。動かすには、Claude Code のフックか API が必要です。</td><td>ページから動きを描画できる、公式にサポートされたフックか API が登場したとき。</td></tr>
-          <tr><th scope="row">ホスト型サービスや有料プラン</th><td class="stop">ページは1ファイルでオフラインで動き、役に立つ部分はすべて公開ファイルにあります。</td><td>ファイルでは実現できないものを、チームが求めたとき。</td></tr>
+          <tr><th scope="row">新しい種類のページ</th><td>17種類に gather と atlas を加えれば、依頼は満たせます。増やすと、外部の人が試す前に検査が薄くなります。</td><td>外部のユーザーが、どの種類にも収まらない内容を持ち込んだとき。</td></tr>
+          <tr><th scope="row">アニメーション版</th><td>アニメーション付きの解説。10月9日に保留。動かすには、Claude Code のフックか API が必要です。</td><td>動きを描画できる、公式のフックか API が出たとき。</td></tr>
+          <tr><th scope="row">スマホ中心のレイアウト</th><td>2026年10月28日に保留。ページは主にデスクトップで開かれ、スマホでは崩れなければ十分です。</td><td>読者がスマホでページを開いている証拠が出たとき。</td></tr>
+          <tr><th scope="row">ホスト型サービスや有料プラン</th><td>ページは1ファイルで動き、役に立つ部分はすべて公開ファイルです。</td><td>ファイルでは実現できないものを、チームが求めたとき。</td></tr>
         </tbody>
       </table></div>
       <p class="take"><b>つまり：</b>保留の項目にはどれも、理由と再開の条件が書いてあります。</p>
 
-      <p class="remember"><b>この章のポイント：</b>保留は3件で、どれも再開の条件を示しています。</p>
+      <p class="remember"><b>この章のポイント：</b>保留は4件で、どれも再開の条件を示しています。</p>
     </section>
 
     <section class="chapter" id="c4" data-keep="見直しは2026年12月12日">
@@ -1698,7 +1686,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>保留は3件で、どれも再開の条件を示しています。</p>
+      <p class="from"><b>おさらい：</b>保留の中身と理由は分かりました。次は、いつ見直すかを見ます。</p>
 
       <p>2026年12月12日に、このロードマップを外部からの声と読者テストの結果に照らして見直します。問いは、プラグインのページが標準のページより外部の読者の役に立つかどうかです。</p>
 
@@ -1706,7 +1694,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <div class="after"><b>より役に立つ場合</b><ul><li>「あとで」の区分は、2027年もロードマップに残ります。</li></ul></div>
         <div class="before"><b>そうでない場合</b><ul><li>ロードマップは、保守だけに縮小します。</li><li>プラグインは、使っている人のために保守を続けます。</li></ul></div>
       </div>
-      <p class="take"><b>つまり：</b>見直しの結果は2通りです。「あとで」が残るか、ロードマップが保守だけに縮むかです。</p>
+      <p class="take"><b>つまり：</b>12月12日以降のこのページの内容は、1つの結果にかかっています。</p>
 
       <div class="callout"><b>項目の優先度を上げるには </b><p><a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Issue を開いて</a>、要望を伝えてください。実際にページを使った人の要望が、項目を上げるいちばんの近道です。</p></div>
 
@@ -1717,13 +1705,13 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <h2>まとめ</h2>
       <ol>
         <li>11項目が3つの区分に分かれ、4件はほかの項目待ちです。</li>
-        <li>次にやることは外部読者テストで決まり、フックのおかげで検査は飛ばせません。</li>
-        <li>保留は3件で、どれも再開の条件を示しています。</li>
+        <li>次にやることは外部読者テストで決まり、「あとで」の3項目がそれを待っています。</li>
+        <li>保留は4件で、どれも再開の条件を示しています。</li>
         <li>2026年12月12日の見直しで、「あとで」を残すか、ロードマップを保守だけに縮めるかが決まります。</li>
       </ol>
     </section>
 
-    <div class="meta"><span><a href="index.ja.html">サイトのトップへ戻る</a></span><span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">変更履歴 </a></span><span><a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Issue を開く</a></span></div>
+    <div class="meta"><span><a href="index.ja.html">サイトのトップへ戻る</a></span><span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">変更履歴 </a></span><span><a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Issue を開く</a></span><span>無料・MIT ライセンスのまま</span></div>
   </main>
 </div>
 
@@ -1737,10 +1725,16 @@ const on = (e, ev, f) => e?.addEventListener(ev, f);
 const byId = id => id ? d.getElementById(id) : null;
 const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
 const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+/* search folds width and kana: full-width and half-width letters match, and katakana matches hiragana */
+const fold = s => s.normalize('NFKC').toLowerCase().replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const key = 'explainer:' + (location.pathname || 'page');
+/* Saved ticks, answers and picks belong to one version of the page: the key carries a short hash of the answer line, the keep facts and the chapter titles,
+   so a page made again at the same address starts clean, and an unchanged page keeps its progress. */
+const sig = ($('.answer')?.textContent || '') + qa('.keep li, .chapter > header h2').map(e => '|' + e.textContent).join('');
+let hash = 5381; for (let i = 0; i < sig.length; i++) hash = ((hash * 33) ^ sig.charCodeAt(i)) >>> 0;
+const key = 'explainer:' + (location.pathname || 'page') + '#' + hash.toString(36);
 root.classList.add('js');
 
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
@@ -1777,8 +1771,8 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Tap an option to pick it.' });
-Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をタップして選びます。' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Pick an option: click, tap, or use the arrow keys.' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をクリックかタップ、または矢印キーで選びます。' });
 const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 /* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
 function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
@@ -1888,12 +1882,12 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       const s = $('summary', f); if (!s) return;
       s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
     });
-    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    const hay = new Map(fgEntries.map(e => [e, fold(['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' '))]));
     let filter = REL[0], words = [], searching = false; const was = new Map();
     if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
     const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
     const apply = () => {
-      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      const q = box.value.trim().replace(/\s+/g, ' '); words = fold(q).split(' ').filter(Boolean);
       let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
       picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
         const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
@@ -2018,7 +2012,7 @@ const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.fin
 $('.recap h2')?.after(make('span', 'finished', L.fin));
 boxes.forEach(box => {
   const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
-  box.checked = !!done[c.id]; paint(); if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
+  box.checked = !!done[c.id]; paint(); box.setAttribute('aria-label', txt(box.closest('label') || '') + L.mdJoin + txt($('h2', c) || ''));  /* "Done: <chapter>", so the boxes differ */ if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
   on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
 });
 finish();
@@ -2128,22 +2122,31 @@ qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.
 Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
 qa('pre.cmd').forEach(p => {
   const code = $('code', p) || p, b = d.createElement('button');
-  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite'); b.setAttribute('aria-label', L.copy + L.mdJoin + code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40));
   on(b, 'click', () => copy(code.textContent.trim(), b));
-  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  const nm = code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40);
+  new MutationObserver(() => { const w = b.classList.contains('go') ? L.copied : L.copy; b.textContent = w; b.setAttribute('aria-label', w + L.mdJoin + nm); }).observe(b, { attributes: true, attributeFilter: ['class'] });
   p.append(b);
 });
 
-/* read aloud: one block at a time, in the page language; one chapter at a time */
+/* read aloud: one block at a time, in the page language, from a chapter's own button. The first chapter's button starts with the opening
+   (answer, keep cards, glance) and the last chapter's ends with the recap, so the whole page can be heard without a new control.
+   Each button's name says which chapter it reads, so a list of buttons does not repeat itself. */
 const rd = qa('[data-read]'); let sid = 0;
-const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; }); };
-rd.forEach(b => {
+const readName = (b, word) => word + L.mdJoin + txt($('h2', b.closest('.chapter')) || '');
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; b.setAttribute('aria-label', readName(b, L.read)); }); };
+const speakable = (sel, scope) => qa(sel, scope).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+rd.forEach((b, n) => {
   if (!window.speechSynthesis) { b.hidden = true; return; }
   b.textContent = b.title = L.read;  /* the words stay in the page as the button's name; the header shows an icon */
+  b.setAttribute('aria-label', readName(b, L.read));
   on(b, 'click', () => {
     const was = b.hasAttribute('data-reading'); hush(); if (was) return;
-    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
-    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop;
+    const me = sid, ch = b.closest('.chapter'), main = ch.parentElement;
+    const open = n === 0 ? speakable('.answer, .keep li, .glance-head h2, .glance :is(p, li, figcaption)', main) : [];
+    const close = n === rd.length - 1 ? speakable('.recap :is(p, li)', main) : [];
+    const list = [...open, ...speakable('p, li, figcaption, legend, .answer-field > label:first-child', ch), ...close];
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop; b.setAttribute('aria-label', readName(b, L.stop));
     const next = () => {
       const e = list[i++]; if (me !== sid) return; if (!e) return hush();
       e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
@@ -2669,11 +2672,19 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
     dec.classList.add('paired'); f.classList.add('paired');
     const group = $('.options', dec); group.setAttribute('role', 'radiogroup'); group.setAttribute('aria-label', txt($('h3', dec) || $('legend', f) || dec));
     group.after(make('p', 'pick-hint', esc(L.decPick)));
-    const sync = () => opts.forEach((o, i) => o.setAttribute('aria-checked', rs[i].checked));
+    /* one tab stop per group (roving tabindex): the picked option, or the first when none is picked */
+    const sync = () => { const got = rs.some(r => r.checked); opts.forEach((o, i) => { o.setAttribute('aria-checked', rs[i].checked); o.tabIndex = (got ? rs[i].checked : i === 0) ? 0 : -1; }); };
     opts.forEach((o, i) => {
-      o.setAttribute('role', 'radio'); o.tabIndex = 0;
+      o.setAttribute('role', 'radio');
       on(o, 'click', e => { if (e.target.closest('a, button, summary, input, textarea')) return; rs[i].checked = true; ['input', 'change'].forEach(t => rs[i].dispatchEvent(new Event(t, { bubbles: true }))); sync(); });
-      on(o, 'keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); } });
+      on(o, 'keydown', e => {
+        if (e.target !== o || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); return; }
+        /* the ARIA radio group: arrows move focus and the pick together, and wrap */
+        const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key], j = step ? (i + step + opts.length) % opts.length : e.key === 'Home' ? 0 : e.key === 'End' ? opts.length - 1 : -1;
+        if (j < 0) return;
+        e.preventDefault(); opts[j].tabIndex = 0; opts[j].focus(); opts[j].click();
+      });
     });
     on(f, 'change', sync); sync();
   }));

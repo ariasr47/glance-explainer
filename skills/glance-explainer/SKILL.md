@@ -70,7 +70,8 @@ One `.html` file from `assets/template.html`, in this order:
 ## Common mistakes
 
 - **The answer at the end.** It belongs right after the title.
-- **"As we saw above."** The reader scrolled. Restate it in `p.from`.
+- **"As we saw above."** The reader scrolled. Restate it in `p.from`, in new words: a `p.from` that copies the previous remember line, or a `.take` that copies its own, says the same thing twice (the checker warns).
+- **A type without its missing part.** Each type has a part readers look for (a decide-by date, a stop rule, a date on every follow-up). `references/types.md` lists it under "The page must also hold".
 - **Colour as decoration.** Six meaning colours, one meaning each, never colour alone.
 - **A diagram that repeats the paragraph.** Delete the paragraph, write the take-away caption.
 - **A picture with no take line.** A status board or a split proves something too: say what in a `p.take` straight under it. The glance needs one too.

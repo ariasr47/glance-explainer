@@ -2,6 +2,52 @@
 
 Each release is a git tag and the `version` in `.claude-plugin/plugin.json`. Pages carry their own copy of the template, so a fix reaches a page only when the page is made again.
 
+## 2.4.0 (2026-11-15)
+
+Step B of the 14 November deep review: say each fact once, and give each page type the part its readers look for. No new controls; those wait for a design round. The recap stays a copy of the remember lines until the 12 December reader test rules on it. Run `upgrade.mjs` on an older page to get the reader-tool changes.
+
+### Changed in the page
+- **Decision cards** work like a radio group from the keyboard: one Tab stop, and the arrow keys, Home and End move and pick (AX-5, FN-14).
+- **Buttons say which chapter they belong to:** each Read aloud, Done and Copy button names its chapter or command to a screen reader, in English and Japanese. The visible text is unchanged (AX-9).
+- **Skim mode** keeps a "This depends on ruling 1" callout (mark it `data-depends`) and the option names with the ★ (CG-8, PA-25).
+- **Read aloud** on the first chapter starts with the answer, the keep facts and the glance; on the last chapter it ends with the recap (CG-9).
+- **Search** in the field guide and the atlas treats full-width and half-width letters, and katakana and hiragana, as the same (FN-11).
+- **Saved ticks and answers** belong to one version of a page: a page made again with a new answer, keep facts or chapter titles starts clean. Pages already open in a reader's browser lose their ticks once, at the upgrade (FN-5, CG-5).
+- The atlas journey fits at desktop width (PC-11), and opening Reading tools no longer pushes the first chapter out of the rail (VS-12).
+
+### Changed in the examples
+- **Each fact is said once on every example:** keep facts add to the answer, "Before this" lines point forward instead of copying the last remember line, and take lines say what the picture proves (PA-10, PC-9, CG-1, PB-8, PC-6).
+- **Each page type gains its missing part:**
+  - decision: a decide-by date, the costs added up, and whether each option can be undone;
+  - ballot: a cost on each option;
+  - compare: how the criteria are weighed, and what would flip the pick in sight;
+  - spec: non-goals, acceptance criteria, an open question and an approver;
+  - playbook: the three answers it needs on the first screen, and a way back with a window and a cost;
+  - runbook: a time and an undo mark on each step, and a stop rule;
+  - pull request: the risk, a verdict and where to look first, up top;
+  - status: each change marked better, worse or no change in words;
+  - portfolio: its ranking rule;
+  - release: a "nothing breaks" line, and required or optional on each step;
+  - incident: an owner and a date on every follow-up, and one aimed at the biggest time cost;
+  - handover: a contact route;
+  - questionnaire: the send step in sight;
+  - teach: what to know first, and a self-check;
+  - research: method, limits and sources;
+  - atlas: the files to read first;
+  - roadmap: a real state on each Now card, with parked work listed once;
+  - public page: the install commands and promises on the first screen.
+- The explainer example is one idea in three chapters (PC-17). The tour has fresh, cropped screenshots of the current pages (PC-8).
+- Runbook, playbook, teach and the public page say how long the doing takes as well as the reading (CG-4). Jargon is defined the first time it is used (CG-13).
+
+### Guidance and checks
+- `writing.md` adds "Say each thing once", the time to do it, and define-on-first-use. Each entry in `types.md` ends with "The page must also hold".
+- `check.mjs` warns, in English and Japanese, when "Before this" copies the previous remember line or a take line copies its own; the keep-versus-answer warning now runs on Japanese pages too. For pages made by 2.4.0 or later, it also warns about a missing task time (runbook, playbook, teach), an undated incident follow-up, and a roadmap Now lane where every card says Planned.
+- `tools/check-repo.mjs` fails when a shipped example repeats a line, so the showcase cannot drift (PC-30).
+
+### Known
+- Held for the design round: an off switch for the one-key shortcuts (AX-3, a WCAG level A gap), reading tools in sight on the first screen, a first action on the first screen, tap to enlarge screenshots, and the ballot tray covering option names at 1280×800.
+- The Japanese pages wait on a native reader's answers (step D of the review).
+
 ## 2.3.0 (2026-11-14)
 
 Fixes from a deep review of every shipped page by nine reviewers (205 findings). This release takes the ones that were plainly wrong and needed no design decision. Run `upgrade.mjs` on an older page to get the reader-tool fixes.

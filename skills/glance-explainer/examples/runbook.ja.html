@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.3.0">
+<meta name="generator" content="glance-explainer 2.4.0">
 <meta name="color-scheme" content="light dark">
 <title>プラグインをリリースする手順</title>
 <meta name="description" content="glance-explainer プラグインのリリースを作る11の手順です。各手順のコマンド、確認方法、うまくいかなかったときの対処をまとめています。">
@@ -199,6 +199,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .rail a small { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 2px; color: var(--ink-faint); font-size: .722rem; font-weight: 400; line-height: 1.35; }  /* two lines at most, minutes first, so a long line never hides them */
 .rail a:hover small { color: var(--ink-soft); }
+.rail:has(.tools:not([hidden])) a small { display: none; }  /* while Reading tools is open the rail drops its small lines, so the panel fits under the chapter list and the first chapter stays in view */
 /* where you are: a white card with a hairline ring and a filled circle. Read: a check in a go circle, which wins over the number. */
 .rail a[aria-current="true"] { background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 700; }
 .rail a[aria-current="true"] .dot { background: var(--here); border-color: var(--here); color: var(--on-here); }
@@ -1128,9 +1129,11 @@ body[data-skim="on"] .chapter .from { display: none; }
 /* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
    and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
-body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop, [data-depends]),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
 body[data-skim="on"] .chapter .remember { display: block; }
+/* a dependency ("this depends on ruling 1") decides whether the chapter matters at all, so skim keeps it: any callout marked data-depends, and the tip in a chapter that holds a decision */
+body[data-skim="on"] .chapter:has(.decision) .callout.tip { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -1527,7 +1530,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>前へ</button><span class="where"></span><button type="button" data-next>次へ</button></div>
     <p class="kicker">手順書：上から順に進める</p>
     <h1>プラグインをリリースする手順</h1>
-    <div class="meta"><span>約8分で読めます</span><span>作成：2026年10月16日</span><span>対象：メンテナー</span></div>
+    <div class="meta"><span>約8分で読めます</span><span>作成：2026年10月16日</span><span>対象：メンテナー</span><span>作業 約25分</span></div>
 
     <p class="answer">リリースは11手順です。バージョンを上げ、確認を通し、マージ、タグ付け、公開と進め、最後に手元を更新します。</p>
 
@@ -1536,7 +1539,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <ol>
         <li>release/X.Y.Z の worktree で作業する。</li>
         <li>プルリクエストの前に check-repo.mjs を通す。</li>
-        <li>リリースとは、マージ・タグ・GitHub リリースの3つ。</li>
+        <li>手順10は更新後に戻せません。2回失敗したら止めます。</li>
       </ol>
     </div>
 
@@ -1564,7 +1567,11 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
 
       <p class="from"><b>おさらい：</b>リリースとは、マージ済みのプルリクエスト、タグ、GitHub リリースの3つです。</p>
 
-      <p>例では、次のリリースを 1.9.0、前回を 1.8.1 としています。番号は自分のものに置き換えてください。リリース作業には専用の worktree を使い、リポジトリが無視するフォルダに置きます。</p>
+      <p>例では、次のリリースを 1.9.0、前回を 1.8.1 としています。番号は自分のものに置き換えてください。</p>
+
+      <p>リリース作業には専用の <dfn>worktree</dfn>（リポジトリの2つ目の作業コピー）を使い、リポジトリが無視するフォルダに置きます。</p>
+
+      <p><b>止める基準：</b>手順が2回試しても失敗するなら、止めます。次の手順には進みません。</p>
 
       <ul class="status">
         <li class="wait"><b>Node 18 以降 </b><span><code>node --version</code> で v18 以上が表示されます。</span></li>
@@ -1585,28 +1592,28 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>4つのツールが使え、main に変更はありません。</p>
+      <p class="from"><b>おさらい：</b>ツールは動き、main はきれいです。次はブランチです。</p>
 
       <ol class="runbook">
-        <li><b>専用の worktree で、リリースブランチを作る。</b>
+        <li><b>専用の worktree で、リリースブランチを作る。</b> <span class="chip">約1分</span>
           <pre class="cmd"><code>git worktree add .claude/worktrees/release-1.9.0 -b release/1.9.0 main
 cd .claude/worktrees/release-1.9.0</code></pre>
           <p class="check"><b> 確認：</b><code>git worktree list</code> で、新しいフォルダが <code>[release/1.9.0]</code> 付きで表示されます。</p>
           <p class="fail"><b>うまくいかないとき：</b>ブランチがすでにある場合は、<code>-b release/1.9.0 main</code> を外し、末尾にそのブランチ名を書きます。</p></li>
-        <li><b>マニフェストとテンプレートのバージョンを書き換える。</b>
+        <li><b>マニフェストとテンプレートのバージョンを書き換える。</b> <span class="chip">約1分</span>
           <pre class="cmd"><code>sed -i 's/1\.8\.1/1.9.0/' .claude-plugin/plugin.json skills/glance-explainer/assets/template.html</code></pre>
-          <p class="check"><b> 確認：</b><code>git diff --stat</code> で、2つのファイルのどちらも <code>2 +-</code> と表示されます。</p>
+          <p class="check"><b> 確認：</b><code>git diff --stat</code> で、2つのファイルが1行ずつ変わっています。</p>
           <p class="fail"><b>うまくいかないとき：</b>それ以外の数字なら、想定外の箇所に一致しています。元に戻し、2か所の番号を手で書き換えてください。</p></li>
-        <li><b>前回から入った変更を一覧にして、変更履歴の節を書く。</b>
+        <li><b>前回から入った変更を一覧にして、変更履歴の節を書く。</b> <span class="chip">約5分</span>
           <pre class="cmd"><code>git log --oneline v1.8.1..main</code></pre>
           <p class="check"><b> 確認：</b><code>grep -n '^## ' CHANGELOG.md</code> の結果で、<code>## 1.9.0</code> が <code>## 1.8.1</code> より上に並びます。</p>
           <p class="fail"><b>うまくいかないとき：</b>新しい節を、最新リリースの節より上に移してください。</p></li>
-        <li><b>アップグレード用に、テンプレートのハッシュを調べる。</b>
+        <li><b>アップグレード用に、テンプレートの<dfn>ハッシュ</dfn>（指紋のようなもの）を調べる。</b> <span class="chip">約2分</span>
           <pre class="cmd"><code>node skills/glance-explainer/scripts/upgrade.mjs --hash skills/glance-explainer/assets/template.html</code></pre>
-          <p class="check"><b> 確認：</b>16桁の16進数が表示されます。KNOWN に載っていれば、何も足しません。載っていなければ、<code>'digits': '1.9.0',</code> を追加します。</p>
+          <p class="check"><b> 確認：</b>16桁の16進数が表示されます。<code>upgrade.mjs</code> の <code>KNOWN</code> に載っていなければ、<code>'digits': '1.9.0',</code> を追加します。</p>
           <p class="fail"><b>うまくいかないとき：</b>worktree の最上位フォルダから実行してください。</p></li>
       </ol>
-      <p class="take"><b>つまり：</b>手順4まで終えると、ブランチに新しいバージョン、変更履歴、ハッシュがそろいます。</p>
+      <p class="take"><b>つまり：</b>手順4まで終えると、ブランチはテストできる状態です。</p>
 
       <p class="remember"><b>この章のポイント：</b>リリースブランチは worktree で始め、バージョン、変更履歴、ハッシュをそろえて終わります。</p>
     </section>
@@ -1619,26 +1626,26 @@ cd .claude/worktrees/release-1.9.0</code></pre>
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>ブランチに新しいバージョン、変更履歴、ハッシュがそろっています。</p>
+      <p class="from"><b>おさらい：</b>ブランチはテストできる状態です。次に、ページをアップグレードして、2つの確認を実行します。</p>
 
       <ol class="runbook" start="5">
-        <li><b>同梱のページを新しいバージョンに合わせる。</b>
+        <li><b>同梱のページを新しいバージョンに合わせる。</b> <span class="chip">約2分</span>
           <pre class="cmd"><code>node skills/glance-explainer/scripts/upgrade.mjs skills/glance-explainer/assets/gallery.html skills/glance-explainer/examples skills/explainer-gather/examples docs/index.html docs/roadmap.html</code></pre>
           <p class="check"><b> 確認：</b>どの行も <code>version mark set</code>、<code>upgraded</code>、<code>already current</code> のどれかになります。</p>
           <p class="fail"><b>うまくいかないとき：</b><code>skipped: custom styles</code> は、手で編集した跡があるという意味です。テンプレートの style と script を貼り付けます。</p></li>
-        <li><b>2つの確認を実行する。</b>
+        <li><b>2つの確認を実行する。</b> <span class="chip">約3分</span>
           <pre class="cmd"><code>node tools/check-repo.mjs
 claude plugin validate --strict .</code></pre>
           <p class="check"><b> 確認：</b>出力の末尾が <code>all checks passed</code> と <code>Validation passed</code> で、どちらも終了コードは0です。</p>
           <p class="fail"><b>うまくいかないとき：</b>FAIL の行をひとつずつ直します。バージョンの不一致は、手順2で番号の書き換えが漏れたということです。</p></li>
-        <li><b>コミットしてプッシュし、プルリクエストを出す。</b>
+        <li><b>コミットしてプッシュし、プルリクエストを出す。</b> <span class="chip">約3分</span>
           <pre class="cmd"><code>git add -A &amp;&amp; git commit -m "chore(release): 1.9.0"
 git push -u origin release/1.9.0
 gh pr create --title "Release 1.9.0: public examples" --fill</code></pre>
-          <p class="check"><b> 確認：</b><code>gh pr checks --watch</code> の最後に <code>check</code> が pass と表示されます。なお、<code>site</code> ジョブはプルリクエストではスキップされます。</p>
-          <p class="fail"><b>うまくいかないとき：</b><code>gh pr checks --web</code> を実行するとログが開きます。FAIL の行を直して、もう一度プッシュします。</p></li>
+          <p class="check"><b> 確認：</b><code>gh pr view --json state</code> で <code>OPEN</code> と表示されます。CI は止めてあるので、手順6が唯一の関門です。</p>
+          <p class="fail"><b>うまくいかないとき：</b><code>gh</code> が表示するエラーを読み、ここで直して、もう一度プッシュします。</p></li>
       </ol>
-      <p class="take"><b>つまり：</b>まず自分のマシンで確認を実行し、そのあと CI がリポジトリの確認をもう一度実行します。</p>
+      <p class="take"><b>つまり：</b>確認は自分のマシンで実行します。CI は止めてあるので、それが唯一の関門です。</p>
 
       <p class="remember"><b>この章のポイント：</b>同梱ページを更新し、2つの確認を通してから、プルリクエストを出します。</p>
     </section>
@@ -1651,36 +1658,31 @@ gh pr create --title "Release 1.9.0: public examples" --fill</code></pre>
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>プルリクエストを出し、check ジョブが通っています。</p>
+      <p class="from"><b>おさらい：</b>手元の確認は通りました。ここから公開します。</p>
 
       <ol class="runbook" start="8">
-        <li><b>プルリクエストをマージし、ブランチを削除する。</b>
+        <li><b>プルリクエストをマージし、ブランチを削除する。</b> <span class="chip">約2分</span> <span class="chip">戻し方：リバート</span>
           <pre class="cmd"><code>gh pr merge --merge
 git push origin --delete release/1.9.0</code></pre>
           <p class="check"><b> 確認：</b>まず <code>git fetch</code> を実行します。続けて <code>git log origin/main -1 --oneline</code> を実行すると、自分のプルリクエストの名前が表示されます。</p>
-          <p class="fail"><b>うまくいかないとき：</b>check ジョブが終わるのを待ちます。main が進んでいたら、origin/main をマージしてプッシュします。</p></li>
-        <li><b>マージにタグを付け、タグをプッシュする。</b>
+          <p class="fail"><b>うまくいかないとき：</b>main が進んでいたら、origin/main をマージしてプッシュします。</p></li>
+        <li><b>マージにタグを付け、タグをプッシュする。</b> <span class="chip">約1分</span> <span class="chip">戻し方：タグ削除</span>
           <pre class="cmd"><code>git tag -a v1.9.0 -m "1.9.0: public examples" origin/main
 git push origin v1.9.0</code></pre>
           <p class="check"><b> 確認：</b><code>git ls-remote --tags origin v1.9.0</code> でタグが表示されます。</p>
           <p class="fail"><b>うまくいかないとき：</b><code>already exists</code> と出たら、すでに誰かがタグを付けています。先に <code>git show v1.9.0</code> で中身を確認してください。</p></li>
-        <li><b>変更履歴から GitHub リリースを作る。</b>
+        <li><b>変更履歴から GitHub リリースを作る。</b> <span class="chip">約3分</span> <span class="chip">更新後は戻せない</span>
           <pre class="cmd"><code>sed -n '/^## 1.9.0/,/^## 1.8.1/{//!p}' CHANGELOG.md &gt; ../notes.md
 gh release create v1.9.0 --title "1.9.0: public examples" --notes-file ../notes.md</code></pre>
           <p class="check"><b> 確認：</b><code>gh release view v1.9.0</code> でタイトルと、1.9.0 の変更履歴の本文が表示されます。</p>
           <p class="fail"><b>うまくいかないとき：</b><code>../notes.md</code> には、1.9.0 の節だけを入れてください。</p></li>
-        <li><b>手元のプラグインを更新する。</b>
+        <li><b>手元のプラグインを更新する。</b> <span class="chip">約2分</span>
           <pre class="cmd"><code>claude plugin marketplace update glance-explainer
 claude plugin update glance-explainer@glance-explainer</code></pre>
           <p class="check"><b> 確認：</b>再起動後、<code>claude plugin list</code> の結果に <code>Version: 1.9.0</code> と表示されます。</p>
           <p class="fail"><b>うまくいかないとき：</b>まだ古いままなら、2つのコマンドをこの順に実行して、もう一度再起動します。</p></li>
       </ol>
-      <p class="take"><b>つまり：</b>マージ、タグ、リリースは別々の操作で、確認もそれぞれ別です。</p>
-
-      <details class="fold"><summary>サイトが再デプロイされたか確認する方法を見る </summary>
-        <pre><code>gh run list --workflow ci --branch main --limit 1</code></pre>
-        <p> マージのあと、公開サイトは main からビルドされます。最新の実行が <code>completed</code> と <code>success</code> になっていれば成功です。</p>
-      </details>
+      <p class="take"><b>つまり：</b>手順10が、引き返せない地点です。</p>
 
       <p class="remember"><b>この章のポイント：</b>マージ、タグ付け、リリースの順に進め、最後に手元のプラグインを更新して再起動します。</p>
     </section>
@@ -1693,7 +1695,7 @@ claude plugin update glance-explainer@glance-explainer</code></pre>
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>リリースはマージ、タグ、GitHub リリースの3つで、どれも元に戻せます。</p>
+      <p class="from"><b>おさらい：</b>3つの操作で公開されました。どれも、ある時点までは元に戻せます。</p>
 
       <ul class="status">
         <li class="go"><b>マージの前</b><span>プルリクエストを閉じて、worktree を削除します。main には何も届いていません。</span></li>
@@ -1744,10 +1746,16 @@ const on = (e, ev, f) => e?.addEventListener(ev, f);
 const byId = id => id ? d.getElementById(id) : null;
 const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
 const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+/* search folds width and kana: full-width and half-width letters match, and katakana matches hiragana */
+const fold = s => s.normalize('NFKC').toLowerCase().replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const key = 'explainer:' + (location.pathname || 'page');
+/* Saved ticks, answers and picks belong to one version of the page: the key carries a short hash of the answer line, the keep facts and the chapter titles,
+   so a page made again at the same address starts clean, and an unchanged page keeps its progress. */
+const sig = ($('.answer')?.textContent || '') + qa('.keep li, .chapter > header h2').map(e => '|' + e.textContent).join('');
+let hash = 5381; for (let i = 0; i < sig.length; i++) hash = ((hash * 33) ^ sig.charCodeAt(i)) >>> 0;
+const key = 'explainer:' + (location.pathname || 'page') + '#' + hash.toString(36);
 root.classList.add('js');
 
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
@@ -1784,8 +1792,8 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Tap an option to pick it.' });
-Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をタップして選びます。' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Pick an option: click, tap, or use the arrow keys.' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をクリックかタップ、または矢印キーで選びます。' });
 const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 /* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
 function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
@@ -1895,12 +1903,12 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       const s = $('summary', f); if (!s) return;
       s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
     });
-    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    const hay = new Map(fgEntries.map(e => [e, fold(['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' '))]));
     let filter = REL[0], words = [], searching = false; const was = new Map();
     if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
     const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
     const apply = () => {
-      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      const q = box.value.trim().replace(/\s+/g, ' '); words = fold(q).split(' ').filter(Boolean);
       let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
       picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
         const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
@@ -2025,7 +2033,7 @@ const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.fin
 $('.recap h2')?.after(make('span', 'finished', L.fin));
 boxes.forEach(box => {
   const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
-  box.checked = !!done[c.id]; paint(); if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
+  box.checked = !!done[c.id]; paint(); box.setAttribute('aria-label', txt(box.closest('label') || '') + L.mdJoin + txt($('h2', c) || ''));  /* "Done: <chapter>", so the boxes differ */ if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
   on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
 });
 finish();
@@ -2135,22 +2143,31 @@ qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.
 Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
 qa('pre.cmd').forEach(p => {
   const code = $('code', p) || p, b = d.createElement('button');
-  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite'); b.setAttribute('aria-label', L.copy + L.mdJoin + code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40));
   on(b, 'click', () => copy(code.textContent.trim(), b));
-  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  const nm = code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40);
+  new MutationObserver(() => { const w = b.classList.contains('go') ? L.copied : L.copy; b.textContent = w; b.setAttribute('aria-label', w + L.mdJoin + nm); }).observe(b, { attributes: true, attributeFilter: ['class'] });
   p.append(b);
 });
 
-/* read aloud: one block at a time, in the page language; one chapter at a time */
+/* read aloud: one block at a time, in the page language, from a chapter's own button. The first chapter's button starts with the opening
+   (answer, keep cards, glance) and the last chapter's ends with the recap, so the whole page can be heard without a new control.
+   Each button's name says which chapter it reads, so a list of buttons does not repeat itself. */
 const rd = qa('[data-read]'); let sid = 0;
-const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; }); };
-rd.forEach(b => {
+const readName = (b, word) => word + L.mdJoin + txt($('h2', b.closest('.chapter')) || '');
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; b.setAttribute('aria-label', readName(b, L.read)); }); };
+const speakable = (sel, scope) => qa(sel, scope).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+rd.forEach((b, n) => {
   if (!window.speechSynthesis) { b.hidden = true; return; }
   b.textContent = b.title = L.read;  /* the words stay in the page as the button's name; the header shows an icon */
+  b.setAttribute('aria-label', readName(b, L.read));
   on(b, 'click', () => {
     const was = b.hasAttribute('data-reading'); hush(); if (was) return;
-    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
-    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop;
+    const me = sid, ch = b.closest('.chapter'), main = ch.parentElement;
+    const open = n === 0 ? speakable('.answer, .keep li, .glance-head h2, .glance :is(p, li, figcaption)', main) : [];
+    const close = n === rd.length - 1 ? speakable('.recap :is(p, li)', main) : [];
+    const list = [...open, ...speakable('p, li, figcaption, legend, .answer-field > label:first-child', ch), ...close];
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop; b.setAttribute('aria-label', readName(b, L.stop));
     const next = () => {
       const e = list[i++]; if (me !== sid) return; if (!e) return hush();
       e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
@@ -2676,11 +2693,19 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
     dec.classList.add('paired'); f.classList.add('paired');
     const group = $('.options', dec); group.setAttribute('role', 'radiogroup'); group.setAttribute('aria-label', txt($('h3', dec) || $('legend', f) || dec));
     group.after(make('p', 'pick-hint', esc(L.decPick)));
-    const sync = () => opts.forEach((o, i) => o.setAttribute('aria-checked', rs[i].checked));
+    /* one tab stop per group (roving tabindex): the picked option, or the first when none is picked */
+    const sync = () => { const got = rs.some(r => r.checked); opts.forEach((o, i) => { o.setAttribute('aria-checked', rs[i].checked); o.tabIndex = (got ? rs[i].checked : i === 0) ? 0 : -1; }); };
     opts.forEach((o, i) => {
-      o.setAttribute('role', 'radio'); o.tabIndex = 0;
+      o.setAttribute('role', 'radio');
       on(o, 'click', e => { if (e.target.closest('a, button, summary, input, textarea')) return; rs[i].checked = true; ['input', 'change'].forEach(t => rs[i].dispatchEvent(new Event(t, { bubbles: true }))); sync(); });
-      on(o, 'keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); } });
+      on(o, 'keydown', e => {
+        if (e.target !== o || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); return; }
+        /* the ARIA radio group: arrows move focus and the pick together, and wrap */
+        const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key], j = step ? (i + step + opts.length) % opts.length : e.key === 'Home' ? 0 : e.key === 'End' ? opts.length - 1 : -1;
+        if (j < 0) return;
+        e.preventDefault(); opts[j].tabIndex = 0; opts[j].focus(); opts[j].click();
+      });
     });
     on(f, 'change', sync); sync();
   }));

@@ -5,11 +5,12 @@ The reader can hold about three things at once and loses them the moment they sc
 ## The contract of every page
 
 1. **Answer first.** The `.answer` line is the whole page in one sentence, and it is the page's headline. Write it before anything else. If you cannot write it, you do not understand the topic yet.
-2. **Three facts to keep.** The `.keep` box holds at most three lines under fifteen words each. These are the only things the page asks the reader to carry. A keep fact adds something: it never restates a clause of the answer line (the checker warns when a keep line shares more than 60% of its content words with the answer).
+2. **Three facts to keep.** The `.keep` box holds at most three lines under fifteen words each. These are the only things the page asks the reader to carry. A keep fact adds something: a number, a date, a cost, a condition or an owner that the answer does not name. It never restates a clause of the answer line.
 3. **The glance shows the type's own picture.** A `section.glance` sits after the keep box. It holds one picture and one `.take` line that says what the picture shows. The chapter that explains the picture builds on it and does not repeat it. A roadmap's glance is its lanes, a field guide's is its territory, and a playbook has none, because its phase strip opens the page.
-4. **Chapters are self-contained.** A chapter opens with `.from` (the one fact it builds on, restated, never "as we saw above") and closes with `.remember` (one sentence). A reader who lands mid-page loses nothing.
-5. **Recap = the remember lines.** The closing `.recap` list is the chapters' remember lines, copied. Nothing new appears at the end.
-6. **The ask is one question.** If a decision is needed, `.ask` holds one question, two to four choices, the recommendation marked, and what happens if the reader does nothing.
+4. **Chapters are self-contained.** A chapter opens with `.from` (the one fact it builds on, restated in new words, never "as we saw above", and never a copy of the previous chapter's remember line) and closes with `.remember` (one sentence). A reader who lands mid-page loses nothing.
+5. **Recap = the remember lines.** The closing `.recap` list is the chapters' remember lines, copied. Nothing new appears at the end. (This stays a copy until the reader test of 12 December 2026 rules on it.)
+6. **Say each thing once.** The answer, the keep facts, a chapter's `.from`, its `.take` and its `.remember` line each add something the others do not. The `.take` says what the picture proves; the `.remember` line is what to carry. The checker warns when a keep fact, a `.from` (against the previous chapter's remember line) or a `.take` (against its own chapter's remember line) shares more than 60% of its content words with the line it should not copy. It reads Japanese pages too, by character pairs, so a Japanese warning is blunter.
+7. **The ask is one question.** If a decision is needed, `.ask` holds one question, two to four choices, the recommendation marked, and what happens if the reader does nothing.
 
 ## Titles and headings
 
@@ -31,7 +32,7 @@ The reader can hold about three things at once and loses them the moment they sc
 
 ## Jargon
 
-- The first time a technical word is unavoidable, define it in the same sentence or in a `.term` box directly beneath. Wrap the word in `<dfn>`.
+- Define a term the first time it appears, in a few words, in the same sentence or in a `.term` box directly beneath. Wrap the word in `<dfn>`. A page the reader may open cold (an example, a handover, a runbook) leaves no term undefined.
 - Prefer the plain word for the rest of the page. If the page must use "idempotent", say "safe to run twice" and put "idempotent" in the term box.
 - Analogies work when the mapping is exact. Use `.metaphor` for one analogy per chapter at most, and say where the analogy stops.
 
@@ -54,6 +55,10 @@ Anything the reader needs only if they want to verify or act: exact commands, fi
 
 Calm, direct, warm. No exclamation marks. No "simply" or "just" (they shame the reader who does not find it simple). Errors and risks are stated plainly with what to do about them. Never apologize in the page.
 
+## Time to do it
+
+A page for doing something (a runbook, a playbook, a teach page, and the install step of a public page) says how long the doing takes as well as how long the reading takes. Put it in the meta line as its own item: `about 20 min to do`. The reading time is for the reader; the task time is for the person who must find an hour. Assemble.mjs leaves that item alone when it refreshes the reading time.
+
 ## Numbers
 
 A number appears only when it changes what the reader decides. Then it gets a `.tile` with a label saying what it means, or it sits in a fold. Prose carries at most one number per sentence.
@@ -71,6 +76,7 @@ Write native Japanese, not a word-for-word copy. The checker counts characters, 
 - **Emphasis.** Bold, or 「」 around a term at first use. Never italics: Japanese has none, and the checker fails them.
 - **Digits and dates.** Half-width digits (3, 1,250). Dates as 2026年10月7日, not 2026-10-07.
 - **Reading time.** 500 characters a minute, rounded up: 第2章 / 全6章、約1分.
+- **Time to do it.** As its own meta item: 作業 約20分. Leave it in place when the reading time is refreshed.
 - **Fixed strings.** Interface text comes from `../assets/i18n/ui.ja.json`. Leave those items untranslated so the file fills them in; never type your own word for one, or pages drift apart. A glossary term marked `keep` stays in English.
 - **Ids and layout never change.** `data-q` ids, element ids, classes and chapter order match in both files, so answers merge across languages by question id. Translate text only.
 - **Split sentences.** Inline tags cut one sentence into several items. Translate the pieces so they join into one sentence.

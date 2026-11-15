@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.3.0">
+<meta name="generator" content="glance-explainer 2.4.0">
 <meta name="color-scheme" content="light dark">
 <title>メモの同期のしくみ</title>
 <meta name="description" content="新人エンジニア向けの学習ページです。メモがスマホから別の端末へ届くまでに通る4つの層と、層ごとの新しい用語、実際に動きを確かめる5つの手順をまとめています。架空のデータによる例です。">
@@ -199,6 +199,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .rail a small { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 2px; color: var(--ink-faint); font-size: .722rem; font-weight: 400; line-height: 1.35; }  /* two lines at most, minutes first, so a long line never hides them */
 .rail a:hover small { color: var(--ink-soft); }
+.rail:has(.tools:not([hidden])) a small { display: none; }  /* while Reading tools is open the rail drops its small lines, so the panel fits under the chapter list and the first chapter stays in view */
 /* where you are: a white card with a hairline ring and a filled circle. Read: a check in a go circle, which wins over the number. */
 .rail a[aria-current="true"] { background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 700; }
 .rail a[aria-current="true"] .dot { background: var(--here); border-color: var(--here); color: var(--on-here); }
@@ -1128,9 +1129,11 @@ body[data-skim="on"] .chapter .from { display: none; }
 /* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
    and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
-body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop, [data-depends]),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
 body[data-skim="on"] .chapter .remember { display: block; }
+/* a dependency ("this depends on ruling 1") decides whether the chapter matters at all, so skim keeps it: any callout marked data-depends, and the tip in a chapter that holds a decision */
+body[data-skim="on"] .chapter:has(.decision) .callout.tip { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -1528,16 +1531,16 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
 
     <p class="kicker">新人エンジニア向けの学習ページ</p>
     <h1>メモが端末から端末へ届くしくみ</h1>
-    <div class="meta"><span>約5分で読めます</span><span>作成：2026年10月16日</span><span>対象：新人エンジニア</span><span>架空のデータによる例</span></div>
+    <div class="meta"><span>約5分で読めます</span><span>作成：2026年10月16日</span><span>対象：サーバーとアプリが何か分かる新人エンジニア</span><span>作業 約5分</span><span>架空のデータによる例</span></div>
 
     <p class="answer">メモはまずスマホに保存され、次にサーバーが番号を振り、ほかの端末が新しい分を取りに行きます。</p>
 
     <div class="keep">
       <strong>押さえておくのはこれだけ</strong>
       <ol>
-        <li>メモは、送る前にスマホへ保存される</li>
-        <li>サーバーが番号を振るので、順番は1つに決まる</li>
-        <li>端末は、前回の番号より後の分を取りに行く</li>
+        <li>順番を決めるのは、時計ではなくサーバーの番号</li>
+        <li>端末は、最後に反映した番号（カーソル）を持つ</li>
+        <li>2.3では、競合で負けた文章は残らない</li>
       </ol>
     </div>
 
@@ -1629,7 +1632,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>編集は、スマホがオンラインになるまで送信トレイで待ちます。</p>
+      <p class="from"><b>おさらい：</b>編集はスマホで待っています。次は、届いたときにサーバーが何をするかを見ます。</p>
 
       <p>スマホは、編集を1件ずつ<dfn>同期サーバー</dfn>に、<dfn>変更</dfn>として送ります。サーバーはそれを記録し、アカウントごとに次の<dfn>変更番号</dfn>を振ります。41、42、43と続きます。</p>
 
@@ -1692,7 +1695,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>変更には番号があり、サーバーは変更を順番に保管しています。</p>
+      <p class="from"><b>おさらい：</b>サーバーは変更ごとに番号を振ります。次は、ほかの端末がそれを知る方法を見ます。</p>
 
       <p>パソコンは、知らせを待ちません。アプリを開いている間は10秒ごとに「前回の番号より新しい分は？」と聞きに行きます。この番号が<dfn>カーソル</dfn>です。この問い合わせが<dfn>プル</dfn>です。</p>
 
@@ -1751,7 +1754,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
 
       <p class="from"><b>おさらい：</b>端末はカーソルより後の変更を取りに行き、順番に反映します。</p>
 
-      <p>お互いの変更を知らないまま、2台が同じメモを変更することがあります。これが<dfn>競合</dfn>です。バージョン2.3は、変更番号が大きいほうが勝つ、という1つのルールで解決します。</p>
+      <p>お互いの変更を知らないまま、2台が同じメモを変更することがあります。これが<dfn>競合</dfn>です。今のアプリのバージョン2.3は、変更番号が大きいほうが勝つ、という1つのルールで解決します。</p>
 
       <dl class="term">
         <dt>競合</dt><dd>互いに知らないまま加えられた、同じメモへの2つの編集。</dd>
@@ -1783,7 +1786,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <figcaption class="take"><b>つまり：</b>決め手は届いた順で、時計の時刻ではありません。負けたほうの文章は置き換わります。</figcaption>
       </figure>
 
-      <div class="callout warn"><b>このルールの代償</b><p>2.3では、置き換えられた文章は残りません。共有ノートでは、チームメイトの文章が消えるおそれがあります。2.4で両方を残すかは、マーラさんとテッドさんが検討中です。</p></div>
+      <div class="callout warn"><b>このルールの代償</b><p>2.3では、置き換えられた文章は残りません。共有ノートでは、チームメイトの文章が消えるおそれがあります。次のバージョン2.4で両方を残すかは、チームで検討中です。</p></div>
 
       <p class="remember"><b>この章のポイント：</b>編集がぶつかると、サーバーに最後に届いたほうが勝ち、もう一方の文章は置き換わります。</p>
     </section>
@@ -1798,20 +1801,13 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
 
       <p class="from"><b>おさらい：</b>メモは保存され、送られ、番号を振られ、プルされ、競合すれば置き換わります。</p>
 
-      <p>用意するのは、スマホとブラウザです。どちらも同じテストアカウントでサインインしておきます。所要時間は5分です。</p>
-
       <ol class="steps">
         <li><b>ブラウザ版とスマホ版のアプリを開きます。</b>どちらも同じテストアカウントでサインインします。</li>
-        <li><b>スマホの<dfn>機内モード</dfn>をオンにします。</b>アプリはそのまま動きます。</li>
+        <li><b>スマホの<dfn>機内モード</dfn>をオンにします。</b>通信はすべて切れますが、アプリは動きます。</li>
         <li><b>「買い物リスト」というメモを編集します。</b>末尾に「卵」を足します。</li>
-        <li><b>「その他」から<dfn>「同期の詳細」</dfn>を開きます。</b>送信待ちの編集が1件と表示されます。</li>
+        <li><b>「その他」から<dfn>「同期の詳細」</dfn>を開きます。</b>この画面で送信トレイを数えます。待っている編集は1件です。</li>
         <li><b>機内モードをオフにします。</b> 10秒以内に件数が0になり、ブラウザ版に「卵」が表示されます。</li>
       </ol>
-
-      <dl class="term">
-        <dt>機内モード</dt><dd>すべての通信を切るスマホの設定。アプリはオフラインになります。</dd>
-        <dt>同期の詳細</dt><dd>「その他」の中にある画面。送信トレイの件数と、スマホが最後に見た変更番号を表示します。</dd>
-      </dl>
 
       <figure class="figure">
         <svg viewBox="0 0 800 250" role="img" aria-labelledby="f-try"><title id="f-try">機内モードがオンのときの「同期の詳細」画面は、送信待ちが1件です。機内モードをオフにすると、同じ画面は送信待ちが0件になり、変更番号が新しくなります。</title>
@@ -1849,6 +1845,20 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         </ol>
       </details>
 
+      <p><b>確認してみましょう。</b>先に答えを考えてから、折りたたみを開きます。</p>
+      <ol>
+        <li>パソコンは09:10にオフラインで入力し、スマホは09:12に入力して先に送りました。どちらの文章が勝ちますか。</li>
+        <li>端末が新しい分を聞くとき、何を送りますか。</li>
+        <li>送信トレイの件数が1のとき、何が分かりますか。</li>
+      </ol>
+      <details class="fold"><summary>答えを見る</summary>
+        <ol>
+          <li>パソコンです。入力が遅いほうではなく、あとに届いたほうが勝ちます。</li>
+          <li>カーソル、つまり最後に反映した変更番号です。</li>
+          <li>編集が1件、まだスマホを出ていません。</li>
+        </ol>
+      </details>
+
       <p class="remember"><b>この章のポイント：</b>「同期の詳細」画面で送信トレイの件数を見れば、編集がスマホを出たかどうか分かります。</p>
     </section>
 
@@ -1875,10 +1885,16 @@ const on = (e, ev, f) => e?.addEventListener(ev, f);
 const byId = id => id ? d.getElementById(id) : null;
 const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
 const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+/* search folds width and kana: full-width and half-width letters match, and katakana matches hiragana */
+const fold = s => s.normalize('NFKC').toLowerCase().replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const key = 'explainer:' + (location.pathname || 'page');
+/* Saved ticks, answers and picks belong to one version of the page: the key carries a short hash of the answer line, the keep facts and the chapter titles,
+   so a page made again at the same address starts clean, and an unchanged page keeps its progress. */
+const sig = ($('.answer')?.textContent || '') + qa('.keep li, .chapter > header h2').map(e => '|' + e.textContent).join('');
+let hash = 5381; for (let i = 0; i < sig.length; i++) hash = ((hash * 33) ^ sig.charCodeAt(i)) >>> 0;
+const key = 'explainer:' + (location.pathname || 'page') + '#' + hash.toString(36);
 root.classList.add('js');
 
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
@@ -1915,8 +1931,8 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Tap an option to pick it.' });
-Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をタップして選びます。' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Pick an option: click, tap, or use the arrow keys.' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をクリックかタップ、または矢印キーで選びます。' });
 const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 /* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
 function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
@@ -2026,12 +2042,12 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       const s = $('summary', f); if (!s) return;
       s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
     });
-    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    const hay = new Map(fgEntries.map(e => [e, fold(['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' '))]));
     let filter = REL[0], words = [], searching = false; const was = new Map();
     if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
     const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
     const apply = () => {
-      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      const q = box.value.trim().replace(/\s+/g, ' '); words = fold(q).split(' ').filter(Boolean);
       let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
       picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
         const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
@@ -2156,7 +2172,7 @@ const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.fin
 $('.recap h2')?.after(make('span', 'finished', L.fin));
 boxes.forEach(box => {
   const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
-  box.checked = !!done[c.id]; paint(); if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
+  box.checked = !!done[c.id]; paint(); box.setAttribute('aria-label', txt(box.closest('label') || '') + L.mdJoin + txt($('h2', c) || ''));  /* "Done: <chapter>", so the boxes differ */ if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
   on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
 });
 finish();
@@ -2266,22 +2282,31 @@ qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.
 Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
 qa('pre.cmd').forEach(p => {
   const code = $('code', p) || p, b = d.createElement('button');
-  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite'); b.setAttribute('aria-label', L.copy + L.mdJoin + code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40));
   on(b, 'click', () => copy(code.textContent.trim(), b));
-  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  const nm = code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40);
+  new MutationObserver(() => { const w = b.classList.contains('go') ? L.copied : L.copy; b.textContent = w; b.setAttribute('aria-label', w + L.mdJoin + nm); }).observe(b, { attributes: true, attributeFilter: ['class'] });
   p.append(b);
 });
 
-/* read aloud: one block at a time, in the page language; one chapter at a time */
+/* read aloud: one block at a time, in the page language, from a chapter's own button. The first chapter's button starts with the opening
+   (answer, keep cards, glance) and the last chapter's ends with the recap, so the whole page can be heard without a new control.
+   Each button's name says which chapter it reads, so a list of buttons does not repeat itself. */
 const rd = qa('[data-read]'); let sid = 0;
-const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; }); };
-rd.forEach(b => {
+const readName = (b, word) => word + L.mdJoin + txt($('h2', b.closest('.chapter')) || '');
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; b.setAttribute('aria-label', readName(b, L.read)); }); };
+const speakable = (sel, scope) => qa(sel, scope).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+rd.forEach((b, n) => {
   if (!window.speechSynthesis) { b.hidden = true; return; }
   b.textContent = b.title = L.read;  /* the words stay in the page as the button's name; the header shows an icon */
+  b.setAttribute('aria-label', readName(b, L.read));
   on(b, 'click', () => {
     const was = b.hasAttribute('data-reading'); hush(); if (was) return;
-    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
-    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop;
+    const me = sid, ch = b.closest('.chapter'), main = ch.parentElement;
+    const open = n === 0 ? speakable('.answer, .keep li, .glance-head h2, .glance :is(p, li, figcaption)', main) : [];
+    const close = n === rd.length - 1 ? speakable('.recap :is(p, li)', main) : [];
+    const list = [...open, ...speakable('p, li, figcaption, legend, .answer-field > label:first-child', ch), ...close];
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop; b.setAttribute('aria-label', readName(b, L.stop));
     const next = () => {
       const e = list[i++]; if (me !== sid) return; if (!e) return hush();
       e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
@@ -2807,11 +2832,19 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
     dec.classList.add('paired'); f.classList.add('paired');
     const group = $('.options', dec); group.setAttribute('role', 'radiogroup'); group.setAttribute('aria-label', txt($('h3', dec) || $('legend', f) || dec));
     group.after(make('p', 'pick-hint', esc(L.decPick)));
-    const sync = () => opts.forEach((o, i) => o.setAttribute('aria-checked', rs[i].checked));
+    /* one tab stop per group (roving tabindex): the picked option, or the first when none is picked */
+    const sync = () => { const got = rs.some(r => r.checked); opts.forEach((o, i) => { o.setAttribute('aria-checked', rs[i].checked); o.tabIndex = (got ? rs[i].checked : i === 0) ? 0 : -1; }); };
     opts.forEach((o, i) => {
-      o.setAttribute('role', 'radio'); o.tabIndex = 0;
+      o.setAttribute('role', 'radio');
       on(o, 'click', e => { if (e.target.closest('a, button, summary, input, textarea')) return; rs[i].checked = true; ['input', 'change'].forEach(t => rs[i].dispatchEvent(new Event(t, { bubbles: true }))); sync(); });
-      on(o, 'keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); } });
+      on(o, 'keydown', e => {
+        if (e.target !== o || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); return; }
+        /* the ARIA radio group: arrows move focus and the pick together, and wrap */
+        const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key], j = step ? (i + step + opts.length) % opts.length : e.key === 'Home' ? 0 : e.key === 'End' ? opts.length - 1 : -1;
+        if (j < 0) return;
+        e.preventDefault(); opts[j].tabIndex = 0; opts[j].focus(); opts[j].click();
+      });
     });
     on(f, 'change', sync); sync();
   }));

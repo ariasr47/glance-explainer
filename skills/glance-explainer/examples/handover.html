@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.3.0">
+<meta name="generator" content="glance-explainer 2.4.0">
 <meta name="color-scheme" content="light dark">
 <title>Handing over the sharing work</title>
 <meta name="description" content="A handover note for a small notes app: Ted hands the sharing work to a new contractor. What is verified, what is only claimed, what to do first, the work in flight, and the evidence in folds. Example with made-up data.">
@@ -199,6 +199,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .rail a small { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 2px; color: var(--ink-faint); font-size: .722rem; font-weight: 400; line-height: 1.35; }  /* two lines at most, minutes first, so a long line never hides them */
 .rail a:hover small { color: var(--ink-soft); }
+.rail:has(.tools:not([hidden])) a small { display: none; }  /* while Reading tools is open the rail drops its small lines, so the panel fits under the chapter list and the first chapter stays in view */
 /* where you are: a white card with a hairline ring and a filled circle. Read: a check in a go circle, which wins over the number. */
 .rail a[aria-current="true"] { background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 700; }
 .rail a[aria-current="true"] .dot { background: var(--here); border-color: var(--here); color: var(--on-here); }
@@ -1128,9 +1129,11 @@ body[data-skim="on"] .chapter .from { display: none; }
 /* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
    and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
-body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop, [data-depends]),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
 body[data-skim="on"] .chapter .remember { display: block; }
+/* a dependency ("this depends on ruling 1") decides whether the chapter matters at all, so skim keeps it: any callout marked data-depends, and the tip in a chapter that holds a decision */
+body[data-skim="on"] .chapter:has(.decision) .callout.tip { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -1534,9 +1537,9 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
     <div class="keep">
       <strong>Keep in your head (only these)</strong>
       <ol>
-        <li>Sharing is built, tested and in store review.</li>
-        <li>Three things are only claimed. Check them first.</li>
-        <li>You switch sharing on at release, on Thursday 29 October.</li>
+        <li>All 75 sharing tests passed on Friday 23 October.</li>
+        <li>Three things are only claimed. Checking them takes 27 minutes.</li>
+        <li>Mara is your contact. To undo it, switch the flag off.</li>
       </ol>
     </div>
 
@@ -1551,7 +1554,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
           </ul></section>
         <section class="col wait"><h3>Only claimed, check first</h3><p>A note says so. Nobody re-ran it.</p>
           <ul>
-            <li><b>Android is approved</b><span>The Play Console email says so. I have not opened the console.</span></li>
+            <li><b>Android is approved</b><span>The Play Console (Google's store dashboard) email says so. I have not opened it.</span></li>
             <li><b>Invite emails reach iCloud</b><span>Mara said so on Wednesday. I tested Gmail and Outlook only.</span></li>
             <li><b>The accept link works on iOS 16</b><span>My test phone runs iOS 18, so nobody has tried an older one.</span></li>
           </ul></section>
@@ -1570,7 +1573,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <li><a href="#flight"><b>What is in flight right now?</b><span>Store review, then one switch, then a watch.</span></a></li>
       <li><a href="#claims"><b>Which three things are only claimed?</b><span>Who said it, and how to check it in minutes.</span></a></li>
       <li><a href="#first"><b>What do you do first?</b><span>Six steps from Monday to release day.</span></a></li>
-      <li><a href="#owns"><b>Who owns what while I am away?</b><span>Your part, Mara's part and three rules.</span></a></li>
+      <li><a href="#owns"><b>Who owns what while Ted is away?</b><span>Your part, Mara's part and three rules.</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
@@ -1586,13 +1589,13 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <p>Sharing lives in five places. Two are done and checked. The other three are built, but each carries one claim that nobody has checked.</p>
 
       <ul class="status">
-        <li class="go"><b>Sync server</b><span>Share, accept and remove are deployed. The <code>sharing</code> flag is off in production.</span></li>
+        <li class="go"><b>Sync server</b><span>Share, accept and remove are deployed. The <code>sharing</code> flag, an on and off switch for the feature, is off in production.</span></li>
         <li class="go"><b>Web app</b><span>The share and accept screens are done, behind the same flag.</span></li>
-        <li class="wait"><b>Android app</b><span>Done. A store email says approved, but nobody has checked the console.</span></li>
-        <li class="wait"><b>iPhone app</b><span>Bugs fixed and the build is in review. It works on iOS 18 and is untested on iOS 16.</span></li>
-        <li class="wait"><b>Invite emails</b><span>They reach Gmail and Outlook. iCloud is untested.</span></li>
+        <li class="wait"><b>Android app</b><span>Done and with the store for approval.</span></li>
+        <li class="wait"><b>iPhone app</b><span>Bugs fixed and the build is in review.</span></li>
+        <li class="wait"><b>Invite emails</b><span>Built and sent from the server.</span></li>
       </ul>
-      <p class="take"><b>Take from this:</b> everything is built. What is left is checking, switching on and watching.</p>
+      <p class="take"><b>Take from this:</b> no row is red. Every piece exists, and three of them carry a claim.</p>
 
       <details class="fold"><summary>Show where the code lives</summary>
         <pre><code>server/sharing/        share, accept and remove, and the flag check
@@ -1613,17 +1616,17 @@ ios/Share/             share screen and accept link</code></pre>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> everything is built, and what is left is checking, switching on and watching.</p>
+      <p class="from"><b>Before this:</b> you know the build is done. Now see what happens between today and the switch.</p>
 
       <p>Both builds are with the stores, and review usually takes one to three days. Nothing you do speeds it up. After that, one switch is left to flip.</p>
 
       <ol class="flow">
-        <li class="here"><b>Review</b><span>iPhone is in review. Android may be done.</span></li>
+        <li class="here"><b>Review</b><span>iPhone is in review. Android: approved by email, not yet checked.</span></li>
         <li><b>Approved</b><span>You confirm it in both consoles.</span></li>
         <li><b>Flag on</b><span>You switch sharing on, Thursday 29 October.</span></li>
         <li><b>Day one</b><span>You watch errors and invite emails.</span></li>
       </ol>
-      <p class="take"><b>Take from this:</b> nothing ships until both stores approve, and the flag is the last switch anyone touches.</p>
+      <p class="take"><b>Take from this:</b> the path has four steps, and only the first, the review, is out of your hands.</p>
 
       <div class="undo"><b>If something goes wrong:</b> switch the sharing flag off. The feature disappears from every app, and every shared notebook stays safe on the server.</div>
 
@@ -1644,7 +1647,7 @@ npm run flag -- sharing off    # the way back</code></pre>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> nothing ships until both stores approve, and the flag is the last switch.</p>
+      <p class="from"><b>Before this:</b> you know the stores must approve first. Now see which facts nobody has checked.</p>
 
       <p>I did not re-run these three. Each is quick, and a wrong one would surface on release day, when it costs the most.</p>
 
@@ -1679,12 +1682,12 @@ npm run flag -- sharing off    # the way back</code></pre>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> three claims are unchecked, and all three take under half an hour.</p>
+      <p class="from"><b>Before this:</b> you know three facts need checking, and each is quick. Now see the order of work.</p>
 
       <ol class="steps">
         <li><b>Get access on Monday 26 October.</b> Ask Mara to add you to both store consoles and the server dashboard.</li>
         <li><b>Run the sharing tests.</b> One command from the repo root. Expect 75 passes and no failures.</li>
-        <li><b>Check the three claims.</b> The console, an iCloud invite and an iPhone with iOS 16.</li>
+        <li><b>Check the three claims.</b> Chapter 3 says how.</li>
         <li><b>Confirm both stores approve.</b> Wait if either still says "In review".</li>
         <li><b>Switch sharing on at release.</b> Thursday 29 October, only after step 4 and after Mara says go.</li>
         <li><b>Watch the first day.</b> Check accept errors and invite emails every two hours.</li>
@@ -1697,35 +1700,39 @@ npm run flag -- sharing off    # the way back</code></pre>
     <!-- ============ 5 ============ -->
     <section class="chapter" id="owns" data-keep="You own the sharing work. Mara owns what ships. Two rules say to ask her first.">
       <header>
-        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>Who owns what while I am away?</h2></div>
+        <div><p class="kicker">Chapter 5 of 5, about 1 minute</p><h2>Who owns what while Ted is away?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> you check, then switch sharing on, then watch.</p>
+      <p class="from"><b>Before this:</b> you know the order. Now see who decides what.</p>
 
-      <p>I am away from 26 October to 6 November and will not read messages. Mara is your contact for everything.</p>
+      <div class="grid-wrap"><table class="grid">
+        <caption>I am away 26 October to 6 November and will not read messages. Ask here instead.</caption>
+        <thead><tr><th scope="col">You need</th><th scope="col">Go to</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">A ruling on what ships</th><td>Mara, in the team chat, weekdays 09:00 to 17:00</td></tr>
+          <tr><th scope="row">A ruling when Mara is out</th><td>Sam, in the same chat</td></tr>
+          <tr><th scope="row">My notes and screenshots</th><td>Team drive, folder "Sharing handover"</td></tr>
+          <tr><th scope="row">Errors on release day</th><td>Server dashboard, login from Mara</td></tr>
+        </tbody>
+      </table></div>
 
       <div class="roles">
         <section class="role" data-who="you"><h3><span class="who" title="You">Y</span> You</h3><ul>
           <li>Own the sharing code in all five places.</li>
-          <li>Switch sharing on and watch day one.</li>
-          <li>Fix what turns up, smallest first.</li>
-          <li>Answer sharing questions in the support inbox.</li>
         </ul></section>
         <section class="role" data-who="me"><h3><span class="who" title="Mara">M</span> Mara</h3><ul>
           <li>Decides what ships and when.</li>
           <li>Holds the store logins and the registrar login.</li>
-          <li>Answers what sharing should do.</li>
-          <li>Says go before the flag moves.</li>
         </ul></section>
       </div>
       <ul class="rules">
-        <li><b>Ask Mara before a production migration.</b> Since the 13 October incident each one runs by hand, once.</li>
-        <li><b>Ask Mara before resubmitting a build.</b> A resubmission restarts the review clock.</li>
+        <li><b>Ask Mara before a production migration</b> (a change to the live database). Each one runs by hand, once.</li>
+        <li><b>Ask Mara before resubmitting a build.</b> It restarts the review clock.</li>
         <li><b>When in doubt, switch the flag off.</b> It hides the feature and keeps every shared notebook.</li>
       </ul>
-      <p class="take"><b>Take from this:</b> your work is the sharing code and release day. Two of the three rules send you to Mara first.</p>
+      <p class="take"><b>Take from this:</b> the columns do not overlap. You build and watch, and Mara decides.</p>
 
       <p class="remember"><b>Remember:</b> you own the sharing work, Mara owns what ships, and two rules say to ask her first.</p>
     </section>
@@ -1753,10 +1760,16 @@ const on = (e, ev, f) => e?.addEventListener(ev, f);
 const byId = id => id ? d.getElementById(id) : null;
 const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
 const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+/* search folds width and kana: full-width and half-width letters match, and katakana matches hiragana */
+const fold = s => s.normalize('NFKC').toLowerCase().replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const key = 'explainer:' + (location.pathname || 'page');
+/* Saved ticks, answers and picks belong to one version of the page: the key carries a short hash of the answer line, the keep facts and the chapter titles,
+   so a page made again at the same address starts clean, and an unchanged page keeps its progress. */
+const sig = ($('.answer')?.textContent || '') + qa('.keep li, .chapter > header h2').map(e => '|' + e.textContent).join('');
+let hash = 5381; for (let i = 0; i < sig.length; i++) hash = ((hash * 33) ^ sig.charCodeAt(i)) >>> 0;
+const key = 'explainer:' + (location.pathname || 'page') + '#' + hash.toString(36);
 root.classList.add('js');
 
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
@@ -1793,8 +1806,8 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Tap an option to pick it.' });
-Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をタップして選びます。' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Pick an option: click, tap, or use the arrow keys.' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をクリックかタップ、または矢印キーで選びます。' });
 const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 /* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
 function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
@@ -1904,12 +1917,12 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       const s = $('summary', f); if (!s) return;
       s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
     });
-    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    const hay = new Map(fgEntries.map(e => [e, fold(['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' '))]));
     let filter = REL[0], words = [], searching = false; const was = new Map();
     if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
     const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
     const apply = () => {
-      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      const q = box.value.trim().replace(/\s+/g, ' '); words = fold(q).split(' ').filter(Boolean);
       let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
       picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
         const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
@@ -2034,7 +2047,7 @@ const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.fin
 $('.recap h2')?.after(make('span', 'finished', L.fin));
 boxes.forEach(box => {
   const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
-  box.checked = !!done[c.id]; paint(); if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
+  box.checked = !!done[c.id]; paint(); box.setAttribute('aria-label', txt(box.closest('label') || '') + L.mdJoin + txt($('h2', c) || ''));  /* "Done: <chapter>", so the boxes differ */ if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
   on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
 });
 finish();
@@ -2144,22 +2157,31 @@ qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.
 Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
 qa('pre.cmd').forEach(p => {
   const code = $('code', p) || p, b = d.createElement('button');
-  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite'); b.setAttribute('aria-label', L.copy + L.mdJoin + code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40));
   on(b, 'click', () => copy(code.textContent.trim(), b));
-  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  const nm = code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40);
+  new MutationObserver(() => { const w = b.classList.contains('go') ? L.copied : L.copy; b.textContent = w; b.setAttribute('aria-label', w + L.mdJoin + nm); }).observe(b, { attributes: true, attributeFilter: ['class'] });
   p.append(b);
 });
 
-/* read aloud: one block at a time, in the page language; one chapter at a time */
+/* read aloud: one block at a time, in the page language, from a chapter's own button. The first chapter's button starts with the opening
+   (answer, keep cards, glance) and the last chapter's ends with the recap, so the whole page can be heard without a new control.
+   Each button's name says which chapter it reads, so a list of buttons does not repeat itself. */
 const rd = qa('[data-read]'); let sid = 0;
-const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; }); };
-rd.forEach(b => {
+const readName = (b, word) => word + L.mdJoin + txt($('h2', b.closest('.chapter')) || '');
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; b.setAttribute('aria-label', readName(b, L.read)); }); };
+const speakable = (sel, scope) => qa(sel, scope).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+rd.forEach((b, n) => {
   if (!window.speechSynthesis) { b.hidden = true; return; }
   b.textContent = b.title = L.read;  /* the words stay in the page as the button's name; the header shows an icon */
+  b.setAttribute('aria-label', readName(b, L.read));
   on(b, 'click', () => {
     const was = b.hasAttribute('data-reading'); hush(); if (was) return;
-    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
-    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop;
+    const me = sid, ch = b.closest('.chapter'), main = ch.parentElement;
+    const open = n === 0 ? speakable('.answer, .keep li, .glance-head h2, .glance :is(p, li, figcaption)', main) : [];
+    const close = n === rd.length - 1 ? speakable('.recap :is(p, li)', main) : [];
+    const list = [...open, ...speakable('p, li, figcaption, legend, .answer-field > label:first-child', ch), ...close];
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop; b.setAttribute('aria-label', readName(b, L.stop));
     const next = () => {
       const e = list[i++]; if (me !== sid) return; if (!e) return hush();
       e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
@@ -2685,11 +2707,19 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
     dec.classList.add('paired'); f.classList.add('paired');
     const group = $('.options', dec); group.setAttribute('role', 'radiogroup'); group.setAttribute('aria-label', txt($('h3', dec) || $('legend', f) || dec));
     group.after(make('p', 'pick-hint', esc(L.decPick)));
-    const sync = () => opts.forEach((o, i) => o.setAttribute('aria-checked', rs[i].checked));
+    /* one tab stop per group (roving tabindex): the picked option, or the first when none is picked */
+    const sync = () => { const got = rs.some(r => r.checked); opts.forEach((o, i) => { o.setAttribute('aria-checked', rs[i].checked); o.tabIndex = (got ? rs[i].checked : i === 0) ? 0 : -1; }); };
     opts.forEach((o, i) => {
-      o.setAttribute('role', 'radio'); o.tabIndex = 0;
+      o.setAttribute('role', 'radio');
       on(o, 'click', e => { if (e.target.closest('a, button, summary, input, textarea')) return; rs[i].checked = true; ['input', 'change'].forEach(t => rs[i].dispatchEvent(new Event(t, { bubbles: true }))); sync(); });
-      on(o, 'keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); } });
+      on(o, 'keydown', e => {
+        if (e.target !== o || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); return; }
+        /* the ARIA radio group: arrows move focus and the pick together, and wrap */
+        const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key], j = step ? (i + step + opts.length) % opts.length : e.key === 'Home' ? 0 : e.key === 'End' ? opts.length - 1 : -1;
+        if (j < 0) return;
+        e.preventDefault(); opts[j].tabIndex = 0; opts[j].focus(); opts[j].click();
+      });
     });
     on(f, 'change', sync); sync();
   }));
