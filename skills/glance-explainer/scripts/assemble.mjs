@@ -198,6 +198,7 @@ function renew(raw, { fresh, map, name, skip = 0 }) {
     // "Chapter 2 of 6, about 1 minute" (plural above 1) and 「第2章 / 全6章、約1分」; "Reading time about 5 minutes" and 「約5分で読めます」
     const KICKER = ja ? /第\s*(\d+)\s*章\s*[\/／]\s*全\s*(\d+)\s*章\s*[、,，]\s*約\s*(\d+)\s*分/ : /Chapter\s+(\d+)\s+of\s+(\d+),\s+about\s+(\d+)\s+minutes?/i;
     const kickerText = (n, of, t) => ja ? `第${n}章 / 全${of}章、約${t}分` : `Chapter ${n} of ${of}, about ${t} minute${t === 1 ? '' : 's'}`;
+    // only the reading-time item matches; a task-time item beside it ("about 20 min to do", 「作業 約20分」) never does, so --refresh leaves it as written
     const META = ja ? /約\s*(\d+)\s*分で読めます/ : /Reading time about\s+(\d+)\s+minutes?/i;
     const metaText = (t) => ja ? `約${t}分で読めます` : `Reading time about ${t} minute${t === 1 ? '' : 's'}`;
     const kickers = elems(m, 'kicker'), changed = [];

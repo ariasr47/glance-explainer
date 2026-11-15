@@ -1,5 +1,5 @@
 /* =====================================================================
-   html-explainer atlas add-on  ·  v1.1
+   glance-explainer atlas add-on  ·  v1.1
    Atlas pages only. Load after the template's <style> block:
      <link rel="stylesheet" href="atlas.css">
    Uses the template's tokens and nothing else. The markup each part
@@ -135,6 +135,10 @@ ol.trace.is-selected { border-color: var(--here); }
 ol.trace.is-selected > li { border-color: var(--here); }
 ol.trace.is-selected > li::after { background: var(--here); color: var(--on-here); }
 @media (min-width: 760px) {
+  /* the journey wraps into rows of three on a wide screen, so every step shows without a sideways scroll; four steps sit in one row */
+  ol.journey { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; }
+  ol.journey:has(> li:nth-child(4):last-child) { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  ol.journey:not(:has(> li:nth-child(4):last-child)) > li:nth-child(3n)::after { display: none; }  /* the card that ends a row points at nothing */
   ol.trace:has(> .trace-lane) { grid-template-columns: repeat(var(--lanes), minmax(0, 1fr)); gap: .5rem 0; padding-bottom: .5rem; border: 1px solid var(--line); border-radius: var(--r-comp); background: linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0 / calc(100% / var(--lanes)) 100% repeat-x, var(--well); background-origin: border-box; }
   ol.trace > .trace-lane { display: block; grid-column: var(--lane); grid-row: 1; padding: .45rem .5rem; border-bottom: 1px solid var(--line-strong); text-align: center; font-family: var(--font-code); font-size: var(--size-xs); font-weight: 600; color: var(--ink-soft); }
   ol.trace:has(> .trace-lane) > li:not(.trace-lane) { grid-column: var(--lane); grid-row: var(--step); margin: 0 .5rem; }

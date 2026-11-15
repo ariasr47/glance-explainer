@@ -7,6 +7,7 @@ import { readFileSync, statSync } from 'node:fs';
 const file = process.argv[2];
 if (!file) { console.error('usage: node check.mjs <file.html> [--json]'); process.exit(2); }
 const asJson = process.argv.includes('--json');
+const asLatest = process.argv.includes('--latest'); // judge the page by every rule, as if its generator mark were the newest
 // Comments never count, and neither do script and textarea bodies: an atlas embeds whole source files as
 // <script type="text/plain">, and the <svg> icons and class names inside them are code to read, not page markup.
 // The tags themselves stay, so the external-script rule still sees every src.
@@ -119,20 +120,28 @@ if (!ja && title && title.split(/\s+/).length > 2 && title.split(/\s+/).every(w 
 const bodyOnly = html.replace(/<(style|script)[\s\S]*?<\/\1>/g, '').replace(/<head>[\s\S]*?<\/head>/, '');
 const dashes = (bodyOnly.match(/—|&mdash;/g) || []).length; if (dashes > 0) warn(`${dashes} em dash(es); use a full stop, a colon, or a comma instead`);
 const middots = (bodyOnly.match(/ · |&middot;/g) || []).length; if (!ja && middots > 0) warn(`${middots} middle dot(s) in text; use words or punctuation`);
+// Content-word overlap: how much of one passage's wording another already said. English drops stop words and a plural or past ending.
+// Japanese has no spaces, so it compares pairs of characters (punctuation removed); shared particles make that blunt, which is why the bar stays at 60%.
+const STOP = new Set('a an and are as at be but by can do does for from has have how if in into is it its no not of on one or so than that the their then there these they this to was we what when which who will with you your'.split(' '));
+const content = (t) => {
+  const x = strip(t);
+  if (ja) { const cs = [...x].filter((c) => !/[\s\p{P}\p{S}]/u.test(c)); return cs.slice(1).map((c, i) => cs[i] + c); }
+  return (x.toLowerCase().match(/[a-z0-9]+/g) || []).filter((w) => !STOP.has(w)).map((w) => w.replace(/(ing|ed|es|s)$/, ''));
+};
+const overlap = (text, said) => { const ws = content(text); return ws.length >= 3 ? ws.filter((w) => said.has(w)).length / ws.length : 0; }; // share of `text`'s content words that the Set `said` already holds
+const unlabel = (s) => s.replace(/^\s*<b>[\s\S]*?<\/b>/, ''); // drop the leading bold label ("Before this:", "Take:", "Remember:")
 if (!ballot) { // the explainer spine; a ballot page has none of it
   const keep = html.match(/<div class="keep">([\s\S]*?)<\/div>/);
   if (!keep) fail('missing div.keep'); else {
     const items = (keep[1].match(/<li\b/g) || []).length; info.keepItems = items;
     if (items < 1 || items > 3) fail(`keep box has ${items} items; 1 to 3 allowed`);
     for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) if (size(li[1]) > LIM.keep) warn(`keep item over ${LIM.keep} ${unit}: "${strip(li[1]).slice(0, 60)}"`);
-    // a keep fact adds something: it never restates the answer line (English only; Japanese has no spaces to split on)
-    if (!ja && answer) {
-      const STOP = new Set('a an and are as at be but by can do does for from has have how if in into is it its no not of on one or so than that the their then there these they this to was we what when which who will with you your'.split(' '));
-      const content = (t) => (strip(t).toLowerCase().match(/[a-z0-9]+/g) || []).filter((w) => !STOP.has(w)).map((w) => w.replace(/(ing|ed|es|s)$/, ''));
+    // a keep fact adds something: it never restates the answer line
+    if (answer) {
       const said = new Set(content(answer[1]));
       for (const li of keep[1].matchAll(/<li[^>]*>([\s\S]*?)<\/li>/g)) {
-        const ws = content(li[1]);
-        if (ws.length >= 3 && ws.filter((w) => said.has(w)).length / ws.length > 0.6) warn(`keep item restates the answer line (${Math.round(100 * ws.filter((w) => said.has(w)).length / ws.length)}% of its content words): "${strip(li[1]).slice(0, 60)}"; a keep fact must add something`);
+        const r = overlap(li[1], said);
+        if (r > 0.6) warn(`keep item restates the answer line (${Math.round(100 * r)}% of its content words): "${strip(li[1]).slice(0, 60)}"; a keep fact must add something`);
       }
     }
   }
@@ -177,6 +186,19 @@ chapters.forEach(([, id, body], i) => {
     const pw = size(p[1]);
     if (pw > LIM.para) fail(`chapter #${id}: paragraph of ${pw} ${unit} (max ${LIM.para}): "${strip(p[1]).slice(0, 60)}…"`);
     for (const s of sentences(p[1])) if (size(s) > LIM.sent) warn(`chapter #${id}: sentence of ${size(s)} ${unit}: "${s.slice(0, 60)}…"`);
+  }
+});
+// Say it once: a chapter's "Before this" does not copy the previous chapter's remember line, and a take line does not copy its own chapter's remember line.
+// The recap stays a copy of the remember lines on purpose (pending the reader test), so it is not compared.
+chapters.forEach(([, id, body], i) => {
+  const rem = find('remember', 'p', body)[0], from = find('from', 'p', body)[0], prev = i > 0 ? find('remember', 'p', chapters[i - 1][2])[0] : null;
+  if (from && prev) {
+    const r = overlap(unlabel(from.inner), new Set(content(unlabel(prev.inner))));
+    if (r > 0.6) warn(`chapter #${id}: "Before this" repeats the previous chapter's remember line (${Math.round(100 * r)}% of its content words): "${strip(unlabel(from.inner)).slice(0, 60)}"; say the fact it builds on in new words, or point forward`);
+  }
+  if (rem) for (const t of find('take', null, body)) {
+    const r = overlap(unlabel(t.inner), new Set(content(unlabel(rem.inner))));
+    if (r > 0.6) warn(`chapter #${id}: the take line repeats the remember line (${Math.round(100 * r)}% of its content words): "${strip(unlabel(t.inner)).slice(0, 60)}"; the take says what the picture proves, the remember line is what to carry`);
   }
 });
 // The at-a-glance picture (1.8.0) sits between the keep box and the chapter map. The reader reads it, so its words join the page's reading path,
@@ -496,6 +518,8 @@ if (type === 'field-guide') {
     if (!filled('lane-note', 'p', l.inner)) warn(`${where} has no non-empty p.lane-note; say its horizon, how sure it is, and whether order matters ("1 to 3 months. Likely. Not in order.")`);
     const live = lis.filter((li) => !cls(li.attrs, 'go')).length;
     if (live > MAX_LIVE) warn(`${where} has ${live} live cards; keep it to ${MAX_LIVE} or fewer and fold the rest away`);
+    if (attr(l.attrs, 'data-lane') === 'now' && lis.length >= 2 && lis.every((li) => !['here', 'wait', 'decide', 'stop', 'go'].some((c) => cls(li.attrs, c))) &&(asLatest || (generator && atLeast(generator, [2, 4, 0]))))
+      warn(`${where}: every card says Planned; a card in Now has a real state (here, wait, decide or stop), or it belongs in Next`);
     const done = lis.length - live;
     if (done && attr(l.attrs, 'data-lane') === 'now') warn(`${where} holds ${done} li.go; move shipped work to the shipped fold (details.fold.shipped)`);
   });
@@ -595,6 +619,20 @@ find('answer-field').forEach((f, i) => {
   if (num('filmstrip', 'div') && !num('tour', 'ol')) fail('div.filmstrip needs an ol.tour on the page; the strip is built from its steps');
   if (num('rulings', 'div') && !num('decision')) fail('div.rulings needs at least one .decision on the page; the list is built from them');
   if (num('qprogress', 'div') && !find('answer-field').some((f) => attr(f.attrs, 'data-q'))) fail('div.qprogress needs at least one .answer-field with a data-q; the dots are built from them');
+}
+
+// ---- each type's missing part (2.4.0): advice only, and only for a page made by 2.4.0 or later (or any page when run with --latest)
+// Only parts a script can see without guessing are checked. Who owns a follow-up, whether an option can be undone and how the criteria are weighed are left to review.
+{
+  const fresh = asLatest || (generator && atLeast(generator, [2, 4, 0]));
+  const meta = strip(find('meta', 'div')[0]?.inner || '');
+  if (fresh && ['runbook', 'playbook', 'teach'].includes(type) && !(ja ? /作業\s*約?\s*\d/ : /\d\s*(?:min|minutes?|hours?|h)\s+to\s+(?:do|follow|run|complete|work)/i).test(meta))
+    warn(`data-type="${type}": the meta line gives no task time; a page for doing something says how long the doing takes, as its own item (${ja ? '作業 約20分' : 'about 20 min to do'})`);
+  if (fresh && type === 'incident') {
+    const DATE = ja ? /\d+月|\d+日|曜|[（(][月火水木金土日][）)]/ : /\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b|\b(?:mon|tues?|wednes|thurs?|fri|satur|sun)day\b|\b\d{4}-\d{2}-\d{2}\b/i;
+    const open = find('status', 'ul').flatMap((u) => kids(u.inner, 'li')).filter((li) => !DATE.test(strip(li.inner)));
+    for (const li of open) warn(`data-type="incident": the follow-up "${lead(li.inner)}" names no date; each follow-up says when it was done or when it is due`);
+  }
 }
 
 // ---- reader-feature components, on any page type

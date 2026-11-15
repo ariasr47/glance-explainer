@@ -47,7 +47,8 @@
   };
   const all = (sel, from = d) => [...from.querySelectorAll(sel)];
   const chap = el => el.closest('section[id]');
-  const text = el => el.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+  const fold = s => s.normalize('NFKC').toLowerCase().replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));  // width and kana: full-width matches half-width, katakana matches hiragana
+  const text = el => fold(el.textContent.replace(/\s+/g, ' ').trim());
   const make = (tag, cls, txt) => { const e = d.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; };
   const nodes = [], traces = [], maps = [];
   let current = null, dlg, pre, opener;
@@ -144,7 +145,7 @@
     x.prepend(row);
   }
   function paint() {  // layer chips and search, together: a part stays lit when it passes both
-    const q = box ? box.value.trim().toLowerCase() : '';
+    const q = box ? fold(box.value.trim()) : '';
     maps.forEach(m => {
       const named = q ? m.nodes.filter(n => n.text.includes(q)).length : 0, on = !!m.layer || named > 0;
       let shown = 0;
@@ -209,7 +210,7 @@
       if (svg.getAttribute('role') === 'img') svg.setAttribute('role', 'group');  // role=img hides the nodes from screen readers
       all('[data-node]', svg).forEach(el => {
         const n = { el, id: el.dataset.node, node: true, map: m, layer: (el.dataset.layer || '').trim(), vis: true };
-        n.text = n.id.toLowerCase() + ' ' + text(el);
+        n.text = fold(n.id) + ' ' + text(el);
         el.setAttribute('role', 'button');
         if (!el.hasAttribute('tabindex')) el.tabIndex = 0;
         if (!el.hasAttribute('aria-label') && !el.textContent.trim()) el.setAttribute('aria-label', n.id);
@@ -324,7 +325,7 @@
     all('main :is(p, li, td, th, dd, figcaption, summary)').forEach(el => add(el, 1));  // "session", "token": words that live only in prose
     index.sort((a, b) => (a.el.compareDocumentPosition(b.el) & 4 ? -1 : 1));
     const run = () => {
-      const q = box.value.trim().toLowerCase(), seen = new Set();
+      const q = fold(box.value.trim()), seen = new Set();
       hits = q ? index.filter(it => it.text.includes(q) && (!it.node || !it.node.map.layer || it.node.layer === it.node.map.layer)).sort((a, b) => a.rank - b.rank || a.text.indexOf(q) - b.text.indexOf(q)) : [];
       hits.forEach(h => { const c = chap(h.el); if (c) seen.add(c.id); });
       all('.rail ol > li').forEach(li => {

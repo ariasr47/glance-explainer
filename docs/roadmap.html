@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.3.0">
+<meta name="generator" content="glance-explainer 2.4.0">
 <meta name="color-scheme" content="light dark">
 <title>Plugin roadmap, October 2026</title>
 <meta name="description" content="What comes next for the glance-explainer plugin: what is under way, next and later, what waits on what, and what is parked on purpose.">
@@ -199,6 +199,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .rail a small { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 2px; color: var(--ink-faint); font-size: .722rem; font-weight: 400; line-height: 1.35; }  /* two lines at most, minutes first, so a long line never hides them */
 .rail a:hover small { color: var(--ink-soft); }
+.rail:has(.tools:not([hidden])) a small { display: none; }  /* while Reading tools is open the rail drops its small lines, so the panel fits under the chapter list and the first chapter stays in view */
 /* where you are: a white card with a hairline ring and a filled circle. Read: a check in a go circle, which wins over the number. */
 .rail a[aria-current="true"] { background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 700; }
 .rail a[aria-current="true"] .dot { background: var(--here); border-color: var(--here); color: var(--on-here); }
@@ -1128,9 +1129,11 @@ body[data-skim="on"] .chapter .from { display: none; }
 /* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
    and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
-body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop, [data-depends]),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
 body[data-skim="on"] .chapter .remember { display: block; }
+/* a dependency ("this depends on ruling 1") decides whether the chapter matters at all, so skim keeps it: any callout marked data-depends, and the tip in a chapter that holds a decision */
+body[data-skim="on"] .chapter:has(.decision) .callout.tip { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -1526,7 +1529,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
     <div class="focus-nav" aria-live="polite"><button type="button" data-prev>Previous</button><span class="where"></span><button type="button" data-next>Next</button></div>
     <p class="kicker">Roadmap as of 29 October 2026</p>
     <h1>What comes next for glance-explainer</h1>
-    <div class="meta"><span>Reading time about 6 minutes</span><span><a href="index.html">Back to the site home</a></span></div>
+    <div class="meta"><span>Reading time about 5 minutes</span><span><a href="index.html">Back to the site home</a></span></div>
 
     <p class="answer">Every kind of page now has a checked public example, so next we test pages with outside readers, and new page types wait until an outside user needs one.</p>
     <p class="asof">A plan, not a promise. Items move as we learn.</p>
@@ -1535,8 +1538,8 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <strong>Keep in your head (only these)</strong>
       <ol>
         <li>Focus: checked decision pages for readers who cannot hold a long document.</li>
-        <li>The outside-reader test decides what comes next.</li>
-        <li>Free and MIT licensed, and it stays that way. Ask by <a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">opening an issue</a>.</li>
+        <li>On 12 December the review decides whether Later stays.</li>
+        <li>Ask for an item by <a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">opening an issue</a>.</li>
       </ol>
     </div>
 
@@ -1545,14 +1548,14 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <div class="lanes">
         <section class="lane" data-lane="now"><h3>Now</h3>
           <p class="lane-note">Through 12 December. Committed. Top item first.</p><ul>
-          <li id="r-test"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, the review needs it.</small></li>
-          <li id="r-name" class="here"><b>List it</b><span>Ready for Anthropic's directory. Community lists find it on their own.</span></li>
+          <li id="r-test" class="wait"><b>Test with outside readers</b><span>Five to ten readers read one text three ways.</span><small class="when"><b>Fixed date:</b> by 12 December, the review needs it.</small><small class="outside">Waits on outside readers to take part</small></li>
+          <li id="r-name" class="here"><b>List in Anthropic's directory</b><span>The submission is ready and goes in from the author's account. Community lists find it on their own.</span></li>
         </ul></section>
         <section class="lane" data-lane="next"><h3>Next</h3>
           <p class="lane-note">1 to 3 months. Likely. Not in order.</p><ul>
           <li><b>Optional browser check</b><span>Reports sideways scroll, split words and clipped commands.</span></li>
           <li><b>Tested installs in other agents</b><span>Codex, Gemini CLI, Cursor and Copilot.</span></li>
-          <li class="wait"><b>claude.ai upload</b><span>A zip per skill on each GitHub release.</span><small class="after">After: <a href="#r-name">List it</a></small></li>
+          <li class="wait"><b>claude.ai upload</b><span>A zip per skill on each GitHub release.</span><small class="after">After: <a href="#r-name">List in the directory</a></small></li>
           <li data-conf="exploring"><b>Publish where Claude publishes</b><span>When it can, the agent offers an artifact link.</span><small class="conf">Exploring: depends on the platform</small></li>
           <li><b>A one-minute demo</b><span>Recorded from the gallery.</span></li>
         </ul></section>
@@ -1569,8 +1572,8 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
 
     <ol class="map">
       <li><a href="#c1"><b>Now, next and later</b><span>Eleven live items in three lanes, and what waits on what.</span></a></li>
-      <li><a href="#c2"><b>What unblocks the most</b><span>The outside-reader test and the automatic check.</span></a></li>
-      <li><a href="#c3"><b>What is left off</b><span>Three things parked, each with the way back.</span></a></li>
+      <li><a href="#c2"><b>What unblocks the most</b><span>The outside-reader test, and the three items that wait on it.</span></a></li>
+      <li><a href="#c3"><b>What is left off</b><span>Four things parked, each with the way back.</span></a></li>
       <li><a href="#c4"><b>The December review</b><span>What happens on 12 December 2026, either way.</span></a></li>
     </ol>
 
@@ -1586,27 +1589,19 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <div class="tiles">
         <div class="tile"><span class="n">2</span><span class="l">items in Now, one of them under way</span></div>
         <div class="tile"><span class="n">4</span><span class="l">items wait on another</span></div>
-        <div class="tile"><span class="n">3</span><span class="l">items parked, each with the way back</span></div>
+        <div class="tile"><span class="n">4</span><span class="l">items parked, listed in chapter 3</span></div>
       </div>
       <p class="take"><b>Take from this:</b> only two items sit in Now, and one of them, the outside-reader test, holds up three Later items.</p>
 
-      <details class="fold shipped"><summary><span>Shipped in 1.6.0 to 2.2.1: 9 items</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">Changelog</a></summary>
-        <ul><li>The skills load when asked: 57 of 57 test runs, up from 47 (2.2.1)</li><li>Fixes from a 23-page build audit: one-tap answers, one colour for ★ (2.2.0)</li><li>A sun or moon dark switch, natural Japanese, and a Japanese version of every example (2.1.0)</li><li>A new name, glance-explainer, so the plugin no longer shares one (2.0.0)</li><li>A dark or light switch in sight on every page (1.9.1)</li><li>A public example of every kind of page, and an <a href="examples.html">examples page</a> (1.9.0)</li><li>Every page type redesigned around its own picture (1.8.0, polished in 1.8.1)</li><li>The field-guide page type (1.7.0)</li><li>Roadmap lanes that say what they mean, and prioritising that adds up (1.6.0)</li></ul>
+      <details class="fold shipped"><summary><span>Shipped in 1.6.0 to 2.4.0: 11 items</span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">Changelog</a></summary>
+        <ul><li>Each fact said once, and each page type gets the part it was missing (2.4.0)</li><li>Fixes from a nine-reviewer deep review: one chapter at a time, bottom bars, print (2.3.0)</li><li>The skills load when asked: 57 of 57 test runs, up from 47 (2.2.1)</li><li>Fixes from a 23-page build audit: one-tap answers, one colour for ★ (2.2.0)</li><li>A sun or moon dark switch, natural Japanese, and a Japanese version of every example (2.1.0)</li><li>A new name, glance-explainer, so the plugin no longer shares one (2.0.0)</li><li>A dark or light switch in sight on every page (1.9.1)</li><li>A public example of every kind of page, and an <a href="examples.html">examples page</a> (1.9.0)</li><li>Every page type redesigned around its own picture (1.8.0, polished in 1.8.1)</li><li>The field-guide page type (1.7.0)</li><li>Roadmap lanes that say what they mean, and prioritising that adds up (1.6.0)</li></ul>
         <p>Before that, 1.5.0 checked every page automatically, upgraded old pages and added answers by tapping. 1.4.0 moved each skill into a self-contained folder, and added this roadmap, a public site and an automatic check on every change.</p>
-      </details>
-
-      <details class="fold parked"><summary><span>Parked on purpose: 3 items, each with what would bring it back</span></summary>
-        <div class="parked-shelf">
-          <div><b>New page types</b><span><b>Why:</b> Seventeen cover every request so far.</span><span><b>Back when:</b> An outside user's content fits none.</span></div>
-          <div><b>Motion companion</b><span><b>Why:</b> Nothing can drive it yet.</span><span><b>Back when:</b> Claude Code gains a hook or API for it.</span></div>
-          <div><b>A hosted service or paid tier</b><span><b>Why:</b> Everything useful is a public file.</span><span><b>Back when:</b> Teams ask for more than a file.</span></div>
-        </div>
       </details>
 
       <details class="fold"><summary>Show the detail and the reasons behind the items</summary>
         <p><b>Upgrade old pages.</b> A script swaps an older page's styles and reader script for the current template's. Each page carries its own copy of the design, so a page made under 1.2 keeps 1.2's phone bugs.</p>
         <p><b>Trigger reliably.</b> Done in 2.2.1. A suite of 24 requests, built with <code>claude plugin eval</code>, went from 47 to 57 of 57 right loads with sharper skill descriptions. Still open: long sessions with many other skills.</p>
-        <p><b>List it.</b> The name was settled on 20 October as glance-explainer, in 2.0.0. The plugin goes to Anthropic's directory through its developer portal. Community registries such as claude-plugins.dev index public plugins on their own.</p>
+        <p><b>List in Anthropic's directory.</b> The name was settled on 20 October as glance-explainer, in 2.0.0. The plugin goes to Anthropic's directory through its developer portal. Community registries such as claude-plugins.dev index public plugins on their own.</p>
         <p><b>Optional browser check.</b> <code>check.mjs --render</code> opens the page in a local Chrome at phone and desktop widths. It runs only when Playwright is installed. The 1.3.0 layout defects were invisible to the static checker.</p>
         <p><b>Tested installs in other agents.</b> Each agent gets a recorded install and one finished page. A Codex plugin manifest and a Gemini extension are added if those routes keep the folders intact.</p>
         <p><b>Pull request pages in CI.</b> The GitHub Action writes a <code>pr</code> page for each pull request and links it in a comment.</p>
@@ -1615,20 +1610,20 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <p><b>A one-minute demo.</b> It is recorded from the gallery and shows skim mode, one chapter at a time, read aloud and the ballot round trip.</p>
         <p><b>claude.ai upload.</b> Skill descriptions are short enough for the upload form.</p>
         <p><b>Publish where Claude publishes.</b> When the agent can publish a page as a Claude artifact, it offers that link next to the file.</p>
-        <p>The reasons for the outside-reader test and the automatic check are in <a href="#c2">chapter 2</a>.</p>
+        <p>The reason for the outside-reader test is in <a href="#c2">chapter 2</a>.</p>
       </details>
 
       <p class="remember"><b>Remember:</b> eleven live items sit in three lanes, and four of them wait on another.</p>
     </section>
 
-    <section class="chapter" id="c2" data-keep="The reader test and the automatic check come first">
+    <section class="chapter" id="c2" data-keep="The reader test unblocks the most">
       <header>
-        <div><p class="kicker">Chapter 2 of 4, about 2 minutes</p><h2>What unblocks the most?</h2></div>
+        <div><p class="kicker">Chapter 2 of 4, about 1 minute</p><h2>What unblocks the most?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> eleven live items sit in three lanes, and four of them wait on another.</p>
+      <p class="from"><b>Before this:</b> you know four items wait on another. Now see which one holds up the most.</p>
 
       <p>The outside-reader test unblocks the most. Every page so far was judged by its author, and this test decides what comes next.</p>
       <p>Five to ten readers, some with ADHD, read the same content three ways: a plugin page, a default Claude page and plain Markdown. We measure time to a correct decision and what they remember a day later.</p>
@@ -1652,43 +1647,36 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
           <rect class="d-box-wait" x="60" y="198" width="280" height="60" rx="10"/><text class="d-text-b" x="200" y="225" text-anchor="middle">Brand themes</text><text class="d-text-s" x="200" y="245" text-anchor="middle">Your colour and type tokens</text>
           <rect class="d-box-wait" x="60" y="278" width="280" height="60" rx="10"/><text class="d-text-b" x="200" y="305" text-anchor="middle">Commercial support</text><text class="d-text-s" x="200" y="325" text-anchor="middle">If a team asks</text>
         </svg>
-        <figcaption class="take"><b>Take from this:</b> three Later items wait on one test, and they stay only if outside readers confirm the gain.</figcaption>
+        <figcaption class="take"><b>Take from this:</b> a positive result keeps the three Later items. A flat one removes them.</figcaption>
       </figure>
 
-      <p>The automatic check shipped first, in 1.5.0. Before it, the skill told the agent to run the checker, and an instruction can be skipped.</p>
-
-      <div class="split">
-        <div class="before"><b>Before 1.5.0</b><ul><li>The skill tells the agent to run the checker.</li><li>An instruction can be skipped.</li></ul></div>
-        <div class="after"><b>With the hook</b><ul><li>A plugin hook runs the checker at the end of every turn that wrote a page.</li><li>Any failure goes back to the agent before you see the page.</li></ul></div>
-      </div>
-      <p class="take"><b>Take from this:</b> a hook cannot be skipped, so every page is checked before you see it.</p>
-
-      <p class="remember"><b>Remember:</b> the outside-reader test decides what comes next, and a hook makes the check impossible to skip.</p>
+      <p class="remember"><b>Remember:</b> the outside-reader test decides what comes next, and three Later items wait on it.</p>
     </section>
 
-    <section class="chapter" id="c3" data-keep="Three things are parked on purpose">
+    <section class="chapter" id="c3" data-keep="Four things are parked on purpose">
       <header>
         <div><p class="kicker">Chapter 3 of 4, about 2 minutes</p><h2>What is left off on purpose?</h2></div>
         <button type="button" class="read-aloud" data-read>Read aloud</button>
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> the outside-reader test decides what comes next, and a hook makes the check impossible to skip.</p>
+      <p class="from"><b>Before this:</b> you know the test comes first. Now see what is left off on purpose.</p>
 
-      <p>Work that makes pages more trustworthy, easier to install or easier to read comes before new page types. Three things are parked on purpose.</p>
+      <p>Work that makes pages more trustworthy, easier to install or easier to read comes before new page types. Four things are parked on purpose.</p>
 
       <div class="grid-wrap"><table class="grid">
         <caption>Not planned: why each is parked and what would restore it</caption>
         <thead><tr><th scope="col">Item</th><th scope="col">Why it is parked</th><th scope="col">What would restore it</th></tr></thead>
         <tbody>
-          <tr><th scope="row">New page types</th><td class="stop">Seventeen types plus gather and atlas cover every request seen so far. More types would spread the checker thin before outsiders have tried the current ones.</td><td>An outside user brings content that no current type can hold.</td></tr>
-          <tr><th scope="row">Motion companion</th><td class="stop">Animated walkthroughs. Parked on 9 October 2026. It needs a Claude Code hook or API to drive it.</td><td>A supported hook or API that can render motion from a page.</td></tr>
-          <tr><th scope="row">A hosted service or paid tier</th><td class="stop">Pages work offline as single files, and everything that makes them useful is in public files.</td><td>Teams asking for something that cannot be a file.</td></tr>
+          <tr><th scope="row">New page types</th><td>Seventeen types plus gather and atlas cover every request so far. More would spread the checker thin before outsiders try these.</td><td>An outside user brings content that no current type can hold.</td></tr>
+          <tr><th scope="row">Motion companion</th><td>Animated walkthroughs. Parked on 9 October 2026. It needs a Claude Code hook or API to drive it.</td><td>A supported hook or API that can render motion from a page.</td></tr>
+          <tr><th scope="row">A phone-first layout</th><td>Parked on 28 October 2026. Pages are mostly opened as files on a desktop, and phones only have to not break.</td><td>Evidence that readers open pages on phones.</td></tr>
+          <tr><th scope="row">A hosted service or paid tier</th><td>Pages work offline as single files, and everything that makes them useful is in public files.</td><td>Teams asking for something that cannot be a file.</td></tr>
         </tbody>
       </table></div>
       <p class="take"><b>Take from this:</b> each parked item has a reason and a stated way back.</p>
 
-      <p class="remember"><b>Remember:</b> three things are parked, and each names what would bring it back.</p>
+      <p class="remember"><b>Remember:</b> four things are parked, and each names what would bring it back.</p>
     </section>
 
     <section class="chapter" id="c4" data-keep="Reviewed on 12 December 2026">
@@ -1698,7 +1686,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <label><input type="checkbox" data-done> Done</label>
       </header>
 
-      <p class="from"><b>Before this:</b> three things are parked, and each names what would bring it back.</p>
+      <p class="from"><b>Before this:</b> you know what is parked and why. Now see when it is all reviewed.</p>
 
       <p>On 12 December 2026 this roadmap is reviewed against outside feedback and the reader test. The question is whether plugin pages help outside readers more than a default page does.</p>
 
@@ -1706,7 +1694,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <div class="after"><b>If they help more</b><ul><li>The Later lane stays on the roadmap for 2027.</li></ul></div>
         <div class="before"><b>If they do not</b><ul><li>The roadmap shrinks to maintenance.</li><li>The plugin stays maintained for the people who use it.</li></ul></div>
       </div>
-      <p class="take"><b>Take from this:</b> the review ends one of two ways. Later stays, or the roadmap shrinks to maintenance.</p>
+      <p class="take"><b>Take from this:</b> everything on this page after 12 December hangs on one result.</p>
 
       <div class="callout"><b>How to move an item up</b><p><a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Open an issue</a> to ask for something. A request from someone who has used a page moves an item up faster than anything else.</p></div>
 
@@ -1717,13 +1705,13 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <h2>Recap</h2>
       <ol>
         <li>Eleven live items sit in three lanes, and four of them wait on another.</li>
-        <li>The outside-reader test decides what comes next, and a hook makes the check impossible to skip.</li>
-        <li>Three things are parked, and each names what would bring it back.</li>
+        <li>The outside-reader test decides what comes next, and three Later items wait on it.</li>
+        <li>Four things are parked, and each names what would bring it back.</li>
         <li>On 12 December 2026 the review either keeps Later or shrinks the roadmap to maintenance.</li>
       </ol>
     </section>
 
-    <div class="meta"><span><a href="index.html">Back to the site home</a></span><span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">Changelog</a></span><span><a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Open an issue</a></span></div>
+    <div class="meta"><span><a href="index.html">Back to the site home</a></span><span><a href="https://github.com/ariasr47/glance-explainer/blob/main/CHANGELOG.md">Changelog</a></span><span><a href="https://github.com/ariasr47/glance-explainer/issues/new/choose">Open an issue</a></span><span>Free and MIT licensed, and it stays that way</span></div>
   </main>
 </div>
 
@@ -1737,10 +1725,16 @@ const on = (e, ev, f) => e?.addEventListener(ev, f);
 const byId = id => id ? d.getElementById(id) : null;
 const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
 const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+/* search folds width and kana: full-width and half-width letters match, and katakana matches hiragana */
+const fold = s => s.normalize('NFKC').toLowerCase().replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const key = 'explainer:' + (location.pathname || 'page');
+/* Saved ticks, answers and picks belong to one version of the page: the key carries a short hash of the answer line, the keep facts and the chapter titles,
+   so a page made again at the same address starts clean, and an unchanged page keeps its progress. */
+const sig = ($('.answer')?.textContent || '') + qa('.keep li, .chapter > header h2').map(e => '|' + e.textContent).join('');
+let hash = 5381; for (let i = 0; i < sig.length; i++) hash = ((hash * 33) ^ sig.charCodeAt(i)) >>> 0;
+const key = 'explainer:' + (location.pathname || 'page') + '#' + hash.toString(36);
 root.classList.add('js');
 
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
@@ -1777,8 +1771,8 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Tap an option to pick it.' });
-Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をタップして選びます。' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Pick an option: click, tap, or use the arrow keys.' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をクリックかタップ、または矢印キーで選びます。' });
 const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 /* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
 function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
@@ -1888,12 +1882,12 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       const s = $('summary', f); if (!s) return;
       s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
     });
-    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    const hay = new Map(fgEntries.map(e => [e, fold(['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' '))]));
     let filter = REL[0], words = [], searching = false; const was = new Map();
     if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
     const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
     const apply = () => {
-      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      const q = box.value.trim().replace(/\s+/g, ' '); words = fold(q).split(' ').filter(Boolean);
       let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
       picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
         const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
@@ -2018,7 +2012,7 @@ const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.fin
 $('.recap h2')?.after(make('span', 'finished', L.fin));
 boxes.forEach(box => {
   const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
-  box.checked = !!done[c.id]; paint(); if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
+  box.checked = !!done[c.id]; paint(); box.setAttribute('aria-label', txt(box.closest('label') || '') + L.mdJoin + txt($('h2', c) || ''));  /* "Done: <chapter>", so the boxes differ */ if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
   on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
 });
 finish();
@@ -2128,22 +2122,31 @@ qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.
 Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
 qa('pre.cmd').forEach(p => {
   const code = $('code', p) || p, b = d.createElement('button');
-  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite'); b.setAttribute('aria-label', L.copy + L.mdJoin + code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40));
   on(b, 'click', () => copy(code.textContent.trim(), b));
-  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  const nm = code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40);
+  new MutationObserver(() => { const w = b.classList.contains('go') ? L.copied : L.copy; b.textContent = w; b.setAttribute('aria-label', w + L.mdJoin + nm); }).observe(b, { attributes: true, attributeFilter: ['class'] });
   p.append(b);
 });
 
-/* read aloud: one block at a time, in the page language; one chapter at a time */
+/* read aloud: one block at a time, in the page language, from a chapter's own button. The first chapter's button starts with the opening
+   (answer, keep cards, glance) and the last chapter's ends with the recap, so the whole page can be heard without a new control.
+   Each button's name says which chapter it reads, so a list of buttons does not repeat itself. */
 const rd = qa('[data-read]'); let sid = 0;
-const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; }); };
-rd.forEach(b => {
+const readName = (b, word) => word + L.mdJoin + txt($('h2', b.closest('.chapter')) || '');
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; b.setAttribute('aria-label', readName(b, L.read)); }); };
+const speakable = (sel, scope) => qa(sel, scope).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+rd.forEach((b, n) => {
   if (!window.speechSynthesis) { b.hidden = true; return; }
   b.textContent = b.title = L.read;  /* the words stay in the page as the button's name; the header shows an icon */
+  b.setAttribute('aria-label', readName(b, L.read));
   on(b, 'click', () => {
     const was = b.hasAttribute('data-reading'); hush(); if (was) return;
-    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
-    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop;
+    const me = sid, ch = b.closest('.chapter'), main = ch.parentElement;
+    const open = n === 0 ? speakable('.answer, .keep li, .glance-head h2, .glance :is(p, li, figcaption)', main) : [];
+    const close = n === rd.length - 1 ? speakable('.recap :is(p, li)', main) : [];
+    const list = [...open, ...speakable('p, li, figcaption, legend, .answer-field > label:first-child', ch), ...close];
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop; b.setAttribute('aria-label', readName(b, L.stop));
     const next = () => {
       const e = list[i++]; if (me !== sid) return; if (!e) return hush();
       e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
@@ -2669,11 +2672,19 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
     dec.classList.add('paired'); f.classList.add('paired');
     const group = $('.options', dec); group.setAttribute('role', 'radiogroup'); group.setAttribute('aria-label', txt($('h3', dec) || $('legend', f) || dec));
     group.after(make('p', 'pick-hint', esc(L.decPick)));
-    const sync = () => opts.forEach((o, i) => o.setAttribute('aria-checked', rs[i].checked));
+    /* one tab stop per group (roving tabindex): the picked option, or the first when none is picked */
+    const sync = () => { const got = rs.some(r => r.checked); opts.forEach((o, i) => { o.setAttribute('aria-checked', rs[i].checked); o.tabIndex = (got ? rs[i].checked : i === 0) ? 0 : -1; }); };
     opts.forEach((o, i) => {
-      o.setAttribute('role', 'radio'); o.tabIndex = 0;
+      o.setAttribute('role', 'radio');
       on(o, 'click', e => { if (e.target.closest('a, button, summary, input, textarea')) return; rs[i].checked = true; ['input', 'change'].forEach(t => rs[i].dispatchEvent(new Event(t, { bubbles: true }))); sync(); });
-      on(o, 'keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); } });
+      on(o, 'keydown', e => {
+        if (e.target !== o || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); return; }
+        /* the ARIA radio group: arrows move focus and the pick together, and wrap */
+        const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key], j = step ? (i + step + opts.length) % opts.length : e.key === 'Home' ? 0 : e.key === 'End' ? opts.length - 1 : -1;
+        if (j < 0) return;
+        e.preventDefault(); opts[j].tabIndex = 0; opts[j].focus(); opts[j].click();
+      });
     });
     on(f, 'change', sync); sync();
   }));

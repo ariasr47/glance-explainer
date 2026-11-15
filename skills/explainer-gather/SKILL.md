@@ -20,6 +20,8 @@ One `.html` file with `<html lang="en" data-type="gather">`:
 - Exactly one `.collect` bar (a ballot has a tray instead; see Ballot mode below).
 - Every question is a full sentence the reader can answer without rereading the chapter.
 - Every hint says what a good answer contains.
+- The page says, in sight and not in a fold, who sees the answers and how to send them (in the opening, or on the `.collect` bar). A fold may add detail.
+- Say each thing once: the keep facts, the `.from` lines and the `.take` lines follow `../glance-explainer/references/writing.md` ("Say each thing once"), and the checker warns when they repeat.
 
 ```html
 <div class="answer-field" data-q="q1">
@@ -67,6 +69,7 @@ Use it when an agent needs rulings back from the owner: several open decisions, 
 - Each decision is a `.ballot-card` with a stable `data-q` and a short `data-short`. The "Ask and collect" chapter of `../glance-explainer/assets/gallery.html` shows the markup, and `examples/ballot.html` is a whole page to copy from.
 - Every option is a picture in `.vis`, a small mockup in plain HTML and CSS or an `<img>`, or a text option. A text option has no `.vis`: a bold `.name` and one plain `span.detail` line. Use text options when the ruling has nothing to draw, such as an address, a waiting time or a policy, and do not invent a picture for it. If an option cannot be pictured or said in one line, the question belongs in choose mode.
 - A single-choice card has exactly one `data-rec` option and ends with a `p.skip` that names it. Put the recommended option first, so the reader finds the ★ in the same place on every card. A skipped card means that ★ option. This is the same skip rule as `../glance-explainer/references/types.md`: if the reader skips a choice, the ★ option is what happens, and every "If you do nothing" line names it. A ship-or-not list uses `data-kind="multi"`.
+- Every option carries a cost line: what it costs in time, money or effort, in words (the `span.detail` of a text option, or one plain line under the picture of a pictured one).
 - `data-warn="Can't undo"` on an option adds an amber chip with a ⚠ and those words. Use it for the cost the reader must not miss, such as "Can't undo", "Redo later" or "Weaker". Four words at most.
 - An optional `p.ballot-source` under the title says what the ballot rules on: "Rules on: the plan, its date, its commit".
 - Order the groups by weight: "Shapes the build", "Small calls", then optionally "Already decided".

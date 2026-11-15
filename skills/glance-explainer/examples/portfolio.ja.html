@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="glance-explainer 2.3.0">
+<meta name="generator" content="glance-explainer 2.4.0">
 <meta name="color-scheme" content="light dark">
 <title>6つのサイドプロジェクトの現状</title>
 <meta name="description" content="6つのサイドプロジェクト（ノートアプリ、レシピサイト、サイクリングルートの地図、家計簿シート、ポッドキャスト配信、写真バックアップのスクリプト）を日曜に確認します。今週対応が必要な2つ、進んだこと、止まっていること、待っていることをまとめました。架空のデータによる例です。">
@@ -199,6 +199,7 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .rail a[href="#recap"] .dot::before, .rail a[data-end] .dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
 .rail a small { grid-column: 2; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; margin-top: 2px; color: var(--ink-faint); font-size: .722rem; font-weight: 400; line-height: 1.35; }  /* two lines at most, minutes first, so a long line never hides them */
 .rail a:hover small { color: var(--ink-soft); }
+.rail:has(.tools:not([hidden])) a small { display: none; }  /* while Reading tools is open the rail drops its small lines, so the panel fits under the chapter list and the first chapter stays in view */
 /* where you are: a white card with a hairline ring and a filled circle. Read: a check in a go circle, which wins over the number. */
 .rail a[aria-current="true"] { background: var(--card); box-shadow: 0 0 0 1px var(--line); color: var(--ink); font-weight: 700; }
 .rail a[aria-current="true"] .dot { background: var(--here); border-color: var(--here); color: var(--on-here); }
@@ -1128,9 +1129,11 @@ body[data-skim="on"] .chapter .from { display: none; }
 /* Skim keeps one picture per chapter, its caption and the remember line. Later pictures, plain callouts
    and the detail text inside components drop out; measured on twelve pages, skim reading fell by about half. */
 body[data-skim="on"] .chapter :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper) ~ :is(.figure, .flow, .split, .timeline, .status, .tiles, .steps, .metaphor, .views, .stepper),
-body[data-skim="on"] .chapter .callout:not(.warn, .stop),
+body[data-skim="on"] .chapter .callout:not(.warn, .stop, [data-depends]),
 body[data-skim="on"] .chapter :is(.status li span, .timeline .what, .flow li span, .option li, .entry-body) { display: none; }  /* a field guide keeps its rows and drops what opens under them */
 body[data-skim="on"] .chapter .remember { display: block; }
+/* a dependency ("this depends on ruling 1") decides whether the chapter matters at all, so skim keeps it: any callout marked data-depends, and the tip in a chapter that holds a decision */
+body[data-skim="on"] .chapter:has(.decision) .callout.tip { display: block; }
 body[data-skim="on"] .chapter .figure { display: block; }
 
 /* ---------- 12b. Focus mode: one chapter at a time, reader paced ---------- */
@@ -1533,7 +1536,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
     <div class="keep">
       <strong>押さえておくのはこれだけ</strong>
       <ol>
-        <li>6つのうち、今週対応するのは2つです。</li>
+        <li>ノートアプリが待つのは、マーラさんです。</li>
         <li>データが危ないのは、写真バックアップだけです。</li>
         <li>家計簿シートは、44日間止まったままです。</li>
       </ol>
@@ -1556,20 +1559,20 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
       <ul class="status">
         <li class="stop"><b>家計簿シート</b><span>銀行が出力形式を変えてから44日間、取り込みが失敗しています。</span></li>
       </ul>
-      <p class="take"><b>つまり：</b>今週対応するのは2つ。3つは進行中で、1つは止まっています。</p>
+      <p class="take"><b>つまり：</b>順番は、待つと悪くなる早さの順です。今週対応するのは2つ。3つは進行中で、1つは止まっています。</p>
     </section>
 
     <ol class="map">
-      <li><a href="#needs"><b>各プロジェクトに、何が必要なのか</b><span>6つ共通の物差しは2つ。最後に触った時期と、何を待っているかです。</span></a></li>
+      <li><a href="#needs"><b>各プロジェクトは、何を待っているのか</b><span>6つ共通の物差しは2つ。最後に触った時期と、何を待っているかです。</span></a></li>
       <li><a href="#moved"><b>先週の日曜から、何が動いたのか</b><span>前進が3つ、後退が1つ、変化なしが2つです。</span></a></li>
       <li><a href="#blocked"><b>何が止まっていて、その理由は何か</b><span>データが危ないのは1つ。残る2つは時間がかかるだけです。</span></a></li>
-      <li><a href="#waits"><b>効果が大きい順に、何をするのか</b><span>手順は5つ。最初の2つは土曜までに済ませます。</span></a></li>
+      <li><a href="#waits"><b>急ぐ順に、何をするのか</b><span>手順は5つ。最初の2つは土曜までに済ませます。</span></a></li>
     </ol>
 
     <!-- ============ 1 ============ -->
     <section class="chapter" id="needs" data-keep="対応待ちは3つ。急ぎが2つ、急がないのが1つです。">
       <header>
-        <div><p class="kicker">第1章 / 全4章、約1分</p><h2>各プロジェクトに、何が必要なのか</h2></div>
+        <div><p class="kicker">第1章 / 全4章、約1分</p><h2>各プロジェクトは、何を待っているのか</h2></div>
         <button type="button" class="read-aloud" data-read>読み上げ</button>
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
@@ -1586,14 +1589,14 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
           <tr><th scope="row">写真バックアップのスクリプト</th><td class="stop">5か月前</td><td class="decide">自分：ドライブの空き容量</td></tr>
           <tr><th scope="row">ポッドキャスト配信</th><td class="wait">12日前</td><td class="decide">自分：ホスティングを続けるか移すか</td></tr>
           <tr class="group"><th colspan="3" scope="colgroup">進行中</th></tr>
-          <tr><th scope="row">ノートアプリ</th><td class="go">2日前</td><td class="wait">マーラさん：DNS レコード2件</td></tr>
+          <tr><th scope="row">ノートアプリ</th><td class="go">2日前</td><td class="wait">マーラさん：<dfn>DNS レコード</dfn>（ドメインの管理画面に置く短い設定）2件</td></tr>
           <tr><th scope="row">レシピサイト</th><td class="go">4日前</td><td class="go">なし</td></tr>
           <tr><th scope="row">サイクリングルートの地図</th><td class="go">1日前</td><td class="go">なし</td></tr>
           <tr class="group"><th colspan="3" scope="colgroup">停滞中</th></tr>
           <tr><th scope="row">家計簿シート</th><td class="stop">44日前</td><td class="decide">自分：取り込みの書き直し</td></tr>
         </tbody>
       </table></div>
-      <p class="take"><b>つまり：</b>対応待ちの3つは、しばらく触っていない3つと同じです。</p>
+      <p class="take"><b>つまり：</b>対応待ちの3つは、最後に触ったのが一番古い3つです。</p>
 
       <details class="fold"><summary>各プロジェクトの中身を見る</summary>
         <ul>
@@ -1617,7 +1620,7 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>対応待ちは3つで、うち2つは急ぎです。</p>
+      <p class="from"><b>おさらい：</b>待っているものの一覧はできました。次は、1週間で何が動いたかです。</p>
 
       <p>3つのプロジェクトが前進し、1つが後退しました。ポッドキャストと家計簿シートは、まったく動いていません。</p>
 
@@ -1629,10 +1632,10 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
           <li><b>写真バックアップ：</b>毎晩、成功していました。</li>
         </ul></div>
         <div class="after"><b>10月18日（日）</b><ul>
-          <li><b>ノートアプリ：</b>共有が、サーバー、ブラウザ版、Android で動きます。</li>
-          <li><b>レシピサイト：</b>検索が動き、120件中41件のレシピにタグが付きました。</li>
-          <li><b>サイクリング地図：</b>今年のタイルに更新されましたが、2つのルートが通行止めの橋を通ります。</li>
-          <li><b>写真バックアップ：</b>4晩続けて失敗しています。ドライブは96%埋まっています。</li>
+          <li><b>ノートアプリ（良くなった）：</b>共有が、サーバー、ブラウザ版、Android で動きます。</li>
+          <li><b>レシピサイト（良くなった）：</b>検索が動き、120件中41件のレシピにタグが付きました。</li>
+          <li><b>サイクリング地図（良くなった）：</b>今年のタイルに更新されましたが、2つのルートが通行止めの橋を通ります。</li>
+          <li><b>写真バックアップ（悪くなった）：</b>4晩続けて失敗しています。ドライブは96%埋まっています。</li>
         </ul></div>
       </div>
       <p class="take"><b>つまり：</b>3つが良くなりましたが、後退した1つが最も重要です。</p>
@@ -1648,16 +1651,16 @@ html { scroll-padding-bottom: var(--bar-h, 0px); }
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>前進が3つ、後退が1つ、変化なしが2つです。</p>
+      <p class="from"><b>おさらい：</b>写真バックアップが後退しました。次は、止まっているものです。</p>
 
-      <p>止まっているのは3つです。1つは写真を失うおそれがあり、残る2つは時間がかかるだけです。</p>
+      <p>止まっているのは3つ。1つは写真を失うおそれがあり、2つは時間がかかるだけです。</p>
 
       <div class="tiles">
         <div class="tile stop"><span class="n">4晩</span><span class="l">バックアップが連続で失敗</span></div>
         <div class="tile wait"><span class="n">96%</span><span class="l">バックアップ用ドライブの使用率</span></div>
         <div class="tile"><span class="n">38GB</span><span class="l"> 削除できる古いテスト写真</span></div>
       </div>
-      <p class="take"><b>つまり：</b>直すのは簡単ですが、待つ夜が増えるたびに、コピーが1つしかない写真も増えます。</p>
+      <p class="take"><b>つまり：</b>直すのは簡単ですが、待つ夜ごとに、コピーが1つだけの写真が増えます。</p>
 
       <div class="callout stop"><b>写真バックアップのスクリプト：水曜から新しいバックアップがありません</b><p>ドライブがいっぱいになると、毎晩のコピーが止まります。最後に成功したバックアップは4日前なので、それ以降に撮った写真はコピーが1つだけです。</p></div>
       <div class="callout warn"><b>家計簿シート：取り込みが失敗します</b><p>銀行が日付を 18/10/2026 の形で出すようになり、取り込みスクリプトが想定する 2026-10-18 の形と合わなくなりました。データは失われておらず、シートは44日分遅れています。</p></div>
@@ -1677,12 +1680,12 @@ Sun 18 Oct  FAILED  drive full, 96% used</code></pre>
     <!-- ============ 4 ============ -->
     <section class="chapter" id="waits" data-keep="写真バックアップは今日直します。ポッドキャストのホスティングは10月24日までに決めます。">
       <header>
-        <div><p class="kicker">第4章 / 全4章、約1分</p><h2>効果が大きい順に、何をするのか</h2></div>
+        <div><p class="kicker">第4章 / 全4章、約1分</p><h2>急ぐ順に、何をするのか</h2></div>
         <button type="button" class="read-aloud" data-read>読み上げ</button>
         <label><input type="checkbox" data-done>読んだ</label>
       </header>
 
-      <p class="from"><b>おさらい：</b>データが危ないのは写真バックアップだけで、ほかの2つは時間がかかるだけです。</p>
+      <p class="from"><b>おさらい：</b>リスクははっきりしました。次は、自分待ちの5つの手順を順に見ます。</p>
 
       <ol class="steps">
         <li><b>写真バックアップ用に 38GB を空けます。</b>今日、約1時間。古いテスト写真を削除するか、大きいドライブを買います。</li>
@@ -1718,10 +1721,16 @@ const on = (e, ev, f) => e?.addEventListener(ev, f);
 const byId = id => id ? d.getElementById(id) : null;
 const txt = e => e.textContent.replace(/\s+/g, ' ').trim();
 const esc = s => s.replace(/[&<>"]/g, c => '&#' + c.charCodeAt(0) + ';');
+/* search folds width and kana: full-width and half-width letters match, and katakana matches hiragana */
+const fold = s => s.normalize('NFKC').toLowerCase().replace(/[\u30a1-\u30f6]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60));
 const make = (tag, cls, html) => { const e = d.createElement(tag); e.className = cls; e.innerHTML = html; return e; };
 const store = { get: k => { try { return localStorage.getItem(k); } catch (e) { return null; } },
                 set: (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} } };
-const key = 'explainer:' + (location.pathname || 'page');
+/* Saved ticks, answers and picks belong to one version of the page: the key carries a short hash of the answer line, the keep facts and the chapter titles,
+   so a page made again at the same address starts clean, and an unchanged page keeps its progress. */
+const sig = ($('.answer')?.textContent || '') + qa('.keep li, .chapter > header h2').map(e => '|' + e.textContent).join('');
+let hash = 5381; for (let i = 0; i < sig.length; i++) hash = ((hash * 33) ^ sig.charCodeAt(i)) >>> 0;
+const key = 'explainer:' + (location.pathname || 'page') + '#' + hash.toString(36);
 root.classList.add('js');
 
 /* Strings the script writes itself, English and Japanese. All other text is markup, which translate.mjs reaches. */
@@ -1758,8 +1767,8 @@ const fmt = (s, v) => s.replace(/\{(\w+)\}/g, (_, k) => v[k]);
 let tt = $('button[data-theme-toggle]');
 const sk = $('[data-skim]'), ru = $('[data-ruler]'), fb = $('[data-focus]');
 /* every page gets a way to switch dark or light: a page with no Dark / light button (a ballot, or a page whose tools were cut) gets one beside its meta line */
-Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Tap an option to pick it.' });
-Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をタップして選びます。' });
+Object.assign(T.en, { theme: 'Dark / light', toDark: 'Switch to dark', toLight: 'Switch to light', mdJoin: ': ', askJoin: ': ', askCopied: 'Copied your pick. Paste it into the chat.', askReply: 'Reply in the chat with: {t}', decPick: 'Pick an option: click, tap, or use the arrow keys.' });
+Object.assign(T.ja, { theme: 'ダーク / ライト', toDark: 'ダークモードにする', toLight: 'ライトモードにする', mdJoin: '：', askJoin: '：', askCopied: '選んだ内容をコピーしました。チャットに貼り付けてください。', askReply: 'チャットで次のように返信してください：{t}', decPick: '選択肢をクリックかタップ、または矢印キーで選びます。' });
 const darkNow = () => (root.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
 /* the icon button is named for what a tap does, so a screen reader hears the same thing the icon shows */
 function themeName() { if (!tt?.classList.contains('theme-quick')) return; const t = darkNow() ? L.toLight : L.toDark; tt.setAttribute('aria-label', t); tt.title = t; }
@@ -1869,12 +1878,12 @@ let fgReveal = () => false;  /* a jump to an entry or a family opens it; the lin
       const s = $('summary', f); if (!s) return;
       s.append(make('span', 'fam-counts', esc(said(fgTally(f)))), make('span', 'fam-hidden', '')); f.append(make('p', 'none-here', ''));
     });
-    const hay = new Map(fgEntries.map(e => [e, ['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' ').toLowerCase()]));
+    const hay = new Map(fgEntries.map(e => [e, fold(['.name', '.def', '.where'].map(s => $(s, e)?.textContent || '').join(' '))]));
     let filter = REL[0], words = [], searching = false; const was = new Map();
     if (!fgEntries.some(e => e.dataset.rel === filter)) filter = 'all';  /* a guide with nothing in its first relevance starts on All */
     const hits = e => words.every(w => hay.get(e).includes(w)), shown = e => (filter === 'all' || e.dataset.rel === filter) && hits(e);
     const apply = () => {
-      const q = box.value.trim().replace(/\s+/g, ' '); words = q.toLowerCase().split(' ').filter(Boolean);
+      const q = box.value.trim().replace(/\s+/g, ' '); words = fold(q).split(' ').filter(Boolean);
       let n = 0; fgEntries.forEach(e => { const s = shown(e); e.classList.toggle('is-out', !s); if (s) n++; });
       picks.forEach((r, i) => {  /* a button's count follows the search, so it says what it would show */
         const c = fgEntries.filter(e => (r === 'all' || e.dataset.rel === r) && hits(e)).length;
@@ -1999,7 +2008,7 @@ const boxes = qa('.chapter input[data-done]'), finish = () => { body.dataset.fin
 $('.recap h2')?.after(make('span', 'finished', L.fin));
 boxes.forEach(box => {
   const c = box.closest('.chapter'), link = $('.rail a[href="#' + c.id + '"]'), paint = () => link?.classList.toggle('done', box.checked);
-  box.checked = !!done[c.id]; paint(); if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
+  box.checked = !!done[c.id]; paint(); box.setAttribute('aria-label', txt(box.closest('label') || '') + L.mdJoin + txt($('h2', c) || ''));  /* "Done: <chapter>", so the boxes differ */ if (box.closest('label')) box.closest('label').title = txt(box.closest('label'));  /* the header shows a check; the words are its name and tooltip */
   on(box, 'change', () => { done[c.id] = box.checked; store.set(key + ':done', JSON.stringify(done)); paint(); finish(); });
 });
 finish();
@@ -2109,22 +2118,31 @@ qa('.minimap').forEach(m => qa('[data-node]', m).forEach(n => n.classList.add(n.
 Object.assign(T.en, { copy: 'Copy', copied: 'Copied' }); Object.assign(T.ja, { copy: 'コピー', copied: 'コピーしました' });
 qa('pre.cmd').forEach(p => {
   const code = $('code', p) || p, b = d.createElement('button');
-  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite');
+  b.type = 'button'; b.textContent = L.copy; b.setAttribute('aria-live', 'polite'); b.setAttribute('aria-label', L.copy + L.mdJoin + code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40));
   on(b, 'click', () => copy(code.textContent.trim(), b));
-  new MutationObserver(() => { b.textContent = b.classList.contains('go') ? L.copied : L.copy; }).observe(b, { attributes: true, attributeFilter: ['class'] });
+  const nm = code.textContent.replace(/\s+/g, ' ').trim().slice(0, 40);
+  new MutationObserver(() => { const w = b.classList.contains('go') ? L.copied : L.copy; b.textContent = w; b.setAttribute('aria-label', w + L.mdJoin + nm); }).observe(b, { attributes: true, attributeFilter: ['class'] });
   p.append(b);
 });
 
-/* read aloud: one block at a time, in the page language; one chapter at a time */
+/* read aloud: one block at a time, in the page language, from a chapter's own button. The first chapter's button starts with the opening
+   (answer, keep cards, glance) and the last chapter's ends with the recap, so the whole page can be heard without a new control.
+   Each button's name says which chapter it reads, so a list of buttons does not repeat itself. */
 const rd = qa('[data-read]'); let sid = 0;
-const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; }); };
-rd.forEach(b => {
+const readName = (b, word) => word + L.mdJoin + txt($('h2', b.closest('.chapter')) || '');
+const hush = () => { sid++; speechSynthesis.cancel(); qa('.speaking').forEach(e => e.classList.remove('speaking')); rd.forEach(b => { b.toggleAttribute('data-reading', false); b.textContent = b.title = L.read; b.setAttribute('aria-label', readName(b, L.read)); }); };
+const speakable = (sel, scope) => qa(sel, scope).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
+rd.forEach((b, n) => {
   if (!window.speechSynthesis) { b.hidden = true; return; }
   b.textContent = b.title = L.read;  /* the words stay in the page as the button's name; the header shows an icon */
+  b.setAttribute('aria-label', readName(b, L.read));
   on(b, 'click', () => {
     const was = b.hasAttribute('data-reading'); hush(); if (was) return;
-    const me = sid, list = qa('p, li, figcaption, legend, .answer-field > label:first-child', b.closest('.chapter')).filter(e => !e.closest('details, header, .answer-field li') && !$('p, li, figcaption', e));
-    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop;
+    const me = sid, ch = b.closest('.chapter'), main = ch.parentElement;
+    const open = n === 0 ? speakable('.answer, .keep li, .glance-head h2, .glance :is(p, li, figcaption)', main) : [];
+    const close = n === rd.length - 1 ? speakable('.recap :is(p, li)', main) : [];
+    const list = [...open, ...speakable('p, li, figcaption, legend, .answer-field > label:first-child', ch), ...close];
+    let i = 0; b.toggleAttribute('data-reading', true); b.textContent = b.title = L.stop; b.setAttribute('aria-label', readName(b, L.stop));
     const next = () => {
       const e = list[i++]; if (me !== sid) return; if (!e) return hush();
       e.classList.add('speaking'); e.scrollIntoView({ block: 'nearest' });
@@ -2650,11 +2668,19 @@ Object.assign(T.ja, { roLabel: '手順の一覧', roDone: '完了：{t}', roNext
     dec.classList.add('paired'); f.classList.add('paired');
     const group = $('.options', dec); group.setAttribute('role', 'radiogroup'); group.setAttribute('aria-label', txt($('h3', dec) || $('legend', f) || dec));
     group.after(make('p', 'pick-hint', esc(L.decPick)));
-    const sync = () => opts.forEach((o, i) => o.setAttribute('aria-checked', rs[i].checked));
+    /* one tab stop per group (roving tabindex): the picked option, or the first when none is picked */
+    const sync = () => { const got = rs.some(r => r.checked); opts.forEach((o, i) => { o.setAttribute('aria-checked', rs[i].checked); o.tabIndex = (got ? rs[i].checked : i === 0) ? 0 : -1; }); };
     opts.forEach((o, i) => {
-      o.setAttribute('role', 'radio'); o.tabIndex = 0;
+      o.setAttribute('role', 'radio');
       on(o, 'click', e => { if (e.target.closest('a, button, summary, input, textarea')) return; rs[i].checked = true; ['input', 'change'].forEach(t => rs[i].dispatchEvent(new Event(t, { bubbles: true }))); sync(); });
-      on(o, 'keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); } });
+      on(o, 'keydown', e => {
+        if (e.target !== o || e.ctrlKey || e.metaKey || e.altKey) return;
+        if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); o.click(); return; }
+        /* the ARIA radio group: arrows move focus and the pick together, and wrap */
+        const step = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key], j = step ? (i + step + opts.length) % opts.length : e.key === 'Home' ? 0 : e.key === 'End' ? opts.length - 1 : -1;
+        if (j < 0) return;
+        e.preventDefault(); opts[j].tabIndex = 0; opts[j].focus(); opts[j].click();
+      });
     });
     on(f, 'change', sync); sync();
   }));

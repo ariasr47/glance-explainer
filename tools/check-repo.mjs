@@ -117,5 +117,20 @@ for (const page of [...sitePages, ...examples].filter((p) => existsSync(at(p))))
 }
 ok(`${glanced} example pages checked for a section.glance`);
 
-console.log(problems.length ? `\n${problems.length} problem(s)` : '\nall checks passed');
+// 8. say it once: no shipped example says a thing twice. The checker warns when a keep fact restates the answer, a "Before this" copies the previous
+// remember line, or a take line copies its own chapter's remember line; a showcase page must produce none of the three (the recap stays a copy on purpose).
+const REPEAT = /keep item restates the answer line|"Before this" repeats the previous chapter's remember line|the take line repeats the remember line/;
+let said = 0;
+for (const page of [...sitePages, ...examples].filter((p) => existsSync(at(p)))) {
+  let out = '';
+  try { out = execFileSync(process.execPath, [checker, at(page), '--json'], { stdio: 'pipe', encoding: 'utf8' }); } catch (e) { out = String(e.stdout || ''); }
+  let warns = [];
+  try { warns = JSON.parse(out).warns || []; } catch { continue; } // a page that does not parse already failed check 1
+  const repeats = warns.filter((w) => REPEAT.test(w));
+  said++;
+  if (repeats.length) bad(`${page} says something twice (${repeats.length}):\n${repeats.map((w) => `  ${w}`).join('\n')}`);
+}
+ok(`${said} example pages checked for repeated lines`);
+
+console.log(problems.length ?`\n${problems.length} problem(s)` : '\nall checks passed');
 process.exit(problems.length ? 1 : 0);
